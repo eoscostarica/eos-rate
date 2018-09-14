@@ -1,0 +1,15 @@
+{
+  "name": "rate.eoscostarica.io",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:eoscostarica/rate.eoscostarica.io.git",
+  "author": "eoscostarica.io",
+  "license": "MIT",
+  "scripts": {
+    "contributors:add": "all-contributors add",
+    "contributors:generate": "all-contributors generate"
+  },
+  "devDependencies": {
+    "all-contributors-cli": "^5.4.0"
+  }
+}
