@@ -1,0 +1,13 @@
+{
+  "name": "eosrate-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "fastify": "^1.11.2",
+    "fastify-graphql": "^4.0.1",
+    "graphql": "^14.0.2",
+    "mongoose": "^5.2.14",
+    "nodemon": "^1.18.4"
+  }
+}

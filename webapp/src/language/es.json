@@ -1,0 +1,19 @@
+{
+  "translations": {
+    "loginUsername": "Nombre de usuario",
+    "loginPassword": "Contraseña",
+    "loginSignin": "Ingresar",
+    "loginValidationUsername": "El nombre de usuario es requerido",
+    "loginValidationPassword": "La contraseña es requerida",
+
+    "settingsTitle": "Configuración",
+    "settingsLanguages": "Ingles/Español",
+    "settingsNotifications": "Notificación",
+
+    "navigationRecents": "Recientes",
+    "navigationRate": "Calificar",
+    "navigationSettings": "Configuración",
+
+    "not-found": "Recurso no encontrado"
+  }
+}
