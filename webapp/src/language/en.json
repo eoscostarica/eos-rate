@@ -1,0 +1,19 @@
+{
+  "translations": {
+    "loginUsername": "Username",
+    "loginPassword": "Password",
+    "loginSignin": "Sign in",
+    "loginValidationUsername": "Username is required",
+    "loginValidationPassword": "Password is required",
+
+    "settingsTitle": "Settings",
+    "settingsLanguages": "English/Spanish",
+    "settingsNotifications": "Notifications",
+
+    "navigationRecents": "Recents",
+    "navigationRate": "Rate",
+    "navigationSettings": "Settings",
+
+    "notFound": "Not found"
+  }
+}
