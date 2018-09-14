@@ -7,7 +7,7 @@
     "README.md"
   ],
   "imageSize": 100,
-  "commit": true,
+  "commit": false,
   "contributors": [
     {
       "login": "gaboesquivel",
@@ -78,6 +78,16 @@
         "ideas",
         "code",
         "review"
+      ]
+    },
+    {
+      "login": "roafroaf",
+      "name": "roafroaf",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/40480825?v=4",
+      "profile": "https://github.com/roafroaf",
+      "contributions": [
+        "ideas",
+        "design"
       ]
     }
   ]
