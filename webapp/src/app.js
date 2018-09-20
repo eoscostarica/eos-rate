@@ -3,8 +3,9 @@ import { Redux } from 'redux-render'
 import { Router } from '@reach/router'
 
 import Layout from './components/layout'
+import AllBps from './routes/all-bps/AllBps'
 import NotFound from './routes/not-found'
-import Rate from './routes/rate'
+// import Rate from './routes/rate'
 import Settings from './routes/settings'
 
 const App = () => (
@@ -14,7 +15,7 @@ const App = () => (
         <Layout>
           <Router>
             <NotFound default />
-            <Rate path='/' />
+            <AllBps path='/' />
             <Settings path='/settings' />
           </Router>
         </Layout>
