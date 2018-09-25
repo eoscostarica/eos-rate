@@ -75,7 +75,6 @@ Second Phase
 ```
 .
 ├── docs/ ............................................. documentation files and media
-├── server/ ........................................... all server side code (we will cover in detail soon)
 ├── webapp/ ........................................... all client side code
 |	├── public/ ....................................... static and public files
 |	├── src/ .......................................... application source code (we will cover in detail soon)
@@ -87,9 +86,9 @@ Second Phase
 ├── docs/ .............................................. documentation files and media
 ├── public/ ............................................ static and public files
 ├── src/ ............................................... application source code (we will cover in detail soon)
-├── CONTRIBUTING.md .................................... contributing guidelines
-├── LICENSE ............................................ project license
-├── README.md .......................................... project homepage
+├── contributing.md .................................... contributing guidelines
+├── license ............................................ project license
+├── readme.md .......................................... project homepage
 ├── package.json ....................................... dependencies manifest
 ├── docker-compose.yaml ................................ docker compose for local smart contracts development
 ├── config-overrides.js ................................ configuration overrides for `create-react-app`
