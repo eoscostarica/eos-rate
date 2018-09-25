@@ -13,7 +13,7 @@
     "now": "now --public --npm && now alias",
     "now-start": "serve --single ./build",
     "contributors:add": "all-contributors add",
-    "contributors:generate": "all-contributors generate",
+    "contributors:generate": "all-contributors generate"
   },
   "dependencies": {
     "@material-ui/core": "^3.0.1",
