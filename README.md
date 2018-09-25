@@ -74,23 +74,15 @@ Second Phase
 
 ```
 .
-├── docs/ ............................................. documentation files and media
-├── webapp/ ........................................... all client side code
-|	├── public/ ....................................... static and public files
-|	├── src/ .......................................... application source code (we will cover in detail soon)
-|	├── package.json .................................. dependencies manifest
-|	├── docker-compose.yaml ........................... docker compose for local smart contracts development
-|	├── config-overrides.js ........................... configuration overrides for `create-react-app`
-|	├── .env .......................................... environment variables (for local development)
-|	└── .eslintrc ..................................... code style rules
 ├── docs/ .............................................. documentation files and media
 ├── public/ ............................................ static and public files
 ├── src/ ............................................... application source code (we will cover in detail soon)
+├── .env ............................................... environment variables (for local development)
+├── .eslintrc .......................................... code style rules
 ├── contributing.md .................................... contributing guidelines
 ├── license ............................................ project license
 ├── readme.md .......................................... project homepage
 ├── package.json ....................................... dependencies manifest
-├── docker-compose.yaml ................................ docker compose for local smart contracts development
 ├── config-overrides.js ................................ configuration overrides for `create-react-app`
 └── .travis.yml ........................................ travis ci configuration file
 ```
@@ -100,6 +92,7 @@ Second Phase
 - [react-app-rewired](https://github.com/timarney/react-app-rewired) for tweaking `create-react-app` configuration without ejecting
 - [reach-router](https://github.com/reach/router) for a more accessible router.
 - state management with [rematch](https://github.com/rematch/rematch) to use `redux` best practices without all the boilerplate.
+- [react-apollo](https://github.com/apollographql/react-apollo) react apollo client 
 
 ## Continuous Integration Process
 
