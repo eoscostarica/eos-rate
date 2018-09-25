@@ -1,39 +1,71 @@
-import React from 'react'
-import { Link } from '@reach/router'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Hidden from '@material-ui/core/Hidden'
+// import { Link } from '@reach/router'
+// import Paper from '@material-ui/core/Paper'
+// import Typography from '@material-ui/core/Typography'
+import MainTopBar from 'components/app-bar'
+import MainDrawer from 'components/main-drawer'
 
-import BottomNavBar from './bottom-navbar'
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    height: '100vh',
+    zIndex: 1,
+    overflow: 'hidden',
+    position: 'relative',
+    display: 'flex',
+    width: '100%'
+  },
+  navIconHide: {
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
+  },
+  toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing.unit * 3
+  }
+})
 
-const Layout = ({ isLoggedIn, onLogout, children, t }) => (
-  <div style={{ padding: '8px 16px 50px' }}>
-    <div
-      style={{
-        alignItems: 'center',
-        display: 'flex',
-        marginBottom: 0,
-        padding: isLoggedIn ? '16px 0' : '32px 0'
-      }}
-    >
-      <Link
-        to='/'
-        style={{
-          border: '1px solid black',
-          color: 'black',
-          fontFamily: 'Montserrat,sans-serif',
-          fontSize: isLoggedIn ? 16 : 32,
-          fontWeight: 'bold',
-          marginLeft: isLoggedIn ? 0 : 'auto',
-          marginRight: 'auto',
-          padding: 10,
-          textTransform: 'uppercase',
-          textDecoration: 'none'
-        }}
-      >
-        EOS Rate
-      </Link>
-    </div>
-    {children}
-    <BottomNavBar />
-  </div>
-)
+class Layout extends Component {
+  state = {
+    mobileNavOpen: false
+  }
 
-export default Layout
+  handleDrawerToggle = () =>
+    this.setState({ mobileNavOpen: !this.state.mobileNavOpen })
+
+  render () {
+    const { classes, children } = this.props
+    return (
+      <div className={classes.root}>
+        <MainTopBar handleDrawerToggle={this.handleDrawerToggle} />
+        <Hidden mdUp>
+          <MainDrawer
+            variant='mobile'
+            open={this.state.mobileNavOpen}
+            onClose={this.handleDrawerToggle}
+          />
+        </Hidden>
+        <Hidden smDown implementation='css'>
+          <MainDrawer />
+        </Hidden>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          {children}
+        </main>
+      </div>
+    )
+  }
+}
+
+Layout.propTypes = {
+  children: PropTypes.object,
+  classes: PropTypes.object
+}
+
+export default withStyles(styles, { withTheme: true })(Layout)

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Radar } from 'react-chartjs-2'
 import Tooltip from 'rc-tooltip'
 import Slider from 'rc-slider'
@@ -10,77 +11,84 @@ const handle = props => {
   const { value, dragging, index, ...restProps } = props
   return (
     <Tooltip
-      prefixCls="rc-slider-tooltip"
+      prefixCls='rc-slider-tooltip'
       overlay={value}
       visible={dragging}
-      placement="top"
+      placement='top'
       key={index}
     >
       <Handle value={value} {...restProps} />
     </Tooltip>
   )
 }
+
+handle.propTypes = {
+  value: PropTypes.object,
+  dragging: PropTypes.bool,
+  index: PropTypes.number
+}
+
 const bpData = {
   labels: ['Transparency', 'BP Tooling', 'TestNet', 'Community', 'dApps'],
   datasets: [
     {
       label: 'EOS Costa Rica',
-      backgroundColor: 'rgba(2,170,5,0.2)',
+      backgroundColor: 'rgba(2,170,5,1)',
       borderColor: 'rgba(2,170,5,1)',
       pointBackgroundColor: 'rgba(2,170,5,1)',
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(2,170,5,1)',
-      data: [9, 0, 8, 7, 2],
+      data: [9, 0, 8, 7, 2]
     },
     {
       label: 'EOS New York',
-      backgroundColor: 'rgba(2,132,170,0.2)',
+      backgroundColor: 'rgba(2,132,170,1)',
       borderColor: 'rgba(2,132,170,1)',
       pointBackgroundColor: 'rgba(2,132,170,1)',
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(2,132,170,1)',
-      data: [9, 8, 8, 9, 8],
+      data: [9, 8, 8, 9, 8]
     },
     {
       label: 'EOS Meso',
-      backgroundColor: 'rgba(255,99,132,0.2)',
+      backgroundColor: 'rgba(255,99,132,1)',
       borderColor: 'rgba(255,99,132,1)',
       pointBackgroundColor: 'rgba(255,99,132,1)',
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(255,99,132,1)',
-      data: [8, 0, 3, 7, 5],
-    },
-  ],
+      data: [8, 0, 3, 7, 5]
+    }
+  ]
 }
 
 class App extends Component {
-  constructor() {
+  constructor () {
     super()
     this.state = {
-      data: bpData,
+      data: bpData
     }
 
     this.handleSliderChange = this.handleSliderChange.bind(this)
   }
 
-  handleSliderChange = (index, value) => {
+  handleSliderChange (index, value) {
     const newData = set(bpData, `datasets[0].data[${index}]`, value)
     this.setState({
-      data: newData,
+      data: newData
     })
   }
 
-  render() {
+  render () {
     console.log('render')
     console.log(this.state)
     const datasets = this.state.data.datasets
     return (
       <div style={{ padding: 30 }}>
         <h2>EOS Block Producers Comparison</h2>
-        <Radar data={() => this.state.data} width="90%" redraw />
+        <Radar data={() => this.state.data} width='90%' redraw />
         <br />
         <hr />
         <h2>Rate EOS Costa Rica</h2>
