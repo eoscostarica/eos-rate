@@ -107,7 +107,6 @@ We follow a continuous integration process based on Github flow that leverages t
 
 - [TravisCI](https://travis-ci.org/) to run test and code style checks
 - [Now.sh](https://now.sh) for continuous delivery to the stanging server and creation pull request specific environments for testing. awesome!
-- [Code Factor](https://codefactor.io) for automated code quality reviews.
 
 ## About EOS Costa Rica
 
