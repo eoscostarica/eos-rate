@@ -70,6 +70,10 @@ Second Phase
 
 ![](docs/EOSRate-UserFlow.png)
 
+## Graphql Server
+
+https://github.com/eoscostarica/eosrate-graphql 
+
 ## Project Directory Structure
 
 ```
