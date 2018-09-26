@@ -5,10 +5,10 @@
   "scripts": {
     "precommit": "pretty-quick --staged && lint-staged",
     "lint": "pretty-quick . && eslint --fix .",
-    "start": "react-scripts start",
+    "start": "env-cmd .env react-scripts start",
     "prod": "serve -l 9000 --single ./build",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "build": "env-cmd .env react-scripts build",
+    "test": "env-cmd .env react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "now": "now --public --npm && now alias",
     "now-start": "serve --single ./build",
@@ -24,6 +24,7 @@
     "@rematch/persist": "^1.0.2",
     "apollo-boost": "^0.1.16",
     "chart.js": "^2.7.2",
+    "env-cmd": "^8.0.2",
     "eslint": "4.19.1",
     "graphql": "^14.0.2",
     "i18next": "^11.7.0",
@@ -49,6 +50,7 @@
     "yup": "0.25.1"
   },
   "devDependencies": {
+    "all-contributors-cli": "^5.4.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-config-standard-react": "^7.0.2",
     "eslint-plugin-node": "^7.0.1",
@@ -59,8 +61,7 @@
     "pretty-quick": "^1.6.0",
     "react-scripts": "1.1.5",
     "snazzy": "^7.1.1",
-    "standard": "^11.0.1",
-    "all-contributors-cli": "^5.4.0"
+    "standard": "^11.0.1"
   },
   "lint-staged": {
     "src/**/*.js": [
