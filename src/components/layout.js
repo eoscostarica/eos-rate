@@ -25,6 +25,7 @@ const styles = theme => ({
   },
   toolbar: theme.mixins.toolbar,
   content: {
+    overflow: 'scroll',
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3
