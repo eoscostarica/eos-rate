@@ -19,7 +19,7 @@
     "@material-ui/core": "^3.0.1",
     "@material-ui/icons": "^3.0.1",
     "@reach/component-component": "^0.1.0",
-    "@reach/router": "^1.1.1",
+    "@reach/router": "^1.2.1",
     "@rematch/core": "^1.0.0-beta.4",
     "@rematch/persist": "^1.0.2",
     "apollo-boost": "^0.1.16",

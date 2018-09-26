@@ -10,10 +10,15 @@ import SearchIcon from '@material-ui/icons/Search'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import Input from '@material-ui/core/Input'
 import AccountCircle from '@material-ui/icons/AccountCircle'
+import { Link } from '@reach/router'
 
 const styles = theme => ({
   root: {
     flexGrow: 1
+  },
+  link: {
+    color: 'white',
+    textDecoration: 'none'
   },
   grow: {
     flexGrow: 1
@@ -84,9 +89,11 @@ const MainTopBar = ({ classes, handleDrawerToggle }) => (
       >
         <MenuIcon />
       </IconButton>
-      <Typography variant='title' color='inherit' className={classes.title}>
-        EOSRate
-      </Typography>
+      <Link to='/' className={classes.link}>
+        <Typography variant='title' color='inherit' className={classes.title}>
+          EOSRate
+        </Typography>
+      </Link>
       <div className={classes.grow} />
       <div className={classes.search}>
         <div className={classes.searchIcon}>
@@ -102,10 +109,11 @@ const MainTopBar = ({ classes, handleDrawerToggle }) => (
         />
       </div>
       <div className={classes.grow} />
-
-      <IconButton color='inherit'>
-        <AccountCircle />
-      </IconButton>
+      <Link to='/account' className={classes.link}>
+        <IconButton color='inherit'>
+          <AccountCircle />
+        </IconButton>
+      </Link>
     </Toolbar>
   </AppBar>
 )

@@ -14,6 +14,12 @@
     "navigationRate": "Calificar",
     "navigationSettings": "Configuración",
 
-    "not-found": "Recurso no encontrado"
+    "not-found": "Recurso no encontrado",
+
+    "accountTitle": "Historial Cuenta",
+
+    "drawerLinkHome": "Página Principal",
+    "drawerLinkAllBPs": "Productores de Bloques",
+    "drawerLinkSettings": "Configuración"
   }
 }
