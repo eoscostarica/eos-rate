@@ -5,7 +5,6 @@ import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
 import { translate } from 'react-i18next'
 
-import getBPRadarData from 'utils/getBPRadarData'
 import BlockProducerCard from 'components/block-producer-card'
 import store from 'store'
 
@@ -22,10 +21,7 @@ class AllBps extends Component {
     return (
       <Redux
         selector={state => ({
-          blockProducers: state.blockProducers.list.map(blockProducer => ({
-            ...blockProducer,
-            data: getBPRadarData(blockProducer)
-          }))
+          blockProducers: state.blockProducers.list
         })}
       >
         {(state, dispatch) => (

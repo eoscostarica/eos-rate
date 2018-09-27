@@ -1,4 +1,5 @@
 import { findBPs } from 'services/bps'
+import getBPRadarData from 'utils/getBPRadarData'
 
 const initialState = {
   list: []
@@ -15,7 +16,13 @@ const blockProducers = {
   },
   effects: {
     async getBPs () {
-      this.setBPs(await findBPs())
+      const blockProducers = await findBPs()
+      this.setBPs(
+        blockProducers.map(blockProducer => ({
+          ...blockProducer,
+          data: getBPRadarData(blockProducer)
+        }))
+      )
     }
   }
 }
