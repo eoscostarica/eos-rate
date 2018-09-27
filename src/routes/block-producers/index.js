@@ -25,11 +25,12 @@ class AllBps extends Component {
         })}
       >
         {(state, dispatch) => (
-          <Grid container spacing={16}>
+          <Grid container justify='center' spacing='16'>
             {state.blockProducers.map(blockProducer => (
               <Grid
                 item
                 xs={12}
+                sm={6}
                 md={4}
                 key={`${blockProducer.producer_account_name}-main-block-card`}
               >

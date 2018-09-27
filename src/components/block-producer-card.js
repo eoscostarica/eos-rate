@@ -13,9 +13,7 @@ import ShareIcon from '@material-ui/icons/Share'
 import BlockProducerRadar from 'components/block-producer-radar'
 
 const styles = theme => ({
-  card: {
-    maxWidth: 400
-  },
+  card: {},
   actions: {
     display: 'flex'
   },
