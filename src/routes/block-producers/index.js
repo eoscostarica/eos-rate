@@ -22,15 +22,10 @@ class AllBps extends Component {
     return (
       <Redux
         selector={state => ({
-          blockProducers: state.blockProducers.list
-            .map(blockProducer => ({
-              ...blockProducer,
-              data: getBPRadarData(blockProducer)
-            }))
-            .map(bp => {
-              console.log('bp', bp)
-              return bp
-            })
+          blockProducers: state.blockProducers.list.map(blockProducer => ({
+            ...blockProducer,
+            data: getBPRadarData(blockProducer)
+          }))
         })}
       >
         {(state, dispatch) => (
