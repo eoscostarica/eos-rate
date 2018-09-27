@@ -11,6 +11,9 @@ import { fade } from '@material-ui/core/styles/colorManipulator'
 import Input from '@material-ui/core/Input'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import { Link } from '@reach/router'
+import store from 'store'
+
+const { dispatch } = store
 
 const styles = theme => ({
   root: {
@@ -102,6 +105,15 @@ const MainTopBar = ({ classes, handleDrawerToggle }) => (
         <Input
           placeholder='Search…'
           disableUnderline
+          onChange={({ target: { value } }) => {
+            if (value.length > 3) {
+              dispatch.blockProducers.applyFilter({
+                producer_account_name: value
+              })
+            } else {
+              dispatch.blockProducers.clearFilters()
+            }
+          }}
           classes={{
             root: classes.inputRoot,
             input: classes.inputInput

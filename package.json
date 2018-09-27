@@ -26,6 +26,7 @@
     "chart.js": "^2.7.2",
     "env-cmd": "^8.0.2",
     "eslint": "4.19.1",
+    "filter-objects": "^2.1.1",
     "graphql": "^14.0.2",
     "i18next": "^11.7.0",
     "i18next-browser-languagedetector": "^2.2.3",

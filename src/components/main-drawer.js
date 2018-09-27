@@ -17,6 +17,10 @@ const styles = theme => ({
       position: 'relative'
     }
   },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular
+  },
   link: {
     textDecoration: 'none'
   }
@@ -83,8 +87,14 @@ const MainDrawer = ({
   </React.Fragment>
 )
 
+Menu.propTypes = {
+  classes: PropTypes.object,
+  t: PropTypes.func
+}
+
 MainDrawer.propTypes = {
   classes: PropTypes.object,
+  t: PropTypes.func,
   theme: PropTypes.object,
   variant: PropTypes.string,
   onClose: PropTypes.func,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Redux } from 'redux-render'
 // import PropTypes from 'prop-types'
+import { Redux } from 'redux-render'
 import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
 import { translate } from 'react-i18next'
@@ -21,24 +21,28 @@ class AllBps extends Component {
     return (
       <Redux
         selector={state => ({
-          blockProducers: state.blockProducers.list
+          blockProducers: state.blockProducers.list,
+          filtered: state.blockProducers.filtered
         })}
       >
-        {(state, dispatch) => (
-          <Grid container justify='center' spacing='16'>
-            {state.blockProducers.map(blockProducer => (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={4}
-                key={`${blockProducer.producer_account_name}-main-block-card`}
-              >
-                <BlockProducerCard blockProducer={blockProducer} />
-              </Grid>
-            ))}
-          </Grid>
-        )}
+        {({ blockProducers, filtered }, dispatch) => {
+          const bpList = filtered.length ? filtered : blockProducers
+          return (
+            <Grid container justify='center' spacing={16}>
+              {bpList.map(blockProducer => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  key={`${blockProducer.producer_account_name}-main-block-card`}
+                >
+                  <BlockProducerCard blockProducer={blockProducer} />
+                </Grid>
+              ))}
+            </Grid>
+          )
+        }}
       </Redux>
     )
   }
