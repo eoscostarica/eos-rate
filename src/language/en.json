@@ -14,6 +14,14 @@
     "navigationRate": "Rate",
     "navigationSettings": "Settings",
 
-    "notFound": "Not found"
+    "searchAutocomplete": "Seach...",
+
+    "notFound": "Not found",
+
+    "accountTitle": "Account Activity",
+
+    "drawerLinkHome": "Home",
+    "drawerLinkAllBPs": "Block Producers",
+    "drawerLinkSettings": "Settings"
   }
 }
