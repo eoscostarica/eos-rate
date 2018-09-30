@@ -5,6 +5,8 @@ import List from '@material-ui/core/List'
 import { withStyles } from '@material-ui/core/styles'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
+import { Link } from '@reach/router'
+import { translate } from 'react-i18next'
 
 const styles = theme => ({
   toolbar: theme.mixins.toolbar,
@@ -14,23 +16,33 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       position: 'relative'
     }
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular
+  },
+  link: {
+    textDecoration: 'none'
   }
 })
 
-const list = (
+const Menu = ({ classes, t }) => (
   <List>
-    <ListItem button>
-      <ListItemText primary='Inbox' />
-    </ListItem>
-    <ListItem button>
-      <ListItemText primary='Starred' />
-    </ListItem>
-    <ListItem button>
-      <ListItemText primary='Send mail' />
-    </ListItem>
-    <ListItem button>
-      <ListItemText primary='Drafts' />
-    </ListItem>
+    <Link to='/' className={classes.link}>
+      <ListItem button>
+        <ListItemText primary={t('drawerLinkHome')} />
+      </ListItem>
+    </Link>
+    <Link to='/block-producers' className={classes.link}>
+      <ListItem button>
+        <ListItemText primary={t('drawerLinkAllBPs')} />
+      </ListItem>
+    </Link>
+    <Link to='/settings' className={classes.link}>
+      <ListItem button>
+        <ListItemText primary={t('drawerLinkSettings')} />
+      </ListItem>
+    </Link>
   </List>
 )
 
@@ -40,6 +52,7 @@ const MainDrawer = ({
   variant = 'desktop',
   onClose,
   open = false,
+  t,
   ...props
 }) => (
   <React.Fragment>
@@ -57,7 +70,7 @@ const MainDrawer = ({
           keepMounted: true // Better open performance on mobile.
         }}
       >
-        {list}
+        <Menu classes={classes} t={t} />
       </Drawer>
     )}
     {variant === 'desktop' && (
@@ -68,18 +81,26 @@ const MainDrawer = ({
           paper: classes.drawerPaper
         }}
       >
-        {list}
+        <Menu classes={classes} t={t} />
       </Drawer>
     )}
   </React.Fragment>
 )
 
+Menu.propTypes = {
+  classes: PropTypes.object,
+  t: PropTypes.func
+}
+
 MainDrawer.propTypes = {
   classes: PropTypes.object,
+  t: PropTypes.func,
   theme: PropTypes.object,
   variant: PropTypes.string,
   onClose: PropTypes.func,
   open: PropTypes.bool
 }
 
-export default withStyles(styles, { withTheme: true })(MainDrawer)
+export default withStyles(styles, { withTheme: true })(
+  translate('translations')(MainDrawer)
+)
