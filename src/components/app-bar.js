@@ -6,14 +6,11 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import SearchIcon from '@material-ui/icons/Search'
 import { fade } from '@material-ui/core/styles/colorManipulator'
-import Input from '@material-ui/core/Input'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import { Link } from '@reach/router'
-import store from 'store'
 
-const { dispatch } = store
+import InputAutocomplete from 'components/input-autocomplete'
 
 const styles = theme => ({
   root: {
@@ -99,26 +96,7 @@ const MainTopBar = ({ classes, handleDrawerToggle }) => (
       </Link>
       <div className={classes.grow} />
       <div className={classes.search}>
-        <div className={classes.searchIcon}>
-          <SearchIcon />
-        </div>
-        <Input
-          placeholder='Search…'
-          disableUnderline
-          onChange={({ target: { value } }) => {
-            if (value.length > 3) {
-              dispatch.blockProducers.applyFilter({
-                producer_account_name: value
-              })
-            } else {
-              dispatch.blockProducers.clearFilters()
-            }
-          }}
-          classes={{
-            root: classes.inputRoot,
-            input: classes.inputInput
-          }}
-        />
+        <InputAutocomplete />
       </div>
       <div className={classes.grow} />
       <Link to='/account' className={classes.link}>

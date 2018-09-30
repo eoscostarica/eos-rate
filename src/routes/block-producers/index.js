@@ -21,11 +21,12 @@ class AllBps extends Component {
     return (
       <Redux
         selector={state => ({
+          fullBPState: state.blockProducers,
           blockProducers: state.blockProducers.list,
           filtered: state.blockProducers.filtered
         })}
       >
-        {({ blockProducers, filtered }, dispatch) => {
+        {({ fullBPState, blockProducers, filtered }, dispatch) => {
           const bpList = filtered.length ? filtered : blockProducers
           return (
             <Grid container justify='center' spacing={16}>
