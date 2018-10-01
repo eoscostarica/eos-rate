@@ -21,28 +21,36 @@ const styles = theme => ({
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular
   },
+  selectedItem: {
+    backgroundColor: theme.palette.secondary.main
+  },
   link: {
     textDecoration: 'none'
   }
 })
 
-const Menu = ({ classes, t }) => (
+const Menu = ({ links, classes, t }) => (
   <List>
-    <Link to='/' className={classes.link}>
-      <ListItem button>
-        <ListItemText primary={t('drawerLinkHome')} />
-      </ListItem>
-    </Link>
-    <Link to='/block-producers' className={classes.link}>
-      <ListItem button>
-        <ListItemText primary={t('drawerLinkAllBPs')} />
-      </ListItem>
-    </Link>
-    <Link to='/settings' className={classes.link}>
-      <ListItem button>
-        <ListItemText primary={t('drawerLinkSettings')} />
-      </ListItem>
-    </Link>
+    {links.map(({ to, label }) => {
+      // FIXME: we should try to use mui's way, for some reason
+      // it didn't work for me
+      const isSelected = window.location.pathname === to
+      const selectedStyle = {
+        backgroundColor: '#5cf68a',
+        color: 'black'
+      }
+      return (
+        <Link key={`link-${to}`} to={to} className={classes.link}>
+          <ListItem
+            button
+            selected={isSelected}
+            style={isSelected ? selectedStyle : {}}
+          >
+            <ListItemText primary={label} />
+          </ListItem>
+        </Link>
+      )
+    })}
   </List>
 )
 
@@ -81,7 +89,15 @@ const MainDrawer = ({
           paper: classes.drawerPaper
         }}
       >
-        <Menu classes={classes} t={t} />
+        <Menu
+          links={[
+            { to: '/', label: t('drawerLinkHome') },
+            { to: '/block-producers', label: t('drawerLinkAllBPs') },
+            { to: '/settings', label: t('drawerLinkSettings') }
+          ]}
+          classes={classes}
+          t={t}
+        />
       </Drawer>
     )}
   </React.Fragment>
@@ -89,7 +105,8 @@ const MainDrawer = ({
 
 Menu.propTypes = {
   classes: PropTypes.object,
-  t: PropTypes.func
+  t: PropTypes.func,
+  links: PropTypes.array
 }
 
 MainDrawer.propTypes = {

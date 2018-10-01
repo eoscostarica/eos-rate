@@ -14,14 +14,12 @@ import Language from '@material-ui/icons/Language'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 
 const styles = theme => ({
-  root: {
-    backgroundColor: '#fafafa',
-  },
+  root: {}
 })
 
 class Settings extends React.Component {
   state = {
-    checked: ['language'],
+    checked: ['language']
   }
 
   handleToggle = (value, currentValue, dispatch) => () => {
@@ -36,20 +34,20 @@ class Settings extends React.Component {
     }
   }
 
-  render() {
+  render () {
     const { classes, t } = this.props
 
     return (
       <Redux
         selector={({ settings: { language, notifications } }) => ({
           language,
-          notifications,
+          notifications
         })}
       >
         {({ language, notifications }, dispatch) => (
           <div className={classes.root}>
             <Typography
-              variant="headline"
+              variant='headline'
               style={{ textAlign: 'center', paddingTop: 20, paddingBottom: 20 }}
             >
               {t('settingsTitle')}
@@ -77,7 +75,7 @@ class Settings extends React.Component {
                     onChange={this.handleToggle(
                       'notifications',
                       notifications,
-                      dispatch,
+                      dispatch
                     )}
                     checked={notifications}
                   />
@@ -93,6 +91,8 @@ class Settings extends React.Component {
 
 Settings.propTypes = {
   classes: PropTypes.object.isRequired,
+  t: PropTypes.func.isRequired,
+  i18n: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(translate('translations')(Settings))
