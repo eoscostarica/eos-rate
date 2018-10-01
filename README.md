@@ -39,11 +39,11 @@ Community driven EOS Block Producer ratings website.
 
 We use a Kanban-style board with built-in triggers to automatically move issues and pull requests across New Issues, To Do, In Progress and Done columns. That's were we prioritize the work. [Go to Project Board](https://github.com/eoscostarica/rate.eoscostarica.io/projects/1).
 
-We follow the [open source collaborative ettiquete](https://github.com/rstacruz/collaborative-etiquette/blob/master/README.md#top), the [standardjs code style](https://standardjs.com) and we favor [functional javascript programming](https://www.youtube.com/watch?v=BMUiFMZr7vk&list=PL0zVEGEvSaeEd9hlmCXrk5yUyqUag-n84) and declative code style.
+We follow the [open source collaborative ettiquete](https://github.com/rstacruz/collaborative-etiquette/blob/master/README.md#top), the [standardjs code style](https://standardjs.com) and we favor [functional javascript programming](https://www.youtube.com/watch?v=BMUiFMZr7vk&list=PL0zVEGEvSaeEd9hlmCXrk5yUyqUag-n84) and declarative code style.
 
 Read the [contributing guidelines](CONTRIBUTING.md) for details.
 
-Our weekly sync call is every Monday 7pm-8pm CST / Costa Rica on google hangouts. [Go to hangouts room](http://bit.ly/dmeetup-call)
+Our weekly sync call is every Monday 7pm-8pm CST / Costa Rica on our zoom channel. [meet.eoscostarica.io](https://meet.eoscostarica.io)
 
 ## Bug Reporting
 
@@ -51,9 +51,9 @@ Please report bugs big and small by [opening an issue](https://github.com/eoscos
 
 ## Architecture
 
-- We are going start with a MongoDB on the cloud to ratings replica data store for fast queries.
-- Once the new racks are in place and we have a node with history plugin we can query that mongodb instead.
-- Rating will only be possible on desktop thru scatter in the first version.
+- We are going start with a third party full history service for querying chain data.
+- Our goal is to have a local API node with full history and mongodb plugin for faster and custom queries.
+- Rating will only be possible on desktop thru scatter in the initial release.
 - Mobile will be read only for now.
 
 First Phase
