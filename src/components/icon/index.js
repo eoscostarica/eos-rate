@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const src = {
   menu: require('./menu.svg')
@@ -28,5 +29,10 @@ const Icon = ({ name, size = 16, ...props }) => (
     />
   </button>
 )
+
+Icon.propTypes = {
+  name: PropTypes.string.isRequired,
+  size: PropTypes.number.isRequired
+}
 
 export default Icon
