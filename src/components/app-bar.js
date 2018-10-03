@@ -3,11 +3,10 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import { fade } from '@material-ui/core/styles/colorManipulator'
-import AccountCircle from '@material-ui/icons/AccountCircle'
+import FingerprintIcon from '@material-ui/icons/Fingerprint'
 import { Link } from '@reach/router'
 
 import InputAutocomplete from 'components/input-autocomplete'
@@ -25,6 +24,7 @@ const styles = theme => ({
   },
   title: {
     display: 'none',
+    width: 210,
     [theme.breakpoints.up('sm')]: {
       display: 'block'
     }
@@ -90,9 +90,7 @@ const MainTopBar = ({ classes, handleDrawerToggle }) => (
         <MenuIcon />
       </IconButton>
       <Link to='/' className={classes.link}>
-        <Typography variant='title' color='inherit' className={classes.title}>
-          EOSRate
-        </Typography>
+        <img src='/logo.png' alt='EOS Rate' className={classes.title} />
       </Link>
       <div className={classes.grow} />
       <div className={classes.search}>
@@ -101,7 +99,7 @@ const MainTopBar = ({ classes, handleDrawerToggle }) => (
       <div className={classes.grow} />
       <Link to='/account' className={classes.link}>
         <IconButton color='inherit'>
-          <AccountCircle />
+          <FingerprintIcon />
         </IconButton>
       </Link>
     </Toolbar>
