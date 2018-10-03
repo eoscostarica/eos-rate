@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Redux } from 'redux-render'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import { withStyles } from '@material-ui/core/styles'
@@ -21,28 +22,44 @@ const styles = theme => ({
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular
   },
+  selectedItem: {
+    backgroundColor: theme.palette.secondary.main
+  },
   link: {
     textDecoration: 'none'
   }
 })
 
-const Menu = ({ classes, t }) => (
+const Menu = ({ onClick, currentPathname, links, classes, t }) => (
   <List>
-    <Link to='/' className={classes.link}>
-      <ListItem button>
-        <ListItemText primary={t('drawerLinkHome')} />
-      </ListItem>
-    </Link>
-    <Link to='/block-producers' className={classes.link}>
-      <ListItem button>
-        <ListItemText primary={t('drawerLinkAllBPs')} />
-      </ListItem>
-    </Link>
-    <Link to='/settings' className={classes.link}>
-      <ListItem button>
-        <ListItemText primary={t('drawerLinkSettings')} />
-      </ListItem>
-    </Link>
+    {links.map(({ to, label }) => {
+      // FIXME: we should try to use mui's way, for some reason
+      // it didn't work for me
+      const isSelected = currentPathname === to
+      const selectedStyle = {
+        backgroundColor: '#5cf68a',
+        color: 'black'
+      }
+      return (
+        <Link
+          key={`link-${to}`}
+          to={to}
+          className={classes.link}
+          onClick={() => onClick && onClick()}
+        >
+          <ListItem
+            button
+            ContainerProps={{
+              onClick: () => onClick && onClick()
+            }}
+            selected={isSelected}
+            style={isSelected ? selectedStyle : {}}
+          >
+            <ListItemText primary={label} />
+          </ListItem>
+        </Link>
+      )
+    })}
   </List>
 )
 
@@ -55,41 +72,71 @@ const MainDrawer = ({
   t,
   ...props
 }) => (
-  <React.Fragment>
-    <div className={classes.toolbar} />
-    {variant === 'mobile' && (
-      <Drawer
-        variant='temporary'
-        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-        open={open}
-        onClose={onClose}
-        classes={{
-          paper: classes.drawerPaper
-        }}
-        ModalProps={{
-          keepMounted: true // Better open performance on mobile.
-        }}
-      >
-        <Menu classes={classes} t={t} />
-      </Drawer>
+  <Redux
+    selector={({ location: { pathname: currentPathname } }) => ({
+      currentPathname
+    })}
+  >
+    {({ currentPathname }) => (
+      <React.Fragment>
+        <div className={classes.toolbar} />
+        {variant === 'mobile' && (
+          <Drawer
+            variant='temporary'
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            open={open}
+            onClose={onClose}
+            classes={{
+              paper: classes.drawerPaper
+            }}
+            ModalProps={{
+              keepMounted: true // Better open performance on mobile.
+            }}
+          >
+            <Menu
+              onClick={() => onClose()}
+              currentPathname={currentPathname}
+              links={[
+                { to: '/', label: t('drawerLinkHome') },
+                { to: '/block-producers', label: t('drawerLinkAllBPs') },
+                { to: '/settings', label: t('drawerLinkSettings') }
+              ]}
+              classes={classes}
+              t={t}
+            />
+          </Drawer>
+        )}
+        {variant === 'desktop' && (
+          <Drawer
+            variant='permanent'
+            open
+            classes={{
+              paper: classes.drawerPaper
+            }}
+          >
+            <Menu
+              currentPathname={currentPathname}
+              links={[
+                { to: '/', label: t('drawerLinkHome') },
+                { to: '/block-producers', label: t('drawerLinkAllBPs') },
+                { to: '/settings', label: t('drawerLinkSettings') }
+              ]}
+              classes={classes}
+              t={t}
+            />
+          </Drawer>
+        )}
+      </React.Fragment>
     )}
-    {variant === 'desktop' && (
-      <Drawer
-        variant='permanent'
-        open
-        classes={{
-          paper: classes.drawerPaper
-        }}
-      >
-        <Menu classes={classes} t={t} />
-      </Drawer>
-    )}
-  </React.Fragment>
+  </Redux>
 )
 
 Menu.propTypes = {
   classes: PropTypes.object,
-  t: PropTypes.func
+  t: PropTypes.func,
+  links: PropTypes.array,
+  onClick: PropTypes.func,
+  currentPathname: PropTypes.string
 }
 
 MainDrawer.propTypes = {

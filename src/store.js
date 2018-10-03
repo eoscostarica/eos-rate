@@ -1,7 +1,8 @@
 import { init } from '@rematch/core'
 import createPersistPlugin from '@rematch/persist'
 
-import * as models from './models'
+import { locationChangeListener } from 'models/location'
+import * as models from 'models'
 
 const persistPlugin = createPersistPlugin({
   key: 'smartgate',
@@ -12,5 +13,7 @@ const store = init({
   models,
   plugins: [persistPlugin]
 })
+
+locationChangeListener(store)
 
 export default store
