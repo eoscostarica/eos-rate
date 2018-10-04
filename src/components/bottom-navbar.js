@@ -16,13 +16,13 @@ const styles = {
     background: '#fafafa',
     position: 'fixed',
     bottom: 0,
-    left: 0,
-  },
+    left: 0
+  }
 }
 
 class SimpleBottomNavigation extends Component {
   state = {
-    value: 0,
+    value: 0
   }
 
   handleChange = (event, value) => {
@@ -32,7 +32,7 @@ class SimpleBottomNavigation extends Component {
     navigate(routes[value])
   }
 
-  render() {
+  render () {
     const { classes, t } = this.props
     const { value } = this.state
 
@@ -64,8 +64,9 @@ class SimpleBottomNavigation extends Component {
 
 SimpleBottomNavigation.propTypes = {
   classes: PropTypes.object.isRequired,
+  t: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(
-  translate('translations')(SimpleBottomNavigation),
+  translate('translations')(SimpleBottomNavigation)
 )

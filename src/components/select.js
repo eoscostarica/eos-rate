@@ -2,6 +2,7 @@ import React from 'react'
 import { Field } from 'formik'
 import { InputLabel } from '@material-ui/core'
 import { Select as MaterialSelect } from 'formik-material-ui'
+import PropTypes from 'prop-types'
 
 import FormControl from './formControl'
 
@@ -22,5 +23,10 @@ const Select = ({ ...props }) => (
     <Field fullWidth component={MaterialSelect} {...props} />
   </FormControl>
 )
+
+Select.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired
+}
 
 export default Select
