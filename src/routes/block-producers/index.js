@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { translate } from 'react-i18next'
 
 import BlockProducerCard from 'components/block-producer-card'
+import FilterBox from './filter-box'
 import store from 'store'
 
 const { dispatch } = store
@@ -55,3 +56,5 @@ AllBps.propTypes = {
 }
 
 export default withStyles(style)(translate('translations')(AllBps))
+
+export const blockProducersDrawer = [FilterBox]
