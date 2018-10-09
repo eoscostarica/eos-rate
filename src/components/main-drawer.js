@@ -3,11 +3,14 @@ import PropTypes from 'prop-types'
 import { Redux } from 'redux-render'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
+import Collapse from '@material-ui/core/Collapse'
 import { withStyles } from '@material-ui/core/styles'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import { Link } from '@reach/router'
 import { translate } from 'react-i18next'
+
+import routes from 'routes'
 
 const styles = theme => ({
   toolbar: theme.mixins.toolbar,
@@ -32,7 +35,7 @@ const styles = theme => ({
 
 const Menu = ({ onClick, currentPathname, links, classes, t }) => (
   <List>
-    {links.map(({ to, label }) => {
+    {links.map(({ to, label, collapsedItems }) => {
       // FIXME: we should try to use mui's way, for some reason
       // it didn't work for me
       const isSelected = currentPathname === to
@@ -41,23 +44,32 @@ const Menu = ({ onClick, currentPathname, links, classes, t }) => (
         color: 'black'
       }
       return (
-        <Link
-          key={`link-${to}`}
-          to={to}
-          className={classes.link}
-          onClick={() => onClick && onClick()}
-        >
-          <ListItem
-            button
-            ContainerProps={{
-              onClick: () => onClick && onClick()
-            }}
-            selected={isSelected}
-            style={isSelected ? selectedStyle : {}}
+        <React.Fragment key={`link-${to}`}>
+          <Link
+            to={to}
+            className={classes.link}
+            onClick={() => onClick && onClick()}
           >
-            <ListItemText primary={label} />
-          </ListItem>
-        </Link>
+            <ListItem
+              button
+              ContainerProps={{
+                onClick: () => onClick && onClick()
+              }}
+              selected={isSelected}
+              style={isSelected ? selectedStyle : {}}
+            >
+              <ListItemText primary={label} />
+            </ListItem>
+          </Link>
+          {collapsedItems &&
+            collapsedItems.length && (
+            <Collapse in={isSelected} timeout='auto'>
+              {collapsedItems.map((Item, index) => (
+                <Item key={`${to}-collapsed-item-${index}`} />
+              ))}
+            </Collapse>
+          )}
+        </React.Fragment>
       )
     })}
   </List>
@@ -96,11 +108,11 @@ const MainDrawer = ({
             <Menu
               onClick={() => onClose()}
               currentPathname={currentPathname}
-              links={[
-                { to: '/', label: t('drawerLinkHome') },
-                { to: '/block-producers', label: t('drawerLinkAllBPs') },
-                { to: '/settings', label: t('drawerLinkSettings') }
-              ]}
+              links={routes.map(route => ({
+                to: route.path,
+                label: t(route.drawerLabel),
+                collapsedItems: route.drawerComponents
+              }))}
               classes={classes}
               t={t}
             />
@@ -116,11 +128,11 @@ const MainDrawer = ({
           >
             <Menu
               currentPathname={currentPathname}
-              links={[
-                { to: '/', label: t('drawerLinkHome') },
-                { to: '/block-producers', label: t('drawerLinkAllBPs') },
-                { to: '/settings', label: t('drawerLinkSettings') }
-              ]}
+              links={routes.map(route => ({
+                to: route.path,
+                label: t(route.drawerLabel),
+                collapsedItems: route.drawerComponents
+              }))}
               classes={classes}
               t={t}
             />
