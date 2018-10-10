@@ -1,8 +1,10 @@
-import api from '../services/api'
+import api from 'services/api'
+import { getUserEOSAccout } from 'services/scatter'
 
 const initialState = {
   accessToken: null,
-  user: null
+  user: null,
+  scatter: null
 }
 
 const session = {
@@ -13,6 +15,12 @@ const session = {
     },
     logout () {
       return initialState
+    },
+    setAccount (state, account) {
+      return {
+        ...state,
+        account
+      }
     }
   },
   effects: {
@@ -23,6 +31,9 @@ const session = {
           password
         })
       )
+    },
+    async getUserEOSAccount () {
+      this.setAccount(await getUserEOSAccout())
     }
   }
 }
