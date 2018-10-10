@@ -1,6 +1,6 @@
 import getColorFromName from 'utils/getColorFromName'
 
-export default ({ producer_account_name: name, values }) => {
+export default ({ producer_account_name: name, parameters }) => {
   const colors = getColorFromName(name)
 
   return {
@@ -11,6 +11,6 @@ export default ({ producer_account_name: name, values }) => {
     pointBorderColor: '#fff',
     pointHoverBackgroundColor: '#fff',
     pointHoverBorderColor: `rgba(${colors.join(', ')}, 1)`,
-    data: values
+    data: Object.values(parameters)
   }
 }

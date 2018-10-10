@@ -18,6 +18,7 @@
   "dependencies": {
     "@material-ui/core": "^3.0.1",
     "@material-ui/icons": "^3.0.1",
+    "@material-ui/lab": "^3.0.0-alpha.19",
     "@reach/component-component": "^0.1.0",
     "@reach/router": "^1.2.1",
     "@rematch/core": "^1.0.0-beta.4",
@@ -35,7 +36,7 @@
     "moment": "^2.22.2",
     "qs": "^6.5.2",
     "random-color-rgb": "^1.1.1",
-    "rc-slider": "^8.6.1",
+    "rc-slider": "^8.6.3",
     "react": "^16.4.2",
     "react-apollo": "^2.1.11",
     "react-autosuggest": "^9.4.2",

@@ -1,45 +1,66 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import ListItemText from '@material-ui/core/ListItemText'
 import List from '@material-ui/core/List'
-import Switch from '@material-ui/core/Switch'
+import Typography from '@material-ui/core/Typography'
 import ListSubheader from '@material-ui/core/ListSubheader'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItem from '@material-ui/core/ListItem'
+
+import ParameterRangeSelector from 'components/parameter-range-selector'
+import bpParameters from 'config/comparison-parameters'
 
 const styles = theme => ({
   nested: {
     paddingLeft: theme.spacing.unit * 2,
     color: 'white'
+  },
+  listItem: {
+    display: 'block'
   }
 })
 
-const FilterBox = ({ classes, ...props }) => (
-  <List
-    className={classes.nested}
-    subheader={<ListSubheader>Main Strengths</ListSubheader>}
-  >
-    <ListItem>
-      <ListItemText primary='Tooling' />
-      <ListItemSecondaryAction>
-        <Switch />
-      </ListItemSecondaryAction>
-    </ListItem>
-    <ListItem>
-      <ListItemText primary='Transparency' />
-      <ListItemSecondaryAction>
-        <Switch />
-      </ListItemSecondaryAction>
-    </ListItem>
-    <ListItem>
-      <ListItemText primary='TestNets' />
-      <ListItemSecondaryAction>
-        <Switch />
-      </ListItemSecondaryAction>
-    </ListItem>
-  </List>
-)
+class FilterBox extends Component {
+  state = {
+    ...bpParameters.reduce(
+      (result, parameter) => ({
+        ...result,
+        [parameter]: [0, 20]
+      }),
+      {}
+    )
+  }
+
+  handleValueChange = parameter => value =>
+    this.setState({
+      [parameter]: value
+    })
+
+  render () {
+    const { classes } = this.props
+    return (
+      <List
+        className={classes.nested}
+        subheader={<ListSubheader>Filter Parameters</ListSubheader>}
+      >
+        {bpParameters.map(parameter => (
+          <ListItem
+            className={classes.listItem}
+            key={`filter-parameter-${parameter}`}
+          >
+            <Typography id={`${parameter}-label`}>{parameter}</Typography>
+
+            <ParameterRangeSelector
+              aria-labelledby={`${parameter}-label`}
+              allowCross={false}
+              defaultValue={this.state[parameter]}
+              onChange={this.handleValueChange(parameter)}
+            />
+          </ListItem>
+        ))}
+      </List>
+    )
+  }
+}
 
 FilterBox.propTypes = {
   classes: PropTypes.object.isRequired
