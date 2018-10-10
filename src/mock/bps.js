@@ -1,6 +1,12 @@
 export default [
   {
-    values: [9, 0, 8, 7, 2],
+    parameters: {
+      infrastructure: 9,
+      tooling: 4,
+      community: 6,
+      transparency: 9,
+      testnets: 7
+    },
     producer_account_name: 'costaricaeos',
     org: {
       candidate_name: 'EOS Costa Rica',
@@ -87,7 +93,13 @@ export default [
     ]
   },
   {
-    values: [9, 8, 8, 9, 8],
+    parameters: {
+      infrastructure: 9,
+      tooling: 9,
+      community: 9,
+      transparency: 9,
+      testnets: 9
+    },
     producer_account_name: 'eosnewyorkio',
     org: {
       candidate_name: 'EOS New York',
@@ -154,7 +166,13 @@ export default [
     ]
   },
   {
-    values: [8, 0, 3, 7, 5],
+    parameters: {
+      infrastructure: 8,
+      tooling: 0,
+      community: 3,
+      transparency: 9,
+      testnets: 5
+    },
     producer_account_name: 'alohaeosprod',
     org: {
       candidate_name: 'Aloha EOS',
