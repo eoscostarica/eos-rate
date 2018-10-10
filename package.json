@@ -68,7 +68,7 @@
     "standard": "^11.0.1"
   },
   "lint-staged": {
-    "src/**/*.js": [
+    "*.js": [
       "eslint --fix",
       "git add"
     ]
