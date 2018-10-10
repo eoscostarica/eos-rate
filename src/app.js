@@ -14,7 +14,7 @@ const App = () => (
           <Router>
             <NotFound default />
             {routes.map(({ path, Component }) => (
-              <Component path={path} />
+              <Component key={`path-${path}`} path={path} />
             ))}
           </Router>
         </Layout>
