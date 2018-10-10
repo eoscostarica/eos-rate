@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "precommit": "pretty-quick --staged && lint-staged",
-    "lint": "pretty-quick . && eslint --fix .",
+    "lint": "eslint .",
     "start": "env-cmd .env react-scripts start",
     "prod": "serve -l 9000 --single ./build",
     "build": "env-cmd .env react-scripts build",
