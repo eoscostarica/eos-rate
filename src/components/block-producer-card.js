@@ -18,6 +18,11 @@ const styles = theme => ({
   actions: {
     display: 'flex'
   },
+  radar: {
+    background: theme.palette.primary.dark,
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2
+  },
   avatar: {
     backgroundColor: theme.palette.primary.main
   }
@@ -39,12 +44,14 @@ const BlockProducerCard = ({
       title={blockProducer.org.candidate_name}
       subheader={blockProducer.producer_account_name}
     />
-    <BlockProducerRadar
-      bpData={{
-        labels: bpParameters,
-        datasets: [blockProducer.data]
-      }}
-    />
+    <div className={classes.radar}>
+      <BlockProducerRadar
+        bpData={{
+          labels: bpParameters,
+          datasets: [blockProducer.data]
+        }}
+      />
+    </div>
     <CardActions className={classes.actions} disableActionSpacing>
       <IconButton aria-label='Add to comparison'>
         {isSelected ? <RemoveIcon /> : <AddIcon />}
