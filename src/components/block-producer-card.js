@@ -11,6 +11,7 @@ import RemoveIcon from '@material-ui/icons/Remove'
 import ShareIcon from '@material-ui/icons/Share'
 
 import BlockProducerRadar from 'components/block-producer-radar'
+import bpParameters from 'config/comparison-parameters'
 
 const styles = theme => ({
   card: {},
@@ -40,7 +41,7 @@ const BlockProducerCard = ({
     />
     <BlockProducerRadar
       bpData={{
-        labels: ['Transparency', 'BP Tooling', 'TestNet', 'Community', 'dApps'],
+        labels: bpParameters,
         datasets: [blockProducer.data]
       }}
     />
