@@ -3,8 +3,7 @@ import { getUserEOSAccout } from 'services/scatter'
 
 const initialState = {
   accessToken: null,
-  user: null,
-  scatter: null
+  account: null
 }
 
 const session = {

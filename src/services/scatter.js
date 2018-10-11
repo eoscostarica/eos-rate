@@ -38,8 +38,7 @@ export const getUserEOSAccout = async () => {
     await scatter.getIdentity({ accounts: [network] })
     // Always use the accounts you got back from Scatter. Never hardcode them even if you are prompting
     // the user for their account name beforehand. They could still give you a different account.
-    const account = scatter.identity.accounts.find(x => x.blockchain === 'eos')
-    return account
+    return scatter.identity.accounts.find(x => x.blockchain === 'eos')
   } catch (err) {
     err && console.log(err)
     // alert('error getting user identity')
