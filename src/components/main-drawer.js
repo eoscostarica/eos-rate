@@ -21,6 +21,9 @@ const styles = theme => ({
       position: 'relative'
     }
   },
+  innerList: {
+    backgroundColor: theme.palette.primary.submenu
+  },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular
@@ -48,12 +51,12 @@ const Menu = ({ onClick, currentPathname, links, classes, t }) => (
           <Link
             to={to}
             className={classes.link}
-            onClick={() => onClick && onClick()}
+            onClick={() => onClick && onClick(!!collapsedItems)}
           >
             <ListItem
               button
               ContainerProps={{
-                onClick: () => onClick && onClick()
+                onClick: () => onClick && onClick(!!collapsedItems)
               }}
               selected={isSelected}
               style={isSelected ? selectedStyle : {}}
@@ -63,7 +66,11 @@ const Menu = ({ onClick, currentPathname, links, classes, t }) => (
           </Link>
           {collapsedItems &&
             collapsedItems.length && (
-            <Collapse in={isSelected} timeout='auto'>
+            <Collapse
+              className={classes.innerList}
+              in={isSelected}
+              timeout='auto'
+            >
               {collapsedItems.map((Item, index) => (
                 <Item key={`${to}-collapsed-item-${index}`} />
               ))}
@@ -106,7 +113,11 @@ const MainDrawer = ({
             }}
           >
             <Menu
-              onClick={() => onClose()}
+              onClick={isCollapsible => {
+                if (!isCollapsible) {
+                  onClose()
+                }
+              }}
               currentPathname={currentPathname}
               links={routes.map(route => ({
                 to: route.path,
