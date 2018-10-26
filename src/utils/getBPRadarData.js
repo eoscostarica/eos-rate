@@ -5,7 +5,9 @@ export default ({ producer_account_name: name, parameters }) => {
 
   return {
     label: name,
-    backgroundColor: `rgba(${colors.join(', ')}, 0.2)`,
+    lineTension: 0.3,
+    borderJoinStyle: 'round',
+    backgroundColor: `rgba(${colors.join(', ')}, .9)`,
     borderColor: `rgba(${colors.join(', ')}, 1)`,
     pointBackgroundColor: `rgba(${colors.join(', ')}, 1)`,
     pointBorderColor: '#fff',
