@@ -31,7 +31,7 @@
 Community driven EOS Block Producer ratings website.
 
 <p align="center">
-	<img src="eso.png" width="600">
+	<img src="logo.png" width="600">
 </p>
 
 ![](docs/eosrate-scenes.png)
