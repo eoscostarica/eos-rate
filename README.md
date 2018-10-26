@@ -31,22 +31,10 @@
 Community driven EOS Block Producer ratings website.
 
 <p align="center">
-	<img src="logo.png" width="600">
+	<img src="eso.png" width="600">
 </p>
 
-## Contributing
-
-We use a Kanban-style board with built-in triggers to automatically move issues and pull requests across New Issues, To Do, In Progress and Done columns. That's were we prioritize the work. [Go to Project Board](https://github.com/eoscostarica/rate.eoscostarica.io/projects/1).
-
-We follow the [open source collaborative ettiquete](https://github.com/rstacruz/collaborative-etiquette/blob/master/README.md#top), the [standardjs code style](https://standardjs.com) and we favor [functional javascript programming](https://www.youtube.com/watch?v=BMUiFMZr7vk&list=PL0zVEGEvSaeEd9hlmCXrk5yUyqUag-n84) and declarative code style.
-
-Read the [contributing guidelines](CONTRIBUTING.md) for details.
-
-Our weekly sync call is every Monday 7pm-8pm CST / Costa Rica on our zoom channel. [meet.eoscostarica.io](https://meet.eoscostarica.io)
-
-## Bug Reporting
-
-Please report bugs big and small by [opening an issue](https://github.com/eoscostarica/dmeetup/issues). No possible bug report is too small.
+![](docs/eosrate-scenes.png)
 
 ## Architecture
 
