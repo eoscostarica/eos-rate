@@ -45,15 +45,13 @@ Version 1 ( November 30 )
   - Rating UI for token holders to rate that block producer.
 - Compare Block Producers page:
   - Ability to superpose different BPs ratings flake charts.
-- Filtering Block Producer List
-  - by Strengths: transparency, community, infrastructure, testnets, tooling.
-  - by Region.
 - Home page with explanation and instructions.
 - Languages: English & Spanish.
 
 Version 2 ( date tbd )
 
 - Ability to for a block producer directly on their profile page.
+- List and search proxies.
 - Proxies landing page with:
   - Proxy Block Producers list from the [proxy](https://github.com/EOSIO/eos/blob/master/contracts/proxy/proxy.cpp) contract.
   - Proxy Info from the [eos-proxyinfo](https://github.com/AlohaEOS/eos-proxyinfo) contract.
@@ -62,6 +60,9 @@ Version 2 ( date tbd )
 
 Version 3 ( date tbd )
 
+- Filtering Block Producer List
+  - by Strengths: transparency, community, infrastructure, testnets, tooling.
+  - by Region.
 - Ability to vote for multiple producers at the same from the BP Comparison tool.
 
 ## Prototypes and Assets
