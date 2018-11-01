@@ -16,9 +16,15 @@ const styles = theme => ({
   bpItem: {
     width: '75%',
     padding: '0 0 0 10px',
+    display: 'flex',
+    justifyContent: 'space-between',
     '&:hover': {
       backgroundColor: theme.palette.primary.submenu
     }
+  },
+  bpNameWrapper: {
+    height: 48,
+    paddingTop: 14
   },
   bpColorCode: {
     display: 'inline-block',
@@ -27,7 +33,7 @@ const styles = theme => ({
     verticalAlign: 'text-bottom'
   },
   bpName: {
-    padding: '0 10px',
+    padding: '0 0 0 10px',
     display: 'inline'
   }
 })
@@ -56,14 +62,16 @@ const CompareGraphView = ({
           className={classes.bpItem}
           key={`bp-list-name-${bp.producer_account_name}`}
         >
-          <Avatar
-            className={classes.bpColorCode}
-            component='span'
-            style={{ backgroundColor: bp.data.pointBackgroundColor }}
-          />
-          <Typography className={classes.bpName} component='span'>
-            {bp.producer_account_name}
-          </Typography>
+          <div className={classes.bpNameWrapper}>
+            <Avatar
+              className={classes.bpColorCode}
+              component='span'
+              style={{ backgroundColor: bp.data.pointBackgroundColor }}
+            />
+            <Typography className={classes.bpName} component='span'>
+              {bp.producer_account_name}
+            </Typography>
+          </div>
           <IconButton
             onClick={removeBP(bp.producer_account_name)}
             aria-label='Remove block producer'
