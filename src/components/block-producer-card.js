@@ -10,6 +10,7 @@ import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
 import ShareIcon from '@material-ui/icons/Share'
 
+import comparisonParameters from 'config/comparison-parameters'
 import BlockProducerRadar from 'components/block-producer-radar'
 import bpParameters from 'config/comparison-parameters'
 
@@ -32,6 +33,7 @@ const BlockProducerCard = ({
   classes,
   blockProducer,
   isSelected = false,
+  toggleSelection,
   ...props
 }) => (
   <Card className={classes.card}>
@@ -47,13 +49,19 @@ const BlockProducerCard = ({
     <div className={classes.radar}>
       <BlockProducerRadar
         bpData={{
-          labels: bpParameters,
+          labels: comparisonParameters,
           datasets: [blockProducer.data]
         }}
       />
     </div>
     <CardActions className={classes.actions} disableActionSpacing>
-      <IconButton aria-label='Add to comparison'>
+      <IconButton
+        aria-label='Add to comparison'
+        onClick={toggleSelection(
+          !isSelected,
+          blockProducer.producer_account_name
+        )}
+      >
         {isSelected ? <RemoveIcon /> : <AddIcon />}
       </IconButton>
       <IconButton aria-label='Share'>
@@ -66,7 +74,8 @@ const BlockProducerCard = ({
 BlockProducerCard.propTypes = {
   classes: PropTypes.object,
   blockProducer: PropTypes.object,
-  isSelected: PropTypes.bool
+  isSelected: PropTypes.bool,
+  toggleSelection: PropTypes.func
 }
 
 export default withStyles(styles)(BlockProducerCard)
