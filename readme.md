@@ -36,7 +36,7 @@ EOS Rate is an EOS BP Rating portal that help visualize community perception of 
 
 ## Feature Roadmap
 
-Version 1 ( November 15 )
+Version 1 ( November 30 )
 
 - List and Search Block Producers.
 - Block Producer profile page with:
