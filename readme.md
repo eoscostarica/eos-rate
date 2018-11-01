@@ -43,6 +43,8 @@ Version 1 ( November 30 )
   - Information from the [producerjson](https://github.com/greymass/producerjson) contract.
   - Community ratings results.
   - Rating UI for token holders to rate that block producer.
+- Compare Block Producers page:
+  - Ability to superpose different BPs ratings flake charts.
 - Home page with explanation and instructions.
 - Languages: English & Spanish.
 
