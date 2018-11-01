@@ -26,73 +26,72 @@
 </p>
 <br/>
 
-# EOS Rating Portal - Community based rating system.
+# EOS Rating and Voting Portal
 
-Community driven EOS Block Producer ratings website.
+EOS Rate is an EOS BP Rating portal that help visualize community perception of all BPs and how they compare to each other. In the near future it will support proxy profile pages and voting.
 
 <p align="center">
 	<img src="logo.png" width="600">
 </p>
 
-![](docs/eosrate-scenes.png)
+## Feature Roadmap
 
-## Architecture
+Version 1 ( November 15 )
 
-- We are going start with a third party full history service for querying chain data.
-- Our goal is to have a local API node with full history and mongodb plugin for faster and custom queries.
-- Rating will only be possible on desktop thru scatter in the initial release.
-- Mobile will be read only for now.
+- List and Search Block Producers.
+- Block Producer profile page with:
+  - Information from the onchain BPJSON data.
+  - Community ratings results.
+  - Rating UI for token holders to rate that block producer.
+- Compare Block Producers page:
+  - Ability to superpose different BPs ratings flake charts.
+- Filtering Block Producer List
+  - by Strengths: transparency, community, infrastructure, testnets, tooling.
+  - by Region.
+- Home page with explanation and instructions.
+- Languages: English & Spanish.
 
-First Phase
+Version 2 ( date tbd )
 
-![](docs/EOSRate.png)
+- Ability to for a block producer directly on their profile page.
+- Proxies landing page with:
+  - Proxy Philosophy
+  - Proxy Block Producers list.
+  - Additional info: (tbd)
+  - Ability to vote for the proxy.
+- Languages: Chinese.
 
-Second Phase
+Version 3 ( date tbd )
 
-![](docs/EOSRate-History.png)
-
-## User Flow
-
-![](docs/EOSRate-UserFlow.png)
+- Ability to vote for multiple producers at the same from the BP Comparison tool.
 
 ## Prototypes and Assets
 
 https://scene.zeplin.io/project/5a58ea3341f76658994e000c
 
-## Graphql Server
+![](docs/eosrate-scenes.png)
 
-https://github.com/eoscostarica/eosrate-graphql
+## User Flow
 
-## Project Directory Structure
+![](docs/EOSRate-UserFlow.png)
 
-```
-.
-├── docs/ .............................................. documentation files and media
-├── public/ ............................................ static and public files
-├── src/ ............................................... application source code (we will cover in detail soon)
-├── .env ............................................... environment variables (for local development)
-├── .eslintrc .......................................... code style rules
-├── contributing.md .................................... contributing guidelines
-├── license ............................................ project license
-├── readme.md .......................................... project homepage
-├── package.json ....................................... dependencies manifest
-├── config-overrides.js ................................ configuration overrides for `create-react-app`
-└── .travis.yml ........................................ travis ci configuration file
-```
+## Architecture
 
-# React App Components
+This project will use EOS Local architecture.
+There's a open issue to make that integration as soon EOS Local v1 is released.
+Currently you will only find the ReactJS Client code in this repository.
 
-- [react-app-rewired](https://github.com/timarney/react-app-rewired) for tweaking `create-react-app` configuration without ejecting
-- [reach-router](https://github.com/reach/router) for a more accessible router.
-- state management with [rematch](https://github.com/rematch/rematch) to use `redux` best practices without all the boilerplate.
-- [react-apollo](https://github.com/apollographql/react-apollo) react apollo client
+## Contributing
 
-## Continuous Integration Process
+We use a Kanban-style board. That's were we prioritize the work. [Go to Project Board](https://github.com/eoscostarica/eosrate/projects/1).
 
-We follow a continuous integration process based on Github flow that leverages the following tools:
+The main communication channels are [github issues](https://github.com/eoscostarica/eosrate/issues) and [EOS Costa Rica's Discord server](https://eoscostarica.io/discord). Feel to join and ask as many questions you may have.
 
-- [TravisCI](https://travis-ci.org/) to run test and code style checks
-- [Now.sh](https://now.sh) for continuous delivery to the stanging server and creation pull request specific environments for testing. awesome!
+Our weekly sync call is every Monday 1:00 AM UTC. [meet.eoscostarica.io](https:/meet.eoscostarica.io).
+
+Contributing Guidelines https://learn.eoscostarica.io/open-source/.
+
+Please report bugs big and small by [opening an issue](https://github.com/eoscostarica/eosrate/issues)
 
 ## About EOS Costa Rica
 
