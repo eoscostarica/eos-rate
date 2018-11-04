@@ -13,7 +13,7 @@ const theme = createMuiTheme({
       submenu: '#252838'
     },
     secondary: {
-      light: '#5cf68a',
+      light: '#fff',
       main: '#00c25b',
       dark: '#00902e'
     }
@@ -57,8 +57,8 @@ const theme = createMuiTheme({
       }
     },
     MuiButton: {
-      root: {
-        height: 45
+      containedSecondary: {
+        color: '#fff'
       }
     }
   }

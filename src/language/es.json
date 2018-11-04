@@ -23,5 +23,18 @@
     "drawerLinkHome": "Página Principal",
     "drawerLinkAllBPs": "Productores de Bloques",
     "drawerLinkSettings": "Configuración"
+  },
+
+  "home": {
+    "cover": {
+      "title": "Titulo Primario",
+      "paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum enim a lacus efficitur efficitur. Integer placerat porta urna, vitae rhoncus mi scelerisque non. Aliquam sed pulvinar massa, nec dictum lectus. Praesent bibendum at elit eu fermentum. Vivamus vitae accumsan est. Curabitur arcu ex, fringilla id mi non, malesuada pharetra justo.",
+      "cta": "Block Producer Page"
+    },
+    "subTopic": {
+      "videoUrl": "https://www.youtube.com/embed/d9tFkNXqRjU",
+      "title": "Titulo Secundario",
+      "paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum enim a lacus efficitur efficitur. Integer placerat porta urna, vitae rhoncus mi scelerisque non. Aliquam sed pulvinar massa, nec dictum lectus. Praesent bibendum at elit eu fermentum. Vivamus vitae accumsan est. Curabitur arcu ex, fringilla id mi non, malesuada pharetra justo.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum enim a lacus efficitur efficitur. Integer placerat porta urna, vitae rhoncus mi scelerisque non. Aliquam sed pulvinar massa, nec dictum lectus. Praesent bibendum at elit eu fermentum. Vivamus vitae accumsan est. Curabitur arcu ex, fringilla id mi non, malesuada pharetra justo."
+    }
   }
 }
