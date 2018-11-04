@@ -17,7 +17,7 @@ const blockProducers = {
       // Whenever we get a new list, clear filters
       return {
         ...initialState,
-        list
+        list: list.map(bp => ({ ...bp }))
       }
     },
     addToSelected (state, producerAccountName) {
@@ -44,8 +44,8 @@ const blockProducers = {
     setFiltered (state, filtered, filters) {
       return {
         ...state,
-        filtered,
-        filters
+        filtered: [...filtered],
+        filters: { ...filters }
       }
     }
   },

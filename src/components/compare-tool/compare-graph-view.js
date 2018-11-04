@@ -51,7 +51,7 @@ const CompareGraphView = ({
       <BlockProducerRadar
         bpData={{
           labels: comparisonParameters,
-          datasets: selected.map(({ data }) => data)
+          datasets: selected.map(({ data }) => ({ ...data }))
         }}
       />
     </Grid>

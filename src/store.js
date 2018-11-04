@@ -5,8 +5,7 @@ import { locationChangeListener } from 'models/location'
 import * as models from 'models'
 
 const persistPlugin = createPersistPlugin({
-  key: 'smartgate',
-  whitelist: ['session', 'settings']
+  whitelist: ['blockProducers', 'session', 'settings']
 })
 
 const store = init({

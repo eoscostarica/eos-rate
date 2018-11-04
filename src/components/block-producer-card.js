@@ -50,7 +50,7 @@ const BlockProducerCard = ({
       <BlockProducerRadar
         bpData={{
           labels: comparisonParameters,
-          datasets: [blockProducer.data]
+          datasets: [{ ...blockProducer.data }]
         }}
       />
     </div>

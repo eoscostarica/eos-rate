@@ -44,7 +44,7 @@ const CompareSliderView = ({ classes, selected, className, t, ...props }) => (
           <BlockProducerRadar
             bpData={{
               labels: comparisonParameters,
-              datasets: [bp.data]
+              datasets: [{ ...bp.data }]
             }}
           />
           <Typography variant='subheading' className={classes.bpName}>
