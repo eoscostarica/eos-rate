@@ -46,12 +46,15 @@ const CompareGraphView = ({
   className,
   ...props
 }) => (
-  <Grid container className={classes.container} spacing={16}>
+  <Grid container className={classes.root} spacing={16}>
     <Grid item xs={12} md={8}>
       <BlockProducerRadar
         bpData={{
           labels: comparisonParameters,
-          datasets: selected.map(({ data }) => ({ ...data }))
+          datasets: selected.map(({ data }) => ({
+            ...data,
+            backgroundColor: data.backgroundColor.replace('.9', '.2')
+          }))
         }}
       />
     </Grid>

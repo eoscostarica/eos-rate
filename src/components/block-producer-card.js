@@ -12,7 +12,6 @@ import ShareIcon from '@material-ui/icons/Share'
 
 import comparisonParameters from 'config/comparison-parameters'
 import BlockProducerRadar from 'components/block-producer-radar'
-import bpParameters from 'config/comparison-parameters'
 
 const styles = theme => ({
   card: {},

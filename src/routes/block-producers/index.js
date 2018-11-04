@@ -15,7 +15,7 @@ const style = theme => ({
     padding: theme.spacing.unit * 3
   },
   compareTool: {
-    height: '340px'
+    minHeight: 340
   }
 })
 
