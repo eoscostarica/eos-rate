@@ -36,11 +36,20 @@ const SubTopic = ({ classes, t }) => (
 
       <Typography
         variant='body2'
-        className={classes.paragraph}
+        className={classes.paragraph1}
         align='justify'
         paragraph
       >
-        {t('subTopic.paragraph')}
+        {t('subTopic.paragraph1')}
+      </Typography>
+
+      <Typography
+        variant='body2'
+        className={classes.paragraph2}
+        align='justify'
+        paragraph
+      >
+        {t('subTopic.paragraph2')}
       </Typography>
     </Grid>
   </Grid>

@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
-import ParameterRangeSelector from 'components/parameter-range-selector'
+// import ParameterRangeSelector from 'components/parameter-range-selector'
 import BlockProducerRadar from 'components/block-producer-radar'
 import bpParameters from 'config/comparison-parameters'
 
@@ -67,9 +67,9 @@ const HomeCover = ({ classes, t, blockProducer }) => (
       </div>
     </Grid>
 
-    <Grid item xs={12}>
+    {/* <Grid item xs={12}>
       <ParameterRangeSelector defaultValue={[0, 50]} />
-    </Grid>
+    </Grid> */}
   </Grid>
 )
 
