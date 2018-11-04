@@ -60,7 +60,6 @@ CompareSliderView.propTypes = {
   classes: PropTypes.object.isRequired,
   t: PropTypes.func.isRequired,
   selected: PropTypes.array.isRequired,
-  bpList: PropTypes.array.isRequired,
   className: PropTypes.string
 }
 
