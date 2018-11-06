@@ -14,7 +14,9 @@ import Language from '@material-ui/icons/Language'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 
 const styles = theme => ({
-  root: {}
+  root: {
+    padding: theme.spacing.unit * 3
+  }
 })
 
 class Settings extends React.Component {
