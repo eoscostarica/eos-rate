@@ -1,11 +1,13 @@
 import filterObjects from 'filter-objects'
+import uniq from 'lodash.uniq'
 import { findBPs } from 'services/bps'
 import getBPRadarData from 'utils/getBPRadarData'
 
 const initialState = {
   filters: {},
   list: [],
-  filtered: []
+  filtered: [],
+  selected: []
 }
 
 const blockProducers = {
@@ -15,7 +17,21 @@ const blockProducers = {
       // Whenever we get a new list, clear filters
       return {
         ...initialState,
-        list
+        list: list.map(bp => ({ ...bp }))
+      }
+    },
+    addToSelected (state, producerAccountName) {
+      return {
+        ...state,
+        selected: uniq([...state.selected, producerAccountName])
+      }
+    },
+    removeSelected (state, producerAccountName) {
+      return {
+        ...state,
+        selected: state.selected.filter(
+          selected => selected !== producerAccountName
+        )
       }
     },
     clearFilters (state) {
@@ -28,8 +44,8 @@ const blockProducers = {
     setFiltered (state, filtered, filters) {
       return {
         ...state,
-        filtered,
-        filters
+        filtered: [...filtered],
+        filters: { ...filters }
       }
     }
   },

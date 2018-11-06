@@ -1,5 +1,8 @@
 {
   "translations": {
+    "compareToolTitle": "Compare Tool",
+    "compareToolCollapsedSwitch": "Collapse Graphs",
+
     "loginUsername": "Username",
     "loginPassword": "Password",
     "loginSignin": "Sign in",
