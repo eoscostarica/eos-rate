@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
-import { translate } from 'react-i18next'
+import { withNamespaces } from 'react-i18next'
 
 import comparisonParameters from 'config/comparison-parameters'
 import BlockProducerRadar from 'components/block-producer-radar'
@@ -99,4 +99,6 @@ CompareGraphView.defaultProps = {
   className: ''
 }
 
-export default withStyles(styles)(translate('translations')(CompareGraphView))
+export default withStyles(styles)(
+  withNamespaces('translations')(CompareGraphView)
+)

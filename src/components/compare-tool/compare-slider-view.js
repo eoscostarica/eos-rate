@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import { translate } from 'react-i18next'
+import { withNamespaces } from 'react-i18next'
 
 import comparisonParameters from 'config/comparison-parameters'
 import BlockProducerRadar from 'components/block-producer-radar'
@@ -65,4 +65,6 @@ CompareSliderView.propTypes = {
 
 CompareSliderView.defaultProps = {}
 
-export default withStyles(style)(translate('translations')(CompareSliderView))
+export default withStyles(style)(
+  withNamespaces('translations')(CompareSliderView)
+)
