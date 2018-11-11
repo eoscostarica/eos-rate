@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Hidden from '@material-ui/core/Hidden'
 import MainTopBar from 'components/app-bar'
 import MainDrawer from 'components/main-drawer'
+import MainFooter from 'components/main-footer'
 
 const styles = theme => ({
   root: {
@@ -55,6 +56,7 @@ class Layout extends Component {
           <div className={classes.toolbar} />
           {children}
         </main>
+        <MainFooter />
       </div>
     )
   }
