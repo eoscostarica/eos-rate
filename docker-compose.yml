@@ -1,0 +1,195 @@
+version: "3.5"
+
+services:
+  postgres:
+    image: postgres:10.4
+    volumes:
+      - ./.dbdata/.pgsql-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      DB_NAME: eosrate
+      DB_USER: user
+      DB_PASSWORD: pass
+      POSTGRES_DB: eosrate
+      VIRTUAL_HOST: postgres.eosrate.io
+      VIRTUAL_PORT: 5432
+    networks:
+      eosrate:
+        aliases:
+          - postgres.eosrate.io
+
+  pgweb:
+    image: sosedoff/pgweb:latest
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
+      VIRTUAL_HOST: pgweb.eosrate.io
+      VIRTUAL_PORT: 8081
+    depends_on:
+      - postgres
+    networks:
+      eosrate:
+        aliases:
+          - pgweb.eosrate.io
+
+  flyway:
+    image: boxfuse/flyway:5.2.1
+    command: -url=jdbc:postgresql://postgres:5432/eosrate -user=user -password=pass -connectRetries=60 migrate
+    volumes:
+      - ./services/postgres/migrations:/flyway/sql
+    depends_on:
+      - postgres
+    networks:
+      eosrate:
+
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - ./.dbdata/.mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      VIRTUAL_HOST: mongo.eosrate.io
+      VIRTUAL_PORT: 27017
+    networks:
+      eosrate:
+        aliases:
+          - mongo.eosrate.io
+
+  eos-api-node:
+    build:
+      context: ./services/eos-api-node
+      dockerfile: Dockerfile
+    image: eosrate/eos-api-node
+    stop_grace_period: 3m0s
+    ports:
+      - "8840:8888"
+      - "9840:9876"
+    environment:
+      WAIT_HOSTS: mongo:27017, eos-producer:8888
+      WAIT_HOSTS_TIMEOUT: 60
+      DATA_DIR: /opt/eosio/bin/data-dir
+      VIRTUAL_HOST: eos-api-node.eosrate.io
+      VIRTUAL_PORT: 8888
+    depends_on:
+      - mongo
+      - eos-producer
+    volumes:
+      - "eos-api-node:/opt/eosio/bin/data-dir"
+      - "./services/eos-api-node/config.ini:/opt/eosio/bin/data-dir/config.ini"
+    networks:
+      eosrate:
+        aliases:
+          - api-node.eosrate.io
+
+  eos-producer:
+    build:
+      context: ./services/eos-producer
+      dockerfile: Dockerfile
+      args:
+        symbol: EOS
+    image: eosrate/eos-producer
+    stop_grace_period: 3m0s
+    ports:
+      - "8888:8888"
+      - "9830:9876"
+    environment:
+      DATA_DIR: /root/data-dir
+      CONFIG_DIR: /opt/application/config
+      VIRTUAL_HOST: eos-producer.eosrate.io
+      VIRTUAL_PORT: 8888
+    volumes:
+      - eos-producer:/root/data-dir
+      - ./services/eos-producer:/opt/application
+      - ./contracts:/opt/application/contracts
+    networks:
+      eosrate:
+        aliases:
+          - eos-producer.eosrate.io
+
+  eosiocdt:
+    image: eosio/cdt:v1.4.0
+    volumes:
+      - ./contracts:/opt/eosio/bin/contracts
+    entrypoint: /usr/bin/eosio-cpp
+
+  demux:
+    build:
+      context: ./services/demux
+      dockerfile: ./Dockerfile
+      args:
+        SERVICE: "demux"
+    image: eosrate/demux
+    volumes:
+      - ./services/demux:/opt/application # mount demux service folder
+      - /opt/application/node_modules # prevents host/container conflicts
+    depends_on:
+      - mongo
+      - postgres
+      - eos-producer
+    environment:
+      DB_USER: user
+      DB_PASSWORD: pass
+      DB_PORT: 5432
+      DB_NAME: eosrate
+      DB_HOST: postgres
+      DB_SCHEMA: public
+      CHAIN_HOST: "http://eos-producer:8888"
+      CHAIN_INIT_BLOCK: 10
+      MONGO_URI: "mongodb://mongo:27017"
+      MONGO_DB: EOSFN
+      WAIT_HOSTS: postgres:5432, mongo:27017
+      WAIT_HOSTS_TIMEOUT: 60
+      VIRTUAL_HOST: demux.eosrate.io
+      VIRTUAL_PORT: 3030
+    ports:
+      - "3030:3030"
+    networks:
+      eosrate:
+        aliases:
+          - demux.eosrate.io
+
+  admin-mongo:
+    image: mrvautin/adminmongo:latest
+    ports:
+      - "8082:8082"
+    environment:
+      PORT: 8082
+      CONN_NAME: api-node-mongo
+      DB_HOST: mongo
+      VIRTUAL_HOST: admin-mongo.eosrate.io
+      VIRTUAL_PORT: 8082
+    depends_on:
+      - mongo
+      - eos-api-node
+    networks:
+      eosrate:
+        aliases:
+          - admin-mongo.eosrate.io
+
+  # nginx reverse proxy that allows accesing the services directly on the host machine
+  # the wildcard *.esolocal.io that points to 127.0.0.1,
+  # therefore as long as you can hit the dns server it will redirect all requests to your machine
+  # and nginx-proxy does the internal docker network routing to the right service
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      eosrate:
+
+volumes:
+  eos-producer:
+  eos-api-node:
+
+networks:
+  eosrate:
+    name: eosrate
