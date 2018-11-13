@@ -85,6 +85,10 @@ This project will use EOS Local architecture.
 There's a open issue to make that integration as soon EOS Local v1 is released.
 Currently you will only find the ReactJS Client code in this repository.
 
+## Get Started
+
+This projects uses EOS Local Architecture https://eoslocal.io
+
 ## Contributing
 
 We use a Kanban-style board. That's were we prioritize the work. [Go to Project Board](https://github.com/eoscostarica/eos-rate/projects/1).

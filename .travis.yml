@@ -1,9 +1,12 @@
-language: node_js
-node_js:
-  - 10.10
-cache:
-  yarn: true
-  directories:
-    - node_modules
+sudo: required
+
+services:
+  - docker
+
+install:
+  - docker build -t eosrate/demux ./services/demux
+  - docker build -t eosrate/frontend ./services/frontend
+
 script:
-  - yarn lint
+  - docker run eosrate/demux yarn lint
+  - docker run eosrate/frontend yarn lint
