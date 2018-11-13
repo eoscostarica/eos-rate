@@ -38,47 +38,48 @@ const styles = theme => ({
 
 const Menu = ({ onClick, currentPathname, links, classes, t }) => (
   <List>
-    {links.filter(({ label }) => label).map(({ to, label, collapsedItems }) => {
-      // FIXME: we should try to use mui's way, for some reason
-      // it didn't work for me
-      const isSelected = currentPathname === to
-      const selectedStyle = {
-        backgroundColor: '#5cf68a',
-        color: 'black'
-      }
-      return (
-        <React.Fragment key={`link-${to}`}>
-          <Link
-            to={to}
-            className={classes.link}
-            onClick={() => onClick && onClick(!!collapsedItems)}
-          >
-            <ListItem
-              button
-              ContainerProps={{
-                onClick: () => onClick && onClick(!!collapsedItems)
-              }}
-              selected={isSelected}
-              style={isSelected ? selectedStyle : {}}
+    {links
+      .filter(({ label }) => label)
+      .map(({ to, label, collapsedItems }) => {
+        // FIXME: we should try to use mui's way, for some reason
+        // it didn't work for me
+        const isSelected = currentPathname === to
+        const selectedStyle = {
+          backgroundColor: '#5cf68a',
+          color: 'black'
+        }
+        return (
+          <React.Fragment key={`link-${to}`}>
+            <Link
+              to={to}
+              className={classes.link}
+              onClick={() => onClick && onClick(!!collapsedItems)}
             >
-              <ListItemText primary={label} />
-            </ListItem>
-          </Link>
-          {collapsedItems &&
-            collapsedItems.length && (
-            <Collapse
-              className={classes.innerList}
-              in={isSelected}
-              timeout='auto'
-            >
-              {collapsedItems.map((Item, index) => (
-                <Item key={`${to}-collapsed-item-${index}`} />
-              ))}
-            </Collapse>
-          )}
-        </React.Fragment>
-      )
-    })}
+              <ListItem
+                button
+                ContainerProps={{
+                  onClick: () => onClick && onClick(!!collapsedItems)
+                }}
+                selected={isSelected}
+                style={isSelected ? selectedStyle : {}}
+              >
+                <ListItemText primary={label} />
+              </ListItem>
+            </Link>
+            {collapsedItems && collapsedItems.length && (
+              <Collapse
+                className={classes.innerList}
+                in={isSelected}
+                timeout='auto'
+              >
+                {collapsedItems.map((Item, index) => (
+                  <Item key={`${to}-collapsed-item-${index}`} />
+                ))}
+              </Collapse>
+            )}
+          </React.Fragment>
+        )
+      })}
   </List>
 )
 

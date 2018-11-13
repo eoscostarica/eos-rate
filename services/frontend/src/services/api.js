@@ -26,9 +26,8 @@ const http = method => (endpoint, body, options = {}) => {
 
   return fetch(`${process.env.REACT_APP_API_URL}/${endpoint}`, params)
     .then(response => response.json().then(payload => ({ payload, response })))
-    .then(
-      ({ response, payload }) =>
-        response.ok ? payload : Promise.reject(payload)
+    .then(({ response, payload }) =>
+      response.ok ? payload : Promise.reject(payload)
     )
 }
 
