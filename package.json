@@ -7,10 +7,6 @@
   "author": "eoscostarica.io",
   "license": "MIT",
   "private": false,
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-shell": "^0.6.5"
-  },
   "scripts": {
     "cleos": "yarn cleos:eos-producer",
     "cleos:eos-producer": "SERVICE=eos-producer ./scripts/cleos.sh",
