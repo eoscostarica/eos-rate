@@ -9,6 +9,8 @@ import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
 import ShareIcon from '@material-ui/icons/Share'
+import AccountBox from '@material-ui/icons/AccountBox'
+import { Link } from '@reach/router'
 
 import comparisonParameters from 'config/comparison-parameters'
 import BlockProducerRadar from 'components/block-producer-radar'
@@ -66,6 +68,13 @@ const BlockProducerCard = ({
       <IconButton aria-label='Share'>
         <ShareIcon />
       </IconButton>
+      <Link
+        to={`/block-producer-profile/${blockProducer.producer_account_name}`}
+      >
+        <IconButton>
+          <AccountBox />
+        </IconButton>
+      </Link>
     </CardActions>
   </Card>
 )
