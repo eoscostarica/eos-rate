@@ -12,6 +12,8 @@ import App from './app'
 import i18n from './i18n'
 import * as serviceWorker from './serviceWorker'
 
+import './config/radar'
+
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate persistor={getPersistor()}>
