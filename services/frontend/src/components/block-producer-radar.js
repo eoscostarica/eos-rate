@@ -8,10 +8,15 @@ const BlockProducerRadar = ({ bpData, ...props }) => (
       ...bpData
     })}
     options={{
-      legend: false,
+      chartArea: {
+        backgroundColor: '#484656',
+        strokeColor: '#b1afad',
+        lineWidth: 4
+      },
       scale: {
-        gridLines: { color: 'white', circular: true },
-        angleLines: { color: 'white' },
+        ticks: { display: false },
+        gridLines: { color: '#6e6b81', lineWidth: 4, circular: true },
+        angleLines: { color: '#6e6b81', lineWidth: 4 },
         pointLabels: { fontColor: 'white' }
       }
     }}
