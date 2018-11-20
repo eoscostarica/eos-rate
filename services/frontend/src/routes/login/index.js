@@ -2,7 +2,7 @@ import React from 'react'
 import * as yup from 'yup'
 import { Redux } from 'redux-render'
 import { Formik, Form } from 'formik'
-import { translate } from 'react-i18next'
+import { withNamespaces } from 'react-i18next'
 import PropTypes from 'prop-types'
 import TextField from 'components/textField'
 import Button from 'components/button'
@@ -62,4 +62,4 @@ Login.propTypes = {
   t: PropTypes.func.isRequired
 }
 
-export default translate('translations')(Login)
+export default withNamespaces('translations')(Login)
