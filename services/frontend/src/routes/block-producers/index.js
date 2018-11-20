@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Redux } from 'redux-render'
 import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
-import { translate } from 'react-i18next'
+import { withNamespaces } from 'react-i18next'
 import Component from '@reach/component-component'
 
 import BlockProducerCard from 'components/block-producer-card'
@@ -94,6 +94,6 @@ AllBps.propTypes = {
   // t: PropTypes.func.isRequired
 }
 
-export default withStyles(style)(translate('translations')(AllBps))
+export default withStyles(style)(withNamespaces('translations')(AllBps))
 
 export const blockProducersDrawer = [FilterBox]

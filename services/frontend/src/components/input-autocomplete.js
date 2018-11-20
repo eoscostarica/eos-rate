@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { translate } from 'react-i18next'
+import { withNamespaces } from 'react-i18next'
 import { Redux } from 'redux-render'
 import Highlight from 'react-highlighter'
 import Autosuggest from 'react-autosuggest'
@@ -198,4 +198,6 @@ InputAutocomplete.propTypes = {
   t: PropTypes.func.isRequired
 }
 
-export default withStyles(style)(translate('translations')(InputAutocomplete))
+export default withStyles(style)(
+  withNamespaces('translations')(InputAutocomplete)
+)
