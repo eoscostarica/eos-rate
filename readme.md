@@ -26,7 +26,7 @@
 </p>
 <br/>
 
-# A Rating System and Votign Portal for the EOS Community
+# A Rating System and Voting Portal for the EOS Community
 
 EOS Rate is a community-driven visual rating tool that allows EOS token holders to easily rate Block Producers in distinct categories.
 
