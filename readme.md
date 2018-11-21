@@ -96,9 +96,11 @@ https://scene.zeplin.io/project/5a58ea3341f76658994e000c
 
 ## Architecture
 
-This project will use EOS Local architecture.
-There's a open issue to make that integration as soon EOS Local v1 is released.
-Currently you will only find the ReactJS Client code in this repository.
+This project is based on our [EOS Local](https://github.com/eoscostarica/eos-local) architecture.
+
+<p align="center">
+	<img src="https://github.com/eoscostarica/eos-local/raw/master/docs/EOS-Local-Architecture2.png" width="600">
+</p>
 
 ## Get Started
 
