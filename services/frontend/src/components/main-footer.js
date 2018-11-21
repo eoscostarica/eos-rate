@@ -10,10 +10,9 @@ import GithubIcon from 'components/github-icon'
 
 const styles = theme => ({
   root: {
-    top: 'auto',
+    position: 'static',
     bottom: 0,
-    flexGrow: 1,
-    zIndex: 10000
+    top: 'auto'
   },
   grow: {
     flexGrow: 1
@@ -29,7 +28,7 @@ const styles = theme => ({
 })
 
 const MainFooter = ({ classes, ...props }) => (
-  <AppBar position='fixed' className={classes.root}>
+  <AppBar className={classes.root}>
     <Toolbar>
       <a
         href='https://eoscostarica.io'
