@@ -25,7 +25,11 @@ const styles = theme => ({
   content: {
     overflow: 'scroll',
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default
+    backgroundColor: theme.palette.background.default,
+    position: 'relative'
+  },
+  contentWrapper: {
+    minHeight: 'calc(100vh - 128px)'
   }
 })
 
@@ -54,9 +58,9 @@ class Layout extends Component {
         </Hidden>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {children}
+          <div className={classes.contentWrapper}>{children}</div>
+          <MainFooter />
         </main>
-        <MainFooter />
       </div>
     )
   }
