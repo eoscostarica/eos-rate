@@ -37,8 +37,8 @@ services:
         aliases:
           - pgweb.eosrate.io
 
-  graphql-engine:
-    image: hasura/graphql-engine
+  hasura:
+    image: hasura/graphql-engine:v1.0.0-alpha29.cli-migrations
     ports:
       - "8088:8080"
     depends_on:
@@ -46,8 +46,10 @@ services:
     restart: always
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
-      VIRTUAL_HOST: graphql-engine.eosrate.io
-      VIRTUAL_PORT: 8088
+      HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
+      VIRTUAL_HOST: hasura.eosrate.io
+    volumes:
+      - ./services/hasura/migrations:/hasura-migrations #  mount hasura migrations folder
     command:
       - graphql-engine
       - serve
@@ -55,7 +57,7 @@ services:
     networks:
       eosrate:
         aliases:
-          - graphql-engine.eosrate.io
+          - hasura.eosrate.io
 
   flyway:
     image: boxfuse/flyway:5.2.1
