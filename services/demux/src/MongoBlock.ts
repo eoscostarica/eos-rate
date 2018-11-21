@@ -1,28 +1,28 @@
-import { Block, BlockInfo } from "demux";
-import { EosAction } from "demux-eos";
+import { Block, BlockInfo } from "demux"
+import { EosAction } from "demux-eos"
 
 export class MongoBlock implements Block {
-  public actions: EosAction[];
-  public blockInfo: BlockInfo;
+  public actions: EosAction[]
+  public blockInfo: BlockInfo
 
   constructor(rawBlock: any) {
-    this.actions = this.collectActionsFromBlock(rawBlock);
+    this.actions = this.collectActionsFromBlock(rawBlock)
     this.blockInfo = {
       blockNumber: rawBlock.block_num,
       blockHash: rawBlock.block_id,
       previousBlockHash: rawBlock.block.previous,
       timestamp: new Date(rawBlock.block.timestamp)
-    };
+    }
   }
 
   public addInlineActions(transactionTraces: any): void {
     const newActions = this.actions.map(action => {
-      console.info(transactionTraces);
+      console.info(transactionTraces)
 
-      const transaction = transactionTraces.find((trx: any) => trx.id === action.payload.transactionId);
+      const transaction = transactionTraces.find((trx: any) => trx.id === action.payload.transactionId)
 
       if (transaction) {
-        const actionTrace = transaction.action_traces.find(({ act }: any) => action.type === `${act.account}::${act.name}`);
+        const actionTrace = transaction.action_traces.find(({ act }: any) => action.type === `${act.account}::${act.name}`)
 
         if (actionTrace) {
           return {
@@ -31,14 +31,14 @@ export class MongoBlock implements Block {
               ...action.payload,
               inlineActions: actionTrace.inline_traces
             }
-          };
+          }
         }
       }
 
-      return action;
-    });
+      return action
+    })
 
-    this.actions = newActions;
+    this.actions = newActions
   }
 
   protected collectActionsFromBlock(rawBlock: any = { actions: [] }): EosAction[] {
@@ -54,13 +54,13 @@ export class MongoBlock implements Block {
                 actionIndex: 0
               }
             }
-          ];
+          ]
         }
 
         return trx.transaction.actions.map((action: any, actionIndex: number) => {
           // Delete unneeded hex data if we have deserialized data
           if (action.payload) {
-            delete action.hex_data; // eslint-disable-line
+            delete action.hex_data // eslint-disable-line
           }
 
           return {
@@ -70,13 +70,13 @@ export class MongoBlock implements Block {
               transactionId: trx.id,
               ...action
             }
-          };
-        });
+          }
+        })
       })
-    );
+    )
   }
 
   private flattenArray(arr: any[]): any[] {
-    return arr.reduce((flat, toFlatten) => flat.concat(Array.isArray(toFlatten) ? this.flattenArray(toFlatten) : toFlatten), []);
+    return arr.reduce((flat, toFlatten) => flat.concat(Array.isArray(toFlatten) ? this.flattenArray(toFlatten) : toFlatten), [])
   }
 }
