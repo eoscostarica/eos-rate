@@ -4,8 +4,9 @@ import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
-import ShareIcon from '@material-ui/icons/Share'
-import SendIcon from '@material-ui/icons/Send'
+
+import TelegramIcon from 'components/telegram-icon'
+import GithubIcon from 'components/github-icon'
 
 const styles = theme => ({
   root: {
@@ -42,11 +43,15 @@ const MainFooter = ({ classes, ...props }) => (
         />
       </a>
       <div className={classes.grow} />
-      <IconButton color='inherit'>
-        <ShareIcon />
+      <IconButton
+        href='https://github.com/eoscostarica'
+        target='_blank'
+        color='inherit'
+      >
+        <GithubIcon />
       </IconButton>
-      <IconButton color='inherit'>
-        <SendIcon />
+      <IconButton href='https://t.me/eoscr' target='_blank' color='inherit'>
+        <TelegramIcon />
       </IconButton>
     </Toolbar>
   </AppBar>
