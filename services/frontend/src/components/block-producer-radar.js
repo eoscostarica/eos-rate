@@ -9,6 +9,11 @@ const BlockProducerRadar = ({ bpData, ...props }) => (
     })}
     options={{
       legend: { display: false },
+      layout: {
+        padding: {
+          bottom: 10
+        }
+      },
       chartArea: {
         backgroundColor: '#484656',
         strokeColor: '#b1afad',
