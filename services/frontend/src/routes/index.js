@@ -1,5 +1,6 @@
 import Home from './home'
 import Account from './account'
+import ProfilePage from './block-producers/block-producer-profile'
 import AllBps, { blockProducersDrawer } from './block-producers'
 import Settings from './settings'
 
@@ -23,5 +24,9 @@ export default [
   {
     path: '/account',
     Component: Account
+  },
+  {
+    path: 'block-producer-profile/:account',
+    Component: ProfilePage
   }
 ]
