@@ -9,7 +9,6 @@ import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
-import ShareIcon from '@material-ui/icons/Share'
 import AccountBox from '@material-ui/icons/AccountBox'
 import InfoIcon from '@material-ui/icons/Info'
 
