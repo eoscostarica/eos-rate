@@ -10,9 +10,9 @@ module.exports = {
       ignore_watch: ["node_modules", "./src/services"]
     },
     {
-      name: "postgraphile",
+      name: "data-cleaner",
       exec_interpreter: "ts-node",
-      script: "./src/services/postgraphile.ts",
+      script: "./src/services/data-cleaner.ts",
       restart_delay: 5000,
       min_uptime: "20s",
       max_restarts: 5,
@@ -23,9 +23,9 @@ module.exports = {
       }
     },
     {
-      name: "data-cleaner",
-      exec_interpreter: "ts-node",
-      script: "./src/services/data-cleaner.ts",
+      name: "update-bps",
+      exec_interpreter: "node",
+      script: "./src/services/update-bps/index.js",
       restart_delay: 5000,
       min_uptime: "20s",
       max_restarts: 5,

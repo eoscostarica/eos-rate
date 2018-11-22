@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
@@ -10,6 +11,8 @@ import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
 import ShareIcon from '@material-ui/icons/Share'
 import AccountBox from '@material-ui/icons/AccountBox'
+import InfoIcon from '@material-ui/icons/Info'
+
 import { Link } from '@reach/router'
 
 import comparisonParameters from 'config/comparison-parameters'
@@ -17,8 +20,13 @@ import BlockProducerRadar from 'components/block-producer-radar'
 
 const styles = theme => ({
   card: {},
+  title: {
+    textDecoration: 'none',
+    color: '#ffffff'
+  },
   actions: {
-    display: 'flex'
+    display: 'flex',
+    justifyContent: 'space-between'
   },
   radar: {
     background: theme.palette.primary.dark,
@@ -44,7 +52,16 @@ const BlockProducerCard = ({
           BP
         </Avatar>
       }
-      title={blockProducer.org.candidate_name}
+      title={
+        <a
+          target='_blank'
+          href={blockProducer.org.website}
+          className={classes.title}
+          rel='noopener noreferrer'
+        >
+          {blockProducer.org.candidate_name}
+        </a>
+      }
       subheader={blockProducer.producer_account_name}
     />
     <div className={classes.radar}>
@@ -65,8 +82,13 @@ const BlockProducerCard = ({
       >
         {isSelected ? <RemoveIcon /> : <AddIcon />}
       </IconButton>
-      <IconButton aria-label='Share'>
-        <ShareIcon />
+      <IconButton
+        aria-label='Info'
+        href={blockProducer.org.website}
+        target='_blank'
+        rel='noopener noreferrer'
+      >
+        <InfoIcon />
       </IconButton>
       <Link
         to={`/block-producer-profile/${blockProducer.producer_account_name}`}
