@@ -52,6 +52,7 @@ const BlockProducerCard = ({
           target='_blank'
           href={blockProducer.org.website}
           className={classes.title}
+          rel='noopener noreferrer'
         >
           {blockProducer.org.candidate_name}
         </a>
@@ -80,6 +81,7 @@ const BlockProducerCard = ({
         aria-label='Info'
         href={blockProducer.org.website}
         target='_blank'
+        rel='noopener noreferrer'
       >
         <InfoIcon />
       </IconButton>
