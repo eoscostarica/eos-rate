@@ -4,9 +4,13 @@ import { withStyles } from '@material-ui/core/styles'
 import { Link } from '@reach/router'
 import { KeyboardArrowLeft, AccountCircle } from '@material-ui/icons'
 import { Button, Grid, Typography, IconButton, Paper } from '@material-ui/core'
-// import BlockProducerCard from 'components/block-producer-card'
+import BlockProducerRadar from 'components/block-producer-radar'
+import bpParameters from 'config/comparison-parameters'
 
 const styles = theme => ({
+  container: {
+    padding: 10
+  },
   bpName: {
     marginLeft: 6
   },
@@ -32,7 +36,7 @@ const styles = theme => ({
 })
 
 const ProfilePage = ({ classes, currentBP }) => (
-  <Grid container justify='center' spacing={16}>
+  <Grid container justify='center' spacing={16} className={classes.container}>
     <Grid item xs={12}>
       <Grid container spacing={16} direction='row' alignItems='center'>
         <Link to='/block-producers'>
@@ -57,7 +61,11 @@ const ProfilePage = ({ classes, currentBP }) => (
                 <Grid item xs={4}>
                   <Grid container direction='row' alignItems='center'>
                     <AccountCircle className={classes.accountCircle} />
-                    {/* <Typography variant='title' className={classes.bpName}>{currentBP[0].producer_account_name}</Typography> */}
+                    {currentBP.length === 1 && (
+                      <Typography variant='title' className={classes.bpName}>
+                        {currentBP[0].producer_account_name || ''}
+                      </Typography>
+                    )}
                   </Grid>
                 </Grid>
                 <Grid item xs={8}>
@@ -172,8 +180,33 @@ const ProfilePage = ({ classes, currentBP }) => (
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={8} style={{ backgroundColor: 'blue' }}>
-              {/* <BlockProducerCard blockProducer={currentBP[0]} /> */}
+            <Grid item xs={8}>
+              {currentBP.length === 1 && (
+                <Grid container direction='column'>
+                  <Grid item xs={12} style={{ backgroundColor: '#000' }}>
+                    <BlockProducerRadar
+                      bpData={{
+                        labels: bpParameters,
+                        datasets: [currentBP[0].data]
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant='subtitle1' className={classes.title}>
+                      From Their Website:
+                    </Typography>
+                    <Typography variant='subtitle1' className={classes.value}>
+                      We believe that technology is only as good as the people
+                      and intentions behind it. We want EOS to be decentralized,
+                      promote freedom, cut, inefficiencies in government, help
+                      sustainable development, secure censorship-resistance,
+                      increase individual sovereignty and advance citizen
+                      advocacy Each of the projects we promote must provide a
+                      “Proof of impact” in the advancement of democracy
+                    </Typography>
+                  </Grid>
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>
