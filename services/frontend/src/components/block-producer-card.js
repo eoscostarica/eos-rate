@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
@@ -8,7 +9,11 @@ import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
+import ShareIcon from '@material-ui/icons/Share'
+import AccountBox from '@material-ui/icons/AccountBox'
 import InfoIcon from '@material-ui/icons/Info'
+
+import { Link } from '@reach/router'
 
 import comparisonParameters from 'config/comparison-parameters'
 import BlockProducerRadar from 'components/block-producer-radar'
@@ -85,6 +90,13 @@ const BlockProducerCard = ({
       >
         <InfoIcon />
       </IconButton>
+      <Link
+        to={`/block-producer-profile/${blockProducer.producer_account_name}`}
+      >
+        <IconButton>
+          <AccountBox />
+        </IconButton>
+      </Link>
     </CardActions>
   </Card>
 )

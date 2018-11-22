@@ -7,7 +7,8 @@ const initialState = {
   filters: {},
   list: [],
   filtered: [],
-  selected: []
+  selected: [],
+  currentBP: []
 }
 
 const blockProducers = {
@@ -47,6 +48,12 @@ const blockProducers = {
         filtered: [...filtered],
         filters: { ...filters }
       }
+    },
+    setCurrentBP (state, bp) {
+      return {
+        ...state,
+        currentBP: bp
+      }
     }
   },
   effects: {
@@ -64,6 +71,12 @@ const blockProducers = {
         filterObjects.filter(filters, state.blockProducers.list),
         filters
       )
+    },
+    async getBP (name, state) {
+      const { blockProducers } = state
+      const { list } = blockProducers
+      const bp = list.filter(b => b.producer_account_name === name)
+      this.setCurrentBP(bp)
     }
   }
 }
