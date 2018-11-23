@@ -19,19 +19,33 @@ Chart.pluginService.register({
       ctx.restore()
     }
   },
-  afterDraw: chart => {
+  beforeDatasetsDraw: chart => {
     const { ctx, scale, config } = chart
     const { xCenter, yCenter, drawingArea: radius } = scale
+
     const strokeColor = get(config, 'options.chartArea.strokeColor', false)
     const lineWidth = get(config, 'options.chartArea.lineWidth', 0)
+    const centerPointColor = get(config, 'options.scale.gridLines.color', false)
 
-    if (strokeColor && lineWidth) {
-      ctx.beginPath()
-      ctx.arc(xCenter, yCenter, radius, 0, Math.PI * 2)
-      ctx.strokeStyle = strokeColor
-      ctx.lineWidth = lineWidth
-      ctx.stroke()
-      ctx.restore()
-    }
+    /** start render dot in the center **/
+    ctx.save()
+    ctx.arc(xCenter, yCenter, radius / 16, 0, Math.PI * 2)
+
+    if (centerPointColor) ctx.fillStyle = centerPointColor
+
+    ctx.fill()
+    /** end to render dot **/
+
+    /** start render external ring **/
+    ctx.beginPath()
+    ctx.arc(xCenter, yCenter, radius, 0, Math.PI * 2)
+
+    if (strokeColor) ctx.strokeStyle = strokeColor
+    if (lineWidth) ctx.lineWidth = lineWidth
+
+    ctx.stroke()
+    /** end render external ring **/
+
+    ctx.restore()
   }
 })
