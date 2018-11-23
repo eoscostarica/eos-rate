@@ -20,11 +20,9 @@
 </p>
 
 <p align="center">
-	<a href="https://eoscostarica.io">
-		<img src="https://cdn.rawgit.com/eoscostarica/assets/574d20a6/logos/eoscolors-transparent.png" width="300">
-	</a>
+	<img src="docs/eosrate-logo-black.png" width="600">
 </p>
-<br/>
+
 
 # A Rating System and Voting Portal for the EOS Community
 
@@ -38,9 +36,6 @@ Each EOS account can submit their rating for each BP as many times as they like 
 
 It will support proxy profile pages and voting.
 
-<p align="center">
-	<img src="logo.png" width="600">
-</p>
 
 ## Feature Roadmap
 
@@ -119,7 +114,12 @@ Contributing Guidelines https://developers.eoscostarica.io/docs/open-source-guid
 Please report bugs big and small by [opening an issue](https://github.com/eoscostarica/eos-rate/issues)
 
 ## About EOS Costa Rica
-
+<p align="center">
+	<a href="https://eoscostarica.io">
+		<img src="https://cdn.rawgit.com/eoscostarica/assets/574d20a6/logos/eoscolors-transparent.png" width="300">
+	</a>
+</p>
+<br/>
 We challenge ourselves to provide the EOS platform with a strong geographical and political diversity by running the most robust EOS Block Producer possible from Costa Rica; We pledge to leverage our talent, experience, and sustainable internet resources to meet such an important challenge.
 
 EOS Costa Rica supports the EOS.io community by maintaining and contributing to open source initiatives, meetups and workshops.
