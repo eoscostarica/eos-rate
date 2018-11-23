@@ -14,12 +14,8 @@ services:
       DB_USER: user
       DB_PASSWORD: pass
       POSTGRES_DB: eosrate
-      VIRTUAL_HOST: postgres.eosrate.io
-      VIRTUAL_PORT: 5432
     networks:
       eosrate:
-        aliases:
-          - postgres.eosrate.io
 
   pgweb:
     image: sosedoff/pgweb:latest
@@ -28,36 +24,10 @@ services:
       - "8081:8081"
     environment:
       DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
-      VIRTUAL_HOST: pgweb.eosrate.io
-      VIRTUAL_PORT: 8081
     depends_on:
       - postgres
     networks:
       eosrate:
-        aliases:
-          - pgweb.eosrate.io
-
-  hasura:
-    image: hasura/graphql-engine:v1.0.0-alpha29.cli-migrations
-    ports:
-      - "8088:8080"
-    depends_on:
-      - postgres
-    restart: always
-    environment:
-      HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
-      HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
-      VIRTUAL_HOST: hasura.eosrate.io
-    volumes:
-      - ./services/hasura/migrations:/hasura-migrations #  mount hasura migrations folder
-    command:
-      - graphql-engine
-      - serve
-      - --enable-console
-    networks:
-      eosrate:
-        aliases:
-          - hasura.eosrate.io
 
   flyway:
     image: boxfuse/flyway:5.2.1
@@ -76,47 +46,16 @@ services:
       - ./.dbdata/.mongo-data:/data/db
     ports:
       - "27017:27017"
-    environment:
-      VIRTUAL_HOST: mongo.eosrate.io
-      VIRTUAL_PORT: 27017
     networks:
       eosrate:
-        aliases:
-          - mongo.eosrate.io
 
-  eos-api-node:
+  eosio:
     build:
-      context: ./services/eos-api-node
-      dockerfile: Dockerfile
-    image: eosrate/eos-api-node
-    stop_grace_period: 3m0s
-    ports:
-      - "8840:8888"
-      - "9840:9876"
-    environment:
-      WAIT_HOSTS: mongo:27017, eos-producer:8888
-      WAIT_HOSTS_TIMEOUT: 60
-      DATA_DIR: /opt/eosio/bin/data-dir
-      VIRTUAL_HOST: eos-api-node.eosrate.io
-      VIRTUAL_PORT: 8888
-    depends_on:
-      - mongo
-      - eos-producer
-    volumes:
-      - "eos-api-node:/opt/eosio/bin/data-dir"
-      - "./services/eos-api-node/config.ini:/opt/eosio/bin/data-dir/config.ini"
-    networks:
-      eosrate:
-        aliases:
-          - api-node.eosrate.io
-
-  eos-producer:
-    build:
-      context: ./services/eos-producer
+      context: ./services/eosio
       dockerfile: Dockerfile
       args:
         symbol: EOS
-    image: eosrate/eos-producer
+    image: eosrate/eosio
     stop_grace_period: 3m0s
     ports:
       - "8888:8888"
@@ -124,22 +63,26 @@ services:
     environment:
       DATA_DIR: /root/data-dir
       CONFIG_DIR: /opt/application/config
-      VIRTUAL_HOST: eos-producer.eosrate.io
-      VIRTUAL_PORT: 8888
     volumes:
-      - eos-producer:/root/data-dir
-      - ./services/eos-producer:/opt/application
+      - eosio-data-volume:/root/data-dir
+      - ./services/eosio:/opt/application
       - ./contracts:/opt/application/contracts
     networks:
       eosrate:
-        aliases:
-          - eos-producer.eosrate.io
 
-  eosiocdt:
-    image: eosio/cdt:v1.4.0
+  eos-wallet:
+    container_name: eos-wallet
+    image: eosio/eos:v1.2.6
+    command: /opt/eosio/bin/keosd --wallet-dir /opt/eosio/bin/data-dir --http-server-address=0.0.0.0:8900 --http-alias=eos-wallet.eosrate:8900 --http-validate-host 0 --verbose-http-errors
+    hostname: eos-wallet
+    expose:
+      - 8900
+    links:
+      - eosio
     volumes:
-      - ./contracts:/opt/eosio/bin/contracts
-    entrypoint: /usr/bin/eosio-cpp
+      - keosd-data-volume:/opt/eosio/bin/data-dir
+    networks:
+      eosrate:
 
   demux:
     build:
@@ -154,7 +97,7 @@ services:
     depends_on:
       - mongo
       - postgres
-      - eos-producer
+      - eosio
     environment:
       DB_USER: user
       DB_PASSWORD: pass
@@ -162,20 +105,35 @@ services:
       DB_NAME: eosrate
       DB_HOST: postgres
       DB_SCHEMA: public
-      CHAIN_HOST: "http://eos-producer:8888"
+      CHAIN_HOST: "http://eosio:8888"
       CHAIN_INIT_BLOCK: 10
       MONGO_URI: "mongodb://mongo:27017"
       MONGO_DB: EOSFN
       WAIT_HOSTS: postgres:5432, mongo:27017
       WAIT_HOSTS_TIMEOUT: 60
-      VIRTUAL_HOST: demux.eosrate.io
-      VIRTUAL_PORT: 3030
     ports:
       - "3030:3030"
     networks:
       eosrate:
-        aliases:
-          - demux.eosrate.io
+
+  hasura:
+    image: hasura/graphql-engine:v1.0.0-alpha30.cli-migrations
+    ports:
+      - "8088:8080"
+    depends_on:
+      - postgres
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
+      HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
+    volumes:
+      - ./services/hasura/migrations:/hasura-migrations #  mount hasura migrations folder
+    command:
+      - graphql-engine
+      - serve
+      - --enable-console
+    networks:
+      eosrate:
 
   admin-mongo:
     image: mrvautin/adminmongo:latest
@@ -185,32 +143,18 @@ services:
       PORT: 8082
       CONN_NAME: api-node-mongo
       DB_HOST: mongo
-      VIRTUAL_HOST: admin-mongo.eosrate.io
+      VIRTUAL_HOST: admin-mongo.local.eosrate.io
       VIRTUAL_PORT: 8082
     depends_on:
       - mongo
-      - eos-api-node
-    networks:
-      eosrate:
-        aliases:
-          - admin-mongo.eosrate.io
-
-  # nginx reverse proxy that allows accesing the services directly on the host machine
-  # the wildcard *.esolocal.io that points to 127.0.0.1,
-  # therefore as long as you can hit the dns server it will redirect all requests to your machine
-  # and nginx-proxy does the internal docker network routing to the right service
-  nginx-proxy:
-    image: jwilder/nginx-proxy:alpine
-    ports:
-      - "80:80"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - eosio
     networks:
       eosrate:
 
 volumes:
-  eos-producer:
-  eos-api-node:
+  eosio-data-volume:
+  keosd-data-volume:
+    external: true
 
 networks:
   eosrate:
