@@ -65,6 +65,7 @@ const BlockProducerCard = ({
     />
     <div className={classes.radar}>
       <BlockProducerRadar
+        height={200}
         bpData={{
           labels: comparisonParameters,
           datasets: [{ ...blockProducer.data }]
