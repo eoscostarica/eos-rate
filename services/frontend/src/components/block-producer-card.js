@@ -90,9 +90,7 @@ const BlockProducerCard = ({
       >
         <InfoIcon />
       </IconButton>
-      <Link
-        to={`/block-producer-profile/${blockProducer.producer_account_name}`}
-      >
+      <Link to={`/block-producers/${blockProducer.producer_account_name}`}>
         <IconButton>
           <AccountBox />
         </IconButton>
