@@ -23,7 +23,6 @@
 	<img src="docs/eosrate-logo-black.png" width="600">
 </p>
 
-
 # A Rating System and Voting Portal for the EOS Community
 
 EOS Rate is a community-driven visual rating tool that allows EOS token holders to easily rate Block Producers in distinct categories.
@@ -35,7 +34,6 @@ It will also provide basic quantitative information, a compare tool, dynamic fil
 Each EOS account can submit their rating for each BP as many times as they like facilitating a "liquid democracy", however, the weighting is independent from the amount the EOS account holds. One account = one submission of equal weight.
 
 It will support proxy profile pages and voting.
-
 
 ## Feature Roadmap
 
@@ -91,15 +89,11 @@ https://scene.zeplin.io/project/5a58ea3341f76658994e000c
 
 ## Architecture
 
-This project is based on our [EOS Local](https://github.com/eoscostarica/eos-local) architecture.
+This project is based on our [Scalable EOS DApp Boilerplate](https://github.com/eoscostarica/eos-dapp-boilerplate) architecture.
 
 <p align="center">
-	<img src="https://github.com/eoscostarica/eos-local/raw/master/docs/EOS-Local-Architecture2.png" width="600">
+	<img src="docs/architecture.png" width="600">
 </p>
-
-## Get Started
-
-This projects uses EOS Local Architecture https://eoslocal.io
 
 ## Contributing
 
@@ -114,6 +108,7 @@ Contributing Guidelines https://developers.eoscostarica.io/docs/open-source-guid
 Please report bugs big and small by [opening an issue](https://github.com/eoscostarica/eos-rate/issues)
 
 ## About EOS Costa Rica
+
 <p align="center">
 	<a href="https://eoscostarica.io">
 		<img src="https://cdn.rawgit.com/eoscostarica/assets/574d20a6/logos/eoscolors-transparent.png" width="300">
