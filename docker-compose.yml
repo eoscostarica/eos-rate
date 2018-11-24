@@ -4,7 +4,7 @@ services:
   postgres:
     image: postgres:10.4
     volumes:
-      - ./.dbdata/.pgsql-data:/var/lib/postgresql/data
+      - ./services/postgres/.dbdata/.pgsql-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     environment:
@@ -14,20 +14,16 @@ services:
       DB_USER: user
       DB_PASSWORD: pass
       POSTGRES_DB: eosrate
-    networks:
-      eosrate:
 
   pgweb:
     image: sosedoff/pgweb:latest
     restart: always
     ports:
-      - "8081:8081"
+      - "8082:8081"
     environment:
       DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
     depends_on:
       - postgres
-    networks:
-      eosrate:
 
   flyway:
     image: boxfuse/flyway:5.2.1
@@ -36,53 +32,6 @@ services:
       - ./services/postgres/migrations:/flyway/sql
     depends_on:
       - postgres
-    networks:
-      eosrate:
-
-  mongo:
-    image: mongo
-    restart: always
-    volumes:
-      - ./.dbdata/.mongo-data:/data/db
-    ports:
-      - "27017:27017"
-    networks:
-      eosrate:
-
-  eosio:
-    build:
-      context: ./services/eosio
-      dockerfile: Dockerfile
-      args:
-        symbol: EOS
-    image: eosrate/eosio
-    stop_grace_period: 3m0s
-    ports:
-      - "8888:8888"
-      - "9830:9876"
-    environment:
-      DATA_DIR: /root/data-dir
-      CONFIG_DIR: /opt/application/config
-    volumes:
-      - eosio-data-volume:/root/data-dir
-      - ./services/eosio:/opt/application
-      - ./contracts:/opt/application/contracts
-    networks:
-      eosrate:
-
-  eos-wallet:
-    container_name: eos-wallet
-    image: eosio/eos:v1.2.6
-    command: /opt/eosio/bin/keosd --wallet-dir /opt/eosio/bin/data-dir --http-server-address=0.0.0.0:8900 --http-alias=eos-wallet.eosrate:8900 --http-validate-host 0 --verbose-http-errors
-    hostname: eos-wallet
-    expose:
-      - 8900
-    links:
-      - eosio
-    volumes:
-      - keosd-data-volume:/opt/eosio/bin/data-dir
-    networks:
-      eosrate:
 
   demux:
     build:
@@ -95,9 +44,7 @@ services:
       - ./services/demux:/opt/application # mount demux service folder
       - /opt/application/node_modules # prevents host/container conflicts
     depends_on:
-      - mongo
       - postgres
-      - eosio
     environment:
       DB_USER: user
       DB_PASSWORD: pass
@@ -114,7 +61,8 @@ services:
     ports:
       - "3030:3030"
     networks:
-      eosrate:
+      default:
+      eoslocal:
 
   hasura:
     image: hasura/graphql-engine:v1.0.0-alpha30.cli-migrations
@@ -132,30 +80,9 @@ services:
       - graphql-engine
       - serve
       - --enable-console
-    networks:
-      eosrate:
-
-  admin-mongo:
-    image: mrvautin/adminmongo:latest
-    ports:
-      - "8082:8082"
-    environment:
-      PORT: 8082
-      CONN_NAME: api-node-mongo
-      DB_HOST: mongo
-      VIRTUAL_HOST: admin-mongo.local.eosrate.io
-      VIRTUAL_PORT: 8082
-    depends_on:
-      - mongo
-      - eosio
-    networks:
-      eosrate:
-
-volumes:
-  eosio-data-volume:
-  keosd-data-volume:
-    external: true
 
 networks:
-  eosrate:
+  default:
     name: eosrate
+  eoslocal:
+    external: true
