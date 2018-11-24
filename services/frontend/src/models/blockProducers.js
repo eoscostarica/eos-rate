@@ -8,12 +8,19 @@ const initialState = {
   list: [],
   filtered: [],
   selected: [],
-  currentBP: []
+  currentBP: [],
+  compareTool: true
 }
 
 const blockProducers = {
   state: initialState,
   reducers: {
+    toggleCompareTool (state) {
+      return {
+        ...state,
+        compareTool: !state.compareTool
+      }
+    },
     setBPs (state, list) {
       // Whenever we get a new list, clear filters
       return {

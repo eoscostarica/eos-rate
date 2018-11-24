@@ -132,8 +132,8 @@ const MainDrawer = ({
         )}
         {variant === 'desktop' && (
           <Drawer
-            variant='permanent'
-            open
+            variant='persistent'
+            open={open}
             classes={{
               paper: classes.drawerPaper
             }}
