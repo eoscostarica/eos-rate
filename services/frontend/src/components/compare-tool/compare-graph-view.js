@@ -59,7 +59,7 @@ const CompareGraphView = ({
       />
     </Grid>
     <Grid item xs={12} md={4}>
-      <Typography variant='title'>{t('compareToolTitle')}</Typography>
+      <Typography variant='h5'>{t('compareToolTitle')}</Typography>
       {selected.map(bp => (
         <div
           className={classes.bpItem}
