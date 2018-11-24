@@ -1,6 +1,6 @@
 import Home from './home'
 import Account from './account'
-import ProfilePage from './block-producers/block-producer-profile'
+import BlockProducerProfile from './block-producers/block-producer-profile'
 import AllBps, { blockProducersDrawer } from './block-producers'
 import Settings from './settings'
 
@@ -17,6 +17,10 @@ export default [
     drawerComponents: blockProducersDrawer
   },
   {
+    path: 'block-producers/:account',
+    Component: BlockProducerProfile
+  },
+  {
     path: '/settings',
     Component: Settings,
     drawerLabel: 'drawerLinkSettings'
@@ -24,9 +28,5 @@ export default [
   {
     path: '/account',
     Component: Account
-  },
-  {
-    path: 'block-producer-profile/:account',
-    Component: ProfilePage
   }
 ]
