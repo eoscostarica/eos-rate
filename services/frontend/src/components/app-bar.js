@@ -31,10 +31,7 @@ const styles = theme => ({
   },
   menuButton: {
     marginLeft: -18,
-    marginRight: 10,
-    [theme.breakpoints.up('md')]: {
-      display: 'none'
-    }
+    marginRight: 10
   },
   search: {
     position: 'relative',

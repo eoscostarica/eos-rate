@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Hidden from '@material-ui/core/Hidden'
+import classnames from 'classnames'
 import MainTopBar from 'components/app-bar'
 import MainDrawer from 'components/main-drawer'
 import MainFooter from 'components/main-footer'
@@ -16,10 +17,12 @@ const styles = theme => ({
     display: 'flex',
     width: '100%'
   },
-  navIconHide: {
-    [theme.breakpoints.up('md')]: {
-      display: 'none'
-    }
+  desktopDrawer: {
+    width: 240,
+    transition: 'width 225ms cubic-bezier(0, 0, 0.2, 1) 0ms'
+  },
+  desktopDrawerHidden: {
+    width: 0
   },
   toolbar: theme.mixins.toolbar,
   content: {
@@ -35,11 +38,10 @@ const styles = theme => ({
 
 class Layout extends Component {
   state = {
-    mobileNavOpen: false
+    isNavOpen: false
   }
 
-  handleDrawerToggle = () =>
-    this.setState({ mobileNavOpen: !this.state.mobileNavOpen })
+  handleDrawerToggle = () => this.setState({ isNavOpen: !this.state.isNavOpen })
 
   render () {
     const { classes, children } = this.props
@@ -49,12 +51,21 @@ class Layout extends Component {
         <Hidden mdUp>
           <MainDrawer
             variant='mobile'
-            open={this.state.mobileNavOpen}
+            open={this.state.isNavOpen}
             onClose={this.handleDrawerToggle}
           />
         </Hidden>
-        <Hidden smDown implementation='css'>
-          <MainDrawer />
+        <Hidden
+          className={classnames(classes.desktopDrawer, {
+            [classes.desktopDrawerHidden]: !this.state.isNavOpen
+          })}
+          smDown
+          implementation='css'
+        >
+          <MainDrawer
+            open={this.state.isNavOpen}
+            onClose={this.handleDrawerToggle}
+          />
         </Hidden>
         <main className={classes.content}>
           <div className={classes.toolbar} />
