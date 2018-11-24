@@ -1,6 +1,7 @@
 {
   "translations": {
     "compareToolTitle": "Herramienta de comparación",
+    "compareToolToggle": "Comparar",
     "compareToolCollapsedSwitch": "Colapsar Gráficos",
 
     "loginUsername": "Nombre de usuario",
