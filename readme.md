@@ -39,7 +39,7 @@ It will support proxy profile pages and voting.
 
 ## Feature Roadmap
 
-Version 1.0 ( November 30 )
+**Version 1.0** ( November 30 )
 
 - List and Search Block Producers.
 - Scatter and Lynx Integration.
@@ -52,7 +52,7 @@ Version 1.0 ( November 30 )
 - Home page with explanation and instructions.
 - Languages: English & Spanish.
 
-Version 1.2
+**Version 1.2**
 
 - Ability to Vote for a block producer directly on their profile page.
 - Add comments when rating. ( review, like Yelp )
@@ -61,7 +61,7 @@ Version 1.2
   - by Strengths: transparency, community, infrastructure, testnets, tooling.
   - by Region.
 
-Version 1.3
+**Version 1.3**
 
 - List and search proxies.
 - Proxies landing page with:
@@ -69,12 +69,12 @@ Version 1.3
   - Proxy Info from the [eos-proxyinfo](https://github.com/AlohaEOS/eos-proxyinfo) contract.
   - Ability to vote for the proxy.
 
-Version 1.4
+**Version 1.4**
 
 - Filtering proxies list. ( tbd which attributes will be used for filtering )
 - Ability to vote for multiple producers at the same from the BP Comparison tool.
 
-Version 1.5
+**Version 1.5**
 
 - Earn tokens by rating. ( maybe something like Karma )
 - Server Side Rendering
