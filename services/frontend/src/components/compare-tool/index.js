@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Component from '@reach/component-component'
-import { translate } from 'react-i18next'
+import { withNamespaces } from 'react-i18next'
 import { withStyles } from '@material-ui/core/styles'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
@@ -96,4 +96,4 @@ CompareTool.defaultProps = {
   className: ''
 }
 
-export default withStyles(styles)(translate('translations')(CompareTool))
+export default withStyles(styles)(withNamespaces('translations')(CompareTool))

@@ -32,7 +32,7 @@ const style = theme => ({
 
 const CompareSliderView = ({ classes, selected, className, t, ...props }) => (
   <div className={[classes.root, className].join(' ')}>
-    <Typography className={classes.title} variant='title'>
+    <Typography className={classes.title} variant='h5'>
       {t('compareToolTitle')}
     </Typography>
     <div className={classes.slider}>
