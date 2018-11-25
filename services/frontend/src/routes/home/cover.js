@@ -42,7 +42,7 @@ const HomeCover = ({ classes, t, blockProducer }) => (
     </Grid>
 
     <Grid item xs={12} md={6}>
-      <Typography variant='headline' className={classes.title}>
+      <Typography variant='h5' className={classes.title}>
         {t('cover.title')}
       </Typography>
 
