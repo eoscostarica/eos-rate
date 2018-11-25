@@ -2,12 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 let randomId = 0
-const Video = ({ src, ...pros }) => (
+const Video = ({ ...pros }) => (
   <iframe
     title={'unique' + randomId++}
     width='100%'
     height='100%'
-    src={src}
     frameBorder='0'
     allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
     allowFullScreen
@@ -16,7 +15,7 @@ const Video = ({ src, ...pros }) => (
 )
 
 Video.propTypes = {
-  src: PropTypes.string.required
+  src: PropTypes.string.isRequired
 }
 
 export default Video
