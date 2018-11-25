@@ -2,6 +2,7 @@ version: "3.5"
 
 services:
   postgres:
+    container_name: eosrate_postgres
     image: postgres:10.4
     volumes:
       - ./services/postgres/.dbdata/.pgsql-data:/var/lib/postgresql/data
@@ -16,6 +17,7 @@ services:
       POSTGRES_DB: eosrate
 
   pgweb:
+    container_name: eosrate_pgweb
     image: sosedoff/pgweb:latest
     restart: always
     ports:
@@ -26,6 +28,7 @@ services:
       - postgres
 
   flyway:
+    container_name: eosrate_flyway
     image: boxfuse/flyway:5.2.1
     command: -url=jdbc:postgresql://postgres:5432/eosrate -user=user -password=pass -connectRetries=60 migrate
     volumes:
@@ -34,6 +37,7 @@ services:
       - postgres
 
   demux:
+    container_name: eosrate_demux
     build:
       context: ./services/demux
       dockerfile: ./Dockerfile
@@ -65,6 +69,7 @@ services:
       eoslocal:
 
   hasura:
+    container_name: eosrate_hasura
     image: hasura/graphql-engine:v1.0.0-alpha30.cli-migrations
     ports:
       - "8088:8080"
