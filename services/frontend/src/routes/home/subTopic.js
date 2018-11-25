@@ -56,7 +56,7 @@ const SubTopic = ({ classes, t }) => (
 )
 
 SubTopic.propTypes = {
-  classes: PropTypes.object.required,
+  classes: PropTypes.object.isRequired,
   t: PropTypes.func.isRequired
 }
 
