@@ -84,12 +84,12 @@ const AllBps = ({ classes, ...props }) => (
                     sm={6}
                     md={4}
                     key={`${
-                      blockProducer.producer_account_name
+                      blockProducer.bpjson.producer_account_name
                     }-main-block-card`}
                   >
                     <BlockProducerCard
                       isSelected={selectedBPs.includes(
-                        blockProducer.producer_account_name
+                        blockProducer.bpjson.producer_account_name
                       )}
                       toggleSelection={(
                         isAdding,
