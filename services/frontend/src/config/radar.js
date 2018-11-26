@@ -1,51 +1,60 @@
 import { Chart } from 'react-chartjs-2'
 import get from 'lodash.get'
 
+function renderBackgroundColor (chart) {
+  const { ctx, scale, config } = chart
+  const { xCenter, yCenter, drawingArea: radius } = scale
+  const backgroundColor = get(
+    config,
+    'options.chartArea.backgroundColor',
+    false
+  )
+
+  ctx.save()
+  ctx.arc(xCenter, yCenter, radius, 0, Math.PI * 2)
+
+  if (backgroundColor) ctx.fillStyle = backgroundColor
+
+  ctx.fill()
+  ctx.restore()
+}
+
+function renderCenterDot (ctx, config, scale) {
+  const { xCenter, yCenter, drawingArea: radius } = scale
+
+  const centerDotColor = get(config, 'options.scale.gridLines.color', false)
+
+  ctx.save()
+  ctx.arc(xCenter, yCenter, radius / 16, 0, Math.PI * 2)
+
+  if (centerDotColor) ctx.fillStyle = centerDotColor
+
+  ctx.fill()
+  ctx.restore()
+}
+
+function renderPerimeter (ctx, config, scale) {
+  const { xCenter, yCenter, drawingArea: radius } = scale
+
+  const strokeColor = get(config, 'options.chartArea.strokeColor', false)
+  const lineWidth = get(config, 'options.chartArea.lineWidth', 0)
+
+  ctx.beginPath()
+  ctx.arc(xCenter, yCenter, radius, 0, Math.PI * 2)
+
+  if (strokeColor) ctx.strokeStyle = strokeColor
+  if (lineWidth) ctx.lineWidth = lineWidth
+
+  ctx.stroke()
+  ctx.restore()
+}
+
 Chart.pluginService.register({
-  beforeDraw: chart => {
-    const { ctx, scale, config } = chart
-    const { xCenter, yCenter, drawingArea: radius } = scale
-    const backgroundColor = get(
-      config,
-      'options.chartArea.backgroundColor',
-      false
-    )
-
-    if (backgroundColor) {
-      ctx.save()
-      ctx.arc(xCenter, yCenter, radius, 0, Math.PI * 2)
-      ctx.fillStyle = config.options.chartArea.backgroundColor
-      ctx.fill()
-      ctx.restore()
-    }
-  },
+  beforeDraw: renderBackgroundColor,
   beforeDatasetsDraw: chart => {
-    const { ctx, scale, config } = chart
-    const { xCenter, yCenter, drawingArea: radius } = scale
+    const { ctx, config, scale } = chart
 
-    const strokeColor = get(config, 'options.chartArea.strokeColor', false)
-    const lineWidth = get(config, 'options.chartArea.lineWidth', 0)
-    const centerPointColor = get(config, 'options.scale.gridLines.color', false)
-
-    /** start render dot in the center **/
-    ctx.save()
-    ctx.arc(xCenter, yCenter, radius / 16, 0, Math.PI * 2)
-
-    if (centerPointColor) ctx.fillStyle = centerPointColor
-
-    ctx.fill()
-    /** end to render dot **/
-
-    /** start render external ring **/
-    ctx.beginPath()
-    ctx.arc(xCenter, yCenter, radius, 0, Math.PI * 2)
-
-    if (strokeColor) ctx.strokeStyle = strokeColor
-    if (lineWidth) ctx.lineWidth = lineWidth
-
-    ctx.stroke()
-    /** end render external ring **/
-
-    ctx.restore()
+    renderCenterDot(ctx, config, scale)
+    renderPerimeter(ctx, config, scale)
   }
 })
