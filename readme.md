@@ -35,6 +35,55 @@ Each EOS account can submit their rating for each BP as many times as they like 
 
 It will support proxy profile pages and voting.
 
+## Getting started
+
+Basic knowledge about Docker, Docker Compose, EOS and NodeJS is required.
+
+- Video tutorial [Docker Containers | Learn Docker Basics in 30 Mins](https://www.youtube.com/watch?v=0kwXLcwUw0Q)
+
+**Global Dependencies**
+
+- Docker https://docs.docker.com/install/.  
+  At least 10GB RAM (Docker -> Preferences -> Advanced -> Memory -> 10GB or above)
+
+## Local Development - Manual Smart Contract Deploy
+
+Make sure you are running [EOSLOCAL](https://github.com/eoscostarica/eos-local).
+
+`docker ps` will show in your console like:
+
+```
+CONTAINER ID        IMAGE   COMMAND     CREATED     STATUS     PORTS      NAMES
+e5b53cc3b51c        ...     ...         ...         ...        ...        eoslocal_eos-wallet
+4194888a9b2f        ...     ...         ...         ...        ...        eoslocal_nginx-proxy
+de3ed242d357        ...     ...         ...         ...        ...        eoslocal_ipfs
+e17e30af7d58        ...     ...         ...         ...        ...        eoslocal_eosio
+d89f72110588        ...     ...         ...         ...        ...        eoslocal_mongo
+```
+
+So,
+
+```
+# check eoslocal cleos alias
+alias cleos='docker exec -i eoslocal_eosio cleos -u http://eosio:8888 --wallet-url http://eos-wallet:8901'
+
+docker cp ./contracts/eosrate eoslocal_eosio:/opt/application/contracts/eosrate
+docker exec -it eoslocal_eosio chmod +x /opt/application/contracts/eosrate/build.sh
+docker exec -it eoslocal_eosio /opt/application/contracts/eosrate/build.sh
+docker exec -it eoslocal_eosio /opt/application/scripts/unlock.sh
+
+// Create contract account using eoslocalusra PUBLIC KEY
+cleos create account eosio eosrate EOS5k6Jht1epqZ2mnRLFVDXDTosaTneR6xFhvenVLiFfz5Ue125dL -p eosio@active
+
+// deploy account
+cleos set contract eosrate /opt/application/contracts/eosrate -p eosrate@active
+
+// TEST contract
+cleos push action eosrate upsert '{"rater_account":"eoslocalusra", "json": "{\"costaricaeos\":{\"transparency\":9,\"testnets\":8,\"tooling\":3,\"infra\":6,\"community\":10},\"alohaeos\":{\"transparency\":10,\"testnets\":8,\"tooling\":7,\"infra\":6,\"community\":10}}"}' -p eoslocalusra@active
+
+cleos get table eosrate eosrate rates --lower eoslocalusra --limit 100
+```
+
 ## Feature Roadmap
 
 **Version 1.0** ( November 30 )
