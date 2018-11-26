@@ -1,6 +1,6 @@
 import filterObjects from 'filter-objects'
 import uniq from 'lodash.uniq'
-import { findBPs } from 'services/bps'
+import { getAllBPs } from 'services/bps'
 import getBPRadarData from 'utils/getBPRadarData'
 
 const initialState = {
@@ -58,11 +58,14 @@ const blockProducers = {
   },
   effects: {
     async getBPs () {
-      const blockProducers = await findBPs()
+      const blockProducers = await getAllBPs()
       this.setBPs(
         blockProducers.map(blockProducer => ({
           ...blockProducer,
-          data: getBPRadarData(blockProducer)
+          data: getBPRadarData({
+            ...blockProducer.bpjson,
+            parameters: blockProducer.system.parameters
+          })
         }))
       )
     },

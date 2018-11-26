@@ -63,7 +63,7 @@ const CompareGraphView = ({
       {selected.map(bp => (
         <div
           className={classes.bpItem}
-          key={`bp-list-name-${bp.producer_account_name}`}
+          key={`bp-list-name-${bp.bpjson.producer_account_name}`}
         >
           <div className={classes.bpNameWrapper}>
             <Avatar
@@ -72,11 +72,11 @@ const CompareGraphView = ({
               style={{ backgroundColor: bp.data.pointBackgroundColor }}
             />
             <Typography className={classes.bpName} component='span'>
-              {bp.producer_account_name}
+              {bp.bpjson.producer_account_name}
             </Typography>
           </div>
           <IconButton
-            onClick={removeBP(bp.producer_account_name)}
+            onClick={removeBP(bp.bpjson.producer_account_name)}
             aria-label='Remove block producer'
           >
             <CloseIcon />
