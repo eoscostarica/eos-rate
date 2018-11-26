@@ -20,8 +20,9 @@ export const getAllBPs = async () => {
   })
   return producers.map(producer => ({
     ...producer,
+    bpjson: JSON.parse(producer.bpjson),
     system: {
-      ...producer.system,
+      ...JSON.parse(producer.system),
       parameters: {
         infrastructure: getRandomParameter(),
         tooling: getRandomParameter(),
