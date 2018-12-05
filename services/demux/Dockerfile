@@ -9,6 +9,7 @@ RUN apk add --no-cache bash
 RUN apk add --no-cache vim
 RUN apk add --no-cache postgresql-client
 RUN yarn global add pm2
+RUN yarn add global typescript
 
 # Install pm2 modules
 RUN pm2 install typescript
