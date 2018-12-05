@@ -11,6 +11,7 @@ import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
 import AccountBox from '@material-ui/icons/AccountBox'
 import InfoIcon from '@material-ui/icons/Info'
+import _get from 'lodash.get'
 
 import { Link } from '@reach/router'
 
@@ -48,7 +49,11 @@ const BlockProducerCard = ({
     <CardHeader
       avatar={
         <Avatar aria-label='Block Producer' className={classes.avatar}>
-          BP
+          <img
+            src={_get(blockProducer, 'bpjson.org.branding.logo_256') || 'BP'}
+            alt=''
+            width='100%'
+          />
         </Avatar>
       }
       title={
