@@ -54,14 +54,14 @@ const BlockProducerCard = ({
       title={
         <a
           target='_blank'
-          href={blockProducer.org.website}
+          href={blockProducer.bpjson.org.website}
           className={classes.title}
           rel='noopener noreferrer'
         >
-          {blockProducer.org.candidate_name}
+          {blockProducer.bpjson.org.candidate_name}
         </a>
       }
-      subheader={blockProducer.producer_account_name}
+      subheader={blockProducer.bpjson.producer_account_name}
     />
     <div className={classes.radar}>
       <BlockProducerRadar
@@ -77,20 +77,22 @@ const BlockProducerCard = ({
         aria-label='Add to comparison'
         onClick={toggleSelection(
           !isSelected,
-          blockProducer.producer_account_name
+          blockProducer.bpjson.producer_account_name
         )}
       >
         {isSelected ? <RemoveIcon /> : <AddIcon />}
       </IconButton>
       <IconButton
         aria-label='Info'
-        href={blockProducer.org.website}
+        href={blockProducer.bpjson.org.website}
         target='_blank'
         rel='noopener noreferrer'
       >
         <InfoIcon />
       </IconButton>
-      <Link to={`/block-producers/${blockProducer.producer_account_name}`}>
+      <Link
+        to={`/block-producers/${blockProducer.bpjson.producer_account_name}`}
+      >
         <IconButton>
           <AccountBox />
         </IconButton>

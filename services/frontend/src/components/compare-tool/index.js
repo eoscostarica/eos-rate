@@ -43,7 +43,7 @@ const CompareTool = ({
     {({ setState, state }) => {
       const selectedBlockProducers = selected.map(bpName =>
         bpList.find(
-          ({ producer_account_name: producerAccountName }) =>
+          ({ bpjson: { producer_account_name: producerAccountName } }) =>
             bpName === producerAccountName
         )
       )
