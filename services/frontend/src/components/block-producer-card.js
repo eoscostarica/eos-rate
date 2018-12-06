@@ -9,7 +9,6 @@ import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
-import AccountBox from '@material-ui/icons/AccountBox'
 import InfoIcon from '@material-ui/icons/Info'
 import _get from 'lodash.get'
 
@@ -46,28 +45,35 @@ const BlockProducerCard = ({
   ...props
 }) => (
   <Card className={classes.card}>
-    <CardHeader
-      avatar={
-        <Avatar aria-label='Block Producer' className={classes.avatar}>
-          <img
-            src={_get(blockProducer, 'bpjson.org.branding.logo_256') || 'BP'}
-            alt=''
-            width='100%'
-          />
-        </Avatar>
-      }
-      title={
-        <a
-          target='_blank'
-          href={blockProducer.bpjson.org.website}
-          className={classes.title}
-          rel='noopener noreferrer'
-        >
-          {blockProducer.bpjson.org.candidate_name}
-        </a>
-      }
-      subheader={blockProducer.bpjson.producer_account_name}
-    />
+    <Link
+      to={`/block-producers/${blockProducer.bpjson.producer_account_name}`}
+      style={{
+        textDecoration: 'none'
+      }}
+    >
+      <CardHeader
+        avatar={
+          <Avatar aria-label='Block Producer' className={classes.avatar}>
+            <img
+              src={_get(blockProducer, 'bpjson.org.branding.logo_256') || 'BP'}
+              alt=''
+              width='100%'
+            />
+          </Avatar>
+        }
+        title={
+          <a
+            target='_blank'
+            href={blockProducer.bpjson.org.website}
+            className={classes.title}
+            rel='noopener noreferrer'
+          >
+            {blockProducer.bpjson.org.candidate_name}
+          </a>
+        }
+        subheader={blockProducer.bpjson.producer_account_name}
+      />
+    </Link>
     <div className={classes.radar}>
       <BlockProducerRadar
         height={200}
@@ -87,19 +93,11 @@ const BlockProducerCard = ({
       >
         {isSelected ? <RemoveIcon /> : <AddIcon />}
       </IconButton>
-      <IconButton
-        aria-label='Info'
-        href={blockProducer.bpjson.org.website}
-        target='_blank'
-        rel='noopener noreferrer'
-      >
-        <InfoIcon />
-      </IconButton>
       <Link
         to={`/block-producers/${blockProducer.bpjson.producer_account_name}`}
       >
         <IconButton>
-          <AccountBox />
+          <InfoIcon />
         </IconButton>
       </Link>
     </CardActions>
