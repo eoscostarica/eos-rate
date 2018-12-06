@@ -25,8 +25,8 @@ const getBlockProducersData = async () => {
   const producersData = cleanProducersList.map(bpData => {
     return {
       owner: bpData.owner,
-      system: JSON.stringify(bpData),
-      bpjson: producersBPJSON[bpData.owner][0].json
+      system: bpData,
+      bpjson: JSON.parse(producersBPJSON[bpData.owner][0].json)
     };
   });
   return producersData;
@@ -42,8 +42,8 @@ const updateBlockProducersData = async () => {
     console.log(`try save ${bp.owner}`);
     const bpData = {
       owner: bp.owner,
-      system: JSON.stringify(bp.system),
-      bpjson: JSON.stringify(bp.bpjson)
+      system: bp.system,
+      bpjson: bp.bpjson
     };
     try {
       const result = await db.producers.save(bpData);

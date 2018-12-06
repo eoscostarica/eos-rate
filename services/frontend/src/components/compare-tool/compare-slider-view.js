@@ -38,7 +38,7 @@ const CompareSliderView = ({ classes, selected, className, t, ...props }) => (
     <div className={classes.slider}>
       {selected.map(bp => (
         <div
-          key={`slider-card-${bp.producer_account_name}`}
+          key={`slider-card-${bp.bpjson.producer_account_name}`}
           className={classes.sliderCard}
         >
           <BlockProducerRadar
@@ -48,7 +48,7 @@ const CompareSliderView = ({ classes, selected, className, t, ...props }) => (
             }}
           />
           <Typography variant='subheading' className={classes.bpName}>
-            {bp.producer_account_name}
+            {bp.bpjson.producer_account_name}
           </Typography>
         </div>
       ))}
