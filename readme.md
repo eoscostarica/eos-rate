@@ -147,7 +147,7 @@ d89f72110588        ...     ...         ...         ...        ...        eosloc
 Then make sure you add the eoslocal_eosio alias
 
 ```
-alias cleos='docker exec -i eoslocal_eosio cleos -u http://eosio:8888 --wallet-url http://eos-wallet:8901'
+alias cleos='docker exec -i eoslocal_eosio cleos -u http://eosio:8888 --wallet-url http://wallet:8901'
 ```
 
 Build and deploy EOS Rate contract
