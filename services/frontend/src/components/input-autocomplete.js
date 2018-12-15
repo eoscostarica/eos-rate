@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { withNamespaces } from 'react-i18next'
 import { Redux } from 'redux-render'
+import { navigate } from '@reach/router'
 import Highlight from 'react-highlighter'
 import Autosuggest from 'react-autosuggest'
 import filterObjects from 'filter-objects'
@@ -90,7 +91,11 @@ class InputAutocomplete extends PureComponent {
   }
 
   renderSuggestion = (
-    { org: { candidate_name: suggestion } },
+    {
+      bpjson: {
+        org: { candidate_name: suggestion }
+      }
+    },
     { query, isHighlighted }
   ) => (
     <MenuItem selected={isHighlighted} component='div'>
@@ -104,47 +109,44 @@ class InputAutocomplete extends PureComponent {
     </MenuItem>
   )
 
-  getSuggestions = (list, value) =>
-    filterObjects.filter(
+  getSuggestions = (list, value) => {
+    return filterObjects.filter(
       {
-        org: {
-          candidate_name: new RegExp(`${value.trim()}`, 'gi')
+        bpjson: {
+          org: {
+            candidate_name: new RegExp(`${value.trim()}`, 'gi')
+          }
         }
       },
       list
     )
+  }
 
-  getSuggestionValue = ({ org: { candidate_name: name } }) => name
+  getSuggestionValue = ({
+    bpjson: {
+      org: { candidate_name: name }
+    }
+  }) => name
 
   handleSuggestionsFetchRequested = list => ({ value }) =>
     this.setState({
       suggestions: this.getSuggestions(list, value)
     })
 
-  handleSuggestionsClearRequested = dispatch => () => {
-    this.setState(
-      {
-        suggestions: []
-      },
-      () => {
-        if (this.state.selectedBlockProducer) {
-          dispatch.blockProducers.applyFilter({
-            org: {
-              candidate_name: this.state.selectedBlockProducer
-            }
-          })
-        } else {
-          dispatch.blockProducers.clearFilters()
-        }
-      }
-    )
-  }
+  handleSuggestionsClearRequested = () =>
+    this.setState({
+      selectedBlockProducer: '',
+      suggestions: []
+    })
 
   handleSelectedBlockProducer = dispatch => (event, { newValue }) => {
     this.setState({
       selectedBlockProducer: newValue
     })
   }
+
+  handleSelectedSuggestion = (event, { suggestion }) =>
+    navigate(`/block-producers/${suggestion.bpjson.producer_account_name}`)
 
   render () {
     const { classes, t } = this.props
@@ -160,11 +162,12 @@ class InputAutocomplete extends PureComponent {
             <Autosuggest
               renderInputComponent={this.renderInputComponent}
               suggestions={this.state.suggestions}
+              onSuggestionSelected={this.handleSelectedSuggestion}
               onSuggestionsFetchRequested={event => {
                 this.handleSuggestionsFetchRequested(list)(event)
               }}
               onSuggestionsClearRequested={() =>
-                this.handleSuggestionsClearRequested(dispatch)()
+                this.handleSuggestionsClearRequested()
               }
               getSuggestionValue={this.getSuggestionValue}
               renderSuggestion={this.renderSuggestion}
