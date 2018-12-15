@@ -45,7 +45,9 @@ const style = theme => ({
 const BlockProducerProfile = ({ classes, account, ...props }) => (
   <Redux
     selector={({ blockProducers: { list } }) => ({
-      blockProducer: list.find(bp => bp.producer_account_name === account)
+      blockProducer: list.find(
+        bp => bp.bpjson.producer_account_name === account
+      )
     })}
   >
     {({ blockProducer }) => {
