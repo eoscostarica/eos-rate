@@ -31,8 +31,13 @@ const style = theme => ({
     position: 'absolute',
     zIndex: 1,
     marginTop: theme.spacing.unit,
-    left: 0,
-    right: 0
+    left: '-24px',
+    right: 0,
+    width: '100vw',
+    [theme.breakpoints.up('md')]: {
+      left: 0,
+      width: 'auto'
+    }
   },
   highlightMatch: {
     fontWeight: 600
@@ -46,7 +51,10 @@ const style = theme => ({
     listStyleType: 'none'
   },
   inputAdornment: {
-    margin: '5px 25px'
+    margin: '5px 25px 5px 0',
+    [theme.breakpoints.up('md')]: {
+      margin: '5px 25px'
+    }
   },
   searchIcon: {
     fill: 'white'
@@ -65,10 +73,12 @@ class InputAutocomplete extends PureComponent {
 
   renderInputComponent = inputProps => {
     const { classes, inputRef = () => {}, ref, ...other } = inputProps
+    const { hideSearchIcon, isFocused } = this.props
 
     return (
       <TextField
         fullWidth
+        autoFocus={isFocused}
         InputProps={{
           inputRef: node => {
             ref(node)
@@ -76,7 +86,7 @@ class InputAutocomplete extends PureComponent {
           },
           disableUnderline: true,
           fullWidth: true,
-          startAdornment: (
+          startAdornment: hideSearchIcon ? null : (
             <InputAdornment className={classes.inputAdornment} position='start'>
               <SearchIcon className={classes.searchIcon} />
             </InputAdornment>
@@ -145,8 +155,10 @@ class InputAutocomplete extends PureComponent {
     })
   }
 
-  handleSelectedSuggestion = (event, { suggestion }) =>
+  handleSelectedSuggestion = (event, { suggestion }) => {
     navigate(`/block-producers/${suggestion.bpjson.producer_account_name}`)
+    this.props.onItemSelected()
+  }
 
   render () {
     const { classes, t } = this.props
@@ -198,7 +210,14 @@ class InputAutocomplete extends PureComponent {
 
 InputAutocomplete.propTypes = {
   classes: PropTypes.object.isRequired,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
+  hideSearchIcon: PropTypes.bool,
+  onItemSelected: PropTypes.func,
+  isFocused: PropTypes.bool
+}
+
+InputAutocomplete.defaultProps = {
+  hideSearchIcon: false
 }
 
 export default withStyles(style)(

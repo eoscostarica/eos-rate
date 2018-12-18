@@ -5,11 +5,13 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
+import SearchIcon from '@material-ui/icons/Search'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import FingerprintIcon from '@material-ui/icons/Fingerprint'
 import { Link } from '@reach/router'
 
 import InputAutocomplete from 'components/input-autocomplete'
+import MobileSearch from 'components/mobile-search'
 
 const styles = theme => ({
   root: {
@@ -44,19 +46,16 @@ const styles = theme => ({
     marginRight: theme.spacing.unit * 2,
     marginLeft: 0,
     width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit * 3,
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'block',
       width: 'auto'
     }
   },
-  searchIcon: {
-    width: theme.spacing.unit * 9,
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
+  mobileSearch: {
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
   },
   inputRoot: {
     color: 'inherit',
@@ -75,7 +74,13 @@ const styles = theme => ({
   }
 })
 
-const MainTopBar = ({ classes, handleDrawerToggle }) => (
+const MainTopBar = ({
+  classes,
+  isSearchOpen,
+  handleDrawerToggle,
+  handleSearchDialogOpen,
+  handleSearchDialogClose
+}) => (
   <AppBar position='absolute'>
     <Toolbar>
       <IconButton
@@ -94,18 +99,30 @@ const MainTopBar = ({ classes, handleDrawerToggle }) => (
         <InputAutocomplete />
       </div>
       <div className={classes.grow} />
+      <IconButton
+        className={classes.mobileSearch}
+        color='inherit'
+        disabled={isSearchOpen}
+        onClick={handleSearchDialogOpen}
+      >
+        <SearchIcon />
+      </IconButton>
       <Link to='/account' className={classes.link}>
         <IconButton color='inherit'>
           <FingerprintIcon />
         </IconButton>
       </Link>
     </Toolbar>
+    <MobileSearch onClose={handleSearchDialogClose} isOpen={isSearchOpen} />
   </AppBar>
 )
 
 MainTopBar.propTypes = {
   classes: PropTypes.object,
-  handleDrawerToggle: PropTypes.func
+  handleDrawerToggle: PropTypes.func,
+  handleSearchDialogOpen: PropTypes.func,
+  handleSearchDialogClose: PropTypes.func,
+  isSearchOpen: PropTypes.bool
 }
 
 export default withStyles(styles)(MainTopBar)
