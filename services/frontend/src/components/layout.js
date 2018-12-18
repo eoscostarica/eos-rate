@@ -38,16 +38,26 @@ const styles = theme => ({
 
 class Layout extends Component {
   state = {
-    isNavOpen: false
+    isNavOpen: false,
+    isSearchOpen: false
   }
 
   handleDrawerToggle = () => this.setState({ isNavOpen: !this.state.isNavOpen })
+
+  handleSearchDialogOpen = () => this.setState({ isSearchOpen: true })
+
+  handleSearchDialogClose = () => this.setState({ isSearchOpen: false })
 
   render () {
     const { classes, children } = this.props
     return (
       <div className={classes.root}>
-        <MainTopBar handleDrawerToggle={this.handleDrawerToggle} />
+        <MainTopBar
+          isSearchOpen={this.state.isSearchOpen}
+          handleDrawerToggle={this.handleDrawerToggle}
+          handleSearchDialogOpen={this.handleSearchDialogOpen}
+          handleSearchDialogClose={this.handleSearchDialogClose}
+        />
         <Hidden mdUp>
           <MainDrawer
             variant='mobile'
