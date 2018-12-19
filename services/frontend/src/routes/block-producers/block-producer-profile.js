@@ -79,30 +79,40 @@ const BlockProducerProfile = ({
                 <Grid container direction='row' alignItems='center'>
                   <Grid item xs={4}>
                     <Grid container direction='row' alignItems='center'>
-                      <AccountCircle className={classes.accountCircle} />
-                      <Typography variant='h6' className={classes.bpName}>
-                        {blockProducer.producer_account_name || ''}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid item xs={8}>
-                    <Grid container direction='row' justify='flex-end'>
-                      <Button
-                        style={{
-                          marginRight: 10,
-                          backgroundColor: '#010318'
-                        }}
-                      >
-                        ADD TO COMPARE
-                      </Button>
-                      <Button
-                        className='textPrimary'
-                        variant='contained'
-                        size='small'
-                        color='secondary'
-                      >
-                        RATE
-                      </Button>
+                      <Grid item xs={4}>
+                        <Grid container direction='row' alignItems='center'>
+                          <AccountCircle className={classes.accountCircle} />
+                          <Typography
+                            variant='title'
+                            className={classes.bpName}
+                          >
+                            {blockProducer.producer_account_name || ''}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Grid container direction='row' justify='flex-end'>
+                          <Button
+                            style={{
+                              marginRight: 10,
+                              backgroundColor: '#010318'
+                            }}
+                          >
+                            ADD TO COMPARE
+                          </Button>
+                          <Button
+                            href={`/block-producers/${
+                              blockProducer.bpjson.producer_account_name
+                            }/rate`}
+                            className='textPrimary'
+                            variant='contained'
+                            size='small'
+                            color='secondary'
+                          >
+                            RATE
+                          </Button>
+                        </Grid>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
