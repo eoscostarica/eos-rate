@@ -20,7 +20,7 @@ rate = JSON.stringify(JSON.stringify(rate));
 console.log(rate);
 
 const fs = require("fs");
-fs.writeFile("./contracts/eosrate/eosrate.json", rate, function(err) {
+fs.writeFile("./contracts/eoseosrateio/eoseosrateio.json", rate, function(err) {
   if (err) {
     console.log(err);
   }
