@@ -12,4 +12,4 @@ cmake ../
 make -j${CORES}
 popd &> /dev/null
 
-cp build/eosrate/eosrate.wasm eosrate/eosrate.wasm
+cp build/eoseosrateio/eoseosrateio.wasm eoseosrateio/eoseosrateio.wasm

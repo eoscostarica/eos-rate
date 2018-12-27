@@ -153,21 +153,21 @@ alias cleos='docker exec -i eoslocal_eosio cleos -u http://eosio:8888 --wallet-u
 Build and deploy EOS Rate contract
 
 ```
-docker cp ./contracts/eosrate eoslocal_eosio:/opt/application/contracts/eosrate
-docker exec -it eoslocal_eosio chmod +x /opt/application/contracts/eosrate/build.sh
-docker exec -it eoslocal_eosio /opt/application/contracts/eosrate/build.sh
+docker cp ./contracts/eoseosrateio eoslocal_eosio:/opt/application/contracts/eoseosrateio
+docker exec -it eoslocal_eosio chmod +x /opt/application/contracts/eoseosrateio/build.sh
+docker exec -it eoslocal_eosio /opt/application/contracts/eoseosrateio/build.sh
 docker exec -it eoslocal_eosio /opt/application/scripts/unlock.sh
 
 // Create contract account using eoslocalusra PUBLIC KEY
-cleos create account eosio eosrate EOS5k6Jht1epqZ2mnRLFVDXDTosaTneR6xFhvenVLiFfz5Ue125dL -p eosio@active
+cleos_local create account eosio eoseosrateio EOS5k6Jht1epqZ2mnRLFVDXDTosaTneR6xFhvenVLiFfz5Ue125dL -p eosio@active
 
 // deploy account
-cleos set contract eosrate /opt/application/contracts/eosrate -p eosrate@active
+cleos_local set contract eoseosrateio /opt/application/contracts/eoseosrateio -p eoseosrateio@active
 
 // TEST contract
-cleos push action eosrate upsert '{"rater_account":"eoslocalusra", "json": "{\"costaricaeos\":{\"transparency\":9,\"testnets\":8,\"tooling\":3,\"infra\":6,\"community\":10},\"alohaeos\":{\"transparency\":10,\"testnets\":8,\"tooling\":7,\"infra\":6,\"community\":10}}"}' -p eoslocalusra@active
+cleos_local push action eoseosrateio upsert '{"rater_account":"eoslocalusra", "json": "{\"costaricaeos\":{\"transparency\":9,\"testnets\":8,\"tooling\":3,\"infra\":6,\"community\":10},\"alohaeos\":{\"transparency\":10,\"testnets\":8,\"tooling\":7,\"infra\":6,\"community\":10}}"}' -p eoslocalusra@active
 
-cleos get table eosrate eosrate rates --lower eoslocalusra --limit 100
+cleos_local get table eoseosrateio eoseosrateio rates --lower eoslocalusra --limit 100
 ```
 
 ### Run EOS Rate on you computer
