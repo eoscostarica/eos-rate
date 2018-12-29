@@ -39,24 +39,28 @@ class Home extends Component {
           <Grid container direction='column'>
             <Grid item xs>
               {home.blockProducer && (
-                <div
+                <Grid
+                  container
+                  justify='center'
                   className={`${classes.spacingContainers}
                     ${classes.coverContainer}
                   `}
                 >
                   <Cover blockProducer={home.blockProducer} />
-                </div>
+                </Grid>
               )}
             </Grid>
 
             <Grid item xs>
-              <div
+              <Grid
+                container
+                justify='center'
                 className={`${classes.spacingContainers}
                 ${classes.subTopicContainer}
               `}
               >
                 <SubTopic />
-              </div>
+              </Grid>
             </Grid>
           </Grid>
         )}
