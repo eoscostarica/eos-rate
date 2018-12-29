@@ -8,6 +8,9 @@ import PropTypes from 'prop-types'
 import Video from 'components/video'
 
 const styles = ({ palette, typography }) => ({
+  subTopicContainer: {
+    maxWidth: '1024px'
+  },
   title: {
     fontSize: typography.h4.fontSize,
     color: palette.grey[600]
@@ -23,7 +26,7 @@ const SubTopic = ({ classes, t }) => (
     container
     xs={12}
     className={classes.subTopicContainer}
-    spacing={16}
+    spacing={24}
   >
     <Grid item xs={12} md={7}>
       <Video src={t('subTopic.videoUrl')} />
