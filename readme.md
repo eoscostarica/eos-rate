@@ -58,7 +58,7 @@ It will support proxy profile pages and voting.
 
 ## Feature Roadmap
 
-**Version 1.0** ( November 30 )
+**Version 1.0**
 
 - List and Search Block Producers.
 - Scatter and Lynx Integration.
