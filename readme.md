@@ -84,7 +84,7 @@ It will support proxy profile pages and voting.
 
 - List and search proxies.
 - Proxies landing page with:
-  - Proxy Block Producers list from the [proxy](https://github.com/EOSIO/eos/blob/master/contracts/proxy/proxy.cpp) contract.
+  - Proxy list from the [eosio.system](https://github.com/EOSIO/eos/tree/master/contracts/eosio.system) voters tables.
   - Proxy Info from the [eos-proxyinfo](https://github.com/AlohaEOS/eos-proxyinfo) contract.
   - Ability to vote for the proxy.
 
@@ -111,6 +111,7 @@ https://scene.zeplin.io/project/5a58ea3341f76658994e000c
 ## Architecture
 
 This project is based on [EOS DApp Boilerplate](https://github.com/eoscostarica/eos-dapp-boilerplate).
+Please reads it's documentation. There's no need to install anything as this repo already contains everything.
 
 <p align="center">
 	<img src="docs/architecture.png" width="600">
@@ -127,11 +128,22 @@ Basic knowledge about Docker, Docker Compose, EOS and NodeJS is required.
 - Docker https://docs.docker.com/install/.  
   At least 10GB RAM (Docker -> Preferences -> Advanced -> Memory -> 10GB or above)
 
+Optionally this binaries for smart contract compilation on your host machine.
+Not required as EOS Local provides these features.
+
+- EOSIO Binaries https://github.com/eosio/eos.  
+  This will allow you to `cleos` and `koesd` directly on host machine.
+
+- EOSIO.CDT https://github.com/eosio/eosio.cdt
+  This will allow you to compile the contracts directly on host machine.
+
 ### EOS Local Network
 
 Make sure you are running [EOSLOCAL](https://github.com/eoscostarica/eos-local).
 
 ### Smart Contract Deployment
+
+Install
 
 `docker ps` will display the list of your containers in your console like:
 
@@ -150,7 +162,7 @@ Then make sure you add the eoslocal_eosio alias
 alias cleos='docker exec -i eoslocal_eosio cleos -u http://eosio:8888 --wallet-url http://wallet:8901'
 ```
 
-Build and deploy EOS Rate contract
+Build and deploy EOS Rate contract with EOS Local
 
 ```
 docker cp ./contracts/eoseosrateio eoslocal_eosio:/opt/application/contracts/eoseosrateio
