@@ -38,17 +38,13 @@ It will support proxy profile pages and voting.
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-**Table of Contents** _generated with [DocToc](https://github.com/thlorenz/doctoc)_
-
 - [Feature Roadmap](#feature-roadmap)
 - [Prototypes and Assets](#prototypes-and-assets)
 - [User Flow](#user-flow)
 - [Architecture](#architecture)
 - [Development Setup](#development-setup)
   - [Global Dependencies](#global-dependencies)
-  - [EOS Local Network](#eos-local-network)
-  - [Smart Contract Deployment](#smart-contract-deployment)
-  - [Run EOS Rate on you computer](#run-eos-rate-on-you-computer)
+  - [Run EOS Rate on your Computer](#run-eos-rate-on-your-computer)
 - [Contributing](#contributing)
 - [About EOS Costa Rica](#about-eos-costa-rica)
 - [License](#license)
@@ -110,7 +106,7 @@ https://scene.zeplin.io/project/5a58ea3341f76658994e000c
 
 ## Architecture
 
-This project is based on [EOS DApp Boilerplate](https://github.com/eoscostarica/eos-dapp-boilerplate).
+This project is based on [EOS DApp Boilerplate](https://github.com/eoscostarica/eos-dapp-boilerplate).  
 Please reads it's documentation. There's no need to install anything as this repo already contains everything.
 
 <p align="center">
@@ -119,70 +115,22 @@ Please reads it's documentation. There's no need to install anything as this rep
 
 ## Development Setup
 
-Basic knowledge about Docker, Docker Compose, EOS and NodeJS is required.
+Basic knowledge about Docker, Docker Compose, EOSIO and NodeJS is required.
 
 - Video tutorial [Docker Containers | Learn Docker Basics in 30 Mins](https://www.youtube.com/watch?v=0kwXLcwUw0Q)
 
 ### Global Dependencies
 
+- EOS Local https://github.com/eoscostarica/eos-local.
 - Docker https://docs.docker.com/install/.  
   At least 10GB RAM (Docker -> Preferences -> Advanced -> Memory -> 10GB or above)
-
-Optionally this binaries for smart contract compilation on your host machine.
-Not required as EOS Local provides these features.
-
+- Hasura CLI https://docs.hasura.io/1.0/graphql/manual/hasura-cli/install-hasura-cli.html
 - EOSIO Binaries https://github.com/eosio/eos.  
   This will allow you to `cleos` and `koesd` directly on host machine.
-
-- EOSIO.CDT https://github.com/eosio/eosio.cdt
+- EOSIO.CDT https://github.com/eosio/eosio.cdt.  
   This will allow you to compile the contracts directly on host machine.
 
-### EOS Local Network
-
-Make sure you are running [EOSLOCAL](https://github.com/eoscostarica/eos-local).
-
-### Smart Contract Deployment
-
-Install
-
-`docker ps` will display the list of your containers in your console like:
-
-```
-CONTAINER ID        IMAGE   COMMAND     CREATED     STATUS     PORTS      NAMES
-e5b53cc3b51c        ...     ...         ...         ...        ...        eoslocal_eos-wallet
-4194888a9b2f        ...     ...         ...         ...        ...        eoslocal_nginx-proxy
-de3ed242d357        ...     ...         ...         ...        ...        eoslocal_ipfs
-e17e30af7d58        ...     ...         ...         ...        ...        eoslocal_eosio
-d89f72110588        ...     ...         ...         ...        ...        eoslocal_mongo
-```
-
-Then make sure you add the eoslocal_eosio alias
-
-```
-alias cleos='docker exec -i eoslocal_eosio cleos -u http://eosio:8888 --wallet-url http://wallet:8901'
-```
-
-Build and deploy EOS Rate contract with EOS Local
-
-```
-docker cp ./contracts/eoseosrateio eoslocal_eosio:/opt/application/contracts/eoseosrateio
-docker exec -it eoslocal_eosio chmod +x /opt/application/contracts/eoseosrateio/build.sh
-docker exec -it eoslocal_eosio /opt/application/contracts/eoseosrateio/build.sh
-docker exec -it eoslocal_eosio /opt/application/scripts/unlock.sh
-
-// Create contract account using eoslocalusra PUBLIC KEY
-cleos_local create account eosio eoseosrateio EOS5k6Jht1epqZ2mnRLFVDXDTosaTneR6xFhvenVLiFfz5Ue125dL -p eosio@active
-
-// deploy account
-cleos_local set contract eoseosrateio /opt/application/contracts/eoseosrateio -p eoseosrateio@active
-
-// TEST contract
-cleos_local push action eoseosrateio upsert '{"rater_account":"eoslocalusra", "json": "{\"costaricaeos\":{\"transparency\":9,\"testnets\":8,\"tooling\":3,\"infra\":6,\"community\":10},\"alohaeos\":{\"transparency\":10,\"testnets\":8,\"tooling\":7,\"infra\":6,\"community\":10}}"}' -p eoslocalusra@active
-
-cleos_local get table eoseosrateio eoseosrateio rates --lower eoslocalusra --limit 100
-```
-
-### Run EOS Rate on you computer
+### Run EOS Rate on your Computer
 
 ```
 git clone git@github.com:eoscostarica/eos-rate.git
@@ -190,13 +138,11 @@ cd eos-rate
 make start
 ```
 
-See [EOS DApp Boilerplate](https://github.com/eoscostarica/eos-dapp-boilerplate) for details.
-
 ## Contributing
 
 We use a Kanban-style board. That's were we prioritize the work. [Go to Project Board](https://github.com/eoscostarica/eos-rate/projects/1).
 
-The main communication channels are [github issues](https://github.com/eoscostarica/eos-rate/issues) and [EOS Costa Rica's Discord server](https://eoscostarica.io/discord). Feel to join and ask as many questions you may have.
+The main communication channels are [github issues](https://github.com/eoscostarica/eos-rate/issues) and [EOS Costa Rica's Discord server](https://eoscostarica.io/discord).
 
 Our weekly sync call is every Monday 1:00 AM UTC. [meet.eoscostarica.io](https:/meet.eoscostarica.io).
 
@@ -212,9 +158,7 @@ Please report bugs big and small by [opening an issue](https://github.com/eoscos
 	</a>
 </p>
 <br/>
-We challenge ourselves to provide the EOS platform with a strong geographical and political diversity by running the most robust EOS Block Producer possible from Costa Rica; We pledge to leverage our talent, experience, and sustainable internet resources to meet such an important challenge.
-
-EOS Costa Rica supports the EOS.io community by maintaining and contributing to open source initiatives, meetups and workshops.
+EOS Costa Rica is an independently-owned, self-funded, bare-metal Genesis block producer that provides stable and secure infrastructure for EOSIO blockchains.  We support open source software for our community while offering enterprise solutions and custom smart contract development for our clients.
 
 [eoscostarica.io](https://eoscostarica.io)
 
