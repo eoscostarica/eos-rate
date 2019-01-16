@@ -56,7 +56,7 @@ CONTRACT eoseosrateio : public contract {
       string ratings_json;
       uint64_t created_at;
 
-      uint64_t primary_key() const { return key; }
+      uint128_t primary_key() const { return key; }
       uint64_t by_user() const { return user.value; }
       uint64_t by_bp() const { return bp.value; }
     };
