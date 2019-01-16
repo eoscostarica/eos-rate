@@ -4,7 +4,10 @@ flush: scripts/flush.sh
 start: scripts/start.sh
 	./scripts/start.sh
 
-deploy-contracts: scripts/deploy-contracts.sh
-	./scripts/deploy-contracts.sh
+hasura: scripts/hasura.sh
+	./scripts/hasura.sh
+
+migrate: scripts/migrate.sh
+	./scripts/migrate.sh
 
 FORCE:
