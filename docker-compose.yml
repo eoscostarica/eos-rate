@@ -5,7 +5,7 @@ services:
     container_name: eosrate_postgres
     image: postgres:10.4
     volumes:
-      - ./services/postgres/.dbdata/.pgsql-data:/var/lib/postgresql/data
+      - eosrate-postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     environment:
@@ -24,15 +24,6 @@ services:
       - "8082:8081"
     environment:
       DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
-    depends_on:
-      - postgres
-
-  flyway:
-    container_name: eosrate_flyway
-    image: boxfuse/flyway:5.2.1
-    command: -url=jdbc:postgresql://postgres:5432/eosrate -user=user -password=pass -connectRetries=60 migrate
-    volumes:
-      - ./services/postgres/migrations:/flyway/sql
     depends_on:
       - postgres
 
@@ -70,7 +61,7 @@ services:
 
   hasura:
     container_name: eosrate_hasura
-    image: hasura/graphql-engine:v1.0.0-alpha31.cli-migrations
+    image: hasura/graphql-engine:v1.0.0-alpha34
     ports:
       - "8088:8080"
     depends_on:
@@ -85,6 +76,9 @@ services:
       - graphql-engine
       - serve
       - --enable-console
+
+volumes:
+  eosrate-postgres:
 
 networks:
   default:
