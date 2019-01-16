@@ -21,7 +21,8 @@ WORKDIR /opt/application
 # Install application dependencies
 COPY package.json ./
 COPY yarn.lock ./
-RUN yarn --ignore-optional --frozen-lockfile --network-timeout 1000000 --network-concurrency 1
+# RUN yarn --ignore-optional --frozen-lockfile --network-timeout 1000000 --network-concurrency 1
+RUN yarn --ignore-optional --frozen-lockfile
 
 EXPOSE 3030
 

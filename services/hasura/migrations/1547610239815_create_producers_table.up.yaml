@@ -1,0 +1,13 @@
+- args:
+    cascade: false
+    sql: |
+      CREATE TABLE producers (
+        owner text PRIMARY KEY,
+        system jsonb NOT NULL,
+        bpjson jsonb NOT NULL
+      );
+  type: run_sql
+- args:
+    name: producers
+    schema: public
+  type: add_existing_table_or_view
