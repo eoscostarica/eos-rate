@@ -113,6 +113,23 @@ Please reads it's documentation. There's no need to install anything as this rep
 	<img src="docs/architecture.png" width="600">
 </p>
 
+## Services
+
+- frontend: http://localhost:3000  
+  It's create-react-app that starts up at the available port (default is 3000).
+
+- demux:  
+  Deterministic event-sourced state and side effect handling for blockchain applications.  
+  The service run on linux alpine container at port 3030.
+  Configure this service to listen to right MongoDB instance in `docker-compose.yml`.
+
+- hasura: http://localhost:8088
+  Instant tealtime GraphQL on Postgres.  
+  Run `make hasura` to startup de management console.
+
+- pgweb: http://localhost:8082  
+  Web-based PostgreSQL database browser written in Go running on a linux alpine container.
+
 ## Development Setup
 
 Basic knowledge about Docker, Docker Compose, EOSIO and NodeJS is required.
