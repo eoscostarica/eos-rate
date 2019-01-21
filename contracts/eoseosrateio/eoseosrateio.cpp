@@ -27,14 +27,12 @@ CONTRACT eoseosrateio : public contract {
       eosio_assert(ratings_json[ratings_json.size()-1] == '}', "payload must be ratings_json");
 
       // upsert bp rating
-      rate_index _ratings(_code, _code.value);
-
+      rate_index _ratings(_self, _self.value);
       auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
-      auto uniq_rating_indexes =  _ratings.template get_index<"byuniqrating"_n>();
-      auto iterator = uniq_rating_indexes.lower_bound(uniq_rating);
-      // auto iterator = _ratings.find(matching_rating.id);
+      auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
+      auto existing_rating = uniq_rating_index.find(uniq_rating);
 
-      if( iterator == _ratings.end() ) {
+      if( existing_rating == _ratings.end() ) {
         _ratings.emplace(user, [&]( auto& row ) {
           row.id = _ratings.available_primary_key();
           row.uniq_rating = uniq_rating;
@@ -44,7 +42,7 @@ CONTRACT eoseosrateio : public contract {
           row.ratings_json = ratings_json;
         });
       } else {
-        _ratings.modify(iterator, user, [&]( auto& row ) {
+        _ratings.modify(existing_rating, user, [&]( auto& row ) {
           row.user = user;
           row.bp = bp;
           row.created_at = current_time();
@@ -69,7 +67,7 @@ CONTRACT eoseosrateio : public contract {
     };
 
     typedef eosio::multi_index<"ratings"_n, rate,
-        indexed_by<"byuniqrating"_n, const_mem_fun<rate, uint128_t, &rate::by_uniq_rating>>,
+        indexed_by<"uniqrating"_n, const_mem_fun<rate, uint128_t, &rate::by_uniq_rating>>,
         indexed_by<"user"_n, const_mem_fun<rate, uint64_t, &rate::by_user>>,
         indexed_by<"bp"_n, const_mem_fun<rate, uint64_t, &rate::by_bp>>
       > rate_index;
