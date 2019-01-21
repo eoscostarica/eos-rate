@@ -27,7 +27,7 @@ CONTRACT eoseosrateio : public contract {
       eosio_assert(ratings_json[ratings_json.size()-1] == '}', "payload must be ratings_json");
 
       // upsert bp rating
-      rate_index _ratings(_self, _self.value);
+      rate_table _ratings(_self, _self.value);
       auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
       auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
       auto existing_rating = uniq_rating_index.find(uniq_rating);
@@ -52,7 +52,7 @@ CONTRACT eoseosrateio : public contract {
     }
 
   private:
-    TABLE rate {
+    TABLE rating {
       uint64_t id;
       uint128_t uniq_rating;
       name user;
@@ -66,11 +66,11 @@ CONTRACT eoseosrateio : public contract {
       uint64_t by_bp() const { return bp.value; }
     };
 
-    typedef eosio::multi_index<"ratings"_n, rate,
-        indexed_by<"uniqrating"_n, const_mem_fun<rate, uint128_t, &rate::by_uniq_rating>>,
-        indexed_by<"user"_n, const_mem_fun<rate, uint64_t, &rate::by_user>>,
-        indexed_by<"bp"_n, const_mem_fun<rate, uint64_t, &rate::by_bp>>
-      > rate_index;
+    typedef eosio::multi_index<"ratings"_n, rating,
+        indexed_by<"uniqrating"_n, const_mem_fun<rating, uint128_t, &rating::by_uniq_rating>>,
+        indexed_by<"user"_n, const_mem_fun<rating, uint64_t, &rating::by_user>>,
+        indexed_by<"bp"_n, const_mem_fun<rating, uint64_t, &rating::by_bp>>
+      > rate_table;
 
     TABLE voter_info {
       name                owner;     /// the voter
