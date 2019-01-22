@@ -27,38 +27,52 @@ CONTRACT eoseosrateio : public contract {
       eosio_assert(ratings_json[ratings_json.size()-1] == '}', "payload must be ratings_json");
 
       // upsert bp rating
-      rate_table _ratings(_self, _self.value);
+      producers_table bps(_self, _self.value);
       auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
-      auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
-      auto existing_rating = uniq_rating_index.find(uniq_rating);
+      // auto uniq_rating_index = producers.get_index<name("uniqrating")>();
+      // auto existing_rating = uniq_rating_index.find(uniq_rating);
 
-      if( existing_rating == _ratings.end() ) {
-        _ratings.emplace(user, [&]( auto& row ) {
-          row.id = _ratings.available_primary_key();
-          row.uniq_rating = uniq_rating;
-          row.user = user;
-          row.bp = bp;
-          row.created_at = current_time();
-          row.ratings_json = ratings_json;
-        });
-      } else {
-        _ratings.modify(existing_rating, user, [&]( auto& row ) {
-          row.user = user;
-          row.bp = bp;
-          row.created_at = current_time();
-          row.ratings_json = ratings_json;
-        });
+      // if( existing_rating == producers.end() ) {
+      bps.emplace(user, [&]( auto& row ) {
+        row.id = bps.available_primary_key();
+        row.uniq_rating = uniq_rating;
+        row.user = user;
+        row.bp = bp;
+        row.created_at = now();
+        row.updated_at = now();
+        row.ratings_json = ratings_json;
+      });
+      // } else {
+      //   producers.modify(existing_rating, user, [&]( auto& row ) {
+      //     row.user = user;
+      //     row.bp = bp;
+      //     row.created_at = current_time();
+      //     row.ratings_json = ratings_json;
+      //   });
+      // }
+    }
+
+    // for dev only
+    ACTION erase() {
+      //only contract owner can erase table
+      require_auth(_self);
+
+      producers_table bps(_code, _code.value);
+      auto itr = bps.begin();
+      while ( itr != bps.end()) {
+          itr = bps.erase(itr);
       }
     }
 
   private:
-    TABLE rating {
+    TABLE block_producer {
       uint64_t id;
       uint128_t uniq_rating;
       name user;
       name bp;
       string ratings_json;
-      uint64_t created_at;
+      uint32_t created_at;
+      uint32_t updated_at;
 
       uint64_t primary_key() const { return id; }
       uint128_t by_uniq_rating() const { return uniq_rating; }
@@ -66,11 +80,11 @@ CONTRACT eoseosrateio : public contract {
       uint64_t by_bp() const { return bp.value; }
     };
 
-    typedef eosio::multi_index<"ratings"_n, rating,
-        indexed_by<"uniqrating"_n, const_mem_fun<rating, uint128_t, &rating::by_uniq_rating>>,
-        indexed_by<"user"_n, const_mem_fun<rating, uint64_t, &rating::by_user>>,
-        indexed_by<"bp"_n, const_mem_fun<rating, uint64_t, &rating::by_bp>>
-      > rate_table;
+    typedef eosio::multi_index<"bps"_n, block_producer,
+        indexed_by<"uniqrating"_n, const_mem_fun<block_producer, uint128_t, &block_producer::by_uniq_rating>>,
+        indexed_by<"user"_n, const_mem_fun<block_producer, uint64_t, &block_producer::by_user>>,
+        indexed_by<"bp"_n, const_mem_fun<block_producer, uint64_t, &block_producer::by_bp>>
+      > producers_table;
 
     TABLE voter_info {
       name                owner;     /// the voter
@@ -94,3 +108,8 @@ CONTRACT eoseosrateio : public contract {
 };
 
 EOSIO_DISPATCH(eoseosrateio, (rateproducer));
+
+
+// NOTE:
+// the table name ratings is damaged on the jungle testnet, changes in the struct without erasing the data on RAM seem have caused the problem.
+// you need to be carefull when changing table structure, you cant do this if table is with data, you need to do new table with new structure and migrate data.
