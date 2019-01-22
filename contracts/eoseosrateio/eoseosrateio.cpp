@@ -29,27 +29,29 @@ CONTRACT eoseosrateio : public contract {
       // upsert bp rating
       producers_table bps(_self, _self.value);
       auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
-      // auto uniq_rating_index = producers.get_index<name("uniqrating")>();
-      // auto existing_rating = uniq_rating_index.find(uniq_rating);
 
-      // if( existing_rating == producers.end() ) {
-      bps.emplace(user, [&]( auto& row ) {
-        row.id = bps.available_primary_key();
-        row.uniq_rating = uniq_rating;
-        row.user = user;
-        row.bp = bp;
-        row.created_at = now();
-        row.updated_at = now();
-        row.ratings_json = ratings_json;
-      });
-      // } else {
-      //   producers.modify(existing_rating, user, [&]( auto& row ) {
-      //     row.user = user;
-      //     row.bp = bp;
-      //     row.created_at = current_time();
-      //     row.ratings_json = ratings_json;
-      //   });
-      // }
+      auto uniq_rating_index = bps.get_index<name("uniqrating")>();
+      auto existing_rating = uniq_rating_index.find(uniq_rating);
+
+      if( existing_rating == uniq_rating_index.end() ) {
+          bps.emplace(user, [&]( auto& row ) {
+            row.id = bps.available_primary_key();
+            row.uniq_rating = uniq_rating;
+            row.user = user;
+            row.bp = bp;
+            row.created_at = now();
+            row.updated_at = now();
+            row.ratings_json = ratings_json;
+          });
+
+      } else {
+         uniq_rating_index.modify(existing_rating, user, [&]( auto& row ) {
+           row.user = user;
+           row.bp = bp;
+           row.created_at = current_time();
+           row.ratings_json = ratings_json;
+         });
+       }
     }
 
     // for dev only
