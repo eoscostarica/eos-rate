@@ -45,6 +45,7 @@ services:
       DB_NAME: eosrate
       DB_HOST: postgres
       DB_SCHEMA: public
+      EOS_API_ENDPOINT: "https://eos.greymass.com:443"
       CHAIN_HOST: "http://eosio:8888"
       CHAIN_INIT_BLOCK: 10
       MONGO_URI: "mongodb://190.10.8.205:27017"
