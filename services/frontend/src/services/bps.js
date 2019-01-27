@@ -4,19 +4,25 @@ import gql from 'graphql-tag'
 
 const getRandomParameter = (max = 10) => Math.floor(Math.random() * max)
 
-export const getAllBPs = async () => {
+export const getAllBPs = async ({ nameFilter = '' } = {}) => {
   const {
-    data: { producers }
+    data: { producers_list: producers }
   } = await client.query({
     query: gql`
-      query AllBPs {
-        producers {
-          bpjson
+      query blockProducers($nameFilter: String!) {
+        producers_list(
+          where: { _or: { candidate_name: { _ilike: $nameFilter } } }
+          order_by: { total_votes: desc }
+        ) {
           owner
           system
+          bpjson
         }
       }
-    `
+    `,
+    variables: {
+      nameFilter: `%${nameFilter}%`
+    }
   })
   return producers.map(producer => ({
     ...producer,
