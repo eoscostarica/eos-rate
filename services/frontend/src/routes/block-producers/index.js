@@ -2,6 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Redux } from 'redux-render'
 import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+import ExpandLess from '@material-ui/icons/ExpandLess'
 import { withStyles } from '@material-ui/core/styles'
 import { withNamespaces } from 'react-i18next'
 import classNames from 'classnames'
@@ -10,9 +13,18 @@ import Component from '@reach/component-component'
 import BlockProducerCard from 'components/block-producer-card'
 import CompareTool from 'components/compare-tool'
 // import FilterBox from './filter-box'
-import CompareToolToggle from './compare-tool-toggle'
 
 const style = theme => ({
+  root: {
+    position: 'relative'
+  },
+  compareToggleButton: {
+    position: 'fixed',
+    bottom: 0,
+    right: 0,
+    margin: theme.spacing.unit * 2,
+    zIndex: 1
+  },
   wrapper: {
     padding: theme.spacing.unit * 3
   },
@@ -58,9 +70,21 @@ const AllBps = ({ classes, ...props }) => (
     ) => {
       const bpList = filtered.length ? filtered : blockProducers
       return (
-        <Component componentDidMount={() => dispatch.blockProducers.getBPs()}>
+        <Component
+          className={classes.root}
+          componentDidMount={() => dispatch.blockProducers.getBPs()}
+        >
           {() => (
             <React.Fragment>
+              <Button
+                variant='fab'
+                color='secondary'
+                ariaLabel='Toggle comparison tool visiblity'
+                className={classes.compareToggleButton}
+                onClick={() => dispatch.blockProducers.toggleCompareTool()}
+              >
+                {compareToolVisible ? <ExpandLess /> : <ExpandMore />}
+              </Button>
               <CompareTool
                 removeBP={producerAccountName => () => {
                   dispatch.blockProducers.removeSelected(producerAccountName)
@@ -122,6 +146,5 @@ AllBps.propTypes = {
 export default withStyles(style)(withNamespaces('translations')(AllBps))
 
 export const blockProducersDrawer = [
-  CompareToolToggle
   // FilterBox
 ]
