@@ -11,7 +11,8 @@ import bpParameters from 'config/comparison-parameters'
 
 const styles = ({ palette, typography }) => ({
   coverContainer: {
-    color: '#fff'
+    color: '#fff',
+    maxWidth: '1024px'
   },
   title: {
     fontSize: typography.h4.fontSize
@@ -29,7 +30,7 @@ const styles = ({ palette, typography }) => ({
 })
 
 const HomeCover = ({ classes, t, blockProducer }) => (
-  <Grid item container xs={12} className={classes.coverContainer} spacing={16}>
+  <Grid item container xs={12} className={classes.coverContainer} spacing={24}>
     <Grid item container xs={12} md={6} justify='center'>
       <div className={classes.chartContainer}>
         <BlockProducerRadar
