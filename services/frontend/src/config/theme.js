@@ -13,6 +13,7 @@ const theme = createMuiTheme({
       light: '#2b2e3e',
       main: '#010318',
       dark: '#000000',
+      sectionBackground: '#1b1a2b',
       submenu: '#252838'
     },
     secondary: {

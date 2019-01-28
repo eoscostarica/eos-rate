@@ -29,6 +29,12 @@
     "drawerLinkSettings": "Settings"
   },
 
+  "not-found": {
+    "graphic": "Oh Snap!",
+    "description": "Looks like something went wrong!",
+    "recoveryCta": "Please take me home"
+  },
+
   "home": {
     "cover": {
       "title": "Build Your Vote on EOS Rate",
