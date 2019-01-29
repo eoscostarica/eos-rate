@@ -60,7 +60,7 @@ services:
 
   hasura:
     container_name: eosrate_hasura
-    image: hasura/graphql-engine:v1.0.0-alpha34
+    image: hasura/graphql-engine:v1.0.0-alpha35
     ports:
       - "8088:8080"
     depends_on:
