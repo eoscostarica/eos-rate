@@ -30,12 +30,11 @@ class ObjectActionHandler extends AbstractActionHandler {
   }
 
   async updateIndexState(stateObj, block, isReplay, handlerVersionName) {
-    const { actions, blockInfo } = block;
-
-    if (actions.length > 0) {
-      console.log(chalk.gray("==================== ObjectActionHandler: updateIndexState ==========================="));
-      console.log(JSON.stringify({ actions, blockInfo }, null, 2));
-    }
+    // const { actions, blockInfo } = block;
+    // if (actions.length > 0) {
+    //   console.log(chalk.gray("==================== ObjectActionHandler: updateIndexState ==========================="));
+    //   console.log(JSON.stringify({ actions, blockInfo }, null, 2));
+    // }
 
     stateObj.indexState.blockNumber = block.blockInfo.blockNumber;
     stateObj.indexState.blockHash = block.blockInfo.blockHash;
