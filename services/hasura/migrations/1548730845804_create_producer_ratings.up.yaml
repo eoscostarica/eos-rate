@@ -1,0 +1,16 @@
+- args:
+    cascade: true
+    sql: |2-
+            CREATE TABLE producer_ratings (
+                    account text NOT NULL,
+                    bp text NOT NULL,
+                    rating jsonb NOT NULL,
+                    created_at bigint NOT NULL,
+                    updated_at bigint NOT NULL,
+                    PRIMARY KEY(account, bp)
+                  );
+  type: run_sql
+- args:
+    name: producer_ratings
+    schema: public
+  type: add_existing_table_or_view
