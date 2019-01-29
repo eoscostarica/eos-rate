@@ -4,9 +4,7 @@
             CREATE TABLE producer_ratings (
                     account text NOT NULL,
                     bp text NOT NULL,
-                    rating jsonb NOT NULL,
-                    created_at bigint NOT NULL,
-                    updated_at bigint NOT NULL,
+                    ratings jsonb NOT NULL,
                     PRIMARY KEY(account, bp)
                   );
   type: run_sql
