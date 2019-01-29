@@ -63,7 +63,7 @@ const blockProducers = {
         blockProducers.map(blockProducer => ({
           ...blockProducer,
           data: getBPRadarData({
-            ...blockProducer.bpjson,
+            name: blockProducer.owner,
             parameters: blockProducer.system.parameters
           })
         }))

@@ -1,6 +1,6 @@
 import getColorFromName from 'utils/getColorFromName'
 
-export default ({ producer_account_name: name, parameters }) => {
+export default ({ name, parameters }) => {
   const colors = getColorFromName(name)
 
   return {
