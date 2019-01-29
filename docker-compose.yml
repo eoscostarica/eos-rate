@@ -32,8 +32,6 @@ services:
     build:
       context: ./services/demux
       dockerfile: ./Dockerfile
-      args:
-        SERVICE: "demux"
     image: eosrate/demux
     volumes:
       - ./services/demux:/opt/application # mount demux service folder
