@@ -38,6 +38,7 @@ services:
       - /opt/application/node_modules # prevents host/container conflicts
     depends_on:
       - postgres
+      - hasura
     environment:
       DB_USER: user
       DB_PASSWORD: pass
@@ -50,7 +51,7 @@ services:
       CHAIN_INIT_BLOCK: 10
       MONGO_URI: "mongodb://190.10.8.205:27017"
       MONGO_DB: EOS
-      WAIT_HOSTS: postgres:5432
+      WAIT_HOSTS: postgres:5432, hasura:8080
       WAIT_HOSTS_TIMEOUT: 60
     ports:
       - "3030:3030"
@@ -59,7 +60,7 @@ services:
 
   hasura:
     container_name: eosrate_hasura
-    image: hasura/graphql-engine:v1.0.0-alpha35
+    image: hasura/graphql-engine:v1.0.0-alpha35.cli-migrations
     ports:
       - "8088:8080"
     depends_on:

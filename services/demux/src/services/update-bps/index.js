@@ -94,7 +94,7 @@ const updateBlockProducersData = async () => {
           return;
         }
       }
-      console.log(`succefully saved ${bp.owner}`);
+      console.log(`succefully saved ${owner}`);
     } catch (error) {
       console.error(error);
       return;
