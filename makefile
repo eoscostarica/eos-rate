@@ -10,4 +10,7 @@ hasura: scripts/hasura.sh
 migrate: scripts/migrate.sh
 	./scripts/migrate.sh
 
+pgweb: scripts/pgweb.sh
+	./scripts/pgweb.sh
+
 FORCE:
