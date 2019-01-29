@@ -1,5 +1,0 @@
-- args:
-    table:
-      name: producers
-      schema: public
-  type: untrack_table
