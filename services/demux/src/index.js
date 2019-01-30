@@ -1,8 +1,9 @@
 const { BaseActionWatcher } = require("demux");
 const { MongoActionReader } = require("demux-eos");
+const fetch = require("node-fetch");
+const updateBPs = require("./services/update-bps");
 const ObjectActionHandler = require("./ObjectActionHandler");
 const handler = require("./handlerVersions/v1");
-const fetch = require("node-fetch");
 
 (async () => {
   const headBlockNum = await fetch("https://jungle.eosio.cr/v1/chain/get_info")
@@ -26,4 +27,10 @@ const fetch = require("node-fetch");
     console.log("demux started...");
     actionWatcher.watch();
   });
+
+  /**
+   * This function will update the list of block producers
+   * and their bp.json file if it exists at all.
+   */
+  updateBPs();
 })();
