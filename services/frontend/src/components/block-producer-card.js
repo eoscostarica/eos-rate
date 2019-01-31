@@ -4,13 +4,16 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
+import Chip from '@material-ui/core/Chip'
 import CardActions from '@material-ui/core/CardActions'
 import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
 import RemoveIcon from '@material-ui/icons/Remove'
 import InfoIcon from '@material-ui/icons/Info'
+import ReportProblem from '@material-ui/icons/ReportProblem'
 import _get from 'lodash.get'
+import _isEmpty from 'lodash.isempty'
 
 import { Link } from '@reach/router'
 
@@ -22,6 +25,15 @@ const styles = theme => ({
   title: {
     textDecoration: 'none',
     color: '#ffffff'
+  },
+  unsafeChip: {
+    marginLeft: theme.spacing.unit * 2,
+    backgroundColor: '#E91E63',
+    color: 'white'
+  },
+  unsafeAvatar: {
+    backgroundColor: '#AD1457',
+    color: 'white'
   },
   actions: {
     display: 'flex',
@@ -46,7 +58,7 @@ const BlockProducerCard = ({
 }) => (
   <Card className={classes.card}>
     <Link
-      to={`/block-producers/${blockProducer.bpjson.producer_account_name}`}
+      to={`/block-producers/${blockProducer.owner}`}
       style={{
         textDecoration: 'none'
       }}
@@ -54,24 +66,35 @@ const BlockProducerCard = ({
       <CardHeader
         avatar={
           <Avatar aria-label='Block Producer' className={classes.avatar}>
-            <img
-              src={_get(blockProducer, 'bpjson.org.branding.logo_256') || 'BP'}
-              alt=''
-              width='100%'
-            />
+            {_isEmpty(blockProducer.bpjson) ? (
+              'BP'
+            ) : (
+              <img
+                src={_get(blockProducer, 'bpjson.org.branding.logo_256')}
+                alt=''
+                width='100%'
+              />
+            )}
           </Avatar>
         }
-        title={
-          <a
-            target='_blank'
-            href={blockProducer.bpjson.org.website}
-            className={classes.title}
-            rel='noopener noreferrer'
-          >
-            {blockProducer.bpjson.org.candidate_name}
-          </a>
-        }
-        subheader={blockProducer.bpjson.producer_account_name}
+        title={_get(
+          blockProducer,
+          'bpjson.org.candidate_name',
+          <React.Fragment>
+            <span>{blockProducer.owner}</span>
+            <Chip
+              avatar={
+                <Avatar className={classes.unsafeAvatar}>
+                  <ReportProblem />
+                </Avatar>
+              }
+              className={classes.unsafeChip}
+              label={'Non-compliant'}
+              color='secondary'
+            />
+          </React.Fragment>
+        )}
+        subheader={_isEmpty(blockProducer.bpjson) ? null : blockProducer.owner}
       />
     </Link>
     <div className={classes.radar}>
@@ -86,16 +109,11 @@ const BlockProducerCard = ({
     <CardActions className={classes.actions} disableActionSpacing>
       <IconButton
         aria-label='Add to comparison'
-        onClick={toggleSelection(
-          !isSelected,
-          blockProducer.bpjson.producer_account_name
-        )}
+        onClick={toggleSelection(!isSelected, blockProducer.owner)}
       >
         {isSelected ? <RemoveIcon /> : <AddIcon />}
       </IconButton>
-      <Link
-        to={`/block-producers/${blockProducer.bpjson.producer_account_name}`}
-      >
+      <Link to={`/block-producers/${blockProducer.owner}`}>
         <IconButton>
           <InfoIcon />
         </IconButton>

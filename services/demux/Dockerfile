@@ -14,6 +14,9 @@ RUN yarn --ignore-optional --frozen-lockfile
 # Bundle app source
 COPY . .
 
+ADD ./utils/wait /wait
+RUN chmod +x /wait
+
 EXPOSE 3030
 
-CMD [ "yarn", "dev" ]
+CMD /wait && yarn dev

@@ -31,6 +31,7 @@
     "i18next-browser-languagedetector": "^2.2.3",
     "i18next-xhr-backend": "^1.5.1",
     "lodash.get": "^4.4.2",
+    "lodash.isempty": "^4.4.0",
     "lodash.set": "^4.3.2",
     "lodash.uniq": "^4.5.0",
     "moment": "^2.22.2",
