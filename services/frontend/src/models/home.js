@@ -23,7 +23,10 @@ const home = {
       const blockProducer = await findBPById(0)
       this.setBP({
         ...blockProducer,
-        data: getBPRadarData(blockProducer)
+        data: getBPRadarData({
+          name: blockProducer.org.candidate_name,
+          parameters: blockProducer.parameters
+        })
       })
     }
   }
