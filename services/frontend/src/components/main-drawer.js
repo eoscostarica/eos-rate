@@ -66,7 +66,7 @@ const Menu = ({ onClick, currentPathname, links, classes, t }) => (
                 <ListItemText primary={label} />
               </ListItem>
             </Link>
-            {collapsedItems && collapsedItems.length && (
+            {collapsedItems && !!collapsedItems.length && (
               <Collapse
                 className={classes.innerList}
                 in={isSelected}

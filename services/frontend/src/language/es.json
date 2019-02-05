@@ -29,6 +29,12 @@
     "drawerLinkSettings": "Configuración"
   },
 
+  "not-found": {
+    "graphic": "Opa!",
+    "description": "Parece que algo salió mal!",
+    "recoveryCta": "Por favor llévame al inicio"
+  },
+
   "home": {
     "cover": {
       "title": "Titulo Primario",

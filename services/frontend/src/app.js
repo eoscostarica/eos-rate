@@ -8,10 +8,10 @@ import routes from 'routes'
 const App = () => (
   <Layout>
     <Router>
-      <NotFound default />
       {routes.map(({ path, Component }) => (
         <Component key={`path-${path}`} path={path} />
       ))}
+      <NotFound default />
     </Router>
   </Layout>
 )
