@@ -79,7 +79,7 @@ const AllBps = ({ classes, ...props }) => (
               <Button
                 variant='fab'
                 color='secondary'
-                ariaLabel='Toggle comparison tool visiblity'
+                // ariaLabel='Toggle comparison tool visiblity'
                 className={classes.compareToggleButton}
                 onClick={() => dispatch.blockProducers.toggleCompareTool()}
               >
