@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Redux } from 'redux-render'
+import { connect } from 'react-redux'
 import { withNamespaces } from 'react-i18next'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -20,37 +20,49 @@ const style = theme => ({
   }
 })
 
-const CompareToolToggle = ({ classes, t, ...props }) => (
-  <Redux
-    selector={state => ({
-      compareTool: state.blockProducers.compareTool,
-      selectedCount: state.blockProducers.selected.length
-    })}
-  >
-    {({ compareTool, selectedCount }, dispatch) => (
-      <List className={classes.nested}>
-        <ListItem
-          className={classes.listItem}
-          button
-          onClick={() => dispatch.blockProducers.toggleCompareTool()}
-        >
-          <ListItemText
-            primary={`${t('compareToolToggle')}(${selectedCount})`}
-          />
-          <ListItemSecondaryAction>
-            {compareTool ? <VisibilityIcon /> : <VisibilityOffIcon />}
-          </ListItemSecondaryAction>
-        </ListItem>
-      </List>
-    )}
-  </Redux>
+const CompareToolToggle = ({
+  classes,
+  t,
+  toggleCompareTool,
+  selectedCount,
+  compareTool
+}) => (
+  <List className={classes.nested}>
+    <ListItem
+      className={classes.listItem}
+      button
+      onClick={() => toggleCompareTool()}
+    >
+      <ListItemText primary={`${t('compareToolToggle')}(${selectedCount})`} />
+      <ListItemSecondaryAction>
+        {compareTool ? <VisibilityIcon /> : <VisibilityOffIcon />}
+      </ListItemSecondaryAction>
+    </ListItem>
+  </List>
 )
 
 CompareToolToggle.propTypes = {
   classes: PropTypes.object.isRequired,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
+  compareTool: PropTypes.bool.isRequired,
+  selectedCount: PropTypes.number.isRequired,
+  toggleCompareTool: PropTypes.func.isRequired
 }
 
+const mapStatetoProps = ({ blockProducers: { compareTool, selected } }) => ({
+  compareTool,
+  selectedCount: selected.length
+})
+
+const mapDispatchToProps = ({ blockProducers: { toggleCompareTool } }) => ({
+  toggleCompareTool
+})
+
 export default withStyles(style)(
-  withNamespaces('translations')(CompareToolToggle)
+  withNamespaces('translations')(
+    connect(
+      mapStatetoProps,
+      mapDispatchToProps
+    )(CompareToolToggle)
+  )
 )

@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Provider } from 'redux-render'
+import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import { getPersistor } from '@rematch/persist'
 import { MuiThemeProvider, CssBaseline } from '@material-ui/core'

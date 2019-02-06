@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { withNamespaces } from 'react-i18next'
-import { Redux } from 'redux-render'
+import { connect } from 'react-redux'
 import { navigate } from '@reach/router'
 import Highlight from 'react-highlighter'
 import Autosuggest from 'react-autosuggest'
@@ -12,10 +12,6 @@ import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Paper from '@material-ui/core/Paper'
 import MenuItem from '@material-ui/core/MenuItem'
-
-import store from 'store'
-
-const { dispatch } = store
 
 const style = theme => ({
   root: {
@@ -68,7 +64,7 @@ class InputAutocomplete extends PureComponent {
   }
 
   componentDidMount () {
-    dispatch.blockProducers.getBPs()
+    this.props.getBPs()
   }
 
   renderInputComponent = inputProps => {
@@ -149,7 +145,7 @@ class InputAutocomplete extends PureComponent {
       suggestions: []
     })
 
-  handleSelectedBlockProducer = dispatch => (event, { newValue }) => {
+  handleSelectedBlockProducer = (event, { newValue }) => {
     this.setState({
       selectedBlockProducer: newValue
     })
@@ -161,49 +157,41 @@ class InputAutocomplete extends PureComponent {
   }
 
   render () {
-    const { classes, t } = this.props
+    const { classes, list, t } = this.props
 
     return (
-      <Redux
-        selector={state => ({
-          list: state.blockProducers.list
-        })}
-      >
-        {({ list }, dispatch) => (
-          <div className={classes.root}>
-            <Autosuggest
-              renderInputComponent={this.renderInputComponent}
-              suggestions={this.state.suggestions}
-              onSuggestionSelected={this.handleSelectedSuggestion}
-              onSuggestionsFetchRequested={event => {
-                this.handleSuggestionsFetchRequested(list)(event)
-              }}
-              onSuggestionsClearRequested={() =>
-                this.handleSuggestionsClearRequested()
-              }
-              getSuggestionValue={this.getSuggestionValue}
-              renderSuggestion={this.renderSuggestion}
-              inputProps={{
-                classes,
-                placeholder: t('searchAutocomplete'),
-                value: this.state.selectedBlockProducer,
-                onChange: this.handleSelectedBlockProducer(dispatch)
-              }}
-              theme={{
-                container: classes.container,
-                suggestionsContainerOpen: classes.suggestionsContainerOpen,
-                suggestionsList: classes.suggestionsList,
-                suggestion: classes.suggestion
-              }}
-              renderSuggestionsContainer={options => (
-                <Paper {...options.containerProps} square>
-                  {options.children}
-                </Paper>
-              )}
-            />
-          </div>
-        )}
-      </Redux>
+      <div className={classes.root}>
+        <Autosuggest
+          renderInputComponent={this.renderInputComponent}
+          suggestions={this.state.suggestions}
+          onSuggestionSelected={this.handleSelectedSuggestion}
+          onSuggestionsFetchRequested={event => {
+            this.handleSuggestionsFetchRequested(list)(event)
+          }}
+          onSuggestionsClearRequested={() =>
+            this.handleSuggestionsClearRequested()
+          }
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
+          inputProps={{
+            classes,
+            placeholder: t('searchAutocomplete'),
+            value: this.state.selectedBlockProducer,
+            onChange: this.handleSelectedBlockProducer
+          }}
+          theme={{
+            container: classes.container,
+            suggestionsContainerOpen: classes.suggestionsContainerOpen,
+            suggestionsList: classes.suggestionsList,
+            suggestion: classes.suggestion
+          }}
+          renderSuggestionsContainer={options => (
+            <Paper {...options.containerProps} square>
+              {options.children}
+            </Paper>
+          )}
+        />
+      </div>
     )
   }
 }
@@ -220,6 +208,19 @@ InputAutocomplete.defaultProps = {
   hideSearchIcon: false
 }
 
+const mapStatetoProps = state => ({
+  list: state.blockProducers.list
+})
+
+const mapDispatchToProps = ({ blockProducers: { getBPs } }) => ({
+  getBPs
+})
+
 export default withStyles(style)(
-  withNamespaces('translations')(InputAutocomplete)
+  withNamespaces('translations')(
+    connect(
+      mapStatetoProps,
+      mapDispatchToProps
+    )(InputAutocomplete)
+  )
 )
