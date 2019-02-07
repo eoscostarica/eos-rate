@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Component from '@reach/component-component'
 import { withNamespaces } from 'react-i18next'
 import { withStyles } from '@material-ui/core/styles'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -26,62 +25,55 @@ const styles = theme => ({
   }
 })
 
-const CompareTool = ({
-  classes,
-  removeBP,
-  bpList,
-  selected,
-  t,
-  className,
-  ...props
-}) => (
-  <Component
-    initialState={{
-      isCollapsedView: true
-    }}
-  >
-    {({ setState, state }) => {
-      const selectedBlockProducers = selected.map(bpName =>
-        bpList.find(
-          ({ bpjson: { producer_account_name: producerAccountName } }) =>
-            bpName === producerAccountName
-        )
+class CompareTool extends Component {
+  state = {
+    isCollapsedView: true
+  }
+
+  render () {
+    const { classes, removeBP, bpList, selected, t, className } = this.props
+
+    const selectedBlockProducers = selected.map(bpName =>
+      bpList.find(
+        ({ bpjson: { producer_account_name: producerAccountName } }) =>
+          bpName === producerAccountName
       )
-      return (
-        <div className={[classes.root, className].join(' ')}>
-          {state.isCollapsedView ? (
-            <CompareGraphView
-              removeBP={removeBP}
-              selected={selectedBlockProducers}
-            />
-          ) : (
-            <CompareSliderView
-              removeBP={removeBP}
-              selected={selectedBlockProducers}
-            />
-          )}
-          <div className={classes.footer}>
-            <FormControlLabel
-              className={classes.switch}
-              control={
-                <Switch
-                  checked={state.isCollapsedView}
-                  onChange={event =>
-                    setState({
-                      isCollapsedView: event.target.checked
-                    })
-                  }
-                  value='isCollapsedView'
-                />
-              }
-              label={t('compareToolCollapsedSwitch')}
-            />
-          </div>
+    )
+
+    return (
+      <div className={[classes.root, className].join(' ')}>
+        {this.state.isCollapsedView ? (
+          <CompareGraphView
+            removeBP={removeBP}
+            selected={selectedBlockProducers}
+          />
+        ) : (
+          <CompareSliderView
+            removeBP={removeBP}
+            selected={selectedBlockProducers}
+          />
+        )}
+        <div className={classes.footer}>
+          <FormControlLabel
+            className={classes.switch}
+            control={
+              <Switch
+                checked={this.state.isCollapsedView}
+                onChange={event =>
+                  this.setState({
+                    isCollapsedView: event.target.checked
+                  })
+                }
+                value='isCollapsedView'
+              />
+            }
+            label={t('compareToolCollapsedSwitch')}
+          />
         </div>
-      )
-    }}
-  </Component>
-)
+      </div>
+    )
+  }
+}
 
 CompareTool.propTypes = {
   classes: PropTypes.object.isRequired,
