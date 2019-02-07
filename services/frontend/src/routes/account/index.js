@@ -1,31 +1,43 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { withNamespaces } from 'react-i18next'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Redux } from 'redux-render'
-import Component from '@reach/component-component'
 
-const Account = ({ t }) => (
-  <Redux selector={state => state.session}>
-    {(session, dispatch) => (
-      <Component
-        didMount={async () => {
-          await dispatch.session.getUserEOSAccount()
-        }}
-      >
-        {({ setState, state }) => (
-          <React.Fragment>
-            <h1>{t('accountTitle')}</h1>
-            <p>Your EOS Account Info</p>
-            <pre>{JSON.stringify(session.account)}</pre>
-          </React.Fragment>
-        )}
-      </Component>
-    )}
-  </Redux>
-)
+class Account extends Component {
+  componentDidMount () {
+    this.props.getUserEOSAccount()
+  }
 
-Account.propTypes = {
-  t: PropTypes.func.isRequired
+  render () {
+    const { t, session } = this.props
+
+    return (
+      <React.Fragment>
+        <h1>{t('accountTitle')}</h1>
+        <p>Your EOS Account Info</p>
+        <pre>{JSON.stringify(session.account)}</pre>
+      </React.Fragment>
+    )
+  }
 }
 
-export default withNamespaces('translations')(Account)
+const mapStateToProps = ({ session }) => ({
+  session
+})
+
+const mapDispatchToProps = ({ session: { getUserEOSAccount } }) => ({
+  getUserEOSAccount
+})
+
+Account.propTypes = {
+  t: PropTypes.func.isRequired,
+  session: PropTypes.object.isRequired,
+  getUserEOSAccount: PropTypes.func.isRequired
+}
+
+export default withNamespaces('translations')(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Account)
+)

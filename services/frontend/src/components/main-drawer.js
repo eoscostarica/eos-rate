@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Redux } from 'redux-render'
+import { connect } from 'react-redux'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import Collapse from '@material-ui/core/Collapse'
@@ -90,69 +90,62 @@ const MainDrawer = ({
   onClose,
   open = false,
   t,
+  currentPathname,
   ...props
 }) => (
-  <Redux
-    selector={({ location: { pathname: currentPathname } }) => ({
-      currentPathname
-    })}
-  >
-    {({ currentPathname }) => (
-      <React.Fragment>
-        <div className={classes.toolbar} />
-        {variant === 'mobile' && (
-          <Drawer
-            variant='temporary'
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-            open={open}
-            onClose={onClose}
-            classes={{
-              paper: classes.drawerPaper
-            }}
-            ModalProps={{
-              keepMounted: true // Better open performance on mobile.
-            }}
-          >
-            <Menu
-              onClick={isCollapsible => {
-                if (!isCollapsible) {
-                  onClose()
-                }
-              }}
-              currentPathname={currentPathname}
-              links={routes.map(route => ({
-                to: route.path,
-                label: t(route.drawerLabel),
-                collapsedItems: route.drawerComponents
-              }))}
-              classes={classes}
-              t={t}
-            />
-          </Drawer>
-        )}
-        {variant === 'desktop' && (
-          <Drawer
-            variant='persistent'
-            open={open}
-            classes={{
-              paper: classes.drawerPaper
-            }}
-          >
-            <Menu
-              currentPathname={currentPathname}
-              links={routes.map(route => ({
-                to: route.path,
-                label: t(route.drawerLabel),
-                collapsedItems: route.drawerComponents
-              }))}
-              classes={classes}
-              t={t}
-            />
-          </Drawer>
-        )}
-      </React.Fragment>
+  <React.Fragment>
+    <div className={classes.toolbar} />
+    {variant === 'mobile' && (
+      <Drawer
+        variant='temporary'
+        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+        open={open}
+        onClose={onClose}
+        classes={{
+          paper: classes.drawerPaper
+        }}
+        ModalProps={{
+          keepMounted: true // Better open performance on mobile.
+        }}
+      >
+        <Menu
+          onClick={isCollapsible => {
+            if (!isCollapsible) {
+              onClose()
+            }
+          }}
+          currentPathname={currentPathname}
+          links={routes.map(route => ({
+            to: route.path,
+            label: t(route.drawerLabel),
+            collapsedItems: route.drawerComponents
+          }))}
+          classes={classes}
+          t={t}
+        />
+      </Drawer>
     )}
-  </Redux>
+    {variant === 'desktop' && (
+      <Drawer
+        variant='persistent'
+        open={open}
+        classes={{
+          paper: classes.drawerPaper
+        }}
+      >
+        <Menu
+          currentPathname={currentPathname}
+          links={routes.map(route => ({
+            to: route.path,
+            label: t(route.drawerLabel),
+            collapsedItems: route.drawerComponents
+          }))}
+          classes={classes}
+          t={t}
+        />
+      </Drawer>
+    )}
+  </React.Fragment>
 )
 
 Menu.propTypes = {
@@ -166,12 +159,24 @@ Menu.propTypes = {
 MainDrawer.propTypes = {
   classes: PropTypes.object,
   t: PropTypes.func,
+  currentPathname: PropTypes.string,
   theme: PropTypes.object,
   variant: PropTypes.string,
   onClose: PropTypes.func,
   open: PropTypes.bool
 }
 
+const mapStateToProps = ({ location: { pathname: currentPathname } }) => ({
+  currentPathname
+})
+
+const mapDispatchToProps = () => ({})
+
 export default withStyles(styles, { withTheme: true })(
-  withNamespaces('translations')(MainDrawer)
+  withNamespaces('translations')(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(MainDrawer)
+  )
 )
