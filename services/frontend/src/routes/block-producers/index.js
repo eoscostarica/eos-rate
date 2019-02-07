@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Redux } from 'redux-render'
+import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import ExpandMore from '@material-ui/icons/ExpandMore'
@@ -8,7 +8,6 @@ import ExpandLess from '@material-ui/icons/ExpandLess'
 import { withStyles } from '@material-ui/core/styles'
 import { withNamespaces } from 'react-i18next'
 import classNames from 'classnames'
-import Component from '@reach/component-component'
 
 import BlockProducerCard from 'components/block-producer-card'
 import CompareTool from 'components/compare-tool'
@@ -48,102 +47,109 @@ const style = theme => ({
   }
 })
 
-const AllBps = ({ classes, ...props }) => (
-  <Redux
-    selector={state => ({
-      fullBPState: state.blockProducers,
-      blockProducers: state.blockProducers.list,
-      selectedBPs: state.blockProducers.selected,
-      filtered: state.blockProducers.filtered,
-      compareToolVisible: state.blockProducers.compareTool
-    })}
-  >
-    {(
-      {
-        fullBPState,
-        selectedBPs,
-        blockProducers,
-        filtered,
-        compareToolVisible
-      },
-      dispatch
-    ) => {
-      const bpList = filtered.length ? filtered : blockProducers
-      return (
-        <Component
-          className={classes.root}
-          componentDidMount={() => dispatch.blockProducers.getBPs()}
-        >
-          {() => (
-            <React.Fragment>
-              <Button
-                variant='fab'
-                color='secondary'
-                // ariaLabel='Toggle comparison tool visiblity'
-                className={classes.compareToggleButton}
-                onClick={() => dispatch.blockProducers.toggleCompareTool()}
-              >
-                {compareToolVisible ? <ExpandLess /> : <ExpandMore />}
-              </Button>
-              <CompareTool
-                removeBP={producerAccountName => () => {
-                  dispatch.blockProducers.removeSelected(producerAccountName)
-                }}
-                className={classNames(classes.compareTool, {
-                  [classes.hidden]: !compareToolVisible
-                })}
-                bpList={blockProducers}
-                selected={selectedBPs}
-              />
-              <Grid
-                className={classes.wrapper}
-                container
-                justify='center'
-                spacing={16}
-              >
-                {bpList.map(blockProducer => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    key={`${blockProducer.owner}-main-block-card`}
-                  >
-                    <BlockProducerCard
-                      isSelected={selectedBPs.includes(blockProducer.owner)}
-                      toggleSelection={(
-                        isAdding,
-                        producerAccountName
-                      ) => () => {
-                        if (isAdding) {
-                          dispatch.blockProducers.addToSelected(
-                            producerAccountName
-                          )
-                        } else {
-                          dispatch.blockProducers.removeSelected(
-                            producerAccountName
-                          )
-                        }
-                      }}
-                      blockProducer={blockProducer}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            </React.Fragment>
-          )}
-        </Component>
-      )
-    }}
-  </Redux>
-)
+class AllBps extends Component {
+  componentDidMount () {
+    this.props.getBPs()
+  }
 
-AllBps.propTypes = {
-  classes: PropTypes.object.isRequired
-  // t: PropTypes.func.isRequired
+  render () {
+    const {
+      classes,
+      selectedBPs,
+      blockProducers,
+      filtered,
+      compareToolVisible,
+      toggleCompareTool,
+      removeSelected,
+      addToSelected
+    } = this.props
+    const bpList = filtered.length ? filtered : blockProducers
+    return (
+      <div className={classes.root}>
+        <Button
+          variant='fab'
+          color='secondary'
+          aria-label='Toggle comparison tool visiblity'
+          className={classes.compareToggleButton}
+          onClick={() => toggleCompareTool()}
+        >
+          {compareToolVisible ? <ExpandLess /> : <ExpandMore />}
+        </Button>
+        <CompareTool
+          removeBP={producerAccountName => () => {
+            removeSelected(producerAccountName)
+          }}
+          className={classNames(classes.compareTool, {
+            [classes.hidden]: !compareToolVisible
+          })}
+          bpList={blockProducers}
+          selected={selectedBPs}
+        />
+        <Grid
+          className={classes.wrapper}
+          container
+          justify='center'
+          spacing={16}
+        >
+          {bpList.map(blockProducer => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              key={`${blockProducer.owner}-main-block-card`}
+            >
+              <BlockProducerCard
+                isSelected={selectedBPs.includes(blockProducer.owner)}
+                toggleSelection={(isAdding, producerAccountName) => () => {
+                  if (isAdding) {
+                    addToSelected(producerAccountName)
+                  } else {
+                    removeSelected(producerAccountName)
+                  }
+                }}
+                blockProducer={blockProducer}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </div>
+    )
+  }
 }
 
-export default withStyles(style)(withNamespaces('translations')(AllBps))
+AllBps.propTypes = {
+  classes: PropTypes.object.isRequired,
+  // t: PropTypes.func.isRequired,
+  blockProducers: PropTypes.array.isRequired,
+  getBPs: PropTypes.func.isRequired,
+  toggleCompareTool: PropTypes.func.isRequired,
+  removeSelected: PropTypes.func.isRequired,
+  addToSelected: PropTypes.func.isRequired,
+  selectedBPs: PropTypes.array.isRequired,
+  filtered: PropTypes.array.isRequired,
+  compareToolVisible: PropTypes.bool.isRequired
+}
+
+const mapStatetoProps = ({ blockProducers }) => ({
+  blockProducers: blockProducers.list,
+  selectedBPs: blockProducers.selected,
+  filtered: blockProducers.filtered,
+  compareToolVisible: blockProducers.compareTool
+})
+
+const mapDispatchToProps = ({
+  blockProducers: { getBPs, toggleCompareTool }
+}) => ({ getBPs, toggleCompareTool })
+
+export default withStyles(style)(
+  withNamespaces('translations')(
+    connect(
+      mapStatetoProps,
+      mapDispatchToProps
+    )(AllBps)
+  )
+)
 
 export const blockProducersDrawer = [
   // FilterBox

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withNamespaces } from 'react-i18next'
 import { withStyles } from '@material-ui/core/styles'
@@ -8,7 +8,6 @@ import RestoreIcon from '@material-ui/icons/Restore'
 import ShippingIcon from '@material-ui/icons/ControlPoint'
 import SettingsIcon from '@material-ui/icons/Settings'
 import { navigate } from '@reach/router'
-import Component from '@reach/component-component'
 
 const styles = {
   root: {

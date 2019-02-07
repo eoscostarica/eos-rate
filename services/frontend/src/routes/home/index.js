@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import { Redux } from 'redux-render'
 import { withStyles } from '@material-ui/core/styles'
+import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import PropTypes from 'prop-types'
 
 import Cover from './cover'
 import SubTopic from './subTopic'
-import store from 'store'
-
-const { dispatch } = store
 
 const styles = ({ spacing, palette }) => ({
   spacingContainers: {
@@ -24,53 +21,60 @@ const styles = ({ spacing, palette }) => ({
 
 class Home extends Component {
   componentDidMount () {
-    dispatch.home.getBlockData()
+    this.props.getBlockData()
   }
 
   render () {
-    const { classes } = this.props
+    const { classes, home } = this.props
     return (
-      <Redux
-        selector={state => ({
-          home: state.home
-        })}
-      >
-        {({ home }) => (
-          <Grid container direction='column'>
-            <Grid item xs>
-              {home.blockProducer && (
-                <Grid
-                  container
-                  justify='center'
-                  className={`${classes.spacingContainers}
+      <Grid container direction='column'>
+        <Grid item xs>
+          {home.blockProducer && (
+            <Grid
+              container
+              justify='center'
+              className={`${classes.spacingContainers}
                     ${classes.coverContainer}
                   `}
-                >
-                  <Cover blockProducer={home.blockProducer} />
-                </Grid>
-              )}
+            >
+              <Cover blockProducer={home.blockProducer} />
             </Grid>
+          )}
+        </Grid>
 
-            <Grid item xs>
-              <Grid
-                container
-                justify='center'
-                className={`${classes.spacingContainers}
+        <Grid item xs>
+          <Grid
+            container
+            justify='center'
+            className={`${classes.spacingContainers}
                 ${classes.subTopicContainer}
               `}
-              >
-                <SubTopic />
-              </Grid>
-            </Grid>
+          >
+            <SubTopic />
           </Grid>
-        )}
-      </Redux>
+        </Grid>
+      </Grid>
     )
   }
 }
 
+const mapStatetoProps = ({ home }) => ({
+  home
+})
+
+const mapDispatchToProps = ({ home: { getBlockData } }) => ({
+  getBlockData
+})
+
 Home.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  home: PropTypes.object.isRequired,
+  getBlockData: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(Home)
+export default withStyles(styles)(
+  connect(
+    mapStatetoProps,
+    mapDispatchToProps
+  )(Home)
+)
