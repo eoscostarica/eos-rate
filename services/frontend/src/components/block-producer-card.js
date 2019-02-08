@@ -7,10 +7,7 @@ import CardHeader from '@material-ui/core/CardHeader'
 import Chip from '@material-ui/core/Chip'
 import CardActions from '@material-ui/core/CardActions'
 import Avatar from '@material-ui/core/Avatar'
-import IconButton from '@material-ui/core/IconButton'
-import AddIcon from '@material-ui/icons/Add'
-import RemoveIcon from '@material-ui/icons/Remove'
-import InfoIcon from '@material-ui/icons/Info'
+import Button from '@material-ui/core/Button'
 import ReportProblem from '@material-ui/icons/ReportProblem'
 import _get from 'lodash.get'
 import _isEmpty from 'lodash.isempty'
@@ -107,17 +104,12 @@ const BlockProducerCard = ({
       />
     </div>
     <CardActions className={classes.actions} disableActionSpacing>
-      <IconButton
+      <Button
         aria-label='Add to comparison'
         onClick={toggleSelection(!isSelected, blockProducer.owner)}
       >
-        {isSelected ? <RemoveIcon /> : <AddIcon />}
-      </IconButton>
-      <Link to={`/block-producers/${blockProducer.owner}`}>
-        <IconButton>
-          <InfoIcon />
-        </IconButton>
-      </Link>
+        {isSelected ? 'REMOVE' : 'ADD'}
+      </Button>
     </CardActions>
   </Card>
 )
