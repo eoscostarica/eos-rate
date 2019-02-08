@@ -2,11 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
+import Chip from '@material-ui/core/Chip'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
-import IconButton from '@material-ui/core/IconButton'
-import CloseIcon from '@material-ui/icons/Close'
+// import IconButton from '@material-ui/core/IconButton'
+// import CloseIcon from '@material-ui/icons/Close'
 import { withNamespaces } from 'react-i18next'
+import _get from 'lodash.get'
+import _isEmpty from 'lodash.isempty'
 
 import comparisonParameters from 'config/comparison-parameters'
 import BlockProducerRadar from 'components/block-producer-radar'
@@ -33,8 +36,9 @@ const styles = theme => ({
     verticalAlign: 'text-bottom'
   },
   bpName: {
-    padding: '0 0 0 10px',
-    display: 'inline'
+    margin: theme.spacing.unit,
+    color: 'white',
+    backgroundColor: theme.palette.primary.light
   }
 })
 
@@ -61,27 +65,30 @@ const CompareGraphView = ({
     <Grid item xs={12} md={4}>
       <Typography variant='h5'>{t('compareToolTitle')}</Typography>
       {selected.map(bp => (
-        <div
-          className={classes.bpItem}
-          key={`bp-list-name-${bp.bpjson.producer_account_name}`}
-        >
-          <div className={classes.bpNameWrapper}>
+        <Chip
+          className={classes.bpName}
+          avatar={
             <Avatar
-              className={classes.bpColorCode}
-              component='span'
+              aria-label='Block Producer'
               style={{ backgroundColor: bp.data.pointBackgroundColor }}
-            />
-            <Typography className={classes.bpName} component='span'>
-              {bp.bpjson.producer_account_name}
-            </Typography>
-          </div>
-          <IconButton
-            onClick={removeBP(bp.bpjson.producer_account_name)}
-            aria-label='Remove block producer'
-          >
-            <CloseIcon />
-          </IconButton>
-        </div>
+              className={classes.avatar}
+            >
+              {_isEmpty(bp.bpjson) ? (
+                'BP'
+              ) : (
+                <img
+                  src={_get(bp, 'bpjson.org.branding.logo_256')}
+                  alt=''
+                  width='100%'
+                />
+              )}
+            </Avatar>
+          }
+          color='secondary'
+          onDelete={removeBP(bp.owner)}
+          label={bp.owner}
+          key={`bp-list-name-${bp.owner}`}
+        />
       ))}
     </Grid>
   </Grid>
