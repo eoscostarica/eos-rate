@@ -80,7 +80,7 @@ const BlockProducerProfile = ({
                   <Grid item xs={4}>
                     <Grid container direction='row' alignItems='center'>
                       <AccountCircle className={classes.accountCircle} />
-                      <Typography variant='title' className={classes.bpName}>
+                      <Typography variant='h6' className={classes.bpName}>
                         {blockProducer.producer_account_name || ''}
                       </Typography>
                     </Grid>
