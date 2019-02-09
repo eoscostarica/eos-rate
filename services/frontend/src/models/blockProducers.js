@@ -23,7 +23,9 @@ const blockProducers = {
     setBPs (state, list) {
       // Whenever we get a new list, clear filters
       return {
-        ...initialState,
+        ...state,
+        filters: {},
+        filtered: [],
         list: list.map(bp => ({ ...bp }))
       }
     },
