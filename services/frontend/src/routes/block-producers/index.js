@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
+import Badge from '@material-ui/core/Badge'
 import Button from '@material-ui/core/Button'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import ExpandLess from '@material-ui/icons/ExpandLess'
@@ -24,6 +25,10 @@ const style = theme => ({
     margin: theme.spacing.unit * 2,
     zIndex: 1
   },
+  badge: {
+    border: `2px solid ${theme.palette.secondary}`,
+    background: theme.palette.primary.sectionBackground
+  },
   wrapper: {
     padding: theme.spacing.unit * 3
   },
@@ -39,6 +44,10 @@ const style = theme => ({
       'min-height 0.25s ease'
     ]
   },
+  loadMoreButton: {
+    display: 'block',
+    margin: `${theme.spacing.unit * 2}px auto`
+  },
   hidden: {
     opacity: 0,
     transform: 'scaleY(0)',
@@ -48,9 +57,18 @@ const style = theme => ({
 })
 
 class AllBps extends Component {
+  state = {
+    currentlyVisible: 10
+  }
+
   componentDidMount () {
     this.props.getBPs()
   }
+
+  loadMore = () =>
+    this.setState(({ currentlyVisible }) => ({
+      currentlyVisible: currentlyVisible + 10
+    }))
 
   render () {
     const {
@@ -63,7 +81,11 @@ class AllBps extends Component {
       removeSelected,
       addToSelected
     } = this.props
+    const { currentlyVisible } = this.state
     const bpList = filtered.length ? filtered : blockProducers
+    const shownList = bpList.slice(0, currentlyVisible)
+
+    const hasMore = currentlyVisible < bpList.length
     return (
       <div className={classes.root}>
         <Button
@@ -73,7 +95,13 @@ class AllBps extends Component {
           className={classes.compareToggleButton}
           onClick={() => toggleCompareTool()}
         >
-          {compareToolVisible ? <ExpandLess /> : <ExpandMore />}
+          <Badge
+            classes={{ badge: classes.badge }}
+            invisible={!selectedBPs.length}
+            badgeContent={selectedBPs.length}
+          >
+            {compareToolVisible ? <ExpandLess /> : <ExpandMore />}
+          </Badge>
         </Button>
         <CompareTool
           removeBP={producerAccountName => () => {
@@ -91,7 +119,7 @@ class AllBps extends Component {
           justify='center'
           spacing={16}
         >
-          {bpList.map(blockProducer => (
+          {shownList.map(blockProducer => (
             <Grid
               item
               xs={12}
@@ -113,6 +141,12 @@ class AllBps extends Component {
             </Grid>
           ))}
         </Grid>
+        <Button
+          className={classes.loadMoreButton}
+          onClick={() => hasMore && this.loadMore()}
+        >
+          LOAD MORE
+        </Button>
       </div>
     )
   }
@@ -139,8 +173,8 @@ const mapStatetoProps = ({ blockProducers }) => ({
 })
 
 const mapDispatchToProps = ({
-  blockProducers: { getBPs, toggleCompareTool }
-}) => ({ getBPs, toggleCompareTool })
+  blockProducers: { getBPs, toggleCompareTool, addToSelected, removeSelected }
+}) => ({ getBPs, toggleCompareTool, addToSelected, removeSelected })
 
 export default withStyles(style)(
   withNamespaces('translations')(
