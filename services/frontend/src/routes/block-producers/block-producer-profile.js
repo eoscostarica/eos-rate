@@ -4,7 +4,6 @@ import { withNamespaces } from 'react-i18next'
 import { connect } from 'react-redux'
 import { Link, Redirect } from '@reach/router'
 import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
@@ -58,12 +57,12 @@ const BlockProducerProfile = ({
     <Grid container justify='center' spacing={16} className={classes.container}>
       <Grid item xs={12}>
         <Grid container spacing={16} direction='row' alignItems='center'>
-          <Link to='/block-producers'>
-            <IconButton>
-              <KeyboardArrowLeft />
-            </IconButton>
-          </Link>
-          <Typography variant='caption'>ALL BLOCK PRODUCERS</Typography>
+          <Button
+            component={props => <Link {...props} to='/block-producers' />}
+          >
+            <KeyboardArrowLeft />
+            All Block Producers
+          </Button>
         </Grid>
       </Grid>
       <Grid item xs={12}>
@@ -79,40 +78,38 @@ const BlockProducerProfile = ({
                 <Grid container direction='row' alignItems='center'>
                   <Grid item xs={4}>
                     <Grid container direction='row' alignItems='center'>
-                      <Grid item xs={4}>
-                        <Grid container direction='row' alignItems='center'>
-                          <AccountCircle className={classes.accountCircle} />
-                          <Typography
-                            variant='title'
-                            className={classes.bpName}
-                          >
-                            {blockProducer.producer_account_name || ''}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                      <Grid item xs={8}>
-                        <Grid container direction='row' justify='flex-end'>
-                          <Button
-                            style={{
-                              marginRight: 10,
-                              backgroundColor: '#010318'
-                            }}
-                          >
-                            ADD TO COMPARE
-                          </Button>
-                          <Button
-                            href={`/block-producers/${
+                      <AccountCircle className={classes.accountCircle} />
+                      <Typography variant='h6' className={classes.bpName}>
+                        {blockProducer.producer_account_name || ''}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Grid item xs={8}>
+                    <Grid container direction='row' justify='flex-end'>
+                      <Button
+                        style={{
+                          marginRight: 10,
+                          backgroundColor: '#010318'
+                        }}
+                      >
+                        ADD TO COMPARE
+                      </Button>
+                      <Button
+                        component={props => (
+                          <Link
+                            {...props}
+                            to={`/block-producers/${
                               blockProducer.bpjson.producer_account_name
                             }/rate`}
-                            className='textPrimary'
-                            variant='contained'
-                            size='small'
-                            color='secondary'
-                          >
-                            RATE
-                          </Button>
-                        </Grid>
-                      </Grid>
+                          />
+                        )}
+                        className='textPrimary'
+                        variant='contained'
+                        size='small'
+                        color='secondary'
+                      >
+                        RATE
+                      </Button>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -239,7 +236,11 @@ const BlockProducerProfile = ({
               </Grid>
               <Grid item xs={8}>
                 <Grid container direction='column'>
-                  <Grid item xs={12} style={{ backgroundColor: '#000' }}>
+                  <Grid
+                    item
+                    xs={12}
+                    style={{ padding: '30px 0', backgroundColor: '#000' }}
+                  >
                     <BlockProducerRadar
                       bpData={{
                         labels: bpParameters,
