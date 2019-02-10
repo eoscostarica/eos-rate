@@ -130,21 +130,22 @@ class BlockProducerRate extends PureComponent {
             alignItems='center'
             className={classes.breadcrumbText}
           >
-            <Button component={props => <Link to='/block-producers' />}>
+            <Button
+              component={props => <Link {...props} to='/block-producers' />}
+            >
               <KeyboardArrowLeft />
               All Block Producers
             </Button>
             <Button
               component={props => (
                 <Link
-                  to={`/block-producers/${
-                    blockProducer.bpjson.producer_account_name
-                  }`}
+                  {...props}
+                  to={`/block-producers/${blockProducer.owner}`}
                 />
               )}
             >
               <KeyboardArrowLeft />
-              {blockProducer.bpjson.producer_account_name || ''}
+              {blockProducer.owner || ''}
             </Button>
           </Grid>
         </Grid>
@@ -193,7 +194,9 @@ class BlockProducerRate extends PureComponent {
                         paragraph
                         style={{ margin: 0 }}
                         className={
-                          !transparencyEnabled && classes.parameterTitleDisabled
+                          transparencyEnabled
+                            ? ''
+                            : classes.parameterTitleDisabled
                         }
                       >
                         Transparency{' '}
@@ -226,8 +229,9 @@ class BlockProducerRate extends PureComponent {
                         paragraph
                         style={{ margin: 0 }}
                         className={
-                          !infrastructureEnabled &&
-                          classes.parameterTitleDisabled
+                          infrastructureEnabled
+                            ? ''
+                            : classes.parameterTitleDisabled
                         }
                       >
                         Infrastruture{' '}
@@ -262,7 +266,9 @@ class BlockProducerRate extends PureComponent {
                         paragraph
                         style={{ margin: 0 }}
                         className={
-                          !trustinessEnabled && classes.parameterTitleDisabled
+                          trustinessEnabled
+                            ? ''
+                            : classes.parameterTitleDisabled
                         }
                       >
                         Trustiness{' '}
@@ -295,7 +301,7 @@ class BlockProducerRate extends PureComponent {
                         paragraph
                         style={{ margin: 0 }}
                         className={
-                          !communityEnabled && classes.parameterTitleDisabled
+                          communityEnabled ? '' : classes.parameterTitleDisabled
                         }
                       >
                         Community{' '}
@@ -328,7 +334,9 @@ class BlockProducerRate extends PureComponent {
                         paragraph
                         style={{ margin: 0 }}
                         className={
-                          !developmentEnabled && classes.parameterTitleDisabled
+                          developmentEnabled
+                            ? ''
+                            : classes.parameterTitleDisabled
                         }
                       >
                         Development{' '}
