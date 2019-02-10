@@ -78,17 +78,17 @@ services:
       - serve
       - --enable-console
 
-    # nginx reverse proxy that allows accesing the services directly on the host machine
-    # the wildcard *.esolocal.io that points to 127.0.0.1,
-    # therefore as long as you can hit the dns server it will redirect all requests to your machine
-    # and nginx-proxy does the internal docker network routing to the right service
-    nginx:
-      container_name: eoslocal_nginx
-      image: jwilder/nginx-proxy:alpine
-      ports:
-        - '80:80'
-      volumes:
-        - /var/run/docker.sock:/tmp/docker.sock:ro
+  # nginx reverse proxy that allows accesing the services directly on the host machine
+  # the wildcard *.esolocal.io that points to 127.0.0.1,
+  # therefore as long as you can hit the dns server it will redirect all requests to your machine
+  # and nginx-proxy does the internal docker network routing to the right service
+  nginx:
+    container_name: eoslocal_nginx
+    image: jwilder/nginx-proxy:alpine
+    ports:
+      - '80:80'
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
 
 volumes:
   eosrate-postgres:
