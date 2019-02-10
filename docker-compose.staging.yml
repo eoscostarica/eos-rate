@@ -1,0 +1,98 @@
+version: "3.5"
+
+services:
+  postgres:
+    container_name: eosrate_postgres
+    image: postgres:10.4
+    volumes:
+      - eosrate-postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      DB_NAME: eosrate
+      DB_USER: user
+      DB_PASSWORD: pass
+      POSTGRES_DB: eosrate
+
+  pgweb:
+    container_name: eosrate_pgweb
+    image: sosedoff/pgweb:latest
+    restart: always
+    ports:
+      - "8082:8081"
+    environment:
+      DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
+    depends_on:
+      - postgres
+
+  demux:
+    container_name: eosrate_demux
+    build:
+      context: ./services/demux
+      dockerfile: ./Dockerfile
+    image: eosrate/demux
+    volumes:
+      - ./services/demux:/opt/application # mount demux service folder
+      - /opt/application/node_modules # prevents host/container conflicts
+    depends_on:
+      - postgres
+      - hasura
+    environment:
+      DB_USER: user
+      DB_PASSWORD: pass
+      DB_PORT: 5432
+      DB_NAME: eosrate
+      DB_HOST: postgres
+      DB_SCHEMA: public
+      EOS_API_ENDPOINT: "https://eos.greymass.com:443"
+      CHAIN_HOST: "http://eosio:8888"
+      CHAIN_INIT_BLOCK: 10
+      MONGO_URI: "mongodb://190.10.8.205:27017"
+      MONGO_DB: EOS
+      WAIT_HOSTS: postgres:5432, hasura:8080
+      WAIT_HOSTS_TIMEOUT: 60
+    ports:
+      - "3030:3030"
+    networks:
+      default:
+
+  hasura:
+    container_name: eosrate_hasura
+    image: hasura/graphql-engine:v1.0.0-alpha35.cli-migrations
+    ports:
+      - "8088:8080"
+    depends_on:
+      - postgres
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
+      HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
+      VIRTUAL_HOST: staging.eosrate.io
+      VIRTUAL_PORT: 8088
+    volumes:
+      - ./services/hasura/migrations:/hasura-migrations #  mount hasura migrations folder
+    command:
+      - graphql-engine
+      - serve
+      - --enable-console
+
+    # nginx reverse proxy that allows accesing the services directly on the host machine
+    # the wildcard *.esolocal.io that points to 127.0.0.1,
+    # therefore as long as you can hit the dns server it will redirect all requests to your machine
+    # and nginx-proxy does the internal docker network routing to the right service
+    nginx:
+      container_name: eoslocal_nginx
+      image: jwilder/nginx-proxy:alpine
+      ports:
+        - '80:80'
+      volumes:
+        - /var/run/docker.sock:/tmp/docker.sock:ro
+
+volumes:
+  eosrate-postgres:
+
+networks:
+  default:
+    name: eosrate
