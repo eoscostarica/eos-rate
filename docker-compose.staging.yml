@@ -83,7 +83,7 @@ services:
   # therefore as long as you can hit the dns server it will redirect all requests to your machine
   # and nginx-proxy does the internal docker network routing to the right service
   nginx:
-    container_name: eoslocal_nginx
+    container_name: eosrate_nginx
     image: jwilder/nginx-proxy:alpine
     ports:
       - '80:80'
