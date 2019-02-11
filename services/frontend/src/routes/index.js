@@ -1,6 +1,7 @@
 import Home from './home'
 import Account from './account'
 import BlockProducerProfile from './block-producers/block-producer-profile'
+import BlockProducerRate from './block-producers/block-producer-rate'
 import AllBps, { blockProducersDrawer } from './block-producers'
 // import Settings from './settings'
 
@@ -19,6 +20,10 @@ export default [
   {
     path: 'block-producers/:account',
     Component: BlockProducerProfile
+  },
+  {
+    path: 'block-producers/:account/rate',
+    Component: BlockProducerRate
   },
   // {
   //   path: '/settings',
