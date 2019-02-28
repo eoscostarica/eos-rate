@@ -2,8 +2,8 @@ import api from 'services/api'
 import { getUserEOSAccout } from 'services/scatter'
 
 const initialState = {
-  accessToken: null,
-  account: null
+  accessToken: '',
+  account: {}
 }
 
 const session = {

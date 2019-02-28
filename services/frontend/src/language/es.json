@@ -22,11 +22,10 @@
 
     "not-found": "Recurso no encontrado",
 
-    "accountTitle": "Historial Cuenta",
-
     "drawerLinkHome": "Página Principal",
     "drawerLinkAllBPs": "Productores de Bloques",
-    "drawerLinkSettings": "Configuración"
+    "drawerLinkSettings": "Configuración",
+    "drawerLinkAccount": "Cuenta"
   },
 
   "not-found": {
@@ -46,5 +45,13 @@
       "title": "Titulo Secundario",
       "paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum enim a lacus efficitur efficitur. Integer placerat porta urna, vitae rhoncus mi scelerisque non. Aliquam sed pulvinar massa, nec dictum lectus. Praesent bibendum at elit eu fermentum. Vivamus vitae accumsan est. Curabitur arcu ex, fringilla id mi non, malesuada pharetra justo.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum enim a lacus efficitur efficitur. Integer placerat porta urna, vitae rhoncus mi scelerisque non. Aliquam sed pulvinar massa, nec dictum lectus. Praesent bibendum at elit eu fermentum. Vivamus vitae accumsan est. Curabitur arcu ex, fringilla id mi non, malesuada pharetra justo."
     }
+  },
+
+  "account": {
+    "title": "Cuenta",
+    "name": "Nombre",
+    "authority": "Autoridad",
+    "blockchain": "Blockchain",
+    "activity": "Actividad"
   }
 }
