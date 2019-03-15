@@ -2,6 +2,31 @@ import React, { Component } from 'react'
 import { withNamespaces } from 'react-i18next'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import { withStyles } from '@material-ui/core/styles'
+import classnames from 'classnames'
+
+const style = () => ({
+  container: {
+    padding: 11,
+    color: '#ffffff'
+  },
+  account: {
+    padding: '20px 32px'
+  },
+  title: {
+    textAlign: 'center'
+  },
+  box: {
+    padding: '20px 0'
+  },
+  bold: {
+    fontWeight: 'bold',
+    wordBreak: 'break-all'
+  }
+})
 
 class Account extends Component {
   componentDidMount () {
@@ -9,14 +34,30 @@ class Account extends Component {
   }
 
   render () {
-    const { t, session } = this.props
-
+    const { t, session, classes } = this.props
+    const entries = Object.entries(session.account)
     return (
-      <React.Fragment>
-        <h1>{t('accountTitle')}</h1>
-        <p>Your EOS Account Info</p>
-        <pre>{JSON.stringify(session.account)}</pre>
-      </React.Fragment>
+      <Grid container spacing={16} className={classes.container}>
+        <Grid item xs={12}>
+          <Paper className={classes.account}>
+            <Typography
+              variant='h5'
+              className={classnames(classes.title, classes.bold)}
+            >
+              {t('title')}
+            </Typography>
+            <Grid className={classes.box}>
+              {entries.map(entry => (
+                <Typography
+                  key={entry[0]}
+                  variant='subtitle1'
+                  className={classes.bold}
+                >{`${t(entry[0])}: ${entry[1]}`}</Typography>
+              ))}
+            </Grid>
+          </Paper>
+        </Grid>
+      </Grid>
     )
   }
 }
@@ -32,12 +73,15 @@ const mapDispatchToProps = ({ session: { getUserEOSAccount } }) => ({
 Account.propTypes = {
   t: PropTypes.func.isRequired,
   session: PropTypes.object.isRequired,
-  getUserEOSAccount: PropTypes.func.isRequired
+  getUserEOSAccount: PropTypes.func.isRequired,
+  classes: PropTypes.object
 }
 
-export default withNamespaces('translations')(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Account)
+export default withStyles(style)(
+  withNamespaces('account')(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Account)
+  )
 )
