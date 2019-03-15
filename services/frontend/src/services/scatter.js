@@ -3,10 +3,10 @@ import ScatterEOS from 'scatterjs-plugin-eosjs2'
 
 const network = {
   blockchain: 'eos',
-  protocol: 'https',
-  host: 'nodes.get-scatter.com',
-  port: 443,
-  chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906'
+  protocol: 'http',
+  host: 'jungle2.cryptolions.io',
+  port: 80,
+  chainId: 'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473'
 }
 
 // singleton service
@@ -40,7 +40,7 @@ export const getUserEOSAccout = async () => {
     // the user for their account name beforehand. They could still give you a different account.
     return scatter.identity.accounts.find(x => x.blockchain === 'eos')
   } catch (err) {
-    err && console.log(err)
-    // alert('error getting user identity')
+    alert(err.message)
+    return {}
   }
 }

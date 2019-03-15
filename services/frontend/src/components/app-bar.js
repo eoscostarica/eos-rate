@@ -8,10 +8,14 @@ import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import FingerprintIcon from '@material-ui/icons/Fingerprint'
+import Typography from '@material-ui/core/Typography'
 import { Link } from '@reach/router'
 
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
+import { connect } from 'react-redux'
+
+import classnames from 'classnames'
 
 const styles = theme => ({
   root: {
@@ -20,6 +24,12 @@ const styles = theme => ({
   link: {
     color: 'white',
     textDecoration: 'none'
+  },
+  linkHover: {
+    '&:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      borderRadius: 10
+    }
   },
   grow: {
     flexGrow: 1
@@ -71,11 +81,21 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: 200
     }
+  },
+  name: {
+    marginLeft: 5
+  },
+  fingerPrint: {
+    padding: '5px 8px',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0)'
+    }
   }
 })
 
 const MainTopBar = ({
   classes,
+  session,
   isSearchOpen,
   handleDrawerToggle,
   handleSearchDialogOpen,
@@ -107,9 +127,25 @@ const MainTopBar = ({
       >
         <SearchIcon />
       </IconButton>
-      <Link to='/account' className={classes.link}>
-        <IconButton color='inherit'>
+      <Link
+        to='/account'
+        className={classnames(classes.link, {
+          [classes.linkHover]: session.account.name
+        })}
+      >
+        <IconButton
+          color='default'
+          className={classnames({
+            [classes.fingerPrint]: session.account.name
+          })}
+        >
           <FingerprintIcon />
+          <Typography
+            variant='subtitle1'
+            className={classnames({ [classes.name]: session.account.name })}
+          >
+            {session.account.name}
+          </Typography>
         </IconButton>
       </Link>
     </Toolbar>
@@ -119,10 +155,13 @@ const MainTopBar = ({
 
 MainTopBar.propTypes = {
   classes: PropTypes.object,
+  session: PropTypes.object.isRequired,
   handleDrawerToggle: PropTypes.func,
   handleSearchDialogOpen: PropTypes.func,
   handleSearchDialogClose: PropTypes.func,
   isSearchOpen: PropTypes.bool
 }
 
-export default withStyles(styles)(MainTopBar)
+const mapStateToProps = ({ session }) => ({ session })
+
+export default withStyles(styles)(connect(mapStateToProps)(MainTopBar))
