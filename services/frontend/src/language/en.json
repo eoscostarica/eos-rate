@@ -22,11 +22,10 @@
 
     "notFound": "Not found",
 
-    "accountTitle": "Account Activity",
-
     "drawerLinkHome": "Home",
     "drawerLinkAllBPs": "Block Producers",
-    "drawerLinkSettings": "Settings"
+    "drawerLinkSettings": "Settings",
+    "drawerLinkAccount": "Account"
   },
 
   "not-found": {
@@ -47,5 +46,13 @@
       "paragraph1": "In this video Edgar Fernandez, co-founder of EOS Costa Rica, explains more in-depth the goals of EOS Rate, how it works and how you can get involved to help shape and maintain the tool.",
       "paragraph2": "Learn about the roadmap and how EOS Rate unique radar component we call the \"LEAF\" (Liquid EOS Attribute Factors) allows users to quickly compared different block producers and \"build\" their 30 BP vote by filling in as much of the LEAF as possible to facilitate the most diverse group for the network. The LEAF also allows voters to compare different proxies by visualizing each of the underlying BP \"leafs\" the proxy represents."
     }
+  },
+
+  "account": {
+    "title": "Account",
+    "name": "Name",
+    "authority": "Authority",
+    "blockchain": "Blockchain",
+    "activity": "Activity"
   }
 }
