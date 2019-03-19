@@ -82,6 +82,29 @@ class BlockProducerRate extends PureComponent {
     developmentEnabled: true
   }
 
+  getFinalPayload = () => {
+    const {
+      transparency,
+      transparencyEnabled,
+      infrastructure,
+      infrastructureEnabled,
+      trustiness,
+      trustinessEnabled,
+      community,
+      communityEnabled,
+      development,
+      developmentEnabled
+    } = this.state
+
+    return {
+      ...(communityEnabled && { community }),
+      ...(developmentEnabled && { development }),
+      ...(infrastructureEnabled && { infrastructure }),
+      ...(transparencyEnabled && { transparency }),
+      ...(trustinessEnabled && { trustiness })
+    }
+  }
+
   handleSliderChange = parameter => (event, value) =>
     this.setState({
       [parameter]: value
@@ -92,8 +115,14 @@ class BlockProducerRate extends PureComponent {
       [`${parameter}Enabled`]: value
     })
 
+  submitRating = event => {
+    event.preventDefault()
+    const ratingPayload = this.getFinalPayload()
+    console.log(ratingPayload)
+  }
+
   render () {
-    const { classes, account, list } = this.props
+    const { classes, account, list, t } = this.props
     const {
       transparency,
       transparencyEnabled,
@@ -387,13 +416,14 @@ class BlockProducerRate extends PureComponent {
                         style={{ marginTop: 10 }}
                       >
                         <Button
+                          onClick={this.submitRating}
                           className='textPrimary'
                           variant='contained'
                           size='small'
                           color='secondary'
                           style={{ marginRight: 10 }}
                         >
-                          Publish Rating
+                          {t('publishRatingButton')}
                         </Button>
                         <Button
                           component={props => (
@@ -407,7 +437,7 @@ class BlockProducerRate extends PureComponent {
                           variant='contained'
                           size='small'
                         >
-                          Cancel
+                          {t('cancelRatingButton')}
                         </Button>
                       </Grid>
                     </Grid>
@@ -435,7 +465,7 @@ const mapStateToProps = ({ blockProducers: { list } }) => ({
 const mapDispatchToProps = () => ({})
 
 export default withStyles(style)(
-  withNamespaces('bpProfilePage')(
+  withNamespaces('bpRatePage')(
     connect(
       mapStateToProps,
       mapDispatchToProps

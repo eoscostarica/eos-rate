@@ -54,5 +54,10 @@
     "authority": "Authority",
     "blockchain": "Blockchain",
     "activity": "Activity"
+  },
+
+  "bpRatePage": {
+    "publishRatingButton": "Publish Rating",
+    "cancelRatingButton": "Cancel"
   }
 }
