@@ -7,6 +7,7 @@ dist/
 .vscode
 .idea
 *.iml
+.history
 
 # Dependency directories
 node_modules
@@ -31,3 +32,4 @@ keys
 
 
 __docs
+
