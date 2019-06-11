@@ -9769,10 +9769,10 @@ saxes@^3.1.3:
   dependencies:
     xmlchars "^1.3.1"
 
-scatterjs-core@^2.3.2:
-  version "2.3.8"
-  resolved "https://registry.yarnpkg.com/scatterjs-core/-/scatterjs-core-2.3.8.tgz#20eb6f0a1eea6c35ebc46f4a975b33c0ce5bcc6f"
-  integrity sha512-vaU+fv6kxG2VaALdk2RJ3V+7TzpL0x0ChHDZo4JHKo7AIVXWQzjb56M6KWn90OX1BKZnTsCGSBCMn++oXkBWSw==
+scatterjs-core@^2.7.18:
+  version "2.7.18"
+  resolved "https://registry.yarnpkg.com/scatterjs-core/-/scatterjs-core-2.7.18.tgz#7be773e7d793b2c7137462b2dc3c43cce1f92a07"
+  integrity sha512-2Zhe8/WBEQHuXM0QoJC00s6O2AgVH20UItHnVaRU6YkZ7XG8YmuoUt6jsPxhHLmvGjySyW1f7K2b5SS86UdI3A==
   dependencies:
     create-hash "^1.2.0"
     es6-promise "^4.2.4"
@@ -9780,10 +9780,10 @@ scatterjs-core@^2.3.2:
     isomorphic-ws "^4.0.1"
     ws "^6.1.0"
 
-scatterjs-plugin-eosjs2@^1.1.4:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/scatterjs-plugin-eosjs2/-/scatterjs-plugin-eosjs2-1.1.6.tgz#4f6fa2f67da44c4da63abca77ed706c8f6cca79e"
-  integrity sha512-oHfxxzv8WUlldK/CyT3aKF36uXFRbYk+VEOKfzPFFH1rKEgUZmgZHXuZIxKI+ETPBZVVhDvpOKMl9qFqMlmjRw==
+scatterjs-plugin-eosjs2@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/scatterjs-plugin-eosjs2/-/scatterjs-plugin-eosjs2-1.5.0.tgz#4e8e08859c82af7b9c0b275ea57c9739a373cc18"
+  integrity sha512-RIYGW+c4dH//jwcAflcnI2N+erzy2AHQwfqMr8CTMCRg2S8Drm/PWf/iDn1JHsjbyTv1+kIP335zWz7xP92iAQ==
 
 scheduler@^0.11.2:
   version "0.11.2"
