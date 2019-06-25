@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import Badge from '@material-ui/core/Badge'
 import Button from '@material-ui/core/Button'
+import Fab from '@material-ui/core/Fab'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import { withStyles } from '@material-ui/core/styles'
@@ -27,7 +28,8 @@ const style = theme => ({
   },
   badge: {
     border: `2px solid ${theme.palette.secondary}`,
-    background: theme.palette.primary.sectionBackground
+    background: theme.palette.primary.sectionBackground,
+    color: theme.palette.secondary.light
   },
   wrapper: {
     padding: theme.spacing.unit * 3
@@ -88,8 +90,7 @@ class AllBps extends Component {
     const hasMore = currentlyVisible < bpList.length
     return (
       <div className={classes.root}>
-        <Button
-          variant='fab'
+        <Fab
           color='secondary'
           aria-label='Toggle comparison tool visiblity'
           className={classes.compareToggleButton}
@@ -102,7 +103,7 @@ class AllBps extends Component {
           >
             {compareToolVisible ? <ExpandLess /> : <ExpandMore />}
           </Badge>
-        </Button>
+        </Fab>
         <CompareTool
           removeBP={producerAccountName => () => {
             removeSelected(producerAccountName)

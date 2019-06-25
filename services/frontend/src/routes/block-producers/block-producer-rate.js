@@ -215,7 +215,7 @@ class BlockProducerRate extends PureComponent {
                           onChange={this.handleSliderChange('transparency')}
                           value={transparency}
                           min={0}
-                          max={5}
+                          max={10}
                           step={1}
                         />
                         <Switch
@@ -250,7 +250,7 @@ class BlockProducerRate extends PureComponent {
                           onChange={this.handleSliderChange('infrastructure')}
                           value={infrastructure}
                           min={0}
-                          max={5}
+                          max={10}
                           step={1}
                         />
                         <Switch
@@ -287,7 +287,7 @@ class BlockProducerRate extends PureComponent {
                           onChange={this.handleSliderChange('trustiness')}
                           value={trustiness}
                           min={0}
-                          max={5}
+                          max={10}
                           step={1}
                         />
                         <Switch
@@ -320,7 +320,7 @@ class BlockProducerRate extends PureComponent {
                           onChange={this.handleSliderChange('community')}
                           value={community}
                           min={0}
-                          max={5}
+                          max={10}
                           step={1}
                         />
                         <Switch
@@ -355,7 +355,7 @@ class BlockProducerRate extends PureComponent {
                           onChange={this.handleSliderChange('development')}
                           value={development}
                           min={0}
-                          max={5}
+                          max={10}
                           step={1}
                         />
                         <Switch
