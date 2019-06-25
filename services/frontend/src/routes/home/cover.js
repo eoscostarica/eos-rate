@@ -4,11 +4,15 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
+import { Link } from '@reach/router'
 import PropTypes from 'prop-types'
 // import ParameterRangeSelector from 'components/parameter-range-selector'
 import BlockProducerRadar from 'components/block-producer-radar'
 import bpParameters from 'config/comparison-parameters'
 
+const bpLink = React.forwardRef((props, ref) => (
+  <Link innerRef={ref} {...props} />
+))
 const styles = ({ palette, typography }) => ({
   coverContainer: {
     color: '#fff',
@@ -59,9 +63,11 @@ const HomeCover = ({ classes, t, blockProducer }) => (
       <div className={classes.ctaContainer}>
         <Button
           className='textPrimary'
+          component={bpLink}
           variant='contained'
           size='small'
           color='secondary'
+          to='/block-producers'
         >
           {t('cover.cta')}
         </Button>
