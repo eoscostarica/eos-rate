@@ -25,7 +25,11 @@
     "drawerLinkHome": "Página Principal",
     "drawerLinkAllBPs": "Productores de Bloques",
     "drawerLinkSettings": "Configuración",
-    "drawerLinkAccount": "Cuenta"
+    "drawerLinkAccount": "Cuenta",
+
+    "appBarSignIn": "Iniciar Sesión",
+
+    "connectToWallet": "Conectar a Wallet"
   },
 
   "not-found": {

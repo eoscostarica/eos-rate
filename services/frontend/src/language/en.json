@@ -25,7 +25,11 @@
     "drawerLinkHome": "Home",
     "drawerLinkAllBPs": "Block Producers",
     "drawerLinkSettings": "Settings",
-    "drawerLinkAccount": "Account"
+    "drawerLinkAccount": "Account",
+
+    "appBarSignIn": "Sign In",
+
+    "connectToWallet": "Connect to Wallet"
   },
 
   "not-found": {

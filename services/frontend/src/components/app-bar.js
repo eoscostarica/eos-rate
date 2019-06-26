@@ -1,21 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
+import classnames from 'classnames'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { connect } from 'react-redux'
+import { withNamespaces } from 'react-i18next'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
+import Button from '@material-ui/core/Button'
+import FingerprintIcon from '@material-ui/icons/Fingerprint'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
-import { fade } from '@material-ui/core/styles/colorManipulator'
-import FingerprintIcon from '@material-ui/icons/Fingerprint'
+import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+import { fade } from '@material-ui/core/styles/colorManipulator'
+import { withStyles } from '@material-ui/core/styles'
 import { Link } from '@reach/router'
 
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
-import { connect } from 'react-redux'
-
-import classnames from 'classnames'
+import SignInDialog from 'components/sign-in-dialog'
 
 const styles = theme => ({
   root: {
@@ -82,14 +85,8 @@ const styles = theme => ({
       width: 200
     }
   },
-  name: {
+  sessionText: {
     marginLeft: 5
-  },
-  fingerPrint: {
-    padding: '5px 8px',
-    '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0)'
-    }
   }
 })
 
@@ -99,59 +96,73 @@ const MainTopBar = ({
   isSearchOpen,
   handleDrawerToggle,
   handleSearchDialogOpen,
-  handleSearchDialogClose
-}) => (
-  <AppBar position='absolute'>
-    <Toolbar>
-      <IconButton
-        className={classes.menuButton}
-        color='inherit'
-        aria-label='Menu'
-        onClick={handleDrawerToggle}
-      >
-        <MenuIcon />
-      </IconButton>
-      <Link to='/' className={classes.link}>
-        <img src='/logo.png' alt='EOS Rate' className={classes.title} />
-      </Link>
-      <div className={classes.grow} />
-      <div className={classes.search}>
-        <InputAutocomplete />
-      </div>
-      <div className={classes.grow} />
-      <IconButton
-        className={classes.mobileSearch}
-        color='inherit'
-        disabled={isSearchOpen}
-        onClick={handleSearchDialogOpen}
-      >
-        <SearchIcon />
-      </IconButton>
-      <Link
-        to='/account'
-        className={classnames(classes.link, {
-          [classes.linkHover]: session.account.name
-        })}
-      >
+  handleSearchDialogClose,
+  t
+}) => {
+  const [isSignInDialogOpen, setIsSignInDialogOpen] = useState(false)
+
+  return (
+    <AppBar position='absolute'>
+      <Toolbar>
         <IconButton
-          color='default'
-          className={classnames({
-            [classes.fingerPrint]: session.account.name
-          })}
+          className={classes.menuButton}
+          color='inherit'
+          aria-label='Menu'
+          onClick={handleDrawerToggle}
         >
-          <FingerprintIcon />
-          <Typography
-            variant='subtitle1'
-            className={classnames({ [classes.name]: session.account.name })}
-          >
-            {session.account.name}
-          </Typography>
+          <MenuIcon />
         </IconButton>
-      </Link>
-    </Toolbar>
-    <MobileSearch onClose={handleSearchDialogClose} isOpen={isSearchOpen} />
-  </AppBar>
-)
+        <Link to='/' className={classes.link}>
+          <img src='/logo.png' alt='EOS Rate' className={classes.title} />
+        </Link>
+        <div className={classes.grow} />
+        <div className={classes.search}>
+          <InputAutocomplete />
+        </div>
+        <div className={classes.grow} />
+        <IconButton
+          className={classes.mobileSearch}
+          color='inherit'
+          disabled={isSearchOpen}
+          onClick={handleSearchDialogOpen}
+        >
+          <SearchIcon />
+        </IconButton>
+        {session.account.name ? (
+          <Link
+            to='/account'
+            className={classnames(classes.link, {
+              [classes.linkHover]: session.account.name
+            })}
+          >
+            <Button color='primary' variant='contained'>
+              <AccountCircleIcon />
+              <Typography className={classes.sessionText} variant='subtitle1'>
+                {session.account.name}
+              </Typography>
+            </Button>
+          </Link>
+        ) : (
+          <Button color='primary' variant='contained'>
+            <FingerprintIcon />
+            <Typography
+              className={classes.sessionText}
+              onClick={() => setIsSignInDialogOpen(true)}
+              variant='subtitle1'
+            >
+              {t('appBarSignIn')}
+            </Typography>
+            <SignInDialog
+              open={isSignInDialogOpen}
+              onClose={() => setIsSignInDialogOpen(false)}
+            />
+          </Button>
+        )}
+      </Toolbar>
+      <MobileSearch onClose={handleSearchDialogClose} isOpen={isSearchOpen} />
+    </AppBar>
+  )
+}
 
 MainTopBar.propTypes = {
   classes: PropTypes.object,
@@ -159,9 +170,12 @@ MainTopBar.propTypes = {
   handleDrawerToggle: PropTypes.func,
   handleSearchDialogOpen: PropTypes.func,
   handleSearchDialogClose: PropTypes.func,
-  isSearchOpen: PropTypes.bool
+  isSearchOpen: PropTypes.bool,
+  t: PropTypes.func.isRequired
 }
 
 const mapStateToProps = ({ session }) => ({ session })
 
-export default withStyles(styles)(connect(mapStateToProps)(MainTopBar))
+export default withStyles(styles)(
+  withNamespaces('translations')(connect(mapStateToProps)(MainTopBar))
+)
