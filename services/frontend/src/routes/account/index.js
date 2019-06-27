@@ -29,9 +29,9 @@ const style = () => ({
 })
 
 class Account extends Component {
-  componentDidMount () {
-    this.props.getUserEOSAccount()
-  }
+  // componentDidMount () {
+  //   this.props.getUserEOSAccount()
+  // }
 
   render () {
     const { t, session, classes } = this.props
@@ -66,22 +66,22 @@ const mapStateToProps = ({ session }) => ({
   session
 })
 
-const mapDispatchToProps = ({ session: { getUserEOSAccount } }) => ({
-  getUserEOSAccount
-})
+// const mapDispatchToProps = ({ session: { getUserEOSAccount } }) => ({
+//   getUserEOSAccount
+// })
 
 Account.propTypes = {
   t: PropTypes.func.isRequired,
   session: PropTypes.object.isRequired,
-  getUserEOSAccount: PropTypes.func.isRequired,
+  // getUserEOSAccount: PropTypes.func.isRequired,
   classes: PropTypes.object
 }
 
 export default withStyles(style)(
   withNamespaces('account')(
     connect(
-      mapStateToProps,
-      mapDispatchToProps
+      mapStateToProps
+      // mapDispatchToProps
     )(Account)
   )
 )

@@ -128,17 +128,17 @@ const MainTopBar = ({
         >
           <SearchIcon />
         </IconButton>
-        {session.account.name ? (
+        {session.account.account_name ? (
           <Link
             to='/account'
             className={classnames(classes.link, {
-              [classes.linkHover]: session.account.name
+              [classes.linkHover]: session.account.account_name
             })}
           >
             <Button color='primary' variant='contained'>
               <AccountCircleIcon />
               <Typography className={classes.sessionText} variant='subtitle1'>
-                {session.account.name}
+                {session.account.account_name}
               </Typography>
             </Button>
           </Link>
