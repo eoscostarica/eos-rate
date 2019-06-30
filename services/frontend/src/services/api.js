@@ -2,7 +2,9 @@ import qs from 'qs'
 import store from '../store'
 
 const http = method => (endpoint, body, options = {}) => {
-  const token = store.getState().session.accessToken
+  const token = store.getState().session
+    ? store.getState().session.accessToken
+    : null
 
   const params = {
     method,
