@@ -27,6 +27,8 @@
     "classnames": "^2.2.6",
     "env-cmd": "^9.0.3",
     "eos-transit": "^3.1.2",
+    "eos-transit-lynx-provider": "^3.1.2",
+    "eos-transit-meetone-provider": "^3.1.2",
     "eos-transit-scatter-provider": "^3.2.2",
     "eos-transit-tokenpocket-provider": "^3.1.4",
     "filter-objects": "^2.1.1",

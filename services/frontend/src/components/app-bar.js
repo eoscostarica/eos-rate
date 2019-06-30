@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { withNamespaces } from 'react-i18next'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
 import FingerprintIcon from '@material-ui/icons/Fingerprint'
 import IconButton from '@material-ui/core/IconButton'
+import LogoutIcon from '@material-ui/icons/ExitToApp'
 import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -19,6 +19,7 @@ import { Link } from '@reach/router'
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
 import SignInDialog from 'components/sign-in-dialog'
+import { useWalletDispatch, useWalletState } from 'hooks/wallet'
 
 const styles = theme => ({
   root: {
@@ -92,7 +93,6 @@ const styles = theme => ({
 
 const MainTopBar = ({
   classes,
-  session,
   isSearchOpen,
   handleDrawerToggle,
   handleSearchDialogOpen,
@@ -100,6 +100,12 @@ const MainTopBar = ({
   t
 }) => {
   const [isSignInDialogOpen, setIsSignInDialogOpen] = useState(false)
+  const { disconnectWallet } = useWalletDispatch()
+  const walletState = useWalletState()
+  const logout = () => {
+    setIsSignInDialogOpen(false)
+    disconnectWallet(walletState.wallet)
+  }
 
   return (
     <AppBar position='absolute'>
@@ -128,20 +134,25 @@ const MainTopBar = ({
         >
           <SearchIcon />
         </IconButton>
-        {session.account.account_name ? (
-          <Link
-            to='/account'
-            className={classnames(classes.link, {
-              [classes.linkHover]: session.account.account_name
-            })}
-          >
-            <Button color='primary' variant='contained'>
-              <AccountCircleIcon />
-              <Typography className={classes.sessionText} variant='subtitle1'>
-                {session.account.account_name}
-              </Typography>
-            </Button>
-          </Link>
+        {walletState.wallet ? (
+          <>
+            <Link
+              to='/account'
+              className={classnames(classes.link, {
+                [classes.linkHover]: walletState.wallet.accountInfo
+              })}
+            >
+              <Button color='primary' variant='contained'>
+                <AccountCircleIcon />
+                <Typography className={classes.sessionText} variant='subtitle1'>
+                  {walletState.wallet.accountInfo.account_name}
+                </Typography>
+              </Button>
+            </Link>
+            <IconButton color='inherit' onClick={logout}>
+              <LogoutIcon />
+            </IconButton>
+          </>
         ) : (
           <Button color='primary' variant='contained'>
             <FingerprintIcon />
@@ -166,7 +177,6 @@ const MainTopBar = ({
 
 MainTopBar.propTypes = {
   classes: PropTypes.object,
-  session: PropTypes.object.isRequired,
   handleDrawerToggle: PropTypes.func,
   handleSearchDialogOpen: PropTypes.func,
   handleSearchDialogClose: PropTypes.func,
@@ -174,8 +184,4 @@ MainTopBar.propTypes = {
   t: PropTypes.func.isRequired
 }
 
-const mapStateToProps = ({ session }) => ({ session })
-
-export default withStyles(styles)(
-  withNamespaces('translations')(connect(mapStateToProps)(MainTopBar))
-)
+export default withStyles(styles)(withNamespaces('translations')(MainTopBar))

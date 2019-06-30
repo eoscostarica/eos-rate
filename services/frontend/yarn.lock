@@ -4292,6 +4292,21 @@ env-cmd@^9.0.3:
     commander "^2.0.0"
     cross-spawn "^6.0.0"
 
+eos-transit-lynx-provider@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/eos-transit-lynx-provider/-/eos-transit-lynx-provider-3.1.2.tgz#5166a5293f0f75e5f34f9f4b57e880ed54b889e7"
+  integrity sha512-AoV4sHVmPjXgT0lx7AGzP7DrYUhztVr9IGxFbX4QTMzUDWzEsoXUKACegSiTwe0hxYQhSel4YKTE7Tooh9h6zQ==
+  dependencies:
+    eos-transit "^3.1.2"
+
+eos-transit-meetone-provider@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/eos-transit-meetone-provider/-/eos-transit-meetone-provider-3.1.2.tgz#cc4866eb0e8027463119561770590ef5ad69666b"
+  integrity sha512-g2DRXGBm1I5NCRcvWdEFceqBiUWTjQd3RurDJxr9ypLYxyvQGvygcaRpXTsfGdhGxxtJsbtIjka+7mKa9rw+1w==
+  dependencies:
+    eos-transit "^3.1.2"
+    eosjs "^20.0.0"
+
 eos-transit-scatter-provider@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/eos-transit-scatter-provider/-/eos-transit-scatter-provider-3.2.2.tgz#21e80352b97b557e7d4be20857d976a2a1459b7c"
