@@ -36,6 +36,7 @@ const Account = ({ classes, t }) => {
     navigate('/')
     return null
   }
+
   const entries = walletState.wallet.accountInfo
     ? Object.entries(walletState.wallet.accountInfo)
     : []
