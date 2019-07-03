@@ -47,8 +47,8 @@ const walletReducer = (state, action) => {
     case actionTypes.CONNECT_ERROR:
       return {
         connecting: false,
-        wallet: null,
-        error: true
+        error: true,
+        wallet: null
       }
 
     default:
@@ -58,7 +58,7 @@ const walletReducer = (state, action) => {
 
 const getWallet = walletProvider => {
   const accessContext = initAccessContext({
-    appName: 'EOSRate',
+    appName: config.appName || 'EOSRate',
     network: {
       host: config.eosApiHost || 'jungle2.cryptolions.io',
       port: parseInt(config.eosApiPort || '443'),

@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { withNamespaces } from 'react-i18next'
 import { connect } from 'react-redux'
-import { Link, Redirect } from '@reach/router'
+import { Link, navigate } from '@reach/router'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import AccountCircle from '@material-ui/icons/AccountCircle'
@@ -16,6 +16,8 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import BlockProducerRadar from 'components/block-producer-radar'
 import bpParameters from 'config/comparison-parameters'
+import config from 'config'
+import { useWalletState } from 'hooks/wallet'
 
 const style = theme => ({
   container: {
@@ -68,388 +70,378 @@ const style = theme => ({
   }
 })
 
-class BlockProducerRate extends PureComponent {
-  state = {
-    transparency: 0,
-    transparencyEnabled: true,
-    infrastructure: 0,
-    infrastructureEnabled: true,
-    trustiness: 0,
-    trustinessEnabled: true,
+const BlockProducerRate = ({ classes, account, list, t }) => {
+  const walletState = useWalletState()
+  const [ratingState, setRatingState] = useState({
     community: 0,
     communityEnabled: true,
-    development: 0,
-    developmentEnabled: true
+    infra: 0,
+    infraEnabled: true,
+    testnets: 0,
+    testnetsEnabled: true,
+    tooling: 0,
+    toolingEnabled: true,
+    transparency: 0,
+    transparencyEnabled: true
+  })
+  const wallet = walletState.wallet
+  if (!wallet) {
+    navigate(`/block-producers/${account}`)
+    return null
   }
-
-  getFinalPayload = () => {
-    const {
-      transparency,
-      transparencyEnabled,
-      infrastructure,
-      infrastructureEnabled,
-      trustiness,
-      trustinessEnabled,
-      community,
-      communityEnabled,
-      development,
-      developmentEnabled
-    } = this.state
-
+  const accountName = wallet.auth.accountName
+  const getFinalPayload = () => {
     return {
-      ...(communityEnabled && { community }),
-      ...(developmentEnabled && { development }),
-      ...(infrastructureEnabled && { infrastructure }),
-      ...(transparencyEnabled && { transparency }),
-      ...(trustinessEnabled && { trustiness })
+      ...(ratingState.communityEnabled && { community: ratingState.community }),
+      ...(ratingState.testnetsEnabled && { testnets: ratingState.testnets }),
+      ...(ratingState.infraEnabled && { infra: ratingState.infra }),
+      ...(ratingState.toolingEnabled && { tooling: ratingState.tooling }),
+      ...(ratingState.transparencyEnabled && {
+        transparency: ratingState.transparency
+      })
+    }
+  }
+  const transact = async () => {
+    try {
+      const transaction = {
+        actions: [
+          {
+            account: config.contract,
+            name: 'rateproducer',
+            authorization: [
+              {
+                actor: accountName,
+                permission: 'active'
+              }
+            ],
+            data: {
+              user: accountName,
+              bp: account,
+              ratings_json: JSON.stringify(getFinalPayload())
+            }
+          }
+        ]
+      }
+      console.log('transactionData', transaction)
+      const result = await wallet.eosApi.transact(transaction, {
+        blocksBehind: 3,
+        expireSeconds: 30
+      })
+      console.log('transfer result', result)
+    } catch (err) {
+      console.log(err)
     }
   }
 
-  handleSliderChange = parameter => (event, value) =>
-    this.setState({
-      [parameter]: value
-    })
+  const handleStateChange = parameter => (event, value) =>
+    setRatingState({ ...ratingState, [parameter]: value })
 
-  handleToggleParameter = parameter => (event, value) =>
-    this.setState({
-      [`${parameter}Enabled`]: value
-    })
+  const blockProducer = list.find(
+    bp => bp.bpjson.producer_account_name === account
+  )
 
-  submitRating = event => {
-    event.preventDefault()
-    const ratingPayload = this.getFinalPayload()
-    console.log(ratingPayload)
+  if (!blockProducer) {
+    navigate('/not-found')
+    return null
   }
 
-  render () {
-    const { classes, account, list, t } = this.props
-    const {
-      transparency,
-      transparencyEnabled,
-      infrastructure,
-      infrastructureEnabled,
-      trustiness,
-      trustinessEnabled,
-      community,
-      communityEnabled,
-      development,
-      developmentEnabled
-    } = this.state
-
-    const blockProducer = list.find(
-      bp => bp.bpjson.producer_account_name === account
-    )
-
-    if (!blockProducer) {
-      return <Redirect to='/not-found' />
-    }
-
-    return (
-      <Grid
-        container
-        justify='center'
-        spacing={16}
-        className={classes.container}
-      >
-        <Grid item xs={12}>
+  return (
+    <Grid container justify='center' spacing={16} className={classes.container}>
+      <Grid item xs={12}>
+        <Grid
+          container
+          spacing={16}
+          direction='row'
+          alignItems='center'
+          className={classes.breadcrumbText}
+        >
+          <Button
+            component={props => <Link {...props} to='/block-producers' />}
+          >
+            <KeyboardArrowLeft />
+            All Block Producers
+          </Button>
+          <Button
+            component={props => (
+              <Link {...props} to={`/block-producers/${blockProducer.owner}`} />
+            )}
+          >
+            <KeyboardArrowLeft />
+            {blockProducer.owner || ''}
+          </Button>
+        </Grid>
+      </Grid>
+      <Grid item xs={12}>
+        <Paper>
           <Grid
             container
-            spacing={16}
             direction='row'
             alignItems='center'
-            className={classes.breadcrumbText}
+            className={classes.box}
           >
-            <Button
-              component={props => <Link {...props} to='/block-producers' />}
-            >
-              <KeyboardArrowLeft />
-              All Block Producers
-            </Button>
-            <Button
-              component={props => (
-                <Link
-                  {...props}
-                  to={`/block-producers/${blockProducer.owner}`}
-                />
-              )}
-            >
-              <KeyboardArrowLeft />
-              {blockProducer.owner || ''}
-            </Button>
-          </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper>
+            <Grid container direction='row' alignItems='center'>
+              <Grid item xs={12}>
+                <Grid container direction='row' alignItems='center'>
+                  <AccountCircle className={classes.accountCircle} />
+                  <Typography variant='h6' className={classes.bpName}>
+                    {blockProducer.bpjson.producer_account_name || ''}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Grid>
             <Grid
               container
               direction='row'
-              alignItems='center'
-              className={classes.box}
+              spacing={16}
+              style={{ marginTop: 10 }}
             >
-              <Grid container direction='row' alignItems='center'>
-                <Grid item xs={12}>
-                  <Grid container direction='row' alignItems='center'>
-                    <AccountCircle className={classes.accountCircle} />
-                    <Typography variant='h6' className={classes.bpName}>
-                      {blockProducer.bpjson.producer_account_name || ''}
+              <Grid item xs={12} sm={5}>
+                <Typography variant='subtitle1' className={classes.title}>
+                  Rate Block Producer
+                </Typography>
+                <Typography paragraph>
+                  Use the sliders to rate the BP.
+                </Typography>
+                <Typography paragraph>
+                  If you feel that you do not have enough knowledge about a
+                  specific category you can disable it.
+                </Typography>
+                <Typography paragraph>
+                  Publish the rate by signing in with Scatter.
+                </Typography>
+                {/* TODO: Iterate over bpParameters */}
+                <Grid container style={{ marginTop: 30 }}>
+                  <Grid item xs={12}>
+                    <Typography
+                      paragraph
+                      style={{ margin: 0 }}
+                      className={
+                        ratingState.infraEnabled
+                          ? ''
+                          : classes.parameterTitleDisabled
+                      }
+                    >
+                      Infrastructure{' '}
+                      <Tooltip title='Lorem ipsum' placement='right'>
+                        <HelpOutline
+                          fontSize='inherit'
+                          className={classes.topicIcon}
+                        />
+                      </Tooltip>
                     </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Slider
+                        disabled={!ratingState.infraEnabled}
+                        onChange={handleStateChange('infra')}
+                        value={ratingState.infra}
+                        min={0}
+                        max={10}
+                        step={1}
+                      />
+                      <Switch
+                        onChange={handleStateChange('infraEnabled')}
+                        checked={ratingState.infraEnabled}
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography
+                      paragraph
+                      style={{ margin: 0 }}
+                      className={
+                        ratingState.toolingEnabled
+                          ? ''
+                          : classes.parameterTitleDisabled
+                      }
+                    >
+                      Tooling{' '}
+                      <Tooltip title='Lorem ipsum' placement='right'>
+                        <HelpOutline
+                          fontSize='inherit'
+                          className={classes.topicIcon}
+                        />
+                      </Tooltip>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Slider
+                        disabled={!ratingState.toolingEnabled}
+                        onChange={handleStateChange('tooling')}
+                        value={ratingState.tooling}
+                        min={0}
+                        max={10}
+                        step={1}
+                      />
+                      <Switch
+                        onChange={handleStateChange('toolingEnabled')}
+                        checked={ratingState.toolingEnabled}
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography
+                      paragraph
+                      style={{ margin: 0 }}
+                      className={
+                        ratingState.communityEnabled
+                          ? ''
+                          : classes.parameterTitleDisabled
+                      }
+                    >
+                      Community{' '}
+                      <Tooltip title='Lorem ipsum' placement='right'>
+                        <HelpOutline
+                          fontSize='inherit'
+                          className={classes.topicIcon}
+                        />
+                      </Tooltip>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Slider
+                        disabled={!ratingState.communityEnabled}
+                        onChange={handleStateChange('community')}
+                        value={ratingState.community}
+                        min={0}
+                        max={10}
+                        step={1}
+                      />
+                      <Switch
+                        onChange={handleStateChange('communityEnabled')}
+                        checked={ratingState.communityEnabled}
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography
+                      paragraph
+                      style={{ margin: 0 }}
+                      className={
+                        ratingState.transparencyEnabled
+                          ? ''
+                          : classes.parameterTitleDisabled
+                      }
+                    >
+                      Transparency{' '}
+                      <Tooltip title='Lorem ipsum' placement='right'>
+                        <HelpOutline
+                          fontSize='inherit'
+                          className={classes.topicIcon}
+                        />
+                      </Tooltip>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Slider
+                        disabled={!ratingState.transparencyEnabled}
+                        onChange={handleStateChange('transparency')}
+                        value={ratingState.transparency}
+                        min={0}
+                        max={10}
+                        step={1}
+                      />
+                      <Switch
+                        onChange={handleStateChange('transparencyEnabled')}
+                        checked={ratingState.transparencyEnabled}
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography
+                      paragraph
+                      style={{ margin: 0 }}
+                      className={
+                        ratingState.testnetsEnabled
+                          ? ''
+                          : classes.parameterTitleDisabled
+                      }
+                    >
+                      Testnets{' '}
+                      <Tooltip title='Lorem ipsum' placement='right'>
+                        <HelpOutline
+                          fontSize='inherit'
+                          className={classes.topicIcon}
+                        />
+                      </Tooltip>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Slider
+                        disabled={!ratingState.testnetsEnabled}
+                        onChange={handleStateChange('testnets')}
+                        value={ratingState.testnets}
+                        min={0}
+                        max={10}
+                        step={1}
+                      />
+                      <Switch
+                        onChange={handleStateChange('testnetsEnabled')}
+                        checked={ratingState.testnetsEnabled}
+                      />
+                    </div>
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid
-                container
-                direction='row'
-                spacing={16}
-                style={{ marginTop: 10 }}
-              >
-                <Grid item xs={12} sm={5}>
-                  <Typography variant='subtitle1' className={classes.title}>
-                    Rate Block Producer
-                  </Typography>
-                  <Typography paragraph>
-                    Use the sliders to rate the BP.
-                  </Typography>
-                  <Typography paragraph>
-                    If you feel that you do not have enough knowledge about a
-                    specific category you can disable it.
-                  </Typography>
-                  <Typography paragraph>
-                    Publish the rate by signing in with Scatter.
-                  </Typography>
-                  {/* TODO: Iterate over bpParameters */}
-                  <Grid container style={{ marginTop: 30 }}>
-                    <Grid item xs={12}>
-                      <Typography
-                        paragraph
-                        style={{ margin: 0 }}
-                        className={
-                          transparencyEnabled
-                            ? ''
-                            : classes.parameterTitleDisabled
-                        }
-                      >
-                        Transparency{' '}
-                        <Tooltip title='Lorem ipsum' placement='right'>
-                          <HelpOutline
-                            fontSize='inherit'
-                            className={classes.topicIcon}
-                          />
-                        </Tooltip>
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Slider
-                          disabled={!transparencyEnabled}
-                          onChange={this.handleSliderChange('transparency')}
-                          value={transparency}
-                          min={0}
-                          max={10}
-                          step={1}
-                        />
-                        <Switch
-                          onChange={this.handleToggleParameter('transparency')}
-                          checked={transparencyEnabled}
-                        />
-                      </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography
-                        paragraph
-                        style={{ margin: 0 }}
-                        className={
-                          infrastructureEnabled
-                            ? ''
-                            : classes.parameterTitleDisabled
-                        }
-                      >
-                        Infrastruture{' '}
-                        <Tooltip title='Lorem ipsum' placement='right'>
-                          <HelpOutline
-                            fontSize='inherit'
-                            className={classes.topicIcon}
-                          />
-                        </Tooltip>
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Slider
-                          disabled={!infrastructureEnabled}
-                          onChange={this.handleSliderChange('infrastructure')}
-                          value={infrastructure}
-                          min={0}
-                          max={10}
-                          step={1}
-                        />
-                        <Switch
-                          onChange={this.handleToggleParameter(
-                            'infrastructure'
-                          )}
-                          checked={infrastructureEnabled}
-                        />
-                      </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography
-                        paragraph
-                        style={{ margin: 0 }}
-                        className={
-                          trustinessEnabled
-                            ? ''
-                            : classes.parameterTitleDisabled
-                        }
-                      >
-                        Trustiness{' '}
-                        <Tooltip title='Lorem ipsum' placement='right'>
-                          <HelpOutline
-                            fontSize='inherit'
-                            className={classes.topicIcon}
-                          />
-                        </Tooltip>
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Slider
-                          disabled={!trustinessEnabled}
-                          onChange={this.handleSliderChange('trustiness')}
-                          value={trustiness}
-                          min={0}
-                          max={10}
-                          step={1}
-                        />
-                        <Switch
-                          onChange={this.handleToggleParameter('trustiness')}
-                          checked={trustinessEnabled}
-                        />
-                      </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography
-                        paragraph
-                        style={{ margin: 0 }}
-                        className={
-                          communityEnabled ? '' : classes.parameterTitleDisabled
-                        }
-                      >
-                        Community{' '}
-                        <Tooltip title='Lorem ipsum' placement='right'>
-                          <HelpOutline
-                            fontSize='inherit'
-                            className={classes.topicIcon}
-                          />
-                        </Tooltip>
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Slider
-                          disabled={!communityEnabled}
-                          onChange={this.handleSliderChange('community')}
-                          value={community}
-                          min={0}
-                          max={10}
-                          step={1}
-                        />
-                        <Switch
-                          onChange={this.handleToggleParameter('community')}
-                          checked={communityEnabled}
-                        />
-                      </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography
-                        paragraph
-                        style={{ margin: 0 }}
-                        className={
-                          developmentEnabled
-                            ? ''
-                            : classes.parameterTitleDisabled
-                        }
-                      >
-                        Development{' '}
-                        <Tooltip title='Lorem ipsum' placement='right'>
-                          <HelpOutline
-                            fontSize='inherit'
-                            className={classes.topicIcon}
-                          />
-                        </Tooltip>
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Slider
-                          disabled={!developmentEnabled}
-                          onChange={this.handleSliderChange('development')}
-                          value={development}
-                          min={0}
-                          max={10}
-                          step={1}
-                        />
-                        <Switch
-                          onChange={this.handleToggleParameter('development')}
-                          checked={developmentEnabled}
-                        />
-                      </div>
-                    </Grid>
+              <Grid item xs={12} sm={7}>
+                <Grid
+                  container
+                  direction='column'
+                  className={classes.radarActionsWrapper}
+                >
+                  <Grid className={classes.radarWrapper} item xs={12}>
+                    <BlockProducerRadar
+                      bpData={{
+                        labels: bpParameters,
+                        datasets: [blockProducer.data]
+                      }}
+                    />
                   </Grid>
-                </Grid>
-                <Grid item xs={12} sm={7}>
-                  <Grid
-                    container
-                    direction='column'
-                    className={classes.radarActionsWrapper}
-                  >
-                    <Grid className={classes.radarWrapper} item xs={12}>
-                      <BlockProducerRadar
-                        bpData={{
-                          labels: bpParameters,
-                          datasets: [blockProducer.data]
-                        }}
-                      />
-                    </Grid>
-                    <Grid className={classes.ctasWrapper} item xs={12}>
-                      <Grid
-                        container
-                        justify='flex-end'
-                        style={{ marginTop: 10 }}
+                  <Grid className={classes.ctasWrapper} item xs={12}>
+                    <Grid
+                      container
+                      justify='flex-end'
+                      style={{ marginTop: 10 }}
+                    >
+                      <Button
+                        className='textPrimary'
+                        color='secondary'
+                        onClick={transact}
+                        size='small'
+                        style={{ marginRight: 10 }}
+                        variant='contained'
                       >
-                        <Button
-                          className='textPrimary'
-                          color='secondary'
-                          onClick={this.submitRating}
-                          size='small'
-                          style={{ marginRight: 10 }}
-                          variant='contained'
-                        >
-                          {t('publishRatingButton')}
-                        </Button>
-                        <Button
-                          component={props => (
-                            <Link
-                              {...props}
-                              to={`/block-producers/${
-                                blockProducer.bpjson.producer_account_name
-                              }`}
-                            />
-                          )}
-                          variant='contained'
-                          size='small'
-                        >
-                          {t('cancelRatingButton')}
-                        </Button>
-                      </Grid>
+                        {t('publishRatingButton')}
+                      </Button>
+                      <Button
+                        component={props => (
+                          <Link
+                            {...props}
+                            to={`/block-producers/${
+                              blockProducer.bpjson.producer_account_name
+                            }`}
+                          />
+                        )}
+                        variant='contained'
+                        size='small'
+                      >
+                        {t('cancelRatingButton')}
+                      </Button>
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </Paper>
-        </Grid>
+          </Grid>
+        </Paper>
       </Grid>
-    )
-  }
+    </Grid>
+  )
 }
 
 BlockProducerRate.propTypes = {
