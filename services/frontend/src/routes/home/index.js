@@ -9,7 +9,8 @@ import SubTopic from './subTopic'
 
 const styles = ({ spacing, palette }) => ({
   spacingContainers: {
-    padding: spacing.unit * 4
+    padding: spacing.unit * 4,
+    border: '2px solid red'
   },
   coverContainer: {
     backgroundColor: palette.primary.dark

@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 // import ParameterRangeSelector from 'components/parameter-range-selector'
 import BlockProducerRadar from 'components/block-producer-radar'
 import bpParameters from 'config/comparison-parameters'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
 
 const styles = ({ palette, typography }) => ({
   coverContainer: {
@@ -31,17 +32,6 @@ const styles = ({ palette, typography }) => ({
 
 const HomeCover = ({ classes, t, blockProducer }) => (
   <Grid item container xs={12} className={classes.coverContainer} spacing={24}>
-    <Grid item container xs={12} md={6} justify='center'>
-      <div className={classes.chartContainer}>
-        <BlockProducerRadar
-          bpData={{
-            labels: bpParameters,
-            datasets: [blockProducer.data]
-          }}
-        />
-      </div>
-    </Grid>
-
     <Grid item xs={12} md={6}>
       <Typography variant='h5' className={classes.title}>
         {t('cover.title')}
@@ -57,14 +47,27 @@ const HomeCover = ({ classes, t, blockProducer }) => (
       </Typography>
 
       <div className={classes.ctaContainer}>
-        <Button
-          className='textPrimary'
-          variant='contained'
-          size='small'
-          color='secondary'
-        >
-          {t('cover.cta')}
-        </Button>
+        <ButtonGroup fullWidth>
+          <Button
+            className='textPrimary'
+            variant='contained'
+            size='small'
+            color='secondary'
+          >
+            {t('cover.cta')}
+          </Button>
+        </ButtonGroup>
+      </div>
+    </Grid>
+
+    <Grid item container xs={12} md={6} justify='center'>
+      <div className={classes.chartContainer}>
+        <BlockProducerRadar
+          bpData={{
+            labels: bpParameters,
+            datasets: [blockProducer.data]
+          }}
+        />
       </div>
     </Grid>
 

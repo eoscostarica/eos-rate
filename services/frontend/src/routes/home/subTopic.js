@@ -28,10 +28,6 @@ const SubTopic = ({ classes, t }) => (
     className={classes.subTopicContainer}
     spacing={24}
   >
-    <Grid item xs={12} md={7}>
-      <Video src={t('subTopic.videoUrl')} />
-    </Grid>
-
     <Grid item xs={12} md={5}>
       <Typography variant='h5' className={classes.title}>
         {t('subTopic.title')}
@@ -54,6 +50,10 @@ const SubTopic = ({ classes, t }) => (
       >
         {t('subTopic.paragraph2')}
       </Typography>
+    </Grid>
+
+    <Grid item xs={12} md={7}>
+      <Video src={t('subTopic.videoUrl')} />
     </Grid>
   </Grid>
 )
