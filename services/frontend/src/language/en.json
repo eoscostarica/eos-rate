@@ -45,6 +45,29 @@
       "title": "EOS Rate in Depth",
       "paragraph1": "In this video Edgar Fernandez, co-founder of EOS Costa Rica, explains more in-depth the goals of EOS Rate, how it works and how you can get involved to help shape and maintain the tool.",
       "paragraph2": "Learn about the roadmap and how EOS Rate unique radar component we call the \"LEAF\" (Liquid EOS Attribute Factors) allows users to quickly compared different block producers and \"build\" their 30 BP vote by filling in as much of the LEAF as possible to facilitate the most diverse group for the network. The LEAF also allows voters to compare different proxies by visualizing each of the underlying BP \"leafs\" the proxy represents."
+    },
+    "ratingCategory": {
+      "title": "Rating Categories",
+      "transparency": {
+        "title": "Transparency",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum enim a lacus efficitur efficitur. Integer placerat porta urna, vitae rhoncus mi scelerisque non. Aliquam sed pulvinar massa, nec dictum lectus. Praesent bibendum at elit eu.. "
+      },
+      "infrastructure": {
+        "title": "Infrastructure",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum enim a lacus efficitur efficitur. Integer placerat porta urna, vitae rhoncus mi scelerisque non. Aliquam sed pulvinar massa, nec dictum lectus. Praesent bibendum at elit eu.. "
+      },
+      "trustiness": {
+        "title": "Trustiness",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum enim a lacus efficitur efficitur. Integer placerat porta urna, vitae rhoncus mi scelerisque non. Aliquam sed pulvinar massa, nec dictum lectus. Praesent bibendum at elit eu.. "
+      },
+      "community": {
+        "title": "Community",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum enim a lacus efficitur efficitur. Integer placerat porta urna, vitae rhoncus mi scelerisque non. Aliquam sed pulvinar massa, nec dictum lectus. Praesent bibendum at elit eu.. "
+      },
+      "development": {
+        "title": "Development",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum enim a lacus efficitur efficitur. Integer placerat porta urna, vitae rhoncus mi scelerisque non. Aliquam sed pulvinar massa, nec dictum lectus. Praesent bibendum at elit eu.. "
+      }
     }
   },
 

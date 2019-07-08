@@ -7,13 +7,14 @@ import PropTypes from 'prop-types'
 
 import Video from 'components/video'
 
-const styles = ({ palette, typography }) => ({
+const styles = ({ palette, typography, spacing }) => ({
   subTopicContainer: {
     maxWidth: '1024px'
   },
   title: {
     fontSize: typography.h4.fontSize,
-    color: palette.grey[600]
+    color: '#fff',
+    marginBottom: spacing.unit * 1
   },
   paragraph: {
     color: palette.grey[600]

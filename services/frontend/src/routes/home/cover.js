@@ -5,12 +5,10 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
-// import ParameterRangeSelector from 'components/parameter-range-selector'
 import BlockProducerRadar from 'components/block-producer-radar'
 import bpParameters from 'config/comparison-parameters'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
 
-const styles = ({ palette, typography }) => ({
+const styles = ({ palette, typography, spacing }) => ({
   coverContainer: {
     color: '#fff',
     maxWidth: '1024px'
@@ -19,7 +17,8 @@ const styles = ({ palette, typography }) => ({
     fontSize: typography.h4.fontSize
   },
   paragraph: {
-    color: palette.grey[600]
+    color: palette.grey[600],
+    marginTop: spacing.unit * 1
   },
   ctaContainer: {
     textAlign: 'right'
@@ -27,6 +26,13 @@ const styles = ({ palette, typography }) => ({
   chartContainer: {
     maxWidth: '400px',
     width: '100%'
+  },
+  largeBtn: {
+    width: '100%',
+    height: 25.5,
+    border: 'solid 0.5px #1eb53a',
+    backgroundColor: 'rgba(99, 183, 107, 0.21)',
+    color: '#63b76b'
   }
 })
 
@@ -47,16 +53,13 @@ const HomeCover = ({ classes, t, blockProducer }) => (
       </Typography>
 
       <div className={classes.ctaContainer}>
-        <ButtonGroup fullWidth>
-          <Button
-            className='textPrimary'
-            variant='contained'
-            size='small'
-            color='secondary'
-          >
-            {t('cover.cta')}
-          </Button>
-        </ButtonGroup>
+        <Button
+          className={classes.largeBtn}
+          variant='contained'
+          color='secondary'
+        >
+          {t('cover.cta')}
+        </Button>
       </div>
     </Grid>
 
