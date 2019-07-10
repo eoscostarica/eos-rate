@@ -3,16 +3,23 @@ import PropTypes from 'prop-types'
 import { withNamespaces } from 'react-i18next'
 import { connect } from 'react-redux'
 import { Link, navigate } from '@reach/router'
-import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
+import {
+  Avatar,
+  Button,
+  Chip,
+  CircularProgress,
+  Grid,
+  Paper,
+  Switch,
+  Tooltip,
+  Typography
+} from '@material-ui/core'
 import AccountCircle from '@material-ui/icons/AccountCircle'
+import CheckCircle from '@material-ui/icons/CheckCircle'
+import Error from '@material-ui/icons/Error'
 import HelpOutline from '@material-ui/icons/HelpOutline'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
-import Paper from '@material-ui/core/Paper'
 import Slider from '@material-ui/lab/Slider'
-import Switch from '@material-ui/core/Switch'
-import Tooltip from '@material-ui/core/Tooltip'
-import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import BlockProducerRadar from 'components/block-producer-radar'
 import bpParameters from 'config/comparison-parameters'
@@ -82,7 +89,10 @@ const BlockProducerRate = ({ classes, account, list, t }) => {
     tooling: 0,
     toolingEnabled: true,
     transparency: 0,
-    transparencyEnabled: true
+    transparencyEnabled: true,
+    processing: false,
+    txError: null,
+    txSuccess: false
   })
   const wallet = walletState.wallet
   if (!wallet) {
@@ -122,14 +132,34 @@ const BlockProducerRate = ({ classes, account, list, t }) => {
           }
         ]
       }
-      console.log('transactionData', transaction)
+      setRatingState({
+        ...ratingState,
+        processing: true,
+        txError: null,
+        txSuccess: false
+      })
       const result = await wallet.eosApi.transact(transaction, {
         blocksBehind: 3,
         expireSeconds: 30
       })
-      console.log('transfer result', result)
+      setRatingState({
+        ...ratingState,
+        processing: false,
+        txSuccess: true
+      })
+      setTimeout(() => {
+        setRatingState({
+          ...ratingState,
+          txSuccess: false
+        })
+      }, 2000)
+      console.log('transaction result', result)
     } catch (err) {
-      console.log(err)
+      setRatingState({
+        ...ratingState,
+        processing: false,
+        txError: err.message ? err.message : err
+      })
     }
   }
 
@@ -404,16 +434,45 @@ const BlockProducerRate = ({ classes, account, list, t }) => {
                   </Grid>
                   <Grid className={classes.ctasWrapper} item xs={12}>
                     <Grid
+                      alignItems='center'
                       container
                       justify='flex-end'
                       style={{ marginTop: 10 }}
                     >
+                      {ratingState.txError && (
+                        <Chip
+                          avatar={
+                            <Avatar>
+                              <Error />
+                            </Avatar>
+                          }
+                          color='secondary'
+                          label={ratingState.txError}
+                          variant='outlined'
+                        />
+                      )}
+                      {ratingState.txSuccess && (
+                        <Chip
+                          avatar={
+                            <Avatar>
+                              <CheckCircle />
+                            </Avatar>
+                          }
+                          color='secondary'
+                          label='Success!'
+                          variant='outlined'
+                        />
+                      )}
+                      {ratingState.processing && (
+                        <CircularProgress color='secondary' size={20} />
+                      )}
                       <Button
                         className='textPrimary'
                         color='secondary'
+                        disabled={ratingState.processing}
                         onClick={transact}
                         size='small'
-                        style={{ marginRight: 10 }}
+                        style={{ margin: '0 10px' }}
                         variant='contained'
                       >
                         {t('publishRatingButton')}
