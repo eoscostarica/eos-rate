@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Hidden from '@material-ui/core/Hidden'
@@ -6,6 +6,7 @@ import classnames from 'classnames'
 import MainTopBar from 'components/app-bar'
 import MainDrawer from 'components/main-drawer'
 import MainFooter from 'components/main-footer'
+import { useWalletDispatch } from 'hooks/wallet'
 
 const styles = theme => ({
   root: {
@@ -36,55 +37,58 @@ const styles = theme => ({
   }
 })
 
-class Layout extends Component {
-  state = {
+const Layout = ({ classes, children }) => {
+  const { connectWallet } = useWalletDispatch()
+  const [state, setState] = useState({
     isNavOpen: false,
     isSearchOpen: false
+  })
+  const walletProvider = localStorage.getItem('walletProvider')
+
+  if (walletProvider) {
+    connectWallet(walletProvider)
   }
 
-  handleDrawerToggle = () => this.setState({ isNavOpen: !this.state.isNavOpen })
+  const handleDrawerToggle = () =>
+    setState({ ...state, isNavOpen: !state.isNavOpen })
 
-  handleSearchDialogOpen = () => this.setState({ isSearchOpen: true })
+  const handleSearchDialogOpen = () =>
+    setState({ ...state, isSearchOpen: true })
 
-  handleSearchDialogClose = () => this.setState({ isSearchOpen: false })
+  const handleSearchDialogClose = () =>
+    setState({ ...state, isSearchOpen: false })
 
-  render () {
-    const { classes, children } = this.props
-    return (
-      <div className={classes.root}>
-        <MainTopBar
-          isSearchOpen={this.state.isSearchOpen}
-          handleDrawerToggle={this.handleDrawerToggle}
-          handleSearchDialogOpen={this.handleSearchDialogOpen}
-          handleSearchDialogClose={this.handleSearchDialogClose}
+  return (
+    <div className={classes.root}>
+      <MainTopBar
+        isSearchOpen={state.isSearchOpen}
+        handleDrawerToggle={handleDrawerToggle}
+        handleSearchDialogOpen={handleSearchDialogOpen}
+        handleSearchDialogClose={handleSearchDialogClose}
+      />
+      <Hidden mdUp>
+        <MainDrawer
+          variant='mobile'
+          open={state.isNavOpen}
+          onClose={handleDrawerToggle}
         />
-        <Hidden mdUp>
-          <MainDrawer
-            variant='mobile'
-            open={this.state.isNavOpen}
-            onClose={this.handleDrawerToggle}
-          />
-        </Hidden>
-        <Hidden
-          className={classnames(classes.desktopDrawer, {
-            [classes.desktopDrawerHidden]: !this.state.isNavOpen
-          })}
-          smDown
-          implementation='css'
-        >
-          <MainDrawer
-            open={this.state.isNavOpen}
-            onClose={this.handleDrawerToggle}
-          />
-        </Hidden>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <div className={classes.contentWrapper}>{children}</div>
-          <MainFooter />
-        </main>
-      </div>
-    )
-  }
+      </Hidden>
+      <Hidden
+        className={classnames(classes.desktopDrawer, {
+          [classes.desktopDrawerHidden]: !state.isNavOpen
+        })}
+        smDown
+        implementation='css'
+      >
+        <MainDrawer open={state.isNavOpen} onClose={handleDrawerToggle} />
+      </Hidden>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        <div className={classes.contentWrapper}>{children}</div>
+        <MainFooter />
+      </main>
+    </div>
+  )
 }
 
 Layout.propTypes = {
