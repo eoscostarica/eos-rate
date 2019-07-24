@@ -199,7 +199,9 @@ class InputAutocomplete extends PureComponent {
 InputAutocomplete.propTypes = {
   classes: PropTypes.object.isRequired,
   t: PropTypes.func.isRequired,
+  getBPs: PropTypes.func.isRequired,
   hideSearchIcon: PropTypes.bool,
+  list: PropTypes.array,
   onItemSelected: PropTypes.func,
   isFocused: PropTypes.bool
 }
