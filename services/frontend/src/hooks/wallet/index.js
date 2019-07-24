@@ -29,25 +29,25 @@ const walletReducer = (state, action) => {
       return {
         ...state,
         connecting: true,
-        error: false
+        error: null
       }
     case actionTypes.CONNECT_WALLET:
       return {
         ...state,
         connecting: false,
         wallet: action.payload.wallet,
-        error: false
+        error: null
       }
     case actionTypes.DISCONNECT_WALLET:
       return {
         connecting: false,
         wallet: null,
-        error: false
+        error: null
       }
     case actionTypes.CONNECT_ERROR:
       return {
         connecting: false,
-        error: true,
+        error: action.error,
         wallet: null
       }
 
@@ -81,7 +81,7 @@ const getWallet = walletProvider => {
 export function WalletProvider ({ children }) {
   const [state, dispatch] = useReducer(walletReducer, {
     connecting: false,
-    error: false,
+    error: null,
     wallet: null
   })
 
@@ -138,7 +138,8 @@ export function useWalletDispatch () {
       } catch (err) {
         console.log(err)
         dispatch({
-          type: actionTypes.CONNECT_ERROR
+          type: actionTypes.CONNECT_ERROR,
+          error: err.message ? err.message : err
         })
       }
     },

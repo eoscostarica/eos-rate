@@ -20,6 +20,7 @@ import { Link } from '@reach/router'
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
 import SignInDialog from 'components/sign-in-dialog'
+import SignInMenu from 'components/sign-in-menu'
 import { useWalletDispatch, useWalletState } from 'hooks/wallet'
 
 const styles = theme => ({
@@ -100,12 +101,18 @@ const MainTopBar = ({
   handleSearchDialogClose,
   t
 }) => {
-  const [isSignInDialogOpen, setIsSignInDialogOpen] = useState(false)
-  const { disconnectWallet } = useWalletDispatch()
+  const [state, setState] = useState({
+    anchorEl: null,
+    selectedProvider: null
+  })
+  const { connectWallet, disconnectWallet } = useWalletDispatch()
   const walletState = useWalletState()
   const logout = () => {
-    setIsSignInDialogOpen(false)
     disconnectWallet(walletState.wallet)
+  }
+  const connectToWallet = (provider, providerName) => {
+    setState({ anchorEl: null, selectedProvider: providerName })
+    connectWallet(provider)
   }
 
   return (
@@ -155,26 +162,37 @@ const MainTopBar = ({
             </IconButton>
           </>
         ) : (
-          <Button color='primary' variant='contained'>
-            {walletState.connecting ? (
-              <CircularProgress color='secondary' size={20} />
-            ) : (
-              <>
-                <FingerprintIcon />
-                <Typography
-                  className={classes.sessionText}
-                  onClick={() => setIsSignInDialogOpen(true)}
-                  variant='subtitle1'
-                >
-                  {t('appBarSignIn')}
-                </Typography>
-              </>
-            )}
-            <SignInDialog
-              open={isSignInDialogOpen}
-              onClose={() => setIsSignInDialogOpen(false)}
+          <>
+            <Button
+              color='primary'
+              onClick={e => setState({ ...state, anchorEl: e.currentTarget })}
+              variant='contained'
+            >
+              {walletState.connecting ? (
+                <CircularProgress color='secondary' size={20} />
+              ) : (
+                <>
+                  <FingerprintIcon />
+                  <Typography
+                    className={classes.sessionText}
+                    variant='subtitle1'
+                  >
+                    {t('appBarSignIn')}
+                  </Typography>
+                </>
+              )}
+            </Button>
+            <SignInMenu
+              anchorEl={state.anchorEl}
+              handleClick={connectToWallet}
+              handleClose={() => setState({ ...state, anchorEl: null })}
             />
-          </Button>
+            <SignInDialog
+              connecting={walletState.connecting}
+              error={walletState.error}
+              provider={state.selectedProvider}
+            />
+          </>
         )}
       </Toolbar>
       <MobileSearch onClose={handleSearchDialogClose} isOpen={isSearchOpen} />
