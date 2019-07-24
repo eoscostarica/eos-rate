@@ -5,6 +5,7 @@ import { withNamespaces } from 'react-i18next'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import FingerprintIcon from '@material-ui/icons/Fingerprint'
 import IconButton from '@material-ui/core/IconButton'
 import LogoutIcon from '@material-ui/icons/ExitToApp'
@@ -155,14 +156,20 @@ const MainTopBar = ({
           </>
         ) : (
           <Button color='primary' variant='contained'>
-            <FingerprintIcon />
-            <Typography
-              className={classes.sessionText}
-              onClick={() => setIsSignInDialogOpen(true)}
-              variant='subtitle1'
-            >
-              {t('appBarSignIn')}
-            </Typography>
+            {walletState.connecting ? (
+              <CircularProgress color='secondary' size={20} />
+            ) : (
+              <>
+                <FingerprintIcon />
+                <Typography
+                  className={classes.sessionText}
+                  onClick={() => setIsSignInDialogOpen(true)}
+                  variant='subtitle1'
+                >
+                  {t('appBarSignIn')}
+                </Typography>
+              </>
+            )}
             <SignInDialog
               open={isSignInDialogOpen}
               onClose={() => setIsSignInDialogOpen(false)}

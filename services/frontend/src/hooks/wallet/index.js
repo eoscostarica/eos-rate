@@ -130,7 +130,7 @@ export function useWalletDispatch () {
         const wallet = await getWallet(provider)
         await wallet.connect()
         await wallet.login()
-
+        localStorage.setItem('walletProvider', provider)
         dispatch({
           type: actionTypes.CONNECT_WALLET,
           payload: { wallet }
@@ -149,8 +149,9 @@ export function useWalletDispatch () {
     async wallet => {
       dispatch({ type: actionTypes.DISCONNECT_WALLET })
       try {
-        await wallet.disconnect()
+        localStorage.removeItem('walletProvider')
         await wallet.logout()
+        await wallet.disconnect()
       } catch (err) {
         console.log(err)
       }
