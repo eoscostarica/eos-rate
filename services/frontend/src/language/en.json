@@ -29,7 +29,10 @@
 
     "appBarSignIn": "Sign In",
 
-    "connectToWallet": "Connect to Wallet"
+    "connecting": "Connecting",
+    "connectingWith": "Connecting with",
+    "connectingErrorTitle": "Error",
+    "connectingErrorActionBtn": "Ok"
   },
 
   "not-found": {
