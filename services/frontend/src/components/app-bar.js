@@ -112,7 +112,7 @@ const MainTopBar = ({
         <MenuIcon />
       </IconButton>
       <Link to='/' className={classes.link}>
-        <img src='/logo.png' alt='EOS Rate' className={classes.title} />
+        <img src='/logo.svg' alt='EOS Rate' className={classes.title} />
       </Link>
       <div className={classes.grow} />
       <div className={classes.search}>
