@@ -25,7 +25,10 @@
     "drawerLinkHome": "Página Principal",
     "drawerLinkAllBPs": "Productores de Bloques",
     "drawerLinkSettings": "Configuración",
-    "drawerLinkAccount": "Cuenta"
+    "drawerLinkAccount": "Cuenta",
+
+    "hideComparisonTool": "Ocultar herramienta de comparación",
+    "showComparisonTool": "Mostrar herramienta de comparación"
   },
 
   "not-found": {
