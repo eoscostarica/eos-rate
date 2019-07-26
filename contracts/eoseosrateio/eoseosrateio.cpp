@@ -118,4 +118,4 @@ CONTRACT eoseosrateio : public contract {
 
 };
 
-EOSIO_DISPATCH(eoseosrateio, (rateproducer));
+EOSIO_DISPATCH(eoseosrateio, (rateproducer)(erase));
