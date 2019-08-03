@@ -1,0 +1,4 @@
+---
+- hosts: localhost
+  roles:
+    - delete_server_do

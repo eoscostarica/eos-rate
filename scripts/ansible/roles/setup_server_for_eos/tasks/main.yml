@@ -1,0 +1,43 @@
+---
+# tasks file for eos
+- import_tasks: directory_stuff.yml
+- import_tasks: pre_requisites.yml
+# tasks file for eos_config_nodeos
+# 1) Setup .bash_alias file within profile directory
+- name: Copying bash_aliases file to the user home
+  copy:
+    src: bash_aliases
+    dest: "/root/.bash_aliases"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Dos 2 Unix /root/.bash_aliases
+  shell: "dos2unix /root/.bash_aliases"
+
+
+- name: Copying wallet.sh file within user home
+  copy:
+    src: wallet.sh
+    dest: "/root/wallet.sh"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Dos 2 Unix /root/wallet.sh
+  shell: "dos2unix /root/wallet.sh"
+
+- name: Copying init_nodeos.sh file within user home
+  copy:
+   src: init_nodeos.sh
+   dest: "/root/init_nodeos.sh"
+   owner: root
+   group: root
+   mode: 0755
+
+- name: Dos 2 Unix /root/init_nodeos.sh
+  shell: "dos2unix /root/init_nodeos.sh"
+
+- import_tasks: enable_devtools.yml
+- import_tasks: setup_cmake.yml
+

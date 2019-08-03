@@ -1,0 +1,5 @@
+---
+- hosts: 134.209.211.188
+  remote_user: root
+  roles:
+    - eos

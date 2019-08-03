@@ -1,0 +1,4 @@
+---
+# tasks file for eos_remove_eosio
+- import_tasks: stop_eos_services.yml
+- import_tasks: uninstall_eosio.yml

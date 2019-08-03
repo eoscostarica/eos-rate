@@ -1,0 +1,4 @@
+---
+- hosts: eosserver
+  roles:
+    - install_eosio_v1.7.4

@@ -1,0 +1,22 @@
+---
+# tasks file for prepare_sys_contracts_for_compile
+
+- name: Copying create_system_contracts_accounts.sh with owner and permissions
+  copy:
+    src: create_system_contracts_accounts.sh
+    dest: "{{ SYS_CONTRACTS_DIR }}/create_system_contracts_accounts.sh"
+    owner: root
+    group: root
+    mode: 0755
+
+- include_tasks: get_eosio_sys_contracts.yml    
+  with_items: "{{ CDT.versions }}"
+
+- name: Download eosio CDT files
+  get_url:
+    url: https://github.com/EOSIO/eosio.cdt/releases/download/v{{ item }}/eosio.cdt-{{ item }}-1.centos-x86_64.rpm
+    dest: "{{ SYS_CONTRACTS_DIR }}"
+    mode: 0755
+    group: root
+    owner: root
+  with_items: "{{ CDT.versions }}"

@@ -1,0 +1,3 @@
+---
+# vars file for reset_chain
+CHAIN_DATA_DIR_PATH: /root/.local/share/eosio/nodeos/data

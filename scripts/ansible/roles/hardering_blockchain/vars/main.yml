@@ -1,0 +1,40 @@
+---
+# vars file for eos_config_nodeos
+RPM_DIR: /installers
+SYS_CONTRACTS_DIR: /contracts
+SOURCE_DIR: /source
+WALLET_KEY_DIR: /eos_wallet_key
+WALLET_KEY_FILEname: key.txt
+SYS_CONTRACTS_VER: 1.5.2
+EOSIO_CENTOS_RPM_URL: https://github.com/EOSIO/eos/releases/download/v1.7.0/eosio-1.7.0-1.el7.x86_64.rpm
+EOSIO_CENTOS_RPM: eosio-1.7.0-1.el7.x86_64.rpm
+CDT_CENTOS_RPM_URL: https://github.com/EOSIO/eosio.cdt/releases/download/v1.6.1/eosio.cdt-1.6.1-1.centos-x86_64.rpm
+CDT_CENTOS_RPM: eosio.cdt-1.6.1-1.centos-x86_64.rpm
+CMAKE_URL: https://github.com/Kitware/CMake/releases/download/v3.13.5/cmake-3.13.5.tar.gz
+CMAKE_FILEname: cmake-3.13.5.tar.gz
+EOSIO_SYSTEM_CONTRACTS_PUB_KEY: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8
+WALLET_KEY_PATH: /eos_wallet_key/key.txt
+
+CUST_ACCOUNTS:
+- {name: eosio,priv_key: 5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3,pub_key: EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV}
+- {name: eoseosrateio,priv_key: 5Je8MieuyEiGpUB5qZWUUTSmtYcRypqFEccZF2DofubTbHMFb7W,pub_key: EOS5b3u7XefgQn22MKLuSeEUrmvgbcWSstWmNcZmFa7KVFM3X63BX}
+- {name: kriskoinmsig,priv_key: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U,pub_key: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8}
+- {name: eoscrprox111,priv_key: 5KGTxK8CrkXiTK2ocJdB4Tsm25syD5Kz5UvfNgDWPv3Xw6aLE1J,pub_key: EOS8Cb47EtvuFCi3Y68xEHnQUCxqQ3SGXBfra4PZc6AamGv6BYbqd}
+- {name: eoscrvoter11,priv_key: 5J8hD2mFE9fgzuRtA7MR5nenCVynnD6gbQPjmWJDqWpb1a8ZNNg,pub_key: EOS6RHVHqh7AWC8UeCWZmgHMdszaTU3FPvGPjH4P8QuYyt9r6w6Mf}
+- {name: kris1111koin,priv_key: 5JLG2tRRtbzgKUi1YtB2ziWbKNTn7tXxo6Dhm6gFv28zbfUcGdP,pub_key: EOS6ND4KzDaESrbtUNQ8seSYHd5Kj57wE6ciSL1t6EHyYGxcLPqzw}
+
+SYS_ACCOUNTS:
+- {name: eosio.bio,priv_key: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U,pub_key: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8}
+- {name: eosio.msig,priv_key: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U,pub_key: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8}
+- {name: eosio.system,priv_key: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U,pub_key: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8}
+- {name: eosio.token,priv_key: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U,pub_key: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8}
+- {name: eosio.wrap,priv_key: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U,pub_key: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8}
+- {name: eosio.bpay,priv_key: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U,pub_key: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8}
+- {name: eosio.names,priv_key: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U,pub_key: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8}
+- {name: eosio.ram,priv_key: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U,pub_key: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8}
+- {name: eosio.ramfees,priv_key: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U,pub_key: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8}
+- {name: eosio.saving,priv_key: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U,pub_key: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8}
+- {name: eosio.stake,priv_key: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U,pub_key: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8}
+- {name: eosio.vpay,priv_key: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U,pub_key: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8}
+
+SCRIPTS_EOS: /eos_scripts

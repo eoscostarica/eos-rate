@@ -1,0 +1,67 @@
+---
+
+- name: Creating {{ SCRIPTS_EOS }} directory
+  file:
+    path: "{{ SCRIPTS_EOS }}"
+    state: directory
+
+# 2) create the wallet key
+- import_tasks: create_wallet.yml
+
+# 3) Import Keys
+#     - upload script
+#     - execute script
+#     - remove script
+- name: Creating and upload import keys scripts
+  template:
+    src: "import_keys.j2"
+    dest: "{{ SCRIPTS_EOS }}/import_keys.sh"
+    owner: root
+    mode: 755
+  with_items: "{{ CUST_ACCOUNTS }}"
+
+- name: Dos 2 Unix {{ SCRIPTS_EOS }}/import_keys.sh
+  shell: "dos2unix {{ SCRIPTS_EOS }}/import_keys.sh"
+
+- name: Executing {{ SCRIPTS_EOS }}/import_keys.sh
+  shell: "{{ SCRIPTS_EOS }}/import_keys.sh"
+
+# 4) create system accounts script
+#     - upload script
+#     - execute script
+#     - remove script
+- name: Creating and upload system accounts script
+  template:
+    src: "create_system_accounts.j2"
+    dest: "{{ SCRIPTS_EOS }}/create_sys_accounts.sh"
+    owner: root
+    mode: 755
+
+- name: Dos 2 Unix {{ SCRIPTS_EOS }}/create_sys_accounts.sh
+  shell: "dos2unix {{ SCRIPTS_EOS }}/create_sys_accounts.sh"
+
+- name: Executing {{ SCRIPTS_EOS }}/create_sys_accounts.sh
+  shell: "{{ SCRIPTS_EOS }}/create_sys_accounts.sh"
+
+
+# 5) Create custom accounts script 
+#     - upload script
+#     - execute script
+#     - remove script
+- name: Creating and upload custom accounts script
+  template:
+    src: "create_cust_accounts.j2"
+    dest: "{{ SCRIPTS_EOS }}/create_cust_accounts.sh"
+    owner: root
+    mode: 755
+  
+- name: Dos 2 Unix {{ SCRIPTS_EOS }}/create_cust_accounts.sh
+  shell: "dos2unix {{ SCRIPTS_EOS }}/create_cust_accounts.sh"
+
+- name: Executing  {{ SCRIPTS_EOS }}/create_cust_accounts.sh
+  shell: "{{ SCRIPTS_EOS }}/create_cust_accounts.sh"
+
+#- name: Removing {{ SCRIPTS_EOS }} directory
+#  file:
+#    path: "{{ SCRIPTS_EOS }}"
+#    state: absent

@@ -1,0 +1,3 @@
+---
+# vars file for install_nodeos_services
+SERVICES_PATH: /etc/systemd/system/

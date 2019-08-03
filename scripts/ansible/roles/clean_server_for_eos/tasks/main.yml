@@ -1,0 +1,4 @@
+---
+# tasks file for eos_remove
+- import_tasks: pre_requisites.yml
+- import_tasks: directory_stuff.yml

@@ -1,0 +1,4 @@
+---
+- hosts: eosserver
+  roles:
+    - setup_server_for_eos

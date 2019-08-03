@@ -1,0 +1,9 @@
+#!/bin/bash
+# set -o errexit
+export WALLET_KEY_PATH="{{ WALLET_KEY_PATH }}"
+cleos wallet unlock --password  $(cat ${WALLET_KEY_PATH})
+sleep 1
+{% for account in SYS_ACCOUNTS %}
+cleos create account eosio {{account.name}} {{ account.pub_key }}
+sleep 1
+{% endfor %}

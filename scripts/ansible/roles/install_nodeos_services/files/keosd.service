@@ -1,0 +1,11 @@
+[Unit]
+Description= Keosd eos wallet
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=keosd
+TimeoutStartSec=0
+
+[Install]
+WantedBy=default.target

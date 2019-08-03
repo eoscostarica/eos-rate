@@ -1,0 +1,5 @@
+---
+- name: Removing eosio 
+  yum:
+    name: eosio
+    state: absent

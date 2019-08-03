@@ -1,0 +1,4 @@
+---
+- hosts: eosserver
+  roles:
+   - config_nodeos

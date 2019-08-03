@@ -1,0 +1,19 @@
+---
+# tasks file for eos_config_sys_contracts_v1.5.2
+- name: Creating {{ SYS_CONTRACTS_DIR }}/{{ CONTRACTS_BRANCH }} directory
+  file:
+    path: "{{ SYS_CONTRACTS_DIR }}/{{ CONTRACTS_BRANCH }}"
+    state: directory
+
+- git:
+    repo: "{{ CONTRACTS_GIT_REPO }}"
+    dest: "{{ SYS_CONTRACTS_DIR }}/{{ CONTRACTS_BRANCH }}"
+    version: "{{ CONTRACTS_BRANCH }}"
+
+- name: Copying define_this.sh with owner and permissions
+  copy:
+    src: define_this.sh
+    dest: "{{ SYS_CONTRACTS_DIR }}/define_this.sh"
+    owner: root
+    group: root
+    mode: 0755

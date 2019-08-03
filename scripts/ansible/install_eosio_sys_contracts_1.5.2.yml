@@ -1,0 +1,4 @@
+---
+- hosts: eosserver
+  roles:
+    - install_sys_contracts_v1.5.2

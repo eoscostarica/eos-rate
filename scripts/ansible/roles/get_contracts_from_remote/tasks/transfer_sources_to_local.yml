@@ -1,0 +1,10 @@
+---
+
+- name: This Module download the sys contracts source code
+  copy:
+    src: "{{ SYS_CONTRACTS_DIR }}.tgz"
+    dest: "{{ SYS_CONTRACTS_DIR_LOCAL }}/{{ SYS_CONTRACTS_DIR }}.tgz"
+    remote_src: true
+    owner: root
+    group: root
+    mode: 0755

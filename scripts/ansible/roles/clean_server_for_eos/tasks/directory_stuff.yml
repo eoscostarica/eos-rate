@@ -1,0 +1,22 @@
+---
+# tasks file for eos_remove
+# tasks for tuff related ith directory delection
+- name: Removing {{ RPM_DIR }} directory
+  file:
+    path: "{{ RPM_DIR }}"
+    state: absent
+
+- name: Removing {{ WALLET_KEY_DIR }} directory
+  file:
+    path: "{{ WALLET_KEY_DIR }}"
+    state: absent
+
+- name: Removing {{ SOURCE_DIR }} directory
+  file:
+    path: "{{ SOURCE_DIR }}"
+    state: absent
+
+- name: Removing {{ SYS_CONTRACTS_DIR }} directory
+  file:
+    path: "{{ SYS_CONTRACTS_DIR }}"
+    state: absent

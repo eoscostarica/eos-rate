@@ -1,0 +1,4 @@
+---
+- hosts: eosserver
+  roles:
+    - uninstall_eosio_cdt

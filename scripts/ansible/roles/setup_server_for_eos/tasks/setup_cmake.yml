@@ -1,0 +1,40 @@
+---
+# tasks for download ,compile , install cmake
+- name: Get cmake source files
+  get_url:
+    url: "{{ CMAKE_URL }}"
+    dest: "{{ SOURCE_DIR }}"
+    mode: 0755
+    group: root
+    owner: root
+  register: cmake_download
+
+- name: Creating {{ SOURCE_DIR }}/cmake directory
+  file:
+    path: "{{ SOURCE_DIR }}/cmake"
+    state: directory
+
+- name: Extract {{ CMAKE_FILENAME }} archive
+  unarchive:
+    src: "{{ SOURCE_DIR }}/{{ CMAKE_FILENAME }}"
+    remote_src: yes
+    dest: "{{ SOURCE_DIR }}/cmake"
+    extra_opts: [--strip-components=1]
+
+- name: Configuring cmake source 
+  command: "./configure"
+  args:
+    chdir: "{{ SOURCE_DIR }}/cmake"
+  environment:
+    PATH: $PATH:/opt/rh/devtoolset-7/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
+
+#- name: Compiling cmake
+- make:
+    chdir: "{{ SOURCE_DIR }}/cmake"
+    params:
+      NUM_THREADS: 16
+
+#- name: Installing cmake
+- make:
+    chdir: "{{ SOURCE_DIR }}/cmake"
+    target: install

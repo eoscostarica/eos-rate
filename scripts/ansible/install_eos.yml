@@ -1,0 +1,15 @@
+---
+- hosts: eosserver
+  roles:
+    - create_server_do
+    - clean_server_for_eos
+    - setup_server_for_eos
+    - install_eosio_v1.8.0
+    - install_eosio_cdt_v1.6.1
+    - install_nodeos_services
+    - install_sys_contracts_v1.6.1
+    - get_contracts_from_remote
+    - prepare_sys_contracts_for_compile
+    - publish_eosio_sys_contracts_1.6.1
+    - reset_chain
+    - hardering_blockchain

@@ -1,0 +1,4 @@
+---
+- hosts: eosserver
+  roles:
+    - get_contracts_from_remote

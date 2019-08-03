@@ -1,0 +1,41 @@
+---
+# tasks for all requisites packages
+- name: Removing centos-release-scl
+  yum:
+      name: centos-release-scl
+      state: absent
+
+- name: Removing devtoolset-7
+  yum:
+      name: devtoolset-7
+      state: absent
+
+#- name: scl enable devtoolset-7 bash
+#  shell: scl enable devtoolset-7 bash
+
+- name: Removing git
+  yum:
+      name: git
+      state: absent
+
+- name: Removing wget
+  yum:
+      name: wget
+      state: absent
+
+#- name: Removing curl
+#  yum:
+#      name: curl
+#      state: absent
+
+- name: Removing mlocate
+  yum:
+      name: mlocate
+      state: absent
+
+- name: Removing mc
+  yum:
+      name: mc
+      state: absent
+
+      

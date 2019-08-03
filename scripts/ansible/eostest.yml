@@ -1,0 +1,5 @@
+---
+- hosts: eos
+  tasks:
+    - name: Get hostname
+      shell: hostname

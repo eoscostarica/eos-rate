@@ -1,0 +1,19 @@
+---
+# vars file for prepare_sys_contracts_for_compile
+SYS_CONTRACTS_DIR: /contracts
+CDT:
+  versions:
+  - 1.5.0
+  - 1.6.0
+  - 1.6.1
+
+SYS_CONTRACTS_BRANCH:
+  versions:
+  - v1.5.2
+  - v1.6.0
+  - v1.6.1
+
+CONTRACTS_GIT_REPO: https://github.com/EOSIO/eosio.contracts
+
+EOSIO_SYSTEM_CONTRACTS_PRIV_KEY: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U
+EOSIO_SYSTEM_CONTRACTS_PUB_KEY: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8

@@ -1,0 +1,4 @@
+---
+- hosts: eosserver
+  roles:
+   - reset_chain

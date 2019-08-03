@@ -1,0 +1,6 @@
+---
+# Create a bz2 archive of the {{SYS_CONTRACTS_DIR} directory
+
+- archive:
+    path: "{{ SYS_CONTRACTS_DIR }}/"
+    dest: "{{ SYS_CONTRACTS_DIR }}.tgz"

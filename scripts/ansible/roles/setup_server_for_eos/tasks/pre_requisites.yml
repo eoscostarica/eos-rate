@@ -1,0 +1,25 @@
+---
+- name: Install git
+  yum:
+      name: git
+      state: present
+
+- name: Install wget
+  yum:
+      name: wget
+      state: present
+
+- name: Install mlocate
+  yum:
+      name: mlocate
+      state: present
+
+- name: Install mc
+  yum:
+      name: mc
+      state: present
+
+- name: Install dos2unix
+  yum:
+      name: dos2unix
+      state: present

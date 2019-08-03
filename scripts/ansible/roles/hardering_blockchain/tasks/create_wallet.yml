@@ -1,0 +1,3 @@
+---
+- name: Creating wallet key ...
+  shell: "cleos set action permission eosio eosio  set  permission"

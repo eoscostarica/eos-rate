@@ -1,0 +1,24 @@
+---
+# tasks file for reset_chain
+- name: Get running processes for nodeos & keos
+  shell: "ps -u root | grep eos | awk '{print $4}'"
+  register: running_processes_name
+
+- name: Get running processes id for nodeos & keos
+  shell: "ps -u root | grep eos | awk '{print $1}'"
+  register: running_processes_id
+
+- name: Pkilling  running processes
+  shell: "pkill {{ item }}"
+  with_items: "{{ running_processes_name.stdout_lines }}"
+
+- name: Waiting until all  process were killed
+  wait_for:
+    path: "/proc/{{ item }}"
+    state: absent
+  with_items: "{{ running_processes_id.stdout_lines }}"
+
+- name: Deleting chain data
+  file:
+    path: "{{ CHAIN_DATA_DIR_PATH }}"
+    state: absent

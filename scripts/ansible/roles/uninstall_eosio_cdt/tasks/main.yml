@@ -1,0 +1,6 @@
+---
+# tasks file for eos_remove_eosio_cdt
+- name: Removing eosio.cdt
+  yum:
+    name: eosio.cdt
+    state: absent

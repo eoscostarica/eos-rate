@@ -1,0 +1,19 @@
+---
+# tasks file for install_nodeos_services
+- name: copying keosd service file
+  copy:
+    src: keosd
+    dest: "{{ SERVICES_PATH }}/keosd.service"
+    owner: root
+    group: root
+    mode: 0755
+    remote_source: no
+
+- name: systemctl daemon-reloading
+  shell: "systemctl daemon-reload"
+
+- name: Enabling keosd service
+  shell: "systemctl enable keosd.service"
+
+- name: Starting keosd service
+  shell: "systemctl start keosd.service"

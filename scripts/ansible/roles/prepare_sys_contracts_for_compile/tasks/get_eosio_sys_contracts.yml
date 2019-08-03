@@ -1,0 +1,31 @@
+---
+- set_fact:
+    outer_item: "{{ item }}"
+
+- name: Creating sys contracts directories
+  file:
+    path: "{{ SYS_CONTRACTS_DIR }}/{{ outer_item }}/{{ item }}" 
+    state: directory
+  with_items: "{{ SYS_CONTRACTS_BRANCH.versions }}"
+
+- git:
+    repo: "{{ CONTRACTS_GIT_REPO }}"
+    dest: "{{ SYS_CONTRACTS_DIR }}/{{ outer_item }}/{{ item }}"
+    version: "{{ item }}"
+  with_items: "{{ SYS_CONTRACTS_BRANCH.versions }}"
+
+- name: Creating the export shell scripts
+  template:
+    src: "export.j2"
+    dest: "{{ SYS_CONTRACTS_DIR }}/{{ outer_item }}/{{ item }}/export.sh"
+    owner: root
+    mode: 755
+  with_items: "{{ SYS_CONTRACTS_BRANCH.versions }}"
+
+- name: Creating the publish shell scripts
+  template:
+    src: "publish_contracts.j2"
+    dest: "{{ SYS_CONTRACTS_DIR }}/{{ outer_item }}/{{ item }}/publish_contracts.sh"
+    owner: root
+    mode: 755
+  with_items: "{{ SYS_CONTRACTS_BRANCH.versions }}"
