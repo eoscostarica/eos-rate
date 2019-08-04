@@ -1,0 +1,5 @@
+---
+SOURCE_DIR: /source
+SYS_CONTRACTS_DIR: /contracts
+CONTRACTS_GIT_REPO: https://github.com/EOSIO/eosio.contracts
+CONTRACTS_BRANCH: v1.6.0

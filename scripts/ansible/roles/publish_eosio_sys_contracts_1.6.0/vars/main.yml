@@ -1,0 +1,9 @@
+---
+# vars file for publish_eosio_sys_contracts_1.6.0
+
+EOSIO_SYSTEM_CONTRACTS_PRIV_KEY: 5KCAbWSnFTNgYp1eyzzEWnrKTCdv3sZr4VwKioY7n9afGpekR5U
+EOSIO_SYSTEM_CONTRACTS_PUB_KEY: EOS5Rc8VJCyNCYPdE4gQhqPMTetFXkJPagkq4dicPCPGTAr5d4qu8
+#CONTRACTS_PATH: /contracts2/eosio.contracts/build/contracts
+CONTRACTS_PATH: /contracts/v1.6.0/build/contracts
+SYS_CONTRACTS_VER: 1.6.0
+C_PATH: /contracts

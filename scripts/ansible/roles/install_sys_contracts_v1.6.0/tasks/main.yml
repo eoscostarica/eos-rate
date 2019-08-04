@@ -1,0 +1,3 @@
+---
+# tasks file for eos_config_sys_contracts_v1.5.2
+- import_tasks: get_eos_sys_contracts_source.yml

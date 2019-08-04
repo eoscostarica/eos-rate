@@ -1,0 +1,15 @@
+---
+# tasks file for install_eosio_cdt_v1.5.0
+- name: Download {{ EOSIO_CDT_RPM_FILENAME }} file
+  get_url:
+    url: "{{ EOSIO_CDT_RPM_URL }}"
+    dest: "{{ RPM_DIR }}"
+    mode: 0755
+    group: root
+    owner: root
+
+
+- name: Install {{ EOSIO_CDT_RPM_FILENAME }} package.
+  yum:
+     name: "{{ RPM_DIR }}/{{ EOSIO_CDT_RPM_FILENAME }}"
+     state: present

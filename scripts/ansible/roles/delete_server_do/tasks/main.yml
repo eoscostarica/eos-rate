@@ -1,0 +1,8 @@
+---
+# tasks file for delete_server_do
+- name: removing server {{ SERVER_NAME }} on DigitalOcean
+  digital_ocean_droplet:
+    oauth_token: "{{ TOKEN }}"
+    id: "{{ SERVER_ID }}"
+    wait_timeout: 500
+    state: absent
