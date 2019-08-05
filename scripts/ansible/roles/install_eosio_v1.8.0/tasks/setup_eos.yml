@@ -1,0 +1,15 @@
+---
+
+- name: Download {{ EOSIO_RPM_FILENAME }} file
+  get_url:
+    url: "{{ EOSIO_RPM_URL }}"
+    dest: "{{ RPM_DIR }}"
+    mode: 0755
+    group: root
+    owner: root
+
+
+- name: Install {{ EOSIO_RPM_FILENAME }} package.
+  yum:
+     name: "{{ RPM_DIR }}/{{ EOSIO_RPM_FILENAME }}"
+     state: present

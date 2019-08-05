@@ -1,0 +1,42 @@
+---
+# tasks file for publish_eosio_sys_contracts_1.6.0
+#- import_tasks: import_accounts_keys.yml
+#- import_tasks: create_system_contracts_accounts.yml
+#- import_tasks: publish_system_contracts.yml
+- name: Copy file create_system_contracts_accounts.sh to server
+  copy:
+    src: "create_system_contracts_accounts.sh"
+    dest: "{{ C_PATH }}/create_system_contracts_accounts_1_6_1.sh"
+    owner: root
+    group: root
+    mode: 755
+
+- name: Copy file publish_system_contracts.sh to server
+  copy:
+    src: "publish_system_contracts.sh"
+    dest: "{{ C_PATH }}/publish_system_contracts_1_6_1.sh"
+    owner: root
+    group: root
+    mode: 755
+
+- name: Dos 2 Unix create_system_contracts_accounts.sh
+  shell: "dos2unix {{ C_PATH }}/create_system_contracts_accounts_1_6_1.sh"
+
+- name: Dos 2 Unix publish_system_contracts.sh
+  shell: "dos2unix {{ C_PATH }}/publish_system_contracts_1_6_1.sh"
+
+#- name: Executing create_system_contracts_accounts.sh
+#  shell: "{{ C_PATH }}/create_system_contracts_accounts_1_6_1.sh"
+
+#- name: Executing publish_system_contracts.sh
+#  shell: "{{ C_PATH }}/publish_system_contracts_1_6_1.sh"
+
+#- name: Removing create_system_contracts_accounts.sh
+#  file:
+#    path: "{{ C_PATH }}/create_system_contracts_accounts_1_6_1.sh"
+#    state: absent
+
+#- name: Removing publish_system_contracts.sh
+#  file:
+#    path: "{{ C_PATH }}/publish_system_contracts_1_6_1.sh"
+#    state: absent

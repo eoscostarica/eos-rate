@@ -1,0 +1,22 @@
+---
+- name: Publishing account eosio.bios
+  shell: "cleos set contract eosio.bios {{ CONTRACTS_PATH }}/eosio.bios"
+
+- name: Publishing account eosio.msig
+  shell: "cleos set contract eosio.msig {{ CONTRACTS_PATH }}/eosio.msig"
+  
+- name: Publishing account eosio.system
+  shell: "cleos set contract eosio.system {{ CONTRACTS_PATH }}/eosio.system"
+
+- name: Publishing account eosio.token
+  shell: "cleos set contract eosio.token {{ CONTRACTS_PATH }}/eosio.token"
+
+- name: Publishing account eosio.wrap
+  shell: "cleos set contract eosio.wrap {{ CONTRACTS_PATH }}/eosio.wrap"
+
+- name: Publishing account eosio.wrap
+  shell: "cleos set contract eosio.wrap {{ CONTRACTS_PATH }}/eosio.wrap"
+
+- name : Setting set privilegies to eosio.msig
+  shell: "cleos push action eosio setpriv '["eosio.msig", 1]' -p eosio@active"
+  

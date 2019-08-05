@@ -1,0 +1,16 @@
+---
+# vars file for eos_setup_eosio_v1.7.0
+RPM_DIR: /installers
+SYS_CONTRACTS_DIR: /contracts
+SOURCE_DIR: /source
+WALLET_KEY_DIR: /eos_wallet_key
+WALLET_KEY_FILENAME: key.txt
+SYS_CONTRACTS_VER: 1.5.2
+EOSIO_CENTOS_RPM_URL: https://github.com/EOSIO/eos/releases/download/v1.8.0/eosio-1.8.0-1.el7.x86_64.rpm
+EOSIO_CENTOS_RPM: eosio-1.8.0-1.el7.x86_64.rpm
+CDT_CENTOS_RPM_URL: https://github.com/EOSIO/eosio.cdt/releases/download/v1.6.1/eosio.cdt-1.6.1-1.centos-x86_64.rpm
+CDT_CENTOS_RPM: eosio.cdt-1.6.1-1.centos-x86_64.rpm
+CMAKE_URL: https://github.com/Kitware/CMake/releases/download/v3.13.5/cmake-3.13.5.tar.gz
+CMAKE_FILENAME: cmake-3.13.5.tar.gz
+EOSIO_RPM_URL: https://github.com/EOSIO/eos/releases/download/v1.8.0/eosio-1.8.0-1.el7.x86_64.rpm
+EOSIO_RPM_FILENAME: eosio-1.8.0-1.el7.x86_64.rpm

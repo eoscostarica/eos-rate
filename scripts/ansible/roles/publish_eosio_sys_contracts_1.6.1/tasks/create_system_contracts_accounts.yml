@@ -1,0 +1,38 @@
+---
+# cleos wallet import --private-key 5J8hD2mFE9fgzuRtA7MR5nenCVynnD6gbQPjmWJDqWpb1a8ZNNg
+- name: Creating account eosio.bios
+  shell: "cleos create account eosio eosio.bios {{ EOSIO_SYSTEM_CONTRACTS_PUB_KEY }}"
+  
+- name: Creating account eosio.msig
+  shell: "cleos create account eosio eosio.msig {{ EOSIO_SYSTEM_CONTRACTS_PUB_KEY }}"
+  
+- name: Creating account eosio.system
+  shell: "cleos create account eosio eosio.system {{ EOSIO_SYSTEM_CONTRACTS_PUB_KEY }}"
+  
+- name: Creating account eosio.token
+  shell: "cleos create account eosio eosio.token {{ EOSIO_SYSTEM_CONTRACTS_PUB_KEY }}"
+  
+- name: Creating account eosio.wrap
+  shell: "cleos create account eosio eosio.wrap {{ EOSIO_SYSTEM_CONTRACTS_PUB_KEY }}"
+  
+- name: Creating account eosio.bpay
+  shell: "cleos create account eosio eosio.bpay {{ EOSIO_SYSTEM_CONTRACTS_PUB_KEY }}"
+  
+- name: Creating account eosio.names
+  shell: "cleos create account eosio eosio.names {{ EOSIO_SYSTEM_CONTRACTS_PUB_KEY }}"
+  
+- name: Creating account eosio.ram
+  shell: "cleos create account eosio eosio.ram {{ EOSIO_SYSTEM_CONTRACTS_PUB_KEY }}"
+  
+- name: Creating account eosio.ramfee
+  shell: "cleos create account eosio eosio.ramfee {{ EOSIO_SYSTEM_CONTRACTS_PUB_KEY }}"
+  
+- name: Creating account eosio.saving
+  shell: "cleos create account eosio eosio.saving {{ EOSIO_SYSTEM_CONTRACTS_PUB_KEY }}"
+  
+- name: Creating account eosio.stake
+  shell: "cleos create account eosio eosio.stake {{ EOSIO_SYSTEM_CONTRACTS_PUB_KEY }}"
+  
+- name: Creating account eosio.vpay
+  shell: "cleos create account eosio eosio.vpay {{ EOSIO_SYSTEM_CONTRACTS_PUB_KEY }}"
+  
