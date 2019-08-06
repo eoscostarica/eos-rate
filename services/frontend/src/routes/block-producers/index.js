@@ -4,9 +4,10 @@ import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import Badge from '@material-ui/core/Badge'
 import Button from '@material-ui/core/Button'
-import ExpandMore from '@material-ui/icons/ExpandMore'
-import ExpandLess from '@material-ui/icons/ExpandLess'
 import { withStyles } from '@material-ui/core/styles'
+import Tooltip from '@material-ui/core/Tooltip'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import Visibility from '@material-ui/icons/Visibility'
 import { withNamespaces } from 'react-i18next'
 import classNames from 'classnames'
 
@@ -79,30 +80,36 @@ class AllBps extends Component {
       compareToolVisible,
       toggleCompareTool,
       removeSelected,
-      addToSelected
+      addToSelected,
+      t
     } = this.props
     const { currentlyVisible } = this.state
     const bpList = filtered.length ? filtered : blockProducers
     const shownList = bpList.slice(0, currentlyVisible)
 
     const hasMore = currentlyVisible < bpList.length
+    const fabLegend = compareToolVisible
+      ? t('hideComparisonTool')
+      : t('showComparisonTool')
     return (
       <div className={classes.root}>
-        <Button
-          variant='fab'
-          color='secondary'
-          aria-label='Toggle comparison tool visiblity'
-          className={classes.compareToggleButton}
-          onClick={() => toggleCompareTool()}
-        >
-          <Badge
-            classes={{ badge: classes.badge }}
-            invisible={!selectedBPs.length}
-            badgeContent={selectedBPs.length}
+        <Tooltip aria-label={fabLegend} placement='left' title={fabLegend}>
+          <Button
+            variant='fab'
+            color='secondary'
+            aria-label={fabLegend}
+            className={classes.compareToggleButton}
+            onClick={() => toggleCompareTool()}
           >
-            {compareToolVisible ? <ExpandLess /> : <ExpandMore />}
-          </Badge>
-        </Button>
+            <Badge
+              classes={{ badge: classes.badge }}
+              invisible={!selectedBPs.length}
+              badgeContent={selectedBPs.length}
+            >
+              {compareToolVisible ? <VisibilityOff /> : <Visibility />}
+            </Badge>
+          </Button>
+        </Tooltip>
         <CompareTool
           removeBP={producerAccountName => () => {
             removeSelected(producerAccountName)
@@ -154,7 +161,7 @@ class AllBps extends Component {
 
 AllBps.propTypes = {
   classes: PropTypes.object.isRequired,
-  // t: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   blockProducers: PropTypes.array.isRequired,
   getBPs: PropTypes.func.isRequired,
   toggleCompareTool: PropTypes.func.isRequired,
