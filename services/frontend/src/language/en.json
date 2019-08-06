@@ -25,7 +25,10 @@
     "drawerLinkHome": "Home",
     "drawerLinkAllBPs": "Block Producers",
     "drawerLinkSettings": "Settings",
-    "drawerLinkAccount": "Account"
+    "drawerLinkAccount": "Account",
+
+    "hideComparisonTool": "Hide comparison tool",
+    "showComparisonTool": "Show comparison tool"
   },
 
   "not-found": {
