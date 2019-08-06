@@ -32,7 +32,10 @@
     "connecting": "Connecting",
     "connectingWith": "Connecting with",
     "connectingErrorTitle": "Error",
-    "connectingErrorActionBtn": "Ok"
+    "connectingErrorActionBtn": "Ok",
+
+    "hideComparisonTool": "Hide comparison tool",
+    "showComparisonTool": "Show comparison tool"
   },
 
   "not-found": {
