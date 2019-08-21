@@ -1,7 +1,7 @@
 export default [
-  'Trustiness',
-  'Community',
-  'Development',
   'Infrastructure',
-  'Transparency'
+  'Tooling',
+  'Community',
+  'Transparency',
+  'Testnets'
 ]
