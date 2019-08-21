@@ -50,15 +50,17 @@ const theme = createMuiTheme({
       }
     },
     MuiListItem: {
-      selected: {
-        color: 'black',
-        backgroundColor: '#5cf68a'
-      },
       button: {
         color: 'white',
         '&:hover': {
           backgroundColor: '#5cf68a',
           color: 'black'
+        }
+      },
+      root: {
+        '&$selected': {
+          color: 'black',
+          backgroundColor: '#5cf68a'
         }
       }
     },

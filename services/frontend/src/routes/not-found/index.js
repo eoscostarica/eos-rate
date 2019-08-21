@@ -74,6 +74,7 @@ const NotFound = ({ classes, t }) => (
 )
 
 NotFound.propTypes = {
+  classes: PropTypes.object.isRequired,
   t: PropTypes.func.isRequired
 }
 

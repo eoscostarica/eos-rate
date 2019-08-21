@@ -27,6 +27,13 @@
     "drawerLinkSettings": "Settings",
     "drawerLinkAccount": "Account",
 
+    "appBarSignIn": "Sign In",
+
+    "connecting": "Connecting",
+    "connectingWith": "Connecting with",
+    "connectingErrorTitle": "Error",
+    "connectingErrorActionBtn": "Ok",
+
     "hideComparisonTool": "Hide comparison tool",
     "showComparisonTool": "Show comparison tool"
   },
@@ -57,5 +64,10 @@
     "authority": "Authority",
     "blockchain": "Blockchain",
     "activity": "Activity"
+  },
+
+  "bpRatePage": {
+    "publishRatingButton": "Publish Rating",
+    "cancelRatingButton": "Cancel"
   }
 }

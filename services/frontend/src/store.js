@@ -5,7 +5,7 @@ import { locationChangeListener } from 'models/location'
 import * as models from 'models'
 
 const persistPlugin = createPersistPlugin({
-  whitelist: ['blockProducers', 'session', 'settings']
+  whitelist: ['blockProducers', 'settings']
 })
 
 const store = init({
