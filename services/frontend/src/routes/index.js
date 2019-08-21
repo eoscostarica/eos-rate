@@ -32,7 +32,7 @@ export default [
   // },
   {
     path: '/account',
-    Component: Account,
-    drawerLabel: 'drawerLinkAccount'
+    Component: Account
+    // drawerLabel: 'drawerLinkAccount'
   }
 ]
