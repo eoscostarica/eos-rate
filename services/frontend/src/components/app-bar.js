@@ -1,21 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
+import classnames from 'classnames'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { withNamespaces } from 'react-i18next'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
+import Button from '@material-ui/core/Button'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import FingerprintIcon from '@material-ui/icons/Fingerprint'
 import IconButton from '@material-ui/core/IconButton'
+import LogoutIcon from '@material-ui/icons/ExitToApp'
 import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
-import { fade } from '@material-ui/core/styles/colorManipulator'
-import FingerprintIcon from '@material-ui/icons/Fingerprint'
+import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+import { fade } from '@material-ui/core/styles/colorManipulator'
+import { withStyles } from '@material-ui/core/styles'
 import { Link } from '@reach/router'
 
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
-import { connect } from 'react-redux'
-
-import classnames from 'classnames'
+import SignInDialog from 'components/sign-in-dialog'
+import SignInMenu from 'components/sign-in-menu'
+import { useWalletDispatch, useWalletState } from 'hooks/wallet'
 
 const styles = theme => ({
   root: {
@@ -82,86 +88,125 @@ const styles = theme => ({
       width: 200
     }
   },
-  name: {
+  sessionText: {
     marginLeft: 5
-  },
-  fingerPrint: {
-    padding: '5px 8px',
-    '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0)'
-    }
   }
 })
 
 const MainTopBar = ({
   classes,
-  session,
   isSearchOpen,
   handleDrawerToggle,
   handleSearchDialogOpen,
-  handleSearchDialogClose
-}) => (
-  <AppBar position='absolute'>
-    <Toolbar>
-      <IconButton
-        className={classes.menuButton}
-        color='inherit'
-        aria-label='Menu'
-        onClick={handleDrawerToggle}
-      >
-        <MenuIcon />
-      </IconButton>
-      <Link to='/' className={classes.link}>
-        <img src='/logo.svg' alt='EOS Rate' className={classes.title} />
-      </Link>
-      <div className={classes.grow} />
-      <div className={classes.search}>
-        <InputAutocomplete />
-      </div>
-      <div className={classes.grow} />
-      <IconButton
-        className={classes.mobileSearch}
-        color='inherit'
-        disabled={isSearchOpen}
-        onClick={handleSearchDialogOpen}
-      >
-        <SearchIcon />
-      </IconButton>
-      <Link
-        to='/account'
-        className={classnames(classes.link, {
-          [classes.linkHover]: session.account.name
-        })}
-      >
+  handleSearchDialogClose,
+  t
+}) => {
+  const [state, setState] = useState({
+    anchorEl: null,
+    selectedProvider: null
+  })
+  const { connectWallet, disconnectWallet } = useWalletDispatch()
+  const walletState = useWalletState()
+  const logout = () => {
+    disconnectWallet(walletState.wallet)
+  }
+  const connectToWallet = (provider, providerName) => {
+    setState({ anchorEl: null, selectedProvider: providerName })
+    connectWallet(provider)
+  }
+
+  return (
+    <AppBar position='absolute'>
+      <Toolbar>
         <IconButton
-          color='default'
-          className={classnames({
-            [classes.fingerPrint]: session.account.name
-          })}
+          className={classes.menuButton}
+          color='inherit'
+          aria-label='Menu'
+          onClick={handleDrawerToggle}
         >
-          <FingerprintIcon />
-          <Typography
-            variant='subtitle1'
-            className={classnames({ [classes.name]: session.account.name })}
-          >
-            {session.account.name}
-          </Typography>
+          <MenuIcon />
         </IconButton>
-      </Link>
-    </Toolbar>
-    <MobileSearch onClose={handleSearchDialogClose} isOpen={isSearchOpen} />
-  </AppBar>
-)
+        <Link to='/' className={classes.link}>
+          <img src='/logo.png' alt='EOS Rate' className={classes.title} />
+        </Link>
+        <div className={classes.grow} />
+        <div className={classes.search}>
+          <InputAutocomplete />
+        </div>
+        <div className={classes.grow} />
+        <IconButton
+          className={classes.mobileSearch}
+          color='inherit'
+          disabled={isSearchOpen}
+          onClick={handleSearchDialogOpen}
+        >
+          <SearchIcon />
+        </IconButton>
+        {walletState.wallet ? (
+          <>
+            <Link
+              to='/account'
+              className={classnames(classes.link, {
+                [classes.linkHover]: walletState.wallet.accountInfo
+              })}
+            >
+              <Button color='primary' variant='contained'>
+                <AccountCircleIcon />
+                <Typography className={classes.sessionText} variant='subtitle1'>
+                  {walletState.wallet.accountInfo.account_name}
+                </Typography>
+              </Button>
+            </Link>
+            <IconButton color='inherit' onClick={logout}>
+              <LogoutIcon />
+            </IconButton>
+          </>
+        ) : (
+          <>
+            <Button
+              color='primary'
+              onClick={e => setState({ ...state, anchorEl: e.currentTarget })}
+              variant='contained'
+            >
+              {walletState.connecting ? (
+                <CircularProgress color='secondary' size={20} />
+              ) : (
+                <>
+                  <FingerprintIcon />
+                  <Typography
+                    className={classes.sessionText}
+                    variant='subtitle1'
+                  >
+                    {t('appBarSignIn')}
+                  </Typography>
+                </>
+              )}
+            </Button>
+            <SignInMenu
+              anchorEl={state.anchorEl}
+              handleClick={connectToWallet}
+              handleClose={() => setState({ ...state, anchorEl: null })}
+            />
+            <SignInDialog
+              connecting={walletState.connecting}
+              error={walletState.error}
+              provider={state.selectedProvider}
+            />
+          </>
+        )}
+      </Toolbar>
+      <MobileSearch onClose={handleSearchDialogClose} isOpen={isSearchOpen} />
+    </AppBar>
+  )
+}
 
 MainTopBar.propTypes = {
   classes: PropTypes.object,
-  session: PropTypes.object.isRequired,
   handleDrawerToggle: PropTypes.func,
   handleSearchDialogOpen: PropTypes.func,
   handleSearchDialogClose: PropTypes.func,
-  isSearchOpen: PropTypes.bool
+  isSearchOpen: PropTypes.bool,
+  t: PropTypes.func.isRequired
 }
 
-const mapStateToProps = ({ session }) => ({ session })
-
-export default withStyles(styles)(connect(mapStateToProps)(MainTopBar))
+export default withStyles(styles)(withNamespaces('translations')(MainTopBar))
