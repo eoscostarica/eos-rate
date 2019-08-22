@@ -90,6 +90,7 @@ We are running a demux and hasura on premises in Costa Rica.
   - Proxy list from the [eosio.system](https://github.com/EOSIO/eos/tree/master/contracts/eosio.system) voters tables.
   - Proxy Info from the [eos-proxyinfo](https://github.com/AlohaEOS/eos-proxyinfo) contract.
   - Ability to vote for the proxy.
+-Voice identity layer for EOSRATE
 - List and search proxies.
 
 ## Architecture
