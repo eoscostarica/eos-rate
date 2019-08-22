@@ -1,0 +1,1 @@
+'{ "user": "gaboesquivel", "bp": "alohaeostest", "ratings_json": "{\"transparency\":10,\"testnets\":8,\"tooling\":7,\"infra\":6,\"community\":10}"  }'
