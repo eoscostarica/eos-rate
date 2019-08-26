@@ -2,9 +2,13 @@
 #include <eosiolib/print.hpp>
 #include <eosiolib/asset.hpp>
 #include <eosiolib/multi_index.hpp>
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
 
 using namespace eosio;
 using namespace std;
+using namespace rapidjson;
 
 CONTRACT eoseosrateio : public contract {
   public:
@@ -52,6 +56,12 @@ CONTRACT eoseosrateio : public contract {
            row.ratings_json = ratings_json;
          });
        }
+    }
+
+    void sumarize_json(string ratings_json){
+       Document d;
+       d.Parse(ratings_json.c_str());
+
     }
 
     // for dev only
