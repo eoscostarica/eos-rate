@@ -13,13 +13,13 @@ CONTRACT eoseosrateio : public contract {
     //"{\"costaricaeos\":{\"transparency\":10,\"testnets\":8,\"tooling\":7,\"infra\":6,\"community\":10}
     
     using contract::contract;
-    struct bp_rate_t {
+    typedef struct bp_rate_t {
       float transparency;
       float testnets;
       float tooling;
       float infra;
       float community;
-    };
+    } bp_rate_stats ;
 
     ACTION rateproducer(name user, name bp, string ratings_json) {
       require_auth(user);
@@ -59,7 +59,7 @@ CONTRACT eoseosrateio : public contract {
          uniq_rating_index.modify(existing_rating, user, [&]( auto& row ) {
            row.user = user;
            row.bp = bp;
-           row.created_at = current_time();
+           row.updated_at = current_time();
            row.ratings_json = ratings_json;
          });
        }
@@ -76,8 +76,50 @@ CONTRACT eoseosrateio : public contract {
 
     }
 
-    void get_bp_stats (name bp, bp_rate_t *p ){
+    void save_bp_stats (name bp_name, bp_rate_stats * bp_rate ){
       //{\"transparency\":10,\"testnets\":8,\"tooling\":7,\"infra\":6,\"community\":10}
+      producers_stats_table bps_stats(_code, _code.value);
+      auto itr = bps_stats.find(bp_name.value);
+      if(itr == bps_stats.end()){
+         bps_stats.emplace(_self, [&]( auto& row ) {
+            row.bp = bp_name;
+            //TODO: create func to write stats in json format
+            //row.ratings_json = ratings_json;
+            
+            row.transparency = bp_rate->transparency;
+            row.testnets = bp_rate->testnets;
+            row.tooling = bp_rate->tooling;
+            row.infra = bp_rate->infra;
+            row.community = bp_rate->community;
+            row.created_at = current_time();
+            row.updated_at = current_time();
+          });
+        //new entry
+       
+
+      }else{
+        //update the entry
+        bps_stats.modify(_self, user, [&]( auto& row ) {
+           row.user = user;
+           row.bp = bp;
+           row.updated_at = current_time();
+           row.ratings_json = ratings_json;
+         });
+
+
+        row.bp = bp_name;
+        //TODO: create func to write stats in json format
+        //row.ratings_json = ratings_json;
+        
+        row.transparency = bp_rate->transparency;
+        row.testnets = bp_rate->testnets;
+        row.tooling = bp_rate->tooling;
+        row.infra = bp_rate->infra;
+        row.community = bp_rate->community;
+        row.created_at = current_time();
+        row.updated_at = current_time();
+
+      }
     }
 
     // for dev only
@@ -90,19 +132,30 @@ CONTRACT eoseosrateio : public contract {
       while ( itr != bps.end()) {
           itr = bps.erase(itr);
       }
+
+      producers_stats_table bps_stats(_code, _code.value);
+      auto itr_stats = bps_stats.begin();
+      while ( itr_stats != bps_stats.end()) {
+          itr_stats = bps_stats.erase(itr_stats);
+      }
     }
 
   private:
     TABLE block_producers_stats {
       name bp;
       string ratings_json;
+      float transparency;
+      float testnets;
+      float tooling;
+      float infra;
+      float community;
       uint32_t created_at;
       uint32_t updated_at;
       uint64_t primary_key() const { return bp.value; }
-      EOSLIB_SERIALIZE( block_producers_stats, (bp)(ratings_json)(created_at)(updated_at));
+      EOSLIB_SERIALIZE( block_producers_stats, (bp)(ratings_json)(transparency)(testnets)(tooling)(infra)(community)(created_at)(updated_at));
     };
 
-    typedef eosio::multi_index<"bps.stats"_n, block_producers_stats > block_producers_stats_table;
+    typedef eosio::multi_index<"bps.stats"_n, block_producers_stats > producers_stats_table;
     
 
     TABLE block_producer {
