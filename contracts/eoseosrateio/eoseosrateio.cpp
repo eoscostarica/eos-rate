@@ -55,6 +55,9 @@ CONTRACT eoseosrateio : public contract {
             row.ratings_json = ratings_json;
           });
 
+          //update the general data
+         process_json_stats(ratings_json);
+
       } else {
          uniq_rating_index.modify(existing_rating, user, [&]( auto& row ) {
            row.user = user;
@@ -62,15 +65,27 @@ CONTRACT eoseosrateio : public contract {
            row.updated_at = current_time();
            row.ratings_json = ratings_json;
          });
+         //update the general data
+         process_json_stats(ratings_json);
+
        }
     }
 
-    void sumarize_json(string ratings_json){
+    void process_json_stats(string ratings_json){
       Document json;
+      bp_rate_stats a_bp_stats;
+      name bp_name = eosio::name("eoseosrateio");
       eosio_assert( json.Parse<0>(ratings_json.c_str() ).HasParseError() , "Error parsing" );
       for (Value::ConstMemberIterator itr = json.MemberBegin();itr != json.MemberEnd(); ++itr){
         //printf("Type of member %s is %s\n",
         //itr->name.GetString(), kTypeNames[itr->value.GetType()]);
+        
+        a_bp_stats.transparency = 3.333;
+        a_bp_stats.testnets = 9.99;
+        a_bp_stats.tooling = -9.9;
+        a_bp_stats.infra = 7.5;
+        a_bp_stats.community = 10;
+        save_bp_stats(bp_name,&a_bp_stats);
       }
       
 
@@ -93,32 +108,26 @@ CONTRACT eoseosrateio : public contract {
             row.community = bp_rate->community;
             row.created_at = current_time();
             row.updated_at = current_time();
+            row.proxy_voters_cntr = 1;
           });
         //new entry
        
 
       }else{
         //update the entry
-        bps_stats.modify(_self, user, [&]( auto& row ) {
-           row.user = user;
-           row.bp = bp;
-           row.updated_at = current_time();
-           row.ratings_json = ratings_json;
+        bps_stats.modify(itr,_self, [&]( auto& row ) {
+          row.bp = bp_name;
+          //TODO: create func to write stats in json format
+          //row.ratings_json = ratings_json;
+          
+          row.transparency = bp_rate->transparency;
+          row.testnets = bp_rate->testnets;
+          row.tooling = bp_rate->tooling;
+          row.infra = bp_rate->infra;
+          row.community = bp_rate->community;
+          row.updated_at = current_time();
+          row.proxy_voters_cntr ++;
          });
-
-
-        row.bp = bp_name;
-        //TODO: create func to write stats in json format
-        //row.ratings_json = ratings_json;
-        
-        row.transparency = bp_rate->transparency;
-        row.testnets = bp_rate->testnets;
-        row.tooling = bp_rate->tooling;
-        row.infra = bp_rate->infra;
-        row.community = bp_rate->community;
-        row.created_at = current_time();
-        row.updated_at = current_time();
-
       }
     }
 
@@ -144,6 +153,7 @@ CONTRACT eoseosrateio : public contract {
     TABLE block_producers_stats {
       name bp;
       string ratings_json;
+      float proxy_voters_cntr;
       float transparency;
       float testnets;
       float tooling;
