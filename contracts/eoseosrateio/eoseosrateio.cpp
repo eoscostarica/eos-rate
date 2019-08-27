@@ -10,7 +10,16 @@ using namespace eosio;
 
 CONTRACT eoseosrateio : public contract {
   public:
+    //"{\"costaricaeos\":{\"transparency\":10,\"testnets\":8,\"tooling\":7,\"infra\":6,\"community\":10}
+    
     using contract::contract;
+    struct bp_rate_t {
+      float transparency;
+      float testnets;
+      float tooling;
+      float infra;
+      float community;
+    };
 
     ACTION rateproducer(name user, name bp, string ratings_json) {
       require_auth(user);
@@ -57,9 +66,18 @@ CONTRACT eoseosrateio : public contract {
     }
 
     void sumarize_json(string ratings_json){
-       //Document d;
-       //d.Parse(ratings_json.c_str());
+      Document json;
+      eosio_assert( json.Parse<0>(ratings_json.c_str() ).HasParseError() , "Error parsing" );
+      for (Value::ConstMemberIterator itr = json.MemberBegin();itr != json.MemberEnd(); ++itr){
+        //printf("Type of member %s is %s\n",
+        //itr->name.GetString(), kTypeNames[itr->value.GetType()]);
+      }
+      
 
+    }
+
+    void get_bp_stats (name bp, bp_rate_t *p ){
+      //{\"transparency\":10,\"testnets\":8,\"tooling\":7,\"infra\":6,\"community\":10}
     }
 
     // for dev only
@@ -75,6 +93,18 @@ CONTRACT eoseosrateio : public contract {
     }
 
   private:
+    TABLE block_producers_stats {
+      name bp;
+      string ratings_json;
+      uint32_t created_at;
+      uint32_t updated_at;
+      uint64_t primary_key() const { return bp.value; }
+      EOSLIB_SERIALIZE( block_producers_stats, (bp)(ratings_json)(created_at)(updated_at));
+    };
+
+    typedef eosio::multi_index<"bps.stats"_n, block_producers_stats > block_producers_stats_table;
+    
+
     TABLE block_producer {
       uint64_t id;
       uint128_t uniq_rating;
