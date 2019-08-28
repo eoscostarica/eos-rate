@@ -54,7 +54,6 @@ CONTRACT eoseosrateio : public contract {
             row.updated_at = now();
             row.ratings_json = ratings_json;
           });
-
           //update the general data
          process_json_stats(ratings_json);
 
@@ -75,32 +74,36 @@ CONTRACT eoseosrateio : public contract {
       Document json;
       bp_rate_stats a_bp_stats;
       name bp_name = eosio::name("eoseosrateio");
-      eosio_assert( json.Parse<0>(ratings_json.c_str() ).HasParseError() , "Error parsing" );
-      for (Value::ConstMemberIterator itr = json.MemberBegin();itr != json.MemberEnd(); ++itr){
-        //printf("Type of member %s is %s\n",
-        //itr->name.GetString(), kTypeNames[itr->value.GetType()]);
-        
+      // FIX: parse error
+      //eosio_assert( json.Parse<0>(ratings_json.c_str() ).HasParseError() , "Error parsing" );
+      //for (Value::ConstMemberIterator itr = json.MemberBegin();itr != json.MemberEnd(); ++itr){
+        //
+        //TODO: read the json array of objects
+        //
         a_bp_stats.transparency = 3.333;
         a_bp_stats.testnets = 9.99;
         a_bp_stats.tooling = -9.9;
         a_bp_stats.infra = 7.5;
         a_bp_stats.community = 10;
         save_bp_stats(bp_name,&a_bp_stats);
-      }
+      //}
       
-
     }
-
+    //
+    // TODO: ask about the format
+    // this function generate the stats with json format
+    string update_bp_stats_json (name bp_name, bp_rate_stats * bp_rate ){
+      string result;
+      return result;
+    }
     void save_bp_stats (name bp_name, bp_rate_stats * bp_rate ){
-      //{\"transparency\":10,\"testnets\":8,\"tooling\":7,\"infra\":6,\"community\":10}
       producers_stats_table bps_stats(_code, _code.value);
       auto itr = bps_stats.find(bp_name.value);
       if(itr == bps_stats.end()){
+        //new entry
          bps_stats.emplace(_self, [&]( auto& row ) {
             row.bp = bp_name;
-            //TODO: create func to write stats in json format
-            //row.ratings_json = ratings_json;
-            
+            row.ratings_json = update_bp_stats_json(bp_name,bp_rate);
             row.transparency = bp_rate->transparency;
             row.testnets = bp_rate->testnets;
             row.tooling = bp_rate->tooling;
@@ -110,16 +113,11 @@ CONTRACT eoseosrateio : public contract {
             row.updated_at = current_time();
             row.proxy_voters_cntr = 1;
           });
-        //new entry
-       
-
       }else{
         //update the entry
         bps_stats.modify(itr,_self, [&]( auto& row ) {
           row.bp = bp_name;
-          //TODO: create func to write stats in json format
-          //row.ratings_json = ratings_json;
-          
+          row.ratings_json = update_bp_stats_json(bp_name,bp_rate);;
           row.transparency = bp_rate->transparency;
           row.testnets = bp_rate->testnets;
           row.tooling = bp_rate->tooling;
@@ -165,7 +163,7 @@ CONTRACT eoseosrateio : public contract {
       EOSLIB_SERIALIZE( block_producers_stats, (bp)(ratings_json)(transparency)(testnets)(tooling)(infra)(community)(created_at)(updated_at));
     };
 
-    typedef eosio::multi_index<"bps.stats"_n, block_producers_stats > producers_stats_table;
+    typedef eosio::multi_index<"stats"_n, block_producers_stats > producers_stats_table;
     
 
     TABLE block_producer {
@@ -210,7 +208,7 @@ CONTRACT eoseosrateio : public contract {
     typedef eosio::multi_index<"voters"_n, eoseosrateio::voter_info > voters_table;
 };
 
-EOSIO_DISPATCH(eoseosrateio, (rateproducer));
+EOSIO_DISPATCH(eoseosrateio, (rateproducer)(erase));
 
 
 // NOTE:
