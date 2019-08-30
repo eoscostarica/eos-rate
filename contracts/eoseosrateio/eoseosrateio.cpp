@@ -4,14 +4,15 @@
 #include <eosiolib/multi_index.hpp>
 #include "rapidjson/document.h"
 
+#define MINVAL 1
+#define MAXVAL 10
+
 using namespace std;
 using namespace rapidjson;
 using namespace eosio;
 
 CONTRACT eoseosrateio : public contract {
   public:
-    //"{\"costaricaeos\":{\"transparency\":10,\"testnets\":8,\"tooling\":7,\"infra\":6,\"community\":10}
-    
     using contract::contract;
     typedef struct bp_rate_t {
       float transparency;
@@ -34,8 +35,8 @@ CONTRACT eoseosrateio : public contract {
       //TODO: bp must be a registered block producer
 
       // the payload must be ratings_json.
-      eosio_assert(ratings_json[0] == '{', "payload must be ratings_json");
-      eosio_assert(ratings_json[ratings_json.size()-1] == '}', "payload must be ratings_json");
+      check(ratings_json[0] == '{', "payload must be ratings_json");
+      check(ratings_json[ratings_json.size()-1] == '}', "payload must be ratings_json");
 
       // upsert bp rating
       producers_table bps(_self, _self.value);
@@ -74,25 +75,33 @@ CONTRACT eoseosrateio : public contract {
       Document json;
       bp_rate_stats a_bp_stats;
       name bp_name = eosio::name("eoseosrateio");
-      // FIX: parse error
-      //eosio_assert( json.Parse<0>(ratings_json.c_str() ).HasParseError() , "Error parsing" );
-      //for (Value::ConstMemberIterator itr = json.MemberBegin();itr != json.MemberEnd(); ++itr){
-        //
-        //TODO: read the json array of objects
-        //
-        a_bp_stats.transparency = 3.333;
-        a_bp_stats.testnets = 9.99;
-        a_bp_stats.tooling = -9.9;
-        a_bp_stats.infra = 7.5;
-        a_bp_stats.community = 10;
-        save_bp_stats(bp_name,&a_bp_stats);
-      //}
-      
+      check( !(json.Parse<0>(ratings_json.c_str() ).HasParseError()) , "Error parsing json_rating" );
+      check( (json.HasMember("transparency")) , "Error json_rating doesn't provide transparency value" );
+      check( (json["transparency"].IsInt()) , "Error json_rating doesn't provide valid transparency value" );
+      check( (json.HasMember("testnets")) , "Error json_rating doesn't provide testnets value" );
+      check( (json["testnets"].IsInt()) , "Error json_rating doesn't provide valid testnets value" );
+      check( (json.HasMember("tooling")) , "Error json_rating doesn't provide tooling value" );
+      check( (json["tooling"].IsInt()) , "Error json_rating doesn't provide valid tooling value" );
+      check( (json.HasMember("infra")) , "Error json_rating doesn't provide infra value" );
+      check( (json["infra"].IsInt()) , "Error json_rating doesn't provide valid infra value" );
+      check( (json.HasMember("community")) , "Error json_rating doesn't provide community value" );
+      check( (json["community"].IsInt()) , "Error json_rating doesn't provide valid community value" );
+      a_bp_stats.transparency = json["transparency"].GetInt();
+      check( (MINVAL<=a_bp_stats.transparency && a_bp_stats.transparency<=MAXVAL ), "Error transparency value out of range" );
+      a_bp_stats.testnets = json["testnets"].GetInt();
+      check( (MINVAL<=a_bp_stats.testnets && a_bp_stats.testnets<=MAXVAL ), "Error testnets value out of range" );
+      a_bp_stats.tooling = json["tooling"].GetInt();
+      check( (MINVAL<=a_bp_stats.tooling && a_bp_stats.tooling<=MAXVAL ), "Error tooling value out of range" );
+      a_bp_stats.infra = json["infra"].GetInt();
+      check( (MINVAL<=a_bp_stats.infra && a_bp_stats.infra <=MAXVAL ), "Error infra value out of range" );
+      a_bp_stats.community = json["community"].GetInt();
+      check( (MINVAL<=a_bp_stats.community && a_bp_stats.community<=MAXVAL ), "Error community value out of range" );
+      save_bp_stats(bp_name,&a_bp_stats);
     }
-    //
-    // TODO: ask about the format
+    //TODO:
     // this function generate the stats with json format
     string update_bp_stats_json (name bp_name, bp_rate_stats * bp_rate ){
+      
       string result;
       return result;
     }
@@ -103,6 +112,7 @@ CONTRACT eoseosrateio : public contract {
         //new entry
          bps_stats.emplace(_self, [&]( auto& row ) {
             row.bp = bp_name;
+            row.proxy_voters_cntr = 1;
             row.ratings_json = update_bp_stats_json(bp_name,bp_rate);
             row.transparency = bp_rate->transparency;
             row.testnets = bp_rate->testnets;
@@ -111,20 +121,25 @@ CONTRACT eoseosrateio : public contract {
             row.community = bp_rate->community;
             row.created_at = current_time();
             row.updated_at = current_time();
-            row.proxy_voters_cntr = 1;
+            
           });
       }else{
         //update the entry
         bps_stats.modify(itr,_self, [&]( auto& row ) {
           row.bp = bp_name;
-          row.ratings_json = update_bp_stats_json(bp_name,bp_rate);;
+          row.proxy_voters_cntr = row.proxy_voters_cntr + 1;
+          bp_rate->transparency = (bp_rate->transparency + row.transparency)/2;
+          bp_rate->testnets = (bp_rate->testnets + row.testnets)/2;
+          bp_rate->tooling = (bp_rate->tooling + row.tooling)/2;
+          bp_rate->infra  = (bp_rate->infra + row.infra)/2;
+          bp_rate->community = (bp_rate->community + row.community)/2;
           row.transparency = bp_rate->transparency;
           row.testnets = bp_rate->testnets;
           row.tooling = bp_rate->tooling;
           row.infra = bp_rate->infra;
           row.community = bp_rate->community;
+          row.ratings_json = update_bp_stats_json(bp_name,bp_rate);
           row.updated_at = current_time();
-          row.proxy_voters_cntr ++;
          });
       }
     }
@@ -151,7 +166,7 @@ CONTRACT eoseosrateio : public contract {
     TABLE block_producers_stats {
       name bp;
       string ratings_json;
-      float proxy_voters_cntr;
+      uint32_t proxy_voters_cntr;
       float transparency;
       float testnets;
       float tooling;
@@ -160,7 +175,6 @@ CONTRACT eoseosrateio : public contract {
       uint32_t created_at;
       uint32_t updated_at;
       uint64_t primary_key() const { return bp.value; }
-      EOSLIB_SERIALIZE( block_producers_stats, (bp)(ratings_json)(transparency)(testnets)(tooling)(infra)(community)(created_at)(updated_at));
     };
 
     typedef eosio::multi_index<"stats"_n, block_producers_stats > producers_stats_table;
