@@ -12,7 +12,7 @@
 
     "settingsTitle": "Configuración",
     "settingsLanguages": "Ingles/Español",
-    "settingsNotif  ications": "Notificación",
+    "settingsNotifications": "Notificación",
 
     "navigationRecents": "Recientes",
     "navigationRate": "Calificar",
@@ -39,22 +39,21 @@
   },
 
   "not-found": {
-    "graphic": "Oh no!",
+    "graphic": "Opa!",
     "description": "Parece que algo salió mal!",
-    "recoveryCta": "Por favor llévame a la página principal"
+    "recoveryCta": "Por favor llévame al inicio"
   },
 
   "home": {
     "cover": {
-      "title": "Construye tu voto en EOS Rate",
-      "paragraph": "EOS Rate es una herramienta de calificación visual impulsada por la comunidad que permite a los titulares de tokens EOS calificar fácilmente a los Productores de Bloques en distintas categorías en cadena usando tu billetera de EOS favorita para firmar la transacción. Cada cuenta de EOS puede enviar su calificación para cada Productor de Bloque tantas veces como lo desee para facilitar una \"democracia líquida\", sin embargo, el peso del voto es independiente de la cantidad que posee la cuenta EOS. Una cuenta = un envío de igual peso. EOS Rate no influye en la cuenta de las calificaciones, solo presenta los hechos en un formato visualmente atractivo.",
-      "cta": "Califica Productores de Bloque"
+      "title": "Titulo Primario",
+      "paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum enim a lacus efficitur efficitur. Integer placerat porta urna, vitae rhoncus mi scelerisque non. Aliquam sed pulvinar massa, nec dictum lectus. Praesent bibendum at elit eu fermentum. Vivamus vitae accumsan est. Curabitur arcu ex, fringilla id mi non, malesuada pharetra justo.",
+      "cta": "Block Producer Page"
     },
     "subTopic": {
       "videoUrl": "https://www.youtube.com/embed/d9tFkNXqRjU",
-      "title": "EOS Rate a profundidad",
-      "paragraph1": "En este video Edgar Fernández, cofundador de EOS Costa Rica, explica a profundidad los objetivos de EOS Rate, cómo funciona y cómo puedes participar para ayudar a dar forma y mantener la herramienta.",
-      "paragraph2": "Aprende acerca de la hoja de ruta y cómo el componente de radar único de EOS Rate que llamamos \"LEAF\" (Factores de Atributos de EOS líquidos) permite a los usuarios comparar rápidamente diferentes Productores de Bloques y \"construir\" su voto de 30 BP al completar la mayor cantidad posible del LEAF para facilitar el grupo más diverso para la red. El LEAF también permite a los votantes comparar diferentes apoderados mediante la visualización de cada una de las \"hojas\" de BP subyacentes que representa el apoderado."
+      "title": "Titulo Secundario",
+      "paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum enim a lacus efficitur efficitur. Integer placerat porta urna, vitae rhoncus mi scelerisque non. Aliquam sed pulvinar massa, nec dictum lectus. Praesent bibendum at elit eu fermentum. Vivamus vitae accumsan est. Curabitur arcu ex, fringilla id mi non, malesuada pharetra justo.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dictum enim a lacus efficitur efficitur. Integer placerat porta urna, vitae rhoncus mi scelerisque non. Aliquam sed pulvinar massa, nec dictum lectus. Praesent bibendum at elit eu fermentum. Vivamus vitae accumsan est. Curabitur arcu ex, fringilla id mi non, malesuada pharetra justo."
     }
   },
 
