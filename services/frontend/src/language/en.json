@@ -59,11 +59,14 @@
   },
 
   "account": {
-    "title": "Account",
-    "name": "Name",
+    "account_name": "Name",
+    "active": "Active",
+    "activity": "Activity",
     "authority": "Authority",
-    "blockchain": "Blockchain",
-    "activity": "Activity"
+    "core_liquid_balance": "Liquid Balance",
+    "inactive": "Inactive",
+    "logout": "Logout",
+    "title": "Account"
   },
 
   "bpRatePage": {

@@ -58,11 +58,14 @@
   },
 
   "account": {
-    "title": "Cuenta",
-    "name": "Nombre",
+    "account_name": "Nombre",
+    "active": "Activa",
+    "activity": "Actividad",
     "authority": "Autoridad",
-    "blockchain": "Blockchain",
-    "activity": "Actividad"
+    "core_liquid_balance": "Balance Líquido",
+    "inactive": "Inactiva",
+    "logout": "Cerrar Sesión",
+    "title": "Cuenta"
   },
 
   "bpRatePage": {
