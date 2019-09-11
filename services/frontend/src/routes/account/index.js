@@ -28,9 +28,6 @@ const style = theme => ({
     fontWeight: 'bold',
     wordBreak: 'break-all'
   },
-  inline: {
-    display: 'inline'
-  },
   button: {
     marginBottom: theme.spacing.unit,
     marginTop: theme.spacing.unit
@@ -88,12 +85,6 @@ const Account = ({ classes, t }) => {
             >
               {t('logout')}
             </Button>
-            <Typography variant='subtitle1' className={classes.bold}>
-              {t('activity')}:
-            </Typography>
-            <Typography variant='body1'>
-              [To be pulled with dfuse...]
-            </Typography>
           </Grid>
         </Paper>
       </Grid>
