@@ -191,8 +191,15 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
     <td align="center"><a href="https://github.com/roafroaf"><img src="https://avatars1.githubusercontent.com/u/40480825?v=4" width="100px;" alt="roafroaf"/><br /><sub><b>roafroaf</b></sub></a><br /><a href="#ideas-roafroaf" title="Ideas, Planning, & Feedback">🤔</a> <a href="#design-roafroaf" title="Design">🎨</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/cristian-ramirez"><img src="https://avatars1.githubusercontent.com/u/8497609?v=4" width="100px;" alt="Cristian Ramírez"/><br /><sub><b>Cristian Ramírez</b></sub></a><br /><a href="https://github.com/eoscostarica/eosrate/commits?author=cristian-ramirez" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/JulianAlvarado">
+      <img src="https://avatars0.githubusercontent.com/u/18537303?s=460&v=4" width="100px;" alt="Julian Alvarado"/><br /><sub><b>Julian Alvarado</b></sub></a><br /><a href="https://github.com/eoscostarica/eosrate/commits?author=Julian-Alvarado" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://arturocr.com"><img src="https://avatars3.githubusercontent.com/u/390770?v=4" width="100px;" alt="Arturo Campos"/><br /><sub><b>Arturo Campos</b></sub></a><br /><a href="#ideas-arturocr" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/eoscostarica/eosrate/commits?author=arturocr" title="Code">💻</a> <a href="#review-arturocr" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/ldrojas">
+      <img src="https://avatars0.githubusercontent.com/u/29232417?s=460&v=4" width="100px;" alt="Luis Diego Rojas"/><br /><sub><b>Luis Diego Rojas</b></sub></a><br /><a href="https://github.com/eoscostarica/eosrate/commits?author=ldrojas" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/royzumbado">
+      <img src="https://avatars2.githubusercontent.com/u/49529903?s=460&v=4" width="100px;" alt="Roy Zumbadoo"/><br /><sub><b>Roy Zumbado</b></sub></a><br /><a href="https://github.com/eoscostarica/eosrate/commits?author=royzumbado" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/tetogomez">
+      <img src="https://avatars3.githubusercontent.com/u/10634375?s=460&v=4" width="100px;" alt="Teto Gomez"/><br /><sub><b>Teto Gomez</b></sub></a><br /><a href="https://github.com/eoscostarica/eosrate/commits?author=tetogomez" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
