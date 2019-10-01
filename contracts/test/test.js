@@ -4,8 +4,8 @@ const fetch = require('node-fetch');                                    // node 
 const { TextEncoder, TextDecoder } = require('util');                   // node only; native TextEncoder/Decoder
 //const { TextEncoder, TextDecoder } = require('text-encoding');          // React Native, IE11, and Edge Browsers only
 
-const priv_key_eosio = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"; 
-const priv_key_eoseosrateio = "5Je8MieuyEiGpUB5qZWUUTSmtYcRypqFEccZF2DofubTbHMFb7W"; 
+const priv_key_eosio = "5KQwrPbw9zkvFD3"; 
+const priv_key_eoseosrateio = "5Je8MieuyofubTbHMFb7W"; 
 
 
 const signatureProvider = new JsSignatureProvider([priv_key_eosio,priv_key_eoseosrateio]);
