@@ -1205,7 +1205,7 @@
     react-lifecycles-compat "^3.0.4"
     warning "^3.0.0"
 
-"@rematch/core@^1.1.0":
+"@rematch/core@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@rematch/core/-/core-1.2.0.tgz#9583cb12368296682061fadb1b3278164a05e5fb"
   integrity sha512-PTrJBBKtobzI9YE8znT2vF0Jx/2v6dG6bgL1ZQ3o5UNkixUtQdKKAoDt73DoLCgnz2xtTbkX/6YMTWbJguf9wQ==
