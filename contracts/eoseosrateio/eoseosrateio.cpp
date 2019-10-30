@@ -41,18 +41,10 @@ CONTRACT eoseosrateio : public contract {
            row.ratings_json = ratings_json;
          });
        }
-
-      action(
-        permission_level{get_self(),"active"_n},
-        "eosratetoken"_n,
-        "transfer"_n,
-        std::make_tuple(get_self(), user, asset(10000, symbol("RATE", 4)), string("eosrate.io"))
-      ).send();
     }
 
 
     ACTION reset() {
-      //only contract owner can erase table
       require_auth(_self);
 
       producers_table bps(get_self(), get_self().value);
@@ -89,8 +81,3 @@ CONTRACT eoseosrateio : public contract {
 };
 
 EOSIO_DISPATCH(eoseosrateio, (rateproducer)(reset));
-
-
-// NOTE:
-// the table name ratings is damaged on the jungle testnet, changes in the struct without erasing the data on RAM seem have caused the problem.
-// you need to be carefull when changing table structure, you cant do this if table is with data, you need to do new table with new structure and migrate data.
