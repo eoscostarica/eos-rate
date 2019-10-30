@@ -62,8 +62,7 @@ class CompareTool extends Component {
                 onChange={event =>
                   this.setState({
                     isCollapsedView: event.target.checked
-                  })
-                }
+                  })}
                 value='isCollapsedView'
               />
             }

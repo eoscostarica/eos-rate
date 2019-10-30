@@ -2,7 +2,7 @@
 # The build directory is served by Netlify
 # It also has a http server as default command for development only.
 
-FROM node:10.13.0-alpine
+FROM node:lts-alpine
 
 # Install global depedencies
 RUN apk add --no-cache yarn

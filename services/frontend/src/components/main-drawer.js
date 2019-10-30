@@ -93,7 +93,7 @@ const MainDrawer = ({
   currentPathname,
   ...props
 }) => (
-  <React.Fragment>
+  <>
     <div className={classes.toolbar} />
     {variant === 'mobile' && (
       <Drawer
@@ -145,7 +145,7 @@ const MainDrawer = ({
         />
       </Drawer>
     )}
-  </React.Fragment>
+  </>
 )
 
 Menu.propTypes = {
