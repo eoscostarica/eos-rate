@@ -1,7 +1,7 @@
 [build]
-  base    = "./services/frontend"
+  base = "services/frontend"
   command = "yarn build:staging"
-  publish = "./services/frontend/build"
+  publish = "build"
 
 [build.environment]
   NODE_VERSION = "10.12.0"
