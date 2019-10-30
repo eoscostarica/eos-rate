@@ -1,8 +1,8 @@
 # This Dockerfile is mainly used for CI testing
 # The build directory is served by Netlify
-# It also has a http server as default command for development only. 
+# It also has a http server as default command for development only.
 
-FROM node:10.12.0-alpine
+FROM node:10.13.0-alpine
 
 # Install global depedencies
 RUN apk add --no-cache yarn
@@ -23,7 +23,7 @@ COPY package*.json ./
 COPY yarn.lock ./
 
 # See https://git.io/fx1W5  https://git.io/fx1RF  # debug with --verbose
-RUN yarn install --ignore-optional --frozen-lockfile --network-timeout 1000000 --network-concurrency 1 
+RUN yarn install --ignore-optional --frozen-lockfile --network-timeout 1000000 --network-concurrency 1
 
 # Copy app source
 COPY . .
