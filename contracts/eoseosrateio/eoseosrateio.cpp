@@ -41,13 +41,6 @@ CONTRACT eoseosrateio : public contract {
            row.ratings_json = ratings_json;
          });
        }
-
-      action(
-        permission_level{get_self(),"active"_n},
-        "eosratetoken"_n,
-        "transfer"_n,
-        std::make_tuple(get_self(), user, asset(10000, symbol("RATE", 4)), string("eosrate.io"))
-      ).send();
     }
 
 
