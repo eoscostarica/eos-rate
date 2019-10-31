@@ -169,8 +169,7 @@ class InputAutocomplete extends PureComponent {
             this.handleSuggestionsFetchRequested(list)(event)
           }}
           onSuggestionsClearRequested={() =>
-            this.handleSuggestionsClearRequested()
-          }
+            this.handleSuggestionsClearRequested()}
           getSuggestionValue={this.getSuggestionValue}
           renderSuggestion={this.renderSuggestion}
           inputProps={{
