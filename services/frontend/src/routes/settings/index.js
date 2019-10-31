@@ -28,7 +28,7 @@ class Settings extends Component {
     const { i18n, setSettings } = this.props
 
     if (value === 'language') {
-      let lang = currentValue === 'en' ? 'es' : 'en'
+      const lang = currentValue === 'en' ? 'es' : 'en'
       i18n.changeLanguage(lang)
       setSettings({ key: value, value: lang })
     } else if (value === 'notifications') {
