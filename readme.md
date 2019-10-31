@@ -75,7 +75,7 @@ We are running a demux and hasura on premises in Costa Rica.
 
 **Version 1.2**
 
-- Ligth Theme.
+- Light Theme.
 - Activity Stream.
 - Ability to leave a comment when rating. ( reviews, like Yelp ).
 - Ability to vote for a block producer directly on their profile page.
