@@ -77,7 +77,7 @@ const BlockProducerCard = ({
         title={_get(
           blockProducer,
           'bpjson.org.candidate_name',
-          <React.Fragment>
+          <>
             <span>{blockProducer.owner}</span>
             <Chip
               avatar={
@@ -86,10 +86,10 @@ const BlockProducerCard = ({
                 </Avatar>
               }
               className={classes.unsafeChip}
-              label={'Non-compliant'}
+              label='Non-compliant'
               color='secondary'
             />
-          </React.Fragment>
+          </>
         )}
         subheader={_isEmpty(blockProducer.bpjson) ? null : blockProducer.owner}
       />
