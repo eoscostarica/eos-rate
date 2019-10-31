@@ -36,7 +36,7 @@ class SimpleBottomNavigation extends Component {
     const { value } = this.state
 
     return (
-      <React.Fragment>
+      <>
         <BottomNavigation
           value={value}
           onChange={this.handleChange}
@@ -56,7 +56,7 @@ class SimpleBottomNavigation extends Component {
             icon={<SettingsIcon />}
           />
         </BottomNavigation>
-      </React.Fragment>
+      </>
     )
   }
 }
