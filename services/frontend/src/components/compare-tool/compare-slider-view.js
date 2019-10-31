@@ -47,7 +47,7 @@ const CompareSliderView = ({ classes, selected, className, t, ...props }) => (
               datasets: [{ ...bp.data }]
             }}
           />
-          <Typography variant='subheading' className={classes.bpName}>
+          <Typography variant='subtitle1' className={classes.bpName}>
             {bp.bpjson.producer_account_name}
           </Typography>
         </div>

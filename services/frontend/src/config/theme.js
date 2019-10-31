@@ -30,10 +30,10 @@ const theme = createMuiTheme({
       thumb: {
         backgroundColor: '#00c25b',
         '&$focused, &:hover': {
-          boxShadow: `0px 0px 0px 9px rgba(0, 194, 91, 0.16)`
+          boxShadow: '0px 0px 0px 9px rgba(0, 194, 91, 0.16)'
         },
         '&$activated': {
-          boxShadow: `0px 0px 0px 18px rgba(0, 194, 91, 0.16)`
+          boxShadow: '0px 0px 0px 18px rgba(0, 194, 91, 0.16)'
         }
       },
       trackBefore: {
