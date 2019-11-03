@@ -1,4 +1,4 @@
-[build]
+  [build]
   base = "services/frontend"
   command = "yarn build:staging"
   publish = "build"
@@ -16,3 +16,4 @@
   from = "/*"
   to = "/index.html"
   status = 200
+

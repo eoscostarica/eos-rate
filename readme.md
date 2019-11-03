@@ -204,6 +204,7 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 </table>
 
 <!-- markdownlint-enable -->
+
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
