@@ -41,7 +41,7 @@ This is a list of the most react community components included in this boilerpla
 - [react-app-rewired](https://github.com/timarney/react-app-rewired) for tweaking `create-react-app` configuration without ejecting
 - [reach-router](https://github.com/reach/router) for a more accessible router.
 - [rematch](https://github.com/rematch/rematch) to use `redux` best practices without all the boilerplate.
-- [apollo-client](https://github.com/apollographql/apollo-client) react apollo client with `apollo-boost`.
+- [apollo-client](https://github.com/apollographql/apollo-client) react apollo client with `apollo-client`.
 - [material-ui](https://github.com/mui-org/material-ui) components that implement Google's Material Design.
 
 ## Start Up
