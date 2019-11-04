@@ -46,15 +46,39 @@
 
   "home": {
     "cover": {
-      "title": "Build Your Vote on EOS Rate",
-      "paragraph": "EOS Rate is a community-driven visual rating tool that allows EOS token holders to easily rate Block Producers in distinct categories onchain using their preferred EOS wallet to sign the transaction. Each EOS account can submit their rating for each Block Producer as many times as they like facilitating a \"liquid democracy\", however, the weighting is independent from the amount the EOS account holds. One account = one submission of equal weight. EOS Rate does not influence the account of the ratings, just present the facts in a visually appealing format.",
+      "title": "Easily Rate EOS Block Producers",
+      "paragraph1": "EOS Rate is an open-source dApp that allows EOS token holders to rate Block Producers in just a few clicks.",
+      "paragraph2": "Global ratings help capture collective opinion, or “wisdom of the crowd” and measure if voter sentiment is reflected in voting patterns.",
       "cta": "Rate Block Producers"
     },
     "subTopic": {
       "videoUrl": "https://www.youtube.com/embed/d9tFkNXqRjU?rel=0",
-      "title": "EOS Rate in Depth",
-      "paragraph1": "In this video Edgar Fernandez, co-founder of EOS Costa Rica, explains more in-depth the goals of EOS Rate, how it works and how you can get involved to help shape and maintain the tool.",
-      "paragraph2": "Learn about the roadmap and how EOS Rate unique radar component we call the \"LEAF\" (Liquid EOS Attribute Factors) allows users to quickly compared different block producers and \"build\" their 30 BP vote by filling in as much of the LEAF as possible to facilitate the most diverse group for the network. The LEAF also allows voters to compare different proxies by visualizing each of the underlying BP \"leafs\" the proxy represents."
+      "title": "Liquid Democracy",
+      "paragraph1": "Find the Block Producer that best represents you.",
+      "paragraph2": "EOS Rate was built by a community that believes in transparency. The tool generates profile pages of the Block Producers. It uses a unique radial component we call “LEAF” (Liquid EOS Attribute Factors) to help you visually compare the most relevant qualitative attributes of Block Producers, making it easier for token holders to make an informed vote."
+    },
+    "ratingCategory": {
+      "title": "Rating Categories",
+      "transparency": {
+        "title": "Transparency",
+        "description": "Compliance with disclosure of ownership, complete bp.json, use of rewards, and financial stats."
+      },
+      "infrastructure": {
+        "title": "Infrastructure",
+        "description": "Stability and reliability of the EOS infrastructure."
+      },
+      "trustiness": {
+        "title": "Trustiness",
+        "description": "Collaboration and reputation among the EOS community."
+      },
+      "community": {
+        "title": "Community",
+        "description": "Community value creation through education and promoting talks, chats, hackathons, conferences, seminars, developer spaces, and other useful content."
+      },
+      "development": {
+        "title": "Development",
+        "description": "Technical know-how and usage of open-source software, scripts, frameworks, wallets, voting portals, metrics, etc."
+      }
     }
   },
 
