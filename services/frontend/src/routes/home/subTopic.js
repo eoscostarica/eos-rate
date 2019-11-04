@@ -13,7 +13,8 @@ const styles = ({ palette, typography }) => ({
   },
   title: {
     fontSize: typography.h4.fontSize,
-    color: palette.grey[600]
+    color: palette.grey[600],
+    marginBottom: 12.5
   },
   paragraph: {
     color: palette.grey[600]
@@ -28,11 +29,7 @@ const SubTopic = ({ classes, t }) => (
     className={classes.subTopicContainer}
     spacing={24}
   >
-    <Grid item xs={12} md={7}>
-      <Video src={t('subTopic.videoUrl')} />
-    </Grid>
-
-    <Grid item xs={12} md={5}>
+    <Grid item xs={12} md={6}>
       <Typography variant='h5' className={classes.title}>
         {t('subTopic.title')}
       </Typography>
@@ -54,6 +51,9 @@ const SubTopic = ({ classes, t }) => (
       >
         {t('subTopic.paragraph2')}
       </Typography>
+    </Grid>
+    <Grid item xs={12} md={6}>
+      <Video src={t('subTopic.videoUrl')} />
     </Grid>
   </Grid>
 )

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 
 import Cover from './cover'
 import SubTopic from './subTopic'
+import RateCategory from './rateCategory'
 
 const styles = ({ spacing, palette }) => ({
   spacingContainers: {
@@ -16,6 +17,9 @@ const styles = ({ spacing, palette }) => ({
   },
   subTopicContainer: {
     backgroundColor: '#1a1b29'
+  },
+  rateCategoryContainer: {
+    backgroundColor: palette.primary[800]
   }
 })
 
@@ -38,6 +42,20 @@ class Home extends Component {
                   `}
             >
               <Cover blockProducer={home.blockProducer} />
+            </Grid>
+          )}
+        </Grid>
+
+        <Grid item xs>
+          {home.blockProducer && (
+            <Grid
+              container
+              justify='center'
+              className={`${classes.spacingContainers}
+                    ${classes.rateCategoryContainer}
+                  `}
+            >
+              <RateCategory />
             </Grid>
           )}
         </Grid>

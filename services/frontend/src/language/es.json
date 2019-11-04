@@ -46,15 +46,39 @@
 
   "home": {
     "cover": {
-      "title": "Construye tu voto en EOS Rate",
-      "paragraph": "EOS Rate es una herramienta de calificación visual impulsada por la comunidad que permite a los titulares de tokens EOS calificar fácilmente a los Productores de Bloques en distintas categorías en cadena usando tu billetera de EOS favorita para firmar la transacción. Cada cuenta de EOS puede enviar su calificación para cada Productor de Bloque tantas veces como lo desee para facilitar una \"democracia líquida\", sin embargo, el peso del voto es independiente de la cantidad que posee la cuenta EOS. Una cuenta = un envío de igual peso. EOS Rate no influye en la cuenta de las calificaciones, solo presenta los hechos en un formato visualmente atractivo.",
-      "cta": "Califica Productores de Bloque"
+      "title": "Califique fácilmente a los productores de bloques EOS",
+      "paragraph1": "EOS Rate es un dApp de código abierto que permite a los titulares de tokens EOS calificar a los productores de bloques con solo unos pocos clics.",
+      "paragraph2": "Las calificaciones globales ayudan a capturar la opinión colectiva o la \"sabiduría de la multitud\" y medir si el sentimiento de los votantes se refleja en los patrones de votación.",
+      "cta": "Block Producer Page"
     },
     "subTopic": {
       "videoUrl": "https://www.youtube.com/embed/d9tFkNXqRjU",
-      "title": "EOS Rate a profundidad",
-      "paragraph1": "En este video Edgar Fernández, cofundador de EOS Costa Rica, explica a profundidad los objetivos de EOS Rate, cómo funciona y cómo puedes participar para ayudar a dar forma y mantener la herramienta.",
-      "paragraph2": "Aprende acerca de la hoja de ruta y cómo el componente de radar único de EOS Rate que llamamos \"LEAF\" (Factores de Atributos de EOS líquidos) permite a los usuarios comparar rápidamente diferentes Productores de Bloques y \"construir\" su voto de 30 BP al completar la mayor cantidad posible del LEAF para facilitar el grupo más diverso para la red. El LEAF también permite a los votantes comparar diferentes apoderados mediante la visualización de cada una de las \"hojas\" de BP subyacentes que representa el apoderado."
+      "title": "Democracia líquida",
+      "paragraph1": "Encuentra el productor de bloques que mejor te represente.",
+      "paragraph2": "EOS Rate fue construido por una comunidad que cree en la transparencia. La herramienta genera páginas de perfil de los productores de bloques. Utiliza un componente radial único que llamamos \"LEAF\" (Factores de atributos de EOS líquidos) para ayudarlo a comparar visualmente los atributos cualitativos más relevantes de los Productores de bloques, lo que facilita a los titulares de fichas hacer un voto informado."
+    },
+    "ratingCategory": {
+      "title": "Categorías de Calificación",
+      "transparency": {
+        "title": "Transparencia",
+        "description": "Cumplimiento de la divulgación de la propiedad, bp.json completo, uso de recompensas y estadísticas financieras."
+      },
+      "infrastructure": {
+        "title": "Infraestructura",
+        "description": "Estabilidad y confiabilidad de la infraestructura EOS."
+      },
+      "trustiness": {
+        "title": "Lealtad",
+        "description": "Colaboración y reputación entre la comunidad EOS."
+      },
+      "community": {
+        "title": "Comunidad",
+        "description": "Creación de valor comunitario a través de la educación y la promoción de charlas, chats, hackatones, conferencias, seminarios, espacios para desarrolladores y otro contenido útil."
+      },
+      "development": {
+        "title": "Desarrollo",
+        "description": "Conocimientos técnicos y uso de software de código abierto, scripts, marcos, billeteras, portales de votación, métricas, etc."
+      }
     }
   },
 
