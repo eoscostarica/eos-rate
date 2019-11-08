@@ -42,6 +42,15 @@ const MainFooter = ({ classes, ...props }) => (
         />
       </a>
       <div className={classes.grow} />
+
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151600466-1"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-151600466-1');
+      </script>
       <IconButton
         href='https://github.com/eoscostarica'
         target='_blank'
