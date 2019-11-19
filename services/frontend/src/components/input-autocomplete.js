@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { withNamespaces } from 'react-i18next'
 import { connect } from 'react-redux'
 import { navigate } from '@reach/router'
 import Highlight from 'react-highlighter'
@@ -12,6 +11,8 @@ import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Paper from '@material-ui/core/Paper'
 import MenuItem from '@material-ui/core/MenuItem'
+
+import withT from 'components/with-t'
 
 const style = theme => ({
   root: {
@@ -218,10 +219,8 @@ const mapDispatchToProps = ({ blockProducers: { getBPs } }) => ({
 })
 
 export default withStyles(style)(
-  withNamespaces('translations')(
-    connect(
-      mapStatetoProps,
-      mapDispatchToProps
-    )(InputAutocomplete)
-  )
+  connect(
+    mapStatetoProps,
+    mapDispatchToProps
+  )(withT(InputAutocomplete))
 )

@@ -9,11 +9,11 @@ import { withStyles } from '@material-ui/core/styles'
 import Tooltip from '@material-ui/core/Tooltip'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Visibility from '@material-ui/icons/Visibility'
-import { withNamespaces } from 'react-i18next'
 import classNames from 'classnames'
 
 import BlockProducerCard from 'components/block-producer-card'
 import CompareTool from 'components/compare-tool'
+import withT from 'components/with-t'
 // import FilterBox from './filter-box'
 
 const style = theme => ({
@@ -185,12 +185,10 @@ const mapDispatchToProps = ({
 }) => ({ getBPs, toggleCompareTool, addToSelected, removeSelected })
 
 export default withStyles(style)(
-  withNamespaces('translations')(
-    connect(
-      mapStatetoProps,
-      mapDispatchToProps
-    )(AllBps)
-  )
+  connect(
+    mapStatetoProps,
+    mapDispatchToProps
+  )(withT(AllBps))
 )
 
 export const blockProducersDrawer = [

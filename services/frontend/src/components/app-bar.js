@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
-import { withNamespaces } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
@@ -98,8 +98,7 @@ const MainTopBar = ({
   isSearchOpen,
   handleDrawerToggle,
   handleSearchDialogOpen,
-  handleSearchDialogClose,
-  t
+  handleSearchDialogClose
 }) => {
   const [state, setState] = useState({
     anchorEl: null,
@@ -114,6 +113,7 @@ const MainTopBar = ({
     setState({ anchorEl: null, selectedProvider: providerName })
     connectWallet(provider)
   }
+  const { t } = useTranslation('translations')
 
   return (
     <AppBar position='absolute'>
@@ -205,8 +205,7 @@ MainTopBar.propTypes = {
   handleDrawerToggle: PropTypes.func,
   handleSearchDialogOpen: PropTypes.func,
   handleSearchDialogClose: PropTypes.func,
-  isSearchOpen: PropTypes.bool,
-  t: PropTypes.func.isRequired
+  isSearchOpen: PropTypes.bool
 }
 
-export default withStyles(styles)(withNamespaces('translations')(MainTopBar))
+export default withStyles(styles)(MainTopBar)

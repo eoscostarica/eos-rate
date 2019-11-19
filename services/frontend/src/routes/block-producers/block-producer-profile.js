@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withNamespaces } from 'react-i18next'
 import { connect } from 'react-redux'
 import { Link, Redirect } from '@reach/router'
 import Button from '@material-ui/core/Button'
@@ -98,9 +97,7 @@ const BlockProducerProfile = ({
                         component={props => (
                           <Link
                             {...props}
-                            to={`/block-producers/${
-                              blockProducer.bpjson.producer_account_name
-                            }/rate`}
+                            to={`/block-producers/${blockProducer.bpjson.producer_account_name}/rate`}
                           />
                         )}
                         className='textPrimary'
@@ -285,10 +282,8 @@ const mapStateToProps = ({ blockProducers: { list } }) => ({
 const mapDispatchToProps = () => ({})
 
 export default withStyles(style)(
-  withNamespaces('bpProfilePage')(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(BlockProducerProfile)
-  )
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(BlockProducerProfile)
 )
