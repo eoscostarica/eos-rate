@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withNamespaces } from 'react-i18next'
 import { withStyles } from '@material-ui/core/styles'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 
 import CompareGraphView from './compare-graph-view'
 import CompareSliderView from './compare-slider-view'
+import withT from 'components/with-t'
 
 const styles = theme => ({
   root: {
@@ -87,4 +87,4 @@ CompareTool.defaultProps = {
   className: ''
 }
 
-export default withStyles(styles)(withNamespaces('translations')(CompareTool))
+export default withStyles(styles)(withT(CompareTool))

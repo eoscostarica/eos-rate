@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton'
 
 import TelegramIcon from 'components/telegram-icon'
 import GithubIcon from 'components/github-icon'
+import LanguageSelect from 'components/language-select'
 
 const styles = theme => ({
   root: {
@@ -42,6 +43,8 @@ const MainFooter = ({ classes, ...props }) => (
         />
       </a>
       <div className={classes.grow} />
+      {/* @TODO: move LanguageSelect component to a better place  */}
+      <LanguageSelect />
       <IconButton
         href='https://github.com/eoscostarica'
         target='_blank'

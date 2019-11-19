@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { navigate } from '@reach/router'
-import { withNamespaces } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
@@ -34,9 +34,10 @@ const style = theme => ({
   }
 })
 
-const Account = ({ classes, t }) => {
+const Account = ({ classes }) => {
   const { disconnectWallet } = useWalletDispatch()
   const walletState = useWalletState()
+  const { t } = useTranslation('account')
 
   if (!walletState.wallet) {
     navigate('/')
@@ -93,8 +94,7 @@ const Account = ({ classes, t }) => {
 }
 
 Account.propTypes = {
-  classes: PropTypes.object,
-  t: PropTypes.func.isRequired
+  classes: PropTypes.object
 }
 
-export default withStyles(style)(withNamespaces('account')(Account))
+export default withStyles(style)(Account)

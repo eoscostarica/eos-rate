@@ -1,5 +1,5 @@
 import React from 'react'
-import { withNamespaces } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
@@ -46,65 +46,73 @@ const styles = ({ palette, typography }) => ({
   }
 })
 
-const HomeCover = ({ classes, t, blockProducer }) => (
-  <Grid item container xs={12} className={classes.coverContainer} spacing={24}>
-    <Grid item xs={12} md={6} className={classes.leftCoverBox}>
-      <Typography variant='h5' className={classes.title}>
-        {t('cover.title')}
-      </Typography>
-      <Typography
-        variant='body2'
-        className={classes.paragraph}
-        align='justify'
-        paragraph
-      >
-        {t('cover.paragraph1')}
-      </Typography>
-      <Typography
-        variant='body2'
-        className={classes.paragraph}
-        align='justify'
-        paragraph
-      >
-        {t('cover.paragraph2')}
-      </Typography>
-      <div className={classes.ctaContainer}>
-        <Button
-          className={classes.btn}
-          component={bpLink}
-          variant='contained'
-          size='medium'
-          color='secondary'
-          to='/block-producers'
-          fullWidth
+const HomeCover = ({ classes, blockProducer }) => {
+  const { t } = useTranslation('home')
+  return (
+    <Grid
+      item
+      container
+      xs={12}
+      className={classes.coverContainer}
+      spacing={24}
+    >
+      <Grid item xs={12} md={6} className={classes.leftCoverBox}>
+        <Typography variant='h5' className={classes.title}>
+          {t('cover.title')}
+        </Typography>
+        <Typography
+          variant='body2'
+          className={classes.paragraph}
+          align='justify'
+          paragraph
         >
-          {t('cover.cta')}
-        </Button>
-      </div>
-    </Grid>
+          {t('cover.paragraph1')}
+        </Typography>
+        <Typography
+          variant='body2'
+          className={classes.paragraph}
+          align='justify'
+          paragraph
+        >
+          {t('cover.paragraph2')}
+        </Typography>
+        <div className={classes.ctaContainer}>
+          <Button
+            className={classes.btn}
+            component={bpLink}
+            variant='contained'
+            size='medium'
+            color='secondary'
+            to='/block-producers'
+            fullWidth
+          >
+            {t('cover.cta')}
+          </Button>
+        </div>
+      </Grid>
 
-    <Grid item container xs={12} md={6} justify='center'>
-      <div className={classes.chartContainer}>
-        <BlockProducerRadar
-          height={230}
-          bpData={{
-            labels: bpParameters,
-            datasets: [blockProducer.data]
-          }}
-        />
-      </div>
-    </Grid>
+      <Grid item container xs={12} md={6} justify='center'>
+        <div className={classes.chartContainer}>
+          <BlockProducerRadar
+            height={230}
+            bpData={{
+              labels: bpParameters,
+              datasets: [blockProducer.data]
+            }}
+          />
+        </div>
+      </Grid>
 
-    {/* <Grid item xs={12}>
+      {/* <Grid item xs={12}>
       <ParameterRangeSelector defaultValue={[0, 50]} />
     </Grid> */}
-  </Grid>
-)
+    </Grid>
+  )
+}
 
 HomeCover.propTypes = {
-  t: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   blockProducer: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(withNamespaces('home')(HomeCover))
+export default withStyles(styles)(HomeCover)

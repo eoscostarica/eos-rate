@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withNamespaces } from 'react-i18next'
 import { withStyles } from '@material-ui/core/styles'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
@@ -8,6 +7,8 @@ import RestoreIcon from '@material-ui/icons/Restore'
 import ShippingIcon from '@material-ui/icons/ControlPoint'
 import SettingsIcon from '@material-ui/icons/Settings'
 import { navigate } from '@reach/router'
+
+import withT from 'components/with-t'
 
 const styles = {
   root: {
@@ -66,6 +67,4 @@ SimpleBottomNavigation.propTypes = {
   t: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(
-  withNamespaces('translations')(SimpleBottomNavigation)
-)
+export default withStyles(styles)(withT(SimpleBottomNavigation))

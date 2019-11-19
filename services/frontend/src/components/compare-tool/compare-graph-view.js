@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 // import IconButton from '@material-ui/core/IconButton'
 // import CloseIcon from '@material-ui/icons/Close'
-import { withNamespaces } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import _get from 'lodash.get'
 import _isEmpty from 'lodash.isempty'
 
@@ -46,53 +46,55 @@ const CompareGraphView = ({
   classes,
   removeBP,
   selected,
-  t,
   className,
   ...props
-}) => (
-  <Grid container className={classes.root} spacing={16}>
-    <Grid item xs={12} md={8}>
-      <BlockProducerRadar
-        bpData={{
-          labels: comparisonParameters,
-          datasets: selected.map(({ data }) => ({
-            ...data,
-            backgroundColor: data.backgroundColor.replace('.9', '.2')
-          }))
-        }}
-      />
-    </Grid>
-    <Grid item xs={12} md={4}>
-      <Typography variant='h5'>{t('compareToolTitle')}</Typography>
-      {selected.map(bp => (
-        <Chip
-          className={classes.bpName}
-          avatar={
-            <Avatar
-              aria-label='Block Producer'
-              style={{ backgroundColor: bp.data.pointBackgroundColor }}
-              className={classes.avatar}
-            >
-              {_isEmpty(bp.bpjson) ? (
-                'BP'
-              ) : (
-                <img
-                  src={_get(bp, 'bpjson.org.branding.logo_256')}
-                  alt=''
-                  width='100%'
-                />
-              )}
-            </Avatar>
-          }
-          color='secondary'
-          onDelete={removeBP(bp.owner)}
-          label={bp.owner}
-          key={`bp-list-name-${bp.owner}`}
+}) => {
+  const { t } = useTranslation('translations')
+  return (
+    <Grid container className={classes.root} spacing={16}>
+      <Grid item xs={12} md={8}>
+        <BlockProducerRadar
+          bpData={{
+            labels: comparisonParameters,
+            datasets: selected.map(({ data }) => ({
+              ...data,
+              backgroundColor: data.backgroundColor.replace('.9', '.2')
+            }))
+          }}
         />
-      ))}
+      </Grid>
+      <Grid item xs={12} md={4}>
+        <Typography variant='h5'>{t('compareToolTitle')}</Typography>
+        {selected.map(bp => (
+          <Chip
+            className={classes.bpName}
+            avatar={
+              <Avatar
+                aria-label='Block Producer'
+                style={{ backgroundColor: bp.data.pointBackgroundColor }}
+                className={classes.avatar}
+              >
+                {_isEmpty(bp.bpjson) ? (
+                  'BP'
+                ) : (
+                  <img
+                    src={_get(bp, 'bpjson.org.branding.logo_256')}
+                    alt=''
+                    width='100%'
+                  />
+                )}
+              </Avatar>
+            }
+            color='secondary'
+            onDelete={removeBP(bp.owner)}
+            label={bp.owner}
+            key={`bp-list-name-${bp.owner}`}
+          />
+        ))}
+      </Grid>
     </Grid>
-  </Grid>
-)
+  )
+}
 
 CompareGraphView.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -106,6 +108,4 @@ CompareGraphView.defaultProps = {
   className: ''
 }
 
-export default withStyles(styles)(
-  withNamespaces('translations')(CompareGraphView)
-)
+export default withStyles(styles)(CompareGraphView)
