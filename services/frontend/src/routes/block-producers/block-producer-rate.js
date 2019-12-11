@@ -82,14 +82,14 @@ const BlockProducerRate = ({ classes, account, list, t }) => {
   const [ratingState, setRatingState] = useState({
     community: 0,
     communityEnabled: true,
+    development: 0,
+    developmentEnabled: true,
     infra: 0,
     infraEnabled: true,
-    testnets: 0,
-    testnetsEnabled: true,
-    tooling: 0,
-    toolingEnabled: true,
     transparency: 0,
     transparencyEnabled: true,
+    trustiness: 0,
+    trustinessEnabled: true,
     processing: false,
     txError: null,
     txSuccess: false
@@ -103,11 +103,15 @@ const BlockProducerRate = ({ classes, account, list, t }) => {
   const getFinalPayload = () => {
     return {
       ...(ratingState.communityEnabled && { community: ratingState.community }),
-      ...(ratingState.testnetsEnabled && { testnets: ratingState.testnets }),
-      ...(ratingState.infraEnabled && { infra: ratingState.infra }),
-      ...(ratingState.toolingEnabled && { tooling: ratingState.tooling }),
+      ...(ratingState.developmentEnabled && {
+        development: ratingState.development
+      }),
+      ...(ratingState.infraEnabled && { infrastructure: ratingState.infra }),
       ...(ratingState.transparencyEnabled && {
         transparency: ratingState.transparency
+      }),
+      ...(ratingState.trustinessEnabled && {
+        trustiness: ratingState.trustiness
       })
     }
   }
@@ -246,76 +250,6 @@ const BlockProducerRate = ({ classes, account, list, t }) => {
                       paragraph
                       style={{ margin: 0 }}
                       className={
-                        ratingState.infraEnabled
-                          ? ''
-                          : classes.parameterTitleDisabled
-                      }
-                    >
-                      Infrastructure{' '}
-                      <Tooltip title='Lorem ipsum' placement='right'>
-                        <HelpOutline
-                          fontSize='inherit'
-                          className={classes.topicIcon}
-                        />
-                      </Tooltip>
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <Slider
-                        disabled={!ratingState.infraEnabled}
-                        onChange={handleStateChange('infra')}
-                        value={ratingState.infra}
-                        min={0}
-                        max={10}
-                        step={1}
-                      />
-                      <Switch
-                        onChange={handleStateChange('infraEnabled')}
-                        checked={ratingState.infraEnabled}
-                      />
-                    </div>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography
-                      paragraph
-                      style={{ margin: 0 }}
-                      className={
-                        ratingState.toolingEnabled
-                          ? ''
-                          : classes.parameterTitleDisabled
-                      }
-                    >
-                      Tooling{' '}
-                      <Tooltip title='Lorem ipsum' placement='right'>
-                        <HelpOutline
-                          fontSize='inherit'
-                          className={classes.topicIcon}
-                        />
-                      </Tooltip>
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <Slider
-                        disabled={!ratingState.toolingEnabled}
-                        onChange={handleStateChange('tooling')}
-                        value={ratingState.tooling}
-                        min={0}
-                        max={10}
-                        step={1}
-                      />
-                      <Switch
-                        onChange={handleStateChange('toolingEnabled')}
-                        checked={ratingState.toolingEnabled}
-                      />
-                    </div>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography
-                      paragraph
-                      style={{ margin: 0 }}
-                      className={
                         ratingState.communityEnabled
                           ? ''
                           : classes.parameterTitleDisabled
@@ -343,6 +277,76 @@ const BlockProducerRate = ({ classes, account, list, t }) => {
                       <Switch
                         onChange={handleStateChange('communityEnabled')}
                         checked={ratingState.communityEnabled}
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography
+                      paragraph
+                      style={{ margin: 0 }}
+                      className={
+                        ratingState.developmentEnabled
+                          ? ''
+                          : classes.parameterTitleDisabled
+                      }
+                    >
+                      Development{' '}
+                      <Tooltip title='Lorem ipsum' placement='right'>
+                        <HelpOutline
+                          fontSize='inherit'
+                          className={classes.topicIcon}
+                        />
+                      </Tooltip>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Slider
+                        disabled={!ratingState.developmentEnabled}
+                        onChange={handleStateChange('development')}
+                        value={ratingState.development}
+                        min={0}
+                        max={10}
+                        step={1}
+                      />
+                      <Switch
+                        onChange={handleStateChange('developmentEnabled')}
+                        checked={ratingState.developmentEnabled}
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography
+                      paragraph
+                      style={{ margin: 0 }}
+                      className={
+                        ratingState.infraEnabled
+                          ? ''
+                          : classes.parameterTitleDisabled
+                      }
+                    >
+                      Infrastructure{' '}
+                      <Tooltip title='Lorem ipsum' placement='right'>
+                        <HelpOutline
+                          fontSize='inherit'
+                          className={classes.topicIcon}
+                        />
+                      </Tooltip>
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Slider
+                        disabled={!ratingState.infraEnabled}
+                        onChange={handleStateChange('infra')}
+                        value={ratingState.infra}
+                        min={0}
+                        max={10}
+                        step={1}
+                      />
+                      <Switch
+                        onChange={handleStateChange('infraEnabled')}
+                        checked={ratingState.infraEnabled}
                       />
                     </div>
                   </Grid>
@@ -386,12 +390,12 @@ const BlockProducerRate = ({ classes, account, list, t }) => {
                       paragraph
                       style={{ margin: 0 }}
                       className={
-                        ratingState.testnetsEnabled
+                        ratingState.trustinessEnabled
                           ? ''
                           : classes.parameterTitleDisabled
                       }
                     >
-                      Testnets{' '}
+                      Trustiness{' '}
                       <Tooltip title='Lorem ipsum' placement='right'>
                         <HelpOutline
                           fontSize='inherit'
@@ -403,16 +407,16 @@ const BlockProducerRate = ({ classes, account, list, t }) => {
                   <Grid item xs={12}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                       <Slider
-                        disabled={!ratingState.testnetsEnabled}
-                        onChange={handleStateChange('testnets')}
-                        value={ratingState.testnets}
+                        disabled={!ratingState.trustinessEnabled}
+                        onChange={handleStateChange('trustiness')}
+                        value={ratingState.trustiness}
                         min={0}
                         max={10}
                         step={1}
                       />
                       <Switch
-                        onChange={handleStateChange('testnetsEnabled')}
-                        checked={ratingState.testnetsEnabled}
+                        onChange={handleStateChange('trustinessEnabled')}
+                        checked={ratingState.trustinessEnabled}
                       />
                     </div>
                   </Grid>
@@ -481,9 +485,7 @@ const BlockProducerRate = ({ classes, account, list, t }) => {
                         component={props => (
                           <Link
                             {...props}
-                            to={`/block-producers/${
-                              blockProducer.bpjson.producer_account_name
-                            }`}
+                            to={`/block-producers/${blockProducer.bpjson.producer_account_name}`}
                           />
                         )}
                         variant='contained'
