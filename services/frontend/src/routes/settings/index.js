@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { withNamespaces } from 'react-i18next'
 import { connect } from 'react-redux'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -12,6 +11,8 @@ import Typography from '@material-ui/core/Typography'
 import Switch from '@material-ui/core/Switch'
 import Language from '@material-ui/icons/Language'
 import NotificationsIcon from '@material-ui/icons/Notifications'
+
+import withT from 'components/with-t'
 
 const styles = theme => ({
   root: {
@@ -37,7 +38,7 @@ class Settings extends Component {
   }
 
   render () {
-    const { classes, t, language, notifications } = this.props
+    const { classes, language, notifications, t } = this.props
 
     return (
       <div className={classes.root}>
@@ -97,10 +98,8 @@ const mapDispatchToProps = ({ settings: { setSettings } }) => ({
 })
 
 export default withStyles(styles)(
-  withNamespaces('translations')(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(Settings)
-  )
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withT(Settings))
 )

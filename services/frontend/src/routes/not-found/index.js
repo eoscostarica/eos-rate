@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withNamespaces } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
@@ -51,31 +51,34 @@ const styles = ({ spacing, palette }) => ({
   }
 })
 
-const NotFound = ({ classes, t }) => (
-  <div className={classes.root}>
-    <div className={classes.container}>
-      <div className={classes.graphic}>
-        <Typography component='span'>404</Typography>
-        <Typography component='span'>{t('graphic')}</Typography>
+const NotFound = ({ classes }) => {
+  const { t } = useTranslation('not-found')
+  return (
+    <div className={classes.root}>
+      <div className={classes.container}>
+        <div className={classes.graphic}>
+          <Typography component='span'>404</Typography>
+          <Typography component='span'>{t('graphic')}</Typography>
+        </div>
+        <Typography variant='h6' className={classes.description}>
+          {t('description')}
+        </Typography>
+        <Button
+          className={classes.recoveryCta}
+          variant='contained'
+          component={props => <Link to='/' {...props} />}
+          color='secondary'
+        >
+          {t('recoveryCta')}
+        </Button>
       </div>
-      <Typography variant='h6' className={classes.description}>
-        {t('description')}
-      </Typography>
-      <Button
-        className={classes.recoveryCta}
-        variant='contained'
-        component={props => <Link to='/' {...props} />}
-        color='secondary'
-      >
-        {t('recoveryCta')}
-      </Button>
     </div>
-  </div>
-)
+  )
+}
 
 NotFound.propTypes = {
   classes: PropTypes.object.isRequired,
   t: PropTypes.func.isRequired
 }
 
-export default withNamespaces('not-found')(withStyles(styles)(NotFound))
+export default withStyles(styles)(NotFound)

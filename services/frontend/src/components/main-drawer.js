@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import { Link } from '@reach/router'
-import { withNamespaces } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 
 import routes from 'routes'
 
@@ -36,7 +36,7 @@ const styles = theme => ({
   }
 })
 
-const Menu = ({ onClick, currentPathname, links, classes, t }) => (
+const Menu = ({ onClick, currentPathname, links, classes }) => (
   <List>
     {links
       .filter(({ label }) => label)
@@ -89,68 +89,70 @@ const MainDrawer = ({
   variant = 'desktop',
   onClose,
   open = false,
-  t,
+
   currentPathname,
   ...props
-}) => (
-  <>
-    <div className={classes.toolbar} />
-    {variant === 'mobile' && (
-      <Drawer
-        variant='temporary'
-        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-        open={open}
-        onClose={onClose}
-        classes={{
-          paper: classes.drawerPaper
-        }}
-        ModalProps={{
-          keepMounted: true // Better open performance on mobile.
-        }}
-      >
-        <Menu
-          onClick={isCollapsible => {
-            if (!isCollapsible) {
-              onClose()
-            }
+}) => {
+  const { t } = useTranslation('translations')
+  return (
+    <>
+      <div className={classes.toolbar} />
+      {variant === 'mobile' && (
+        <Drawer
+          variant='temporary'
+          anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+          open={open}
+          onClose={onClose}
+          classes={{
+            paper: classes.drawerPaper
           }}
-          currentPathname={currentPathname}
-          links={routes.map(route => ({
-            to: route.path,
-            label: t(route.drawerLabel),
-            collapsedItems: route.drawerComponents
-          }))}
-          classes={classes}
-          t={t}
-        />
-      </Drawer>
-    )}
-    {variant === 'desktop' && (
-      <Drawer
-        variant='persistent'
-        open={open}
-        classes={{
-          paper: classes.drawerPaper
-        }}
-      >
-        <Menu
-          currentPathname={currentPathname}
-          links={routes.map(route => ({
-            to: route.path,
-            label: t(route.drawerLabel),
-            collapsedItems: route.drawerComponents
-          }))}
-          classes={classes}
-          t={t}
-        />
-      </Drawer>
-    )}
-  </>
-)
+          ModalProps={{
+            keepMounted: true // Better open performance on mobile.
+          }}
+        >
+          <Menu
+            onClick={isCollapsible => {
+              if (!isCollapsible) {
+                onClose()
+              }
+            }}
+            currentPathname={currentPathname}
+            links={routes.map(route => ({
+              to: route.path,
+              label: t(route.drawerLabel),
+              collapsedItems: route.drawerComponents
+            }))}
+            classes={classes}
+            t={t}
+          />
+        </Drawer>
+      )}
+      {variant === 'desktop' && (
+        <Drawer
+          variant='persistent'
+          open={open}
+          classes={{
+            paper: classes.drawerPaper
+          }}
+        >
+          <Menu
+            currentPathname={currentPathname}
+            links={routes.map(route => ({
+              to: route.path,
+              label: t(route.drawerLabel),
+              collapsedItems: route.drawerComponents
+            }))}
+            classes={classes}
+            t={t}
+          />
+        </Drawer>
+      )}
+    </>
+  )
+}
 
 Menu.propTypes = {
   classes: PropTypes.object,
-  t: PropTypes.func,
   links: PropTypes.array,
   onClick: PropTypes.func,
   currentPathname: PropTypes.string
@@ -158,7 +160,6 @@ Menu.propTypes = {
 
 MainDrawer.propTypes = {
   classes: PropTypes.object,
-  t: PropTypes.func,
   currentPathname: PropTypes.string,
   theme: PropTypes.object,
   variant: PropTypes.string,
@@ -173,10 +174,8 @@ const mapStateToProps = ({ location: { pathname: currentPathname } }) => ({
 const mapDispatchToProps = () => ({})
 
 export default withStyles(styles, { withTheme: true })(
-  withNamespaces('translations')(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(MainDrawer)
-  )
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(MainDrawer)
 )

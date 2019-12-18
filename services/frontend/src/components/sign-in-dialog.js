@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { withNamespaces } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import Button from '@material-ui/core/Button'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -17,8 +17,9 @@ const styles = {
   }
 }
 
-const SignInDialog = ({ classes, connecting, error, provider, t }) => {
+const SignInDialog = ({ classes, connecting, error, provider }) => {
   const [errorDialogOpen, setErrorDialogOpen] = useState(Boolean(error))
+  const { t } = useTranslation('translations')
   useEffect(() => setErrorDialogOpen(Boolean(error)), [error])
 
   return (
@@ -54,8 +55,7 @@ SignInDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   connecting: PropTypes.bool.isRequired,
   error: PropTypes.string,
-  provider: PropTypes.string,
-  t: PropTypes.func.isRequired
+  provider: PropTypes.string
 }
 
-export default withStyles(styles)(withNamespaces('translations')(SignInDialog))
+export default withStyles(styles)(SignInDialog)
