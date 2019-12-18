@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { withNamespaces } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { Link, navigate } from '@reach/router'
 import {
@@ -77,7 +77,7 @@ const style = theme => ({
   }
 })
 
-const BlockProducerRate = ({ classes, account, list, t }) => {
+const BlockProducerRate = ({ classes, account, list }) => {
   const walletState = useWalletState()
   const [ratingState, setRatingState] = useState({
     community: 0,
@@ -94,6 +94,7 @@ const BlockProducerRate = ({ classes, account, list, t }) => {
     txError: null,
     txSuccess: false
   })
+  const { t } = useTranslation('bpRatePage')
   const wallet = walletState.wallet
   if (!wallet) {
     navigate(`/block-producers/${account}`)
@@ -519,10 +520,8 @@ const mapStateToProps = ({ blockProducers: { list } }) => ({
 const mapDispatchToProps = () => ({})
 
 export default withStyles(style)(
-  withNamespaces('bpRatePage')(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(BlockProducerRate)
-  )
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(BlockProducerRate)
 )
