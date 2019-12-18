@@ -35,7 +35,8 @@
     "connectingErrorActionBtn": "Ok",
 
     "hideComparisonTool": "Hide comparison tool",
-    "showComparisonTool": "Show comparison tool"
+    "showComparisonTool": "Show comparison tool",
+    "language": "language"
   },
 
   "not-found": {
