@@ -111,7 +111,7 @@ CONTRACT eoseosrateio : public contract {
     }
     
     void save_bp_stats (name bp_name, bp_rate_stats * bp_rate ){
-      producers_stats_table bps_stats(_code, _code.value);
+      producers_stats_table bps_stats(_self, _self.value);
       auto itr = bps_stats.find(bp_name.value);
       int counter =0;
       int sum = 0;
@@ -221,7 +221,7 @@ CONTRACT eoseosrateio : public contract {
       require_auth(_self);
 
       if(!table.compare("bps")){
-      	producers_table bps(_code, _code.value);
+      	producers_table bps(_self, _self.value);
       	auto itr = bps.begin();
       	while ( itr != bps.end()) {
       	    itr = bps.erase(itr);
@@ -229,7 +229,7 @@ CONTRACT eoseosrateio : public contract {
       }
 
       if(!table.compare("stats")){
-      	producers_stats_table bps_stats(_code, _code.value);
+      	producers_stats_table bps_stats(_self, _self.value);
       	auto itr_stats = bps_stats.begin();
       	while ( itr_stats != bps_stats.end()) {
             itr_stats = bps_stats.erase(itr_stats);
