@@ -26,13 +26,6 @@ CONTRACT eoseosrateio : public contract {
     ACTION rateproducer(name user, name bp, string ratings_json) {
       require_auth(user);
 
-      // user must be a proxy
-      voters_table _voters(_self, "eosio"_n.value);
-      auto pitr = _voters.find( user.value );
-      if ( pitr != _voters.end() ) {
-        eosio_assert( !pitr->is_proxy, "only proxy accounts are allowed to rate at the moment" );
-      }
-
       //TODO: bp must be a registered block producer
 
       // the payload must be ratings_json.
@@ -169,35 +162,45 @@ CONTRACT eoseosrateio : public contract {
         bps_stats.modify(itr,_self, [&]( auto& row ) {
           if (bp_rate->transparency){ 
                 sum += bp_rate->transparency; 
-                bp_rate->transparency = (bp_rate->transparency + row.transparency)/2;
+                if(row.transparency){
+                    bp_rate->transparency = (bp_rate->transparency + row.transparency)/2;
+                }
                 row.transparency = bp_rate->transparency;
                 counter++;
             }
 
             if (bp_rate->infrastructure){
                 sum += bp_rate->infrastructure;
-                bp_rate->infrastructure = (bp_rate->infrastructure + row.infrastructure)/2;
+                if(row.infrastructure){
+                    bp_rate->infrastructure = (bp_rate->infrastructure + row.infrastructure)/2;
+                }
                 row.infrastructure = bp_rate->infrastructure;
                 counter++;
             }
 
             if (bp_rate->trustiness){ 
                 sum += bp_rate->trustiness;
-                bp_rate->trustiness = (bp_rate->trustiness + row.trustiness)/2;
+                if(row.trustiness){
+                    bp_rate->trustiness = (bp_rate->trustiness + row.trustiness)/2;
+                }
                 row.trustiness = bp_rate->trustiness;
                 counter++;
             }
 
             if (bp_rate->development){
                 sum += bp_rate->development;
-                bp_rate->development  = (bp_rate->development + row.development)/2;
+                if(row.development){
+                    bp_rate->development  = (bp_rate->development + row.development)/2;
+                }
                 row.development = bp_rate->development;
                 counter++;
             }
 
             if (bp_rate->community){
                 sum += bp_rate->community;
-                bp_rate->community = (bp_rate->community + row.community)/2;
+                if(row.community){
+                    bp_rate->community = (bp_rate->community + row.community)/2;
+                }
                 row.community = bp_rate->community;
                 counter++;                
             }
@@ -273,30 +276,7 @@ CONTRACT eoseosrateio : public contract {
         indexed_by<"bp"_n, const_mem_fun<block_producer, uint64_t, &block_producer::by_bp>>
       > producers_table;
 
-    TABLE voter_info {
-      name                owner;     /// the voter
-      name                proxy;     /// the proxy set by the voter, if any
-      std::vector<name>   producers; /// the producers approved by this voter if no proxy set
-      int64_t             staked = 0;
-      double              last_vote_weight = 0; /// the vote weight cast the last time the vote was updated
-      double              proxied_vote_weight= 0; /// the total vote weight delegated to this voter as a proxy
-      bool                is_proxy = 0; /// whether the voter is a proxy for others
-      uint32_t            reserved1 = 0;
-      uint32_t            reserved2 = 0;
-      eosio::asset        reserved3;
-
-      uint64_t primary_key()const { return owner.value; }
-
-      // explicit serialization macro is not necessary, used here only to improve compilation time
-      EOSLIB_SERIALIZE( voter_info, (owner)(proxy)(producers)(staked)(last_vote_weight)(proxied_vote_weight)(is_proxy)(reserved1)(reserved2)(reserved3) )
-    };
-
-    typedef eosio::multi_index<"voters"_n, eoseosrateio::voter_info > voters_table;
 };
 
 EOSIO_DISPATCH(eoseosrateio, (rateproducer)(erase));
 
-
-// NOTE:
-// the table name ratings is damaged on the jungle testnet, changes in the struct without erasing the data on RAM seem have caused the problem.
-// you need to be carefull when changing table structure, you cant do this if table is with data, you need to do new table with new structure and migrate data.
