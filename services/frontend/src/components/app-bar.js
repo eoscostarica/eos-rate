@@ -20,6 +20,7 @@ import { Link } from '@reach/router'
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
 import SignInDialog from 'components/sign-in-dialog'
+import LanguageSelect from 'components/language-select'
 import SignInMenu from 'components/sign-in-menu'
 import { useWalletDispatch, useWalletState } from 'hooks/wallet'
 
@@ -142,6 +143,7 @@ const MainTopBar = ({
         >
           <SearchIcon />
         </IconButton>
+        <LanguageSelect />
         {walletState.wallet ? (
           <>
             <Link
