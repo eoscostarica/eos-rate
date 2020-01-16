@@ -1,77 +1,73 @@
-import React from 'react'
-import { TextField, InputAdornment, MenuItem } from '@material-ui/core'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { Language as LanguageIcon } from '@material-ui/icons'
 import { useTranslation } from 'react-i18next'
+import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-import PropTypes from 'prop-types'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
 
 const styles = () => ({
-  root: { height: 12 },
-  textField: {
-    height: 45,
-    '& div:last-child': {
-      height: 45,
-      '&:nth-child(3n)': {
-        paddingTop: 0,
-        '& div': {
-          padding: '0 25px 0 0',
-          marginTop: 13
-        }
-      }
-    }
-  }
+  wrapper: { display: 'flex', alignItems: 'center' },
+  languageText: { fontSize: '1rem', marginLeft: 3 },
+  iconLanguage: { width: 30, height: 30 }
 })
 
-const languages = [
-  {
-    value: 'en',
-    label: 'English'
-  },
-  {
-    value: 'es',
-    label: 'Español'
-  }
-]
+const LanguageSelect = ({ classes, style, alt }) => {
+  const { i18n } = useTranslation('translations')
+  const [anchorEl, setAnchorEl] = useState(null)
 
-const LanguageSelect = ({ classes }) => {
-  const { t, i18n } = useTranslation('translations')
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = item => {
+    setAnchorEl(null)
+    i18n.changeLanguage(item.value)
+  }
+
+  const languages = [
+    {
+      value: 'en',
+      label: 'English'
+    },
+    {
+      value: 'es',
+      label: 'Español'
+    }
+  ]
+
   return (
-    <TextField
-      classes={{
-        root: classes.textField
-      }}
-      select
-      size='small'
-      variant='outlined'
-      fullWidth={false}
-      label={t('language')}
-      onChange={ev => i18n.changeLanguage(ev.target.value)}
-      value={i18n.language}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position='start'>
-            <LanguageIcon />
-          </InputAdornment>
-        )
-      }}
-    >
-      {languages.map(option => (
-        <MenuItem
-          key={option.value}
-          value={option.value}
-          classes={{
-            root: classes.root
-          }}
-        >
-          {option.label}
-        </MenuItem>
-      ))}
-    </TextField>
+    <>
+      <div className={classes.wrapper}>
+        <LanguageIcon
+          onClick={handleClick}
+          alt={alt}
+          className={classes.iconLanguage}
+        />
+        <Typography variant='h5' className={classes.languageText}>
+          {(i18n.language || '').toLocaleUpperCase()}
+        </Typography>
+      </div>
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+        {languages.length &&
+          languages.map(item => (
+            <MenuItem
+              key={`language-menu-${item.label}`}
+              onClick={() => handleClose(item)}
+            >
+              {`${item.label} - ${(item.value || '').toLocaleUpperCase()}`}
+            </MenuItem>
+          ))}
+      </Menu>
+    </>
   )
 }
 
 LanguageSelect.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  alt: PropTypes.string,
+  style: PropTypes.any
 }
 
 export default withStyles(styles)(LanguageSelect)
