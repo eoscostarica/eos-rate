@@ -1,7 +1,10 @@
-#include <eosiolib/eosio.hpp>
-#include <eosiolib/print.hpp>
-#include <eosiolib/asset.hpp>
-#include <eosiolib/multi_index.hpp>
+#include <eosio/eosio.hpp>
+#include <eosio/print.hpp>
+#include <eosio/asset.hpp>
+#include <eosio/multi_index.hpp>
+#include <eosio/system.hpp>
+#include <eosio/time.hpp>
+
 #include "rapidjson/document.h"
 
 #define MINVAL 0
@@ -39,14 +42,16 @@ CONTRACT rateproducer : public contract {
       auto uniq_rating_index = bps.get_index<name("uniqrating")>();
       auto existing_rating = uniq_rating_index.find(uniq_rating);
 
+      uint64_t now = eosio::current_time_point().time_since_epoch().count();
+
       if( existing_rating == uniq_rating_index.end() ) {
           bps.emplace(user, [&]( auto& row ) {
             row.id = bps.available_primary_key();
             row.uniq_rating = uniq_rating;
             row.user = user;
             row.bp = bp;
-            row.created_at = now();
-            row.updated_at = now();
+            row.created_at = now;
+            row.updated_at = now;
             row.ratings_json = ratings_json;
           });
           //update the general data
@@ -56,7 +61,7 @@ CONTRACT rateproducer : public contract {
          uniq_rating_index.modify(existing_rating, user, [&]( auto& row ) {
            row.user = user;
            row.bp = bp;
-           row.updated_at = current_time();
+           row.updated_at = now;
            row.ratings_json = ratings_json;
          });
          //update the general data
@@ -115,6 +120,7 @@ CONTRACT rateproducer : public contract {
       auto itr = bps_stats.find(bp_name.value);
       int counter =0;
       int sum = 0;
+      uint64_t now = eosio::current_time_point().time_since_epoch().count();
       if(itr == bps_stats.end()){
         //new entry
          bps_stats.emplace(_self, [&]( auto& row ) {
@@ -153,8 +159,8 @@ CONTRACT rateproducer : public contract {
                 row.bp = bp_name;
                 row.proxy_voters_cntr = 1;
                 row.average =sum/counter;
-                row.created_at = current_time();
-                row.updated_at = current_time();
+                row.created_at = now;
+                row.updated_at = now;
             }
           });
       }else{
@@ -208,7 +214,7 @@ CONTRACT rateproducer : public contract {
             if(counter){
                 row.proxy_voters_cntr++;
                 row.average =( (sum/counter) + row.average ) /2;
-                row.updated_at = current_time();
+                row.updated_at = now;
             }
          });
       }
