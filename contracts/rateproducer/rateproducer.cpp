@@ -45,7 +45,7 @@ CONTRACT rateproducer : public contract {
       uint64_t now = eosio::current_time_point().time_since_epoch().count();
 
       if( existing_rating == uniq_rating_index.end() ) {
-          bps.emplace(user, [&]( auto& row ) {
+          bps.emplace(_self, [&]( auto& row ) {
             row.id = bps.available_primary_key();
             row.uniq_rating = uniq_rating;
             row.user = user;
@@ -58,7 +58,7 @@ CONTRACT rateproducer : public contract {
          process_json_stats(bp,ratings_json);
 
       } else {
-         uniq_rating_index.modify(existing_rating, user, [&]( auto& row ) {
+         uniq_rating_index.modify(existing_rating, _self, [&]( auto& row ) {
            row.user = user;
            row.bp = bp;
            row.updated_at = now;
