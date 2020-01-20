@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Hidden from '@material-ui/core/Hidden'
 import classnames from 'classnames'
+
 import MainTopBar from 'components/app-bar'
 import MainDrawer from 'components/main-drawer'
 import MainFooter from 'components/main-footer'
 import { useWalletDispatch } from 'hooks/wallet'
+import { InitGA, LogPageView } from 'config/google-analitycs-module'
 
 const styles = theme => ({
   root: {
@@ -57,6 +59,11 @@ const Layout = ({ classes, children }) => {
 
   const handleSearchDialogClose = () =>
     setState({ ...state, isSearchOpen: false })
+
+  useEffect(() => {
+    InitGA()
+    LogPageView()
+  }, [])
 
   return (
     <div className={classes.root}>
