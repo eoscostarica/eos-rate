@@ -9,7 +9,7 @@
 
 #define MINVAL 0
 #define MAXVAL 10
-#define MAXJSONSIZE 89
+#define MAXJSONSIZE 200
 
 using namespace std;
 using namespace rapidjson;
