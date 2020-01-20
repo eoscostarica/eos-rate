@@ -1,18 +1,21 @@
-#include <eosiolib/eosio.hpp>
-#include <eosiolib/print.hpp>
-#include <eosiolib/asset.hpp>
-#include <eosiolib/multi_index.hpp>
+#include <eosio/eosio.hpp>
+#include <eosio/print.hpp>
+#include <eosio/asset.hpp>
+#include <eosio/multi_index.hpp>
+#include <eosio/system.hpp>
+#include <eosio/time.hpp>
+
 #include "rapidjson/document.h"
 
 #define MINVAL 0
 #define MAXVAL 10
-#define MAXJSONSIZE 89
+#define MAXJSONSIZE 200
 
 using namespace std;
 using namespace rapidjson;
 using namespace eosio;
 
-CONTRACT eoseosrateio : public contract {
+CONTRACT rateproducer : public contract {
   public:
     using contract::contract;
     typedef struct bp_rate_t {
@@ -23,7 +26,7 @@ CONTRACT eoseosrateio : public contract {
       float development;
     } bp_rate_stats ;
 
-    ACTION rateproducer(name user, name bp, string ratings_json) {
+    ACTION rate(name user, name bp, string ratings_json) {
       require_auth(user);
 
       //TODO: bp must be a registered block producer
@@ -39,14 +42,16 @@ CONTRACT eoseosrateio : public contract {
       auto uniq_rating_index = bps.get_index<name("uniqrating")>();
       auto existing_rating = uniq_rating_index.find(uniq_rating);
 
+      uint64_t now = eosio::current_time_point().time_since_epoch().count();
+
       if( existing_rating == uniq_rating_index.end() ) {
           bps.emplace(user, [&]( auto& row ) {
             row.id = bps.available_primary_key();
             row.uniq_rating = uniq_rating;
             row.user = user;
             row.bp = bp;
-            row.created_at = now();
-            row.updated_at = now();
+            row.created_at = now;
+            row.updated_at = now;
             row.ratings_json = ratings_json;
           });
           //update the general data
@@ -56,7 +61,7 @@ CONTRACT eoseosrateio : public contract {
          uniq_rating_index.modify(existing_rating, user, [&]( auto& row ) {
            row.user = user;
            row.bp = bp;
-           row.updated_at = current_time();
+           row.updated_at = now;
            row.ratings_json = ratings_json;
          });
          //update the general data
@@ -69,7 +74,7 @@ CONTRACT eoseosrateio : public contract {
       Document json;
       bp_rate_stats a_bp_stats = {0,0,0,0,0};
       bool flag = false;
-      
+
       check(!(MAXJSONSIZE<ratings_json.length()),"Error json rating data too big");
       check( !(json.Parse<0>(ratings_json.c_str() ).HasParseError()) , "Error parsing json_rating" );
 
@@ -81,7 +86,7 @@ CONTRACT eoseosrateio : public contract {
 
       if(json.HasMember("infrastructure") && json["infrastructure"].IsInt()){
           a_bp_stats.infrastructure = json["infrastructure"].GetInt();
-          flag=true; 
+          flag=true;
       }
       check( (MINVAL<=a_bp_stats.infrastructure && a_bp_stats.infrastructure<=MAXVAL ), "Error infrastructure value out of range" );
 
@@ -107,19 +112,20 @@ CONTRACT eoseosrateio : public contract {
       if(flag){
       	save_bp_stats(bp_name,&a_bp_stats);
       }
-      
+
     }
-    
+
     void save_bp_stats (name bp_name, bp_rate_stats * bp_rate ){
       producers_stats_table bps_stats(_self, _self.value);
       auto itr = bps_stats.find(bp_name.value);
       int counter =0;
       int sum = 0;
+      uint64_t now = eosio::current_time_point().time_since_epoch().count();
       if(itr == bps_stats.end()){
         //new entry
          bps_stats.emplace(_self, [&]( auto& row ) {
-            
-            if (bp_rate->transparency){ 
+
+            if (bp_rate->transparency){
                 row.transparency = bp_rate->transparency;
                 counter++;
                 sum += bp_rate->transparency;
@@ -131,7 +137,7 @@ CONTRACT eoseosrateio : public contract {
                 sum += bp_rate->infrastructure;
             }
 
-            if (bp_rate->trustiness){ 
+            if (bp_rate->trustiness){
                 row.trustiness = bp_rate->trustiness;
                 counter++;
                 sum += bp_rate->trustiness;
@@ -152,16 +158,16 @@ CONTRACT eoseosrateio : public contract {
             if(counter){
                 row.bp = bp_name;
                 row.proxy_voters_cntr = 1;
-                row.average =sum/counter;  
-                row.created_at = current_time();
-                row.updated_at = current_time();
+                row.average =sum/counter;
+                row.created_at = now;
+                row.updated_at = now;
             }
           });
       }else{
         //update the entry
         bps_stats.modify(itr,_self, [&]( auto& row ) {
-          if (bp_rate->transparency){ 
-                sum += bp_rate->transparency; 
+          if (bp_rate->transparency){
+                sum += bp_rate->transparency;
                 if(row.transparency){
                     bp_rate->transparency = (bp_rate->transparency + row.transparency)/2;
                 }
@@ -178,7 +184,7 @@ CONTRACT eoseosrateio : public contract {
                 counter++;
             }
 
-            if (bp_rate->trustiness){ 
+            if (bp_rate->trustiness){
                 sum += bp_rate->trustiness;
                 if(row.trustiness){
                     bp_rate->trustiness = (bp_rate->trustiness + row.trustiness)/2;
@@ -202,14 +208,14 @@ CONTRACT eoseosrateio : public contract {
                     bp_rate->community = (bp_rate->community + row.community)/2;
                 }
                 row.community = bp_rate->community;
-                counter++;                
+                counter++;
             }
 
             if(counter){
                 row.proxy_voters_cntr++;
-                row.average =( (sum/counter) + row.average ) /2; 
-                row.updated_at = current_time();
-            }		
+                row.average =( (sum/counter) + row.average ) /2;
+                row.updated_at = now;
+            }
          });
       }
     }
@@ -253,7 +259,7 @@ CONTRACT eoseosrateio : public contract {
     };
 
     typedef eosio::multi_index<"stats"_n, block_producers_stats > producers_stats_table;
-    
+
 
     TABLE block_producer {
       uint64_t id;
@@ -278,5 +284,4 @@ CONTRACT eoseosrateio : public contract {
 
 };
 
-EOSIO_DISPATCH(eoseosrateio, (rateproducer)(erase));
-
+EOSIO_DISPATCH(rateproducer, (rate)(erase));
