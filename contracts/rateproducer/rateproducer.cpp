@@ -77,7 +77,7 @@ CONTRACT rateproducer : public contract {
       check( is_proxy(user), "only proxy accounts are allowed to rate at the moment" );
 
       //proxy must have more than 21 voters
-      check( MIN_VOTERS<=get_voters(user), "proxy doesn't have enough voters" );
+      check( MIN_VOTERS<get_voters(user), "proxy doesn't have enough voters" );
 
       // the payload must be ratings_json.
       check(ratings_json[0] == '{', "payload must be ratings_json");
