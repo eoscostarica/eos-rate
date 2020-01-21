@@ -43,6 +43,11 @@ const styles = theme => ({
   },
   avatar: {
     backgroundColor: theme.palette.primary.main
+  },
+  btnRate: {
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.main
+    }
   }
 })
 
@@ -109,6 +114,18 @@ const BlockProducerCard = ({
         onClick={toggleSelection(!isSelected, blockProducer.owner)}
       >
         {isSelected ? 'REMOVE' : 'ADD'}
+      </Button>
+      <Button
+        component={props => (
+          <Link
+            {...props}
+            to={`/block-producers/${blockProducer.owner}/rate`}
+          />
+        )}
+        className={classes.btnRate}
+        size='small'
+      >
+        RATE
       </Button>
     </CardActions>
   </Card>
