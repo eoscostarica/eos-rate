@@ -10,10 +10,54 @@
 #define MINVAL 0
 #define MAXVAL 10
 #define MAXJSONSIZE 200
+#define MIN_VOTERS 21 
 
 using namespace std;
 using namespace rapidjson;
 using namespace eosio;
+
+namespace eosio {
+
+   constexpr name system_account{"eosio"_n};
+
+   struct voter_info {
+      name                owner;
+      name                proxy;
+      std::vector<name>   producers;
+      int64_t             staked = 0;
+      double              last_vote_weight = 0;
+      double              proxied_vote_weight= 0;
+      bool                is_proxy = 0;
+      uint32_t            flags1 = 0;
+      uint32_t            reserved2 = 0;
+      eosio::asset        reserved3;
+
+      uint64_t primary_key()const { return owner.value; }
+
+      EOSLIB_SERIALIZE( voter_info, (owner)(proxy)(producers)(staked)(last_vote_weight)(proxied_vote_weight)(is_proxy)(flags1)(reserved2)(reserved3) )
+   };
+
+   typedef eosio::multi_index< "voters"_n, voter_info >  voters_table;
+
+   bool is_proxy(name name) {
+      voters_table _voters(system_account, system_account.value);
+      auto it = _voters.find(name.value);
+      return it != _voters.end() && it->is_proxy;
+   }
+
+   int get_voters (name name) {
+      voters_table _voters(system_account, system_account.value);
+      auto it = _voters.find(name.value);
+      if(it==_voters.end()){
+          return 0;
+      }
+      if(!it->is_proxy){
+          return 0;
+      }
+      return it->producers.size();
+   }
+
+} /// namespace eosio
 
 CONTRACT rateproducer : public contract {
   public:
@@ -29,7 +73,11 @@ CONTRACT rateproducer : public contract {
     ACTION rate(name user, name bp, string ratings_json) {
       require_auth(user);
 
-      //TODO: bp must be a registered block producer
+      /// user must be a proxy
+      check( is_proxy(user), "only proxy accounts are allowed to rate at the moment" );
+
+      //proxy must have more than 21 voters
+      check( MIN_VOTERS<=get_voters(user), "proxy doesn't have enough voters" );
 
       // the payload must be ratings_json.
       check(ratings_json[0] == '{', "payload must be ratings_json");
