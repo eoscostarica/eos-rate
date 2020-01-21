@@ -29,9 +29,15 @@ const styles = theme => ({
   },
   legend: {
     display: 'flex',
-    width: 190,
-    lineHeight: 1,
-    textAlign: 'center'
+    width: 148,
+    lineHeight: 1.33,
+    fontSize: 8,
+    fontWeight: 500,
+    fontStretch: 'normal',
+    letterSpacing: 1,
+    textAlign: 'right',
+    color: 'rgba(255, 255, 255, 0.6)',
+    paddingRight: 13
   }
 })
 
