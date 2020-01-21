@@ -97,5 +97,9 @@
   "bpRatePage": {
     "publishRatingButton": "Publicar Calificación",
     "cancelRatingButton": "Cancelar"
+  },
+
+  "footer": {
+    "legend": "¿Quieres contribuir? Ven a aprender con nosotros"
   }
 }
