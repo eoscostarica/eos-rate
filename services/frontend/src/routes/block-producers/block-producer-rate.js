@@ -122,7 +122,7 @@ const BlockProducerRate = ({ classes, account, list }) => {
         actions: [
           {
             account: config.contract,
-            name: 'rateproducer',
+            name: 'rate',
             authorization: [
               {
                 actor: accountName,
