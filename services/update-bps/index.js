@@ -1,6 +1,5 @@
-const cron = require('node-cron')
+#!/usr/bin/env node
 const EosApi = require('eosjs-api')
-const humanToCron = require('human-to-cron')
 const massive = require('massive')
 const get = require('lodash.get')
 const fetch = require('node-fetch')
@@ -110,8 +109,6 @@ const updateBlockProducersData = async () => {
 
 const run = async () => {
   try {
-    // schedule the cron job
-    cron.schedule(humanToCron('once each day'), updateBlockProducersData)
     updateBlockProducersData()
   } catch (err) {
     console.error(err)
