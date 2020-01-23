@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Starting docker containers"
-docker-compose up -d --build postgres hasura demux
+docker-compose up -d --build postgres hasura
 
 # wait 10s for the docker services to start
 sleep 10s

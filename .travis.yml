@@ -4,9 +4,7 @@ services:
   - docker
 
 install:
-  - docker build -t eosrate/demux ./services/demux
   - docker build -t eosrate/frontend ./services/frontend
 
 script:
-  - docker run eosrate/demux yarn lint
   - docker run eosrate/frontend yarn lint
