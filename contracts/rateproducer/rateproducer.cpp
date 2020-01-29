@@ -51,10 +51,18 @@ namespace eosio {
       if(it==_voters.end()){
           return 0;
       }
-      if(!it->is_proxy){
-          return 0;
-      }
       return it->producers.size();
+   }
+
+     eosio::name get_proxy ( eosio::name name) {
+
+      voters_table _voters(system_account, system_account.value);
+      auto it = _voters.find(name.value);
+      if(it==_voters.end()){
+          eosio::name result("");
+          return result;
+      }
+      return it->proxy;
    }
 
 } /// namespace eosio
@@ -71,13 +79,15 @@ CONTRACT rateproducer : public contract {
     } bp_rate_stats ;
 
     ACTION rate(name user, name bp, string ratings_json) {
-      require_auth(user);
-
-      /// user must be a proxy
-      check( is_proxy(user), "only proxy accounts are allowed to rate at the moment" );
-
-      //proxy must have more than 21 voters
-      check( MIN_VOTERS<get_voters(user), "proxy doesn't have enough voters" );
+     // require_auth(user);
+      eosio::name proxy_name = get_proxy(user);
+      if(proxy_name.length()){
+          //account votes through a proxy
+          check( MIN_VOTERS<get_voters(proxy_name), "delegated proxy doesn't have enough voters" );
+      }else{
+          // acount must vote for at least 21 bp
+          check( MIN_VOTERS<get_voters(user), "account doesn't have enough voters" );
+      }
 
       // the payload must be ratings_json.
       check(ratings_json[0] == '{', "payload must be ratings_json");
