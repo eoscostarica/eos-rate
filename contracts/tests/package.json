@@ -1,0 +1,20 @@
+{
+  "name": "eos-rate-test",
+  "version": "1.0.0",
+  "description": "Unit test for eos-rate",
+  "main": "mocha",
+  "author": "cristian castro",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "test": "mocha --timeout 9000"
+  },
+  "dependencies": {
+    "chai": "^4.2.0",
+    "eosjs": "^20.0.0",
+    "lodash": "^4.17.15",
+    "lodash.get": "^4.4.2",
+    "lodash.isequal": "^4.5.0",
+    "node-fetch": "^2.6.0"
+  }
+}
