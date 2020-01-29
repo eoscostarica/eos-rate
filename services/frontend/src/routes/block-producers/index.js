@@ -88,11 +88,11 @@ class AllBps extends Component {
     const { currentlyVisible } = this.state
     const bpList = filtered.length ? filtered : blockProducers
     const shownList = bpList.slice(0, currentlyVisible)
-
     const hasMore = currentlyVisible < bpList.length
     const fabLegend = compareToolVisible
       ? t('hideComparisonTool')
       : t('showComparisonTool')
+
     return (
       <div className={classes.root}>
         <Tooltip aria-label={fabLegend} placement='left' title={fabLegend}>
@@ -185,10 +185,7 @@ const mapDispatchToProps = ({
 }) => ({ getBPs, toggleCompareTool, addToSelected, removeSelected })
 
 export default withStyles(style)(
-  connect(
-    mapStatetoProps,
-    mapDispatchToProps
-  )(withT(AllBps))
+  connect(mapStatetoProps, mapDispatchToProps)(withT(AllBps))
 )
 
 export const blockProducersDrawer = [
