@@ -107,7 +107,6 @@ const BlockProducerProfile = ({
     getBlockProducer(account)
   }, [account])
 
-  console.log({ producer })
   if (!producer.bpjson) {
     return <Redirect to='/not-found' />
   }
