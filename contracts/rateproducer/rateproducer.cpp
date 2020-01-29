@@ -70,16 +70,17 @@ namespace eosio {
 CONTRACT rateproducer : public contract {
   public:
     using contract::contract;
-    typedef struct bp_rate_t {
-      float transparency;
-      float infrastructure;
-      float trustiness;
-      float community;
-      float development;
-    } bp_rate_stats ;
+      typedef struct bp_rate_t {
+        float transparency;
+        float infrastructure;
+        float trustiness;
+        float community;
+        float development;
+      } bp_rate_stats ;
 
-    ACTION rate(name user, name bp, string ratings_json) {
+      ACTION rate(name user, name bp, string ratings_json) {
      // require_auth(user);
+/*
       eosio::name proxy_name = get_proxy(user);
       if(proxy_name.length()){
           //account votes through a proxy
@@ -88,21 +89,25 @@ CONTRACT rateproducer : public contract {
           // acount must vote for at least 21 bp
           check( MIN_VOTERS<get_voters(user), "account doesn't have enough voters" );
       }
-
+*/
+     
       // the payload must be ratings_json.
       check(ratings_json[0] == '{', "payload must be ratings_json");
       check(ratings_json[ratings_json.size()-1] == '}', "payload must be ratings_json");
+      
+      bp_rate_stats bp_stats = {0,0,0,0,0};
+      bool flag =  process_json_stats( ratings_json,&bp_stats);
+      if(flag){
+        // upsert bp rating
+        producers_table bps(_self, _self.value);
+        auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
-      // upsert bp rating
-      producers_table bps(_self, _self.value);
-      auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
+        auto uniq_rating_index = bps.get_index<name("uniqrating")>();
+        auto existing_rating = uniq_rating_index.find(uniq_rating);
 
-      auto uniq_rating_index = bps.get_index<name("uniqrating")>();
-      auto existing_rating = uniq_rating_index.find(uniq_rating);
+        uint64_t now = eosio::current_time_point().time_since_epoch().count();
 
-      uint64_t now = eosio::current_time_point().time_since_epoch().count();
-
-      if( existing_rating == uniq_rating_index.end() ) {
+        if( existing_rating == uniq_rating_index.end() ) {
           bps.emplace(_self, [&]( auto& row ) {
             row.id = bps.available_primary_key();
             row.uniq_rating = uniq_rating;
@@ -110,66 +115,72 @@ CONTRACT rateproducer : public contract {
             row.bp = bp;
             row.created_at = now;
             row.updated_at = now;
-            row.ratings_json = ratings_json;
+            row.transparency = bp_stats.transparency;
+            row.infrastructure = bp_stats.infrastructure;
+            row.trustiness = bp_stats.trustiness;
+            row.community = bp_stats.community;
+            row.development = bp_stats.development ;   
           });
-          //update the general data
-         process_json_stats(bp,ratings_json);
-
-      } else {
-         uniq_rating_index.modify(existing_rating, _self, [&]( auto& row ) {
-           row.user = user;
-           row.bp = bp;
-           row.updated_at = now;
-           row.ratings_json = ratings_json;
-         });
-         //update the general data
-        process_json_stats(bp,ratings_json);
-
-       }
+          
+        } else {
+          uniq_rating_index.modify(existing_rating, _self, [&]( auto& row ) {
+            row.user = user;
+            row.bp = bp;
+            row.updated_at = now;
+            row.transparency = bp_stats.transparency;
+            row.infrastructure = bp_stats.infrastructure;
+            row.trustiness = bp_stats.trustiness;
+            row.community = bp_stats.community;
+            row.development = bp_stats.development ;  
+          });
+          
+        }
+        //update stats
+        save_bp_stats(bp,&bp_stats);
+      }
+      
     }
 
-    void process_json_stats(name bp_name,string ratings_json){
+    bool process_json_stats(string ratings_json,bp_rate_stats * a_bp_stats){
       Document json;
-      bp_rate_stats a_bp_stats = {0,0,0,0,0};
       bool flag = false;
 
       check(!(MAXJSONSIZE<ratings_json.length()),"Error json rating data too big");
       check( !(json.Parse<0>(ratings_json.c_str() ).HasParseError()) , "Error parsing json_rating" );
 
       if(json.HasMember("transparency") && json["transparency"].IsInt()){
-          a_bp_stats.transparency = json["transparency"].GetInt();
+          a_bp_stats->transparency = json["transparency"].GetInt();
           flag=true;
       }
-      check( (MINVAL<=a_bp_stats.transparency && a_bp_stats.transparency<=MAXVAL ), "Error transparency value out of range" );
+      check( (MINVAL<=a_bp_stats->transparency && a_bp_stats->transparency<=MAXVAL ), "Error transparency value out of range" );
 
       if(json.HasMember("infrastructure") && json["infrastructure"].IsInt()){
-          a_bp_stats.infrastructure = json["infrastructure"].GetInt();
+          a_bp_stats->infrastructure = json["infrastructure"].GetInt();
           flag=true;
       }
-      check( (MINVAL<=a_bp_stats.infrastructure && a_bp_stats.infrastructure<=MAXVAL ), "Error infrastructure value out of range" );
+      check( (MINVAL<=a_bp_stats->infrastructure && a_bp_stats->infrastructure<=MAXVAL ), "Error infrastructure value out of range" );
 
       if ( json.HasMember("trustiness") && json["trustiness"].IsInt() ){
-          a_bp_stats.trustiness = json["trustiness"].GetInt();
+          a_bp_stats->trustiness = json["trustiness"].GetInt();
           flag=true;
       }
-      check( (MINVAL<=a_bp_stats.trustiness && a_bp_stats.trustiness<=MAXVAL ), "Error trustiness value out of range" );
+      check( (MINVAL<=a_bp_stats->trustiness && a_bp_stats->trustiness<=MAXVAL ), "Error trustiness value out of range" );
 
       if ( json.HasMember("development") && json["development"].IsInt() ){
-          a_bp_stats.development = json["development"].GetInt();
+          a_bp_stats->development = json["development"].GetInt();
           flag=true;
       }
-      check( (MINVAL<=a_bp_stats.development && a_bp_stats.development <=MAXVAL ), "Error development value out of range" );
+      check( (MINVAL<=a_bp_stats->development && a_bp_stats->development <=MAXVAL ), "Error development value out of range" );
 
 
       if ( json.HasMember("community") && json["community"].IsInt() ){
-          a_bp_stats.community = json["community"].GetInt();
+          a_bp_stats->community = json["community"].GetInt();
           flag=true;
       }
-      check( (MINVAL<=a_bp_stats.community && a_bp_stats.community<=MAXVAL ), "Error community value out of range" );
+      check( (MINVAL<=a_bp_stats->community && a_bp_stats->community<=MAXVAL ), "Error community value out of range" );
 
-      if(flag){
-      	save_bp_stats(bp_name,&a_bp_stats);
-      }
+
+      return flag;
 
     }
 
@@ -215,7 +226,7 @@ CONTRACT rateproducer : public contract {
 
             if(counter){
                 row.bp = bp_name;
-                row.proxy_voters_cntr = 1;
+                row.ratrings_cntr = 1;
                 row.average =sum/counter;
                 row.created_at = now;
                 row.updated_at = now;
@@ -270,7 +281,7 @@ CONTRACT rateproducer : public contract {
             }
 
             if(counter){
-                row.proxy_voters_cntr++;
+                row.ratrings_cntr++;
                 row.average =( (sum/counter) + row.average ) /2;
                 row.updated_at = now;
             }
@@ -304,7 +315,7 @@ CONTRACT rateproducer : public contract {
   private:
     TABLE block_producers_stats {
       name bp;
-      uint32_t proxy_voters_cntr;
+      uint32_t ratrings_cntr;
       float average;
       float transparency;
       float infrastructure;
@@ -324,7 +335,11 @@ CONTRACT rateproducer : public contract {
       uint128_t uniq_rating;
       name user;
       name bp;
-      string ratings_json;
+      float transparency;
+      float infrastructure;
+      float trustiness;
+      float community;
+      float development;
       uint32_t created_at;
       uint32_t updated_at;
 
