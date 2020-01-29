@@ -101,5 +101,21 @@
 
   "footer": {
     "legend": "Want to contribute? Come learn with us"
+  },
+
+  "bpProfile": {
+    "generalInformation": "General Information",
+    "rankings": "Rankings",
+    "social": "Social",
+    "account": "Account",
+    "location": "Location",
+    "status": "Status",
+    "website": "Website",
+    "votes": "Votes",
+    "rates": "Rates",
+    "average": "Average",
+    "websiteInfo": "From Their Website",
+    "buttonRate": "Rate this BP",
+    "allBP": "All Block Producers"
   }
 }
