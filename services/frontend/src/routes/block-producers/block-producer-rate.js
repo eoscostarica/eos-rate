@@ -232,18 +232,11 @@ const BlockProducerRate = ({ classes, account, list }) => {
             >
               <Grid item xs={12} sm={5}>
                 <Typography variant='subtitle1' className={classes.title}>
-                  Rate Block Producer
+                  {t.subTitle}
                 </Typography>
-                <Typography paragraph>
-                  Use the sliders to rate the BP.
-                </Typography>
-                <Typography paragraph>
-                  If you feel that you do not have enough knowledge about a
-                  specific category you can disable it.
-                </Typography>
-                <Typography paragraph>
-                  Publish the rate by signing in with Scatter.
-                </Typography>
+                <Typography paragraph>{t.subText}</Typography>
+                <Typography paragraph>{t.helpText}</Typography>
+                <Typography paragraph>{t.rateText}</Typography>
                 {/* TODO: Iterate over bpParameters */}
                 <Grid container style={{ marginTop: 30 }}>
                   <Grid item xs={12}>
@@ -257,7 +250,7 @@ const BlockProducerRate = ({ classes, account, list }) => {
                       }
                     >
                       Community{' '}
-                      <Tooltip title='Lorem ipsum' placement='right'>
+                      <Tooltip title={t.communityTooltip} placement='right'>
                         <HelpOutline
                           fontSize='inherit'
                           className={classes.topicIcon}
@@ -292,7 +285,7 @@ const BlockProducerRate = ({ classes, account, list }) => {
                       }
                     >
                       Development{' '}
-                      <Tooltip title='Lorem ipsum' placement='right'>
+                      <Tooltip title={t.developmentTooltip} placement='right'>
                         <HelpOutline
                           fontSize='inherit'
                           className={classes.topicIcon}
@@ -327,7 +320,10 @@ const BlockProducerRate = ({ classes, account, list }) => {
                       }
                     >
                       Infrastructure{' '}
-                      <Tooltip title='Lorem ipsum' placement='right'>
+                      <Tooltip
+                        title={t.infrastructureTooltip}
+                        placement='right'
+                      >
                         <HelpOutline
                           fontSize='inherit'
                           className={classes.topicIcon}
@@ -362,7 +358,7 @@ const BlockProducerRate = ({ classes, account, list }) => {
                       }
                     >
                       Transparency{' '}
-                      <Tooltip title='Lorem ipsum' placement='right'>
+                      <Tooltip title={t.transparencyTooltip} placement='right'>
                         <HelpOutline
                           fontSize='inherit'
                           className={classes.topicIcon}
@@ -397,7 +393,7 @@ const BlockProducerRate = ({ classes, account, list }) => {
                       }
                     >
                       Trustiness{' '}
-                      <Tooltip title='Lorem ipsum' placement='right'>
+                      <Tooltip title={t.trustinessTooltip} placement='right'>
                         <HelpOutline
                           fontSize='inherit'
                           className={classes.topicIcon}
@@ -520,8 +516,5 @@ const mapStateToProps = ({ blockProducers: { list } }) => ({
 const mapDispatchToProps = () => ({})
 
 export default withStyles(style)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(BlockProducerRate)
+  connect(mapStateToProps, mapDispatchToProps)(BlockProducerRate)
 )

@@ -95,8 +95,17 @@
   },
 
   "bpRatePage": {
+    "subTitle": "Rate Block Producer",
+    "subText": "Use the sliders to rate the BP.",
+    "rateText": "If you feel that you do not have enough knowledge about a specific category you can disable it.",
+    "helpText": "Publish your BP rating by signing in with your favorite wallet.",
     "publishRatingButton": "Publish Rating",
-    "cancelRatingButton": "Cancel"
+    "cancelRatingButton": "Cancel",
+    "transparencyTooltip": "Compliance with disclosure of ownership, complete bp.json, use of rewards, and financial stats.",
+    "infrastructureTooltip": "Stability and reliability of the EOS infrastructure.",
+    "trustinessTooltip": "Collaboration and reputation among the EOS community.",
+    "communityTooltip": "Community value creation through education and promoting talks, chats, hackathons, conferences, seminars, developer spaces, and other useful content.",
+    "developmentTooltip": "Technical know-how and usage of open-source software, scripts, frameworks, wallets, voting portals, metrics, etc."
   },
 
   "footer": {
