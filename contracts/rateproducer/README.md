@@ -28,3 +28,6 @@ cleos -u http://jungle2.cryptolions.io:80 push action rateproducer erase '{"tabl
 
 
 ```
+Run test
+ execute the command ```yarn test``` within the test folder 
+you need the key for EOS7Ca5Tc4KaEYLZdu2WxdQQktVePjFiDg42EmMAjqVR6eNKPMrAA
