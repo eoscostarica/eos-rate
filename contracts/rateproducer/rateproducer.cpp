@@ -79,17 +79,17 @@ CONTRACT rateproducer : public contract {
       } bp_rate_stats ;
 
       ACTION rate(name user, name bp, string ratings_json) {
-     // require_auth(user);
-/*
+      
       eosio::name proxy_name = get_proxy(user);
+      print("voters: ", get_voters(proxy_name)," MIN_VOTERS: ",MIN_VOTERS);
       if(proxy_name.length()){
           //account votes through a proxy
-          check( MIN_VOTERS<get_voters(proxy_name), "delegated proxy doesn't have enough voters" );
+          check(!(MIN_VOTERS > get_voters(proxy_name)), "delegated proxy does not have enough voters" );
       }else{
           // acount must vote for at least 21 bp
-          check( MIN_VOTERS<get_voters(user), "account doesn't have enough voters" );
+          check(!(MIN_VOTERS > get_voters(user)), "account does not have enough voters" );
       }
-*/
+
      
       // the payload must be ratings_json.
       check(ratings_json[0] == '{', "payload must be ratings_json");
@@ -226,7 +226,7 @@ CONTRACT rateproducer : public contract {
 
             if(counter){
                 row.bp = bp_name;
-                row.ratrings_cntr = 1;
+                row.ratings_cntr = 1;
                 row.average =sum/counter;
                 row.created_at = now;
                 row.updated_at = now;
@@ -281,7 +281,7 @@ CONTRACT rateproducer : public contract {
             }
 
             if(counter){
-                row.ratrings_cntr++;
+                row.ratings_cntr++;
                 row.average =( (sum/counter) + row.average ) /2;
                 row.updated_at = now;
             }
@@ -315,7 +315,7 @@ CONTRACT rateproducer : public contract {
   private:
     TABLE block_producers_stats {
       name bp;
-      uint32_t ratrings_cntr;
+      uint32_t ratings_cntr;
       float average;
       float transparency;
       float infrastructure;
