@@ -12,7 +12,6 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
 const style = theme => ({
   nested: {
-    // paddingLeft: theme.spacing.unit * 2,
     color: 'white'
   },
   listItem: {
@@ -59,8 +58,5 @@ const mapDispatchToProps = ({ blockProducers: { toggleCompareTool } }) => ({
 })
 
 export default withStyles(style)(
-  connect(
-    mapStatetoProps,
-    mapDispatchToProps
-  )(CompareToolToggle)
+  connect(mapStatetoProps, mapDispatchToProps)(CompareToolToggle)
 )

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
-import { Link, Redirect } from '@reach/router'
+import { Link } from '@reach/router'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -107,9 +107,7 @@ const BlockProducerProfile = ({
     getBlockProducer(account)
   }, [account])
 
-  if (!producer.bpjson) {
-    return <Redirect to='/not-found' />
-  }
+  const bpHasInformation = Boolean(producer.bpjson)
 
   return (
     <Grid container justify='center' spacing={16} className={classes.container}>
@@ -138,8 +136,13 @@ const BlockProducerProfile = ({
                     <Grid container direction='row' alignItems='center'>
                       <AccountCircle className={classes.accountCircle} />
                       <Typography variant='h6' className={classes.bpName}>
-                        {producer.bpjson.producer_account_name || ''}
+                        {account}
                       </Typography>
+                      {!bpHasInformation && (
+                        <Typography variant='h6' className={classes.bpName}>
+                          {t('noBpJson')}
+                        </Typography>
+                      )}
                     </Grid>
                   </Grid>
                 </Grid>

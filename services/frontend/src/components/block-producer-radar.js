@@ -36,6 +36,15 @@ const BlockProducerRadar = ({ bpData, height, ...props }) => {
           gridLines: { lineWidth: 4, circular: true },
           angleLines: { color: '#6e6b81', lineWidth: 4 },
           pointLabels: { fontColor: 'white', fontSize: 14 }
+        },
+        tooltips: {
+          enabled: true,
+          callbacks: {
+            label: (tooltipItem, data) =>
+              `${data.labels[tooltipItem.index]}: ${
+                data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
+              }`
+          }
         }
       }}
     />
