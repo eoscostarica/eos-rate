@@ -95,16 +95,22 @@
   },
 
   "bpRatePage": {
+    "allBP": "Lista de Productores de Bloques",
     "subTitle": "Califique este Productor de bloques EOS",
-    "subText": "Use los controles deshabilitarla  izantes para calificar.",
+    "subText": "Use los controles deslizantes para calificar.",
     "rateText": "Si cree que no tiene suficiente conocimiento sobre una categoría específica, puede deshabilitarla.",
     "helpText": "Publique su calificación iniciando sesión con tu billetera favorita.",
     "publishRatingButton": "Publicar Calificación",
     "cancelRatingButton": "Cancelar",
-    "transparencyTooltip": "Cumplimiento de la divulgación de la propiedad, bp.json completo, uso de recompensas y estadísticas financieras.",
+    "transparency": "Transparencia",
+    "transparencyTooltip": "Cumplimiento de la divulgación de la informacion.",
+    "infrastructure": "Infraestructura",
     "infrastructureTooltip": "Estabilidad y confiabilidad de la infraestructura EOS.",
+    "trustiness": "Lealtad",
     "trustinessTooltip": "Colaboración y reputación entre la comunidad EOS.",
-    "communityTooltip": "Creación de valor comunitario a través de la educación y la promoción de charlas, chats, hackatones, conferencias, seminarios, espacios para desarrolladores y otro contenido útil.",
+    "community": "Comunidad",
+    "communityTooltip": "Creación de valor comunitario a través de la educación, eventos y/o otros contenidos útiles.",
+    "development": "Desarrollo",
     "developmentTooltip": "Conocimientos técnicos y uso de software de código abierto, scripts, marcos, billeteras, portales de votación, métricas, etc."
   },
 
@@ -126,6 +132,6 @@
     "websiteInfo": "De su sitio web",
     "buttonRate": "Evalúa este PB",
     "allBP": "Lista de productores de bloques",
-    "noBpJson": "no existe un bp.json!"
+    "noBpJson": "No encontramos un bp.json!"
   }
 }

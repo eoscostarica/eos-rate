@@ -207,7 +207,7 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
             component={props => <Link {...props} to='/block-producers' />}
           >
             <KeyboardArrowLeft />
-            All Block Producers
+            {t('allBP')}
           </Button>
           <Button
             component={props => (
@@ -247,9 +247,9 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
                 <Typography variant='subtitle1' className={classes.title}>
                   {t.subTitle}
                 </Typography>
-                <Typography paragraph>{t.subText}</Typography>
-                <Typography paragraph>{t.helpText}</Typography>
-                <Typography paragraph>{t.rateText}</Typography>
+                <Typography paragraph> {t('subText')} </Typography>
+                <Typography paragraph> {t('helpText')} </Typography>
+                <Typography paragraph> {t('rateText')} </Typography>
                 {/* TODO: Iterate over bpParameters */}
                 <Grid container style={{ marginTop: 30 }}>
                   <Grid item xs={12}>
@@ -262,8 +262,8 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
                           : classes.parameterTitleDisabled
                       }
                     >
-                      Community{' '}
-                      <Tooltip title={t.communityTooltip} placement='right'>
+                      {t('community')}{' '}
+                      <Tooltip title={t('communityTooltip')} placement='right'>
                         <HelpOutline
                           fontSize='inherit'
                           className={classes.topicIcon}
@@ -299,8 +299,11 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
                           : classes.parameterTitleDisabled
                       }
                     >
-                      Development{' '}
-                      <Tooltip title={t.developmentTooltip} placement='right'>
+                      {t('development')}{' '}
+                      <Tooltip
+                        title={t('developmentTooltip')}
+                        placement='right'
+                      >
                         <HelpOutline
                           fontSize='inherit'
                           className={classes.topicIcon}
@@ -336,9 +339,9 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
                           : classes.parameterTitleDisabled
                       }
                     >
-                      Infrastructure{' '}
+                      {t('infrastructure')}{' '}
                       <Tooltip
-                        title={t.infrastructureTooltip}
+                        title={t('infrastructureTooltip')}
                         placement='right'
                       >
                         <HelpOutline
@@ -376,8 +379,11 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
                           : classes.parameterTitleDisabled
                       }
                     >
-                      Transparency{' '}
-                      <Tooltip title={t.transparencyTooltip} placement='right'>
+                      {t('transparency')}{' '}
+                      <Tooltip
+                        title={t('transparencyTooltip')}
+                        placement='right'
+                      >
                         <HelpOutline
                           fontSize='inherit'
                           className={classes.topicIcon}
@@ -413,8 +419,8 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
                           : classes.parameterTitleDisabled
                       }
                     >
-                      Trustiness{' '}
-                      <Tooltip title={t.trustinessTooltip} placement='right'>
+                      {t('trustiness')}{' '}
+                      <Tooltip title={t('trustinessTooltip')} placement='right'>
                         <HelpOutline
                           fontSize='inherit'
                           className={classes.topicIcon}
