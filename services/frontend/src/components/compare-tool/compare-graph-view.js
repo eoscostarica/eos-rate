@@ -36,7 +36,7 @@ const styles = theme => ({
     verticalAlign: 'text-bottom'
   },
   bpName: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     color: 'white',
     backgroundColor: theme.palette.primary.light
   }
@@ -99,7 +99,6 @@ const CompareGraphView = ({
 CompareGraphView.propTypes = {
   classes: PropTypes.object.isRequired,
   removeBP: PropTypes.func.isRequired,
-  t: PropTypes.func.isRequired,
   selected: PropTypes.array.isRequired,
   className: PropTypes.string
 }

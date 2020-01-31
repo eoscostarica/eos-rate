@@ -27,7 +27,7 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
           variant='subtitle1'
           className={classNames(classes.value, classes.subTitle)}
         >
-          {producer.org.social.github || '- -'}
+          {(producer && producer.org.social.github) || '- -'}
         </Typography>
       </Grid>
       <Grid container direction='row'>
@@ -38,7 +38,7 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
           variant='subtitle1'
           className={classNames(classes.value, classes.subTitle)}
         >
-          {producer.org.social.twitter || '- -'}
+          {(producer && producer.org.social.twitter) || '- -'}
         </Typography>
       </Grid>
       <Grid container direction='row'>
@@ -49,7 +49,7 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
           variant='subtitle1'
           className={classNames(classes.value, classes.subTitle)}
         >
-          {producer.org.social.linkedin || '- -'}
+          {(producer && producer.org.social.linkedin) || '- -'}
         </Typography>
       </Grid>
       <Grid container direction='row'>
@@ -60,7 +60,7 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
           variant='subtitle1'
           className={classNames(classes.value, classes.subTitle)}
         >
-          {producer.org.social.telegram || '- -'}
+          {(producer && producer.org.social.telegram) || '- -'}
         </Typography>
       </Grid>
       <Grid container direction='row'>
@@ -71,7 +71,7 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
           variant='subtitle1'
           className={classNames(classes.value, classes.subTitle)}
         >
-          {producer.org.social.instagram || '- -'}
+          {(producer && producer.org.social.instagram) || '- -'}
         </Typography>
       </Grid>
     </Grid>
@@ -115,7 +115,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {producer.producer_account_name || '- -'}
+            {(producer && producer.producer_account_name) || '- -'}
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -126,7 +126,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {producer.org.location.name || '- -'}
+            {(producer && producer.org.location.name) || '- -'}
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -148,7 +148,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {producer.org.website || '- -'}
+            {(producer && producer.org.website) || '- -'}
           </Typography>
         </Grid>
       </Grid>
@@ -194,10 +194,12 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
       <Grid container direction='column' className={classes.category}>
         <Grid container direction='row'>
           <Button
+            disabled={!producer}
             component={props => (
               <Link
                 {...props}
-                to={`/block-producers/${producer.producer_account_name}/rate`}
+                to={`/block-producers/${producer &&
+                  producer.producer_account_name}/rate`}
               />
             )}
             className={classes.btnBP}

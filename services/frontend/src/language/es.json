@@ -116,6 +116,7 @@
     "average": "Promedio",
     "websiteInfo": "De su sitio web",
     "buttonRate": "Evalúa este PB",
-    "allBP": "Lista de productores de bloques"
+    "allBP": "Lista de productores de bloques",
+    "noBpJson": "no existe un bp.json!"
   }
 }
