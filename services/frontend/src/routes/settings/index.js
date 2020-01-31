@@ -16,7 +16,7 @@ import withT from 'components/with-t'
 
 const styles = theme => ({
   root: {
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing(3)
   }
 })
 
@@ -98,8 +98,5 @@ const mapDispatchToProps = ({ settings: { setSettings } }) => ({
 })
 
 export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(withT(Settings))
+  connect(mapStateToProps, mapDispatchToProps)(withT(Settings))
 )
