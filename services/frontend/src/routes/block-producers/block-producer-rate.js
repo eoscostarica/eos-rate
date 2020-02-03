@@ -75,6 +75,9 @@ const style = theme => ({
   topicIcon: {
     color: 'rgba(255, 255, 255, 0.38)',
     verticalAlign: 'middle'
+  },
+  avatar: {
+    backgroundColor: theme.palette.primary.main
   }
 })
 
@@ -194,6 +197,8 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
     return null
   }
 
+  const bPLogo = producer.bpjson ? producer.bpjson.org.branding.logo_256 : null
+
   return (
     <Grid container justify='center' spacing={16} className={classes.container}>
       <Grid item xs={12}>
@@ -231,9 +236,19 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
             <Grid container direction='row' alignItems='center'>
               <Grid item xs={12}>
                 <Grid container direction='row' alignItems='center'>
-                  <AccountCircle className={classes.accountCircle} />
+                  {bPLogo ? (
+                    <Avatar
+                      aria-label='Block Producer'
+                      className={classes.avatar}
+                    >
+                      <img src={bPLogo} alt='' width='100%' />
+                    </Avatar>
+                  ) : (
+                    <AccountCircle className={classes.accountCircle} />
+                  )}
                   <Typography variant='h6' className={classes.bpName}>
-                    {producer.bpjson.producer_account_name || ''}
+                    {producer.bpjson.org.candidate_name ||
+                      producer.system.owner}
                   </Typography>
                 </Grid>
               </Grid>
