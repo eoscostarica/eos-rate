@@ -9,6 +9,7 @@ const QUERY_PRODUCER = gql`
     producers(where: { owner: { _eq: $owner } }) {
       bpjson
       owner
+      system
     }
   }
 `
