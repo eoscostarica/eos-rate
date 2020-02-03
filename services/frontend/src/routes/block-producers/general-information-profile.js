@@ -194,11 +194,10 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
       <Grid container direction='column' className={classes.category}>
         <Grid container direction='row'>
           <Button
-            disabled={!producer}
             component={props => (
               <Link
                 {...props}
-                to={`/block-producers/${producer.owner ||
+                to={`/block-producers/${(producer && producer.owner) ||
                   'noBlockProducerName'}/rate`}
               />
             )}
