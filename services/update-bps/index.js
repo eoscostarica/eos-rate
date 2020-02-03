@@ -19,13 +19,17 @@ const getBlockProducersData = async () => {
     httpEndpoint: process.env.EOS_API_ENDPOINT,
     verbose: false
   })
-  const { rows: producers } = await eos.getProducers({ json: true, limit: 1000 })
+  const { rows: producers } = await eos.getProducers({ json: true, limit: 200 })
+
+  // it is not required for BPs to post their bp.json info in this contract
+  // we can gather BP JSON data only from the block producers websites
+
   const { rows: bpJsons } = await eos.getTableRows({
     json: true,
     code: 'producerjson',
     scope: 'producerjson',
     table: 'producerjson',
-    limit: 1000
+    limit: 200
   })
 
   const allProducers = producers.reduce(
