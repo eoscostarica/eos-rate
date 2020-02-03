@@ -33,7 +33,8 @@ const dbConfig = require('./dbConfig')
 
 const updateRatingsData = (state, payload, blockInfo, context) => {
   console.log('============= updateProducerRatings =================')
-  console.informationo('State updated:\n', JSON.stringify({ state, payload, blockInfo, context }, null, 2))
+  console.log('State updated:\n', JSON.stringify({ state, payload, blockInfo, context }, null, 2))
+  console.log(dbConfig)
   massive(dbConfig).then(db => {
     const { user, bp, ratings_json: ratingsJSON } = payload.data
     const ratingsObject = {
@@ -42,10 +43,10 @@ const updateRatingsData = (state, payload, blockInfo, context) => {
       ratings: JSON.parse(ratingsJSON)
     }
 
-    db.producer_ratings.save(ratingsObject, function (err, res) {
+    db.producer_ratings.insert(ratingsObject, function (err, res) {
       if (err) {
         console.log(err)
-        relevanturn
+        return
       }
       console.log('\nPOSTGRES UPDATED!!\n')
     })
@@ -54,11 +55,10 @@ const updateRatingsData = (state, payload, blockInfo, context) => {
 
 const updaters = [
   {
-    actionType: "rateproducer::rate",
-    apply: updateRatingsData,
-  },
+    actionType: 'rateproducer::rate',
+    apply: updateRatingsData
+  }
 ]
-
 
 /* Effects
  * Effect `run` functions are much like Updater `apply` functions, with the following differences:
@@ -71,17 +71,16 @@ const updaters = [
  * In this example, we're utilizing it very simply to output the current running token transfer totals to the console.
  */
 
-function logUpdate(payload, blockInfo, context) {
-  console.info("State updated:\n", JSON.stringify(context.stateCopy, null, 2))
+function logUpdate (payload, blockInfo, context) {
+  console.info('State updated:\n', JSON.stringify(context.stateCopy, null, 2))
 }
 
 const effects = [
   {
-    actionType: "rateproducer::rate",
-    run: logUpdate,
-  },
+    actionType: 'rateproducer::rate',
+    run: logUpdate
+  }
 ]
-
 
 /*
  * Handler Versions
@@ -96,9 +95,9 @@ const effects = [
  */
 
 const handlerVersion = {
-  versionName: "v1",
+  versionName: 'v1',
   updaters,
-  effects,
+  effects
 }
 
 module.exports = handlerVersion

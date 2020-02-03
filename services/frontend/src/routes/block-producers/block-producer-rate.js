@@ -176,6 +176,7 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
         })
       }, 2000)
       console.log('transaction result', result)
+      // TODO: update ratings table after successful tx.
     } catch (err) {
       setRatingState({
         ...ratingState,

@@ -1,5 +1,4 @@
 const { Api, JsonRpc } = require('eosjs');
-const { JsSignatureProvider } = require('eosjs/dist/eosjs-jssig');  // development only
 const fetch = require('node-fetch'); //node only
 const { TextDecoder, TextEncoder } = require('util'); //node only
 
@@ -16,10 +15,10 @@ async function getRatings() {
     		reverse: false,           // Optional: Get reversed data
     		show_payer: false         // Optional: Show ram payer
 		})
-	//console.log(ratings)
+	console.log(ratings)
 }
 
-//getRatings();
+ getRatings();
 
 
 async function getRating(producer) {
@@ -33,7 +32,7 @@ async function getRating(producer) {
 	    reverse: false,
 	    show_payer: false
 	})
-	//console.log(rating)
+	console.log(rating)
 }
 
 //getRating('costaricaeos');
