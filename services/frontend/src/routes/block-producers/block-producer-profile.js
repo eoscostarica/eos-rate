@@ -103,7 +103,7 @@ const BlockProducerProfile = ({
   ...props
 }) => {
   const { t } = useTranslation('bpProfile')
-  const bpHasInformation = Boolean(producer.bpjson)
+  const bpHasInformation = Boolean(producer && producer.bpjson)
   const bPLogo = bpHasInformation ? producer.bpjson.org.branding.logo_256 : null
 
   useEffect(() => {
@@ -148,7 +148,9 @@ const BlockProducerProfile = ({
                       <Typography variant='h6' className={classes.bpName}>
                         {bpHasInformation
                           ? producer.bpjson.org.candidate_name
-                          : producer.system.owner}
+                          : producer
+                            ? producer.system.owner
+                            : 'No Data'}
                       </Typography>
                       {!bpHasInformation && (
                         <Typography variant='h6' className={classes.bpName}>
@@ -173,7 +175,7 @@ const BlockProducerProfile = ({
                   <BlockProducerRadar
                     bpData={{
                       labels: bpParameters,
-                      datasets: [{ ...producer.data }]
+                      datasets: producer ? [{ ...producer.data }] : []
                     }}
                   />
                 </Grid>
@@ -181,7 +183,7 @@ const BlockProducerProfile = ({
                 <SocialNetworks
                   classes={classes}
                   overrideClass={classes.showOnlyLg}
-                  producer={producer.bpjson}
+                  producer={producer && producer.bpjson}
                 />
               </Grid>
 
@@ -198,7 +200,7 @@ const BlockProducerProfile = ({
                     <BlockProducerRadar
                       bpData={{
                         labels: bpParameters,
-                        datasets: [{ ...producer.data }]
+                        datasets: producer ? [{ ...producer.data }] : []
                       }}
                     />
                   </Grid>
@@ -207,7 +209,7 @@ const BlockProducerProfile = ({
                   <SocialNetworks
                     classes={classes}
                     overrideClass={classes.showOnlySm}
-                    producer={producer.bpjson}
+                    producer={producer && producer.bpjson}
                   />
                 </Grid>
               </Grid>

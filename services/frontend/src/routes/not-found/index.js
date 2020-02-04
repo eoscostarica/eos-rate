@@ -16,7 +16,7 @@ const styles = ({ spacing, palette }) => ({
     justifyContent: 'space-around'
   },
   container: {
-    margin: spacing.unit * 2,
+    margin: spacing(2),
     height: '100%',
     width: '50%',
     background: palette.primary.sectionBackground,
@@ -25,7 +25,7 @@ const styles = ({ spacing, palette }) => ({
     // justifyContent: 'space-around',
     flexDirection: 'column',
     '& > *': {
-      marginTop: spacing.unit * 4
+      marginTop: spacing(4)
     }
   },
   graphic: {

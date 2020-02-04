@@ -137,7 +137,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {producer.system.is_active}
+            {(producer && producer.system.is_active) || ' - -'}
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -194,6 +194,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
       <Grid container direction='column' className={classes.category}>
         <Grid container direction='row'>
           <Button
+            disabled={!producer}
             component={props => (
               <Link
                 {...props}
