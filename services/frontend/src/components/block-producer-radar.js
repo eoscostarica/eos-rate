@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Radar } from 'react-chartjs-2'
 
-const BlockProducerRadar = ({ bpData, height, ...props }) => {
+const BlockProducerRadar = ({ bpData, height, showLabel, ...props }) => {
   const bpValidData =
     bpData.datasets && bpData.datasets.length
       ? bpData
@@ -15,7 +15,7 @@ const BlockProducerRadar = ({ bpData, height, ...props }) => {
         ...bpValidData
       })}
       options={{
-        legend: { display: false },
+        legend: { display: showLabel },
         layout: {
           padding: {
             bottom: 10
@@ -53,7 +53,12 @@ const BlockProducerRadar = ({ bpData, height, ...props }) => {
 
 BlockProducerRadar.propTypes = {
   bpData: PropTypes.object,
-  height: PropTypes.number
+  height: PropTypes.number,
+  showLabel: PropTypes.bool
+}
+
+BlockProducerRadar.defaultProps = {
+  showLabel: false
 }
 
 export default BlockProducerRadar

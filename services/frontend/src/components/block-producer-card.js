@@ -109,7 +109,7 @@ const BlockProducerCard = ({
         }}
       />
     </div>
-    <CardActions className={classes.actions} disableActionSpacing>
+    <CardActions className={classes.actions}>
       <Button
         aria-label='Add to comparison'
         onClick={toggleSelection(!isSelected, blockProducer.owner)}

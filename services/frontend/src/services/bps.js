@@ -3,8 +3,6 @@ import client from 'services/graphql'
 import gql from 'graphql-tag'
 import getBPRadarData from 'utils/getBPRadarData'
 
-const getRandomParameter = (max = 10) => Math.floor(Math.random() * max)
-
 export const getAllBPs = ({ nameFilter = '', setBPs = () => {} } = {}) =>
   client
     .subscribe({
@@ -28,11 +26,11 @@ export const getAllBPs = ({ nameFilter = '', setBPs = () => {} } = {}) =>
       next ({ data: { producers_list: producers } }) {
         const BPs = producers.map(producer => {
           const parameters = {
-            infrastructure: getRandomParameter(),
-            tooling: getRandomParameter(),
-            community: getRandomParameter(),
-            transparency: getRandomParameter(),
-            testnets: getRandomParameter()
+            community: 0,
+            trustiness: 0,
+            development: 0,
+            transparency: 0,
+            infrastructure: 0
           }
 
           return {

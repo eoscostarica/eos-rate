@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
-import { Link, navigate } from '@reach/router'
+import { Link } from '@reach/router'
 import {
   Avatar,
   Button,
@@ -25,6 +25,7 @@ import BlockProducerRadar from 'components/block-producer-radar'
 import RateSlider from 'components/rate-slider'
 import bpParameters from 'config/comparison-parameters'
 import config from 'config'
+import getBPRadarData from 'utils/getBPRadarData'
 import { useWalletState } from 'hooks/wallet'
 
 const style = theme => ({
@@ -81,26 +82,35 @@ const style = theme => ({
   }
 })
 
-const BlockProducerRate = ({ classes, account, list, producer }) => {
+const INIT_RATING_STATE_DATA = {
+  community: 0,
+  communityEnabled: true,
+  development: 0,
+  developmentEnabled: true,
+  infra: 0,
+  infraEnabled: true,
+  transparency: 0,
+  transparencyEnabled: true,
+  trustiness: 0,
+  trustinessEnabled: true,
+  processing: false,
+  txError: null,
+  txSuccess: false
+}
+
+const BlockProducerRate = ({
+  classes,
+  account,
+  producer,
+  getBPRating,
+  addUserRating,
+  userRate
+}) => {
   const walletState = useWalletState()
-  const [ratingState, setRatingState] = useState({
-    community: 0,
-    communityEnabled: true,
-    development: 0,
-    developmentEnabled: true,
-    infra: 0,
-    infraEnabled: true,
-    transparency: 0,
-    transparencyEnabled: true,
-    trustiness: 0,
-    trustinessEnabled: true,
-    processing: false,
-    txError: null,
-    txSuccess: false
-  })
+  const [ratingState, setRatingState] = useState(INIT_RATING_STATE_DATA)
+  const [showMessage, setShowMessage] = useState(false)
   const { t } = useTranslation('bpRatePage')
   const wallet = walletState.wallet
-
   const marks = [
     { value: 0 },
     { value: 1 },
@@ -114,30 +124,54 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
     { value: 9 },
     { value: 10 }
   ]
+  const accountName = wallet && wallet.auth.accountName
 
-  if (!wallet) {
-    navigate(`/block-producers/${account}`)
-    return null
-  }
-
-  const accountName = wallet.auth.accountName
-  const getFinalPayload = () => {
-    return {
-      ...(ratingState.communityEnabled && { community: ratingState.community }),
-      ...(ratingState.developmentEnabled && {
-        development: ratingState.development
-      }),
-      ...(ratingState.infraEnabled && { infrastructure: ratingState.infra }),
-      ...(ratingState.transparencyEnabled && {
-        transparency: ratingState.transparency
-      }),
-      ...(ratingState.trustinessEnabled && {
-        trustiness: ratingState.trustiness
-      })
+  useEffect(() => {
+    if (accountName) {
+      getBPRating({ bp: account, userAccount: accountName })
+      setShowMessage(false)
     }
-  }
+  }, [accountName])
+
+  useEffect(() => {
+    if (userRate) {
+      setRatingState({
+        ...ratingState,
+        community: accountName ? userRate.community : 0,
+        development: accountName ? userRate.development : 0,
+        infra: accountName ? userRate.infrastructure : 0,
+        transparency: accountName ? userRate.transparency : 0,
+        trustiness: accountName ? userRate.trustiness : 0
+      })
+    } else {
+      setRatingState(INIT_RATING_STATE_DATA)
+    }
+  }, [userRate])
+
+  const getRatingData = () => ({
+    community: ratingState.communityEnabled ? ratingState.community : 0,
+    development: ratingState.developmentEnabled ? ratingState.development : 0,
+    infrastructure: ratingState.infraEnabled ? ratingState.infra : 0,
+    transparency: ratingState.transparencyEnabled
+      ? ratingState.transparency
+      : 0,
+    trustiness: ratingState.trustinessEnabled ? ratingState.trustiness : 0
+  })
+
+  const userDataSet = getBPRadarData({
+    name: t('myRate'),
+    parameters: getRatingData()
+  })
+
   const transact = async () => {
     try {
+      if (!accountName) {
+        setShowMessage(true)
+
+        return
+      }
+
+      const dataJson = { user: accountName, bp: account, ...getRatingData() }
       const transaction = {
         actions: [
           {
@@ -149,37 +183,37 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
                 permission: 'active'
               }
             ],
-            data: {
-              user: accountName,
-              bp: account,
-              ratings_json: JSON.stringify(getFinalPayload())
-            }
+            data: dataJson
           }
         ]
       }
+
       setRatingState({
         ...ratingState,
         processing: true,
         txError: null,
         txSuccess: false
       })
-      const result = await wallet.eosApi.transact(transaction, {
+
+      await wallet.eosApi.transact(transaction, {
         blocksBehind: 3,
         expireSeconds: 30
       })
+
       setRatingState({
         ...ratingState,
         processing: false,
         txSuccess: true
       })
+
       setTimeout(() => {
         setRatingState({
           ...ratingState,
           txSuccess: false
         })
       }, 2000)
-      console.log('transaction result', result)
-      // TODO: update ratings table after successful tx.
+
+      addUserRating(dataJson)
     } catch (err) {
       setRatingState({
         ...ratingState,
@@ -192,12 +226,7 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
   const handleStateChange = parameter => (event, value) =>
     setRatingState({ ...ratingState, [parameter]: value })
 
-  if (!producer) {
-    navigate('/not-found')
-    return null
-  }
-
-  const bPLogo = producer.bpjson ? producer.bpjson.org.branding.logo_256 : null
+  const bPLogo = producer && producer.bpjson ? producer.bpjson.org.branding.logo_256 : null
 
   return (
     <Grid container justify='center' spacing={16} className={classes.container}>
@@ -472,9 +501,13 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
                 >
                   <Grid className={classes.radarWrapper} item xs={12}>
                     <BlockProducerRadar
+                      showLabel
                       bpData={{
                         labels: bpParameters,
-                        datasets: [producer.data]
+                        datasets: [
+                          { ...producer.data, label: t('globalRate') },
+                          userDataSet
+                        ]
                       }}
                     />
                   </Grid>
@@ -485,6 +518,18 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
                       justify='flex-end'
                       style={{ marginTop: 10 }}
                     >
+                      {showMessage && (
+                        <Chip
+                          avatar={
+                            <Avatar>
+                              <Error />
+                            </Avatar>
+                          }
+                          color='secondary'
+                          label={t('rateWithoutLogin')}
+                          variant='outlined'
+                        />
+                      )}
                       {ratingState.txError && (
                         <Chip
                           avatar={
@@ -550,16 +595,21 @@ const BlockProducerRate = ({ classes, account, list, producer }) => {
 BlockProducerRate.propTypes = {
   classes: PropTypes.object,
   account: PropTypes.string,
-  list: PropTypes.array,
-  producer: PropTypes.object
+  producer: PropTypes.object,
+  getBPRating: PropTypes.func,
+  addUserRating: PropTypes.func,
+  userRate: PropTypes.object
 }
 
-const mapStateToProps = ({ blockProducers: { list, producer } }) => ({
-  list,
-  producer
+const mapStateToProps = ({ blockProducers: { producer, userRate } }) => ({
+  producer,
+  userRate
 })
 
-const mapDispatchToProps = () => ({})
+const mapDispatchToProps = dispatch => ({
+  getBPRating: dispatch.blockProducers.getBlockProducerRatingByOwner,
+  addUserRating: dispatch.blockProducers.mutationInsertUserRating
+})
 
 export default withStyles(style)(
   connect(mapStateToProps, mapDispatchToProps)(BlockProducerRate)
