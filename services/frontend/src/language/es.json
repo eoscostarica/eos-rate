@@ -53,7 +53,7 @@
       "cta": "Block Producer Page"
     },
     "subTopic": {
-      "videoUrl": "https://www.youtube.com/embed/d9tFkNXqRjU",
+      "videoUrl": "https://www.youtube.com/embed/bo9ksd_X8fM",
       "title": "Democracia líquida",
       "paragraph1": "Encuentra el productor de bloques que mejor te represente.",
       "paragraph2": "EOS Rate fue construido por una comunidad que cree en la transparencia. La herramienta genera páginas de perfil de los productores de bloques. Utiliza un componente radial único que llamamos \"LEAF\" (Factores de atributos de EOS líquidos) para ayudarlo a comparar visualmente los atributos cualitativos más relevantes de los Productores de bloques, lo que facilita a los titulares de fichas hacer un voto informado."
@@ -95,11 +95,43 @@
   },
 
   "bpRatePage": {
+    "allBP": "Lista de Productores de Bloques",
+    "subTitle": "Califique este Productor de bloques EOS",
+    "subText": "Use los controles deslizantes para calificar.",
+    "rateText": "Si cree que no tiene suficiente conocimiento sobre una categoría específica, puede deshabilitarla.",
+    "helpText": "Publique su calificación iniciando sesión con tu billetera favorita.",
     "publishRatingButton": "Publicar Calificación",
-    "cancelRatingButton": "Cancelar"
+    "cancelRatingButton": "Cancelar",
+    "transparency": "Transparencia",
+    "transparencyTooltip": "Cumplimiento de la divulgación de la informacion.",
+    "infrastructure": "Infraestructura",
+    "infrastructureTooltip": "Estabilidad y confiabilidad de la infraestructura EOS.",
+    "trustiness": "Lealtad",
+    "trustinessTooltip": "Colaboración y reputación entre la comunidad EOS.",
+    "community": "Comunidad",
+    "communityTooltip": "Creación de valor comunitario a través de la educación, eventos y/o otros contenidos útiles.",
+    "development": "Desarrollo",
+    "developmentTooltip": "Conocimientos técnicos y uso de software de código abierto, scripts, marcos, billeteras, portales de votación, métricas, etc."
   },
 
   "footer": {
     "legend": "¿Quieres contribuir? Ven a aprender con nosotros"
+  },
+
+  "bpProfile": {
+    "generalInformation": "Información General",
+    "rankings": "Clasificaciones",
+    "social": "Social",
+    "account": "Cuenta",
+    "location": "Ubicación",
+    "status": "Estado",
+    "website": "Sitio web",
+    "votes": "Votos",
+    "rates": "Valuación",
+    "average": "Promedio",
+    "websiteInfo": "De su sitio web",
+    "buttonRate": "Evalúa este PB",
+    "allBP": "Lista de productores de bloques",
+    "noBpJson": "No encontramos un bp.json!"
   }
 }

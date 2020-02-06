@@ -1,6 +1,5 @@
-const cron = require('node-cron')
+#!/usr/bin/env node
 const EosApi = require('eosjs-api')
-const humanToCron = require('human-to-cron')
 const massive = require('massive')
 const get = require('lodash.get')
 const fetch = require('node-fetch')
@@ -20,13 +19,17 @@ const getBlockProducersData = async () => {
     httpEndpoint: process.env.EOS_API_ENDPOINT,
     verbose: false
   })
-  const { rows: producers } = await eos.getProducers({ json: true, limit: 1000 })
+  const { rows: producers } = await eos.getProducers({ json: true, limit: 200 })
+
+  // it is not required for BPs to post their bp.json info in this contract
+  // we can gather BP JSON data only from the block producers websites
+
   const { rows: bpJsons } = await eos.getTableRows({
     json: true,
     code: 'producerjson',
     scope: 'producerjson',
     table: 'producerjson',
-    limit: 1000
+    limit: 200
   })
 
   const allProducers = producers.reduce(
@@ -110,8 +113,6 @@ const updateBlockProducersData = async () => {
 
 const run = async () => {
   try {
-    // schedule the cron job
-    cron.schedule(humanToCron('once each day'), updateBlockProducersData)
     updateBlockProducersData()
   } catch (err) {
     console.error(err)

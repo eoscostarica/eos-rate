@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Link, Redirect } from '@reach/router'
+import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
+import { Link } from '@reach/router'
+import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -9,8 +12,15 @@ import Paper from '@material-ui/core/Paper'
 import { withStyles } from '@material-ui/core/styles'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import AccountCircle from '@material-ui/icons/AccountCircle'
+import Divider from '@material-ui/core/Divider'
+
 import BlockProducerRadar from 'components/block-producer-radar'
 import bpParameters from 'config/comparison-parameters'
+import {
+  SocialNetworks,
+  GeneralInformation,
+  WebsiteLegend
+} from './general-information-profile'
 
 const style = theme => ({
   container: {
@@ -23,20 +33,64 @@ const style = theme => ({
     color: theme.palette.secondary.light
   },
   box: {
-    padding: 10
+    padding: '3%'
   },
   title: {
-    color: '#5cf68a',
+    color: '#ffffff',
     marginBottom: 10
   },
   subTitle: {
-    fontWeight: 'bold'
+    fontSize: 14
   },
   value: {
     marginLeft: 4
   },
   category: {
     marginTop: 10
+  },
+  btnBP: {
+    backgroundColor: theme.palette.secondary.boringGreen,
+    width: '100%',
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.midGreen
+    },
+
+    [theme.breakpoints.up('sm')]: {
+      marginRight: 10
+    }
+  },
+  wrapperBox: {
+    marginTop: 10,
+    display: 'flex',
+    flexDirection: 'column',
+
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'row'
+    }
+  },
+  BlockProducerRadarBox: {
+    padding: '30px 0',
+    backgroundColor: '#000'
+  },
+  showOnlySm: {
+    display: 'flex',
+
+    [theme.breakpoints.up('sm')]: {
+      display: 'none'
+    }
+  },
+  showOnlyLg: {
+    display: 'flex',
+
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
+  },
+  websiteLegend: {
+    margin: '10px 0',
+    [theme.breakpoints.up('sm')]: {
+      margin: 0
+    }
   }
 })
 
@@ -44,14 +98,18 @@ const BlockProducerProfile = ({
   classes,
   account,
   blockProducers,
+  getBlockProducer,
+  producer,
   ...props
 }) => {
-  const blockProducer = blockProducers.find(
-    bp => bp.bpjson.producer_account_name === account
-  )
-  if (!blockProducer) {
-    return <Redirect to='/not-found' />
-  }
+  const { t } = useTranslation('bpProfile')
+  const bpHasInformation = Boolean(producer && producer.bpjson)
+  const bPLogo = bpHasInformation ? producer.bpjson.org.branding.logo_256 : null
+
+  useEffect(() => {
+    getBlockProducer(account)
+  }, [account])
+
   return (
     <Grid container justify='center' spacing={16} className={classes.container}>
       <Grid item xs={12}>
@@ -60,7 +118,7 @@ const BlockProducerProfile = ({
             component={props => <Link {...props} to='/block-producers' />}
           >
             <KeyboardArrowLeft />
-            All Block Producers
+            {t('allBP')}
           </Button>
         </Grid>
       </Grid>
@@ -75,193 +133,87 @@ const BlockProducerProfile = ({
             <Grid container direction='row' alignItems='center'>
               <Grid item xs={12}>
                 <Grid container direction='row' alignItems='center'>
-                  <Grid item xs={4}>
+                  <Grid item sm={12} lg={4}>
                     <Grid container direction='row' alignItems='center'>
-                      <AccountCircle className={classes.accountCircle} />
+                      {bPLogo ? (
+                        <Avatar
+                          aria-label='Block Producer'
+                          className={classes.avatar}
+                        >
+                          <img src={bPLogo} alt='' width='100%' />
+                        </Avatar>
+                      ) : (
+                        <AccountCircle className={classes.accountCircle} />
+                      )}
                       <Typography variant='h6' className={classes.bpName}>
-                        {blockProducer.producer_account_name || ''}
+                        {bpHasInformation
+                          ? producer.bpjson.org.candidate_name
+                          : producer
+                            ? producer.system.owner
+                            : 'No Data'}
                       </Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid item xs={8}>
-                    <Grid container direction='row' justify='flex-end'>
-                      <Button
-                        style={{
-                          marginRight: 10,
-                          backgroundColor: '#010318'
-                        }}
-                      >
-                        ADD TO COMPARE
-                      </Button>
-                      <Button
-                        component={props => (
-                          <Link
-                            {...props}
-                            to={`/block-producers/${blockProducer.bpjson.producer_account_name}/rate`}
-                          />
-                        )}
-                        className='textPrimary'
-                        variant='contained'
-                        size='small'
-                        color='secondary'
-                      >
-                        RATE
-                      </Button>
+                      {!bpHasInformation && (
+                        <Typography variant='h6' className={classes.bpName}>
+                          {t('noBpJson')}
+                        </Typography>
+                      )}
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
-            <Grid container direction='row' style={{ marginTop: 10 }}>
-              <Grid item xs={4}>
-                <Grid container direction='column' className={classes.category}>
-                  <Typography variant='subtitle1' className={classes.title}>
-                    General Information
-                  </Typography>
-                  <Grid container direction='row'>
-                    <Typography
-                      variant='subtitle1'
-                      className={classes.subTitle}
-                    >
-                      Location:
-                    </Typography>
-                    <Typography variant='subtitle1' className={classes.value}>
-                      Costa Rica
-                    </Typography>
-                  </Grid>
-                  <Grid container direction='row'>
-                    <Typography
-                      variant='subtitle1'
-                      className={classes.subTitle}
-                    >
-                      Website:
-                    </Typography>
-                    <Typography variant='subtitle1' className={classes.value}>
-                      eoscostarica.io
-                    </Typography>
-                  </Grid>
-                  <Grid container direction='row'>
-                    <Typography
-                      variant='subtitle1'
-                      className={classes.subTitle}
-                    >
-                      Position:
-                    </Typography>
-                    <Typography variant='subtitle1' className={classes.value}>
-                      #15
-                    </Typography>
-                  </Grid>
-                  <Grid container direction='row'>
-                    <Typography
-                      variant='subtitle1'
-                      className={classes.subTitle}
-                    >
-                      Votes:
-                    </Typography>
-                    <Typography variant='subtitle1' className={classes.value}>
-                      1.56 %
-                    </Typography>
-                  </Grid>
+            <div className={classes.wrapperBox}>
+              <Grid item sm={12} lg={4}>
+                <Grid
+                  item
+                  xs={12}
+                  className={classNames(
+                    classes.BlockProducerRadarBox,
+                    classes.showOnlySm
+                  )}
+                >
+                  <BlockProducerRadar
+                    bpData={{
+                      labels: bpParameters,
+                      datasets: producer ? [{ ...producer.data }] : []
+                    }}
+                  />
                 </Grid>
-
-                <Grid container direction='column' className={classes.category}>
-                  <Typography variant='subtitle1' className={classes.title}>
-                    Economy
-                  </Typography>
-                  <Grid container direction='row'>
-                    <Typography
-                      variant='subtitle1'
-                      className={classes.subTitle}
-                    >
-                      Balance:
-                    </Typography>
-                    <Typography variant='subtitle1' className={classes.value}>
-                      4.0800 EOS
-                    </Typography>
-                  </Grid>
-                  <Grid container direction='row'>
-                    <Typography
-                      variant='subtitle1'
-                      className={classes.subTitle}
-                    >
-                      Staked:
-                    </Typography>
-                    <Typography variant='subtitle1' className={classes.value}>
-                      6.7800 EOS
-                    </Typography>
-                  </Grid>
-                  <Grid container direction='row'>
-                    <Typography
-                      variant='subtitle1'
-                      className={classes.subTitle}
-                    >
-                      Daily Reward:
-                    </Typography>
-                    <Typography variant='subtitle1' className={classes.value}>
-                      500 EOS
-                    </Typography>
-                  </Grid>
-                </Grid>
-
-                <Grid container direction='column' className={classes.category}>
-                  <Typography variant='subtitle1' className={classes.title}>
-                    Ratings
-                  </Typography>
-                  <Grid container direction='row'>
-                    <Typography
-                      variant='subtitle1'
-                      className={classes.subTitle}
-                    >
-                      Rate:
-                    </Typography>
-                    <Typography variant='subtitle1' className={classes.value}>
-                      8.5
-                    </Typography>
-                  </Grid>
-                  <Grid container direction='row'>
-                    <Typography
-                      variant='subtitle1'
-                      className={classes.subTitle}
-                    >
-                      Raters:
-                    </Typography>
-                    <Typography variant='subtitle1' className={classes.value}>
-                      450 accounts
-                    </Typography>
-                  </Grid>
-                </Grid>
+                <GeneralInformation classes={classes} producer={producer} />
+                <SocialNetworks
+                  classes={classes}
+                  overrideClass={classes.showOnlyLg}
+                  producer={producer && producer.bpjson}
+                />
               </Grid>
-              <Grid item xs={8}>
+
+              <Grid item sm={12} lg={8}>
                 <Grid container direction='column'>
                   <Grid
                     item
                     xs={12}
-                    style={{ padding: '30px 0', backgroundColor: '#000' }}
+                    className={classNames(
+                      classes.BlockProducerRadarBox,
+                      classes.showOnlyLg
+                    )}
                   >
                     <BlockProducerRadar
                       bpData={{
                         labels: bpParameters,
-                        datasets: [blockProducer.data]
+                        datasets: producer ? [{ ...producer.data }] : []
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant='subtitle1' className={classes.title}>
-                      From Their Website:
-                    </Typography>
-                    <Typography variant='subtitle1' className={classes.value}>
-                      We believe that technology is only as good as the people
-                      and intentions behind it. We want EOS to be decentralized,
-                      promote freedom, cut, inefficiencies in government, help
-                      sustainable development, secure censorship-resistance,
-                      increase individual sovereignty and advance citizen
-                      advocacy Each of the projects we promote must provide a
-                      “Proof of impact” in the advancement of democracy
-                    </Typography>
-                  </Grid>
+                  <WebsiteLegend classes={classes} />
+                  <Divider variant='middle' className={classes.showOnlySm} />
+                  <SocialNetworks
+                    classes={classes}
+                    overrideClass={classes.showOnlySm}
+                    producer={producer && producer.bpjson}
+                  />
                 </Grid>
               </Grid>
-            </Grid>
+            </div>
           </Grid>
         </Paper>
       </Grid>
@@ -272,18 +224,20 @@ const BlockProducerProfile = ({
 BlockProducerProfile.propTypes = {
   classes: PropTypes.object,
   account: PropTypes.string,
-  blockProducers: PropTypes.array
+  blockProducers: PropTypes.array,
+  getBlockProducer: PropTypes.func,
+  producer: PropTypes.object
 }
 
-const mapStateToProps = ({ blockProducers: { list } }) => ({
-  blockProducers: list
+const mapStateToProps = ({ blockProducers: { list, producer } }) => ({
+  blockProducers: list,
+  producer
 })
 
-const mapDispatchToProps = () => ({})
+const mapDispatchToProps = dispatch => ({
+  getBlockProducer: dispatch.blockProducers.getBlockProducerByOwner
+})
 
 export default withStyles(style)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(BlockProducerProfile)
+  connect(mapStateToProps, mapDispatchToProps)(BlockProducerProfile)
 )

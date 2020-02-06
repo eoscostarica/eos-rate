@@ -19,9 +19,10 @@ import CheckCircle from '@material-ui/icons/CheckCircle'
 import Error from '@material-ui/icons/Error'
 import HelpOutline from '@material-ui/icons/HelpOutline'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
-import Slider from '@material-ui/lab/Slider'
 import { withStyles } from '@material-ui/core/styles'
+
 import BlockProducerRadar from 'components/block-producer-radar'
+import RateSlider from 'components/rate-slider'
 import bpParameters from 'config/comparison-parameters'
 import config from 'config'
 import { useWalletState } from 'hooks/wallet'
@@ -74,10 +75,13 @@ const style = theme => ({
   topicIcon: {
     color: 'rgba(255, 255, 255, 0.38)',
     verticalAlign: 'middle'
+  },
+  avatar: {
+    backgroundColor: theme.palette.primary.main
   }
 })
 
-const BlockProducerRate = ({ classes, account, list }) => {
+const BlockProducerRate = ({ classes, account, list, producer }) => {
   const walletState = useWalletState()
   const [ratingState, setRatingState] = useState({
     community: 0,
@@ -96,10 +100,26 @@ const BlockProducerRate = ({ classes, account, list }) => {
   })
   const { t } = useTranslation('bpRatePage')
   const wallet = walletState.wallet
+
+  const marks = [
+    { value: 0 },
+    { value: 1 },
+    { value: 2 },
+    { value: 3 },
+    { value: 4 },
+    { value: 5 },
+    { value: 6 },
+    { value: 7 },
+    { value: 8 },
+    { value: 9 },
+    { value: 10 }
+  ]
+
   if (!wallet) {
     navigate(`/block-producers/${account}`)
     return null
   }
+
   const accountName = wallet.auth.accountName
   const getFinalPayload = () => {
     return {
@@ -159,6 +179,7 @@ const BlockProducerRate = ({ classes, account, list }) => {
         })
       }, 2000)
       console.log('transaction result', result)
+      // TODO: update ratings table after successful tx.
     } catch (err) {
       setRatingState({
         ...ratingState,
@@ -171,14 +192,12 @@ const BlockProducerRate = ({ classes, account, list }) => {
   const handleStateChange = parameter => (event, value) =>
     setRatingState({ ...ratingState, [parameter]: value })
 
-  const blockProducer = list.find(
-    bp => bp.bpjson.producer_account_name === account
-  )
-
-  if (!blockProducer) {
+  if (!producer) {
     navigate('/not-found')
     return null
   }
+
+  const bPLogo = producer.bpjson ? producer.bpjson.org.branding.logo_256 : null
 
   return (
     <Grid container justify='center' spacing={16} className={classes.container}>
@@ -194,15 +213,15 @@ const BlockProducerRate = ({ classes, account, list }) => {
             component={props => <Link {...props} to='/block-producers' />}
           >
             <KeyboardArrowLeft />
-            All Block Producers
+            {t('allBP')}
           </Button>
           <Button
             component={props => (
-              <Link {...props} to={`/block-producers/${blockProducer.owner}`} />
+              <Link {...props} to={`/block-producers/${producer.owner}`} />
             )}
           >
             <KeyboardArrowLeft />
-            {blockProducer.owner || ''}
+            {producer.owner || ''}
           </Button>
         </Grid>
       </Grid>
@@ -217,9 +236,19 @@ const BlockProducerRate = ({ classes, account, list }) => {
             <Grid container direction='row' alignItems='center'>
               <Grid item xs={12}>
                 <Grid container direction='row' alignItems='center'>
-                  <AccountCircle className={classes.accountCircle} />
+                  {bPLogo ? (
+                    <Avatar
+                      aria-label='Block Producer'
+                      className={classes.avatar}
+                    >
+                      <img src={bPLogo} alt='' width='100%' />
+                    </Avatar>
+                  ) : (
+                    <AccountCircle className={classes.accountCircle} />
+                  )}
                   <Typography variant='h6' className={classes.bpName}>
-                    {blockProducer.bpjson.producer_account_name || ''}
+                    {producer.bpjson.org.candidate_name ||
+                      producer.system.owner}
                   </Typography>
                 </Grid>
               </Grid>
@@ -232,18 +261,11 @@ const BlockProducerRate = ({ classes, account, list }) => {
             >
               <Grid item xs={12} sm={5}>
                 <Typography variant='subtitle1' className={classes.title}>
-                  Rate Block Producer
+                  {t.subTitle}
                 </Typography>
-                <Typography paragraph>
-                  Use the sliders to rate the BP.
-                </Typography>
-                <Typography paragraph>
-                  If you feel that you do not have enough knowledge about a
-                  specific category you can disable it.
-                </Typography>
-                <Typography paragraph>
-                  Publish the rate by signing in with Scatter.
-                </Typography>
+                <Typography paragraph> {t('subText')} </Typography>
+                <Typography paragraph> {t('helpText')} </Typography>
+                <Typography paragraph> {t('rateText')} </Typography>
                 {/* TODO: Iterate over bpParameters */}
                 <Grid container style={{ marginTop: 30 }}>
                   <Grid item xs={12}>
@@ -256,8 +278,8 @@ const BlockProducerRate = ({ classes, account, list }) => {
                           : classes.parameterTitleDisabled
                       }
                     >
-                      Community{' '}
-                      <Tooltip title='Lorem ipsum' placement='right'>
+                      {t('community')}{' '}
+                      <Tooltip title={t('communityTooltip')} placement='right'>
                         <HelpOutline
                           fontSize='inherit'
                           className={classes.topicIcon}
@@ -267,13 +289,15 @@ const BlockProducerRate = ({ classes, account, list }) => {
                   </Grid>
                   <Grid item xs={12}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <Slider
+                      <RateSlider
                         disabled={!ratingState.communityEnabled}
                         onChange={handleStateChange('community')}
                         value={ratingState.community}
+                        marks={marks}
+                        valueLabelDisplay='on'
                         min={0}
-                        max={10}
                         step={1}
+                        max={10}
                       />
                       <Switch
                         onChange={handleStateChange('communityEnabled')}
@@ -291,8 +315,11 @@ const BlockProducerRate = ({ classes, account, list }) => {
                           : classes.parameterTitleDisabled
                       }
                     >
-                      Development{' '}
-                      <Tooltip title='Lorem ipsum' placement='right'>
+                      {t('development')}{' '}
+                      <Tooltip
+                        title={t('developmentTooltip')}
+                        placement='right'
+                      >
                         <HelpOutline
                           fontSize='inherit'
                           className={classes.topicIcon}
@@ -302,13 +329,15 @@ const BlockProducerRate = ({ classes, account, list }) => {
                   </Grid>
                   <Grid item xs={12}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <Slider
+                      <RateSlider
                         disabled={!ratingState.developmentEnabled}
                         onChange={handleStateChange('development')}
                         value={ratingState.development}
+                        marks={marks}
+                        valueLabelDisplay='on'
                         min={0}
-                        max={10}
                         step={1}
+                        max={10}
                       />
                       <Switch
                         onChange={handleStateChange('developmentEnabled')}
@@ -326,8 +355,11 @@ const BlockProducerRate = ({ classes, account, list }) => {
                           : classes.parameterTitleDisabled
                       }
                     >
-                      Infrastructure{' '}
-                      <Tooltip title='Lorem ipsum' placement='right'>
+                      {t('infrastructure')}{' '}
+                      <Tooltip
+                        title={t('infrastructureTooltip')}
+                        placement='right'
+                      >
                         <HelpOutline
                           fontSize='inherit'
                           className={classes.topicIcon}
@@ -337,13 +369,15 @@ const BlockProducerRate = ({ classes, account, list }) => {
                   </Grid>
                   <Grid item xs={12}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <Slider
+                      <RateSlider
                         disabled={!ratingState.infraEnabled}
                         onChange={handleStateChange('infra')}
                         value={ratingState.infra}
+                        marks={marks}
+                        valueLabelDisplay='on'
                         min={0}
-                        max={10}
                         step={1}
+                        max={10}
                       />
                       <Switch
                         onChange={handleStateChange('infraEnabled')}
@@ -361,8 +395,11 @@ const BlockProducerRate = ({ classes, account, list }) => {
                           : classes.parameterTitleDisabled
                       }
                     >
-                      Transparency{' '}
-                      <Tooltip title='Lorem ipsum' placement='right'>
+                      {t('transparency')}{' '}
+                      <Tooltip
+                        title={t('transparencyTooltip')}
+                        placement='right'
+                      >
                         <HelpOutline
                           fontSize='inherit'
                           className={classes.topicIcon}
@@ -372,13 +409,15 @@ const BlockProducerRate = ({ classes, account, list }) => {
                   </Grid>
                   <Grid item xs={12}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <Slider
+                      <RateSlider
                         disabled={!ratingState.transparencyEnabled}
                         onChange={handleStateChange('transparency')}
                         value={ratingState.transparency}
+                        marks={marks}
+                        valueLabelDisplay='on'
                         min={0}
-                        max={10}
                         step={1}
+                        max={10}
                       />
                       <Switch
                         onChange={handleStateChange('transparencyEnabled')}
@@ -396,8 +435,8 @@ const BlockProducerRate = ({ classes, account, list }) => {
                           : classes.parameterTitleDisabled
                       }
                     >
-                      Trustiness{' '}
-                      <Tooltip title='Lorem ipsum' placement='right'>
+                      {t('trustiness')}{' '}
+                      <Tooltip title={t('trustinessTooltip')} placement='right'>
                         <HelpOutline
                           fontSize='inherit'
                           className={classes.topicIcon}
@@ -407,13 +446,15 @@ const BlockProducerRate = ({ classes, account, list }) => {
                   </Grid>
                   <Grid item xs={12}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <Slider
+                      <RateSlider
                         disabled={!ratingState.trustinessEnabled}
                         onChange={handleStateChange('trustiness')}
                         value={ratingState.trustiness}
+                        marks={marks}
+                        valueLabelDisplay='on'
                         min={0}
-                        max={10}
                         step={1}
+                        max={10}
                       />
                       <Switch
                         onChange={handleStateChange('trustinessEnabled')}
@@ -433,7 +474,7 @@ const BlockProducerRate = ({ classes, account, list }) => {
                     <BlockProducerRadar
                       bpData={{
                         labels: bpParameters,
-                        datasets: [blockProducer.data]
+                        datasets: [producer.data]
                       }}
                     />
                   </Grid>
@@ -486,7 +527,7 @@ const BlockProducerRate = ({ classes, account, list }) => {
                         component={props => (
                           <Link
                             {...props}
-                            to={`/block-producers/${blockProducer.bpjson.producer_account_name}`}
+                            to={`/block-producers/${producer.bpjson.producer_account_name}`}
                           />
                         )}
                         variant='contained'
@@ -510,18 +551,16 @@ BlockProducerRate.propTypes = {
   classes: PropTypes.object,
   account: PropTypes.string,
   list: PropTypes.array,
-  t: PropTypes.func.isRequired
+  producer: PropTypes.object
 }
 
-const mapStateToProps = ({ blockProducers: { list } }) => ({
-  list
+const mapStateToProps = ({ blockProducers: { list, producer } }) => ({
+  list,
+  producer
 })
 
 const mapDispatchToProps = () => ({})
 
 export default withStyles(style)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(BlockProducerRate)
+  connect(mapStateToProps, mapDispatchToProps)(BlockProducerRate)
 )

@@ -10,7 +10,7 @@ import RateCategory from './rateCategory'
 
 const styles = ({ spacing, palette }) => ({
   spacingContainers: {
-    padding: spacing.unit * 4
+    padding: spacing(4)
   },
   coverContainer: {
     backgroundColor: palette.primary.dark
@@ -91,8 +91,5 @@ Home.propTypes = {
 }
 
 export default withStyles(styles)(
-  connect(
-    mapStatetoProps,
-    mapDispatchToProps
-  )(Home)
+  connect(mapStatetoProps, mapDispatchToProps)(Home)
 )

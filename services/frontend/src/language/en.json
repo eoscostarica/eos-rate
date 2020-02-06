@@ -53,7 +53,7 @@
       "cta": "Rate Block Producers"
     },
     "subTopic": {
-      "videoUrl": "https://www.youtube.com/embed/d9tFkNXqRjU?rel=0",
+      "videoUrl": "https://www.youtube.com/embed/bo9ksd_X8fM",
       "title": "Liquid Democracy",
       "paragraph1": "Find the Block Producer that best represents you.",
       "paragraph2": "EOS Rate was built by a community that believes in transparency. The tool generates profile pages of the Block Producers. It uses a unique radial component we call “LEAF” (Liquid EOS Attribute Factors) to help you visually compare the most relevant qualitative attributes of Block Producers, making it easier for token holders to make an informed vote."
@@ -95,11 +95,43 @@
   },
 
   "bpRatePage": {
+    "allBPs": "All Block Producers",
+    "subTitle": "Rate Block Producer",
+    "subText": "Use the sliders to rate the BP.",
+    "rateText": "If you feel that you do not have enough knowledge about a specific category you can disable it.",
+    "helpText": "Publish your BP rating by signing in with your favorite wallet.",
     "publishRatingButton": "Publish Rating",
-    "cancelRatingButton": "Cancel"
+    "cancelRatingButton": "Cancel",
+    "transparency": "Transparency",
+    "transparencyTooltip": "Compliance with disclosure of ownership.",
+    "infrastructure": "Infrastructure",
+    "infrastructureTooltip": "Stability and reliability of the EOS infrastructure.",
+    "trustiness": "Trustiness",
+    "trustinessTooltip": "Collaboration and reputation among the EOS community.",
+    "community": "Community",
+    "communityTooltip": "Community value creation through education, events, and other useful content.",
+    "development": "Development",
+    "developmentTooltip": "Technical know-how and usage of open-source software, scripts, frameworks, wallets, voting portals, metrics, etc."
   },
 
   "footer": {
     "legend": "Want to contribute? Come learn with us"
+  },
+
+  "bpProfile": {
+    "generalInformation": "General Information",
+    "rankings": "Rankings",
+    "social": "Social",
+    "account": "Account",
+    "location": "Location",
+    "status": "Status",
+    "website": "Website",
+    "votes": "Votes",
+    "rates": "Rates",
+    "average": "Average",
+    "websiteInfo": "From Their Website",
+    "buttonRate": "Rate this BP",
+    "allBP": "All Block Producers",
+    "noBpJson": "No BP.json file provided."
   }
 }

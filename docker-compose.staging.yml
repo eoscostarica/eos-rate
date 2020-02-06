@@ -27,40 +27,9 @@ services:
     depends_on:
       - postgres
 
-  demux:
-    container_name: eosrate_demux
-    build:
-      context: ./services/demux
-      dockerfile: ./Dockerfile
-    image: eosrate/demux
-    volumes:
-      - ./services/demux:/opt/application # mount demux service folder
-      - /opt/application/node_modules # prevents host/container conflicts
-    depends_on:
-      - postgres
-      - hasura
-    environment:
-      DB_USER: user
-      DB_PASSWORD: pass
-      DB_PORT: 5432
-      DB_NAME: eosrate
-      DB_HOST: postgres
-      DB_SCHEMA: public
-      EOS_API_ENDPOINT: "https://eos.greymass.com:443"
-      CHAIN_HOST: "http://eosio:8888"
-      CHAIN_INIT_BLOCK: 10
-      MONGO_URI: "mongodb://190.10.8.205:27017"
-      MONGO_DB: EOS
-      WAIT_HOSTS: postgres:5432, hasura:8080
-      WAIT_HOSTS_TIMEOUT: 60
-    ports:
-      - "3030:3030"
-    networks:
-      default:
-
   hasura:
     container_name: eosrate_hasura
-    image: hasura/graphql-engine:v1.0.0-alpha41.cli-migrations
+    image: hasura/graphql-engine:v1.0.0.cli-migrations
     ports:
       - "8088:8080"
     depends_on:
