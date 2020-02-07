@@ -7,7 +7,7 @@ const contract_acct="rateproducer";
 const proxy_acc='eoscrprox111';
 const voter_acc='eoscrvoter11';
 
-const rateproducer_priv_key='5HrYs51 ... gUqN';
+const rateproducer_priv_key='5HrYs51N...LeQjJ9gUqN';
 const rateproducer_pub_key='EOS7Ca5Tc4KaEYLZdu2WxdQQktVePjFiDg42EmMAjqVR6eNKPMrAA';
 
 const signatureProvider = new JsSignatureProvider([rateproducer_priv_key]);
@@ -108,7 +108,11 @@ describe ('Eos-rate unit test', function(){
                   data: {
                     user: voter_acc,
                     bp: 'eoscostarica',
-                    ratings_json: "{\"transparency\":8,\"infrastructure\":8,\"trustiness\":7,\"development\":6,\"community\":9}",
+                    transparency:8,
+                    infrastructure:8,
+                    trustiness:7,
+                    development:6,
+                    community:9,
                   },
                 }]
               }, {
@@ -187,7 +191,11 @@ describe ('Eos-rate unit test', function(){
                   data: {
                     user: voter_acc,
                     bp: 'eoscostarica',
-                    ratings_json: "{\"transparency\":8,\"infrastructure\":8,\"trustiness\":7,\"development\":6,\"community\":9}",
+                    transparency:8,
+                    infrastructure:8,
+                    trustiness:7,
+                    development:6,
+                    community:9,
                   },
                 }]
               }, {
@@ -273,7 +281,11 @@ describe ('Eos-rate unit test', function(){
                   data: {
                     user: voter_acc,
                     bp: 'eoscostarica',
-                    ratings_json: "{\"transparency\":8,\"infrastructure\":8,\"trustiness\":7,\"development\":6,\"community\":9}",
+                    transparency:8,
+                    infrastructure:8,
+                    trustiness:7,
+                    development:6,
+                    community:9,
                   },
                 }]
               }, {
@@ -328,7 +340,11 @@ describe ('Eos-rate unit test', function(){
                   data: {
                     user: voter_acc,
                     bp: 'eoscostarica',
-                    ratings_json: "{\"transparency\":8,\"infrastructure\":8,\"trustiness\":7,\"development\":6,\"community\":9}",
+                    transparency:8,
+                    infrastructure:8,
+                    trustiness:7,
+                    development:6,
+                    community:9,
                   },
                 }]
               }, {
@@ -382,7 +398,11 @@ describe ('Eos-rate unit test', function(){
                   data: {
                     user: voter_acc,
                     bp: 'eoscostarica',
-                    ratings_json: "{\"transparency\":8,\"infrastructure\":8,\"trustiness\":7,\"development\":6,\"community\":9}",
+                    transparency:8,
+                    infrastructure:8,
+                    trustiness:7,
+                    development:6,
+                    community:9,
                   },
                 }]
               }, {
@@ -437,7 +457,11 @@ describe ('Eos-rate unit test', function(){
                   data: {
                     user: voter_acc,
                     bp: 'eoscostarica',
-                    ratings_json: "{\"transparency\":8,\"infrastructure\":8,\"trustiness\":7,\"development\":6,\"community\":9}",
+                    transparency:8,
+                    infrastructure:8,
+                    trustiness:7,
+                    development:6,
+                    community:9,
                   },
                 }]
               }, {
@@ -492,7 +516,11 @@ describe ('Eos-rate unit test', function(){
                   data: {
                     user: voter_acc,
                     bp: 'eoscostarica',
-                    ratings_json: "{\"transparency\":8,\"infrastructure\":8,\"trustiness\":7,\"development\":6,\"community\":9}",
+                    transparency:8,
+                    infrastructure:8,
+                    trustiness:7,
+                    development:6,
+                    community:9,
                   },
                 }]
               }, {
@@ -546,7 +574,11 @@ describe ('Eos-rate unit test', function(){
                   data: {
                     user: voter_acc,
                     bp: 'eoscostarica',
-                    ratings_json: "{\"transparency\":8,\"infrastructure\":8,\"trustiness\":7,\"development\":6,\"community\":9}",
+                    transparency:8,
+                    infrastructure:8,
+                    trustiness:7,
+                    development:6,
+                    community:9,
                   },
                 }]
               }, {
