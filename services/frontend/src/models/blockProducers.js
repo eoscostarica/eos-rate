@@ -1,14 +1,16 @@
 import filterObjects from 'filter-objects'
 import uniq from 'lodash.uniq'
+import gql from 'graphql-tag'
+
 import apolloClient from 'services/graphql'
 import { getAllBPs } from 'services/bps'
-import gql from 'graphql-tag'
 
 const QUERY_PRODUCER = gql`
   query getProducer($owner: String) {
     producers(where: { owner: { _eq: $owner } }) {
       bpjson
       owner
+      system
     }
   }
 `
@@ -19,7 +21,7 @@ const initialState = {
   filtered: [],
   selected: [],
   compareTool: true,
-  producer: {}
+  producer: null
 }
 
 const blockProducers = {
@@ -72,7 +74,7 @@ const blockProducers = {
       return { producer }
     }
   },
-  effects: {
+  effects: dispatch => ({
     async getBPs () {
       return getAllBPs({
         setBPs: state => this.setBPs(state)
@@ -86,6 +88,7 @@ const blockProducers = {
     },
     async getBlockProducerByOwner (owner, state) {
       try {
+        dispatch.isLoading.storeIsContentLoading(true)
         const {
           data: { producers }
         } = await apolloClient.query({
@@ -101,11 +104,13 @@ const blockProducers = {
           )
 
         this.addProducer({ ...blockProducer, data: bpData.data || [] })
+        dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
         console.error('getBlockProducerByOwner', error)
+        dispatch.isLoading.storeIsContentLoading(false)
       }
     }
-  }
+  })
 }
 
 export default blockProducers

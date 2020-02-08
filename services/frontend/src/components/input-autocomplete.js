@@ -27,7 +27,7 @@ const style = theme => ({
   suggestionsContainerOpen: {
     position: 'absolute',
     zIndex: 1,
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
     left: '-24px',
     right: 0,
     width: '100vw',
@@ -219,8 +219,5 @@ const mapDispatchToProps = ({ blockProducers: { getBPs } }) => ({
 })
 
 export default withStyles(style)(
-  connect(
-    mapStatetoProps,
-    mapDispatchToProps
-  )(withT(InputAutocomplete))
+  connect(mapStatetoProps, mapDispatchToProps)(withT(InputAutocomplete))
 )
