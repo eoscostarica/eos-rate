@@ -98,14 +98,7 @@ namespace eosio {
 CONTRACT rateproducer : public contract {
   public:
     using contract::contract;
-      typedef struct bp_rate_t {
-        float transparency;
-        float infrastructure;
-        float trustiness;
-        float community;
-        float development;
-      } bp_rate_stats ;
-
+      
       ACTION rate(name user, 
                   name bp, 
                   int8_t transparency,
@@ -113,6 +106,12 @@ CONTRACT rateproducer : public contract {
                   int8_t trustiness,
                   int8_t community,
                   int8_t development) {
+          
+        check( (MINVAL<= transparency &&  transparency<=MAXVAL ), "Error transparency value out of range");
+        check( (MINVAL<= infrastructure &&  infrastructure<=MAXVAL ), "Error infrastructure value out of range" );
+        check( (MINVAL<= trustiness &&  trustiness<=MAXVAL ), "Error trustiness value out of range" );
+        check( (MINVAL<= development &&  development <=MAXVAL ), "Error development value out of range" );
+        check( (MINVAL<= community &&  community<=MAXVAL ), "Error community value out of range" );
       
          //checks if the bp is active 
         check(is_blockproducer(bp),"votes are allowed only for registered block producers");
@@ -126,14 +125,6 @@ CONTRACT rateproducer : public contract {
           check(!(MIN_VOTERS > get_voters(user)), "account does not have enough voters" );
         }
           
-        check( (MINVAL<= transparency &&  transparency<=MAXVAL ), "Error transparency value out of range");
-        check( (MINVAL<= infrastructure &&  infrastructure<=MAXVAL ), "Error infrastructure value out of range" );
-        check( (MINVAL<= trustiness &&  trustiness<=MAXVAL ), "Error trustiness value out of range" );
-        check( (MINVAL<= development &&  development <=MAXVAL ), "Error development value out of range" );
-        check( (MINVAL<= community &&  community<=MAXVAL ), "Error community value out of range" );
-
-        bp_rate_stats bp_stats = {0,0,0,0,0};
-
         // upsert bp rating
         producers_table bps(_self, _self.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
