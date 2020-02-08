@@ -18,15 +18,15 @@ const styles = ({ typography, spacing }) => ({
     justifyContent: 'flex-end'
   },
   paragraph: {
-    marginLeft: spacing.unit * 4.5,
-    marginTop: spacing.unit * 1
+    marginLeft: spacing(4.5),
+    marginTop: spacing(1)
   },
   subTitleContainer: {
     display: 'flex',
     alignItems: 'center'
   },
   iconStyle: {
-    marginRight: spacing.unit * 2
+    marginRight: spacing(2)
   }
 })
 

@@ -137,7 +137,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {producer.system.is_active}
+            {(producer && producer.system.is_active) || ' - -'}
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -198,7 +198,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             component={props => (
               <Link
                 {...props}
-                to={`/block-producers/${producer.owner ||
+                to={`/block-producers/${(producer && producer.owner) ||
                   'noBlockProducerName'}/rate`}
               />
             )}
