@@ -4,6 +4,7 @@
 #include <eosio/multi_index.hpp>
 #include <eosio/system.hpp>
 #include <eosio/time.hpp>
+#include <eosio/permission.hpp> 
 #include <algorithm>
 
 #define MINVAL 0
@@ -12,10 +13,46 @@
 
 using namespace std;
 using namespace eosio;
+using eosio::public_key; 
 
 namespace eosio {
+    
 
    constexpr name system_account{"eosio"_n};
+   
+    struct producer_info {
+      name                  owner;
+      double                total_votes = 0;
+      eosio::public_key     producer_key; /// a packed public key object
+      bool                  is_active = true;
+      std::string           url;
+      uint32_t              unpaid_blocks = 0;
+      time_point            last_claim_time;
+      uint16_t              location = 0;
+
+      uint64_t primary_key()const { return owner.value;                             }
+      double   by_votes()const    { return is_active ? -total_votes : total_votes;  }
+      bool     active()const      { return is_active;                               }
+      void     deactivate()       { producer_key = public_key(); is_active = false; }
+
+      // explicit serialization macro is not necessary, used here only to improve compilation time
+      EOSLIB_SERIALIZE( producer_info, (owner)(total_votes)(producer_key)(is_active)(url)
+                        (unpaid_blocks)(last_claim_time)(location) )
+    };
+    
+     typedef eosio::multi_index< "producers"_n, producer_info,
+                               indexed_by<"prototalvote"_n, const_mem_fun<producer_info, double, &producer_info::by_votes>  >
+                             > producers_table;
+    
+    bool is_blockproducer(name bp_name){
+        producers_table bp(system_account, system_account.value);
+        auto it = bp.find(bp_name.value);
+        if(it==bp.end()){
+            return false;
+        }
+        return true;
+    }
+
 
    struct voter_info {
       name                owner;
@@ -34,13 +71,7 @@ namespace eosio {
       EOSLIB_SERIALIZE( voter_info, (owner)(proxy)(producers)(staked)(last_vote_weight)(proxied_vote_weight)(is_proxy)(flags1)(reserved2)(reserved3) )
    };
 
-   typedef eosio::multi_index< "voters"_n, voter_info >  voters_table;
-
-   bool is_proxy(name name) {
-      voters_table _voters(system_account, system_account.value);
-      auto it = _voters.find(name.value);
-      return it != _voters.end() && it->is_proxy;
-   }
+    typedef eosio::multi_index< "voters"_n, voter_info >  voters_table; 
 
    int get_voters (name name) {
       voters_table _voters(system_account, system_account.value);
@@ -78,21 +109,23 @@ CONTRACT rateproducer : public contract {
       ACTION rate(name user, 
                   name bp, 
                   int8_t transparency,
-                  uint8_t infrastructure,
-                  uint8_t trustiness,
-                  uint8_t community,
-                  uint8_t development) {
-      /*
-      eosio::name proxy_name = get_proxy(user);
-      print("code: ");
-      if(proxy_name.length()){
+                  int8_t infrastructure,
+                  int8_t trustiness,
+                  int8_t community,
+                  int8_t development) {
+      
+         //checks if the bp is active 
+        check(is_blockproducer(bp),"votes are allowed only for registered block producers");
+        
+        eosio::name proxy_name = get_proxy(user);
+        if(proxy_name.length()){
           //account votes through a proxy
           check(!(MIN_VOTERS > get_voters(proxy_name)), "delegated proxy does not have enough voters" );
-      }else{
+        }else{
           // acount must vote for at least 21 bp
           check(!(MIN_VOTERS > get_voters(user)), "account does not have enough voters" );
-      }
-      */
+        }
+          
         check( (MINVAL<= transparency &&  transparency<=MAXVAL ), "Error transparency value out of range");
         check( (MINVAL<= infrastructure &&  infrastructure<=MAXVAL ), "Error infrastructure value out of range" );
         check( (MINVAL<= trustiness &&  trustiness<=MAXVAL ), "Error trustiness value out of range" );
@@ -173,11 +206,11 @@ CONTRACT rateproducer : public contract {
 
 
     void save_bp_stats (name bp_name,
-                       uint8_t transparency,
-                       uint8_t infrastructure,
-                       uint8_t trustiness,
-                       uint8_t community,
-                       uint8_t development
+                       int8_t transparency,
+                       int8_t infrastructure,
+                       int8_t trustiness,
+                       int8_t community,
+                       int8_t development
                        ){
       producers_stats_table bps_stats(_self, _self.value);
       auto itr = bps_stats.find(bp_name.value);
