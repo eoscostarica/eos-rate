@@ -77,7 +77,7 @@ CONTRACT rateproducer : public contract {
 
       ACTION rate(name user, 
                   name bp, 
-                  uint8_t transparency,
+                  int8_t transparency,
                   uint8_t infrastructure,
                   uint8_t trustiness,
                   uint8_t community,
