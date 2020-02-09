@@ -106,7 +106,7 @@ CONTRACT rateproducer : public contract {
                   int8_t trustiness,
                   int8_t community,
                   int8_t development) {
-          
+        check( (transparency+infrastructure+trustiness+community+development), "Error vote must have value for at least one category");  
         check( (MINVAL<= transparency &&  transparency<=MAXVAL ), "Error transparency value out of range");
         check( (MINVAL<= infrastructure &&  infrastructure<=MAXVAL ), "Error infrastructure value out of range" );
         check( (MINVAL<= trustiness &&  trustiness<=MAXVAL ), "Error trustiness value out of range" );
