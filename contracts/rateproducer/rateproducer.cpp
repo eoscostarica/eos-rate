@@ -446,8 +446,8 @@ CONTRACT rateproducer : public contract {
       float transparency;
       float infrastructure;
       float trustiness;
+      float development;  
       float community;
-      float development;
       uint64_t primary_key() const { return bp.value; }
     };
 
@@ -462,8 +462,8 @@ CONTRACT rateproducer : public contract {
       float transparency;
       float infrastructure;
       float trustiness;
+      float development;  
       float community;
-      float development;
       uint64_t primary_key() const { return id; }
       uint128_t by_uniq_rating() const { return uniq_rating; }
       uint64_t by_user() const { return user.value; }
