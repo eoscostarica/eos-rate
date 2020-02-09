@@ -7,7 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "mocha --timeout 180000"
+    "test": "mocha --timeout 180000 test.js",
+    "test_average": "mocha --timeout 180000 test_average.js"  
   },
   "dependencies": {
     "chai": "^4.2.0",
