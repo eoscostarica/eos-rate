@@ -286,6 +286,9 @@ describe ('Eos-rate unit test', function(){
               expireSeconds: 30,
             });
         } catch (err) {
+            console.log('\nCaught exception: ' + err);
+              if (err instanceof RpcError)
+                console.log(JSON.stringify(err.json, null, 2));
 
         } 
     });
