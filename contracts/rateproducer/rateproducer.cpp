@@ -415,28 +415,48 @@ CONTRACT rateproducer : public contract {
         *ratings_cntr = std::max(transparency_cntr,std::max(infrastructure_cntr,std::max(trustiness_cntr,std::max(community_cntr,development_cntr))));
     }
 
-    // for dev only
-    ACTION erase(string table) {
-      // table = bps or stats
-      //only contract owner can erase table
-      require_auth(_self);
+    
+    ACTION erase(name bp_name) {
+        
+        require_auth(_self);
 
-      if(!table.compare("bps")){
-      	producers_table bps(_self, _self.value);
-      	auto itr = bps.begin();
-      	while ( itr != bps.end()) {
-      	    itr = bps.erase(itr);
-      	}
-      }
+        producers_table bps(_self, _self.value);
+        auto itr = bps.begin();
+        while ( itr != bps.end()) {
+            if(itr->bp == bp_name){
+                itr = bps.erase(itr);
+            }else{
+                itr++;
+            }
+        }
 
-      if(!table.compare("stats")){
-      	producers_stats_table bps_stats(_self, _self.value);
-      	auto itr_stats = bps_stats.begin();
-      	while ( itr_stats != bps_stats.end()) {
-            itr_stats = bps_stats.erase(itr_stats);
-      	}
-      }
+        producers_stats_table bps_stats(_self, _self.value);
+        auto itr_stats = bps_stats.begin();
+        while ( itr_stats != bps_stats.end()) {
+            if(itr_stats->bp == bp_name){
+                itr_stats = bps_stats.erase(itr_stats);
+            }else{
+                itr_stats++;
+            }
+        }
     }
+    
+    ACTION wipe() {
+        
+        require_auth(_self);
+        producers_table bps(_self, _self.value);
+        auto itr = bps.begin();
+        while ( itr != bps.end()) {
+            itr = bps.erase(itr);
+        }
+
+        producers_stats_table bps_stats(_self, _self.value);
+        auto itr_stats = bps_stats.begin();
+        while ( itr_stats != bps_stats.end()) {
+            itr_stats = bps_stats.erase(itr_stats);
+        }
+    }
+
 
   private:
     TABLE block_producers_stats {
@@ -478,4 +498,4 @@ CONTRACT rateproducer : public contract {
 
 };
 
-EOSIO_DISPATCH(rateproducer, (rate)(erase));
+EOSIO_DISPATCH(rateproducer,(rate)(erase)(wipe));
