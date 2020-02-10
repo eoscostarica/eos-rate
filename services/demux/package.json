@@ -17,6 +17,7 @@
     "chalk": "^2.4.2",
     "demux": "^4.0.0",
     "demux-eos": "^4.0.1",
+    "eosjs": "^20.0.3",
     "human-to-cron": "^0.3.1",
     "lodash.get": "^4.4.2",
     "massive": "^5.7.4",
