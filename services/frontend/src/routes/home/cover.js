@@ -23,7 +23,7 @@ const styles = ({ palette, typography }) => ({
     marginBottom: 12.5
   },
   paragraph: {
-    color: palette.grey[600]
+    //    color: palette.grey[600]
   },
   ctaContainer: {
     textAlign: 'center'
@@ -35,9 +35,9 @@ const styles = ({ palette, typography }) => ({
     alignItems: 'center'
   },
   btn: {
-    border: 'solid 0.5px #1eb53a',
-    backgroundColor: 'rgba(99, 183, 107, 0.21)',
-    color: '#63b76b'
+    //    border: 'solid 0.5px #1eb53a',
+    //    backgroundColor: 'rgba(99, 183, 107, 0.21)',
+    //    color: '#63b76b'
   },
   leftCoverBox: {
     display: 'flex',

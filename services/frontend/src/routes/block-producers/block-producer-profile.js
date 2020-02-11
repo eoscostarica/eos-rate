@@ -49,10 +49,10 @@ const style = theme => ({
     marginTop: 10
   },
   btnBP: {
-    backgroundColor: theme.palette.secondary.boringGreen,
+    backgroundColor: theme.palette.secondary.main,
     width: '100%',
     '&:hover': {
-      backgroundColor: theme.palette.secondary.midGreen
+      backgroundColor: theme.palette.secondary.light
     },
 
     [theme.breakpoints.up('sm')]: {
