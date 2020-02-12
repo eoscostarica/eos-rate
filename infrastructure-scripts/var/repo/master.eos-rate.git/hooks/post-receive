@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+TARGET="/home/appeoscr/eos-rate"
+GIT_DIR="/var/repo/eos-rate.git"
+BRANCH="master"
+
+while read oldrev newrev ref
+do
+  # only checking out the master (or whatever branch you would like to deploy)
+  if [ "$ref" = "refs/heads/$BRANCH" ];
+  then
+    echo "Ref $ref received. Deploying ${BRANCH} branch to production..."
+    git --work-tree=$TARGET --git-dir=$GIT_DIR checkout -f $BRANCH
+    cd $TARGET/services/frontend/ \
+      && yarn install --frozen-lockfile --production=true \
+      && yarn build:prod \
+      && mv build /var/www/eosrate.io
+    sudo systemctl reload docker-compose
+  else
+    echo "Ref $ref received. Doing nothing: only the ${BRANCH} branch may be deployed on this server."
+  fi
+done

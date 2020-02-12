@@ -1,0 +1,18 @@
+[Unit]
+Description=Docker Compose container starter
+After=docker.service network-online.target
+Requires=docker.service network-online.target
+
+[Service]
+WorkingDirectory=/home/appeoscr/eos-rate/
+Type=oneshot
+RemainAfterExit=yes
+
+ExecStart=/usr/bin/env docker-compose up -d hasura postgres
+
+ExecStop=/usr/bin/env docker-compose stop
+
+ExecReload=/usr/bin/env docker-compose up -d --no-deps --build hasura
+
+[Install]
+WantedBy=multi-user.target
