@@ -115,7 +115,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {(producer && producer.producer_account_name) || '- -'}
+            {(producer && producer.system.owner) || '- -'}
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -126,7 +126,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {(producer && producer.org.location.name) || '- -'}
+            {(producer && producer.system.location) || '- -'}
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -137,7 +137,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            Costa Rica
+            {(producer && producer.system.is_active) || ' - -'}
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -148,7 +148,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {(producer && producer.org.website) || '- -'}
+            {(producer && producer.system.url) || '- -'}
           </Typography>
         </Grid>
       </Grid>
@@ -165,7 +165,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            4.0800 EOS
+            {(producer && producer.system.total_votes) || '- -'}
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -176,7 +176,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            6.7800 EOS
+            - -
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -187,7 +187,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            500 EOS
+            - -
           </Typography>
         </Grid>
       </Grid>
@@ -198,8 +198,8 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             component={props => (
               <Link
                 {...props}
-                to={`/block-producers/${producer &&
-                  producer.producer_account_name}/rate`}
+                to={`/block-producers/${(producer && producer.owner) ||
+                  'noBlockProducerName'}/rate`}
               />
             )}
             className={classes.btnBP}
