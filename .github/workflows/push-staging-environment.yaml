@@ -14,7 +14,6 @@ jobs:
     - name: run push
       run: |
         echo "Pushing to branch 'staging'"
-        remote_repo="ssh://${{secrets.USER}}@apps.eosio.cr/var/repo/eos-rate.git"
-        echo ${{secrets.PRIVATE_KEY}} > id_rsa
-        PKEY=id_rsa git push "$remote_repo" HEAD:staging
+        remote_repo="ssh://${{secrets.USER}}:${{secrets.PASSWORD}}@apps.eosio.cr/var/repo/eos-rate.git"
+        git push "$remote_repo" HEAD:staging
 
