@@ -50,4 +50,3 @@ volumes:
 
 networks:
   default:
-    name: eosrate
