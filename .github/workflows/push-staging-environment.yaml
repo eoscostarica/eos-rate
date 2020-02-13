@@ -18,6 +18,6 @@ jobs:
         docker build -t eosrate-deployer \
           --build-arg ssh_prv_key="${{secrets.SSH_PRV_KEY}}" \
           .
-        docker run eosrate-deployer \
+        docker run \
           -e USER=${{secrets.USER}} \
           eosrate-deployer
