@@ -15,7 +15,7 @@ pgweb: scripts/pgweb.sh
 
 push-staging:
 	@docker build -t eosrate-deployer \
-		--build-arg ssh_prv_key="$(shell cat ~/.ssh/devops-eos.id_rsa)" \
+		--build-arg ssh_prv_key="$(SSH_PRV_KEY)" \
 		.
 	@docker run \
 		-e USER="$(USER)" \
