@@ -172,8 +172,7 @@ CONTRACT rateproducer : public contract {
            float bp_development = 0;
            uint32_t  bp_ratings_cntr = 0;
            float  bp_average = 0;
-
-           calculate_bp_stats (&bp,
+           calculate_bp_stats (bp,
                                &bp_transparency,
                                &bp_infrastructure,
                                &bp_trustiness,
@@ -191,11 +190,12 @@ CONTRACT rateproducer : public contract {
                             &bp_ratings_cntr,
                             &bp_average);
 
+
         }
         
     }
 
-
+    
     void save_bp_stats (name bp_name,
                        int8_t transparency,
                        int8_t infrastructure,
@@ -304,43 +304,18 @@ CONTRACT rateproducer : public contract {
       }
     }
     
-    void update_bp_stats (name * user,
-                       name * bp_name,
-                       float * transparency,
-                       float * infrastructure,
-                       float * trustiness,
-                       float * community,
-                       float * development,
-                       uint32_t * ratings_cntr,
-                       float * average
-                       ){
-      producers_stats_table bps_stats(_self, _self.value);
-      auto itr = bps_stats.find(bp_name->value);
-      if(itr != bps_stats.end()){
-        bps_stats.modify(itr,_self, [&]( auto& row ) {
-            row.transparency = *transparency;
-            row.infrastructure = *infrastructure;
-            row.trustiness = *trustiness;
-            row.development = *development;
-            row.community = *community;      
-            row.ratings_cntr= *ratings_cntr;
-            row.average = *average;
-         });
-          
-      }
-    }
     
-    void calculate_bp_stats (name * bp_name,
+     void calculate_bp_stats ( name bp_name,
                        float * transparency,
                        float * infrastructure,
                        float * trustiness,
                        float * community,
                        float * development,
                        uint32_t * ratings_cntr,
-                       float * average
+                       float  * average
                        ){
-        
-        uint32_t category_counter = 0;
+       
+        float category_counter = 0;
         
         float transparency_total  = 0;
         float infrastructure_total = 0;
@@ -348,43 +323,44 @@ CONTRACT rateproducer : public contract {
         float community_total = 0;
         float development_total = 0;
         
-        uint32_t transparency_cntr = 0;
-        uint32_t infrastructure_cntr = 0;
-        uint32_t trustiness_cntr = 0;
-        uint32_t community_cntr = 0;
-        uint32_t development_cntr = 0;
-        
+        float transparency_cntr = 0;
+        float infrastructure_cntr = 0;
+        float trustiness_cntr = 0;
+        float community_cntr = 0;
+        float development_cntr = 0;
+
         producers_table bps(_self, _self.value);
         auto bps_index = bps.get_index<name("bp")>();
-        auto bps_it = bps_index.find(bp_name->value);
+        auto bps_it = bps_index.find(bp_name.value); 
         
         while(bps_it != bps_index.end()){
-            
-           if(bps_it->transparency){
-               transparency_total+=bps_it->transparency;
-               transparency_cntr++;
-           }
-            
-           if(bps_it->infrastructure){
-               infrastructure_total+=bps_it->infrastructure;
-               infrastructure_cntr++;
-           }
-            
-           if(bps_it->trustiness){
-               trustiness_total+=bps_it->trustiness;
-               trustiness_cntr++;
-           }
-            
-           if(bps_it->community){
-               community_total+=bps_it->community;
-               community_cntr++;
-           }
-          
-           if(bps_it->development){
-               development_total+=bps_it->development;
-               development_cntr++;
-           }
-           bps_it ++;
+           if(bp_name == bps_it->bp){
+               if(bps_it->transparency){
+                   transparency_total+=bps_it->transparency;
+                   transparency_cntr++;
+               }
+
+               if(bps_it->infrastructure){
+                   infrastructure_total+=bps_it->infrastructure;
+                   infrastructure_cntr++;
+               }
+
+               if(bps_it->trustiness){
+                   trustiness_total+=bps_it->trustiness;
+                   trustiness_cntr++;
+               }
+
+               if(bps_it->community){
+                   community_total+=bps_it->community;
+                   community_cntr++;
+               }
+
+               if(bps_it->development){
+                   development_total+=bps_it->development;
+                   development_cntr++;
+               }
+            }
+            bps_it ++;
         }
         
         if(transparency_cntr){
@@ -413,7 +389,36 @@ CONTRACT rateproducer : public contract {
         } 
         *average = (*transparency + *infrastructure + *trustiness + *community +*development)/category_counter;
         *ratings_cntr = std::max(transparency_cntr,std::max(infrastructure_cntr,std::max(trustiness_cntr,std::max(community_cntr,development_cntr))));
+        
     }
+    
+    void update_bp_stats (name * user,
+                       name * bp_name,
+                       float * transparency,
+                       float * infrastructure,
+                       float * trustiness,
+                       float * community,
+                       float * development,
+                       uint32_t * ratings_cntr,
+                       float * average
+                       ){
+     
+      producers_stats_table bps_stats(_self, _self.value);
+      auto itr = bps_stats.find(bp_name->value);
+      if(itr != bps_stats.end()){
+        bps_stats.modify(itr,_self, [&]( auto& row ) {
+            row.transparency = *transparency;
+            row.infrastructure = *infrastructure;
+            row.trustiness = *trustiness;
+            row.development = *development;
+            row.community = *community;      
+            row.ratings_cntr= *ratings_cntr;
+            row.average = *average;
+         });
+          
+      }
+    }
+    
 
     
     ACTION erase(name bp_name) {
