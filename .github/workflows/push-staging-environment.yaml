@@ -13,6 +13,5 @@ jobs:
       uses: docker-practice/actions-setup-docker@0.0.1
     - name: run push
       run: |
+        export SSH_PRV_KEY="$(echo "${{secrets.SSH_PRV_KEY}}")"
         make push-staging
-      env:
-        SSH_PRV_KEY: "${{secrets.SSH_PRV_KEY}}"
