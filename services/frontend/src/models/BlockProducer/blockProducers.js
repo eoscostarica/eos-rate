@@ -191,7 +191,7 @@ const blockProducers = {
           dataResponse = returning
         }
 
-        const producerUpdatedList = state.blockProducers.list.map( producer => {
+        const producerUpdatedList = state.blockProducers.list.map(producer => {
           if (rateStat.length && producer.owner === rateStat[0].bp) {
             const parameters = {
               community: rateStat[0].community,

@@ -29,7 +29,7 @@ export const getAllBPs = ({ nameFilter = '', setBPs = () => {} } = {}) =>
       }
     })
     .subscribe({
-      next({ data: { producers_list: producers } }) {
+      next ({ data: { producers_list: producers } }) {
         const BPs = producers.map(producer => {
           const {
             community,
@@ -62,7 +62,7 @@ export const getAllBPs = ({ nameFilter = '', setBPs = () => {} } = {}) =>
 
         return setBPs(BPs)
       },
-      error(err) {
+      error (err) {
         console.error('err', err)
       }
     })
