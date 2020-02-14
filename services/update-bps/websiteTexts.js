@@ -305,3 +305,31 @@ const bpGeneralInfo = [
     }
   }
 ];
+
+const massive = require("massive");
+const dbConfig = require("./dbConfig");
+
+const updateGeneralInfo = bpInfo => {
+  console.info("processing:\n", JSON.stringify({ bpInfo }, null, 2));
+  massive(dbConfig).then(db => {
+    db.producers.save(bpInfo, function(err, res) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      console.log("\nPOSTGRES UPDATED!!\n");
+    });
+  });
+};
+
+const updateBps = bpInfoObj => {
+  if (Array.isArray(bpInfoObj)) {
+    for (var i = 0; i < bpInfoObj.length; i++) {
+      updateGeneralInfo(bpInfoObj[i]);
+    }
+  } else {
+    console.log("Cannot save Block Producer Info object.");
+  }
+};
+
+updateBps(bpGeneralInfo);
