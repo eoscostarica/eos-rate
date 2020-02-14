@@ -197,11 +197,11 @@ CONTRACT rateproducer : public contract {
 
     
     void save_bp_stats (name bp_name,
-                       int8_t transparency,
-                       int8_t infrastructure,
-                       int8_t trustiness,
-                       int8_t community,
-                       int8_t development
+                       float transparency,
+                       float infrastructure,
+                       float trustiness,
+                       float community,
+                       float development
                        ){
       producers_stats_table bps_stats(_self, _self.value);
       auto itr = bps_stats.find(bp_name.value);
@@ -328,6 +328,7 @@ CONTRACT rateproducer : public contract {
         float trustiness_cntr = 0;
         float community_cntr = 0;
         float development_cntr = 0;
+        uint32_t voters_cntr = 0;
 
         producers_table bps(_self, _self.value);
         auto bps_index = bps.get_index<name("bp")>();
@@ -359,6 +360,7 @@ CONTRACT rateproducer : public contract {
                    development_total+=bps_it->development;
                    development_cntr++;
                }
+               voters_cntr++;
             }
             bps_it ++;
         }
@@ -388,8 +390,7 @@ CONTRACT rateproducer : public contract {
             category_counter++;
         } 
         *average = (*transparency + *infrastructure + *trustiness + *community +*development)/category_counter;
-        *ratings_cntr = std::max(transparency_cntr,std::max(infrastructure_cntr,std::max(trustiness_cntr,std::max(community_cntr,development_cntr))));
-        
+        *ratings_cntr = voters_cntr;
     }
     
     void update_bp_stats (name * user,
