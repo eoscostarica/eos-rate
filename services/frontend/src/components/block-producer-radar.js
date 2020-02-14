@@ -11,9 +11,7 @@ const BlockProducerRadar = ({ bpData, height, showLabel, ...props }) => {
   return (
     <Radar
       height={height}
-      data={() => ({
-        ...bpValidData
-      })}
+      data={() => ({ ...bpValidData })}
       options={{
         legend: { display: showLabel },
         layout: {

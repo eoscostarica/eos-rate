@@ -148,15 +148,38 @@ const BlockProducerRate = ({
     }
   }, [userRate])
 
-  const getRatingData = () => ({
-    community: ratingState.communityEnabled ? ratingState.community : 0,
-    development: ratingState.developmentEnabled ? ratingState.development : 0,
-    infrastructure: ratingState.infraEnabled ? ratingState.infra : 0,
-    transparency: ratingState.transparencyEnabled
-      ? ratingState.transparency
-      : 0,
-    trustiness: ratingState.trustinessEnabled ? ratingState.trustiness : 0
-  })
+  const getRatingData = (useString = false) => {
+    const {
+      community,
+      communityEnabled,
+      development,
+      developmentEnabled,
+      infra,
+      infraEnabled,
+      transparency,
+      transparencyEnabled,
+      trustiness,
+      trustinessEnabled
+    } = ratingState
+
+    if (useString) {
+      return {
+        community: (communityEnabled ? community : 0).toString(),
+        development: (developmentEnabled ? development : 0).toString(),
+        infrastructure: (infraEnabled ? infra : 0).toString(),
+        transparency: (transparencyEnabled ? transparency : 0).toString(),
+        trustiness: (trustinessEnabled ? trustiness : 0).toString()
+      }
+    }
+
+    return {
+      community: communityEnabled ? community : 0,
+      development: developmentEnabled ? development : 0,
+      infrastructure: infraEnabled ? infra : 0,
+      transparency: transparencyEnabled ? transparency : 0,
+      trustiness: trustinessEnabled ? trustiness : 0
+    }
+  }
 
   const userDataSet = getBPRadarData({
     name: t('myRate'),
@@ -171,7 +194,6 @@ const BlockProducerRate = ({
         return
       }
 
-      const dataJson = { user: accountName, bp: account, ...getRatingData() }
       const transaction = {
         actions: [
           {
@@ -183,7 +205,7 @@ const BlockProducerRate = ({
                 permission: 'active'
               }
             ],
-            data: dataJson
+            data: { user: accountName, bp: account, ...getRatingData(true) }
           }
         ]
       }
@@ -195,7 +217,7 @@ const BlockProducerRate = ({
         txSuccess: false
       })
 
-      await wallet.eosApi.transact(transaction, {
+      const result = await wallet.eosApi.transact(transaction, {
         blocksBehind: 3,
         expireSeconds: 30
       })
@@ -213,7 +235,8 @@ const BlockProducerRate = ({
         })
       }, 2000)
 
-      addUserRating(dataJson)
+      console.log('Block Number: ', result.processed.action_traces[0].block_num)
+      addUserRating({ user: accountName, bp: account, ...getRatingData(false) })
     } catch (err) {
       setRatingState({
         ...ratingState,
@@ -226,7 +249,8 @@ const BlockProducerRate = ({
   const handleStateChange = parameter => (event, value) =>
     setRatingState({ ...ratingState, [parameter]: value })
 
-  const bPLogo = producer && producer.bpjson ? producer.bpjson.org.branding.logo_256 : null
+  const bPLogo =
+    producer && producer.bpjson ? producer.bpjson.org.branding.logo_256 : null
 
   return (
     <Grid container justify='center' spacing={16} className={classes.container}>

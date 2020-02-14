@@ -15,6 +15,12 @@ export const getAllBPs = ({ nameFilter = '', setBPs = () => {} } = {}) =>
             owner
             system
             bpjson
+            average
+            community
+            development
+            infrastructure
+            trustiness
+            transparency
           }
         }
       `,
@@ -23,24 +29,32 @@ export const getAllBPs = ({ nameFilter = '', setBPs = () => {} } = {}) =>
       }
     })
     .subscribe({
-      next ({ data: { producers_list: producers } }) {
+      next({ data: { producers_list: producers } }) {
         const BPs = producers.map(producer => {
+          const {
+            community,
+            trustiness,
+            development,
+            transparency,
+            infrastructure,
+            ...bp
+          } = producer
           const parameters = {
-            community: 0,
-            trustiness: 0,
-            development: 0,
-            transparency: 0,
-            infrastructure: 0
+            community: community || 0,
+            development: development || 0,
+            infrastructure: infrastructure || 0,
+            transparency: transparency || 0,
+            trustiness: trustiness || 0
           }
 
           return {
-            ...producer,
+            ...bp,
             system: {
-              ...producer.system,
+              ...bp.system,
               parameters
             },
             data: getBPRadarData({
-              name: producer.owner,
+              name: bp.owner,
               parameters
             })
           }
@@ -48,7 +62,7 @@ export const getAllBPs = ({ nameFilter = '', setBPs = () => {} } = {}) =>
 
         return setBPs(BPs)
       },
-      error (err) {
+      error(err) {
         console.error('err', err)
       }
     })

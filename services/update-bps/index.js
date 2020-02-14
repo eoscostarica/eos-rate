@@ -28,7 +28,7 @@ const getBlockProducersData = async () => {
   }, []);
 
   const requests = allProducers
-    .filter(({ bpJson, system }) => !Object.keys(bpJson) && system.url)
+    .filter(({ bpJson, system }) => !Object.keys(bpJson).length && system.url)
     .map(({ system: { url } }) => {
       let result = url;
       if (!url.startsWith("http")) {
@@ -37,6 +37,7 @@ const getBlockProducersData = async () => {
       if (!url.endsWith(".json")) {
         result = `${result}/bp.json`;
       }
+
       return result;
     })
     .map(url =>

@@ -38,6 +38,12 @@ const blockProducers = {
         list: list.map(bp => ({ ...bp }))
       }
     },
+    updateBPList (state, list) {
+      return {
+        ...state,
+        list
+      }
+    },
     addToSelected (state, producerAccountName) {
       return {
         ...state,
@@ -102,7 +108,7 @@ const blockProducers = {
             ({ owner }) => owner === blockProducer.owner
           )
 
-        this.addProducer({ ...blockProducer, data: bpData.data || [] })
+        this.addProducer({ ...blockProducer, system: { ...blockProducer.system, parameters: bpData.system.parameters }, data: bpData.data || [] })
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
         console.error('getBlockProducerByOwner', error)
@@ -113,26 +119,12 @@ const blockProducers = {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
-        const rating = await eosjsAPI.rpc.get_table_rows({
-          json: true,
-          code: 'rateproducer',
-          scope: 'rateproducer',
-          table: 'stats',
-          lower_bound: bp,
-          limit: 1,
-          reverse: false,
-          show_payer: false
-        })
-
         const {
           data: { user_ratings: userRatings }
         } = await apolloClient.query({
           variables: { bp, account: userAccount },
           query: QUERY_RATING
         })
-
-        // TODO: USE RATING WHEN DATABASE HAS DATA
-        console.log({ rating, userRatings })
 
         this.addUserRate(userRatings.length ? userRatings[0].ratings : null)
         dispatch.isLoading.storeIsContentLoading(false)
@@ -146,6 +138,16 @@ const blockProducers = {
         dispatch.isLoading.storeIsContentLoading(true)
 
         let dataResponse = []
+        const { rows: rateStat } = await eosjsAPI.rpc.get_table_rows({
+          json: true,
+          code: 'rateproducer',
+          scope: 'rateproducer',
+          table: 'stats',
+          lower_bound: bp,
+          limit: 1,
+          reverse: false,
+          show_payer: false
+        })
 
         if (!state.blockProducers.userRate) {
           const {
@@ -189,7 +191,38 @@ const blockProducers = {
           dataResponse = returning
         }
 
+        const producerUpdatedList = state.blockProducers.list.map( producer => {
+          if (rateStat.length && producer.owner === rateStat[0].bp) {
+            const parameters = {
+              community: rateStat[0].community,
+              development: rateStat[0].development,
+              infrastructure: rateStat[0].infrastructure,
+              transparency: rateStat[0].transparency,
+              trustiness: rateStat[0].trustiness
+            }
+            const graphData = Object.values(parameters)
+
+            return {
+              ...producer,
+              average: rateStat[0].average,
+              system: {
+                ...producer.system,
+                parameters
+              },
+              data: {
+                ...producer.data,
+                data: graphData
+              }
+            }
+          }
+
+          return producer
+        })
+        const currentBP = producerUpdatedList.find(producer => producer.owner === bp)
+
         dataResponse.length && this.addUserRate(dataResponse[0].ratings)
+        this.addProducer(currentBP)
+        this.updateBPList(producerUpdatedList)
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
         console.error('mutationInsertUserRating', error)

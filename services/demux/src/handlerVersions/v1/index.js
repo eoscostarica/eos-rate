@@ -28,59 +28,52 @@
  * https://github.com/EOSIO/demux-js/blob/develop/examples/eos-transfers/ObjectActionHandler.js
  */
 
-const massive = require("massive");
-const dbConfig = require("./dbConfig");
-const eosjs = require("eosjs");
-const fetch = require("node-fetch");
+const massive = require('massive')
+const dbConfig = require('./dbConfig')
+const eosjs = require('eosjs')
+const fetch = require('node-fetch')
 
-const rpc = new eosjs.JsonRpc(process.env.REACT_APP_EOS_API_URL || "https://jungle.eosio.cr", { fetch });
-const getStats = async () => {
-  return await rpc.get_table_rows({
+const rpc = new eosjs.JsonRpc(process.env.REACT_APP_EOS_API_URL || 'https://jungle.eosio.cr', { fetch })
+const getStats = async bp => {
+  const response = await rpc.get_table_rows({
     json: true, // Get the response as json
-    code: "rateproducer", // Contract that we target
-    scope: "rateproducer", // Account that owns the data
-    table: "stats", // Table name
-    limit: 200, // Maximum number of rows that we want to get
+    code: 'rateproducer', // Contract that we target
+    scope: 'rateproducer', // Account that owns the data
+    table: 'stats', // Table name
+    lower_bound: bp, // block producer PK
+    limit: 1, // Maximum number of rows that we want to get
     reverse: false, // Optional: Get reversed data
     show_payer: false // Optional: Show ram payer
-  });
-};
+  })
+
+  return response
+}
 
 const updateStatsData = async (state, payload, blockInfo, context) => {
-  const updateStat = stat => {
-    console.info("processing:\n", JSON.stringify({ stat }, null, 2));
-    massive(dbConfig).then(db => {
-      db.ratings_stats.save(stat, function(err, res) {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        console.log("\nPOSTGRES UPDATED!!\n");
-      });
-    });
-  };
-
-  const updateStats = bpStats => {
-    if (Array.isArray(bpStats.rows)) {
-      for (var i = 0; i < bpStats.rows.length; i++) {
-        updateStat(bpStats.rows[i]);
+  const updateStat = async stat => {
+    await massive(dbConfig).then(async db => {
+      const blockProducerStat = await db.ratings_stats.findOne({ bp: stat.bp })
+      if (blockProducerStat && blockProducerStat.bp) {
+        await db.ratings_stats.save(stat)
+      } else {
+        await db.ratings_stats.insert(stat)
       }
-    } else {
-      console.log("Cannot save ratings object.");
-    }
-  };
+    })
+  }
 
-  const bpStats = await getStats();
-  console.log(bpStats);
-  updateStats(bpStats);
-};
+  const bpStat = await getStats(payload.data.bp)
+
+  if (bpStat.rows.length) {
+    await updateStat(bpStat.rows[0])
+  }
+}
 
 const updaters = [
   {
-    actionType: "rateproducer::rate",
+    actionType: 'rateproducer::rate',
     apply: updateStatsData
   }
-];
+]
 
 /* Effects
  * Effect `run` functions are much like Updater `apply` functions, with the following differences:
@@ -93,16 +86,16 @@ const updaters = [
  * In this example, we're utilizing it very simply to output the current running token transfer totals to the console.
  */
 
-function logUpdate(payload, blockInfo, context) {
-  console.info("State updated:\n", JSON.stringify(context.stateCopy, null, 2));
+function logUpdate (payload, blockInfo, context) {
+  console.info('State updated:\n', JSON.stringify(context.stateCopy, null, 2))
 }
 
 const effects = [
   {
-    actionType: "rateproducer::rate",
+    actionType: 'rateproducer::rate',
     run: logUpdate
   }
-];
+]
 
 /*
  * Handler Versions
@@ -117,9 +110,9 @@ const effects = [
  */
 
 const handlerVersion = {
-  versionName: "v1",
+  versionName: 'v1',
   updaters,
   effects
-};
+}
 
-module.exports = handlerVersion;
+module.exports = handlerVersion
