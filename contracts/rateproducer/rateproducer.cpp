@@ -133,7 +133,7 @@ CONTRACT rateproducer : public contract {
         auto existing_rating = uniq_rating_index.find(uniq_rating);
 
         if( existing_rating == uniq_rating_index.end() ) {
-          bps.emplace(_self, [&]( auto& row ) {
+          bps.emplace(user, [&]( auto& row ) {
             row.id = bps.available_primary_key();
             row.uniq_rating = uniq_rating;
             row.user = user;
@@ -145,7 +145,8 @@ CONTRACT rateproducer : public contract {
             row.development = development ;   
           });
           //save stats
-          save_bp_stats(bp,
+          save_bp_stats(user,
+                        bp,
                         transparency,
                         infrastructure,
                         trustiness,
@@ -155,7 +156,7 @@ CONTRACT rateproducer : public contract {
 
         } else {
            //the voter update its vote
-          uniq_rating_index.modify(existing_rating, _self, [&]( auto& row ) {
+          uniq_rating_index.modify(existing_rating, user, [&]( auto& row ) {
             row.user = user;
             row.bp = bp;
             row.transparency = transparency;
@@ -196,7 +197,8 @@ CONTRACT rateproducer : public contract {
     }
 
     
-    void save_bp_stats (name bp_name,
+    void save_bp_stats (name user,
+                       name bp_name,
                        float transparency,
                        float infrastructure,
                        float trustiness,
@@ -209,7 +211,7 @@ CONTRACT rateproducer : public contract {
       float sum = 0;
       if(itr == bps_stats.end()){
         //new entry
-         bps_stats.emplace(_self, [&]( auto& row ) {
+         bps_stats.emplace(user, [&]( auto& row ) {
             
             if (transparency){
                 row.transparency = transparency;
@@ -250,7 +252,7 @@ CONTRACT rateproducer : public contract {
           });
       }else{
         //update the entry
-        bps_stats.modify(itr,_self, [&]( auto& row ) {
+        bps_stats.modify(itr,user, [&]( auto& row ) {
           if (transparency){
                 sum += transparency;
                 if(row.transparency){
@@ -407,7 +409,7 @@ CONTRACT rateproducer : public contract {
       _stats bps_stats(_self, _self.value);
       auto itr = bps_stats.find(bp_name->value);
       if(itr != bps_stats.end()){
-        bps_stats.modify(itr,_self, [&]( auto& row ) {
+        bps_stats.modify(itr,*user, [&]( auto& row ) {
             row.transparency = *transparency;
             row.infrastructure = *infrastructure;
             row.trustiness = *trustiness;
