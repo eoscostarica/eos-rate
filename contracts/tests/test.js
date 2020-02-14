@@ -7,7 +7,7 @@ const contract_acct="rateproducer";
 const proxy_acc='eoscrprox111';
 const voter_acc='eoscrvoter11';
 
-const rateproducer_priv_key='5HrYs51N1PsqD36hHEPmbQC1Bua4nYTKSRTm2sjA5LeQjJ9gUqN';
+const rateproducer_priv_key='5HrYs51N1Psq....2sjA5LeQjJ9gUqN';
 const rateproducer_pub_key='EOS7Ca5Tc4KaEYLZdu2WxdQQktVePjFiDg42EmMAjqVR6eNKPMrAA';
 const MIN_VAL = 0;
 const MAX_VAL = 10;
