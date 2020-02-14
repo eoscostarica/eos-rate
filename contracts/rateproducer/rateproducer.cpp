@@ -126,7 +126,7 @@ CONTRACT rateproducer : public contract {
         }
           
         // upsert bp rating
-        producers_table bps(_self, _self.value);
+        _ratings bps(_self, _self.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
         auto uniq_rating_index = bps.get_index<name("uniqrating")>();
@@ -203,7 +203,7 @@ CONTRACT rateproducer : public contract {
                        float community,
                        float development
                        ){
-      producers_stats_table bps_stats(_self, _self.value);
+      _stats bps_stats(_self, _self.value);
       auto itr = bps_stats.find(bp_name.value);
       float counter =0;
       float sum = 0;
@@ -330,7 +330,7 @@ CONTRACT rateproducer : public contract {
         float development_cntr = 0;
         uint32_t voters_cntr = 0;
 
-        producers_table bps(_self, _self.value);
+        _ratings bps(_self, _self.value);
         auto bps_index = bps.get_index<name("bp")>();
         auto bps_it = bps_index.find(bp_name.value); 
         
@@ -404,7 +404,7 @@ CONTRACT rateproducer : public contract {
                        float * average
                        ){
      
-      producers_stats_table bps_stats(_self, _self.value);
+      _stats bps_stats(_self, _self.value);
       auto itr = bps_stats.find(bp_name->value);
       if(itr != bps_stats.end()){
         bps_stats.modify(itr,_self, [&]( auto& row ) {
@@ -426,7 +426,7 @@ CONTRACT rateproducer : public contract {
         
         require_auth(_self);
 
-        producers_table bps(_self, _self.value);
+        _ratings bps(_self, _self.value);
         auto itr = bps.begin();
         while ( itr != bps.end()) {
             if(itr->bp == bp_name){
@@ -436,7 +436,7 @@ CONTRACT rateproducer : public contract {
             }
         }
 
-        producers_stats_table bps_stats(_self, _self.value);
+        _stats bps_stats(_self, _self.value);
         auto itr_stats = bps_stats.begin();
         while ( itr_stats != bps_stats.end()) {
             if(itr_stats->bp == bp_name){
@@ -450,13 +450,13 @@ CONTRACT rateproducer : public contract {
     ACTION wipe() {
         
         require_auth(_self);
-        producers_table bps(_self, _self.value);
+        _ratings bps(_self, _self.value);
         auto itr = bps.begin();
         while ( itr != bps.end()) {
             itr = bps.erase(itr);
         }
 
-        producers_stats_table bps_stats(_self, _self.value);
+        _stats bps_stats(_self, _self.value);
         auto itr_stats = bps_stats.begin();
         while ( itr_stats != bps_stats.end()) {
             itr_stats = bps_stats.erase(itr_stats);
@@ -465,7 +465,7 @@ CONTRACT rateproducer : public contract {
 
 
   private:
-    TABLE block_producers_stats {
+    TABLE stats {
       name bp;
       uint32_t ratings_cntr;
       float average;
@@ -477,10 +477,10 @@ CONTRACT rateproducer : public contract {
       uint64_t primary_key() const { return bp.value; }
     };
 
-    typedef eosio::multi_index<"stats"_n, block_producers_stats > producers_stats_table;
+    typedef eosio::multi_index<"stats"_n, stats > _stats;
 
 
-    TABLE block_producer {
+    TABLE ratings {
       uint64_t id;
       uint128_t uniq_rating;
       name user;
@@ -496,11 +496,11 @@ CONTRACT rateproducer : public contract {
       uint64_t by_bp() const { return bp.value; }
     };
 
-    typedef eosio::multi_index<"bps"_n, block_producer,
-        indexed_by<"uniqrating"_n, const_mem_fun<block_producer, uint128_t, &block_producer::by_uniq_rating>>,
-        indexed_by<"user"_n, const_mem_fun<block_producer, uint64_t, &block_producer::by_user>>,
-        indexed_by<"bp"_n, const_mem_fun<block_producer, uint64_t, &block_producer::by_bp>>
-      > producers_table;
+    typedef eosio::multi_index<"ratings"_n, ratings,
+        indexed_by<"uniqrating"_n, const_mem_fun<ratings, uint128_t, &ratings::by_uniq_rating>>,
+        indexed_by<"user"_n, const_mem_fun<ratings, uint64_t, &ratings::by_user>>,
+        indexed_by<"bp"_n, const_mem_fun<ratings, uint64_t, &ratings::by_bp>>
+      > _ratings;
 
 };
 
