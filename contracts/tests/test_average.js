@@ -5,11 +5,12 @@ const { TextEncoder, TextDecoder } = require('util');                   // node 
 
 const contract_acct="rateproducer";
 
-const rateproducer_priv_key='5HrYs51N1PsqD36hHEPmbQC1Bua4nYTKSRTm2sjA5LeQjJ9gUqN';
+const rateproducer_priv_key='5HrYs51N1Psq ....TKSRTm2sjA5LeQjJ9gUqN';
 const rateproducer_pub_key='EOS7Ca5Tc4KaEYLZdu2WxdQQktVePjFiDg42EmMAjqVR6eNKPMrAA';
 const MIN_VAL = 0;
 const MAX_VAL = 10;
 const MAX_ROWS = 150;
+const WAIT_SECS = 1500; //milliseconds 
 
 const signatureProvider = new JsSignatureProvider([rateproducer_priv_key]);
 const rpc = new JsonRpc('http://monitor.jungletestnet.io:8888', { fetch });
@@ -86,7 +87,7 @@ function get_bp_stats(bp_name,data) {
   
 
 describe ('Eos-rate unit test', function(){
-    /*
+    
     it('Register accounts as block producers',async () => {
 
         for(index =0 ; index < bp_accts_25.length; index++ ){  
@@ -147,7 +148,7 @@ describe ('Eos-rate unit test', function(){
                 }
          }
     });
-    */
+    
     
     it('Clean dummy data',async () => {
 
@@ -381,7 +382,7 @@ describe ('Eos-rate unit test', function(){
                    console.log('\n actual:\n');
                    console.log(stats_row_3);
                    console.log('\n expected:\n');
-                   cosole.log(expected_row);
+                   console.log(expected_row);
                } 
                assert(flag3, 'Update categories with zero. check agains stats table');
             
@@ -547,6 +548,8 @@ Expected   |   4.4   |     2    |     5        |        4.5      |    3.5    |  
           
     });
     
+    
+    
 /*
      blockproducer vote chart for bp_producer5 (index 5)
      ---------------------------------------------------------------------------------------------------------
@@ -558,16 +561,16 @@ Expected   |   4.4   |     2    |     5        |        4.5      |    3.5    |  
         voter4 |   5.6   |     5     |     5        |         8       |     4     |       7     |      4
         voter5 |   5.2   |     5     |     9        |         3       |     2     |       5     |      7
       --------------------------------------------------------------------------------------------------------
-    Expected   |   4.84  |     5     |    5.6       |        5.2      |     4     |       5     |      4.4
+
     
 */    
     
-    /*
+    
     
     it('5 voters',async () => {
        
         try {  
-                const vote1 = await api.transact({
+                let vote1 = await api.transact({
                 actions: [{
                       account: contract_acct,
                       name: 'rate',
@@ -590,7 +593,7 @@ Expected   |   4.4   |     2    |     5        |        4.5      |    3.5    |  
                     expireSeconds: 30,
                  });
             
-                const vote2 = await api.transact({
+                let vote2 = await api.transact({
                 actions: [{
                       account: contract_acct,
                       name: 'rate',
@@ -612,8 +615,46 @@ Expected   |   4.4   |     2    |     5        |        4.5      |    3.5    |  
                     blocksBehind: 3,
                     expireSeconds: 30,
                  });
+                 
+/*
+---------------------------------------------------------------------------------------------------------
+             average | cntr      | transparency | infraestructure | trustiness| development | community
+---------------------------------------------------------------------------------------------------------
+    voter1 |         |          |     7        |         2       |     1     |       3     |      5
+    voter2 |         |          |     3        |         7       |     6     |       9     |      1
+--------------------------------------------------------------------------------------------------------
+Expected   |    4.4  |     2    |     5        |        4.5      |     3.5   |       6     |      3
+
+*/            
+                var expected_row = new Array(7);
+                expected_row['ratings_cntr'] = 2;
+                expected_row['average'] = 4.4;
+                expected_row['transparency'] = 5.0;
+                expected_row['infrastructure'] = 4.5;
+                expected_row['trustiness'] = 3.5;
+                expected_row['development'] = 6.0;
+                expected_row['community'] = 3;
             
-                const vote3 = await api.transact({
+                //read stats table from the blockchain
+                let stats = await rpc.get_table_rows({
+                    json: true,              // Get the response as json
+                    code: contract_acct,     // Contract that we target
+                    scope: contract_acct,         // Account that owns the data
+                    table: 'stats',        // Table name
+                    limit: MAX_ROWS,               // Maximum number of rows that we want to get
+                });
+               
+                var stats_row = get_bp_stats(bp_accts_25[5],stats.rows);
+                var flag = cmp_bp_stats(expected_row,stats_row);
+                if(!flag){
+                    console.log('\n actual:\n');
+                    console.log(stats_row);
+                    console.log('\n expected:\n');
+                    console.log(expected_row);
+                }
+                assert(flag, '5 voters. check agains stats table. 2dn vote');
+            //Vote #3
+                let vote3 = await api.transact({
                 actions: [{
                       account: contract_acct,
                       name: 'rate',
@@ -635,8 +676,50 @@ Expected   |   4.4   |     2    |     5        |        4.5      |    3.5    |  
                     blocksBehind: 3,
                     expireSeconds: 30,
                  });
+                 
+/*
+---------------------------------------------------------------------------------------------------------
+             average | cntr      | transparency | infraestructure | trustiness| development | community
+---------------------------------------------------------------------------------------------------------
+    voter1 |         |          |     7        |         2       |     1     |       3     |      5
+    voter2 |         |          |     3        |         7       |     6     |       9     |      1
+--------------------------------------------------------------------------------------------------------
+actual avrg|    4.4  |     2    |     5        |        4.5      |     3.5   |       6     |      3
+--------------------------------------------------------------------------------------------------------
+    voter3 |   4.6   |          |     4        |         6       |     7     |       1     |      5
+--------------------------------------------------------------------------------------------------------
+Expected   |   4.5   |     3    |     4.5      |   5.25 (5.3)    | 5.25 (5.3)|      3.5    |      4
+*/            
+                
+                expected_row['ratings_cntr'] = 3;
+                expected_row['average'] = 4.5;
+                expected_row['transparency'] = 4.5;
+                expected_row['infrastructure'] = 5.3;
+                expected_row['trustiness'] = 5.3;
+                expected_row['development'] = 3.5;
+                expected_row['community'] = 4;
             
-               const vote4 = await api.transact({
+                //read stats table from the blockchain
+                let stats2 = await rpc.get_table_rows({
+                    json: true,              // Get the response as json
+                    code: contract_acct,     // Contract that we target
+                    scope: contract_acct,         // Account that owns the data
+                    table: 'stats',        // Table name
+                    limit: MAX_ROWS,               // Maximum number of rows that we want to get
+                });
+               
+                var stats_row = get_bp_stats(bp_accts_25[5],stats2.rows);
+                var flag = cmp_bp_stats(expected_row,stats_row);
+                if(!flag){
+                    console.log('\n actual:\n');
+                    console.log(stats_row);
+                    console.log('\n expected:\n');
+                    console.log(expected_row);
+                }
+                assert(flag, '5 voters. check agains stats table. 3rd vote');
+            
+              //Vote # 4    
+               let vote4 = await api.transact({
                 actions: [{
                       account: contract_acct,
                       name: 'rate',
@@ -658,8 +741,121 @@ Expected   |   4.4   |     2    |     5        |        4.5      |    3.5    |  
                     blocksBehind: 3,
                     expireSeconds: 30,
                  });
+                 
+/*
+---------------------------------------------------------------------------------------------------------
+             average | cntr      | transparency | infraestructure | trustiness| development | community
+---------------------------------------------------------------------------------------------------------
+    voter1 |         |          |     7        |         2       |     1     |       3     |      5
+    voter2 |         |          |     3        |         7       |     6     |       9     |      1
+--------------------------------------------------------------------------------------------------------
+actual avrg|    4.4  |     2    |     5        |        4.5      |     3.5   |       6     |      3
+--------------------------------------------------------------------------------------------------------
+    voter3 |   4.6   |          |     4        |         6       |     7     |       1     |      5
+--------------------------------------------------------------------------------------------------------
+actual avrg|   4.5   |     3    |     4.5      |   5.25 (5.3)    | 5.25 (5.3)|      3.5    |      4
+---------------------------------------------------------------------------------------------------------
+    voter4 |   5.6   |     4    |     5        |         8       |     4     |       7     |      4
+--------------------------------------------------------------------------------------------------------
+Expected   |5.05(5.1)|     4    |   4.75 (4.8) |   6.62 (6.6)    | 4.62 (4.6)|  5.25 (5.3) |      4
+*/ 
             
-               const vote5 = await api.transact({
+                expected_row['ratings_cntr'] = 4;
+                expected_row['average'] = 5.1;
+                expected_row['transparency'] = 4.8;
+                expected_row['infrastructure'] = 6.6;
+                expected_row['trustiness'] = 4.6;
+                expected_row['development'] = 5.3;
+                expected_row['community'] = 4;
+            
+                //read stats table from the blockchain
+                let stats3 = await rpc.get_table_rows({
+                    json: true,              // Get the response as json
+                    code: contract_acct,     // Contract that we target
+                    scope: contract_acct,         // Account that owns the data
+                    table: 'stats',        // Table name
+                    limit: MAX_ROWS,               // Maximum number of rows that we want to get
+                });
+               
+                var stats_row = get_bp_stats(bp_accts_25[5],stats3.rows);
+                var flag = cmp_bp_stats(expected_row,stats_row);
+                if(!flag){
+                    console.log('\n actual:\n');
+                    console.log(stats_row);
+                    console.log('\n expected:\n');
+                    console.log(expected_row);
+                }
+                assert(flag, '5 voters. check agains stats table. 4th vote');
+            
+                //voter 2 update its vote
+            
+                let vote22 = await api.transact({
+                actions: [{
+                      account: contract_acct,
+                      name: 'rate',
+                      authorization: [{
+                        actor: voters_acc[1],
+                        permission: 'active',
+                      }],
+                      data: {
+                        user: voters_acc[1],
+                        bp: bp_accts_25[5],
+                        transparency:0,
+                        infrastructure:0,
+                        trustiness:8,
+                        development:0,
+                        community:0,
+                      },
+                    }]
+                  }, {
+                    blocksBehind: 3,
+                    expireSeconds: 30,
+                 });
+                  
+                
+/*
+ blockproducer vote chart for bp_producer5 (index 5)
+ ---------------------------------------------------------------------------------------------------------
+             average | cntr      | transparency | infraestructure | trustiness| development | community
+ ---------------------------------------------------------------------------------------------------------
+    voter1 |         |     5     |     7        |         2       |     1     |       3     |      5
+    voter2 |         |     1     |     0        |         0       |     8     |       0     |      0
+    voter3 |         |     5     |     4        |         6       |     7     |       1     |      5
+    voter4 |         |     5     |     5        |         8       |     4     |       7     |      4
+  --------------------------------------------------------------------------------------------------------
+expected   |4.79(4.8)|     5     |  5.33(5.3)   |     5.33(5.3)   |     5     |  3.66(3.7)  |   4.66 (4.7)
+    
+*/             
+                expected_row['ratings_cntr'] = 4;
+                expected_row['average'] = 4.8;
+                expected_row['transparency'] = 5.3;
+                expected_row['infrastructure'] = 5.3;
+                expected_row['trustiness'] = 5;
+                expected_row['development'] = 3.7;
+                expected_row['community'] = 4.7;
+            
+                //read stats table from the blockchain
+                let stats4 = await rpc.get_table_rows({
+                    json: true,              // Get the response as json
+                    code: contract_acct,     // Contract that we target
+                    scope: contract_acct,         // Account that owns the data
+                    table: 'stats',        // Table name
+                    limit: MAX_ROWS,               // Maximum number of rows that we want to get
+                });
+               
+                var stats_row = get_bp_stats(bp_accts_25[5],stats4.rows);
+                var flag = cmp_bp_stats(expected_row,stats_row);
+                if(!flag){
+                    console.log('\n actual:\n');
+                    console.log(stats_row);
+                    console.log('\n expected:\n');
+                    console.log(expected_row);
+                }
+                assert(flag, '5 voters. check agains stats table. 3rd voter update its vote');
+            
+            
+                //Vote # 5   
+               let vote5 = await api.transact({
                 actions: [{
                       account: contract_acct,
                       name: 'rate',
@@ -681,18 +877,33 @@ Expected   |   4.4   |     2    |     5        |        4.5      |    3.5    |  
                     blocksBehind: 3,
                     expireSeconds: 30,
                  });
-            
-                var expected_row = new Array(7);
+/*
+ blockproducer vote chart for bp_producer5 (index 5)
+ ---------------------------------------------------------------------------------------------------------
+             average | cntr      | transparency | infraestructure | trustiness| development | community
+ ---------------------------------------------------------------------------------------------------------
+    voter1 |   3.6   |     5     |     7        |         2       |     1     |       3     |      5
+    voter2 |    8    |     1     |     0        |         0       |     8     |       0     |      0
+    voter3 |   4.6   |     5     |     4        |         6       |     7     |       1     |      5
+    voter4 |   5.6   |     5     |     5        |         8       |     4     |       7     |      4
+  --------------------------------------------------------------------------------------------------------
+actual avrg|4.79(4.8)|     5     |  5.33(5.4)   |     5.33(5.4)   |     5     |  3.66(3.7)  |   4.66 (4.7)
+ ----------------------------------------------------------------------------------------------------------
+    voter5 |         |     5     |     9        |         3       |     2     |       5     |      7
+ --------------------------------------------------------------------------------------------------------
+Expected   |4.99(5.0)|     5     |   7.16(7.2)  |    4.16(4.2)    |    3.5     |   4.33(4.3) |    5.83(5.8)
+     
+*/         
                 expected_row['ratings_cntr'] = 5;
-                expected_row['average'] = 4.8;
-                expected_row['transparency'] = 5.6;
-                expected_row['infrastructure'] = 5.2;
-                expected_row['trustiness'] = 4;
-                expected_row['development'] = 5;
-                expected_row['community'] = 4.4;
+                expected_row['average'] = 5.0;
+                expected_row['transparency'] = 7.2;
+                expected_row['infrastructure'] = 4.2;
+                expected_row['trustiness'] = 3.5;
+                expected_row['development'] = 4.3;
+                expected_row['community'] = 5.8;
             
                 //read stats table from the blockchain
-                const stats = await rpc.get_table_rows({
+                let stats5= await rpc.get_table_rows({
                     json: true,              // Get the response as json
                     code: contract_acct,     // Contract that we target
                     scope: contract_acct,         // Account that owns the data
@@ -700,12 +911,83 @@ Expected   |   4.4   |     2    |     5        |        4.5      |    3.5    |  
                     limit: MAX_ROWS,               // Maximum number of rows that we want to get
                 });
                
-               var stats_row = get_bp_stats(bp_accts_25[5],stats.rows);
+                var stats_row = get_bp_stats(bp_accts_25[5],stats5.rows);
+                var flag = cmp_bp_stats(expected_row,stats_row);
+                if(!flag){
+                    console.log('\n actual:\n');
+                    console.log(stats_row);
+                    console.log('\n expected:\n');
+                    console.log(expected_row);
+                }
+                assert(flag, '5 voters. check agains stats table. 5th vote');
             
-               assert(cmp_bp_stats(expected_row,stats_row), '5 voters. stats table'+voters_acc[1]+' voting for '+bp_accts_25[0]);
             
+               // update 5th vote
+               let vote51 = await api.transact({
+                actions: [{
+                      account: contract_acct,
+                      name: 'rate',
+                      authorization: [{
+                        actor: voters_acc[4],
+                        permission: 'active',
+                      }],
+                      data: {
+                        user: voters_acc[4],
+                        bp: bp_accts_25[5],
+                        transparency:0,
+                        infrastructure:0,
+                        trustiness:0,
+                        development:0,
+                        community:1,
+                      },
+                    }]
+                  }, {
+                    blocksBehind: 3,
+                    expireSeconds: 30,
+                 });
+                 
+/*
+ blockproducer vote chart for bp_producer5 (index 5)
+ ---------------------------------------------------------------------------------------------------------
+             average | cntr      | transparency | infraestructure | trustiness| development | community
+ ---------------------------------------------------------------------------------------------------------
+    voter1 |   3.6   |     5     |     7        |         2       |     1     |       3     |      5
+    voter2 |    8    |     1     |     0        |         0       |     8     |       0     |      0
+    voter3 |   4.6   |     5     |     4        |         6       |     7     |       1     |      5
+    voter4 |   5.6   |     5     |     5        |         8       |     4     |       7     |      4
+    voter5 |    1    |     1     |     0        |         0       |     0     |       0     |      1
+ --------------------------------------------------------------------------------------------------------
+Expected   |4.61(4.6)|     5     |   5.33(5.3)  |    5.33(5.3)    |    5.0    |   3.66(3.7) |   3.75(3.8)
+     
+*/            
             
-
+                expected_row['ratings_cntr'] = 5;
+                expected_row['average'] = 4.6;
+                expected_row['transparency'] = 5.3;
+                expected_row['infrastructure'] = 5.3;
+                expected_row['trustiness'] = 5.0;
+                expected_row['development'] = 3.7;
+                expected_row['community'] = 3.8;
+            
+                //read stats table from the blockchain
+                let stats51= await rpc.get_table_rows({
+                    json: true,              // Get the response as json
+                    code: contract_acct,     // Contract that we target
+                    scope: contract_acct,         // Account that owns the data
+                    table: 'stats',        // Table name
+                    limit: MAX_ROWS,               // Maximum number of rows that we want to get
+                });
+               
+                var stats_row = get_bp_stats(bp_accts_25[5],stats51.rows);
+                var flag = cmp_bp_stats(expected_row,stats_row);
+                if(!flag){
+                    console.log('\n actual:\n');
+                    console.log(stats_row);
+                    console.log('\n expected:\n');
+                    console.log(expected_row);
+                }
+                assert(flag, '5 voters. check agains stats table. 5th voter update its vote');
+            
           } catch (err) {
                 console.log('\nCaught exception: ' + err);
                 if (err instanceof RpcError)
@@ -714,8 +996,8 @@ Expected   |   4.4   |     2    |     5        |        4.5      |    3.5    |  
           
     });
     
-    */
-    /*
+
+    
     it('Removing voters from accounts',async () => {
          for(index =0 ; index < voters_acc.length; index++ ){  
               try {
@@ -800,6 +1082,6 @@ Expected   |   4.4   |     2    |     5        |        4.5      |    3.5    |  
             }
         }
     });
-*/
+
  
 });
