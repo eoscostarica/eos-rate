@@ -13,9 +13,9 @@ jobs:
       uses: docker-practice/actions-setup-docker@0.0.1
     - name: run push
       run: |
-        @docker build -t eosrate-deployer \
+        docker build -t eosrate-deployer \
           --build-arg ssh_prv_key="$(echo $"${{secrets.SSH_PRV_KEY}}")" \
           .
-        @docker run \
+        docker run \
           -e USER="${{secrets.USER}}" \
           eosrate-deployer
