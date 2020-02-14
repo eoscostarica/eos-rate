@@ -15,4 +15,4 @@ jobs:
       run: |
         make push-staging
       env:
-        SSH_PRV_KEY: "${{secrets.SSH_PRV_KEY}}"
+        SSH_PRV_KEY: '${{secrets.SSH_PRV_KEY}}'
