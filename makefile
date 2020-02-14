@@ -13,4 +13,12 @@ migrate: scripts/migrate.sh
 pgweb: scripts/pgweb.sh
 	./scripts/pgweb.sh
 
+push-staging:
+	@docker build -t eosrate-deployer \
+		--build-arg ssh_prv_key="$(SSH_PRV_KEY)" \
+		.
+	@docker run \
+		-e USER="$(USER)" \
+		eosrate-deployer
+
 FORCE:
