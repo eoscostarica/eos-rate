@@ -1,5 +1,9 @@
 {
   "name": "eosrate",
+  "author": {
+    "name": "EOS Costa Rica",
+    "url": "https://eosio.cr/"
+  },
   "version": "0.1.0",
   "private": true,
   "scripts": {
