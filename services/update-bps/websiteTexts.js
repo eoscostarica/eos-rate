@@ -308,6 +308,13 @@ const mainnetBPinfo = [
 
 const jungleBPinfo = [
   {
+    owner: "junglemorpho",
+    general_info: {
+      websiteText:
+        "We envision a community fostered by democratic values, that promotes an environment of innovation, responsible growth, and prosperity. Our goal is to build a strong EOS ecosystem to promote a culture that encourages learning and sharing of knowledge among people. Also, we are strong believers that technology facilitates collaborating and connecting ideas."
+    }
+  },
+  {
     owner: "lioninjungle",
     general_info: {
       websiteText:
@@ -375,5 +382,6 @@ const updateBps = async (bpInfoObj) => {
 (async () => {
 
   await updateBps(jungleBPinfo);
+  await updateBps(mainnetBPinfo);
 
 })();
