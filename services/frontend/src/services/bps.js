@@ -3,13 +3,15 @@ import client from 'services/graphql'
 import gql from 'graphql-tag'
 import getBPRadarData from 'utils/getBPRadarData'
 
-export const getAllBPs = ({ nameFilter = '', setBPs = () => {} } = {}) =>
-  client
+export const getAllBPs = ({ nameFilter = null, setBPs = () => {} } = {}) => {
+  const whereFilter = nameFilter ? { _or: { candidate_name: { _ilike: `%${nameFilter}%` } } } : {}
+
+  return client
     .subscribe({
       query: gql`
-        subscription blockProducers($nameFilter: String!) {
+        subscription blockProducers($where: producers_list_bool_exp!) {
           producers_list(
-            where: { _or: { candidate_name: { _ilike: $nameFilter } } }
+            where: $where
             order_by: { total_votes: desc }
           ) {
             owner
@@ -25,7 +27,7 @@ export const getAllBPs = ({ nameFilter = '', setBPs = () => {} } = {}) =>
         }
       `,
       variables: {
-        nameFilter: `%${nameFilter}%`
+        where: whereFilter
       }
     })
     .subscribe({
@@ -66,6 +68,7 @@ export const getAllBPs = ({ nameFilter = '', setBPs = () => {} } = {}) =>
         console.error('err', err)
       }
     })
+}
 
 export const findBPs = async (filter = {}) => mockedBPs
 

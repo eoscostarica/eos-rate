@@ -103,7 +103,7 @@ const BlockProducerProfile = ({
   ...props
 }) => {
   const { t } = useTranslation('bpProfile')
-  const bpHasInformation = Boolean(producer && producer.bpjson)
+  const bpHasInformation = Boolean(producer && Object.values(producer.bpjson).length)
   const bPLogo = bpHasInformation ? producer.bpjson.org.branding.logo_256 : null
 
   useEffect(() => {
@@ -183,7 +183,7 @@ const BlockProducerProfile = ({
                 <SocialNetworks
                   classes={classes}
                   overrideClass={classes.showOnlyLg}
-                  producer={producer && producer.bpjson}
+                  producer={bpHasInformation && producer.bpjson}
                 />
               </Grid>
 
@@ -209,7 +209,7 @@ const BlockProducerProfile = ({
                   <SocialNetworks
                     classes={classes}
                     overrideClass={classes.showOnlySm}
-                    producer={producer && producer.bpjson}
+                    producer={bpHasInformation && producer.bpjson}
                   />
                 </Grid>
               </Grid>

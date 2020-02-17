@@ -21,6 +21,7 @@
     "searchAutocomplete": "Buscar...",
 
     "not-found": "Recurso no encontrado",
+    "noBpJson": "No encontramos un bp.json!",
 
     "drawerLinkHome": "Página Principal",
     "drawerLinkAllBPs": "Productores de Bloques",
