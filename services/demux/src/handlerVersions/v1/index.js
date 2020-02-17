@@ -1,4 +1,4 @@
-/* Updaters
+  /* Updaters
  * When the Action Handler receives new blocks, for each action in that block, we loop over all updaters and check if
  * the actionType matches. If it does, we run the corresponding updater's `apply` function. The order of the updaters
  * is significant, and each `apply` function is run synchronously in order to maintain determinism.
@@ -49,7 +49,7 @@ const getStats = async bp => {
   return response
 }
 
-const updateStatsData = async (state, payload, blockInfo, context) => {
+const updateStatsData = async (state, payload) => {
   const updateStat = async stat => {
     await massive(dbConfig).then(async db => {
       const blockProducerStat = await db.ratings_stats.findOne({ bp: stat.bp })
@@ -87,7 +87,7 @@ const updaters = [
  */
 
 function logUpdate (payload, blockInfo, context) {
-  console.info('State updated:\n', JSON.stringify(context.stateCopy, null, 2))
+  console.info('State updated:\n', JSON.stringify(context, null, 2))
 }
 
 const effects = [

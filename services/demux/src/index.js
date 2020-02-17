@@ -3,16 +3,16 @@
  * Watcher with both of those.
  */
 
-const { BaseActionWatcher } = require("demux")
-const { NodeosActionReader } = require("demux-eos") // eslint-disable-line
-const ObjectActionHandler = require("./ObjectActionHandler")
-const handlerVersion = require("./handlerVersions/v1")
+const { BaseActionWatcher } = require("demux");
+const { NodeosActionReader } = require("demux-eos"); // eslint-disable-line
+const ObjectActionHandler = require("./ObjectActionHandler");
+const handlerVersion = require("./handlerVersions/v1");
 
 /*
  * This ObjectActionHandler, which does not change the signature from its parent AbstractActionHandler, takes an array
  * of `HandlerVersion` objects
  */
-const actionHandler = new ObjectActionHandler([handlerVersion])
+const actionHandler = new ObjectActionHandler([handlerVersion]);
 
 /*
  * Since we're reading from the EOS main net, we can use the NodeosActionReader supplied by the demux-eos package. This
@@ -27,8 +27,8 @@ const actionHandler = new ObjectActionHandler([handlerVersion])
 const actionReader = new NodeosActionReader({
   startAtBlock: 0,
   onlyIrreversible: false,
-  nodeosEndpoint: "https://jungle.eosio.cr"
-})
+  nodeosEndpoint: process.env.EOS_API_ENDPOINT || "https://jungle.eosio.cr"
+});
 
 /* BaseActionWatcher
  * This ready-to-use base class helps coordinate the Action Reader and Action Handler, passing through block information
@@ -37,17 +37,6 @@ const actionReader = new NodeosActionReader({
  *
  * All that is left to run everything is to call `watch()`.
  */
-const actionWatcher = new BaseActionWatcher(
-  actionReader,
-  actionHandler,
-  200,
-)
-actionWatcher.watch()
-console.log('demux started...')
-
-
-
-
-
-
-
+const actionWatcher = new BaseActionWatcher(actionReader, actionHandler, 200);
+actionWatcher.watch();
+console.log("demux started...");
