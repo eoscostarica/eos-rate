@@ -21,6 +21,7 @@
     "searchAutocomplete": "Search...",
 
     "notFound": "Not found",
+    "noBpJson": "No BP.json file provided.",
 
     "drawerLinkHome": "Home",
     "drawerLinkAllBPs": "Block Producers",

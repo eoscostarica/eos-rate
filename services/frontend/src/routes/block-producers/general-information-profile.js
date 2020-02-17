@@ -215,13 +215,19 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
 SocialNetworks.propTypes = {
   classes: PropTypes.object,
   overrideClass: PropTypes.any,
-  producer: PropTypes.object
+  producer: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.bool
+  ])
 }
 
 GeneralInformation.propTypes = {
   classes: PropTypes.object,
   overrideClass: PropTypes.any,
-  producer: PropTypes.object
+  producer: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.bool
+  ])
 }
 
 WebsiteLegend.propTypes = {
