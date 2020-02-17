@@ -1,4 +1,4 @@
-const bpGeneralInfo = [
+const mainnetBPinfo = [
   {
     bp: "eoscafeblock",
     general_info: {
@@ -306,30 +306,75 @@ const bpGeneralInfo = [
   }
 ];
 
+const jungleBPinfo = [
+  {
+    bp: "lioninjungle",
+    general_info: {
+      websiteText:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent in condimentum libero. Ut ultricies mattis risus, et tempus libero lacinia in. Praesent aliquet elementum urna, at commodo tortor varius eget. Integer sodales vitae quam sit amet sodales. Cras vel sapien ac ligula ullamcorper commodo. Pellentesque dui mi, bibendum et turpis et, placerat scelerisque eros. Donec molestie dui sem, nec consectetur sapien vehicula ut. Vestibulum vitae tempor ipsum. Nullam tortor felis, viverra ac consequat sed, porta quis nisl. Phasellus quam diam, tristique nec lacus eu, pellentesque efficitur sapien. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Quisque et justo turpis. Pellentesque porta felis metus, a volutpat est fermentum ac."
+    }
+  },
+  {
+    bp: "eosdacserval",
+    general_info: {
+      websiteText:
+        "Donec quam lacus, molestie in lacinia aliquam, convallis non leo. Nulla enim lacus, auctor et urna vitae, congue vestibulum arcu. Nulla consectetur, tellus id ullamcorper euismod, tellus lectus iaculis turpis, quis feugiat nisl nisi vitae eros. Nam bibendum tristique dolor et pretium. Morbi non tempus nulla. Nam dolor purus, bibendum eu neque non, pellentesque pretium mauris. Vestibulum et dolor ante."
+    }
+  },
+  {
+    bp: "junglesweden",
+    general_info: {
+      websiteText:
+        "Etiam in nunc nisi. Nunc pharetra ultricies porttitor. Vestibulum malesuada, tortor nec blandit mollis, nisi purus lacinia quam, eget vestibulum dui nisl id justo. Aenean facilisis accumsan efficitur. Nam sodales nec lacus quis faucibus. Mauris auctor placerat velit in suscipit. Duis sed libero ut nibh hendrerit finibus. Fusce ultricies risus magna."
+    }
+  },
+  {
+    bp: "eosbarcelona",
+    general_info: {
+      websiteText:
+        "We are committed to the EOSIO blockchain protocol that enables the development of commercial-scale decentralized applications. We promote the community tenets of integrity, transparency, benefit to the community, and the overall success of EOS and EOSIO. Our unique geographic location helps to diversify block production networks as we help bridge the East and West."
+    }
+  },  
+  {
+    bp: "eosphereiobp",
+    general_info: {
+      websiteText:
+        "Sed maximus neque velit, at pharetra sapien vestibulum ut. Phasellus ac placerat neque, et lobortis ante. Morbi non arcu iaculis ex scelerisque molestie eu a tortor. Donec convallis fermentum dolor. In hac habitasse platea dictumst. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris id sapien rhoncus, placerat turpis eu, dictum neque."
+    }
+  },
+  {
+    bp: "atticlabjbpn",
+    general_info: {
+      websiteText:
+        "Duis diam orci, vehicula non bibendum non, interdum ac neque. Fusce cursus arcu quis ligula accumsan ultrices. Pellentesque rutrum, libero vitae tincidunt lobortis, dolor sapien pulvinar dui, nec iaculis massa metus quis nunc. Curabitur vitae felis ut quam condimentum fermentum. Cras et laoreet nisl, eget placerat nibh. Etiam molestie velit condimentum nunc fringilla, porta posuere ex consectetur. Fusce et malesuada metus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis nunc blandit, blandit tellus nec, tempor leo. Vestibulum eleifend metus orci. Morbi pretium, ipsum non accumsan lobortis, nisi ex facilisis lorem, at aliquam justo est id velit. Praesent a tempus est, in sagittis turpis. Interdum et malesuada fames ac ante ipsum primis in faucibus."
+    }
+  },
+];
+
 const massive = require("massive");
 const dbConfig = require("./dbConfig");
 
-const updateGeneralInfo = bpInfo => {
-  console.info("processing:\n", JSON.stringify({ bpInfo }, null, 2));
-  massive(dbConfig).then(db => {
-    db.producers.save(bpInfo, function(err, res) {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      console.log("\nPOSTGRES UPDATED!!\n");
-    });
-  });
+
+const updateGeneralInfo = async (db, bpInfo) => {
+  await db.producers.save(bpInfo)
+  console.log('Saved')
+  console.log(bpInfo)
 };
 
-const updateBps = bpInfoObj => {
+const updateBps = async (bpInfoObj) => {
   if (Array.isArray(bpInfoObj)) {
+    const db = await massive(dbConfig)
+    console.log('db', db)
     for (var i = 0; i < bpInfoObj.length; i++) {
-      updateGeneralInfo(bpInfoObj[i]);
+      await updateGeneralInfo(bpInfoObj[i], db);
     }
   } else {
     console.log("Cannot save Block Producer Info object.");
   }
 };
 
-updateBps(bpGeneralInfo);
+(async () => {
+
+  await updateBps(bpGeneralInfo);
+
+})();
