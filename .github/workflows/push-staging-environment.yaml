@@ -1,0 +1,21 @@
+name: Push code to staging environment
+
+on:
+  push:
+    branches: [ staging ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: setup-docker
+      uses: docker-practice/actions-setup-docker@0.0.1
+    - name: run push
+      run: |
+        docker build -t eosrate-deployer \
+          --build-arg ssh_prv_key="$(echo $"${{secrets.SSH_PRV_KEY}}")" \
+          .
+        docker run \
+          -e USER="${{secrets.USER}}" \
+          eosrate-deployer

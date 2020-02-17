@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
-import { Link, Redirect } from '@reach/router'
+import { Link } from '@reach/router'
+import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -102,14 +103,12 @@ const BlockProducerProfile = ({
   ...props
 }) => {
   const { t } = useTranslation('bpProfile')
+  const bpHasInformation = Boolean(producer && producer.bpjson)
+  const bPLogo = bpHasInformation ? producer.bpjson.org.branding.logo_256 : null
 
   useEffect(() => {
     getBlockProducer(account)
   }, [account])
-
-  if (!producer.bpjson) {
-    return <Redirect to='/not-found' />
-  }
 
   return (
     <Grid container justify='center' spacing={16} className={classes.container}>
@@ -136,10 +135,28 @@ const BlockProducerProfile = ({
                 <Grid container direction='row' alignItems='center'>
                   <Grid item sm={12} lg={4}>
                     <Grid container direction='row' alignItems='center'>
-                      <AccountCircle className={classes.accountCircle} />
+                      {bPLogo ? (
+                        <Avatar
+                          aria-label='Block Producer'
+                          className={classes.avatar}
+                        >
+                          <img src={bPLogo} alt='' width='100%' />
+                        </Avatar>
+                      ) : (
+                        <AccountCircle className={classes.accountCircle} />
+                      )}
                       <Typography variant='h6' className={classes.bpName}>
-                        {producer.bpjson.producer_account_name || ''}
+                        {bpHasInformation
+                          ? producer.bpjson.org.candidate_name
+                          : producer
+                            ? producer.system.owner
+                            : 'No Data'}
                       </Typography>
+                      {!bpHasInformation && (
+                        <Typography variant='h6' className={classes.bpName}>
+                          {t('noBpJson')}
+                        </Typography>
+                      )}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -158,18 +175,15 @@ const BlockProducerProfile = ({
                   <BlockProducerRadar
                     bpData={{
                       labels: bpParameters,
-                      datasets: [{ ...producer.data }]
+                      datasets: producer ? [{ ...producer.data }] : []
                     }}
                   />
                 </Grid>
-                <GeneralInformation
-                  classes={classes}
-                  producer={producer.bpjson}
-                />
+                <GeneralInformation classes={classes} producer={producer} />
                 <SocialNetworks
                   classes={classes}
                   overrideClass={classes.showOnlyLg}
-                  producer={producer.bpjson}
+                  producer={producer && producer.bpjson}
                 />
               </Grid>
 
@@ -186,7 +200,7 @@ const BlockProducerProfile = ({
                     <BlockProducerRadar
                       bpData={{
                         labels: bpParameters,
-                        datasets: [{ ...producer.data }]
+                        datasets: producer ? [{ ...producer.data }] : []
                       }}
                     />
                   </Grid>
@@ -195,7 +209,7 @@ const BlockProducerProfile = ({
                   <SocialNetworks
                     classes={classes}
                     overrideClass={classes.showOnlySm}
-                    producer={producer.bpjson}
+                    producer={producer && producer.bpjson}
                   />
                 </Grid>
               </Grid>

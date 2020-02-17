@@ -29,8 +29,8 @@ const style = theme => ({
     wordBreak: 'break-all'
   },
   button: {
-    marginBottom: theme.spacing.unit,
-    marginTop: theme.spacing.unit
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(1)
   }
 })
 

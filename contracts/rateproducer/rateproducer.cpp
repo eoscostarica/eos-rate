@@ -4,284 +4,506 @@
 #include <eosio/multi_index.hpp>
 #include <eosio/system.hpp>
 #include <eosio/time.hpp>
-
-#include "rapidjson/document.h"
+#include <eosio/permission.hpp> 
+#include <algorithm>
 
 #define MINVAL 0
 #define MAXVAL 10
-#define MAXJSONSIZE 200
+#define MIN_VOTERS 21 
 
 using namespace std;
-using namespace rapidjson;
 using namespace eosio;
+using eosio::public_key; 
+
+namespace eosio {
+    
+
+   constexpr name system_account{"eosio"_n};
+   
+    struct producer_info {
+      name                  owner;
+      double                total_votes = 0;
+      eosio::public_key     producer_key; /// a packed public key object
+      bool                  is_active = true;
+      std::string           url;
+      uint32_t              unpaid_blocks = 0;
+      time_point            last_claim_time;
+      uint16_t              location = 0;
+
+      uint64_t primary_key()const { return owner.value;                             }
+      double   by_votes()const    { return is_active ? -total_votes : total_votes;  }
+      bool     active()const      { return is_active;                               }
+      void     deactivate()       { producer_key = public_key(); is_active = false; }
+
+      // explicit serialization macro is not necessary, used here only to improve compilation time
+      EOSLIB_SERIALIZE( producer_info, (owner)(total_votes)(producer_key)(is_active)(url)
+                        (unpaid_blocks)(last_claim_time)(location) )
+    };
+    
+     typedef eosio::multi_index< "producers"_n, producer_info,
+                               indexed_by<"prototalvote"_n, const_mem_fun<producer_info, double, &producer_info::by_votes>  >
+                             > producers_table;
+    
+    bool is_blockproducer(name bp_name){
+        producers_table bp(system_account, system_account.value);
+        auto it = bp.find(bp_name.value);
+        if(it==bp.end()){
+            return false;
+        }
+        return true;
+    }
+
+
+   struct voter_info {
+      name                owner;
+      name                proxy;
+      std::vector<name>   producers;
+      int64_t             staked = 0;
+      double              last_vote_weight = 0;
+      double              proxied_vote_weight= 0;
+      bool                is_proxy = 0;
+      uint32_t            flags1 = 0;
+      uint32_t            reserved2 = 0;
+      eosio::asset        reserved3;
+
+      uint64_t primary_key()const { return owner.value; }
+
+      EOSLIB_SERIALIZE( voter_info, (owner)(proxy)(producers)(staked)(last_vote_weight)(proxied_vote_weight)(is_proxy)(flags1)(reserved2)(reserved3) )
+   };
+
+    typedef eosio::multi_index< "voters"_n, voter_info >  voters_table; 
+
+   int get_voters (name name) {
+      voters_table _voters(system_account, system_account.value);
+      auto it = _voters.find(name.value);
+      if(it==_voters.end()){
+          return 0;
+      }
+      return it->producers.size();
+   }
+
+     eosio::name get_proxy ( eosio::name name) {
+
+      voters_table _voters(system_account, system_account.value);
+      auto it = _voters.find(name.value);
+      if(it==_voters.end()){
+          eosio::name result("");
+          return result;
+      }
+      return it->proxy;
+   }
+
+} /// namespace eosio
 
 CONTRACT rateproducer : public contract {
   public:
     using contract::contract;
-    typedef struct bp_rate_t {
-      float transparency;
-      float infrastructure;
-      float trustiness;
-      float community;
-      float development;
-    } bp_rate_stats ;
+      
+      ACTION rate(name user, 
+                  name bp, 
+                  int8_t transparency,
+                  int8_t infrastructure,
+                  int8_t trustiness,
+                  int8_t community,
+                  int8_t development) {
+        check( (transparency+infrastructure+trustiness+community+development), "Error vote must have value for at least one category");  
+        check( (MINVAL<= transparency &&  transparency<=MAXVAL ), "Error transparency value out of range");
+        check( (MINVAL<= infrastructure &&  infrastructure<=MAXVAL ), "Error infrastructure value out of range" );
+        check( (MINVAL<= trustiness &&  trustiness<=MAXVAL ), "Error trustiness value out of range" );
+        check( (MINVAL<= development &&  development <=MAXVAL ), "Error development value out of range" );
+        check( (MINVAL<= community &&  community<=MAXVAL ), "Error community value out of range" );
+      
+         //checks if the bp is active 
+        check(is_blockproducer(bp),"votes are allowed only for registered block producers");
+        
+        eosio::name proxy_name = get_proxy(user);
+        if(proxy_name.length()){
+          //account votes through a proxy
+          check(!(MIN_VOTERS > get_voters(proxy_name)), "delegated proxy does not have enough voters" );
+        }else{
+          // acount must vote for at least 21 bp
+          check(!(MIN_VOTERS > get_voters(user)), "account does not have enough voters" );
+        }
+          
+        // upsert bp rating
+        _ratings bps(_self, _self.value);
+        auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
-    ACTION rate(name user, name bp, string ratings_json) {
-      require_auth(user);
+        auto uniq_rating_index = bps.get_index<name("uniqrating")>();
+        auto existing_rating = uniq_rating_index.find(uniq_rating);
 
-      //TODO: bp must be a registered block producer
-
-      // the payload must be ratings_json.
-      check(ratings_json[0] == '{', "payload must be ratings_json");
-      check(ratings_json[ratings_json.size()-1] == '}', "payload must be ratings_json");
-
-      // upsert bp rating
-      producers_table bps(_self, _self.value);
-      auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
-
-      auto uniq_rating_index = bps.get_index<name("uniqrating")>();
-      auto existing_rating = uniq_rating_index.find(uniq_rating);
-
-      uint64_t now = eosio::current_time_point().time_since_epoch().count();
-
-      if( existing_rating == uniq_rating_index.end() ) {
-          bps.emplace(_self, [&]( auto& row ) {
+        if( existing_rating == uniq_rating_index.end() ) {
+          bps.emplace(user, [&]( auto& row ) {
             row.id = bps.available_primary_key();
             row.uniq_rating = uniq_rating;
             row.user = user;
             row.bp = bp;
-            row.created_at = now;
-            row.updated_at = now;
-            row.ratings_json = ratings_json;
+            row.transparency = transparency;
+            row.infrastructure = infrastructure;
+            row.trustiness = trustiness;
+            row.community = community;
+            row.development = development ;   
           });
-          //update the general data
-         process_json_stats(bp,ratings_json);
+          //save stats
+          save_bp_stats(user,
+                        bp,
+                        transparency,
+                        infrastructure,
+                        trustiness,
+                        community,
+                        development);
+        
 
-      } else {
-         uniq_rating_index.modify(existing_rating, _self, [&]( auto& row ) {
-           row.user = user;
-           row.bp = bp;
-           row.updated_at = now;
-           row.ratings_json = ratings_json;
-         });
-         //update the general data
-        process_json_stats(bp,ratings_json);
+        } else {
+           //the voter update its vote
+          uniq_rating_index.modify(existing_rating, user, [&]( auto& row ) {
+            row.user = user;
+            row.bp = bp;
+            row.transparency = transparency;
+            row.infrastructure = infrastructure;
+            row.trustiness = trustiness;
+            row.community = community;
+            row.development = development ;  
+          });
+          //update bp stats
+           float bp_transparency = 0;
+           float bp_infrastructure = 0;
+           float bp_trustiness = 0;
+           float bp_community = 0;
+           float bp_development = 0;
+           uint32_t  bp_ratings_cntr = 0;
+           float  bp_average = 0;
+           calculate_bp_stats (bp,
+                               &bp_transparency,
+                               &bp_infrastructure,
+                               &bp_trustiness,
+                               &bp_community,
+                               &bp_development,
+                               &bp_ratings_cntr,
+                               &bp_average);
+           update_bp_stats (&user,
+                            &bp,
+                            &bp_transparency,
+                            &bp_infrastructure,
+                            &bp_trustiness,
+                            &bp_community,
+                            &bp_development,
+                            &bp_ratings_cntr,
+                            &bp_average);
 
-       }
+
+        }
+        
     }
 
-    void process_json_stats(name bp_name,string ratings_json){
-      Document json;
-      bp_rate_stats a_bp_stats = {0,0,0,0,0};
-      bool flag = false;
-
-      check(!(MAXJSONSIZE<ratings_json.length()),"Error json rating data too big");
-      check( !(json.Parse<0>(ratings_json.c_str() ).HasParseError()) , "Error parsing json_rating" );
-
-      if(json.HasMember("transparency") && json["transparency"].IsInt()){
-          a_bp_stats.transparency = json["transparency"].GetInt();
-          flag=true;
-      }
-      check( (MINVAL<=a_bp_stats.transparency && a_bp_stats.transparency<=MAXVAL ), "Error transparency value out of range" );
-
-      if(json.HasMember("infrastructure") && json["infrastructure"].IsInt()){
-          a_bp_stats.infrastructure = json["infrastructure"].GetInt();
-          flag=true;
-      }
-      check( (MINVAL<=a_bp_stats.infrastructure && a_bp_stats.infrastructure<=MAXVAL ), "Error infrastructure value out of range" );
-
-      if ( json.HasMember("trustiness") && json["trustiness"].IsInt() ){
-          a_bp_stats.trustiness = json["trustiness"].GetInt();
-          flag=true;
-      }
-      check( (MINVAL<=a_bp_stats.trustiness && a_bp_stats.trustiness<=MAXVAL ), "Error trustiness value out of range" );
-
-      if ( json.HasMember("development") && json["development"].IsInt() ){
-          a_bp_stats.development = json["development"].GetInt();
-          flag=true;
-      }
-      check( (MINVAL<=a_bp_stats.development && a_bp_stats.development <=MAXVAL ), "Error development value out of range" );
-
-
-      if ( json.HasMember("community") && json["community"].IsInt() ){
-          a_bp_stats.community = json["community"].GetInt();
-          flag=true;
-      }
-      check( (MINVAL<=a_bp_stats.community && a_bp_stats.community<=MAXVAL ), "Error community value out of range" );
-
-      if(flag){
-      	save_bp_stats(bp_name,&a_bp_stats);
-      }
-
-    }
-
-    void save_bp_stats (name bp_name, bp_rate_stats * bp_rate ){
-      producers_stats_table bps_stats(_self, _self.value);
+    
+    void save_bp_stats (name user,
+                       name bp_name,
+                       float transparency,
+                       float infrastructure,
+                       float trustiness,
+                       float community,
+                       float development
+                       ){
+      _stats bps_stats(_self, _self.value);
       auto itr = bps_stats.find(bp_name.value);
-      int counter =0;
-      int sum = 0;
-      uint64_t now = eosio::current_time_point().time_since_epoch().count();
+      float counter =0;
+      float sum = 0;
       if(itr == bps_stats.end()){
         //new entry
-         bps_stats.emplace(_self, [&]( auto& row ) {
-
-            if (bp_rate->transparency){
-                row.transparency = bp_rate->transparency;
+         bps_stats.emplace(user, [&]( auto& row ) {
+            
+            if (transparency){
+                row.transparency = transparency;
                 counter++;
-                sum += bp_rate->transparency;
+                sum += transparency;
             }
 
-            if (bp_rate->infrastructure){
-                row.infrastructure = bp_rate->infrastructure;
+            if (infrastructure){
+                row.infrastructure = infrastructure;
                 counter++;
-                sum += bp_rate->infrastructure;
+                sum += infrastructure;
             }
 
-            if (bp_rate->trustiness){
-                row.trustiness = bp_rate->trustiness;
+            if (trustiness){
+                row.trustiness = trustiness;
                 counter++;
-                sum += bp_rate->trustiness;
+                sum += trustiness;
             }
 
-            if (bp_rate->development){
-                row.development = bp_rate->development;
+            if (development){
+                row.development = development;
                 counter++;
-                sum += bp_rate->development;
+                sum += development;
             }
 
-            if (bp_rate->community){
-                row.community = bp_rate->community;
+            if (community){
+                row.community = community;
                 counter++;
-                sum += bp_rate->community;
+                sum += community;
             }
 
             if(counter){
                 row.bp = bp_name;
-                row.proxy_voters_cntr = 1;
+                row.ratings_cntr = 1;
                 row.average =sum/counter;
-                row.created_at = now;
-                row.updated_at = now;
+                print("sum/counter",sum ,counter);
             }
           });
       }else{
         //update the entry
-        bps_stats.modify(itr,_self, [&]( auto& row ) {
-          if (bp_rate->transparency){
-                sum += bp_rate->transparency;
+        bps_stats.modify(itr,user, [&]( auto& row ) {
+          if (transparency){
+                sum += transparency;
                 if(row.transparency){
-                    bp_rate->transparency = (bp_rate->transparency + row.transparency)/2;
+                    transparency = (transparency + row.transparency)/2;
                 }
-                row.transparency = bp_rate->transparency;
+                row.transparency = transparency;
                 counter++;
             }
 
-            if (bp_rate->infrastructure){
-                sum += bp_rate->infrastructure;
+            if (infrastructure){
+                sum += infrastructure;
                 if(row.infrastructure){
-                    bp_rate->infrastructure = (bp_rate->infrastructure + row.infrastructure)/2;
+                    infrastructure = (infrastructure + row.infrastructure)/2;
                 }
-                row.infrastructure = bp_rate->infrastructure;
+                row.infrastructure = infrastructure;
                 counter++;
             }
 
-            if (bp_rate->trustiness){
-                sum += bp_rate->trustiness;
+            if (trustiness){
+                sum += trustiness;
                 if(row.trustiness){
-                    bp_rate->trustiness = (bp_rate->trustiness + row.trustiness)/2;
+                    trustiness = (trustiness + row.trustiness)/2;
                 }
-                row.trustiness = bp_rate->trustiness;
+                row.trustiness = trustiness;
                 counter++;
             }
 
-            if (bp_rate->development){
-                sum += bp_rate->development;
+            if (development){
+                sum += development;
                 if(row.development){
-                    bp_rate->development  = (bp_rate->development + row.development)/2;
+                    development  = (development + row.development)/2;
                 }
-                row.development = bp_rate->development;
+                row.development = development;
                 counter++;
             }
 
-            if (bp_rate->community){
-                sum += bp_rate->community;
+            if (community){
+                sum += community;
                 if(row.community){
-                    bp_rate->community = (bp_rate->community + row.community)/2;
+                    community = (community + row.community)/2;
                 }
-                row.community = bp_rate->community;
+                row.community = community;
                 counter++;
             }
 
             if(counter){
-                row.proxy_voters_cntr++;
+                row.ratings_cntr++;
                 row.average =( (sum/counter) + row.average ) /2;
-                row.updated_at = now;
             }
          });
       }
     }
+    
+    
+     void calculate_bp_stats ( name bp_name,
+                       float * transparency,
+                       float * infrastructure,
+                       float * trustiness,
+                       float * community,
+                       float * development,
+                       uint32_t * ratings_cntr,
+                       float  * average
+                       ){
+       
+        float category_counter = 0;
+        
+        float transparency_total  = 0;
+        float infrastructure_total = 0;
+        float trustiness_total = 0;
+        float community_total = 0;
+        float development_total = 0;
+        
+        float transparency_cntr = 0;
+        float infrastructure_cntr = 0;
+        float trustiness_cntr = 0;
+        float community_cntr = 0;
+        float development_cntr = 0;
+        uint32_t voters_cntr = 0;
 
-    // for dev only
-    ACTION erase(string table) {
-      // table = bps or stats
-      //only contract owner can erase table
-      require_auth(_self);
+        _ratings bps(_self, _self.value);
+        auto bps_index = bps.get_index<name("bp")>();
+        auto bps_it = bps_index.find(bp_name.value); 
+        
+        while(bps_it != bps_index.end()){
+           if(bp_name == bps_it->bp){
+               if(bps_it->transparency){
+                   transparency_total+=bps_it->transparency;
+                   transparency_cntr++;
+               }
 
-      if(!table.compare("bps")){
-      	producers_table bps(_self, _self.value);
-      	auto itr = bps.begin();
-      	while ( itr != bps.end()) {
-      	    itr = bps.erase(itr);
-      	}
-      }
+               if(bps_it->infrastructure){
+                   infrastructure_total+=bps_it->infrastructure;
+                   infrastructure_cntr++;
+               }
 
-      if(!table.compare("stats")){
-      	producers_stats_table bps_stats(_self, _self.value);
-      	auto itr_stats = bps_stats.begin();
-      	while ( itr_stats != bps_stats.end()) {
-            itr_stats = bps_stats.erase(itr_stats);
-      	}
+               if(bps_it->trustiness){
+                   trustiness_total+=bps_it->trustiness;
+                   trustiness_cntr++;
+               }
+
+               if(bps_it->community){
+                   community_total+=bps_it->community;
+                   community_cntr++;
+               }
+
+               if(bps_it->development){
+                   development_total+=bps_it->development;
+                   development_cntr++;
+               }
+               voters_cntr++;
+            }
+            bps_it ++;
+        }
+        
+        if(transparency_cntr){
+            *transparency = transparency_total/transparency_cntr;
+            category_counter++;
+        }
+        
+        if(infrastructure_cntr){
+            *infrastructure =infrastructure_total/infrastructure_cntr;
+            category_counter++;
+        }
+           
+        if(trustiness_cntr){
+            *trustiness = trustiness_total/trustiness_cntr;
+            category_counter++;
+        }
+           
+        if(community_cntr){
+            *community = community_total/community_cntr;
+            category_counter++;
+        }
+           
+        if(development_cntr){
+            *development = development_total/development_cntr;
+            category_counter++;
+        } 
+        *average = (*transparency + *infrastructure + *trustiness + *community +*development)/category_counter;
+        *ratings_cntr = voters_cntr;
+    }
+    
+    void update_bp_stats (name * user,
+                       name * bp_name,
+                       float * transparency,
+                       float * infrastructure,
+                       float * trustiness,
+                       float * community,
+                       float * development,
+                       uint32_t * ratings_cntr,
+                       float * average
+                       ){
+     
+      _stats bps_stats(_self, _self.value);
+      auto itr = bps_stats.find(bp_name->value);
+      if(itr != bps_stats.end()){
+        bps_stats.modify(itr,*user, [&]( auto& row ) {
+            row.transparency = *transparency;
+            row.infrastructure = *infrastructure;
+            row.trustiness = *trustiness;
+            row.development = *development;
+            row.community = *community;      
+            row.ratings_cntr= *ratings_cntr;
+            row.average = *average;
+         });
+          
       }
     }
+    
+
+    
+    ACTION erase(name bp_name) {
+        
+        require_auth(_self);
+
+        _ratings bps(_self, _self.value);
+        auto itr = bps.begin();
+        while ( itr != bps.end()) {
+            if(itr->bp == bp_name){
+                itr = bps.erase(itr);
+            }else{
+                itr++;
+            }
+        }
+
+        _stats bps_stats(_self, _self.value);
+        auto itr_stats = bps_stats.begin();
+        while ( itr_stats != bps_stats.end()) {
+            if(itr_stats->bp == bp_name){
+                itr_stats = bps_stats.erase(itr_stats);
+            }else{
+                itr_stats++;
+            }
+        }
+    }
+    
+    ACTION wipe() {
+        
+        require_auth(_self);
+        _ratings bps(_self, _self.value);
+        auto itr = bps.begin();
+        while ( itr != bps.end()) {
+            itr = bps.erase(itr);
+        }
+
+        _stats bps_stats(_self, _self.value);
+        auto itr_stats = bps_stats.begin();
+        while ( itr_stats != bps_stats.end()) {
+            itr_stats = bps_stats.erase(itr_stats);
+        }
+    }
+
 
   private:
-    TABLE block_producers_stats {
+    TABLE stats {
       name bp;
-      uint32_t proxy_voters_cntr;
+      uint32_t ratings_cntr;
       float average;
       float transparency;
       float infrastructure;
       float trustiness;
+      float development;  
       float community;
-      float development;
-      uint32_t created_at;
-      uint32_t updated_at;
       uint64_t primary_key() const { return bp.value; }
     };
 
-    typedef eosio::multi_index<"stats"_n, block_producers_stats > producers_stats_table;
+    typedef eosio::multi_index<"stats"_n, stats > _stats;
 
 
-    TABLE block_producer {
+    TABLE ratings {
       uint64_t id;
       uint128_t uniq_rating;
       name user;
       name bp;
-      string ratings_json;
-      uint32_t created_at;
-      uint32_t updated_at;
-
+      float transparency;
+      float infrastructure;
+      float trustiness;
+      float development;  
+      float community;
       uint64_t primary_key() const { return id; }
       uint128_t by_uniq_rating() const { return uniq_rating; }
       uint64_t by_user() const { return user.value; }
       uint64_t by_bp() const { return bp.value; }
     };
 
-    typedef eosio::multi_index<"bps"_n, block_producer,
-        indexed_by<"uniqrating"_n, const_mem_fun<block_producer, uint128_t, &block_producer::by_uniq_rating>>,
-        indexed_by<"user"_n, const_mem_fun<block_producer, uint64_t, &block_producer::by_user>>,
-        indexed_by<"bp"_n, const_mem_fun<block_producer, uint64_t, &block_producer::by_bp>>
-      > producers_table;
+    typedef eosio::multi_index<"ratings"_n, ratings,
+        indexed_by<"uniqrating"_n, const_mem_fun<ratings, uint128_t, &ratings::by_uniq_rating>>,
+        indexed_by<"user"_n, const_mem_fun<ratings, uint64_t, &ratings::by_user>>,
+        indexed_by<"bp"_n, const_mem_fun<ratings, uint64_t, &ratings::by_bp>>
+      > _ratings;
 
 };
 
-EOSIO_DISPATCH(rateproducer, (rate)(erase));
+EOSIO_DISPATCH(rateproducer,(rate)(erase)(wipe));

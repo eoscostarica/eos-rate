@@ -24,7 +24,7 @@ const styles = theme => ({
     color: '#ffffff'
   },
   unsafeChip: {
-    marginLeft: theme.spacing.unit * 2,
+    marginLeft: theme.spacing(2),
     backgroundColor: '#E91E63',
     color: 'white'
   },
@@ -38,8 +38,8 @@ const styles = theme => ({
   },
   radar: {
     background: theme.palette.primary.dark,
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2)
   },
   avatar: {
     backgroundColor: theme.palette.primary.main
@@ -66,6 +66,7 @@ const BlockProducerCard = ({
       }}
     >
       <CardHeader
+        className={classes.title}
         avatar={
           <Avatar aria-label='Block Producer' className={classes.avatar}>
             {_isEmpty(blockProducer.bpjson) ? (
@@ -108,7 +109,7 @@ const BlockProducerCard = ({
         }}
       />
     </div>
-    <CardActions className={classes.actions} disableActionSpacing>
+    <CardActions className={classes.actions}>
       <Button
         aria-label='Add to comparison'
         onClick={toggleSelection(!isSelected, blockProducer.owner)}

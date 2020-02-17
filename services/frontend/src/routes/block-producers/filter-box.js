@@ -11,7 +11,7 @@ import bpParameters from 'config/comparison-parameters'
 
 const styles = theme => ({
   nested: {
-    paddingLeft: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing(2),
     color: 'white'
   },
   listItem: {

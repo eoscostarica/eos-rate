@@ -1,21 +1,18 @@
-import radarPalette from 'config/radar-color-palette'
 import getRgbColorsFromHex from 'utils/getRgbColorsFromHex'
 
 export default ({ name, parameters }) => {
-  const randomColor =
-    radarPalette[Math.floor(Math.random() * radarPalette.length)]
-  const colors = getRgbColorsFromHex(randomColor)
+  const { r, g, b } = getRgbColorsFromHex(name)
 
   return {
     label: name,
     lineTension: 0.3,
     borderJoinStyle: 'round',
-    backgroundColor: `rgba(${colors.join(', ')}, .6)`,
-    borderColor: `rgba(${colors.join(', ')}, .6)`,
-    pointBackgroundColor: `rgba(${colors.join(', ')}, .6)`,
+    backgroundColor: `rgba(${r}, ${g}, ${b}, .6)`,
+    borderColor: `rgba(${r}, ${g}, ${b}, .6)`,
+    pointBackgroundColor: `rgba(${r}, ${g}, ${b}, .6)`,
     pointBorderColor: '#fff',
     pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: `rgba(${colors.join(', ')}, 1)`,
+    pointHoverBorderColor: `rgba(${r}, ${g}, ${b}, 1)`,
     data: Object.values(parameters)
   }
 }

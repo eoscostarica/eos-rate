@@ -10,7 +10,7 @@ import withT from 'components/with-t'
 
 const styles = theme => ({
   root: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     background: theme.palette.primary.dark,
     width: '100%',
     position: 'relative'
