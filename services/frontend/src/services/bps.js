@@ -12,7 +12,7 @@ export const getAllBPs = ({ nameFilter = null, setBPs = () => {} } = {}) => {
         subscription blockProducers($where: producers_list_bool_exp!) {
           producers_list(
             where: $where
-            order_by: { total_votes: desc }
+            order_by: [{ bpjson: desc }, { total_votes: desc }]
           ) {
             owner
             system
