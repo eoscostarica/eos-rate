@@ -44,8 +44,6 @@ const getBlockProducersData = async () => {
 
   console.log("urls", urls.length);
 
-  const allJsons = [];
-
   for (let i = 0; i < urls.length; i++) {
     try {
       let bp = await request({
@@ -54,11 +52,7 @@ const getBlockProducersData = async () => {
         json: true,
         timeout: 2000
       });
-      console.log("result bp", i);
-      if (urls[i] === "https://eoscostarica.io/bp.json") {
-        console.log("bp", bp);
-      }
-      // console.log('bp', bp)
+      console.log("result bp", i, bp["producer_account_name"]);
       try {
         if (bp["producer_account_name"] && bp["producer_account_name"] !== "") {
           allProducers[i]["bpJson"] = bp;
@@ -80,7 +74,6 @@ const updateBlockProducersData = async () => {
   const producersData = await getBlockProducersData();
 
   const saveBP = async ({ owner, system, bpJson: bpjson }) => {
-    // console.log(`try saving`, { owner, system, bpJson: bpjson })
     const bpData = {
       owner,
       system,
@@ -88,7 +81,6 @@ const updateBlockProducersData = async () => {
     };
 
     try {
-      if (bpData["owner"] === "junglemorpho") console.log("GREAT", bpData);
       const result = await db.producers.save(bpData);
       if (!result) {
         const insertResult = await db.producers.insert(bpData);
@@ -112,7 +104,7 @@ const updateBlockProducersData = async () => {
 
 (async () => {
   try {
-    console.log("blocks", await updateBlockProducersData());
+    console.log("updateBlockProducersData", await updateBlockProducersData());
   } catch (err) {
     console.log("!!!!", err);
   }
