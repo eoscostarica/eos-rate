@@ -13,7 +13,7 @@ const getBlockProducersData = async () => {
     httpEndpoint: EOS_API_ENDPOINT,
     verbose: false
   });
-  const { rows: producers } = await eos.getProducers({ json: true, limit: 10000 });
+  const { rows: producers } = await eos.getProducers({ json: true, limit: 1000 });
 
   const allProducers = producers.reduce((result, producer) => {
     if (!producer.is_active || !parseInt(producer.total_votes)) return result;
