@@ -57,10 +57,12 @@ const getBlockProducersData = async () => {
         if (bp["producer_account_name"] && bp["producer_account_name"] !== "") {
           allProducers[i]["bpJson"] = bp;
         } else {
-          console.log("skip", i, bp);
+          console.log("skip", i);
+          console.log(urls[i]);
         }
       } catch (e) {
-        console.log("skip", i, bp);
+        console.log("skip", i);
+        console.log(urls[i]);
       }
     } catch (error) {}
   }
@@ -104,7 +106,9 @@ const updateBlockProducersData = async () => {
 
 (async () => {
   try {
-    console.log("updateBlockProducersData", await updateBlockProducersData());
+    console.log("updateBlockProducersData");
+    await updateBlockProducersData();
+    console.log("OK");
   } catch (err) {
     console.log("!!!!", err);
   }
