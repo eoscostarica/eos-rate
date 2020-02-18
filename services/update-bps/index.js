@@ -27,32 +27,43 @@ const getBlockProducersData = async () => {
     ];
   }, []);
 
-  const requests = allProducers
+  const urls = allProducers
     .filter(({ bpJson, system }) => !Object.keys(bpJson).length && system.url)
     .map(({ system: { url } }) => {
       let result = url;
+      if (url.startsWith("https://") || url.startsWith("http://")) {
+        result = `${url}`;
+      }
       if (!url.startsWith("http")) {
         result = `http://${url}`;
       }
       if (!url.endsWith(".json")) {
         result = `${result}/bp.json`;
       }
-
       return result;
     })
-    .map(url =>
-      fetch(url)
-        .then(res => res.json())
-        .catch(e => {
-          console.error(e);
-        })
-    );
 
-  const allJsons = await Promise.all(requests);
+
+  console.log('urls', urls)
+
+  const allJsons = [] 
+
+  for (let i = 0; i < urls.length; i++) {
+    try {
+      let bp = await fetch(urls[i])
+      bp = await bp.json()
+      console.log('result bp', i)
+      allJsons.push(bp)
+    } catch (error) {
+    }
+  }
+
   const result = allProducers.map(producer => ({
     ...producer,
     bpJson: allJsons.find(bpJson => bpJson && bpJson.producer_account_name === producer.owner) || {}
   }));
+
+  console.log('xavier', result)
 
   return result;
 };
@@ -93,12 +104,21 @@ const updateBlockProducersData = async () => {
   // TODO : better error handling, report and retry unfulffilled
 };
 
-const run = async () => {
-  try {
-    updateBlockProducersData();
-  } catch (err) {
-    console.error(err);
-  }
-};
+// const run = async () => {
+//   try {
+//     await getBlockProducersData()
+//     // updateBlockProducersData();
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
-run();
+// run();
+
+(async () => {
+   try {
+     console.log('blocks', await getBlockProducersData())
+   } catch (err) {
+     console.log('!!!!', err);
+   }
+})()
