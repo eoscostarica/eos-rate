@@ -5,10 +5,12 @@ const request = require("request-promise");
 
 const dbConfig = require("./dbConfig");
 
+const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || "https://jungle.eosio.cr";
+
 // gets data from mainnet
 const getBlockProducersData = async () => {
   const eos = EosApi({
-    httpEndpoint: process.env.EOS_API_ENDPOINT || "https://jungle.eosio.cr",
+    httpEndpoint: EOS_API_ENDPOINT,
     verbose: false
   });
   const { rows: producers } = await eos.getProducers({ json: true, limit: 10000 });
@@ -55,7 +57,13 @@ const getBlockProducersData = async () => {
       console.log("result bp", i, bp["producer_account_name"]);
       try {
         if (bp["producer_account_name"] && bp["producer_account_name"] !== "") {
-          allProducers[i]["bpJson"] = bp;
+          if (EOS_API_ENDPOINT !== "https://jungle.eosio.cr" && bp["producer_account_name"] === allProducers[i]["owner"]) {
+            console.log("add", urls[i]);
+            allProducers[i]["bpJson"] = bp;
+          } else if (EOS_API_ENDPOINT === "https://jungle.eosio.cr") {
+            console.log("add", urls[i], "jungle");
+            allProducers[i]["bpJson"] = bp;
+          }
         } else {
           console.log("skip", i);
           console.log(urls[i]);
