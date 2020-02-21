@@ -60,6 +60,7 @@ const updateRatingsStats = async () => {
     console.log('Updating Ratings Stats')
     await updateRatingsStats()
     console.log('OK')
+    process.exit(0)
   } catch (err) {
     console.log('!!!!', err)
   }
