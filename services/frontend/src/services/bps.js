@@ -4,7 +4,19 @@ import gql from 'graphql-tag'
 import getBPRadarData from 'utils/getBPRadarData'
 
 export const getAllBPs = ({ nameFilter = null, setBPs = () => {} } = {}) => {
-  const whereFilter = nameFilter ? { _or: { candidate_name: { _ilike: `%${nameFilter}%` } } } : {}
+  const containsActive = {
+    system: {
+      _contains: {
+        is_active: 1
+      }
+    }
+  }
+  const nameFilerObject = {
+    _or: { candidate_name: { _ilike: `%${nameFilter}%` } }
+  }
+  const whereFilter = nameFilter
+    ? { ...containsActive, ...nameFilerObject }
+    : { ...containsActive }
 
   return client
     .subscribe({
