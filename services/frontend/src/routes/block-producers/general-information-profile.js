@@ -157,17 +157,6 @@ const GeneralInformation = ({ classes, producer }) => {
         </Grid>
         <Grid container direction='row'>
           <Typography variant='subtitle1' className={classes.subTitle}>
-            {t('status')}:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
-          >
-            {(producer && producer.system.is_active) || ' - -'}
-          </Typography>
-        </Grid>
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
             {t('website')}:
           </Typography>
           <Typography
