@@ -136,6 +136,7 @@
     "websiteInfo": "De su sitio web",
     "buttonRate": "Evalúa este PB",
     "allBP": "Lista de productores de bloques",
-    "noBpJson": "No encontramos un bp.json!"
+    "noBpJson": "No encontramos un bp.json!",
+    "noCountryName": "No se encontró el país."
   }
 }
