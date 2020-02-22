@@ -57,7 +57,7 @@ const updateRatingsStats = async () => {
 
 (async () => {
   try {
-    console.log('Updating Ratings Stats')
+    // console.log('Updating Ratings Stats')
     await updateRatingsStats()
     // console.log('OK')
     process.exit(0)

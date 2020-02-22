@@ -56,7 +56,7 @@ services:
 
   hasura:
     container_name: eosrate_hasura
-    image: hasura/graphql-engine:v1.0.0.cli-migrations
+    image: hasura/graphql-engine:v1.1.0.cli-migrations
     ports:
       - "8088:8080"
     depends_on:
