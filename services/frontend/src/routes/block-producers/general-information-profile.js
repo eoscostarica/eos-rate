@@ -5,10 +5,18 @@ import { useTranslation } from 'react-i18next'
 import { Link } from '@reach/router'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
+import _get from 'lodash.get'
 import Typography from '@material-ui/core/Typography'
+
+import formatNumber from 'utils/formatNumber' 
 
 const SocialNetworks = ({ classes, overrideClass, producer }) => {
   const { t } = useTranslation('bpProfile')
+  const github = _get(producer, 'org.social.github') 
+  const twitter = _get(producer, 'org.social.twitter') 
+  const linkedin = _get(producer, 'org.social.linkedin') 
+  const telegram = _get(producer, 'org.social.telegram')
+  const instagram = _get(producer, 'org.social.instagram') 
 
   return (
     <Grid
@@ -19,7 +27,7 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
       <Typography variant='subtitle1' className={classes.title}>
         {t('social')}
       </Typography>
-      <Grid container direction='row'>
+      {github && <Grid container direction='row'>
         <Typography variant='subtitle1' className={classes.subTitle}>
           GitHub:
         </Typography>
@@ -27,10 +35,10 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
           variant='subtitle1'
           className={classNames(classes.value, classes.subTitle)}
         >
-          {(producer && producer.org.social.github) || '- -'}
+          <a href={`https://github.com/${github}`} className={classes.links} target="_blank">{github}</a>
         </Typography>
-      </Grid>
-      <Grid container direction='row'>
+      </Grid>}
+      {twitter && <Grid container direction='row'>
         <Typography variant='subtitle1' className={classes.subTitle}>
           Twitter:
         </Typography>
@@ -38,10 +46,10 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
           variant='subtitle1'
           className={classNames(classes.value, classes.subTitle)}
         >
-          {(producer && producer.org.social.twitter) || '- -'}
+          <a href={`https://twitter.com/${twitter}`} className={classes.links} target="_blank">{twitter}</a>
         </Typography>
-      </Grid>
-      <Grid container direction='row'>
+      </Grid>}
+      {linkedin && <Grid container direction='row'>
         <Typography variant='subtitle1' className={classes.subTitle}>
           LinkedIn:
         </Typography>
@@ -49,10 +57,10 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
           variant='subtitle1'
           className={classNames(classes.value, classes.subTitle)}
         >
-          {(producer && producer.org.social.linkedin) || '- -'}
+          <a href={`https://www.linkedin.com/in/${linkedin}`} className={classes.links} target="_blank">{linkedin}</a>
         </Typography>
-      </Grid>
-      <Grid container direction='row'>
+      </Grid>}
+      {telegram && <Grid container direction='row'>
         <Typography variant='subtitle1' className={classes.subTitle}>
           Telegram:
         </Typography>
@@ -60,10 +68,10 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
           variant='subtitle1'
           className={classNames(classes.value, classes.subTitle)}
         >
-          {(producer && producer.org.social.telegram) || '- -'}
+          <a href={`https://web.telegram.org/#/${telegram}`} className={classes.links} target="_blank">{telegram}</a>
         </Typography>
-      </Grid>
-      <Grid container direction='row'>
+      </Grid>}
+      {instagram && <Grid container direction='row'>
         <Typography variant='subtitle1' className={classes.subTitle}>
           Instagram:
         </Typography>
@@ -71,9 +79,9 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
           variant='subtitle1'
           className={classNames(classes.value, classes.subTitle)}
         >
-          {(producer && producer.org.social.instagram) || '- -'}
+          <a href={`https://www.instagram.com/${instagram}`} className={classes.links} target="_blank">{instagram}</a>
         </Typography>
-      </Grid>
+      </Grid>}
     </Grid>
   )
 }
@@ -100,6 +108,8 @@ const WebsiteLegend = ({ classes, overrideClass }) => {
 
 const GeneralInformation = ({ classes, producer, overrideClass }) => {
   const { t } = useTranslation('bpProfile')
+  const webpageURL = _get(producer, 'system.url')
+  const totalVotes = _get(producer, 'system.total_votes') || 0
 
   return (
     <>
@@ -115,7 +125,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {(producer && producer.system.owner) || '- -'}
+            {_get(producer, 'system.owner', '- -')}
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -126,7 +136,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {(producer && producer.system.location) || '- -'}
+            {_get(producer, 'system.location', '- -')}
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -137,7 +147,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {(producer && producer.system.url) || '- -'}
+            {webpageURL ? <a href={webpageURL} className={classes.links} target="_blank">{webpageURL}</a> : '- -'}
           </Typography>
         </Grid>
       </Grid>
@@ -154,7 +164,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {(producer && producer.system.total_votes) || '- -'}
+            {formatNumber(parseFloat(totalVotes), 2)}
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -176,7 +186,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            - -
+            {_get(producer, 'average') || 0}
           </Typography>
         </Grid>
       </Grid>
@@ -187,8 +197,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             component={props => (
               <Link
                 {...props}
-                to={`/block-producers/${(producer && producer.owner) ||
-                  'noBlockProducerName'}/rate`}
+                to={`/block-producers/${_get(producer, 'owner', 'noBlockProducerName')}/rate`}
               />
             )}
             className={classes.btnBP}

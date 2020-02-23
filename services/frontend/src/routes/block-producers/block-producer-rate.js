@@ -19,6 +19,7 @@ import CheckCircle from '@material-ui/icons/CheckCircle'
 import Error from '@material-ui/icons/Error'
 import HelpOutline from '@material-ui/icons/HelpOutline'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
+import _get from 'lodash.get'
 import { withStyles } from '@material-ui/core/styles'
 
 import BlockProducerRadar from 'components/block-producer-radar'
@@ -249,8 +250,7 @@ const BlockProducerRate = ({
   const handleStateChange = parameter => (event, value) =>
     setRatingState({ ...ratingState, [parameter]: value })
 
-  const bPLogo =
-    producer && producer.bpjson ? producer.bpjson.org.branding.logo_256 : null
+  const bPLogo = _get(producer, 'bpjson.org.branding.logo_256', null)
 
   return (
     <Grid container justify='center' spacing={16} className={classes.container}>

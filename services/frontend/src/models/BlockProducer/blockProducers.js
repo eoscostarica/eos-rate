@@ -108,7 +108,7 @@ const blockProducers = {
             ({ owner }) => owner === blockProducer.owner
           )
 
-        this.addProducer({ ...blockProducer, system: { ...blockProducer.system, parameters: bpData.system.parameters }, data: bpData.data || [] })
+        this.addProducer({ ...blockProducer, average: bpData.average, system: { ...blockProducer.system, parameters: bpData.system.parameters }, data: bpData.data || [] })
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
         console.error('getBlockProducerByOwner', error)
