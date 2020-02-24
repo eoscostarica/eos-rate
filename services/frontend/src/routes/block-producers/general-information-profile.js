@@ -125,7 +125,7 @@ const GeneralInformation = ({ classes, producer }) => {
     _get(producer, 'bpjson.org.location.country', null),
     _get(producer, 'system.location', null),
     t('noCountryName')
-    )
+  )
 
   return (
     <>
