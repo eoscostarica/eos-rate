@@ -117,6 +117,7 @@ const updateBlockProducersData = async () => {
     console.log('updateBlockProducersData')
     await updateBlockProducersData()
     console.log('OK')
+    process.exit(0)
   } catch (err) {
     console.log('!!!!', err)
   }
