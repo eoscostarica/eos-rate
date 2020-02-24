@@ -2,10 +2,31 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
+import countries from 'i18n-iso-countries'
 import { Link } from '@reach/router'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
+import _get from 'lodash.get'
 import Typography from '@material-ui/core/Typography'
+
+countries.registerLocale(require('i18n-iso-countries/langs/en.json'))
+countries.registerLocale(require('i18n-iso-countries/langs/es.json'))
+
+const _getCountryName = (country = null, locationNumber, defaultMessage) => {
+  const { i18n } = useTranslation()
+  const countryNameByLocationNumber = countries.getName(
+    locationNumber,
+    i18n.language
+  )
+
+  if (countryNameByLocationNumber) return countryNameByLocationNumber
+
+  const countryNameByISO = countries.getName(country, i18n.language)
+
+  if (countryNameByISO) return countryNameByISO
+
+  return defaultMessage
+}
 
 const SocialNetworks = ({ classes, overrideClass, producer }) => {
   const { t } = useTranslation('bpProfile')
@@ -78,7 +99,7 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
   )
 }
 
-const WebsiteLegend = ({ classes, overrideClass }) => {
+const WebsiteLegend = ({ classes }) => {
   const { t } = useTranslation('bpProfile')
 
   return (
@@ -98,8 +119,13 @@ const WebsiteLegend = ({ classes, overrideClass }) => {
   )
 }
 
-const GeneralInformation = ({ classes, producer, overrideClass }) => {
+const GeneralInformation = ({ classes, producer }) => {
   const { t } = useTranslation('bpProfile')
+  const countryName = _getCountryName(
+    _get(producer, 'bpjson.org.location.country', null),
+    _get(producer, 'system.location', null),
+    t('noCountryName')
+  )
 
   return (
     <>
@@ -126,7 +152,7 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {(producer && producer.system.location) || '- -'}
+            {countryName}
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -204,24 +230,17 @@ const GeneralInformation = ({ classes, producer, overrideClass }) => {
 SocialNetworks.propTypes = {
   classes: PropTypes.object,
   overrideClass: PropTypes.any,
-  producer: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.bool
-  ])
+  producer: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
 }
 
 GeneralInformation.propTypes = {
   classes: PropTypes.object,
   overrideClass: PropTypes.any,
-  producer: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.bool
-  ])
+  producer: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
 }
 
 WebsiteLegend.propTypes = {
-  classes: PropTypes.object,
-  overrideClass: PropTypes.any
+  classes: PropTypes.object
 }
 
 export { SocialNetworks, GeneralInformation, WebsiteLegend }

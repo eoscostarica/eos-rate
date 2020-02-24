@@ -104,7 +104,8 @@ const BlockProducerRate = ({
   producer,
   getBPRating,
   addUserRating,
-  userRate
+  userRate,
+  location
 }) => {
   const walletState = useWalletState()
   const [ratingState, setRatingState] = useState(INIT_RATING_STATE_DATA)
@@ -622,7 +623,8 @@ BlockProducerRate.propTypes = {
   producer: PropTypes.object,
   getBPRating: PropTypes.func,
   addUserRating: PropTypes.func,
-  userRate: PropTypes.object
+  userRate: PropTypes.object,
+  location: PropTypes.object
 }
 
 const mapStateToProps = ({ blockProducers: { producer, userRate } }) => ({
