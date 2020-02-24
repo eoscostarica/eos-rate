@@ -137,6 +137,6 @@
     "buttonRate": "Rate this BP",
     "allBP": "All Block Producers",
     "noBpJson": "No BP.json file provided.",
-    "noCountryName": "No country name."
+    "noCountryName": "No location provided."
   }
 }

@@ -6,12 +6,13 @@ import countries from 'i18n-iso-countries'
 import { Link } from '@reach/router'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
+import _get from 'lodash.get'
 import Typography from '@material-ui/core/Typography'
 
 countries.registerLocale(require('i18n-iso-countries/langs/en.json'))
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'))
 
-const _getCountryName = (org = null, locationNumber, defaultMessage) => {
+const _getCountryName = (country = null, locationNumber, defaultMessage) => {
   const { i18n } = useTranslation()
   const countryNameByLocationNumber = countries.getName(
     locationNumber,
@@ -20,7 +21,7 @@ const _getCountryName = (org = null, locationNumber, defaultMessage) => {
 
   if (countryNameByLocationNumber) return countryNameByLocationNumber
 
-  const countryNameByISO = countries.getName(org, i18n.language)
+  const countryNameByISO = countries.getName(country, i18n.language)
 
   if (countryNameByISO) return countryNameByISO
 
@@ -121,11 +122,10 @@ const WebsiteLegend = ({ classes }) => {
 const GeneralInformation = ({ classes, producer }) => {
   const { t } = useTranslation('bpProfile')
   const countryName = _getCountryName(
-    Object.values(producer.bpjson).length &&
-      producer.bpjson.org.location.country,
-    producer.system.location,
+    _get(producer, 'bpjson.org.location.country', null),
+    _get(producer, 'system.location', null),
     t('noCountryName')
-  )
+    )
 
   return (
     <>

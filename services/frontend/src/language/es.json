@@ -137,6 +137,6 @@
     "buttonRate": "Evalúa este PB",
     "allBP": "Lista de productores de bloques",
     "noBpJson": "No encontramos un bp.json!",
-    "noCountryName": "No se encontró el país."
+    "noCountryName": "No se proporcionó ubicación."
   }
 }
