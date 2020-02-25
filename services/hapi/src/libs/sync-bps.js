@@ -3,7 +3,7 @@ const EosApi = require('eosjs-api')
 const massive = require('massive')
 const request = require('request-promise')
 
-const dbConfig = require('./dbConfig')
+const dbConfig = require('../config/dbConfig')
 
 const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 

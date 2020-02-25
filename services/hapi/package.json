@@ -1,0 +1,17 @@
+{
+  "name": "eosrate-backend",
+  "version": "19.1.1",
+  "description": "EOS Rate Backend API Service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "EOS Costa Rica",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/hapi": "^19.1.1",
+    "eosjs": "^20.0.3",
+    "massive": "^6.2.0",
+    "node-fetch": "^2.6.0"
+  }
+}

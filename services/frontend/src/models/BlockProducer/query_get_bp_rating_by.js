@@ -1,11 +1,11 @@
 import gql from 'graphql-tag'
 
 const QUERY_RATING = gql`
-  query getRating($account: String, $bp: String) {
+  query getRating($user: String, $bp: String) {
     user_ratings(
-      where: { _and: [{ account: { _eq: $account } }, { bp: { _eq: $bp } }] }
+      where: { _and: [{ user: { _eq: $user } }, { bp: { _eq: $bp } }] }
     ) {
-      account
+      user
       bp
       ratings
       tx_data
