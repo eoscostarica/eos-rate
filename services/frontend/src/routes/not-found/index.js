@@ -22,7 +22,6 @@ const styles = ({ spacing, palette }) => ({
     background: palette.primary.sectionBackground,
     display: 'flex',
     alignItems: 'center',
-    // justifyContent: 'space-around',
     flexDirection: 'column',
     '& > *': {
       marginTop: spacing(4)
@@ -77,8 +76,7 @@ const NotFound = ({ classes }) => {
 }
 
 NotFound.propTypes = {
-  classes: PropTypes.object.isRequired,
-  t: PropTypes.func.isRequired
+  classes: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(NotFound)

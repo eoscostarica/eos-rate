@@ -1,4 +1,5 @@
 import filterObjects from 'filter-objects'
+import { navigate } from '@reach/router'
 import uniq from 'lodash.uniq'
 
 import apolloClient from 'services/graphql'
@@ -94,12 +95,21 @@ const blockProducers = {
     async getBlockProducerByOwner (owner, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
+
         const {
           data: { producers }
         } = await apolloClient.query({
           variables: { owner },
           query: QUERY_PRODUCER
         })
+
+        if (!producers.length) {
+          navigate('/not-found')
+          this.addProducer(null)
+          dispatch.isLoading.storeIsContentLoading(false)
+
+          return
+        }
 
         const blockProducer = producers[0]
         const bpData =

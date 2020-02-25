@@ -54,7 +54,6 @@ const HomeCover = ({ classes, blockProducer }) => {
       container
       xs={12}
       className={classes.coverContainer}
-      spacing={24}
     >
       <Grid item xs={12} md={6} className={classes.leftCoverBox}>
         <Typography variant='h5' className={classes.title}>

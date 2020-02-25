@@ -112,16 +112,14 @@ const BlockProducerProfile = ({
   const bPLogo = bpHasInformation ? producer.bpjson.org.branding.logo_256 : null
   const BlockProducerTitle = _get(producer, 'bpjson.org.candidate_name', _get(producer, 'system.owner', 'No Data'))
 
-  console.log({ producer })
-
   useEffect(() => {
     getBlockProducer(account)
   }, [account])
 
   return (
-    <Grid container justify='center' spacing={16} className={classes.container}>
+    <Grid container justify='center' className={classes.container}>
       <Grid item xs={12}>
-        <Grid container spacing={16} direction='row' alignItems='center'>
+        <Grid container direction='row' alignItems='center'>
           <Button
             component={props => <Link {...props} to='/block-producers' />}
           >
