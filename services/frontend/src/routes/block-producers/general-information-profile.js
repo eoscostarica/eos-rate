@@ -16,14 +16,15 @@ countries.registerLocale(require('i18n-iso-countries/langs/es.json'))
 
 const _getCountryName = (country = null, locationNumber, defaultMessage) => {
   const { i18n } = useTranslation()
+  const language = (i18n.language || 'en').substring(0, 2)
   const countryNameByLocationNumber = countries.getName(
     locationNumber,
-    i18n.language.substring(0, 2)
+    language
   )
 
   if (countryNameByLocationNumber) return countryNameByLocationNumber
 
-  const countryNameByISO = countries.getName(country, i18n.language.substring(0, 2))
+  const countryNameByISO = countries.getName(country, language)
 
   if (countryNameByISO) return countryNameByISO
 
@@ -174,7 +175,7 @@ const WebsiteLegend = ({ classes }) => {
 const GeneralInformation = ({ classes, producer }) => {
   const { t } = useTranslation('bpProfile')
   const webpageURL = _get(producer, 'system.url')
-  const totalVotes = _get(producer, 'system.total_votes') || 0
+  const totalVotes = _get(producer, 'system.votesInEos') || 0
   const countryName = _getCountryName(
     _get(producer, 'bpjson.org.location.country', null),
     _get(producer, 'system.location', null),
@@ -245,7 +246,7 @@ const GeneralInformation = ({ classes, producer }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {formatNumber(parseFloat(totalVotes), 2)}
+            {formatNumber(parseFloat(totalVotes), 0)}
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -267,7 +268,7 @@ const GeneralInformation = ({ classes, producer }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {_get(producer, 'average') || 0}
+            {(_get(producer, 'average') || 0).toFixed(2)}
           </Typography>
         </Grid>
       </Grid>

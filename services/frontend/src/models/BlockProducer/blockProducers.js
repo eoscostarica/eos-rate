@@ -118,7 +118,16 @@ const blockProducers = {
             ({ owner }) => owner === blockProducer.owner
           )
 
-        this.addProducer({ ...blockProducer, average: bpData.average, system: { ...blockProducer.system, parameters: bpData.system.parameters }, data: bpData.data || [] })
+        this.addProducer({
+          ...blockProducer,
+          average: bpData.average,
+          system: {
+            ...blockProducer.system,
+            votesInEos: bpData.system.votesInEos,
+            parameters: bpData.system.parameters
+          },
+          data: bpData.data || []
+        })
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
         console.error('getBlockProducerByOwner', error)
@@ -228,7 +237,9 @@ const blockProducers = {
 
           return producer
         })
-        const currentBP = producerUpdatedList.find(producer => producer.owner === bp)
+        const currentBP = producerUpdatedList.find(
+          producer => producer.owner === bp
+        )
 
         dataResponse.length && this.addUserRate(dataResponse[0].ratings)
         this.addProducer(currentBP)

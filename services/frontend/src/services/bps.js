@@ -1,7 +1,10 @@
+import gql from 'graphql-tag'
+import _get from 'lodash.get'
+
 import mockedBPs from 'mock/bps'
 import client from 'services/graphql'
-import gql from 'graphql-tag'
 import getBPRadarData from 'utils/getBPRadarData'
+import calculateEosFromVotes from 'utils/convertVotesToEosVotes'
 
 export const getAllBPs = ({ nameFilter = null, setBPs = () => {} } = {}) => {
   const containsActive = {
@@ -60,11 +63,13 @@ export const getAllBPs = ({ nameFilter = null, setBPs = () => {} } = {}) => {
             transparency: transparency || 0,
             trustiness: trustiness || 0
           }
+          const votesInEos = calculateEosFromVotes(_get(bp, 'system.total_votes', 0))
 
           return {
             ...bp,
             system: {
               ...bp.system,
+              votesInEos,
               parameters
             },
             data: getBPRadarData({

@@ -96,7 +96,8 @@ const BlockProducerRate = ({
   producer,
   getBPRating,
   addUserRating,
-  userRate
+  userRate,
+  getBlockProducer
 }) => {
   const walletState = useWalletState()
   const [ratingState, setRatingState] = useState(INIT_RATING_STATE_DATA)
@@ -104,13 +105,18 @@ const BlockProducerRate = ({
   const { t } = useTranslation('bpRatePage')
   const wallet = walletState.wallet
   const accountName = wallet && wallet.auth.accountName
+  const bpData = _get(producer, 'data', {})
 
   useEffect(() => {
+    if (account) {
+      getBlockProducer(account)
+    }
+
     if (accountName) {
       getBPRating({ bp: account, userAccount: accountName })
       setShowMessage(false)
     }
-  }, [accountName])
+  }, [accountName, account])
 
   useEffect(() => {
     if (userRate) {
@@ -242,7 +248,7 @@ const BlockProducerRate = ({
             component={props => <Link {...props} to='/block-producers' />}
           >
             <KeyboardArrowLeft />
-            {t('allBP')}
+            {t('allBPs')}
           </Button>
           <Button
             component={props => (
@@ -312,7 +318,7 @@ const BlockProducerRate = ({
                       bpData={{
                         labels: bpParameters,
                         datasets: [
-                          { ...producer.data, label: t('globalRate') },
+                          { ...bpData, label: t('globalRate') },
                           userDataSet
                         ]
                       }}
@@ -405,7 +411,8 @@ BlockProducerRate.propTypes = {
   producer: PropTypes.object,
   getBPRating: PropTypes.func,
   addUserRating: PropTypes.func,
-  userRate: PropTypes.object
+  userRate: PropTypes.object,
+  getBlockProducer: PropTypes.func
 }
 
 const mapStateToProps = ({ blockProducers: { producer, userRate } }) => ({
@@ -415,7 +422,8 @@ const mapStateToProps = ({ blockProducers: { producer, userRate } }) => ({
 
 const mapDispatchToProps = dispatch => ({
   getBPRating: dispatch.blockProducers.getBlockProducerRatingByOwner,
-  addUserRating: dispatch.blockProducers.mutationInsertUserRating
+  addUserRating: dispatch.blockProducers.mutationInsertUserRating,
+  getBlockProducer: dispatch.blockProducers.getBlockProducerByOwner
 })
 
 export default withStyles(style)(

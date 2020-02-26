@@ -109,7 +109,7 @@ const BlockProducerProfile = ({
 }) => {
   const { t } = useTranslation('bpProfile')
   const bpHasInformation = Boolean(producer && Object.values(producer.bpjson).length)
-  const bPLogo = bpHasInformation ? producer.bpjson.org.branding.logo_256 : null
+  const bPLogo = bpHasInformation && _get(producer, 'bpjson.org.branding.logo_256', null)
   const BlockProducerTitle = _get(producer, 'bpjson.org.candidate_name', _get(producer, 'system.owner', 'No Data'))
 
   useEffect(() => {

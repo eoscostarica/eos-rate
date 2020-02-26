@@ -46,7 +46,7 @@ const LanguageSelect = ({ classes, style, alt }) => {
           className={classes.iconLanguage}
         />
         <Typography variant='h5' className={classes.languageText}>
-          {(i18n.language.substring(0, 2) || '').toLocaleUpperCase()}
+          {(i18n.language || '').toLocaleUpperCase().substring(0, 2)}
         </Typography>
       </div>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
