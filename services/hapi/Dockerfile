@@ -11,6 +11,7 @@ RUN apk add --no-cache jq
 RUN apk add --no-cache curl
 RUN apk add --no-cache vim
 RUN yarn global add serve
+RUN yarn global add eslint
 
 # Install nodemon for dev
 RUN yarn --ignore-optional --frozen-lockfile global add nodemon
