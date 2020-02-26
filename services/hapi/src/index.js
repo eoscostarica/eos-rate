@@ -7,41 +7,41 @@ const Hapi = require('@hapi/hapi');
 
 const init = async () => {
 
-    const server = Hapi.server({
-        port: 3005,
-        host: '0.0.0.0'
-    });
+	const server = Hapi.server({
+		port: 3005,
+		host: '0.0.0.0'
+	});
 
 	server.route({
-	    method: 'GET',
-	    path: '/',
-	    handler: function (request, h) {
-        	return 'Hello World!';
-    	}
+		method: 'GET',
+		path: '/',
+		handler: function () {
+			return 'Hello World!';
+		}
 	});
 
 	server.route({	
-	    method: 'GET',
-	    path: '/ratebp',
-	    handler: (request, h) => {
-    	const bp = request.query.producer
-    	if (bp) { updateBpStats(bp) }
+		method: 'GET',
+		path: '/ratebp',
+		handler: (request) => {
+			const bp = request.query.producer
+			if (bp) { updateBpStats(bp) }
 
-    	const user = request.query.user
-    	if (user) { updateUserRatings(user)}
+				const user = request.query.user
+			if (user) { updateUserRatings(user)}
 
-    	return("updating stats for producer: " + bp + " user : " + user)
-  	}
+				return("updating stats for producer: " + bp + " user : " + user)
+		}
 	})
 
-    await server.start();
-    console.log('Server running on %s', server.info.uri);
+	await server.start();
+	console.log('Server running on %s', server.info.uri);
 };
 
 process.on('unhandledRejection', (err) => {
 
-    console.log(err);
-    process.exit(1);
+	console.log(err);
+	process.exit(1);
 });
 
 init();

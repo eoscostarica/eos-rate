@@ -74,7 +74,9 @@ const getBlockProducersData = async () => {
         console.log('skip', i)
         console.log(urls[i])
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   }
   return allProducers
 }
