@@ -15,7 +15,7 @@ const init = async () => {
     method: 'GET',
     path: '/',
     handler: function() {
-      return 'Hello World!'
+      return '<h2>EOS Rate HTTP API service</h2>'
     }
   })
 
