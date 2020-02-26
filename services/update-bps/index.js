@@ -18,6 +18,8 @@ const getBlockProducersData = async () => {
   const allProducers = producers.reduce((result, producer) => {
     if (!producer.is_active || !parseInt(producer.total_votes)) return result
 
+    console.log(producer.owner, ' TOTAL VOTES: ----> ', producer.total_votes)
+
     return [
       ...result,
       {

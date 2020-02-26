@@ -1,4 +1,5 @@
 import filterObjects from 'filter-objects'
+import { navigate } from '@reach/router'
 import uniq from 'lodash.uniq'
 
 import apolloClient from 'services/graphql'
@@ -94,12 +95,21 @@ const blockProducers = {
     async getBlockProducerByOwner (owner, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
+
         const {
           data: { producers }
         } = await apolloClient.query({
           variables: { owner },
           query: QUERY_PRODUCER
         })
+
+        if (!producers.length) {
+          navigate('/not-found')
+          this.addProducer(null)
+          dispatch.isLoading.storeIsContentLoading(false)
+
+          return
+        }
 
         const blockProducer = producers[0]
         const bpData =
@@ -108,7 +118,16 @@ const blockProducers = {
             ({ owner }) => owner === blockProducer.owner
           )
 
-        this.addProducer({ ...blockProducer, system: { ...blockProducer.system, parameters: bpData.system.parameters }, data: bpData.data || [] })
+        this.addProducer({
+          ...blockProducer,
+          average: bpData.average,
+          system: {
+            ...blockProducer.system,
+            votesInEos: bpData.system.votesInEos,
+            parameters: bpData.system.parameters
+          },
+          data: bpData.data || []
+        })
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
         console.error('getBlockProducerByOwner', error)
@@ -218,7 +237,9 @@ const blockProducers = {
 
           return producer
         })
-        const currentBP = producerUpdatedList.find(producer => producer.owner === bp)
+        const currentBP = producerUpdatedList.find(
+          producer => producer.owner === bp
+        )
 
         dataResponse.length && this.addUserRate(dataResponse[0].ratings)
         this.addProducer(currentBP)

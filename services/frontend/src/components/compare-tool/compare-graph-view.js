@@ -51,7 +51,7 @@ const CompareGraphView = ({
 }) => {
   const { t } = useTranslation('translations')
   return (
-    <Grid container className={classes.root} spacing={16}>
+    <Grid container className={classes.root}>
       <Grid item xs={12} md={8}>
         <BlockProducerRadar
           bpData={{

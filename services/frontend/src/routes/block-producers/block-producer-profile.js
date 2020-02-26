@@ -13,6 +13,7 @@ import { withStyles } from '@material-ui/core/styles'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import Divider from '@material-ui/core/Divider'
+import _get from 'lodash.get'
 
 import BlockProducerRadar from 'components/block-producer-radar'
 import bpParameters from 'config/comparison-parameters'
@@ -91,6 +92,10 @@ const style = theme => ({
     [theme.breakpoints.up('sm')]: {
       margin: 0
     }
+  },
+  links: {
+    textDecoration: 'none',
+    color: theme.palette.secondary.light
   }
 })
 
@@ -104,16 +109,17 @@ const BlockProducerProfile = ({
 }) => {
   const { t } = useTranslation('bpProfile')
   const bpHasInformation = Boolean(producer && Object.values(producer.bpjson).length)
-  const bPLogo = bpHasInformation ? producer.bpjson.org.branding.logo_256 : null
+  const bPLogo = bpHasInformation && _get(producer, 'bpjson.org.branding.logo_256', null)
+  const BlockProducerTitle = _get(producer, 'bpjson.org.candidate_name', _get(producer, 'system.owner', 'No Data'))
 
   useEffect(() => {
     getBlockProducer(account)
   }, [account])
 
   return (
-    <Grid container justify='center' spacing={16} className={classes.container}>
+    <Grid container justify='center' className={classes.container}>
       <Grid item xs={12}>
-        <Grid container spacing={16} direction='row' alignItems='center'>
+        <Grid container direction='row' alignItems='center'>
           <Button
             component={props => <Link {...props} to='/block-producers' />}
           >
@@ -146,11 +152,7 @@ const BlockProducerProfile = ({
                         <AccountCircle className={classes.accountCircle} />
                       )}
                       <Typography variant='h6' className={classes.bpName}>
-                        {bpHasInformation
-                          ? producer.bpjson.org.candidate_name
-                          : producer
-                            ? producer.system.owner
-                            : 'No Data'}
+                        {BlockProducerTitle}
                       </Typography>
                       {!bpHasInformation && (
                         <Typography variant='h6' className={classes.bpName}>

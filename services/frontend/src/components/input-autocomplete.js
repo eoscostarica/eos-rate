@@ -153,7 +153,7 @@ class InputAutocomplete extends PureComponent {
   }
 
   handleSelectedSuggestion = (event, { suggestion }) => {
-    navigate(`/block-producers/${suggestion.bpjson.producer_account_name}`)
+    navigate(`/block-producers/${suggestion.owner}`)
     this.props.onItemSelected && this.props.onItemSelected()
   }
 
