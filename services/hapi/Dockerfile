@@ -18,7 +18,6 @@ RUN yarn --ignore-optional --frozen-lockfile global add nodemon
 # Install app dependencies
 COPY package*.json ./
 COPY yarn.lock ./
-COPY node_modules/**/* ./
 
 # Bundle app source
 COPY . .
