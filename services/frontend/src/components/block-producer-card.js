@@ -160,6 +160,7 @@ const BlockProducerCard = ({
           component={props => (
             <Link
               {...props}
+              state={{ owner: blockProducer.owner }}
               to={`/block-producers/${blockProducer.owner}/rate`}
             />
           )}

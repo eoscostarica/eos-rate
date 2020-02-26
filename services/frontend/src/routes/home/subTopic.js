@@ -29,7 +29,6 @@ const SubTopic = ({ classes }) => {
       container
       xs={12}
       className={classes.subTopicContainer}
-      spacing={24}
     >
       <Grid item xs={12} md={6}>
         <Typography variant='h5' className={classes.title}>

@@ -136,6 +136,7 @@
     "websiteInfo": "From Their Website",
     "buttonRate": "Rate this BP",
     "allBP": "All Block Producers",
-    "noBpJson": "No BP.json file provided."
+    "noBpJson": "No BP.json file provided.",
+    "noCountryName": "No location provided."
   }
 }

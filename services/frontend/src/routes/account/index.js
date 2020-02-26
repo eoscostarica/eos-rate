@@ -62,7 +62,7 @@ const Account = ({ classes }) => {
   }
 
   return (
-    <Grid container spacing={16} className={classes.container}>
+    <Grid container className={classes.container}>
       <Grid item xs={12}>
         <Paper className={classes.account}>
           <Typography variant='h5' className={classnames(classes.title)}>

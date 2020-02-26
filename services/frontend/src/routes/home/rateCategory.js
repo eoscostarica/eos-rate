@@ -38,7 +38,6 @@ const RatingCategory = ({ classes }) => {
       container
       xs={12}
       className={classes.ratingContainer}
-      spacing={24}
     >
       <Grid item xs={12} md={12}>
         <Typography variant='h5' className={classes.title}>
