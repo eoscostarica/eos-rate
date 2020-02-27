@@ -15,7 +15,8 @@
     "eosjs-api": "^7.0.4",
     "lint": "^0.7.0",
     "massive": "^6.2.0",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "request-promise": "^4.2.5"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
