@@ -12,6 +12,7 @@
   "dependencies": {
     "@hapi/hapi": "^19.1.1",
     "eosjs": "^20.0.3",
+    "eosjs-api": "^7.0.4",
     "lint": "^0.7.0",
     "massive": "^6.2.0",
     "node-fetch": "^2.6.0"
