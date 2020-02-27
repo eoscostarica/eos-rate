@@ -38,7 +38,7 @@ services:
     ports:
       - '3005:3005'
     environment:
-      VIRTUAL_HOST: hapi.eosrate.io
+      VIRTUAL_HOST: 0.0.0.0
       VIRTUAL_PORT: 3005
       DB_USER: user
       DB_PASSWORD: pass

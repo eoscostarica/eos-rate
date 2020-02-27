@@ -1,4 +1,5 @@
 'use strict'
+const { VIRTUAL_PORT, VIRTUAL_HOST } = process.env
 
 const updateBpStats = require('./libs/sync-bp-stats')
 const updateUserRatings = require('./libs/sync-user-rating')
@@ -7,8 +8,8 @@ const Hapi = require('@hapi/hapi')
 
 const init = async () => {
   const server = Hapi.server({
-    port: 3005,
-    host: '0.0.0.0'
+    port: VIRTUAL_PORT || 3005,
+    host: VIRTUAL_HOST || '0.0.0.0'
   })
 
   server.route({
