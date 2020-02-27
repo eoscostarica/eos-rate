@@ -1,0 +1,41 @@
+{
+  "name": "eosrate-backend",
+  "version": "19.1.1",
+  "description": "EOS Rate Backend API Service",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "EOS Costa Rica",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/hapi": "^19.1.1",
+    "eosjs": "^20.0.3",
+    "lint": "^0.7.0",
+    "massive": "^6.2.0",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-config-standard-react": "^9.1.0",
+    "eslint-plugin-node": "^9.2.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": ">=4",
+    "lint-staged": ">=10",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
+    "snazzy": "^8.0.0",
+    "standard": "^14.1.0"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}

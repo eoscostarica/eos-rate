@@ -3,7 +3,7 @@ const { JsonRpc } = require('eosjs')
 const fetch = require('node-fetch')
 const massive = require('massive')
 
-const dbConfig = require('./dbConfig')
+const dbConfig = require('../config/dbConfig')
 
 const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 

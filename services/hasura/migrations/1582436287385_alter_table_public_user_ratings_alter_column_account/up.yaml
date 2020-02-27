@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: alter table "public"."user_ratings" rename column "account" to "user";
+  type: run_sql

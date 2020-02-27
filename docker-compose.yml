@@ -26,6 +26,30 @@ services:
       DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
     depends_on:
       - postgres
+  
+  hapi:
+    container_name: eosrate_hapi
+    build:
+      context: ./services/hapi
+      dockerfile: Dockerfile
+    volumes:
+      - ./services/hapi:/opt/application  
+      - /opt/application/node_modules # prevents host/container conflicts
+    ports:
+      - '3005:3005'
+    environment:
+      VIRTUAL_HOST: 0.0.0.0
+      VIRTUAL_PORT: 3005
+      DB_USER: user
+      DB_PASSWORD: pass
+      DB_PORT: 5432
+      DB_NAME: eosrate
+      DB_HOST: postgres
+      DB_SCHEMA: public
+      EOS_API_ENDPOINT: "https://jungle.eosio.cr"
+
+    depends_on:
+     - postgres
 
   demux:
     container_name: eosrate_demux

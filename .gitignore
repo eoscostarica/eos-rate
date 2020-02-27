@@ -20,6 +20,7 @@ node_modules
 temp
 .mongo-data
 .pgsql-data
+.eslintcache
 
 # database data
 .dbdata/
