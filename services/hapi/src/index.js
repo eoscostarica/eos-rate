@@ -21,20 +21,22 @@ const init = async () => {
   })
 
   server.route({
-    method: 'GET',
+    method: 'POST',
     path: '/ratebp',
-    handler: request => {
-      const bp = request.query.producer
+    handler: (req, resp) => {
+      const bp = req.payload.producer
       if (bp) {
         updateBpStats(bp)
       }
-
-      const user = request.query.user
+      const user = req.payload.user
       if (user) {
         updateUserRatings(user)
       }
 
-      return 'updating stats for producer: ' + bp + ' user : ' + user
+      return {
+        response: resp.payload,
+        message: 'updating stats for producer: ' + bp + ' user : ' + user
+      }
     }
   })
 
