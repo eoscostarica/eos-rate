@@ -1,0 +1,9 @@
+- args:
+    name: rateProducer
+  type: drop_action
+- args:
+    enums: []
+    input_objects: []
+    objects: []
+    scalars: []
+  type: set_custom_types
