@@ -23,18 +23,18 @@ const init = async () => {
   server.route({
     method: 'POST',
     path: '/ratebp',
-    handler: (req, resp) => {
-      const bp = req.payload.producer
+    handler: req => {
+      console.log(req.payload.input.ratingInput)
+      const bp = req.payload.input.ratingInput.producer
       if (bp) {
         updateBpStats(bp)
       }
-      const user = req.payload.user
+      const user = req.payload.input.ratingInput.user
       if (user) {
         updateUserRatings(user)
       }
 
       return {
-        response: resp.payload,
         message: 'updating stats for producer: ' + bp + ' user : ' + user
       }
     }
