@@ -25,43 +25,34 @@ const init = async () => {
     method: 'POST',
     path: '/ratebp',
     handler: req => {
-      let bp, user
-      if (req.payload.input.ratingInput) {
+      var bp, user, message
+
+      if (req.payload.input) {
+        user = req.payload.input.ratingInput.user
         bp = req.payload.input.ratingInput.producer
+        message = ''
       } else {
-        bp = ''
+        message = 'Invalid Input'
+        return { message }
       }
-      console.log('bp', bp)
+
       const isBp = isValidAccountName(bp)
-      console.log('isbp', isBp)
       if (isBp) {
         updateBpStats(bp)
+        message += 'Updating BP -'
+      } else {
+        message += 'Invalid block producer provided! -'
       }
 
-      if (req.payload.input.ratingInput) {
-        user = req.payload.input.ratingInput.user
-      } else {
-        user = ''
-      }
-      console.log('user', user)
       const isUser = isValidAccountName(user)
-      console.log('isUser', isUser)
       if (isUser) {
         updateUserRatings(user)
+        message += 'Updating user '
+      } else {
+        message += ' Invalid user account provided!'
       }
 
-      return {
-        message:
-          'updating stats for producer ' +
-          bp +
-          ' (' +
-          isBp +
-          ') and for user ' +
-          user +
-          ' (' +
-          isUser +
-          ')'
-      }
+      return { message }
     }
   })
 

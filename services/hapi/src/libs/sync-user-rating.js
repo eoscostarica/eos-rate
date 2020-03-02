@@ -5,7 +5,8 @@ const massive = require('massive')
 
 const dbConfig = require('../config/dbConfig')
 
-const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+const EOS_API_ENDPOINT =
+  process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 
 // gets data from blockchain
 const getUserRatings = async () => {
@@ -25,16 +26,18 @@ const getUserRatings = async () => {
 }
 
 // updates the postgresdb
-const updateUserRatings = async (usr) => {
+const updateUserRatings = async usr => {
   console.log('==== updating user ratings ====')
   const db = await massive(dbConfig)
   const userRatings = await getUserRatings()
 
-  if (usr) { userRatings.rows.filter(function (el) {
-    return el.user == usr
-  })  }  
-  console.log (userRatings)
-  const saveRatings = async (rating) => {
+  if (usr) {
+    userRatings.rows.filter(function(el) {
+      return el.user == usr
+    })
+  }
+
+  const saveRatings = async rating => {
     //console.log('updating... ', rating)
 
     let ratings = {
@@ -54,11 +57,11 @@ const updateUserRatings = async (usr) => {
       })
       if (!result) {
         const insertResult = await db.user_ratings.insert({
-        uniq_rating: rating.uniq_rating,
-        user: rating.user,
-        bp: rating.bp,
-        ratings
-      })
+          uniq_rating: rating.uniq_rating,
+          user: rating.user,
+          bp: rating.bp,
+          ratings
+        })
         if (!insertResult) {
           console.log(`could not save or insert ${rating.uniq_rating}`)
           return
@@ -74,18 +77,7 @@ const updateUserRatings = async (usr) => {
     await saveRatings(rating)
   }
 
-  // TODO : better error handling, report and retry unfulffilled
-};
+  // TODO : better error handling, report and retry unfulfilled
+}
 
-module.exports =  updateUserRatings
-
-// (async () => {
-//   try {
-//      console.log('Updating User Ratings')
-//     await updateUserRatings()
-//     console.log('OK')
-//     process.exit(0)
-//   } catch (err) {
-//     console.log('!!!!', err)
-//   }
-// })()
+module.exports = updateUserRatings
