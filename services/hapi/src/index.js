@@ -25,13 +25,27 @@ const init = async () => {
     method: 'POST',
     path: '/ratebp',
     handler: req => {
-      const bp = req.payload.input.ratingInput.producer
+      let bp, user
+      if (req.payload.input.ratingInput) {
+        bp = req.payload.input.ratingInput.producer
+      } else {
+        bp = ''
+      }
+      console.log('bp', bp)
       const isBp = isValidAccountName(bp)
+      console.log('isbp', isBp)
       if (isBp) {
         updateBpStats(bp)
       }
-      const user = req.payload.input.ratingInput.user
+
+      if (req.payload.input.ratingInput) {
+        user = req.payload.input.ratingInput.user
+      } else {
+        user = ''
+      }
+      console.log('user', user)
       const isUser = isValidAccountName(user)
+      console.log('isUser', isUser)
       if (isUser) {
         updateUserRatings(user)
       }
