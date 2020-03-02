@@ -3,7 +3,10 @@ const dbConfig = require('../config/dbConfig')
 const eosjs = require('eosjs')
 const fetch = require('node-fetch')
 
-const rpc = new eosjs.JsonRpc(process.env.REACT_APP_EOS_API_URL || 'https://jungle.eosio.cr', { fetch })
+const rpc = new eosjs.JsonRpc(
+  process.env.REACT_APP_EOS_API_URL || 'https://jungle.eosio.cr',
+  { fetch }
+)
 
 // Read from Blockchain
 const getBpStats = async bp => {
@@ -22,25 +25,27 @@ const getBpStats = async bp => {
 }
 
 /// Save to DB
-const updateBpStats = async (bpName) => {
+const updateBpStats = async bpName => {
   const updateStat = async stat => {
     await massive(dbConfig).then(async db => {
       const blockProducerStat = await db.ratings_stats.findOne({ bp: stat.bp })
       if (blockProducerStat && blockProducerStat.bp) {
         await db.ratings_stats.save(stat)
-        console.log("updated rating for " + bpName)
+        console.log('updated rating for ' + bpName)
       } else {
         await db.ratings_stats.insert(stat)
-        console.log("insert rating for " + bpName)
+        console.log('insert rating for ' + bpName)
       }
     })
   }
 
   const bpStat = await getBpStats(bpName)
 
-  if (bpStat.rows.length) {
+  if (bpStat.rows.length && bpStat.rows[0] == bpName) {
     await updateStat(bpStat.rows[0])
+  } else {
+    console.log('did not process rating for ' + bpName)
   }
 }
 
-module.exports =  updateBpStats
+module.exports = updateBpStats
