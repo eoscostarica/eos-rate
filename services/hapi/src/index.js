@@ -3,6 +3,7 @@ const { VIRTUAL_PORT, VIRTUAL_HOST } = process.env
 
 const updateBpStats = require('./libs/sync-bp-stats')
 const updateUserRatings = require('./libs/sync-user-rating')
+const isValidAccountName = require('./libs/valid-account-name')
 
 const Hapi = require('@hapi/hapi')
 
@@ -24,18 +25,28 @@ const init = async () => {
     method: 'POST',
     path: '/ratebp',
     handler: req => {
-      console.log(req.payload.input.ratingInput)
       const bp = req.payload.input.ratingInput.producer
-      if (bp) {
+      const isBp = isValidAccountName(bp)
+      if (isBp) {
         updateBpStats(bp)
       }
       const user = req.payload.input.ratingInput.user
-      if (user) {
+      const isUser = isValidAccountName(user)
+      if (isUser) {
         updateUserRatings(user)
       }
 
       return {
-        message: 'updating stats for producer: ' + bp + ' user : ' + user
+        message:
+          'updating stats for producer ' +
+          bp +
+          ' (' +
+          isBp +
+          ') and for user ' +
+          user +
+          ' (' +
+          isUser +
+          ')'
       }
     }
   })
