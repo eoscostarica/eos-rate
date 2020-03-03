@@ -112,8 +112,8 @@ We are running a demux and hasura on premises in Costa Rica.
 - **demux:**
   Deterministic event-sourced state and side effect handling for blockchain applications. Updates ratings stats in postgres when new ratings are detected on the blockchain.
 
-- **updater:**
-  Cron Job that periodically synchronises BP data from producers table on chain and bp.JSON files on producer's website.
+- **hapi:**
+  A back end service for synchronizing `rateproducer` blockchain tables with postgreSQL.
 
 - **EOSIO Node:** https://api.eosio.cr
   <br/>[`fill-pg`](https://github.com/EOSIO/history-tools#fill-pg) fills postgresql with data from nodeos's State History Plugin.

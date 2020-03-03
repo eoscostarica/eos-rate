@@ -359,7 +359,7 @@ const jungleBPinfo = [
 ];
 
 const massive = require("massive");
-const dbConfig = require("./dbConfig");
+const dbConfig = require("../config/dbConfig");
 
 const updateGeneralInfo = async (bpInfo, db) => {
   await db.producers.save(bpInfo)

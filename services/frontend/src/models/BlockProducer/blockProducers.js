@@ -142,7 +142,7 @@ const blockProducers = {
         const {
           data: { user_ratings: userRatings }
         } = await apolloClient.query({
-          variables: { bp, account: userAccount },
+          variables: { bp, user: userAccount },
           query: QUERY_RATING
         })
 
@@ -183,8 +183,8 @@ const blockProducers = {
             variables: {
               objects: [
                 {
-                  account: user,
-                  bp: bp,
+                  user,
+                  bp,
                   ratings,
                   tx_data: null
                 }
@@ -202,12 +202,12 @@ const blockProducers = {
           } = await apolloClient.mutate({
             variables: {
               userRating: {
-                account: user,
-                bp: bp,
+                user,
+                bp,
                 ratings,
                 tx_data: null
               },
-              account: user,
+              user,
               bp
             },
             mutation: MUTATION_UPDATE_USER_RATING
