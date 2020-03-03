@@ -5,11 +5,13 @@ import React, {
   useContext
 } from 'react'
 import PropTypes from 'prop-types'
+
 import { initAccessContext } from 'eos-transit'
 import lynx from 'eos-transit-lynx-provider'
 import meetone from 'eos-transit-meetone-provider'
 import scatter from 'eos-transit-scatter-provider'
 import tokenPocket from 'eos-transit-tokenpocket-provider'
+
 import config from 'config'
 import providers from 'config/wallet-providers'
 

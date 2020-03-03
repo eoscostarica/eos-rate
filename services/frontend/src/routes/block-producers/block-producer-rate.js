@@ -7,7 +7,6 @@ import {
   Avatar,
   Button,
   Chip,
-  CircularProgress,
   Grid,
   Paper,
   Typography
@@ -23,7 +22,6 @@ import BlockProducerRadar from 'components/block-producer-radar'
 import bpParameters from 'config/comparison-parameters'
 import config from 'config'
 import getBPRadarData from 'utils/getBPRadarData'
-import { useWalletState } from 'hooks/wallet'
 
 import SliderRatingSection from './slider-rating-section'
 
@@ -85,7 +83,7 @@ const INIT_RATING_STATE_DATA = {
   transparencyEnabled: true,
   trustiness: 0,
   trustinessEnabled: true,
-  processing: false,
+  // processing: false,
   txError: null,
   txSuccess: false
 }
@@ -97,15 +95,18 @@ const BlockProducerRate = ({
   getBPRating,
   addUserRating,
   userRate,
-  getBlockProducer
+  getBlockProducer,
+  ual
 }) => {
-  const walletState = useWalletState()
+  // const walletState = useWalletState()
   const [ratingState, setRatingState] = useState(INIT_RATING_STATE_DATA)
   const [showMessage, setShowMessage] = useState(false)
   const { t } = useTranslation('bpRatePage')
-  const wallet = walletState.wallet
-  const accountName = wallet && wallet.auth.accountName
+  const wallet = null // walletState.wallet
+  const accountName = _get(ual, 'activeUser.accountName', null)
   const bpData = _get(producer, 'data', {})
+
+  console.log({ accountName, account, ual })
 
   useEffect(() => {
     if (account) {
@@ -197,7 +198,7 @@ const BlockProducerRate = ({
 
       setRatingState({
         ...ratingState,
-        processing: true,
+        // processing: true,
         txError: null,
         txSuccess: false
       })
@@ -209,7 +210,7 @@ const BlockProducerRate = ({
 
       setRatingState({
         ...ratingState,
-        processing: false,
+        // processing: false,
         txSuccess: true
       })
 
@@ -224,7 +225,7 @@ const BlockProducerRate = ({
     } catch (err) {
       setRatingState({
         ...ratingState,
-        processing: false,
+        // processing: false,
         txError: err.message ? err.message : err
       })
     }
@@ -252,7 +253,10 @@ const BlockProducerRate = ({
           </Button>
           <Button
             component={props => (
-              <Link {...props} to={`/block-producers/${_get(producer, 'owner', null)}`} />
+              <Link
+                {...props}
+                to={`/block-producers/${_get(producer, 'owner', null)}`}
+              />
             )}
           >
             <KeyboardArrowLeft />
@@ -288,11 +292,7 @@ const BlockProducerRate = ({
                 </Grid>
               </Grid>
             </Grid>
-            <Grid
-              container
-              direction='row'
-              style={{ marginTop: 10 }}
-            >
+            <Grid container direction='row' style={{ marginTop: 10 }}>
               <Grid item xs={12} sm={5}>
                 <Typography variant='subtitle1' className={classes.title}>
                   {t.subTitle}
@@ -367,13 +367,13 @@ const BlockProducerRate = ({
                           variant='outlined'
                         />
                       )}
-                      {ratingState.processing && (
+                      {/* {ratingState.processing && (
                         <CircularProgress color='secondary' size={20} />
-                      )}
+                      )} */}
                       <Button
                         className='textPrimary'
                         color='secondary'
-                        disabled={ratingState.processing}
+                        // disabled={ratingState.processing}
                         onClick={transact}
                         size='small'
                         style={{ margin: '0 10px' }}
@@ -385,7 +385,11 @@ const BlockProducerRate = ({
                         component={props => (
                           <Link
                             {...props}
-                            to={`/block-producers/${_get(producer, 'bpjson.producer_account_name', null)}`}
+                            to={`/block-producers/${_get(
+                              producer,
+                              'bpjson.producer_account_name',
+                              null
+                            )}`}
                           />
                         )}
                         variant='contained'
@@ -412,7 +416,8 @@ BlockProducerRate.propTypes = {
   getBPRating: PropTypes.func,
   addUserRating: PropTypes.func,
   userRate: PropTypes.object,
-  getBlockProducer: PropTypes.func
+  getBlockProducer: PropTypes.func,
+  ual: PropTypes.object
 }
 
 const mapStateToProps = ({ blockProducers: { producer, userRate } }) => ({

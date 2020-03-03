@@ -135,6 +135,7 @@ const blockProducers = {
       }
     },
     async getBlockProducerRatingByOwner ({ bp, userAccount }, state) {
+      console.log({ eosjsAPI })
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
@@ -155,6 +156,11 @@ const blockProducers = {
     async mutationInsertUserRating ({ user, bp, ...ratings }, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
+
+        // await eosjsAPI.api.transact(transaction, {
+        //   blocksBehind: 3,
+        //   expireSeconds: 30
+        // })
 
         let dataResponse = []
         const { rows: rateStat } = await eosjsAPI.rpc.get_table_rows({
