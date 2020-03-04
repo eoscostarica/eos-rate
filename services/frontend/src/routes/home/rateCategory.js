@@ -7,15 +7,15 @@ import PropTypes from 'prop-types'
 
 import Icon from '../../components/icon'
 
-const styles = ({ typography, spacing }) => ({
+const styles = ({ typography, spacing, palette }) => ({
   ratingContainer: {
-    color: '#fff',
+    color: 'white',
     maxWidth: '1024px'
   },
   title: {
     fontSize: typography.h4.fontSize,
     display: 'flex',
-    justifyContent: 'flex-end'
+    marginBottom: 12.5
   },
   paragraph: {
     marginLeft: spacing(4.5),

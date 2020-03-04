@@ -13,13 +13,13 @@ const styles = ({ spacing, palette }) => ({
     padding: spacing(4)
   },
   coverContainer: {
-    backgroundColor: palette.primary.dark
+    backgroundColor: palette.surface.main
   },
   subTopicContainer: {
-    backgroundColor: '#1a1b29'
+    backgroundColor: palette.surface.main
   },
   rateCategoryContainer: {
-    backgroundColor: palette.primary[800]
+    backgroundColor: palette.primary.dark
   }
 })
 
