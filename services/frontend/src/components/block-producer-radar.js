@@ -22,8 +22,8 @@ const BlockProducerRadar = ({ bpData, height, ...props }) => {
           }
         },
         chartArea: {
-          backgroundColor: '#484656',
-          strokeColor: '#b1afad',
+          backgroundColor: '#f8f8f8',
+          strokeColor: '#e5e5e5',
           lineWidth: 4
         },
         scale: {
@@ -34,8 +34,8 @@ const BlockProducerRadar = ({ bpData, height, ...props }) => {
             stepSize: 2
           },
           gridLines: { lineWidth: 4, circular: true },
-          angleLines: { color: '#6e6b81', lineWidth: 4 },
-          pointLabels: { fontColor: 'white', fontSize: 14 }
+          angleLines: { color: '#e5e5e5', lineWidth: 4 },
+          pointLabels: { fontColor: '#443F5B', fontSize: 14 }
         },
         tooltips: {
           enabled: true,

@@ -18,10 +18,12 @@ import comparisonParameters from 'config/comparison-parameters'
 import BlockProducerRadar from 'components/block-producer-radar'
 
 const styles = theme => ({
-  card: {},
+  card: {
+    backgroundColor: theme.palette.surface.dark
+  },
   title: {
     textDecoration: 'none',
-    color: '#ffffff'
+    color: theme.palette.primary.main
   },
   unsafeChip: {
     marginLeft: theme.spacing(2),
@@ -37,14 +39,16 @@ const styles = theme => ({
     justifyContent: 'space-between'
   },
   radar: {
-    background: theme.palette.primary.dark,
+    background: theme.palette.surface.light,
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2)
   },
   avatar: {
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.light
   },
   btnRate: {
+    backgroundColor: theme.palette.secondary.main,
+    color: '#ffffff',
     '&:hover': {
       backgroundColor: theme.palette.secondary.main
     }
@@ -111,10 +115,12 @@ const BlockProducerCard = ({
     </div>
     <CardActions className={classes.actions} disableActionSpacing>
       <Button
-        aria-label='Add to comparison'
-        onClick={toggleSelection(!isSelected, blockProducer.owner)}
+        component={props => (
+          <Link {...props} to={`/block-producers/${blockProducer.owner}`} />
+        )}
+        size='small'
       >
-        {isSelected ? 'REMOVE' : 'ADD'}
+        Ver Info
       </Button>
       <Button
         component={props => (
@@ -126,7 +132,7 @@ const BlockProducerCard = ({
         className={classes.btnRate}
         size='small'
       >
-        RATE
+        Evaluar
       </Button>
     </CardActions>
   </Card>
