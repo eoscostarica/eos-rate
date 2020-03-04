@@ -8,6 +8,7 @@ import eosjsAPI from 'services/eosjs-api'
 
 import QUERY_PRODUCER from './query_get_producer_by'
 import QUERY_RATING from './query_get_bp_rating_by'
+import MUTATION_UPDATE_RATING from './mutation_update_rate'
 import MUTATION_UPDATE_USER_RATING from './mutation_update_user_rating'
 import MUTATION_INSERT_USER_RATING from './mutation_insert_user_rating'
 
@@ -153,16 +154,22 @@ const blockProducers = {
         dispatch.isLoading.storeIsContentLoading(false)
       }
     },
-    async mutationInsertUserRating ({ user, bp, ...ratings }, state) {
+    async mutationInsertUserRating ({ user, bp, transaction, ...ratings }, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
-        // await eosjsAPI.api.transact(transaction, {
-        //   blocksBehind: 3,
-        //   expireSeconds: 30
-        // })
+        const result = await eosjsAPI.api.transact(transaction, {
+          blocksBehind: 3,
+          expireSeconds: 30
+        })
 
-        let dataResponse = []
+        const message = await apolloClient.mutate({
+          variables: {
+            ratingInput: { producer: bp, user }
+          },
+          mutation: MUTATION_UPDATE_RATING
+        })
+
         const { rows: rateStat } = await eosjsAPI.rpc.get_table_rows({
           json: true,
           code: 'rateproducer',
@@ -173,48 +180,6 @@ const blockProducers = {
           reverse: false,
           show_payer: false
         })
-
-        if (!state.blockProducers.userRate) {
-          const {
-            data: {
-              insert_user_ratings: { returning }
-            }
-          } = await apolloClient.mutate({
-            variables: {
-              objects: [
-                {
-                  user,
-                  bp,
-                  ratings,
-                  tx_data: null
-                }
-              ]
-            },
-            mutation: MUTATION_INSERT_USER_RATING
-          })
-
-          dataResponse = returning
-        } else {
-          const {
-            data: {
-              update_user_ratings: { returning }
-            }
-          } = await apolloClient.mutate({
-            variables: {
-              userRating: {
-                user,
-                bp,
-                ratings,
-                tx_data: null
-              },
-              user,
-              bp
-            },
-            mutation: MUTATION_UPDATE_USER_RATING
-          })
-
-          dataResponse = returning
-        }
 
         const producerUpdatedList = state.blockProducers.list.map(producer => {
           if (rateStat.length && producer.owner === rateStat[0].bp) {
@@ -247,7 +212,10 @@ const blockProducers = {
           producer => producer.owner === bp
         )
 
-        dataResponse.length && this.addUserRate(dataResponse[0].ratings)
+        console.log({ result, message, rateStat, producerUpdatedList })
+
+
+        // dataResponse.length && this.addUserRate(dataResponse[0].ratings)
         this.addProducer(currentBP)
         this.updateBPList(producerUpdatedList)
         dispatch.isLoading.storeIsContentLoading(false)

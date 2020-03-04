@@ -69,10 +69,11 @@
     "redux-persist": "^5.10.0",
     "serve": "^11.1.0",
     "subscriptions-transport-ws": "^0.9.16",
+    "text-encoding": "^0.7.0",
     "ual-ledger": "^0.2.0",
     "ual-lynx": "^0.3.0",
-    "ual-scatter": "^0.2.0",
     "ual-reactjs-renderer": "^0.2.0",
+    "ual-scatter": "^0.2.0",
     "yup": "0.27.0"
   },
   "devDependencies": {

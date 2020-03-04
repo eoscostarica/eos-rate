@@ -83,7 +83,6 @@ const INIT_RATING_STATE_DATA = {
   transparencyEnabled: true,
   trustiness: 0,
   trustinessEnabled: true,
-  // processing: false,
   txError: null,
   txSuccess: false
 }
@@ -98,15 +97,11 @@ const BlockProducerRate = ({
   getBlockProducer,
   ual
 }) => {
-  // const walletState = useWalletState()
   const [ratingState, setRatingState] = useState(INIT_RATING_STATE_DATA)
   const [showMessage, setShowMessage] = useState(false)
   const { t } = useTranslation('bpRatePage')
-  const wallet = null // walletState.wallet
   const accountName = _get(ual, 'activeUser.accountName', null)
   const bpData = _get(producer, 'data', {})
-
-  console.log({ accountName, account, ual })
 
   useEffect(() => {
     if (account) {
@@ -198,19 +193,14 @@ const BlockProducerRate = ({
 
       setRatingState({
         ...ratingState,
-        // processing: true,
         txError: null,
         txSuccess: false
       })
 
-      await wallet.eosApi.transact(transaction, {
-        blocksBehind: 3,
-        expireSeconds: 30
-      })
+      await addUserRating({ user: accountName, bp: account, ...getRatingData(false), transaction })
 
       setRatingState({
         ...ratingState,
-        // processing: false,
         txSuccess: true
       })
 
@@ -220,12 +210,9 @@ const BlockProducerRate = ({
           txSuccess: false
         })
       }, 2000)
-
-      addUserRating({ user: accountName, bp: account, ...getRatingData(false) })
     } catch (err) {
       setRatingState({
         ...ratingState,
-        // processing: false,
         txError: err.message ? err.message : err
       })
     }
@@ -367,13 +354,9 @@ const BlockProducerRate = ({
                           variant='outlined'
                         />
                       )}
-                      {/* {ratingState.processing && (
-                        <CircularProgress color='secondary' size={20} />
-                      )} */}
                       <Button
                         className='textPrimary'
                         color='secondary'
-                        // disabled={ratingState.processing}
                         onClick={transact}
                         size='small'
                         style={{ margin: '0 10px' }}
