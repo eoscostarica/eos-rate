@@ -19,7 +19,7 @@ const styles = theme => ({
   }
 })
 
-const Transition = props => <Slide direction='up' {...props} />
+const Transition = React.forwardRef((props, ref) => <Slide direction='up' {...props} ref={ref} />)
 
 class MobileSearch extends PureComponent {
   static propTypes = {

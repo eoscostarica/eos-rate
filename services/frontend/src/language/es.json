@@ -21,6 +21,7 @@
     "searchAutocomplete": "Buscar...",
 
     "not-found": "Recurso no encontrado",
+    "noBpJson": "No encontramos un bp.json!",
 
     "drawerLinkHome": "Página Principal",
     "drawerLinkAllBPs": "Productores de Bloques",
@@ -111,7 +112,10 @@
     "community": "Comunidad",
     "communityTooltip": "Creación de valor comunitario a través de la educación, eventos y/o otros contenidos útiles.",
     "development": "Desarrollo",
-    "developmentTooltip": "Conocimientos técnicos y uso de software de código abierto, scripts, marcos, billeteras, portales de votación, métricas, etc."
+    "developmentTooltip": "Conocimientos técnicos y uso de software de código abierto, scripts, marcos, billeteras, portales de votación, métricas, etc.",
+    "globalRate": "Evalucación Promedio",
+    "myRate": "Mi Evaluación",
+    "rateWithoutLogin": "Necesitas iniciar sesión para evaluar un productor de bloques"
   },
 
   "footer": {
@@ -132,6 +136,7 @@
     "websiteInfo": "De su sitio web",
     "buttonRate": "Evalúa este PB",
     "allBP": "Lista de productores de bloques",
-    "noBpJson": "No encontramos un bp.json!"
+    "noBpJson": "No encontramos un bp.json!",
+    "noCountryName": "No se proporcionó ubicación."
   }
 }

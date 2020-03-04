@@ -1,4 +1,4 @@
-/* Updaters
+  /* Updaters
  * When the Action Handler receives new blocks, for each action in that block, we loop over all updaters and check if
  * the actionType matches. If it does, we run the corresponding updater's `apply` function. The order of the updaters
  * is significant, and each `apply` function is run synchronously in order to maintain determinism.
@@ -26,37 +26,52 @@
  * In this example, we're watching the "eosio.token::transfer" action type and accumulating a running total using the
  * provided `state` object. Refer to the ObjectActionHandler implementation for `state`:
  * https://github.com/EOSIO/demux-js/blob/develop/examples/eos-transfers/ObjectActionHandler.js
-*/
+ */
 
 const massive = require('massive')
 const dbConfig = require('./dbConfig')
+const eosjs = require('eosjs')
+const fetch = require('node-fetch')
 
-const updateRatingsData = (state, payload, blockInfo, context) => {
-  console.log('============= updateProducerRatings =================')
-  console.log('State updated:\n', JSON.stringify({ state, payload, blockInfo, context }, null, 2))
-  console.log(dbConfig)
-  massive(dbConfig).then(db => {
-    const { user, bp, ratings_json: ratingsJSON } = payload.data
-    const ratingsObject = {
-      account: user,
-      bp,
-      ratings: JSON.parse(ratingsJSON)
-    }
-
-    db.producer_ratings.insert(ratingsObject, function (err, res) {
-      if (err) {
-        console.log(err)
-        return
-      }
-      console.log('\nPOSTGRES UPDATED!!\n')
-    })
+const rpc = new eosjs.JsonRpc(process.env.REACT_APP_EOS_API_URL || 'https://jungle.eosio.cr', { fetch })
+const getStats = async bp => {
+  const response = await rpc.get_table_rows({
+    json: true, // Get the response as json
+    code: 'rateproducer', // Contract that we target
+    scope: 'rateproducer', // Account that owns the data
+    table: 'stats', // Table name
+    lower_bound: bp, // block producer PK
+    limit: 1, // Maximum number of rows that we want to get
+    reverse: false, // Optional: Get reversed data
+    show_payer: false // Optional: Show ram payer
   })
+
+  return response
+}
+
+const updateStatsData = async (state, payload) => {
+  const updateStat = async stat => {
+    await massive(dbConfig).then(async db => {
+      const blockProducerStat = await db.ratings_stats.findOne({ bp: stat.bp })
+      if (blockProducerStat && blockProducerStat.bp) {
+        await db.ratings_stats.save(stat)
+      } else {
+        await db.ratings_stats.insert(stat)
+      }
+    })
+  }
+
+  const bpStat = await getStats(payload.data.bp)
+
+  if (bpStat.rows.length) {
+    await updateStat(bpStat.rows[0])
+  }
 }
 
 const updaters = [
   {
     actionType: 'rateproducer::rate',
-    apply: updateRatingsData
+    apply: updateStatsData
   }
 ]
 
@@ -72,7 +87,7 @@ const updaters = [
  */
 
 function logUpdate (payload, blockInfo, context) {
-  console.info('State updated:\n', JSON.stringify(context.stateCopy, null, 2))
+  console.info('State updated:\n', JSON.stringify(context, null, 2))
 }
 
 const effects = [

@@ -71,7 +71,7 @@ const AllBps = ({
   addToSelected
 }) => {
   const { t } = useTranslation('translations')
-  const [currentlyVisible, setCurrentlyVisible] = useState(10)
+  const [currentlyVisible, setCurrentlyVisible] = useState(30)
   const bpList = filtered && filtered.length ? filtered : blockProducers
   const shownList = bpList && bpList.slice(0, currentlyVisible)
   const hasMore = bpList && currentlyVisible < bpList.length
@@ -79,7 +79,7 @@ const AllBps = ({
     ? t('hideComparisonTool')
     : t('showComparisonTool')
 
-  const loadMore = () => setCurrentlyVisible(currentlyVisible + 10)
+  const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
 
   useEffect(() => {
     getBPs()

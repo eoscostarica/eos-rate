@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": {
-    "name": "Xavier Fernandez",
+    "name": "EOS Costa Rica",
     "url": "https://eosio.cr/"
   },
   "license": "MIT",
@@ -11,12 +11,13 @@
     "start": "node src/index",
     "dev": "nodemon --delay 80ms --watch ./ src/index",
     "precommit": "lint-staged",
-    "lint": "standard | snazzy"
+    "lint": "eslint ."
   },
   "dependencies": {
     "chalk": "^2.4.2",
     "demux": "^4.0.0",
     "demux-eos": "^4.0.1",
+    "eosjs": "^20.0.3",
     "human-to-cron": "^0.3.1",
     "lodash.get": "^4.4.2",
     "massive": "^5.7.4",
@@ -24,14 +25,22 @@
     "node-fetch": "^2.3.0"
   },
   "devDependencies": {
-    "husky": "^1.1.2",
-    "lint-staged": "^7.2.2",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-config-standard-react": "^9.1.0",
+    "eslint-plugin-node": "^9.2.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^3.0.4",
+    "lint-staged": "^9.2.5",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
+    "react-scripts": "3.1.1",
     "snazzy": "^8.0.0",
-    "standard": "^12.0.1"
+    "standard": "^14.1.0"
   },
   "lint-staged": {
     "*.js": [
-      "standard --fix",
+      "eslint --fix",
       "git add"
     ]
   }

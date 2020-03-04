@@ -21,6 +21,7 @@
     "searchAutocomplete": "Search...",
 
     "notFound": "Not found",
+    "noBpJson": "No BP.json file provided.",
 
     "drawerLinkHome": "Home",
     "drawerLinkAllBPs": "Block Producers",
@@ -111,7 +112,10 @@
     "community": "Community",
     "communityTooltip": "Community value creation through education, events, and other useful content.",
     "development": "Development",
-    "developmentTooltip": "Technical know-how and usage of open-source software, scripts, frameworks, wallets, voting portals, metrics, etc."
+    "developmentTooltip": "Technical know-how and usage of open-source software, scripts, frameworks, wallets, voting portals, metrics, etc.",
+    "globalRate": "Average Rating",
+    "myRate": "My Rating",
+    "rateWithoutLogin": "You need to login to rate this block producer"
   },
 
   "footer": {
@@ -132,6 +136,7 @@
     "websiteInfo": "From Their Website",
     "buttonRate": "Rate this BP",
     "allBP": "All Block Producers",
-    "noBpJson": "No BP.json file provided."
+    "noBpJson": "No BP.json file provided.",
+    "noCountryName": "No location provided."
   }
 }
