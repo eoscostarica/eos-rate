@@ -5,7 +5,7 @@ const theme = createMuiTheme({
     useNextVariants: true
   },
   palette: {
-    type: 'dark',
+    type: 'light',
     background: {
       default: '#ffffff'
     },
@@ -19,9 +19,12 @@ const theme = createMuiTheme({
     secondary: {
       light: '#8ba2a6',
       main: '#597a81',
-      dark: '#222f32',
-      boringGreen: '#63b76b',
-      midGreen: '#00902e'
+      dark: '#222f32'
+    },
+    surface: {
+      light: '#ffffff',
+      main: '#ffffff',
+      dark: '#f5f5f5'
     }
   },
   overrides: {
@@ -46,29 +49,24 @@ const theme = createMuiTheme({
         backgroundColor: '#fff'
       }
     },
-    MuiPaper: {
-      root: {
-        backgroundColor: '#1b1a2b'
-      }
-    },
     MuiListItem: {
       button: {
-        color: 'white',
+        // color: 'black',
         '&:hover': {
-          backgroundColor: '#5cf68a',
-          color: 'black'
+          // backgroundColor: '#5cf68a',
+          // color: 'black'
         }
       },
       root: {
         '&$selected': {
-          color: 'black',
-          backgroundColor: '#5cf68a'
+          // color: 'black',
+          // backgroundColor: '#5cf68a'
         }
       }
     },
     MuiListItemText: {
       primary: {
-        color: 'inherit'
+        // color: 'inherit'
       }
     },
     MuiSelect: {
@@ -84,7 +82,7 @@ const theme = createMuiTheme({
     },
     MuiButton: {
       containedSecondary: {
-        color: '#fff'
+        // color: '#fff'
       }
     }
   }
