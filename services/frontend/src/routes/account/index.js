@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { navigate } from '@reach/router'
 import { useTranslation } from 'react-i18next'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
@@ -8,7 +7,6 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import classnames from 'classnames'
-import { useWalletDispatch, useWalletState } from 'hooks/wallet'
 
 const style = theme => ({
   container: {
@@ -35,31 +33,7 @@ const style = theme => ({
 })
 
 const Account = ({ classes }) => {
-  const { disconnectWallet } = useWalletDispatch()
-  const walletState = useWalletState()
   const { t } = useTranslation('account')
-
-  if (!walletState.wallet) {
-    navigate('/')
-    return null
-  }
-
-  /* eslint-disable camelcase */
-  const {
-    accountInfo: { account_name },
-    accountInfo: { core_liquid_balance },
-    active
-  } = walletState.wallet
-  /* eslint-enable camelcase */
-  const pickedEntries = {
-    account_name,
-    core_liquid_balance,
-    authority: active ? t('active') : t('inactive')
-  }
-  const entries = pickedEntries ? Object.entries(pickedEntries) : []
-  const logout = () => {
-    disconnectWallet(walletState.wallet)
-  }
 
   return (
     <Grid container className={classes.container}>
@@ -69,7 +43,7 @@ const Account = ({ classes }) => {
             {t('title')}
           </Typography>
           <Grid className={classes.box}>
-            {entries.map(entry => (
+            {/* {entries.map(entry => (
               <Typography
                 key={entry[0]}
                 variant='subtitle1'
@@ -77,11 +51,11 @@ const Account = ({ classes }) => {
               >
                 {t(entry[0])}: {`${entry[1]}`}
               </Typography>
-            ))}
+            ))} */}
             <Button
               className={classes.button}
               color='secondary'
-              onClick={logout}
+              onClick={() => console.log('logout')}
               variant='outlined'
             >
               {t('logout')}

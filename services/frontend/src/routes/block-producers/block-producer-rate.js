@@ -7,9 +7,9 @@ import {
   Avatar,
   Button,
   Chip,
-  CircularProgress,
   Grid,
   Paper,
+  CircularProgress,
   Typography
 } from '@material-ui/core'
 import AccountCircle from '@material-ui/icons/AccountCircle'
@@ -23,7 +23,6 @@ import BlockProducerRadar from 'components/block-producer-radar'
 import bpParameters from 'config/comparison-parameters'
 import config from 'config'
 import getBPRadarData from 'utils/getBPRadarData'
-import { useWalletState } from 'hooks/wallet'
 
 import SliderRatingSection from './slider-rating-section'
 
@@ -97,14 +96,13 @@ const BlockProducerRate = ({
   getBPRating,
   addUserRating,
   userRate,
-  getBlockProducer
+  getBlockProducer,
+  ual
 }) => {
-  const walletState = useWalletState()
   const [ratingState, setRatingState] = useState(INIT_RATING_STATE_DATA)
   const [showMessage, setShowMessage] = useState(false)
   const { t } = useTranslation('bpRatePage')
-  const wallet = walletState.wallet
-  const accountName = wallet && wallet.auth.accountName
+  const accountName = _get(ual, 'activeUser.accountName', null)
   const bpData = _get(producer, 'data', {})
 
   useEffect(() => {
@@ -197,14 +195,18 @@ const BlockProducerRate = ({
 
       setRatingState({
         ...ratingState,
-        processing: true,
         txError: null,
+        processing: true,
         txSuccess: false
       })
 
-      await wallet.eosApi.transact(transaction, {
-        blocksBehind: 3,
-        expireSeconds: 30
+      const result = await ual.activeUser.signTransaction(transaction, { broadcast: true })
+
+      await addUserRating({
+        user: accountName,
+        bp: account,
+        ...getRatingData(false),
+        result
       })
 
       setRatingState({
@@ -219,8 +221,6 @@ const BlockProducerRate = ({
           txSuccess: false
         })
       }, 2000)
-
-      addUserRating({ user: accountName, bp: account, ...getRatingData(false) })
     } catch (err) {
       setRatingState({
         ...ratingState,
@@ -252,7 +252,10 @@ const BlockProducerRate = ({
           </Button>
           <Button
             component={props => (
-              <Link {...props} to={`/block-producers/${_get(producer, 'owner', null)}`} />
+              <Link
+                {...props}
+                to={`/block-producers/${_get(producer, 'owner', null)}`}
+              />
             )}
           >
             <KeyboardArrowLeft />
@@ -288,11 +291,7 @@ const BlockProducerRate = ({
                 </Grid>
               </Grid>
             </Grid>
-            <Grid
-              container
-              direction='row'
-              style={{ marginTop: 10 }}
-            >
+            <Grid container direction='row' style={{ marginTop: 10 }}>
               <Grid item xs={12} sm={5}>
                 <Typography variant='subtitle1' className={classes.title}>
                   {t.subTitle}
@@ -372,8 +371,8 @@ const BlockProducerRate = ({
                       )}
                       <Button
                         className='textPrimary'
-                        color='secondary'
                         disabled={ratingState.processing}
+                        color='secondary'
                         onClick={transact}
                         size='small'
                         style={{ margin: '0 10px' }}
@@ -385,7 +384,11 @@ const BlockProducerRate = ({
                         component={props => (
                           <Link
                             {...props}
-                            to={`/block-producers/${_get(producer, 'bpjson.producer_account_name', null)}`}
+                            to={`/block-producers/${_get(
+                              producer,
+                              'bpjson.producer_account_name',
+                              null
+                            )}`}
                           />
                         )}
                         variant='contained'
@@ -412,7 +415,8 @@ BlockProducerRate.propTypes = {
   getBPRating: PropTypes.func,
   addUserRating: PropTypes.func,
   userRate: PropTypes.object,
-  getBlockProducer: PropTypes.func
+  getBlockProducer: PropTypes.func,
+  ual: PropTypes.object
 }
 
 const mapStateToProps = ({ blockProducers: { producer, userRate } }) => ({

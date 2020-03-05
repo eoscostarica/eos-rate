@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import classnames from 'classnames'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
@@ -19,10 +18,7 @@ import { Link } from '@reach/router'
 
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
-import SignInDialog from 'components/sign-in-dialog'
 import LanguageSelect from 'components/language-select'
-import SignInMenu from 'components/sign-in-menu'
-import { useWalletDispatch, useWalletState } from 'hooks/wallet'
 
 const styles = theme => ({
   root: {
@@ -99,21 +95,9 @@ const MainTopBar = ({
   isSearchOpen,
   handleDrawerToggle,
   handleSearchDialogOpen,
-  handleSearchDialogClose
+  handleSearchDialogClose,
+  ual
 }) => {
-  const [state, setState] = useState({
-    anchorEl: null,
-    selectedProvider: null
-  })
-  const { connectWallet, disconnectWallet } = useWalletDispatch()
-  const walletState = useWalletState()
-  const logout = () => {
-    disconnectWallet(walletState.wallet)
-  }
-  const connectToWallet = (provider, providerName) => {
-    setState({ anchorEl: null, selectedProvider: providerName })
-    connectWallet(provider)
-  }
   const { t } = useTranslation('translations')
 
   return (
@@ -144,22 +128,20 @@ const MainTopBar = ({
           <SearchIcon />
         </IconButton>
         <LanguageSelect />
-        {walletState.wallet ? (
+        {ual.activeUser ? (
           <>
             <Link
               to='/account'
-              className={classnames(classes.link, {
-                [classes.linkHover]: walletState.wallet.accountInfo
-              })}
+              className={classes.link}
             >
               <Button color='primary' variant='contained'>
                 <AccountCircleIcon />
                 <Typography className={classes.sessionText} variant='subtitle1'>
-                  {walletState.wallet.accountInfo.account_name}
+                  {ual.activeUser.accountName}
                 </Typography>
               </Button>
             </Link>
-            <IconButton color='inherit' onClick={logout}>
+            <IconButton color='inherit' onClick={() => ual.logout()}>
               <LogoutIcon />
             </IconButton>
           </>
@@ -167,10 +149,10 @@ const MainTopBar = ({
           <>
             <Button
               color='primary'
-              onClick={e => setState({ ...state, anchorEl: e.currentTarget })}
+              onClick={() => ual.showModal()}
               variant='contained'
             >
-              {walletState.connecting ? (
+              {ual.loading ? (
                 <CircularProgress color='secondary' size={20} />
               ) : (
                 <>
@@ -184,16 +166,6 @@ const MainTopBar = ({
                 </>
               )}
             </Button>
-            <SignInMenu
-              anchorEl={state.anchorEl}
-              handleClick={connectToWallet}
-              handleClose={() => setState({ ...state, anchorEl: null })}
-            />
-            <SignInDialog
-              connecting={walletState.connecting}
-              error={walletState.error}
-              provider={state.selectedProvider}
-            />
           </>
         )}
       </Toolbar>
@@ -207,7 +179,8 @@ MainTopBar.propTypes = {
   handleDrawerToggle: PropTypes.func,
   handleSearchDialogOpen: PropTypes.func,
   handleSearchDialogClose: PropTypes.func,
-  isSearchOpen: PropTypes.bool
+  isSearchOpen: PropTypes.bool,
+  ual: PropTypes.object
 }
 
 export default withStyles(styles)(MainTopBar)
