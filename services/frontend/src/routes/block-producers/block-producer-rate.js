@@ -197,7 +197,14 @@ const BlockProducerRate = ({
         txSuccess: false
       })
 
-      await addUserRating({ user: accountName, bp: account, ...getRatingData(false), transaction })
+      const result = await ual.activeUser.signTransaction(transaction, { broadcast: true })
+
+      await addUserRating({
+        user: accountName,
+        bp: account,
+        ...getRatingData(false),
+        result
+      })
 
       setRatingState({
         ...ratingState,

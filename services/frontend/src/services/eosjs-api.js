@@ -3,8 +3,7 @@ import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig'
 import { TextEncoder, TextDecoder } from 'text-encoding'
 import fetch from 'node-fetch'
 
-const defaultPrivateKey = '5JrCkfwAU1LwtkqNCbmwAEzw2EuvHrxxfNaX2avovTENgPKm5rc'
-const signatureProvider = new JsSignatureProvider([defaultPrivateKey])
+const signatureProvider = new JsSignatureProvider([])
 
 const rpc = new JsonRpc(
   process.env.REACT_APP_EOS_API_URL || 'https://jungle.eosio.cr',

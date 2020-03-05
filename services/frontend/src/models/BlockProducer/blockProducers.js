@@ -154,14 +154,9 @@ const blockProducers = {
         dispatch.isLoading.storeIsContentLoading(false)
       }
     },
-    async mutationInsertUserRating ({ user, bp, transaction, ...ratings }, state) {
+    async mutationInsertUserRating ({ user, bp, result, ...ratings }, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
-
-        const result = await eosjsAPI.api.transact(transaction, {
-          blocksBehind: 3,
-          expireSeconds: 30
-        })
 
         const message = await apolloClient.mutate({
           variables: {
