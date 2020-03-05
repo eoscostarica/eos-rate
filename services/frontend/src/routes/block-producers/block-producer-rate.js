@@ -120,11 +120,11 @@ const BlockProducerRate = ({
     if (userRate) {
       setRatingState({
         ...ratingState,
-        community: accountName ? userRate.community : 0,
-        development: accountName ? userRate.development : 0,
-        infra: accountName ? userRate.infrastructure : 0,
-        transparency: accountName ? userRate.transparency : 0,
-        trustiness: accountName ? userRate.trustiness : 0
+        community: accountName ? userRate.community : 1,
+        development: accountName ? userRate.development : 1,
+        infra: accountName ? userRate.infrastructure : 1,
+        transparency: accountName ? userRate.transparency : 1,
+        trustiness: accountName ? userRate.trustiness : 1
       })
     } else {
       setRatingState(INIT_RATING_STATE_DATA)
