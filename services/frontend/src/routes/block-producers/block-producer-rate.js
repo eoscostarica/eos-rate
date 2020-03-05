@@ -9,6 +9,7 @@ import {
   Chip,
   Grid,
   Paper,
+  CircularProgress,
   Typography
 } from '@material-ui/core'
 import AccountCircle from '@material-ui/icons/AccountCircle'
@@ -83,6 +84,7 @@ const INIT_RATING_STATE_DATA = {
   transparencyEnabled: true,
   trustiness: 0,
   trustinessEnabled: true,
+  processing: false,
   txError: null,
   txSuccess: false
 }
@@ -194,6 +196,7 @@ const BlockProducerRate = ({
       setRatingState({
         ...ratingState,
         txError: null,
+        processing: true,
         txSuccess: false
       })
 
@@ -208,6 +211,7 @@ const BlockProducerRate = ({
 
       setRatingState({
         ...ratingState,
+        processing: false,
         txSuccess: true
       })
 
@@ -220,6 +224,7 @@ const BlockProducerRate = ({
     } catch (err) {
       setRatingState({
         ...ratingState,
+        processing: false,
         txError: err.message ? err.message : err
       })
     }
@@ -361,8 +366,12 @@ const BlockProducerRate = ({
                           variant='outlined'
                         />
                       )}
+                      {ratingState.processing && (
+                        <CircularProgress color='secondary' size={20} />
+                      )}
                       <Button
                         className='textPrimary'
+                        disabled={ratingState.processing}
                         color='secondary'
                         onClick={transact}
                         size='small'
