@@ -34,10 +34,13 @@ const style = theme => ({
 
 const Account = ({ classes, ual }) => {
   const { t } = useTranslation('account')
-  const [accountInfo, setAccountInfo] = useState({ accountName: null, accountBalance: null })
+  const [accountInfo, setAccountInfo] = useState({
+    accountName: null,
+    accountBalance: null
+  })
 
   useEffect(() => {
-    async function getAccountInfo() {
+    async function getAccountInfo () {
       const accountName = await ual.activeUser.getAccountName()
       const account = await ual.activeUser.rpc.get_account(accountName)
       const accountBalance = account.core_liquid_balance
@@ -59,12 +62,9 @@ const Account = ({ classes, ual }) => {
             {t('title')}
           </Typography>
           <Grid className={classes.box}>
-          <Typography
-                variant='subtitle1'
-                className={classes.bold}
-              >
-                {accountInfo.accountName}: {accountInfo.accountBalance || 0}
-              </Typography>
+            <Typography variant='subtitle1' className={classes.bold}>
+              {accountInfo.accountName}: {accountInfo.accountBalance || 0}
+            </Typography>
             <Button
               className={classes.button}
               color='secondary'
