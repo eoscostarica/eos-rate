@@ -9,8 +9,6 @@ import eosjsAPI from 'services/eosjs-api'
 import QUERY_PRODUCER from './query_get_producer_by'
 import QUERY_RATING from './query_get_bp_rating_by'
 import MUTATION_UPDATE_RATING from './mutation_update_rate'
-import MUTATION_UPDATE_USER_RATING from './mutation_update_user_rating'
-import MUTATION_INSERT_USER_RATING from './mutation_insert_user_rating'
 
 const initialState = {
   filters: {},
@@ -206,7 +204,6 @@ const blockProducers = {
           producer => producer.owner === bp
         )
 
-        // this.addUserRate(ratings)
         this.addProducer(currentBP)
         this.updateBPList(producerUpdatedList)
         this.getBlockProducerRatingByOwner({ bp, userAccount: user })

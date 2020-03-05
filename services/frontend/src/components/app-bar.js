@@ -1,5 +1,4 @@
 import React from 'react'
-import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
@@ -133,9 +132,7 @@ const MainTopBar = ({
           <>
             <Link
               to='/account'
-              className={classnames(classes.link, {
-                [classes.linkHover]: false
-              })}
+              className={classes.link}
             >
               <Button color='primary' variant='contained'>
                 <AccountCircleIcon />

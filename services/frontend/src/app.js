@@ -6,7 +6,6 @@ import { Router } from '@reach/router'
 import Spinner from 'components/spinner'
 import Layout from 'components/layout'
 import NotFound from 'routes/not-found'
-// import { WalletProvider } from 'hooks/wallet'
 import routes from 'routes'
 
 const App = ({ isContentLoading, ual }) => (

@@ -29,7 +29,6 @@ ReactDOM.render(
         >
           <AppWithUAL />
         </UALProvider>
-        {/* <App /> */}
       </MuiThemeProvider>
     </PersistGate>
   </Provider>,
