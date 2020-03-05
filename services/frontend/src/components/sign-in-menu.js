@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-
-import walletProviders from 'config/wallet-providers'
 
 const SignInMenu = ({ anchorEl, handleClick, handleClose }) => {
   return (
@@ -17,16 +14,7 @@ const SignInMenu = ({ anchorEl, handleClick, handleClose }) => {
       getContentAnchorEl={null}
       open={Boolean(anchorEl)}
       onClose={handleClose}
-    >
-      {walletProviders.map(provider => (
-        <MenuItem
-          key={provider.id}
-          onClick={() => handleClick(provider.id, provider.name)}
-        >
-          {provider.name}
-        </MenuItem>
-      ))}
-    </Menu>
+    />
   )
 }
 

@@ -268,7 +268,7 @@ const GeneralInformation = ({ classes, producer }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {(_get(producer, 'average') || 0).toFixed(2)}
+            {(_get(producer, 'average', null) || 0)}
           </Typography>
         </Grid>
       </Grid>

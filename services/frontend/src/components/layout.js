@@ -7,7 +7,6 @@ import classnames from 'classnames'
 import MainTopBar from 'components/app-bar'
 import MainDrawer from 'components/main-drawer'
 import MainFooter from 'components/main-footer'
-import { useWalletDispatch } from 'hooks/wallet'
 import { InitGA, LogPageView } from 'config/google-analitycs-module'
 
 const styles = theme => ({
@@ -39,17 +38,11 @@ const styles = theme => ({
   }
 })
 
-const Layout = ({ classes, children }) => {
-  const { connectWallet } = useWalletDispatch()
+const Layout = ({ classes, children, ual }) => {
   const [state, setState] = useState({
     isNavOpen: false,
     isSearchOpen: false
   })
-  const walletProvider = localStorage.getItem('walletProvider')
-
-  if (walletProvider) {
-    connectWallet(walletProvider)
-  }
 
   const handleDrawerToggle = () =>
     setState({ ...state, isNavOpen: !state.isNavOpen })
@@ -72,6 +65,7 @@ const Layout = ({ classes, children }) => {
         handleDrawerToggle={handleDrawerToggle}
         handleSearchDialogOpen={handleSearchDialogOpen}
         handleSearchDialogClose={handleSearchDialogClose}
+        ual={ual}
       />
       <Hidden mdUp>
         <MainDrawer
@@ -100,7 +94,8 @@ const Layout = ({ classes, children }) => {
 
 Layout.propTypes = {
   children: PropTypes.object,
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  ual: PropTypes.object
 }
 
 export default withStyles(styles, { withTheme: true })(Layout)

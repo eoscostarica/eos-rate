@@ -35,6 +35,7 @@ const updateBpStats = async bpName => {
   const updateStat = async stat => {
     await massive(dbConfig).then(async db => {
       const blockProducerStat = await db.ratings_stats.findOne({ bp: stat.bp })
+
       if (blockProducerStat && blockProducerStat.bp) {
         await db.ratings_stats.save(stat)
         message = 'updated rating for ' + bpName
@@ -47,7 +48,7 @@ const updateBpStats = async bpName => {
 
   const bpStat = await getBpStats(bpName)
 
-  if (bpStat.rows.length && bpStat.rows[0] == bpName) {
+  if (bpStat.rows.length && bpStat.rows[0].bp === bpName) {
     message += await updateStat(bpStat.rows[0])
   } else {
     message = 'Did not find ratings for BP: ' + bpName
