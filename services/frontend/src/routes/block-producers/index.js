@@ -14,7 +14,6 @@ import classNames from 'classnames'
 
 import BlockProducerCard from 'components/block-producer-card'
 import CompareTool from 'components/compare-tool'
-// import FilterBox from './filter-box'
 
 const style = theme => ({
   root: {

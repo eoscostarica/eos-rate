@@ -34,10 +34,7 @@ class CompareTool extends Component {
     const { classes, removeBP, bpList, selected, t, className } = this.props
 
     const selectedBlockProducers = selected.map(bpName =>
-      bpList.find(
-        ({ bpjson: { producer_account_name: producerAccountName } }) =>
-          bpName === producerAccountName
-      )
+      bpList.find(({ owner }) => bpName === owner)
     )
 
     return (
