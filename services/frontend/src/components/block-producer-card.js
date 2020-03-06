@@ -47,7 +47,7 @@ const styles = theme => ({
     paddingBottom: theme.spacing(2)
   },
   avatar: {
-    backgroundColor: theme.palette.primary.light
+    backgroundColor: theme.palette.surface.main
   },
   helpIcon: {
     width: '90%',

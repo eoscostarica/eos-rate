@@ -34,7 +34,7 @@ const style = theme => ({
     marginLeft: 6
   },
   accountCircle: {
-    color: theme.palette.secondary.light
+    color: theme.palette.surface.main
   },
   radarActionsWrapper: {
     height: '100%',
@@ -67,7 +67,7 @@ const style = theme => ({
     textTransform: 'uppercase'
   },
   avatar: {
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.surface.main
   }
 })
 

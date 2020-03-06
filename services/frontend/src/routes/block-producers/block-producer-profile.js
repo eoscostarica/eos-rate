@@ -31,7 +31,7 @@ const style = theme => ({
     marginLeft: 6
   },
   accountCircle: {
-    color: theme.palette.secondary.light
+    color: theme.palette.surface.main
   },
   box: {
     padding: '3%'
@@ -100,6 +100,9 @@ const style = theme => ({
     '&:hover': {
         textDecoration: 'underline'
       }
+  },
+  avatar: {
+    backgroundColor: theme.palette.surface.main
   }
 })
 
