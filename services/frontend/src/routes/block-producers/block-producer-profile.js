@@ -38,7 +38,7 @@ const style = theme => ({
   },
   title: {
     color: theme.palette.primary.main,
-    fontWeight: 'bold',
+    fontSize: '1.5rem',
     marginBottom: 10,
     marginTop: 5
   },
