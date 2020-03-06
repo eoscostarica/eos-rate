@@ -69,10 +69,10 @@ We are running a demux and hasura on premises in Costa Rica.
 - Ability to superpose different BPs ratings flake charts.
 - Home page with explanation and instructions.
 - Languages: English & Spanish.
+- Light Theme.
 
 **Version 1.2**
 
-- Light Theme.
 - Activity Stream.
 - Ability to leave a comment when rating. ( reviews, like Yelp ).
 - Ability to vote for a block producer directly on their profile page.
