@@ -37,8 +37,10 @@ const style = theme => ({
     padding: '3%'
   },
   title: {
-    color: theme.palette.surface.main,
-    marginBottom: 10
+    color: theme.palette.primary.main,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    marginTop: 5
   },
   subTitle: {
     fontSize: 14
