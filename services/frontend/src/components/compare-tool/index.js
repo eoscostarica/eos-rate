@@ -11,7 +11,7 @@ import withT from 'components/with-t'
 const styles = theme => ({
   root: {
     padding: theme.spacing(2),
-    background: theme.palette.primary.dark,
+    background: theme.palette.surface.main,
     width: '100%',
     position: 'relative'
   },
