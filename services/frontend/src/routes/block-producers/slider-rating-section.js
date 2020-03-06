@@ -8,7 +8,6 @@ import HelpOutline from '@material-ui/icons/HelpOutline'
 import RateSlider from 'components/rate-slider'
 
 const MARKS = [
-  { value: 0 },
   { value: 1 },
   { value: 2 },
   { value: 3 },
@@ -67,7 +66,7 @@ const SliderRatingSection = ({
             value={ratingState.community}
             marks={MARKS}
             valueLabelDisplay='on'
-            min={0}
+            min={1}
             step={1}
             max={10}
           />
@@ -101,7 +100,7 @@ const SliderRatingSection = ({
             value={ratingState.development}
             marks={MARKS}
             valueLabelDisplay='on'
-            min={0}
+            min={1}
             step={1}
             max={10}
           />
@@ -133,7 +132,7 @@ const SliderRatingSection = ({
             value={ratingState.infra}
             marks={MARKS}
             valueLabelDisplay='on'
-            min={0}
+            min={1}
             step={1}
             max={10}
           />
@@ -167,7 +166,7 @@ const SliderRatingSection = ({
             value={ratingState.transparency}
             marks={MARKS}
             valueLabelDisplay='on'
-            min={0}
+            min={1}
             step={1}
             max={10}
           />
@@ -199,7 +198,7 @@ const SliderRatingSection = ({
             value={ratingState.trustiness}
             marks={MARKS}
             valueLabelDisplay='on'
-            min={0}
+            min={1}
             step={1}
             max={10}
           />
