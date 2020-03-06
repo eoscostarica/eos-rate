@@ -52,12 +52,12 @@ const style = theme => ({
     marginTop: 10
   },
   btnBP: {
-      color: theme.palette.surface.main,
-      backgroundColor: theme.palette.secondary.main,
-      width: '100%',
-      '&:hover': {
-        backgroundColor: theme.palette.secondary.light
-      },
+    color: theme.palette.surface.main,
+    backgroundColor: theme.palette.secondary.main,
+    width: '100%',
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.light
+    },
 
     [theme.breakpoints.up('sm')]: {
       marginRight: 10
@@ -100,8 +100,8 @@ const style = theme => ({
     textDecoration: 'none',
     color: theme.palette.secondary.main,
     '&:hover': {
-        textDecoration: 'underline'
-      }
+      textDecoration: 'underline'
+    }
   },
   avatar: {
     backgroundColor: theme.palette.surface.main
