@@ -29,8 +29,8 @@ const style = theme => ({
   },
   badge: {
     border: `2px solid ${theme.palette.secondary}`,
-    background: theme.palette.primary.sectionBackground,
-    color: theme.palette.secondary.light
+    background: theme.palette.surface.main,
+    color: theme.palette.primary.main
   },
   wrapper: {
     padding: theme.spacing(3)
@@ -47,9 +47,17 @@ const style = theme => ({
       'min-height 0.25s ease'
     ]
   },
+  bpCard: {
+    backgroundColor: theme.palette.primary.light
+  },
   loadMoreButton: {
+    color: '#443f56',
     display: 'block',
-    margin: `${theme.spacing(2)}px auto`
+    margin: `${theme.spacing(2)}px auto`,
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.light,
+      color: 'white'
+    }
   },
   hidden: {
     opacity: 0,

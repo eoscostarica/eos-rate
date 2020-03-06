@@ -42,7 +42,6 @@ const style = theme => ({
   },
   radarWrapper: {
     flexBasis: 0,
-    background: '#000',
     padding: '30px 0'
   },
   ctasWrapper: {
@@ -52,7 +51,6 @@ const style = theme => ({
     padding: 20
   },
   title: {
-    color: '#5cf68a',
     marginBottom: 10
   },
   subTitle: {

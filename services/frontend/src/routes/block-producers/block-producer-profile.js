@@ -37,7 +37,7 @@ const style = theme => ({
     padding: '3%'
   },
   title: {
-    color: '#ffffff',
+    color: theme.palette.surface.main,
     marginBottom: 10
   },
   subTitle: {
@@ -50,11 +50,12 @@ const style = theme => ({
     marginTop: 10
   },
   btnBP: {
-    backgroundColor: theme.palette.secondary.main,
-    width: '100%',
-    '&:hover': {
-      backgroundColor: theme.palette.secondary.light
-    },
+      color: theme.palette.surface.main,
+      backgroundColor: theme.palette.secondary.main,
+      width: '100%',
+      '&:hover': {
+        backgroundColor: theme.palette.secondary.light
+      },
 
     [theme.breakpoints.up('sm')]: {
       marginRight: 10
@@ -71,7 +72,7 @@ const style = theme => ({
   },
   BlockProducerRadarBox: {
     padding: '30px 0',
-    backgroundColor: '#000'
+    backgroundColor: theme.palette.surface.main
   },
   showOnlySm: {
     display: 'flex',
@@ -95,7 +96,10 @@ const style = theme => ({
   },
   links: {
     textDecoration: 'none',
-    color: theme.palette.secondary.light
+    color: theme.palette.secondary.main,
+    '&:hover': {
+        textDecoration: 'underline'
+      }
   }
 })
 

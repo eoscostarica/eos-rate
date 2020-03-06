@@ -33,7 +33,7 @@ const theme = createMuiTheme({
     },
     MuiSlider: {
       thumb: {
-        backgroundColor: '#00c25b',
+        backgroundColor: '#597a81',
         '&$focused, &:hover': {
           boxShadow: '0px 0px 0px 9px rgba(0, 194, 91, 0.16)'
         },
@@ -42,7 +42,7 @@ const theme = createMuiTheme({
         }
       },
       trackBefore: {
-        backgroundColor: '#00c25b'
+        backgroundColor: '#597a81'
       },
       trackAfter: {
         opacity: 0.8,
