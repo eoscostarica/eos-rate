@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
@@ -20,7 +20,6 @@ import _get from 'lodash.get'
 import { withStyles } from '@material-ui/core/styles'
 
 import BlockProducerRadar from 'components/block-producer-radar'
-import bpParameters from 'config/comparison-parameters'
 import config from 'config'
 import getBPRadarData from 'utils/getBPRadarData'
 
@@ -200,7 +199,9 @@ const BlockProducerRate = ({
         txSuccess: false
       })
 
-      const result = await ual.activeUser.signTransaction(transaction, { broadcast: true })
+      const result = await ual.activeUser.signTransaction(transaction, {
+        broadcast: true
+      })
 
       await addUserRating({
         user: accountName,
@@ -245,18 +246,21 @@ const BlockProducerRate = ({
           className={classes.breadcrumbText}
         >
           <Button
-            component={props => <Link {...props} to='/block-producers' />}
+            component={forwardRef((props, ref) => (
+              <Link {...props} ref={ref} to='/block-producers' />
+            ))}
           >
             <KeyboardArrowLeft />
             {t('allBPs')}
           </Button>
           <Button
-            component={props => (
+            component={forwardRef((props, ref) => (
               <Link
                 {...props}
+                ref={ref}
                 to={`/block-producers/${_get(producer, 'owner', null)}`}
               />
-            )}
+            ))}
           >
             <KeyboardArrowLeft />
             {_get(producer, 'owner', null)}
@@ -315,7 +319,6 @@ const BlockProducerRate = ({
                     <BlockProducerRadar
                       showLabel
                       bpData={{
-                        labels: bpParameters,
                         datasets: [
                           { ...bpData, label: t('globalRate') },
                           userDataSet
@@ -381,16 +384,17 @@ const BlockProducerRate = ({
                         {t('publishRatingButton')}
                       </Button>
                       <Button
-                        component={props => (
+                        component={forwardRef((props, ref) => (
                           <Link
                             {...props}
+                            ref={ref}
                             to={`/block-producers/${_get(
                               producer,
                               'bpjson.producer_account_name',
                               null
                             )}`}
                           />
-                        )}
+                        ))}
                         variant='contained'
                         size='small'
                       >

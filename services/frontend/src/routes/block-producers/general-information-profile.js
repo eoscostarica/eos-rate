@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
@@ -257,7 +257,7 @@ const GeneralInformation = ({ classes, producer }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {(_get(producer, 'ratings_cntr', null) || 0)}
+            {_get(producer, 'ratings_cntr', null) || 0}
           </Typography>
         </Grid>
         <Grid container direction='row'>
@@ -268,7 +268,7 @@ const GeneralInformation = ({ classes, producer }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {(_get(producer, 'average', null) || 0)}
+            {_get(producer, 'average', null) || 0}
           </Typography>
         </Grid>
       </Grid>
@@ -276,16 +276,17 @@ const GeneralInformation = ({ classes, producer }) => {
         <Grid container direction='row'>
           <Button
             disabled={!producer}
-            component={props => (
+            component={forwardRef((props, ref) => (
               <Link
                 {...props}
+                ref={ref}
                 to={`/block-producers/${_get(
                   producer,
                   'owner',
                   'noBlockProducerName'
                 )}/rate`}
               />
-            )}
+            ))}
             className={classes.btnBP}
           >
             {t('buttonRate')}
@@ -304,7 +305,6 @@ SocialNetworks.propTypes = {
 
 GeneralInformation.propTypes = {
   classes: PropTypes.object,
-  overrideClass: PropTypes.any,
   producer: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
 }
 
