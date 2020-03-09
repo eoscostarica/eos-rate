@@ -1,0 +1,11 @@
+- args:
+    cascade: true
+    read_only: false
+    sql: "CREATE OR REPLACE VIEW \"public\".\"producers_list\" AS \n SELECT producers.owner,\n
+      \   producers.bpjson,\n    producers.system,\n    ((producers.bpjson -> 'org'::text)
+      ->> 'candidate_name'::text) AS candidate_name,\n    (producers.system ->> 'total_votes'::text)
+      AS total_votes,\n    ratings_stats.average,\n    ratings_stats.transparency,\n
+      \   ratings_stats.infrastructure,\n    ratings_stats.trustiness,\n    ratings_stats.community,\n
+      \   ratings_stats.development,\n    ratings_stats.ratings_cntr\n   FROM (producers\n
+      \    FULL JOIN ratings_stats ON (((ratings_stats.bp)::text = producers.owner)));"
+  type: run_sql

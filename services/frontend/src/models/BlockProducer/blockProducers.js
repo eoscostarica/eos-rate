@@ -120,6 +120,7 @@ const blockProducers = {
         this.addProducer({
           ...blockProducer,
           average: bpData.average,
+          ratings_cntr: bpData.ratings_cntr,
           system: {
             ...blockProducer.system,
             votesInEos: bpData.system.votesInEos,
