@@ -257,7 +257,7 @@ const GeneralInformation = ({ classes, producer }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            - -
+            {(_get(producer, 'ratings_cntr', null) || 0)}
           </Typography>
         </Grid>
         <Grid container direction='row'>
