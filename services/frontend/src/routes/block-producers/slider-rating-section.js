@@ -40,7 +40,8 @@ const SliderRatingSection = ({
   t,
   handleStateChange,
   ratingState,
-  classes
+  classes,
+  producer
 }) => {
   return (
     <Grid container className={classes.sliderBoxContent}>
@@ -61,7 +62,7 @@ const SliderRatingSection = ({
       <Grid item xs={12}>
         <div className={classes.sliderWrapper}>
           <RateSlider
-            disabled={!ratingState.communityEnabled}
+            disabled={!producer || !ratingState.communityEnabled}
             onChange={handleStateChange('community')}
             value={ratingState.community}
             marks={MARKS}
@@ -95,7 +96,7 @@ const SliderRatingSection = ({
       <Grid item xs={12}>
         <div className={classes.sliderWrapper}>
           <RateSlider
-            disabled={!ratingState.developmentEnabled}
+            disabled={!producer || !ratingState.developmentEnabled}
             onChange={handleStateChange('development')}
             value={ratingState.development}
             marks={MARKS}
@@ -127,7 +128,7 @@ const SliderRatingSection = ({
       <Grid item xs={12}>
         <div className={classes.sliderWrapper}>
           <RateSlider
-            disabled={!ratingState.infraEnabled}
+            disabled={!producer || !ratingState.infraEnabled}
             onChange={handleStateChange('infra')}
             value={ratingState.infra}
             marks={MARKS}
@@ -161,7 +162,7 @@ const SliderRatingSection = ({
       <Grid item xs={12}>
         <div className={classes.sliderWrapper}>
           <RateSlider
-            disabled={!ratingState.transparencyEnabled}
+            disabled={!producer || !ratingState.transparencyEnabled}
             onChange={handleStateChange('transparency')}
             value={ratingState.transparency}
             marks={MARKS}
@@ -193,7 +194,7 @@ const SliderRatingSection = ({
       <Grid item xs={12}>
         <div className={classes.sliderWrapper}>
           <RateSlider
-            disabled={!ratingState.trustinessEnabled}
+            disabled={!producer || !ratingState.trustinessEnabled}
             onChange={handleStateChange('trustiness')}
             value={ratingState.trustiness}
             marks={MARKS}
@@ -216,7 +217,8 @@ SliderRatingSection.propTypes = {
   classes: PropTypes.object,
   t: PropTypes.any,
   handleStateChange: PropTypes.func,
-  ratingState: PropTypes.object
+  ratingState: PropTypes.object,
+  producer: PropTypes.object
 }
 
 export default withStyles(style)(SliderRatingSection)

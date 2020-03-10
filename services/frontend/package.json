@@ -67,8 +67,10 @@
     "text-encoding": "^0.7.0",
     "ual-ledger": "^0.2.0",
     "ual-lynx": "^0.3.0",
+    "ual-meetone": "^0.1.1",
     "ual-reactjs-renderer": "^0.2.0",
     "ual-scatter": "^0.2.0",
+    "ual-token-pocket": "^0.2.0",
     "yup": "0.28.3"
   },
   "devDependencies": {

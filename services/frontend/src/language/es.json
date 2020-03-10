@@ -121,7 +121,8 @@
     "developmentTooltip": "Conocimientos técnicos y uso de software de código abierto, scripts, marcos, billeteras, portales de votación, métricas, etc.",
     "globalRate": "Evalucación Promedio",
     "myRate": "Mi Evaluación",
-    "rateWithoutLogin": "Necesitas iniciar sesión para evaluar un productor de bloques"
+    "rateWithoutLogin": "Necesitas iniciar sesión para evaluar un productor de bloques",
+    "noBlockProducer": "No encontramos este PB"
   },
 
   "footer": {
@@ -143,6 +144,7 @@
     "buttonRate": "Evalúa este PB",
     "allBP": "Lista de productores de bloques",
     "noBpJson": "No encontramos un bp.json!",
-    "noCountryName": "No se proporcionó ubicación."
+    "noCountryName": "No se proporcionó ubicación.",
+    "noBlockProducer": "No encontramos este PB"
   }
 }

@@ -10,7 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 const styles = () => ({
   wrapper: { display: 'flex', alignItems: 'center' },
   languageText: { fontSize: '1rem', marginLeft: 3 },
-  iconLanguage: { width: 30, height: 30 }
+  iconLanguage: { width: 30, height: 30 },
+  boxLanguage: { marginRight: 10 }
 })
 
 const LanguageSelect = ({ classes, style, alt }) => {
@@ -38,7 +39,7 @@ const LanguageSelect = ({ classes, style, alt }) => {
   ]
 
   return (
-    <>
+    <div className={classes.boxLanguage}>
       <div className={classes.wrapper}>
         <LanguageIcon
           onClick={handleClick}
@@ -60,7 +61,7 @@ const LanguageSelect = ({ classes, style, alt }) => {
             </MenuItem>
           ))}
       </Menu>
-    </>
+    </div>
   )
 }
 

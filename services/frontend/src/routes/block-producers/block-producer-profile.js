@@ -22,7 +22,7 @@ import {
   WebsiteLegend
 } from './general-information-profile'
 
-const style = theme => ({
+const style = ({ palette, breakpoints }) => ({
   container: {
     padding: 10
   },
@@ -30,13 +30,13 @@ const style = theme => ({
     marginLeft: 6
   },
   accountCircle: {
-    color: theme.palette.surface.main
+    color: palette.secondary.main
   },
   box: {
     padding: '3%'
   },
   title: {
-    color: theme.palette.primary.main,
+    color: palette.primary.main,
     fontSize: '1.5rem',
     marginBottom: 10,
     marginTop: 5
@@ -51,14 +51,14 @@ const style = theme => ({
     marginTop: 10
   },
   btnBP: {
-    color: theme.palette.surface.main,
-    backgroundColor: theme.palette.secondary.main,
+    color: palette.surface.main,
+    backgroundColor: palette.secondary.main,
     width: '100%',
     '&:hover': {
-      backgroundColor: theme.palette.secondary.light
+      backgroundColor: palette.secondary.light
     },
 
-    [theme.breakpoints.up('sm')]: {
+    [breakpoints.up('sm')]: {
       marginRight: 10
     }
   },
@@ -67,45 +67,67 @@ const style = theme => ({
     display: 'flex',
     flexDirection: 'column',
 
-    [theme.breakpoints.up('sm')]: {
+    [breakpoints.up('sm')]: {
       flexDirection: 'row'
     }
   },
   BlockProducerRadarBox: {
     padding: '30px 0',
-    backgroundColor: theme.palette.surface.main
+    backgroundColor: palette.surface.main
   },
   showOnlySm: {
     display: 'flex',
 
-    [theme.breakpoints.up('sm')]: {
+    [breakpoints.up('sm')]: {
       display: 'none'
     }
   },
   showOnlyLg: {
     display: 'flex',
 
-    [theme.breakpoints.down('sm')]: {
+    [breakpoints.down('sm')]: {
       display: 'none'
     }
   },
   websiteLegend: {
     margin: '10px 0',
-    [theme.breakpoints.up('sm')]: {
+    [breakpoints.up('sm')]: {
       margin: 0
     }
   },
   links: {
     textDecoration: 'none',
-    color: theme.palette.secondary.main,
+    color: palette.secondary.main,
     '&:hover': {
       textDecoration: 'underline'
     }
   },
   avatar: {
-    backgroundColor: theme.palette.surface.main
+    backgroundColor: palette.surface.main
   }
 })
+
+const ProfileTitle = ({ classes, hasInformation, producer, t, bpTitle, isContentLoading }) => {
+  if (!isContentLoading && !producer)
+    return (
+      <Typography variant='h6' className={classes.bpName}>
+        {t('noBlockProducer')}
+      </Typography>
+    )
+
+  return (
+    <>
+      <Typography variant='h6' className={classes.bpName}>
+        {bpTitle}
+      </Typography>
+      {!hasInformation && (
+        <Typography variant='h6' className={classes.bpName}>
+          {t('noBpJson')}
+        </Typography>
+      )}
+    </>
+  )
+}
 
 const BlockProducerProfile = ({
   classes,
@@ -113,6 +135,7 @@ const BlockProducerProfile = ({
   blockProducers,
   getBlockProducer,
   producer,
+  isContentLoading,
   ...props
 }) => {
   const { t } = useTranslation('bpProfile')
@@ -168,14 +191,14 @@ const BlockProducerProfile = ({
                       ) : (
                         <AccountCircle className={classes.accountCircle} />
                       )}
-                      <Typography variant='h6' className={classes.bpName}>
-                        {BlockProducerTitle}
-                      </Typography>
-                      {!bpHasInformation && (
-                        <Typography variant='h6' className={classes.bpName}>
-                          {t('noBpJson')}
-                        </Typography>
-                      )}
+                      <ProfileTitle
+                        classes={classes}
+                        hasInformation={bpHasInformation}
+                        producer={producer}
+                        t={t}
+                        bpTitle={BlockProducerTitle}
+                        isContentLoading={isContentLoading}
+                      />
                     </Grid>
                   </Grid>
                 </Grid>
@@ -243,12 +266,17 @@ BlockProducerProfile.propTypes = {
   account: PropTypes.string,
   blockProducers: PropTypes.array,
   getBlockProducer: PropTypes.func,
-  producer: PropTypes.object
+  producer: PropTypes.object,
+  isContentLoading: PropTypes.bool
 }
 
-const mapStateToProps = ({ blockProducers: { list, producer } }) => ({
+const mapStateToProps = ({
+  isLoading: { isContentLoading },
+  blockProducers: { list, producer }
+}) => ({
   blockProducers: list,
-  producer
+  producer,
+  isContentLoading
 })
 
 const mapDispatchToProps = dispatch => ({
