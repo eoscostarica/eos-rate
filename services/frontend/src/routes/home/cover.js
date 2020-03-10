@@ -6,9 +6,8 @@ import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
 import { Link } from '@reach/router'
 import PropTypes from 'prop-types'
-// import ParameterRangeSelector from 'components/parameter-range-selector'
+
 import BlockProducerRadar from 'components/block-producer-radar'
-import bpParameters from 'config/comparison-parameters'
 
 const bpLink = React.forwardRef((props, ref) => (
   <Link innerRef={ref} {...props} />
@@ -46,13 +45,9 @@ const styles = ({ palette, typography }) => ({
 
 const HomeCover = ({ classes, blockProducer }) => {
   const { t } = useTranslation('home')
+
   return (
-    <Grid
-      item
-      container
-      xs={12}
-      className={classes.coverContainer}
-    >
+    <Grid item container xs={12} className={classes.coverContainer}>
       <Grid item xs={12} md={6} className={classes.leftCoverBox}>
         <Typography variant='h5' className={classes.title}>
           {t('cover.title')}
@@ -93,7 +88,6 @@ const HomeCover = ({ classes, blockProducer }) => {
           <BlockProducerRadar
             height={230}
             bpData={{
-              labels: bpParameters,
               datasets: [blockProducer.data]
             }}
           />

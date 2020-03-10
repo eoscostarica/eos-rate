@@ -1,5 +1,11 @@
 {
   "translations": {
+    "community": "Comunidad",
+    "development": "Desarrollo",
+    "infrastructure": "Infraestructura",
+    "transparency": "Transparencia",
+    "trustiness": "Lealtad",
+
     "compareToolTitle": "Herramienta de comparación",
     "compareToolToggle": "Comparar",
     "compareToolCollapsedSwitch": "Colapsar Gráficos",

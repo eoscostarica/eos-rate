@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next'
 import _get from 'lodash.get'
 import _isEmpty from 'lodash.isempty'
 
-import comparisonParameters from 'config/comparison-parameters'
 import BlockProducerRadar from 'components/block-producer-radar'
 
 const styles = theme => ({
@@ -53,7 +52,6 @@ const CompareGraphView = ({
       <Grid item xs={12} md={8}>
         <BlockProducerRadar
           bpData={{
-            labels: comparisonParameters,
             datasets: selected.map(({ data }) => ({
               ...data,
               backgroundColor: data.backgroundColor.replace('.9', '.2')

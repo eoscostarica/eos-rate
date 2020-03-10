@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
@@ -16,7 +16,6 @@ import Divider from '@material-ui/core/Divider'
 import _get from 'lodash.get'
 
 import BlockProducerRadar from 'components/block-producer-radar'
-import bpParameters from 'config/comparison-parameters'
 import {
   SocialNetworks,
   GeneralInformation,
@@ -117,9 +116,16 @@ const BlockProducerProfile = ({
   ...props
 }) => {
   const { t } = useTranslation('bpProfile')
-  const bpHasInformation = Boolean(producer && Object.values(producer.bpjson).length)
-  const bPLogo = bpHasInformation && _get(producer, 'bpjson.org.branding.logo_256', null)
-  const BlockProducerTitle = _get(producer, 'bpjson.org.candidate_name', _get(producer, 'system.owner', 'No Data'))
+  const bpHasInformation = Boolean(
+    producer && Object.values(producer.bpjson).length
+  )
+  const bPLogo =
+    bpHasInformation && _get(producer, 'bpjson.org.branding.logo_256', null)
+  const BlockProducerTitle = _get(
+    producer,
+    'bpjson.org.candidate_name',
+    _get(producer, 'system.owner', 'No Data')
+  )
 
   useEffect(() => {
     getBlockProducer(account)
@@ -130,7 +136,9 @@ const BlockProducerProfile = ({
       <Grid item xs={12}>
         <Grid container direction='row' alignItems='center'>
           <Button
-            component={props => <Link {...props} to='/block-producers' />}
+            component={forwardRef((props, ref) => (
+              <Link {...props} ref={ref} to='/block-producers' />
+            ))}
           >
             <KeyboardArrowLeft />
             {t('allBP')}
@@ -185,7 +193,6 @@ const BlockProducerProfile = ({
                 >
                   <BlockProducerRadar
                     bpData={{
-                      labels: bpParameters,
                       datasets: producer ? [{ ...producer.data }] : []
                     }}
                   />
@@ -210,7 +217,6 @@ const BlockProducerProfile = ({
                   >
                     <BlockProducerRadar
                       bpData={{
-                        labels: bpParameters,
                         datasets: producer ? [{ ...producer.data }] : []
                       }}
                     />
