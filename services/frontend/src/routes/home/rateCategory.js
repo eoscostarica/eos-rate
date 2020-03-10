@@ -18,7 +18,7 @@ const styles = ({ typography, spacing, palette }) => ({
     marginBottom: 12.5
   },
   paragraph: {
-    marginLeft: spacing(4.5),
+    marginLeft: spacing(4.5)
   },
   subTitleContainer: {
     display: 'flex',
