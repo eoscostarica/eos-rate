@@ -30,7 +30,7 @@ const SubTopic = ({ classes }) => {
       xs={12}
       className={classes.subTopicContainer}
     >
-      <Grid item xs={12} md={6} style={{ padding: '1%' }}>
+      <Grid item xs={12} md={6} style={{ padding: '2%' }}>
         <Typography variant='h5' className={classes.title}>
           {t('subTopic.title')}
         </Typography>

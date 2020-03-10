@@ -9,7 +9,7 @@ import Icon from '../../components/icon'
 
 const styles = ({ typography, spacing, palette }) => ({
   ratingContainer: {
-    color: 'white',
+    color: '#433F5B',
     maxWidth: '1024px'
   },
   title: {
@@ -19,14 +19,16 @@ const styles = ({ typography, spacing, palette }) => ({
   },
   paragraph: {
     marginLeft: spacing(4.5),
-    marginTop: spacing(1)
   },
   subTitleContainer: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingTop: 6
   },
   iconStyle: {
-    marginRight: spacing(2)
+    marginRight: spacing(2),
+    marginTop: spacing(1),
+    color: '#433F5B'
   }
 })
 
