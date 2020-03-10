@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import { useTranslation } from 'react-i18next'
 
-import comparisonParameters from 'config/comparison-parameters'
 import BlockProducerRadar from 'components/block-producer-radar'
 
 const style = theme => ({
@@ -45,7 +44,6 @@ const CompareSliderView = ({ classes, selected, className, ...props }) => {
           >
             <BlockProducerRadar
               bpData={{
-                labels: comparisonParameters,
                 datasets: [{ ...bp.data }]
               }}
             />

@@ -1,12 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 import { Radar } from 'react-chartjs-2'
 
+import getRadarLabelName from 'utils/getRadarLabelName'
+
 const BlockProducerRadar = ({ bpData, height, showLabel, ...props }) => {
+  const { t } = useTranslation('translations')
+  const labels = getRadarLabelName(t)
   const bpValidData =
     bpData.datasets && bpData.datasets.length
-      ? bpData
-      : { ...bpData, datasets: [{ data: [0, 0, 0, 0, 0] }] }
+      ? { ...bpData, labels }
+      : { labels, datasets: [{ data: [0, 0, 0, 0, 0] }] }
 
   return (
     <Radar

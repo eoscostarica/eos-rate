@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { withStyles } from '@material-ui/core/styles'
@@ -65,7 +65,9 @@ const NotFound = ({ classes }) => {
         <Button
           className={classes.recoveryCta}
           variant='contained'
-          component={props => <Link to='/' {...props} />}
+          component={forwardRef((props, ref) => (
+            <Link {...props} ref={ref} to='/' />
+          ))}
           color='secondary'
         >
           {t('recoveryCta')}

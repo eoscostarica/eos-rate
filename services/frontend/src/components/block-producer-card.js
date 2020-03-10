@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 
 import { withStyles } from '@material-ui/core/styles'
@@ -14,10 +14,8 @@ import withWidth from '@material-ui/core/withWidth'
 import Tooltip from '@material-ui/core/Tooltip'
 import _get from 'lodash.get'
 import _isEmpty from 'lodash.isempty'
-
 import { Link } from '@reach/router'
 
-import comparisonParameters from 'config/comparison-parameters'
 import BlockProducerRadar from 'components/block-producer-radar'
 
 const styles = theme => ({
@@ -144,7 +142,6 @@ const BlockProducerCard = ({
         <BlockProducerRadar
           height={200}
           bpData={{
-            labels: comparisonParameters,
             datasets: [{ ...blockProducer.data }]
           }}
         />
@@ -157,13 +154,14 @@ const BlockProducerCard = ({
           {isSelected ? 'REMOVE' : 'ADD'}
         </Button>
         <Button
-          component={props => (
+          component={forwardRef((props, ref) => (
             <Link
               {...props}
+              ref={ref}
               state={{ owner: blockProducer.owner }}
               to={`/block-producers/${blockProducer.owner}/rate`}
             />
-          )}
+          ))}
           className={classes.btnRate}
           size='small'
         >
