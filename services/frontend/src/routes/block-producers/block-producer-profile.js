@@ -107,13 +107,21 @@ const style = ({ palette, breakpoints }) => ({
   }
 })
 
-const ProfileTitle = ({ classes, hasInformation, producer, t, bpTitle, isContentLoading }) => {
-  if (!isContentLoading && !producer)
+const ProfileTitle = ({
+  classes,
+  hasInformation,
+  producer,
+  t,
+  bpTitle,
+  isContentLoading
+}) => {
+  if (!isContentLoading && !producer) {
     return (
       <Typography variant='h6' className={classes.bpName}>
         {t('noBlockProducer')}
       </Typography>
     )
+  }
 
   return (
     <>
@@ -267,6 +275,15 @@ BlockProducerProfile.propTypes = {
   blockProducers: PropTypes.array,
   getBlockProducer: PropTypes.func,
   producer: PropTypes.object,
+  isContentLoading: PropTypes.bool
+}
+
+ProfileTitle.propTypes = {
+  classes: PropTypes.object,
+  hasInformation: PropTypes.bool,
+  producer: PropTypes.object,
+  t: PropTypes.any,
+  bpTitle: PropTypes.string,
   isContentLoading: PropTypes.bool
 }
 
