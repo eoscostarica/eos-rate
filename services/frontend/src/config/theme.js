@@ -5,23 +5,26 @@ const theme = createMuiTheme({
     useNextVariants: true
   },
   palette: {
-    type: 'dark',
+    type: 'light',
     background: {
-      default: '#5b576f'
+      default: '#eeeeee'
     },
     primary: {
-      light: '#2b2e3e',
-      main: '#010318',
-      dark: '#000000',
-      sectionBackground: '#1b1a2b',
-      submenu: '#252838'
+      light: '#787291',
+      main: '#443f56',
+      dark: '#221e38',
+      sectionBackground: '#ffffff',
+      submenu: '#597a81'
     },
     secondary: {
-      light: '#fff',
-      main: '#00c25b',
-      dark: '#00902e',
-      boringGreen: '#63b76b',
-      midGreen: '#00902e'
+      light: '#8ba2a6',
+      main: '#597a81',
+      dark: '#222f32'
+    },
+    surface: {
+      light: '#ffffff',
+      main: '#ffffff',
+      dark: '#f8f8f8'
     }
   },
   overrides: {
@@ -30,7 +33,7 @@ const theme = createMuiTheme({
     },
     MuiSlider: {
       thumb: {
-        backgroundColor: '#00c25b',
+        backgroundColor: '#597a81',
         '&$focused, &:hover': {
           boxShadow: '0px 0px 0px 9px rgba(0, 194, 91, 0.16)'
         },
@@ -39,36 +42,31 @@ const theme = createMuiTheme({
         }
       },
       trackBefore: {
-        backgroundColor: '#00c25b'
+        backgroundColor: '#597a81'
       },
       trackAfter: {
         opacity: 0.8,
         backgroundColor: '#fff'
       }
     },
-    MuiPaper: {
-      root: {
-        backgroundColor: '#1b1a2b'
-      }
-    },
     MuiListItem: {
       button: {
-        color: 'white',
+        // color: 'black',
         '&:hover': {
-          backgroundColor: '#5cf68a',
-          color: 'black'
+          // backgroundColor: '#5cf68a',
+          // color: 'black'
         }
       },
       root: {
         '&$selected': {
-          color: 'black',
-          backgroundColor: '#5cf68a'
+          // color: 'black',
+          // backgroundColor: '#5cf68a'
         }
       }
     },
     MuiListItemText: {
       primary: {
-        color: 'inherit'
+        // color: 'inherit'
       }
     },
     MuiSelect: {
@@ -84,7 +82,7 @@ const theme = createMuiTheme({
     },
     MuiButton: {
       containedSecondary: {
-        color: '#fff'
+        // color: '#fff'
       }
     }
   }

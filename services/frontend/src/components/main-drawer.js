@@ -22,17 +22,18 @@ const styles = theme => ({
     }
   },
   innerList: {
-    backgroundColor: theme.palette.primary.submenu
+    backgroundColor: theme.palette.surface.main
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular
   },
   selectedItem: {
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.surface.main
   },
   link: {
-    textDecoration: 'none'
+    textDecoration: 'none',
+    color: '#443f56'
   }
 })
 
@@ -45,8 +46,8 @@ const Menu = ({ onClick, currentPathname, links, classes }) => (
         // it didn't work for me
         const isSelected = currentPathname === to
         const selectedStyle = {
-          backgroundColor: '#5cf68a',
-          color: 'black'
+          backgroundColor: '#f5f5f5',
+          color: '#443f5b'
         }
         return (
           <React.Fragment key={`link-${to}`}>

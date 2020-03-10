@@ -19,10 +19,12 @@ import { Link } from '@reach/router'
 import BlockProducerRadar from 'components/block-producer-radar'
 
 const styles = theme => ({
-  card: {},
+  card: {
+    backgroundColor: theme.palette.surface.dark
+  },
   title: {
     textDecoration: 'none',
-    color: '#ffffff'
+    color: theme.palette.primary.main
   },
   unsafeChip: {
     marginLeft: theme.spacing(2),
@@ -38,18 +40,20 @@ const styles = theme => ({
     justifyContent: 'space-between'
   },
   radar: {
-    background: theme.palette.primary.dark,
+    background: theme.palette.surface.light,
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2)
   },
   avatar: {
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.surface.main
   },
   helpIcon: {
     width: '90%',
     height: '90%'
   },
   btnRate: {
+    backgroundColor: theme.palette.secondary.main,
+    color: '#ffffff',
     '&:hover': {
       backgroundColor: theme.palette.secondary.main
     }

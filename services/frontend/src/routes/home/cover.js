@@ -14,15 +14,17 @@ const bpLink = React.forwardRef((props, ref) => (
 ))
 const styles = ({ palette, typography }) => ({
   coverContainer: {
-    color: '#fff',
-    maxWidth: '1024px'
+    padding: 0,
+    color: '#433F5B',
+    maxWidth: '1024px',
+    backgroundColor: palette.surface.main
   },
   title: {
     fontSize: typography.h4.fontSize,
     marginBottom: 12.5
   },
   paragraph: {
-    color: palette.grey[600]
+    //    color: palette.grey[600]
   },
   ctaContainer: {
     textAlign: 'center'
@@ -33,11 +35,7 @@ const styles = ({ palette, typography }) => ({
     display: 'flex',
     alignItems: 'center'
   },
-  btn: {
-    border: 'solid 0.5px #1eb53a',
-    backgroundColor: 'rgba(99, 183, 107, 0.21)',
-    color: '#63b76b'
-  },
+  btn: {},
   leftCoverBox: {
     display: 'flex',
     flexDirection: 'column',

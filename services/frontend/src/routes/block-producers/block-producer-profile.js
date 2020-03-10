@@ -30,14 +30,16 @@ const style = theme => ({
     marginLeft: 6
   },
   accountCircle: {
-    color: theme.palette.secondary.light
+    color: theme.palette.surface.main
   },
   box: {
     padding: '3%'
   },
   title: {
-    color: '#ffffff',
-    marginBottom: 10
+    color: theme.palette.primary.main,
+    fontSize: '1.5rem',
+    marginBottom: 10,
+    marginTop: 5
   },
   subTitle: {
     fontSize: 14
@@ -49,10 +51,11 @@ const style = theme => ({
     marginTop: 10
   },
   btnBP: {
-    backgroundColor: theme.palette.secondary.boringGreen,
+    color: theme.palette.surface.main,
+    backgroundColor: theme.palette.secondary.main,
     width: '100%',
     '&:hover': {
-      backgroundColor: theme.palette.secondary.midGreen
+      backgroundColor: theme.palette.secondary.light
     },
 
     [theme.breakpoints.up('sm')]: {
@@ -70,7 +73,7 @@ const style = theme => ({
   },
   BlockProducerRadarBox: {
     padding: '30px 0',
-    backgroundColor: '#000'
+    backgroundColor: theme.palette.surface.main
   },
   showOnlySm: {
     display: 'flex',
@@ -94,7 +97,13 @@ const style = theme => ({
   },
   links: {
     textDecoration: 'none',
-    color: theme.palette.secondary.light
+    color: theme.palette.secondary.main,
+    '&:hover': {
+      textDecoration: 'underline'
+    }
+  },
+  avatar: {
+    backgroundColor: theme.palette.surface.main
   }
 })
 
