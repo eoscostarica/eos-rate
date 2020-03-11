@@ -4,14 +4,13 @@ import { Language as LanguageIcon } from '@material-ui/icons'
 import { useTranslation } from 'react-i18next'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
+import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 
 const styles = theme => ({
   wrapper: { 
-    display: 'flex', 
-    alignItems: 'center', 
-    cursor: 'pointer' 
+    color: 'inherit'
   },
   languageText: { 
     fontSize: '1rem',
@@ -53,7 +52,7 @@ const LanguageSelect = ({ classes, style, alt }) => {
 
   return (
     <>
-      <div className={classes.wrapper}>
+      <IconButton className={classes.wrapper}>
         <LanguageIcon
           onClick={handleClick}
           alt={alt}
@@ -62,7 +61,7 @@ const LanguageSelect = ({ classes, style, alt }) => {
         <Typography variant='h5' className={classes.languageText}>
           {(i18n.language || '').toLocaleUpperCase().substring(0, 2)}
         </Typography>
-      </div>
+      </IconButton>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         {languages.length &&
           languages.map(item => (
