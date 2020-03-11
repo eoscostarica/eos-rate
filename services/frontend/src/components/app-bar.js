@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import AppBar from '@material-ui/core/AppBar'
-import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import FingerprintIcon from '@material-ui/icons/Fingerprint'
 import IconButton from '@material-ui/core/IconButton'
@@ -15,7 +14,6 @@ import Typography from '@material-ui/core/Typography'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import { withStyles } from '@material-ui/core/styles'
 import { Link } from '@reach/router'
-
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
 import LanguageSelect from 'components/language-select'
@@ -38,15 +36,17 @@ const styles = theme => ({
     flexGrow: 1
   },
   title: {
-    display: 'none',
-    width: 210,
+    width: 140,
     [theme.breakpoints.up('sm')]: {
-      display: 'block'
+      display: 'block',
+      width: 210
     }
   },
   menuButton: {
     marginLeft: -18,
-    marginRight: 10
+    [theme.breakpoints.up('sm')]: {
+      marginRight: 10
+    }
   },
   search: {
     position: 'relative',
@@ -86,7 +86,11 @@ const styles = theme => ({
     }
   },
   sessionText: {
-    marginLeft: 5
+    marginLeft: 5,
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline'
+    }
   }
 })
 
@@ -134,12 +138,12 @@ const MainTopBar = ({
               to='/account'
               className={classes.link}
             >
-              <Button color='primary' variant='contained'>
+              <IconButton color='inherit'>
                 <AccountCircleIcon />
                 <Typography className={classes.sessionText} variant='subtitle1'>
                   {ual.activeUser.accountName}
                 </Typography>
-              </Button>
+              </IconButton>
             </Link>
             <IconButton color='inherit' onClick={() => ual.logout()}>
               <LogoutIcon />
@@ -147,10 +151,9 @@ const MainTopBar = ({
           </>
         ) : (
           <>
-            <Button
-              color='primary'
+            <IconButton
+              color='inherit'
               onClick={() => ual.showModal()}
-              variant='contained'
             >
               {ual.loading ? (
                 <CircularProgress color='secondary' size={20} />
@@ -165,7 +168,7 @@ const MainTopBar = ({
                   </Typography>
                 </>
               )}
-            </Button>
+            </IconButton>
           </>
         )}
       </Toolbar>
