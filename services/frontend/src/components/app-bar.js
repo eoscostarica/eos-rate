@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import AppBar from '@material-ui/core/AppBar'
-import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import FingerprintIcon from '@material-ui/icons/Fingerprint'
 import IconButton from '@material-ui/core/IconButton'
@@ -15,11 +14,9 @@ import Typography from '@material-ui/core/Typography'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import { withStyles } from '@material-ui/core/styles'
 import { Link } from '@reach/router'
-
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
 import LanguageSelect from 'components/language-select'
-import { inlineFragmentOnNonCompositeErrorMessage } from 'graphql/validation/rules/FragmentsOnCompositeTypes'
 
 const styles = theme => ({
   root: {

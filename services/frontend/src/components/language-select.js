@@ -9,10 +9,10 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 
 const styles = theme => ({
-  wrapper: { 
+  wrapper: {
     color: 'inherit'
   },
-  languageText: { 
+  languageText: {
     fontSize: '1rem',
     marginLeft: 3,
     display: 'none',
@@ -20,7 +20,7 @@ const styles = theme => ({
       display: 'inline'
     }
   },
-  iconLanguage: { 
+  iconLanguage: {
     width: 24,
     height: 24
   }
