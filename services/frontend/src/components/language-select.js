@@ -11,7 +11,6 @@ const styles = theme => ({
   wrapper: { 
     display: 'flex', 
     alignItems: 'center', 
-    marginRight: 10, 
     cursor: 'pointer' 
   },
   languageText: { 
