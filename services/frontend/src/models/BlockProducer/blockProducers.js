@@ -1,5 +1,4 @@
 import filterObjects from 'filter-objects'
-import { navigate } from '@reach/router'
 import uniq from 'lodash.uniq'
 
 import apolloClient from 'services/graphql'
@@ -103,7 +102,6 @@ const blockProducers = {
         })
 
         if (!producers.length) {
-          navigate('/not-found')
           this.addProducer(null)
           dispatch.isLoading.storeIsContentLoading(false)
 
@@ -121,6 +119,7 @@ const blockProducers = {
           ...blockProducer,
           average: bpData.average,
           ratings_cntr: bpData.ratings_cntr,
+          general_info: bpData.general_info,
           system: {
             ...blockProducer.system,
             votesInEos: bpData.system.votesInEos,

@@ -1,6 +1,8 @@
 import { Scatter } from 'ual-scatter'
 import { Ledger } from 'ual-ledger'
 import { Lynx } from 'ual-lynx'
+import { TokenPocket } from 'ual-token-pocket'
+import { MeetOne } from 'ual-meetone'
 
 import config from 'config'
 
@@ -21,6 +23,8 @@ export const network = {
 const appName = config.appName || 'EOSRate'
 const lynx = new Lynx([network])
 const ledger = new Ledger([network])
+const tokenPocket = new TokenPocket([network.chainId])
+const meetOne = new MeetOne([network.chainId])
 const scatter = new Scatter([network], { appName })
 
-export const authenticators = [lynx, ledger, scatter]
+export const authenticators = [lynx, ledger, scatter, tokenPocket, meetOne]

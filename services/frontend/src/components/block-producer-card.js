@@ -55,7 +55,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.secondary.main,
     color: '#ffffff',
     '&:hover': {
-      backgroundColor: theme.palette.secondary.main
+      backgroundColor: theme.palette.secondary.dark
     }
   },
   warningBox: {

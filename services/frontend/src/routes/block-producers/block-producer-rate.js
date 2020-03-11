@@ -256,12 +256,12 @@ const BlockProducerRate = ({
               <Link
                 {...props}
                 ref={ref}
-                to={`/block-producers/${_get(producer, 'owner', null)}`}
+                to={`/block-producers/${_get(producer, 'owner', account)}`}
               />
             ))}
           >
             <KeyboardArrowLeft />
-            {_get(producer, 'owner', null)}
+            {_get(producer, 'owner', account)}
           </Button>
         </Grid>
       </Grid>
@@ -288,7 +288,7 @@ const BlockProducerRate = ({
                   )}
                   <Typography variant='h6' className={classes.bpName}>
                     {_get(producer, 'bpjson.org.candidate_name') ||
-                      _get(producer, 'system.owner', 'No name')}
+                      _get(producer, 'system.owner', t('noBlockProducer'))}
                   </Typography>
                 </Grid>
               </Grid>
@@ -305,6 +305,7 @@ const BlockProducerRate = ({
                   t={t}
                   handleStateChange={handleStateChange}
                   ratingState={ratingState}
+                  producer={producer}
                 />
               </Grid>
               <Grid item xs={12} sm={7}>
@@ -372,7 +373,7 @@ const BlockProducerRate = ({
                       )}
                       <Button
                         className='textPrimary'
-                        disabled={ratingState.processing}
+                        disabled={!producer || ratingState.processing}
                         color='secondary'
                         onClick={transact}
                         size='small'
@@ -382,6 +383,7 @@ const BlockProducerRate = ({
                         {t('publishRatingButton')}
                       </Button>
                       <Button
+                        disabled={!producer}
                         component={forwardRef((props, ref) => (
                           <Link
                             {...props}
