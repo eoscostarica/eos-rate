@@ -7,10 +7,25 @@ import { withStyles } from '@material-ui/core/styles'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 
-const styles = () => ({
-  wrapper: { display: 'flex', alignItems: 'center' },
-  languageText: { fontSize: '1rem', marginLeft: 3 },
-  iconLanguage: { width: 30, height: 30 }
+const styles = theme => ({
+  wrapper: { 
+    display: 'flex', 
+    alignItems: 'center', 
+    marginRight: 10, 
+    cursor: 'pointer' 
+  },
+  languageText: { 
+    fontSize: '1rem',
+    marginLeft: 3,
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline'
+    }
+  },
+  iconLanguage: { 
+    width: 24,
+    height: 24
+  }
 })
 
 const LanguageSelect = ({ classes, style, alt }) => {
