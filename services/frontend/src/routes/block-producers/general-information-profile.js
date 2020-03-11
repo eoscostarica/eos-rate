@@ -152,27 +152,28 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
   )
 }
 
-const WebsiteLegend = ({ classes }) => {
+const WebsiteLegend = ({ classes, webInfo }) => {
   const { t } = useTranslation('bpProfile')
 
-  return (
-    <Grid item xs={12} className={classes.websiteLegend}>
+  const content = webInfo ? (
+    <>
       <Typography variant='subtitle1' className={classes.title}>
         {t('websiteInfo')}:
       </Typography>
       <Typography variant='subtitle1' className={classes.value}>
-        We believe that technology is only as good as the people and intentions
-        behind it. We want EOS to be decentralized, promote freedom, cut,
-        inefficiencies in government, help sustainable development, secure
-        censorship-resistance, increase individual sovereignty and advance
-        citizen advocacy Each of the projects we promote must provide a “Proof
-        of impact” in the advancement of democracy
+        {webInfo.websiteText}
       </Typography>
-    </Grid>
+    </>
+  ) : (
+    <Typography variant='subtitle1' className={classes.title}>
+      {t('noWebSiteInfo')}
+    </Typography>
   )
+
+  return <Grid item xs={12} className={classes.websiteLegend}>{content}</Grid>
 }
 
-const GeneralInformation = ({ classes, producer }) => {
+const GeneralInformation = ({ classes, producer = {} }) => {
   const { t } = useTranslation('bpProfile')
   const webpageURL = _get(producer, 'system.url')
   const totalVotes = _get(producer, 'system.votesInEos') || 0
@@ -181,6 +182,7 @@ const GeneralInformation = ({ classes, producer }) => {
     _get(producer, 'system.location', null),
     t('noCountryName')
   )
+  const average = _get(producer, 'average', null)
 
   return (
     <>
@@ -268,7 +270,7 @@ const GeneralInformation = ({ classes, producer }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {_get(producer, 'average', null) || 0}
+            {average ? average.toFixed(2) : 0}
           </Typography>
         </Grid>
       </Grid>
@@ -309,7 +311,8 @@ GeneralInformation.propTypes = {
 }
 
 WebsiteLegend.propTypes = {
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  webInfo: PropTypes.object
 }
 
 export { SocialNetworks, GeneralInformation, WebsiteLegend }

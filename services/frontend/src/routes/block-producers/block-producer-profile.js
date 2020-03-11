@@ -68,7 +68,8 @@ const style = ({ palette, breakpoints }) => ({
     flexDirection: 'column',
 
     [breakpoints.up('sm')]: {
-      flexDirection: 'row'
+      flexDirection: 'row',
+      width: '100%'
     }
   },
   BlockProducerRadarBox: {
@@ -157,6 +158,7 @@ const BlockProducerProfile = ({
     'bpjson.org.candidate_name',
     _get(producer, 'system.owner', 'No Data')
   )
+  const webInfo = _get(producer, 'general_info', null)
 
   useEffect(() => {
     getBlockProducer(account)
@@ -252,7 +254,7 @@ const BlockProducerProfile = ({
                       }}
                     />
                   </Grid>
-                  <WebsiteLegend classes={classes} />
+                  <WebsiteLegend classes={classes} webInfo={webInfo} />
                   <Divider variant='middle' className={classes.showOnlySm} />
                   <SocialNetworks
                     classes={classes}

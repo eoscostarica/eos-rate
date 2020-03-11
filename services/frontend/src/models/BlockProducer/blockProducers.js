@@ -119,6 +119,7 @@ const blockProducers = {
           ...blockProducer,
           average: bpData.average,
           ratings_cntr: bpData.ratings_cntr,
+          general_info: bpData.general_info,
           system: {
             ...blockProducer.system,
             votesInEos: bpData.system.votesInEos,
