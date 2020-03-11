@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { withStyles } from '@material-ui/core/styles'
@@ -22,7 +22,6 @@ const styles = ({ spacing, palette }) => ({
     background: palette.primary.sectionBackground,
     display: 'flex',
     alignItems: 'center',
-    // justifyContent: 'space-around',
     flexDirection: 'column',
     '& > *': {
       marginTop: spacing(4)
@@ -66,7 +65,9 @@ const NotFound = ({ classes }) => {
         <Button
           className={classes.recoveryCta}
           variant='contained'
-          component={props => <Link to='/' {...props} />}
+          component={forwardRef((props, ref) => (
+            <Link {...props} ref={ref} to='/' />
+          ))}
           color='secondary'
         >
           {t('recoveryCta')}
@@ -77,8 +78,7 @@ const NotFound = ({ classes }) => {
 }
 
 NotFound.propTypes = {
-  classes: PropTypes.object.isRequired,
-  t: PropTypes.func.isRequired
+  classes: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(NotFound)

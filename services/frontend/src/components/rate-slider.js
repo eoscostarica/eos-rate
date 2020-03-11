@@ -3,12 +3,12 @@ import Slider from '@material-ui/core/Slider'
 
 const RateSlider = withStyles({
   root: {
-    color: '#00c25b',
+    color: '#597a81',
     height: 2,
     padding: '15px 0'
   },
   thumb: {
-    backgroundColor: '#00c25b',
+    backgroundColor: '#597a81',
     boxShadow:
       '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)',
     '&:focus,&:hover,&$active': {
@@ -27,7 +27,7 @@ const RateSlider = withStyles({
     top: -15,
     '& *': {
       background: 'transparent',
-      color: '#fff'
+      color: '#000'
     }
   },
   track: {

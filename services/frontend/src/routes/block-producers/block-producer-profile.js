@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
@@ -13,16 +13,16 @@ import { withStyles } from '@material-ui/core/styles'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import Divider from '@material-ui/core/Divider'
+import _get from 'lodash.get'
 
 import BlockProducerRadar from 'components/block-producer-radar'
-import bpParameters from 'config/comparison-parameters'
 import {
   SocialNetworks,
   GeneralInformation,
   WebsiteLegend
 } from './general-information-profile'
 
-const style = theme => ({
+const style = ({ palette, breakpoints }) => ({
   container: {
     padding: 10
   },
@@ -30,14 +30,16 @@ const style = theme => ({
     marginLeft: 6
   },
   accountCircle: {
-    color: theme.palette.secondary.light
+    color: palette.secondary.main
   },
   box: {
     padding: '3%'
   },
   title: {
-    color: '#ffffff',
-    marginBottom: 10
+    color: palette.primary.main,
+    fontSize: '1.5rem',
+    marginBottom: 10,
+    marginTop: 5
   },
   subTitle: {
     fontSize: 14
@@ -49,13 +51,14 @@ const style = theme => ({
     marginTop: 10
   },
   btnBP: {
-    backgroundColor: theme.palette.secondary.boringGreen,
+    color: palette.surface.main,
+    backgroundColor: palette.secondary.main,
     width: '100%',
     '&:hover': {
-      backgroundColor: theme.palette.secondary.midGreen
+      backgroundColor: palette.secondary.light
     },
 
-    [theme.breakpoints.up('sm')]: {
+    [breakpoints.up('sm')]: {
       marginRight: 10
     }
   },
@@ -64,35 +67,75 @@ const style = theme => ({
     display: 'flex',
     flexDirection: 'column',
 
-    [theme.breakpoints.up('sm')]: {
+    [breakpoints.up('sm')]: {
       flexDirection: 'row'
     }
   },
   BlockProducerRadarBox: {
     padding: '30px 0',
-    backgroundColor: '#000'
+    backgroundColor: palette.surface.main
   },
   showOnlySm: {
     display: 'flex',
 
-    [theme.breakpoints.up('sm')]: {
+    [breakpoints.up('sm')]: {
       display: 'none'
     }
   },
   showOnlyLg: {
     display: 'flex',
 
-    [theme.breakpoints.down('sm')]: {
+    [breakpoints.down('sm')]: {
       display: 'none'
     }
   },
   websiteLegend: {
     margin: '10px 0',
-    [theme.breakpoints.up('sm')]: {
+    [breakpoints.up('sm')]: {
       margin: 0
     }
+  },
+  links: {
+    textDecoration: 'none',
+    color: palette.secondary.main,
+    '&:hover': {
+      textDecoration: 'underline'
+    }
+  },
+  avatar: {
+    backgroundColor: palette.surface.main
   }
 })
+
+const ProfileTitle = ({
+  classes,
+  hasInformation,
+  producer,
+  t,
+  bpTitle,
+  isContentLoading
+}) => {
+  if (!isContentLoading && !producer) {
+    return (
+      <Typography variant='h6' className={classes.bpName}>
+        {t('noBlockProducer')}
+      </Typography>
+    )
+  }
+
+  return (
+    <>
+      <Typography variant='h6' className={classes.bpName}>
+        {bpTitle}
+      </Typography>
+      {!hasInformation && (
+        <Typography variant='h6' className={classes.bpName}>
+          {t('noBpJson')}
+        </Typography>
+      )}
+    </>
+  )
+}
 
 const BlockProducerProfile = ({
   classes,
@@ -100,22 +143,33 @@ const BlockProducerProfile = ({
   blockProducers,
   getBlockProducer,
   producer,
+  isContentLoading,
   ...props
 }) => {
   const { t } = useTranslation('bpProfile')
-  const bpHasInformation = Boolean(producer && producer.bpjson)
-  const bPLogo = bpHasInformation ? producer.bpjson.org.branding.logo_256 : null
+  const bpHasInformation = Boolean(
+    producer && Object.values(producer.bpjson).length
+  )
+  const bPLogo =
+    bpHasInformation && _get(producer, 'bpjson.org.branding.logo_256', null)
+  const BlockProducerTitle = _get(
+    producer,
+    'bpjson.org.candidate_name',
+    _get(producer, 'system.owner', 'No Data')
+  )
 
   useEffect(() => {
     getBlockProducer(account)
   }, [account])
 
   return (
-    <Grid container justify='center' spacing={16} className={classes.container}>
+    <Grid container justify='center' className={classes.container}>
       <Grid item xs={12}>
-        <Grid container spacing={16} direction='row' alignItems='center'>
+        <Grid container direction='row' alignItems='center'>
           <Button
-            component={props => <Link {...props} to='/block-producers' />}
+            component={forwardRef((props, ref) => (
+              <Link {...props} ref={ref} to='/block-producers' />
+            ))}
           >
             <KeyboardArrowLeft />
             {t('allBP')}
@@ -145,18 +199,14 @@ const BlockProducerProfile = ({
                       ) : (
                         <AccountCircle className={classes.accountCircle} />
                       )}
-                      <Typography variant='h6' className={classes.bpName}>
-                        {bpHasInformation
-                          ? producer.bpjson.org.candidate_name
-                          : producer
-                            ? producer.system.owner
-                            : 'No Data'}
-                      </Typography>
-                      {!bpHasInformation && (
-                        <Typography variant='h6' className={classes.bpName}>
-                          {t('noBpJson')}
-                        </Typography>
-                      )}
+                      <ProfileTitle
+                        classes={classes}
+                        hasInformation={bpHasInformation}
+                        producer={producer}
+                        t={t}
+                        bpTitle={BlockProducerTitle}
+                        isContentLoading={isContentLoading}
+                      />
                     </Grid>
                   </Grid>
                 </Grid>
@@ -174,7 +224,6 @@ const BlockProducerProfile = ({
                 >
                   <BlockProducerRadar
                     bpData={{
-                      labels: bpParameters,
                       datasets: producer ? [{ ...producer.data }] : []
                     }}
                   />
@@ -183,7 +232,7 @@ const BlockProducerProfile = ({
                 <SocialNetworks
                   classes={classes}
                   overrideClass={classes.showOnlyLg}
-                  producer={producer && producer.bpjson}
+                  producer={bpHasInformation && producer.bpjson}
                 />
               </Grid>
 
@@ -199,7 +248,6 @@ const BlockProducerProfile = ({
                   >
                     <BlockProducerRadar
                       bpData={{
-                        labels: bpParameters,
                         datasets: producer ? [{ ...producer.data }] : []
                       }}
                     />
@@ -209,7 +257,7 @@ const BlockProducerProfile = ({
                   <SocialNetworks
                     classes={classes}
                     overrideClass={classes.showOnlySm}
-                    producer={producer && producer.bpjson}
+                    producer={bpHasInformation && producer.bpjson}
                   />
                 </Grid>
               </Grid>
@@ -226,12 +274,26 @@ BlockProducerProfile.propTypes = {
   account: PropTypes.string,
   blockProducers: PropTypes.array,
   getBlockProducer: PropTypes.func,
-  producer: PropTypes.object
+  producer: PropTypes.object,
+  isContentLoading: PropTypes.bool
 }
 
-const mapStateToProps = ({ blockProducers: { list, producer } }) => ({
+ProfileTitle.propTypes = {
+  classes: PropTypes.object,
+  hasInformation: PropTypes.bool,
+  producer: PropTypes.object,
+  t: PropTypes.any,
+  bpTitle: PropTypes.string,
+  isContentLoading: PropTypes.bool
+}
+
+const mapStateToProps = ({
+  isLoading: { isContentLoading },
+  blockProducers: { list, producer }
+}) => ({
   blockProducers: list,
-  producer
+  producer,
+  isContentLoading
 })
 
 const mapDispatchToProps = dispatch => ({

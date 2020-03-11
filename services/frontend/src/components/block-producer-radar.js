@@ -1,12 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useTranslation } from 'react-i18next'
 import { Radar } from 'react-chartjs-2'
 
+import getRadarLabelName from 'utils/getRadarLabelName'
+
 const BlockProducerRadar = ({ bpData, height, showLabel, ...props }) => {
+  const { t } = useTranslation('translations')
+  const labels = getRadarLabelName(t)
   const bpValidData =
     bpData.datasets && bpData.datasets.length
-      ? bpData
-      : { ...bpData, datasets: [{ data: [0, 0, 0, 0, 0] }] }
+      ? { ...bpData, labels }
+      : { labels, datasets: [{ data: [0, 0, 0, 0, 0] }] }
 
   return (
     <Radar
@@ -20,8 +25,8 @@ const BlockProducerRadar = ({ bpData, height, showLabel, ...props }) => {
           }
         },
         chartArea: {
-          backgroundColor: '#484656',
-          strokeColor: '#b1afad',
+          backgroundColor: '#f8f8f8',
+          strokeColor: '#e5e5e5',
           lineWidth: 4
         },
         scale: {
@@ -32,8 +37,8 @@ const BlockProducerRadar = ({ bpData, height, showLabel, ...props }) => {
             stepSize: 2
           },
           gridLines: { lineWidth: 4, circular: true },
-          angleLines: { color: '#6e6b81', lineWidth: 4 },
-          pointLabels: { fontColor: 'white', fontSize: 14 }
+          angleLines: { color: '#e5e5e5', lineWidth: 4 },
+          pointLabels: { fontColor: '#443F5B', fontSize: 14 }
         },
         tooltips: {
           enabled: true,

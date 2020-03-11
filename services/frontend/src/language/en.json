@@ -1,5 +1,11 @@
 {
   "translations": {
+    "community": "Community",
+    "development": "Development",
+    "infrastructure": "Infrastructure",
+    "transparency": "Transparency",
+    "trustiness": "Trustiness",
+
     "compareToolTitle": "Compare Tool",
     "compareToolToggle": "Compare",
     "compareToolCollapsedSwitch": "Collapse Graphs",
@@ -21,6 +27,7 @@
     "searchAutocomplete": "Search...",
 
     "notFound": "Not found",
+    "noBpJson": "No BP.json file provided.",
 
     "drawerLinkHome": "Home",
     "drawerLinkAllBPs": "Block Producers",
@@ -114,7 +121,8 @@
     "developmentTooltip": "Technical know-how and usage of open-source software, scripts, frameworks, wallets, voting portals, metrics, etc.",
     "globalRate": "Average Rating",
     "myRate": "My Rating",
-    "rateWithoutLogin": "You need to login to rate this block producer"
+    "rateWithoutLogin": "You need to login to rate this block producer",
+    "noBlockProducer": "This BP Does Not Exist."
   },
 
   "footer": {
@@ -135,6 +143,8 @@
     "websiteInfo": "From Their Website",
     "buttonRate": "Rate this BP",
     "allBP": "All Block Producers",
-    "noBpJson": "No BP.json file provided."
+    "noBpJson": "No BP.json file provided.",
+    "noCountryName": "No location provided.",
+    "noBlockProducer": "This BP Does Not Exist."
   }
 }

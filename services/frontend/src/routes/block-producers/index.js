@@ -14,7 +14,6 @@ import classNames from 'classnames'
 
 import BlockProducerCard from 'components/block-producer-card'
 import CompareTool from 'components/compare-tool'
-// import FilterBox from './filter-box'
 
 const style = theme => ({
   root: {
@@ -29,8 +28,8 @@ const style = theme => ({
   },
   badge: {
     border: `2px solid ${theme.palette.secondary}`,
-    background: theme.palette.primary.sectionBackground,
-    color: theme.palette.secondary.light
+    background: theme.palette.surface.main,
+    color: theme.palette.primary.main
   },
   wrapper: {
     padding: theme.spacing(3)
@@ -47,9 +46,17 @@ const style = theme => ({
       'min-height 0.25s ease'
     ]
   },
+  bpCard: {
+    backgroundColor: theme.palette.primary.light
+  },
   loadMoreButton: {
+    color: '#443f56',
     display: 'block',
-    margin: `${theme.spacing(2)}px auto`
+    margin: `${theme.spacing(2)}px auto`,
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.light,
+      color: 'white'
+    }
   },
   hidden: {
     opacity: 0,
@@ -71,7 +78,7 @@ const AllBps = ({
   addToSelected
 }) => {
   const { t } = useTranslation('translations')
-  const [currentlyVisible, setCurrentlyVisible] = useState(10)
+  const [currentlyVisible, setCurrentlyVisible] = useState(30)
   const bpList = filtered && filtered.length ? filtered : blockProducers
   const shownList = bpList && bpList.slice(0, currentlyVisible)
   const hasMore = bpList && currentlyVisible < bpList.length
@@ -79,7 +86,7 @@ const AllBps = ({
     ? t('hideComparisonTool')
     : t('showComparisonTool')
 
-  const loadMore = () => setCurrentlyVisible(currentlyVisible + 10)
+  const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
 
   useEffect(() => {
     getBPs()

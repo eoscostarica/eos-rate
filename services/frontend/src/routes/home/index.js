@@ -10,16 +10,17 @@ import RateCategory from './rateCategory'
 
 const styles = ({ spacing, palette }) => ({
   spacingContainers: {
-    padding: spacing(4)
+    padding: spacing(8, 0, 8, 0)
+
   },
   coverContainer: {
-    backgroundColor: palette.primary.dark
+    backgroundColor: palette.surface.main
   },
   subTopicContainer: {
-    backgroundColor: '#1a1b29'
+    backgroundColor: palette.surface.main
   },
   rateCategoryContainer: {
-    backgroundColor: palette.primary[800]
+    backgroundColor: '#f5f5f5'
   }
 })
 

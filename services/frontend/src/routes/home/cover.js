@@ -6,24 +6,25 @@ import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
 import { Link } from '@reach/router'
 import PropTypes from 'prop-types'
-// import ParameterRangeSelector from 'components/parameter-range-selector'
+
 import BlockProducerRadar from 'components/block-producer-radar'
-import bpParameters from 'config/comparison-parameters'
 
 const bpLink = React.forwardRef((props, ref) => (
   <Link innerRef={ref} {...props} />
 ))
 const styles = ({ palette, typography }) => ({
   coverContainer: {
-    color: '#fff',
-    maxWidth: '1024px'
+    padding: 0,
+    color: '#433F5B',
+    maxWidth: '1024px',
+    backgroundColor: palette.surface.main
   },
   title: {
     fontSize: typography.h4.fontSize,
     marginBottom: 12.5
   },
   paragraph: {
-    color: palette.grey[600]
+    //    color: palette.grey[600]
   },
   ctaContainer: {
     textAlign: 'center'
@@ -34,11 +35,7 @@ const styles = ({ palette, typography }) => ({
     display: 'flex',
     alignItems: 'center'
   },
-  btn: {
-    border: 'solid 0.5px #1eb53a',
-    backgroundColor: 'rgba(99, 183, 107, 0.21)',
-    color: '#63b76b'
-  },
+  btn: {},
   leftCoverBox: {
     display: 'flex',
     flexDirection: 'column',
@@ -48,14 +45,9 @@ const styles = ({ palette, typography }) => ({
 
 const HomeCover = ({ classes, blockProducer }) => {
   const { t } = useTranslation('home')
+
   return (
-    <Grid
-      item
-      container
-      xs={12}
-      className={classes.coverContainer}
-      spacing={24}
-    >
+    <Grid item container xs={12} className={classes.coverContainer}>
       <Grid item xs={12} md={6} className={classes.leftCoverBox}>
         <Typography variant='h5' className={classes.title}>
           {t('cover.title')}
@@ -96,7 +88,6 @@ const HomeCover = ({ classes, blockProducer }) => {
           <BlockProducerRadar
             height={230}
             bpData={{
-              labels: bpParameters,
               datasets: [blockProducer.data]
             }}
           />

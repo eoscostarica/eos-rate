@@ -7,8 +7,7 @@ import eosjsAPI from 'services/eosjs-api'
 
 import QUERY_PRODUCER from './query_get_producer_by'
 import QUERY_RATING from './query_get_bp_rating_by'
-import MUTATION_UPDATE_USER_RATING from './mutation_update_user_rating'
-import MUTATION_INSERT_USER_RATING from './mutation_insert_user_rating'
+import MUTATION_UPDATE_RATING from './mutation_update_rate'
 
 const initialState = {
   filters: {},
@@ -94,12 +93,20 @@ const blockProducers = {
     async getBlockProducerByOwner (owner, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
+
         const {
           data: { producers }
         } = await apolloClient.query({
           variables: { owner },
           query: QUERY_PRODUCER
         })
+
+        if (!producers.length) {
+          this.addProducer(null)
+          dispatch.isLoading.storeIsContentLoading(false)
+
+          return
+        }
 
         const blockProducer = producers[0]
         const bpData =
@@ -108,7 +115,17 @@ const blockProducers = {
             ({ owner }) => owner === blockProducer.owner
           )
 
-        this.addProducer({ ...blockProducer, system: { ...blockProducer.system, parameters: bpData.system.parameters }, data: bpData.data || [] })
+        this.addProducer({
+          ...blockProducer,
+          average: bpData.average,
+          ratings_cntr: bpData.ratings_cntr,
+          system: {
+            ...blockProducer.system,
+            votesInEos: bpData.system.votesInEos,
+            parameters: bpData.system.parameters
+          },
+          data: bpData.data || []
+        })
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
         console.error('getBlockProducerByOwner', error)
@@ -122,7 +139,7 @@ const blockProducers = {
         const {
           data: { user_ratings: userRatings }
         } = await apolloClient.query({
-          variables: { bp, account: userAccount },
+          variables: { bp, user: userAccount },
           query: QUERY_RATING
         })
 
@@ -133,11 +150,17 @@ const blockProducers = {
         dispatch.isLoading.storeIsContentLoading(false)
       }
     },
-    async mutationInsertUserRating ({ user, bp, ...ratings }, state) {
+    async mutationInsertUserRating ({ user, bp, result, ...ratings }, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
-        let dataResponse = []
+        await apolloClient.mutate({
+          variables: {
+            ratingInput: { producer: bp, user }
+          },
+          mutation: MUTATION_UPDATE_RATING
+        })
+
         const { rows: rateStat } = await eosjsAPI.rpc.get_table_rows({
           json: true,
           code: 'rateproducer',
@@ -148,48 +171,6 @@ const blockProducers = {
           reverse: false,
           show_payer: false
         })
-
-        if (!state.blockProducers.userRate) {
-          const {
-            data: {
-              insert_user_ratings: { returning }
-            }
-          } = await apolloClient.mutate({
-            variables: {
-              objects: [
-                {
-                  account: user,
-                  bp: bp,
-                  ratings,
-                  tx_data: null
-                }
-              ]
-            },
-            mutation: MUTATION_INSERT_USER_RATING
-          })
-
-          dataResponse = returning
-        } else {
-          const {
-            data: {
-              update_user_ratings: { returning }
-            }
-          } = await apolloClient.mutate({
-            variables: {
-              userRating: {
-                account: user,
-                bp: bp,
-                ratings,
-                tx_data: null
-              },
-              account: user,
-              bp
-            },
-            mutation: MUTATION_UPDATE_USER_RATING
-          })
-
-          dataResponse = returning
-        }
 
         const producerUpdatedList = state.blockProducers.list.map(producer => {
           if (rateStat.length && producer.owner === rateStat[0].bp) {
@@ -218,11 +199,13 @@ const blockProducers = {
 
           return producer
         })
-        const currentBP = producerUpdatedList.find(producer => producer.owner === bp)
+        const currentBP = producerUpdatedList.find(
+          producer => producer.owner === bp
+        )
 
-        dataResponse.length && this.addUserRate(dataResponse[0].ratings)
         this.addProducer(currentBP)
         this.updateBPList(producerUpdatedList)
+        this.getBlockProducerRatingByOwner({ bp, userAccount: user })
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
         console.error('mutationInsertUserRating', error)

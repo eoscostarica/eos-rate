@@ -1,16 +1,33 @@
+import gql from 'graphql-tag'
+import _get from 'lodash.get'
+
 import mockedBPs from 'mock/bps'
 import client from 'services/graphql'
-import gql from 'graphql-tag'
 import getBPRadarData from 'utils/getBPRadarData'
+import calculateEosFromVotes from 'utils/convertVotesToEosVotes'
 
-export const getAllBPs = ({ nameFilter = '', setBPs = () => {} } = {}) =>
-  client
+export const getAllBPs = ({ nameFilter = null, setBPs = () => {} } = {}) => {
+  const containsActive = {
+    system: {
+      _contains: {
+        is_active: 1
+      }
+    }
+  }
+  const nameFilerObject = {
+    _or: { candidate_name: { _ilike: `%${nameFilter}%` } }
+  }
+  const whereFilter = nameFilter
+    ? { ...containsActive, ...nameFilerObject }
+    : { ...containsActive }
+
+  return client
     .subscribe({
       query: gql`
-        subscription blockProducers($nameFilter: String!) {
+        subscription blockProducers($where: producers_list_bool_exp!) {
           producers_list(
-            where: { _or: { candidate_name: { _ilike: $nameFilter } } }
-            order_by: { total_votes: desc }
+            where: $where
+            order_by: [{ bpjson: desc }, { total_votes: desc }]
           ) {
             owner
             system
@@ -21,11 +38,12 @@ export const getAllBPs = ({ nameFilter = '', setBPs = () => {} } = {}) =>
             infrastructure
             trustiness
             transparency
+            ratings_cntr
           }
         }
       `,
       variables: {
-        nameFilter: `%${nameFilter}%`
+        where: whereFilter
       }
     })
     .subscribe({
@@ -46,11 +64,13 @@ export const getAllBPs = ({ nameFilter = '', setBPs = () => {} } = {}) =>
             transparency: transparency || 0,
             trustiness: trustiness || 0
           }
+          const votesInEos = calculateEosFromVotes(_get(bp, 'system.total_votes', 0))
 
           return {
             ...bp,
             system: {
               ...bp.system,
+              votesInEos,
               parameters
             },
             data: getBPRadarData({
@@ -66,6 +86,7 @@ export const getAllBPs = ({ nameFilter = '', setBPs = () => {} } = {}) =>
         console.error('err', err)
       }
     })
+}
 
 export const findBPs = async (filter = {}) => mockedBPs
 

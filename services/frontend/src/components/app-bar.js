@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
-import classnames from 'classnames'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import AppBar from '@material-ui/core/AppBar'
-import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import FingerprintIcon from '@material-ui/icons/Fingerprint'
 import IconButton from '@material-ui/core/IconButton'
@@ -16,13 +14,9 @@ import Typography from '@material-ui/core/Typography'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import { withStyles } from '@material-ui/core/styles'
 import { Link } from '@reach/router'
-
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
-import SignInDialog from 'components/sign-in-dialog'
 import LanguageSelect from 'components/language-select'
-import SignInMenu from 'components/sign-in-menu'
-import { useWalletDispatch, useWalletState } from 'hooks/wallet'
 
 const styles = theme => ({
   root: {
@@ -42,15 +36,17 @@ const styles = theme => ({
     flexGrow: 1
   },
   title: {
-    display: 'none',
-    width: 210,
+    width: 140,
     [theme.breakpoints.up('sm')]: {
-      display: 'block'
+      display: 'block',
+      width: 210
     }
   },
   menuButton: {
     marginLeft: -18,
-    marginRight: 10
+    [theme.breakpoints.up('sm')]: {
+      marginRight: 10
+    }
   },
   search: {
     position: 'relative',
@@ -90,7 +86,11 @@ const styles = theme => ({
     }
   },
   sessionText: {
-    marginLeft: 5
+    marginLeft: 5,
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'inline'
+    }
   }
 })
 
@@ -99,21 +99,9 @@ const MainTopBar = ({
   isSearchOpen,
   handleDrawerToggle,
   handleSearchDialogOpen,
-  handleSearchDialogClose
+  handleSearchDialogClose,
+  ual
 }) => {
-  const [state, setState] = useState({
-    anchorEl: null,
-    selectedProvider: null
-  })
-  const { connectWallet, disconnectWallet } = useWalletDispatch()
-  const walletState = useWalletState()
-  const logout = () => {
-    disconnectWallet(walletState.wallet)
-  }
-  const connectToWallet = (provider, providerName) => {
-    setState({ anchorEl: null, selectedProvider: providerName })
-    connectWallet(provider)
-  }
   const { t } = useTranslation('translations')
 
   return (
@@ -144,33 +132,30 @@ const MainTopBar = ({
           <SearchIcon />
         </IconButton>
         <LanguageSelect />
-        {walletState.wallet ? (
+        {ual.activeUser ? (
           <>
             <Link
               to='/account'
-              className={classnames(classes.link, {
-                [classes.linkHover]: walletState.wallet.accountInfo
-              })}
+              className={classes.link}
             >
-              <Button color='primary' variant='contained'>
+              <IconButton color='inherit'>
                 <AccountCircleIcon />
                 <Typography className={classes.sessionText} variant='subtitle1'>
-                  {walletState.wallet.accountInfo.account_name}
+                  {ual.activeUser.accountName}
                 </Typography>
-              </Button>
+              </IconButton>
             </Link>
-            <IconButton color='inherit' onClick={logout}>
+            <IconButton color='inherit' onClick={() => ual.logout()}>
               <LogoutIcon />
             </IconButton>
           </>
         ) : (
           <>
-            <Button
-              color='primary'
-              onClick={e => setState({ ...state, anchorEl: e.currentTarget })}
-              variant='contained'
+            <IconButton
+              color='inherit'
+              onClick={() => ual.showModal()}
             >
-              {walletState.connecting ? (
+              {ual.loading ? (
                 <CircularProgress color='secondary' size={20} />
               ) : (
                 <>
@@ -183,17 +168,7 @@ const MainTopBar = ({
                   </Typography>
                 </>
               )}
-            </Button>
-            <SignInMenu
-              anchorEl={state.anchorEl}
-              handleClick={connectToWallet}
-              handleClose={() => setState({ ...state, anchorEl: null })}
-            />
-            <SignInDialog
-              connecting={walletState.connecting}
-              error={walletState.error}
-              provider={state.selectedProvider}
-            />
+            </IconButton>
           </>
         )}
       </Toolbar>
@@ -207,7 +182,8 @@ MainTopBar.propTypes = {
   handleDrawerToggle: PropTypes.func,
   handleSearchDialogOpen: PropTypes.func,
   handleSearchDialogClose: PropTypes.func,
-  isSearchOpen: PropTypes.bool
+  isSearchOpen: PropTypes.bool,
+  ual: PropTypes.object
 }
 
 export default withStyles(styles)(MainTopBar)

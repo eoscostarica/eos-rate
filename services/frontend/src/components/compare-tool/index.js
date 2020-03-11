@@ -11,7 +11,7 @@ import withT from 'components/with-t'
 const styles = theme => ({
   root: {
     padding: theme.spacing(2),
-    background: theme.palette.primary.dark,
+    background: theme.palette.surface.main,
     width: '100%',
     position: 'relative'
   },
@@ -34,10 +34,7 @@ class CompareTool extends Component {
     const { classes, removeBP, bpList, selected, t, className } = this.props
 
     const selectedBlockProducers = selected.map(bpName =>
-      bpList.find(
-        ({ bpjson: { producer_account_name: producerAccountName } }) =>
-          bpName === producerAccountName
-      )
+      bpList.find(({ owner }) => bpName === owner)
     )
 
     return (

@@ -1,5 +1,11 @@
 {
   "translations": {
+    "community": "Comunidad",
+    "development": "Desarrollo",
+    "infrastructure": "Infraestructura",
+    "transparency": "Transparencia",
+    "trustiness": "Lealtad",
+
     "compareToolTitle": "Herramienta de comparación",
     "compareToolToggle": "Comparar",
     "compareToolCollapsedSwitch": "Colapsar Gráficos",
@@ -21,6 +27,7 @@
     "searchAutocomplete": "Buscar...",
 
     "not-found": "Recurso no encontrado",
+    "noBpJson": "No encontramos un bp.json!",
 
     "drawerLinkHome": "Página Principal",
     "drawerLinkAllBPs": "Productores de Bloques",
@@ -114,7 +121,8 @@
     "developmentTooltip": "Conocimientos técnicos y uso de software de código abierto, scripts, marcos, billeteras, portales de votación, métricas, etc.",
     "globalRate": "Evalucación Promedio",
     "myRate": "Mi Evaluación",
-    "rateWithoutLogin": "Necesitas iniciar sesión para evaluar un productor de bloques"
+    "rateWithoutLogin": "Necesitas iniciar sesión para evaluar un productor de bloques",
+    "noBlockProducer": "No encontramos este PB"
   },
 
   "footer": {
@@ -135,6 +143,8 @@
     "websiteInfo": "De su sitio web",
     "buttonRate": "Evalúa este PB",
     "allBP": "Lista de productores de bloques",
-    "noBpJson": "No encontramos un bp.json!"
+    "noBpJson": "No encontramos un bp.json!",
+    "noCountryName": "No se proporcionó ubicación.",
+    "noBlockProducer": "No encontramos este PB"
   }
 }

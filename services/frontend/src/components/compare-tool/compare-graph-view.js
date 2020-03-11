@@ -5,13 +5,10 @@ import Grid from '@material-ui/core/Grid'
 import Chip from '@material-ui/core/Chip'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
-// import IconButton from '@material-ui/core/IconButton'
-// import CloseIcon from '@material-ui/icons/Close'
 import { useTranslation } from 'react-i18next'
 import _get from 'lodash.get'
 import _isEmpty from 'lodash.isempty'
 
-import comparisonParameters from 'config/comparison-parameters'
 import BlockProducerRadar from 'components/block-producer-radar'
 
 const styles = theme => ({
@@ -51,11 +48,10 @@ const CompareGraphView = ({
 }) => {
   const { t } = useTranslation('translations')
   return (
-    <Grid container className={classes.root} spacing={16}>
+    <Grid container className={classes.root}>
       <Grid item xs={12} md={8}>
         <BlockProducerRadar
           bpData={{
-            labels: comparisonParameters,
             datasets: selected.map(({ data }) => ({
               ...data,
               backgroundColor: data.backgroundColor.replace('.9', '.2')

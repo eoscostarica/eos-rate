@@ -6,27 +6,25 @@ import { Router } from '@reach/router'
 import Spinner from 'components/spinner'
 import Layout from 'components/layout'
 import NotFound from 'routes/not-found'
-import { WalletProvider } from 'hooks/wallet'
 import routes from 'routes'
 
-const App = ({ isContentLoading }) => (
-  <WalletProvider>
-    <>
-      <Spinner isLoading={isContentLoading} />
-      <Layout>
-        <Router>
-          {routes.map(({ path, Component }) => (
-            <Component key={`path-${path}`} path={path} />
-          ))}
-          <NotFound default />
-        </Router>
-      </Layout>
-    </>
-  </WalletProvider>
+const App = ({ isContentLoading, ual }) => (
+  <>
+    <Spinner isLoading={isContentLoading} />
+    <Layout ual={ual}>
+      <Router>
+        {routes.map(({ path, Component }) => (
+          <Component key={`path-${path}`} path={path} ual={ual} />
+        ))}
+        <NotFound default />
+      </Router>
+    </Layout>
+  </>
 )
 
 App.propTypes = {
-  isContentLoading: PropTypes.bool
+  isContentLoading: PropTypes.bool,
+  ual: PropTypes.object
 }
 
 App.defaultProps = {
