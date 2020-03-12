@@ -8024,6 +8024,11 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
+meet-bridge@^2.0.2-release:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/meet-bridge/-/meet-bridge-2.1.2.tgz#c38e3a086971ef5cc7e356fd84e11b1517775e1e"
+  integrity sha512-TaDiyF64XjLjbZTJ0FnecyFWeNGMFlkJtZw3oL7+W67Y+tuhTuQx3H/ZU5a4PDLNZlz6JH7Uk0fBft2nT2eOzg==
+
 mem@^4.0.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/mem/-/mem-4.3.0.tgz#461af497bc4ae09608cdb2e60eefb69bff744178"
@@ -9945,7 +9950,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-promise@^8.0.3:
+promise@^8.0.1, promise@^8.0.3:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/promise/-/promise-8.1.0.tgz#697c25c3dfe7435dd79fcd58c38a135888eaf05e"
   integrity sha512-W04AqnILOL/sPRXziNicCjSNRruLAuIHEOVBazepu0545DDNGYHz7ar9ZgZ1fMU8/MA4mVxp5rkBWRi6OXIy3Q==
@@ -12094,6 +12099,13 @@ tough-cookie@^2.3.3, tough-cookie@^2.3.4, tough-cookie@^2.5.0, tough-cookie@~2.5
     psl "^1.1.28"
     punycode "^2.1.1"
 
+tp-eosjs@1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/tp-eosjs/-/tp-eosjs-1.5.2.tgz#0e62542bb8629edced9527960aaa5404150c4311"
+  integrity sha512-VtTUhWdhKgSLj1hZSMpatBHWXYLeOguBU89+A73Qp8Y3jCCl6c+8VFJdHS6AkvkPkMSHkaAjnms5t6wabf16mg==
+  dependencies:
+    promise "^8.0.1"
+
 tr46@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-1.0.1.tgz#a8b13fd6bfd2489519674ccde55ba3693b706d09"
@@ -12220,6 +12232,14 @@ ual-lynx@^0.3.0:
     eosjs "20.0.0"
     universal-authenticator-library "0.2.0"
 
+ual-meetone@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ual-meetone/-/ual-meetone-0.1.1.tgz#82ef21ee55ddfe0245e227f122c6a7539fa91e8b"
+  integrity sha512-qsT3CQABNx4M8tGbeomnvk6FXmy5KxSwpU0hAN6uwaMJL2Q/LR9f4AbVkDr03KXWrLrONnG7GKc5NZLRts3FFg==
+  dependencies:
+    meet-bridge "^2.0.2-release"
+    universal-authenticator-library "0.1.0"
+
 ual-reactjs-renderer@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/ual-reactjs-renderer/-/ual-reactjs-renderer-0.2.0.tgz#4bcd2248699feb839b2ecd69fe13ecf9ecc89841"
@@ -12244,6 +12264,14 @@ ual-scatter@^0.2.0:
     "@scatterjs/eosjs2" "1.5.33"
     elliptic "6.5.2"
     eosjs "21.0.1-rc1"
+    universal-authenticator-library "0.2.0"
+
+ual-token-pocket@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ual-token-pocket/-/ual-token-pocket-0.2.0.tgz#65265e3220f141f2234be2eee8d8239285875bf0"
+  integrity sha512-l79ZodGXQ/VVEo+zhvl2AthtIvAlah/jI611e2yM3kf5GSo7RnZiC97XmlO709zstDXgBsIQFKsgLaQuvup8lQ==
+  dependencies:
+    tp-eosjs "1.5.2"
     universal-authenticator-library "0.2.0"
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
@@ -12302,6 +12330,11 @@ unique-slug@^2.0.0:
   integrity sha512-zoWr9ObaxALD3DOPfjPSqxt4fnZiWblxHIgeWqW8x7UqDzEtHEQLzji2cuJYQFCU6KmoJikOYAZlrTHHebjx2w==
   dependencies:
     imurmurhash "^0.1.4"
+
+universal-authenticator-library@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/universal-authenticator-library/-/universal-authenticator-library-0.1.0.tgz#187e6a85f43e75d4d76b66c228c9e4b59770d4af"
+  integrity sha512-45nl80BWf+9WA8vTMXunMicZmHPm4wWdxNnSlL65cCP4OjA1ra4IuH+T7+Ko3P6IfXSfS9+VNCuXai3fip+taA==
 
 universal-authenticator-library@0.2.0:
   version "0.2.0"

@@ -121,7 +121,8 @@
     "developmentTooltip": "Technical know-how and usage of open-source software, scripts, frameworks, wallets, voting portals, metrics, etc.",
     "globalRate": "Average Rating",
     "myRate": "My Rating",
-    "rateWithoutLogin": "You need to login to rate this block producer"
+    "rateWithoutLogin": "You need to login to rate this block producer",
+    "noBlockProducer": "This BP Does Not Exist."
   },
 
   "footer": {
@@ -143,6 +144,8 @@
     "buttonRate": "Rate this BP",
     "allBP": "All Block Producers",
     "noBpJson": "No BP.json file provided.",
-    "noCountryName": "No location provided."
+    "noCountryName": "No location provided.",
+    "noBlockProducer": "This BP Does Not Exist.",
+    "noWebSiteInfo": "No information from their website."
   }
 }
