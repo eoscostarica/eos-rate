@@ -1,5 +1,12 @@
 const mainnetBPinfo = [
   {
+    owner:"ysignnodeacc",
+    general_info: {
+      websiteText:
+        "ySign is a new blockchain-based global platform for free communication and discreet conversations with 100% privacy, created as an opportunity to stay anonymous and secure."
+    }
+  },
+  {
     owner: "eoscafeblock",
     general_info: {
       websiteText:
