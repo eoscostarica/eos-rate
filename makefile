@@ -1,6 +1,9 @@
 flush: scripts/flush.sh
 	./scripts/flush.sh
 
+fresh: scripts/fresh.sh
+	./scripts/fresh.sh
+
 start: scripts/start.sh
 	./scripts/start.sh
 
