@@ -1,12 +1,5 @@
 const mainnetBPinfo = [
   {
-    owner:"ysignnodeacc",
-    general_info: {
-      websiteText:
-        "ySign is a new blockchain-based global platform for free communication and discreet conversations with 100% privacy, created as an opportunity to stay anonymous and secure."
-    }
-  },
-  {
     owner: "eoscafeblock",
     general_info: {
       websiteText:
@@ -366,7 +359,7 @@ const jungleBPinfo = [
 ];
 
 const massive = require("massive");
-const dbConfig = require("../config/dbConfig");
+const dbConfig = require("./dbConfig");
 
 const updateGeneralInfo = async (bpInfo, db) => {
   await db.producers.save(bpInfo)
