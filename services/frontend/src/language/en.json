@@ -145,6 +145,7 @@
     "allBP": "All Block Producers",
     "noBpJson": "No BP.json file provided.",
     "noCountryName": "No location provided.",
-    "noBlockProducer": "This BP Does Not Exist."
+    "noBlockProducer": "This BP Does Not Exist.",
+    "noWebSiteInfo": "No information from their website."
   }
 }

@@ -39,6 +39,7 @@ export const getAllBPs = ({ nameFilter = null, setBPs = () => {} } = {}) => {
             trustiness
             transparency
             ratings_cntr
+            general_info
           }
         }
       `,

@@ -145,6 +145,7 @@
     "allBP": "Lista de productores de bloques",
     "noBpJson": "No encontramos un bp.json!",
     "noCountryName": "No se proporcionó ubicación.",
-    "noBlockProducer": "No encontramos este PB"
+    "noBlockProducer": "No encontramos este PB",
+    "noWebSiteInfo": "No hay informacion de su sitio web"
   }
 }
