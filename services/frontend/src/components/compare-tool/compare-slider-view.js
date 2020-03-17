@@ -29,29 +29,34 @@ const style = theme => ({
   }
 })
 
-const CompareSliderView = ({ classes, selected, className, ...props }) => {
+const CompareSliderView = ({ classes, selected, className, isProxy, ...props }) => {
   const { t } = useTranslation('translations')
+
   return (
     <div className={[classes.root, className].join(' ')}>
       <Typography className={classes.title} variant='h5'>
         {t('compareToolTitle')}
       </Typography>
       <div className={classes.slider}>
-        {selected.map(bp => (
-          <div
-            key={`slider-card-${bp.bpjson.producer_account_name}`}
-            className={classes.sliderCard}
-          >
-            <Radar
-              bpData={{
-                datasets: [{ ...bp.data }]
-              }}
-            />
-            <Typography variant='subtitle1' className={classes.bpName}>
-              {bp.bpjson.producer_account_name}
-            </Typography>
-          </div>
-        ))}
+        {selected.map(bp => {
+          const name = isProxy ? bp.owner : bp.bpjson.producer_account_name
+
+          return (
+            <div
+              key={`slider-card-${name}`}
+              className={classes.sliderCard}
+            >
+              <Radar
+                bpData={{
+                  datasets: bp.data ? [{ ...bp.data }] : []
+                }}
+              />
+              <Typography variant='subtitle1' className={classes.bpName}>
+                {name}
+              </Typography>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
@@ -60,7 +65,8 @@ const CompareSliderView = ({ classes, selected, className, ...props }) => {
 CompareSliderView.propTypes = {
   classes: PropTypes.object.isRequired,
   selected: PropTypes.array.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  isProxy: PropTypes.bool
 }
 
 CompareSliderView.defaultProps = {}

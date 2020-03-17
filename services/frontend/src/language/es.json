@@ -8,7 +8,9 @@
 
     "compareToolTitle": "Herramienta de comparación",
     "compareToolToggle": "Comparar",
+    "voteToolToggle": "Votar",
     "compareToolCollapsedSwitch": "Colapsar Gráficos",
+    "voteToolTitle": "Vote Tool",
 
     "loginUsername": "Nombre de usuario",
     "loginPassword": "Contraseña",
@@ -143,11 +145,14 @@
     "average": "Promedio",
     "websiteInfo": "De su sitio web",
     "buttonRate": "Evalúa este PB",
+    "buttonVote": "Vote this Proxy",
     "allBP": "Lista de productores de bloques",
     "allP": "Lista de Proxies",
     "noBpJson": "No encontramos un bp.json!",
     "noCountryName": "No se proporcionó ubicación.",
     "noBlockProducer": "No encontramos este PB",
-    "noWebSiteInfo": "No hay informacion de su sitio web"
+    "noWebSiteInfo": "No hay informacion de su sitio web",
+    "proxyVotes": "Votos del Proxy",
+    "totalVotes": "Total de votos"
   }
 }

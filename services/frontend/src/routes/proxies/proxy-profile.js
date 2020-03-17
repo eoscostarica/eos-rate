@@ -15,11 +15,11 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import Divider from '@material-ui/core/Divider'
 import _get from 'lodash.get'
 
+import CompareTool from 'components/compare-tool'
 import Radar from 'components/radar'
 import {
   SocialNetworks,
-  GeneralInformation,
-  WebsiteLegend
+  GeneralInformation
 } from './general-information-profile'
 
 const style = ({ palette, breakpoints }) => ({
@@ -143,17 +143,9 @@ const ProxyProfile = ({
   getProxies,
   ...props
 }) => {
-  console.log({ account, proxies, proxy })
-
   const { t } = useTranslation('profile')
-  const bPLogo = _get(proxy, 'logo_256', null)
-  const ProxyTitle = _get(
-    proxy,
-    'name',
-    _get(proxy, 'owner', 'No Data')
-  )
-
-  const webInfo = _get(proxy, 'general_info', null)
+  const logo = _get(proxy, 'logo_256', null)
+  const ProxyTitle = _get(proxy, 'name', _get(proxy, 'owner', 'No Data'))
 
   useEffect(() => {
     async function getData() {
@@ -192,12 +184,12 @@ const ProxyProfile = ({
                 <Grid container direction='row' alignItems='center'>
                   <Grid item sm={12} lg={4}>
                     <Grid container direction='row' alignItems='center'>
-                      {bPLogo ? (
+                      {logo ? (
                         <Avatar
                           aria-label='Block Producer'
                           className={classes.avatar}
                         >
-                          <img src={bPLogo} alt='' width='100%' />
+                          <img src={logo} alt='' width='100%' />
                         </Avatar>
                       ) : (
                         <AccountCircle className={classes.accountCircle} />
@@ -227,11 +219,11 @@ const ProxyProfile = ({
                   />
                 </Grid>
                 <GeneralInformation classes={classes} proxy={proxy} />
-                {/* <SocialNetworks
+                <SocialNetworks
                   classes={classes}
                   overrideClass={classes.showOnlyLg}
-                  proxy={bpHasInformation && proxy.bpjson}
-                /> */}
+                  proxy={proxy}
+                />
               </Grid>
 
               <Grid item sm={12} lg={8}>
@@ -250,19 +242,26 @@ const ProxyProfile = ({
                       }}
                     />
                   </Grid>
-                  <WebsiteLegend classes={classes} webInfo={webInfo} />
                   <Divider variant='middle' className={classes.showOnlySm} />
-                  {/* <SocialNetworks
+                  <SocialNetworks
                     classes={classes}
                     overrideClass={classes.showOnlySm}
-                    proxy={bpHasInformation && proxy.bpjson}
-                  /> */}
+                    proxy={proxy}
+                  />
                 </Grid>
               </Grid>
             </div>
           </Grid>
         </Paper>
       </Grid>
+      {proxy && <CompareTool
+        removeBP={() => console.log('test')}
+        className={classes.compareTool}
+        list={[proxy]}
+        selected={[account]}
+        isProxy
+        useOnlySliderView
+      />}
     </Grid>
   )
 }
@@ -276,15 +275,6 @@ ProxyProfile.propTypes = {
   isContentLoading: PropTypes.bool,
   getProxies: PropTypes.func
 }
-
-// ProfileTitle.propTypes = {
-//   classes: PropTypes.object,
-//   hasInformation: PropTypes.bool,
-//   proxy: PropTypes.object,
-//   t: PropTypes.any,
-//   bpTitle: PropTypes.string,
-//   isContentLoading: PropTypes.bool
-// }
 
 const mapStateToProps = ({
   isLoading: { isContentLoading },

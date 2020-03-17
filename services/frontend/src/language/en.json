@@ -8,7 +8,9 @@
 
     "compareToolTitle": "Compare Tool",
     "compareToolToggle": "Compare",
+    "voteToolToggle": "Vote",
     "compareToolCollapsedSwitch": "Collapse Graphs",
+    "voteToolTitle": "Vote Tool",
 
     "loginUsername": "Username",
     "loginPassword": "Password",
@@ -143,11 +145,14 @@
     "average": "Average",
     "websiteInfo": "From Their Website",
     "buttonRate": "Rate this BP",
+    "buttonVote": "Vote this Proxy",
     "allBP": "All Block Producers",
     "allP": "All Proxies",
     "noBpJson": "No BP.json file provided.",
     "noCountryName": "No location provided.",
     "noBlockProducer": "This BP Does Not Exist.",
-    "noWebSiteInfo": "No information from their website."
+    "noWebSiteInfo": "No information from their website.",
+    "proxyVotes": "Proxy Votes",
+    "totalVotes": "Total Votes"
   }
 }

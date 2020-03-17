@@ -33,7 +33,7 @@ const CompareToolToggle = ({
         button
         onClick={() => toggleCompareTool()}
       >
-        <ListItemText primary={`${t('compareToolToggle')}(${selectedCount})`} />
+        <ListItemText primary={`${t('voteToolToggle')}(${selectedCount})`} />
         <ListItemSecondaryAction>
           {compareTool ? <VisibilityIcon /> : <VisibilityOffIcon />}
         </ListItemSecondaryAction>

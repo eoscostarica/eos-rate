@@ -2,6 +2,7 @@ import _get from 'lodash.get'
 import filterObjects from 'filter-objects'
 import uniq from 'lodash.uniq'
 
+import calculateEosFromVotes from 'utils/convertVotesToEosVotes'
 import getBPRadarData from 'utils/getBPRadarData'
 import apolloClient from 'services/graphql'
 
@@ -93,6 +94,8 @@ const Proxies = {
         const proxiesModeled = proxies.map(proxy => {
           const rateInfo = []
           const proxyProducers = _get(proxy, 'voter_info.producers', [])
+          const proxiedVoteEOS = calculateEosFromVotes(_get(proxy, 'voter_info.last_vote_weight', 0))
+          const totalVoteEOS = calculateEosFromVotes(_get(proxy, 'voter_info.proxied_vote_weight', 0))
           const producersDataModeled = proxyProducers.map(owner => {
             const producer = list.find(bp => bp.owner === owner)
 
@@ -154,7 +157,9 @@ const Proxies = {
             data: getBPRadarData({
               name: proxy.owner,
               parameters: averageParams
-            })
+            }),
+            proxiedVoteEOS,
+            totalVoteEOS
           }
         })
 

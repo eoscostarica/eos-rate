@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { useTranslation } from 'react-i18next'
+import _get from 'lodash.get'
 import Switch from '@material-ui/core/Switch'
 
 import CompareGraphView from './compare-graph-view'
 import CompareSliderView from './compare-slider-view'
-import withT from 'components/with-t'
 
 const styles = theme => ({
   root: {
@@ -26,38 +26,56 @@ const styles = theme => ({
   }
 })
 
-const CompareTool = ({ classes, removeBP, list, selected, className }) => {
+const CompareTool = ({
+  classes,
+  removeBP,
+  list,
+  selected,
+  className,
+  isProxy,
+  useOnlySliderView
+}) => {
   const { t } = useTranslation('translations')
   const [isCollapsedView, setIsCollapsedView] = useState(true)
-  const selectedBlockProducers = selected.map(bpName =>
-    list.find(({ owner }) => bpName === owner)
+  const selectedData = selected.map(name =>
+    list.find(({ owner }) => name === owner)
   )
+
+  if (useOnlySliderView) {
+    const data = isProxy && selectedData.length ? _get(selectedData[0], 'voter_info.producers', []) : selectedData
+
+    return (
+      <div className={[classes.root, className].join(' ')}>
+        <CompareSliderView removeBP={removeBP} selected={data} isProxy={isProxy} />
+      </div>
+    )
+  }
 
   return (
     <div className={[classes.root, className].join(' ')}>
       {isCollapsedView ? (
         <CompareGraphView
           removeBP={removeBP}
-          selected={selectedBlockProducers}
+          selected={selectedData}
+          isProxy={isProxy}
         />
       ) : (
-        <CompareSliderView
-          removeBP={removeBP}
-          selected={selectedBlockProducers}
-        />
+        <CompareSliderView removeBP={removeBP} selected={selectedData} />
       )}
       <div className={classes.footer}>
-        <FormControlLabel
-          className={classes.switch}
-          control={
-            <Switch
-              checked={isCollapsedView}
-              onChange={event => setIsCollapsedView(event.target.checked)}
-              value='isCollapsedView'
-            />
-          }
-          label={t('compareToolCollapsedSwitch')}
-        />
+        {!isProxy && (
+          <FormControlLabel
+            className={classes.switch}
+            control={
+              <Switch
+                checked={isCollapsedView}
+                onChange={event => setIsCollapsedView(event.target.checked)}
+                value='isCollapsedView'
+              />
+            }
+            label={t('compareToolCollapsedSwitch')}
+          />
+        )}
       </div>
     </div>
   )
@@ -68,11 +86,15 @@ CompareTool.propTypes = {
   removeBP: PropTypes.func.isRequired,
   list: PropTypes.array.isRequired,
   selected: PropTypes.array.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  isProxy: PropTypes.bool,
+  useOnlySliderView: PropTypes.bool
 }
 
 CompareTool.defaultProps = {
-  className: ''
+  className: '',
+  isProxy: false,
+  useOnlySliderView: false
 }
 
 export default withStyles(styles)(CompareTool)
