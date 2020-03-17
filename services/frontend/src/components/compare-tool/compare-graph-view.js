@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import _get from 'lodash.get'
 import _isEmpty from 'lodash.isempty'
 
-import BlockProducerRadar from 'components/block-producer-radar'
+import Radar from 'components/radar'
 
 const styles = theme => ({
   root: {},
@@ -44,13 +44,16 @@ const CompareGraphView = ({
   removeBP,
   selected,
   className,
+  imageURL,
+  isProxy,
   ...props
 }) => {
   const { t } = useTranslation('translations')
+
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12} md={8}>
-        <BlockProducerRadar
+        <Radar
           bpData={{
             datasets: selected.map(({ data }) => ({
               ...data,
@@ -61,32 +64,38 @@ const CompareGraphView = ({
       </Grid>
       <Grid item xs={12} md={4}>
         <Typography variant='h5'>{t('compareToolTitle')}</Typography>
-        {selected.map(bp => (
-          <Chip
-            className={classes.bpName}
-            avatar={
-              <Avatar
-                aria-label='Block Producer'
-                style={{ backgroundColor: bp.data.pointBackgroundColor }}
-                className={classes.avatar}
-              >
-                {_isEmpty(bp.bpjson) ? (
-                  'BP'
-                ) : (
-                  <img
-                    src={_get(bp, 'bpjson.org.branding.logo_256')}
-                    alt=''
-                    width='100%'
-                  />
-                )}
-              </Avatar>
-            }
-            color='secondary'
-            onDelete={removeBP(bp.owner)}
-            label={bp.owner}
-            key={`bp-list-name-${bp.owner}`}
-          />
-        ))}
+        {selected.map(data => {
+          console.log({ isProxy });
+          const path = isProxy ? 'logo_256' : 'bpjson.org.branding.logo_256'
+          const imageURL= _get(data, path, null)
+
+          return (
+            <Chip
+              className={classes.bpName}
+              avatar={
+                <Avatar
+                  aria-label='Block Compare'
+                  style={{ backgroundColor: data.data.pointBackgroundColor }}
+                  className={classes.avatar}
+                >
+                  {!imageURL ? (
+                    'BP'
+                  ) : (
+                    <img
+                      src={imageURL}
+                      alt=''
+                      width='100%'
+                    />
+                  )}
+                </Avatar>
+              }
+              color='secondary'
+              onDelete={removeBP(data.owner)}
+              label={data.owner}
+              key={`data-list-name-${data.owner}`}
+            />
+          )
+        })}
       </Grid>
     </Grid>
   )
@@ -96,11 +105,14 @@ CompareGraphView.propTypes = {
   classes: PropTypes.object.isRequired,
   removeBP: PropTypes.func.isRequired,
   selected: PropTypes.array.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  imageURL: PropTypes.string,
+  isProxy: PropTypes.bool
 }
 
 CompareGraphView.defaultProps = {
-  className: ''
+  className: '',
+  isProxy: false
 }
 
 export default withStyles(styles)(CompareGraphView)

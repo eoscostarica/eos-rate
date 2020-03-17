@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { Link } from '@reach/router'
 import PropTypes from 'prop-types'
 
-import BlockProducerRadar from 'components/block-producer-radar'
+import Radar from 'components/radar'
 
 const bpLink = React.forwardRef((props, ref) => (
   <Link innerRef={ref} {...props} />
@@ -85,7 +85,7 @@ const HomeCover = ({ classes, blockProducer }) => {
 
       <Grid item container xs={12} md={6} justify='center'>
         <div className={classes.chartContainer}>
-          <BlockProducerRadar
+          <Radar
             height={230}
             bpData={{
               datasets: [blockProducer.data]

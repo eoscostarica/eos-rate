@@ -33,6 +33,7 @@
     "drawerLinkAllBPs": "Block Producers",
     "drawerLinkSettings": "Settings",
     "drawerLinkAccount": "Account",
+    "drawerLinkAllProxies": "Proxies",
 
     "appBarSignIn": "Sign In",
 
@@ -129,7 +130,7 @@
     "legend": "Want to contribute? Come learn with us"
   },
 
-  "bpProfile": {
+  "profile": {
     "generalInformation": "General Information",
     "rankings": "Rankings",
     "social": "Social",
@@ -143,6 +144,7 @@
     "websiteInfo": "From Their Website",
     "buttonRate": "Rate this BP",
     "allBP": "All Block Producers",
+    "allP": "All Proxies",
     "noBpJson": "No BP.json file provided.",
     "noCountryName": "No location provided.",
     "noBlockProducer": "This BP Does Not Exist.",

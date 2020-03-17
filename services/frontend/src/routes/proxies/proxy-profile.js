@@ -108,60 +108,61 @@ const style = ({ palette, breakpoints }) => ({
   }
 })
 
-const ProfileTitle = ({
-  classes,
-  hasInformation,
-  producer,
-  t,
-  bpTitle,
-  isContentLoading
-}) => {
-  if (!isContentLoading && !producer) {
-    return (
-      <Typography variant='h6' className={classes.bpName}>
-        {t('noBlockProducer')}
-      </Typography>
-    )
-  }
+// const ProfileTitle = ({
+//   classes,
+//   hasInformation,
+//   proxy,
+//   t,
+//   bpTitle,
+//   isContentLoading
+// }) => {
+//   if (!isContentLoading && !proxy) {
+//     return (
+//       <Typography variant='h6' className={classes.bpName}>
+//         {t('noBlockProducer')}
+//       </Typography>
+//     )
+//   }
 
-  return (
-    <>
-      <Typography variant='h6' className={classes.bpName}>
-        {bpTitle}
-      </Typography>
-      {!hasInformation && (
-        <Typography variant='h6' className={classes.bpName}>
-          {t('noBpJson')}
-        </Typography>
-      )}
-    </>
-  )
-}
+//   return (
+//     <>
+//       <Typography variant='h6' className={classes.bpName}>
+//         {bpTitle}
+//       </Typography>
+//     </>
+//   )
+// }
 
-const BlockProducerProfile = ({
+const ProxyProfile = ({
   classes,
   account,
-  blockProducers,
-  getBlockProducer,
-  producer,
+  proxies,
+  getProxy,
+  proxy,
   isContentLoading,
+  getProxies,
   ...props
 }) => {
+  console.log({ account, proxies, proxy })
+
   const { t } = useTranslation('profile')
-  const bpHasInformation = Boolean(
-    producer && Object.values(producer.bpjson).length
+  const bPLogo = _get(proxy, 'logo_256', null)
+  const ProxyTitle = _get(
+    proxy,
+    'name',
+    _get(proxy, 'owner', 'No Data')
   )
-  const bPLogo =
-    bpHasInformation && _get(producer, 'bpjson.org.branding.logo_256', null)
-  const BlockProducerTitle = _get(
-    producer,
-    'bpjson.org.candidate_name',
-    _get(producer, 'system.owner', 'No Data')
-  )
-  const webInfo = _get(producer, 'general_info', null)
+
+  const webInfo = _get(proxy, 'general_info', null)
 
   useEffect(() => {
-    getBlockProducer(account)
+    async function getData() {
+      // await getBPs()
+      await getProxies()
+      await getProxy(account)
+    }
+
+    getData()
   }, [account])
 
   return (
@@ -170,11 +171,11 @@ const BlockProducerProfile = ({
         <Grid container direction='row' alignItems='center'>
           <Button
             component={forwardRef((props, ref) => (
-              <Link {...props} ref={ref} to='/block-producers' />
+              <Link {...props} ref={ref} to='/proxies' />
             ))}
           >
             <KeyboardArrowLeft />
-            {t('allBP')}
+            {t('allP')}
           </Button>
         </Grid>
       </Grid>
@@ -201,14 +202,9 @@ const BlockProducerProfile = ({
                       ) : (
                         <AccountCircle className={classes.accountCircle} />
                       )}
-                      <ProfileTitle
-                        classes={classes}
-                        hasInformation={bpHasInformation}
-                        producer={producer}
-                        t={t}
-                        bpTitle={BlockProducerTitle}
-                        isContentLoading={isContentLoading}
-                      />
+                      <Typography variant='h6' className={classes.bpName}>
+                        {ProxyTitle}
+                      </Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -226,16 +222,16 @@ const BlockProducerProfile = ({
                 >
                   <Radar
                     bpData={{
-                      datasets: producer ? [{ ...producer.data }] : []
+                      datasets: proxy ? [{ ...proxy.data }] : []
                     }}
                   />
                 </Grid>
-                <GeneralInformation classes={classes} producer={producer} />
-                <SocialNetworks
+                <GeneralInformation classes={classes} proxy={proxy} />
+                {/* <SocialNetworks
                   classes={classes}
                   overrideClass={classes.showOnlyLg}
-                  producer={bpHasInformation && producer.bpjson}
-                />
+                  proxy={bpHasInformation && proxy.bpjson}
+                /> */}
               </Grid>
 
               <Grid item sm={12} lg={8}>
@@ -250,17 +246,17 @@ const BlockProducerProfile = ({
                   >
                     <Radar
                       bpData={{
-                        datasets: producer ? [{ ...producer.data }] : []
+                        datasets: proxy ? [{ ...proxy.data }] : []
                       }}
                     />
                   </Grid>
                   <WebsiteLegend classes={classes} webInfo={webInfo} />
                   <Divider variant='middle' className={classes.showOnlySm} />
-                  <SocialNetworks
+                  {/* <SocialNetworks
                     classes={classes}
                     overrideClass={classes.showOnlySm}
-                    producer={bpHasInformation && producer.bpjson}
-                  />
+                    proxy={bpHasInformation && proxy.bpjson}
+                  /> */}
                 </Grid>
               </Grid>
             </div>
@@ -271,37 +267,39 @@ const BlockProducerProfile = ({
   )
 }
 
-BlockProducerProfile.propTypes = {
+ProxyProfile.propTypes = {
   classes: PropTypes.object,
   account: PropTypes.string,
-  blockProducers: PropTypes.array,
-  getBlockProducer: PropTypes.func,
-  producer: PropTypes.object,
-  isContentLoading: PropTypes.bool
+  proxies: PropTypes.array,
+  getProxy: PropTypes.func,
+  proxy: PropTypes.object,
+  isContentLoading: PropTypes.bool,
+  getProxies: PropTypes.func
 }
 
-ProfileTitle.propTypes = {
-  classes: PropTypes.object,
-  hasInformation: PropTypes.bool,
-  producer: PropTypes.object,
-  t: PropTypes.any,
-  bpTitle: PropTypes.string,
-  isContentLoading: PropTypes.bool
-}
+// ProfileTitle.propTypes = {
+//   classes: PropTypes.object,
+//   hasInformation: PropTypes.bool,
+//   proxy: PropTypes.object,
+//   t: PropTypes.any,
+//   bpTitle: PropTypes.string,
+//   isContentLoading: PropTypes.bool
+// }
 
 const mapStateToProps = ({
   isLoading: { isContentLoading },
-  blockProducers: { list, producer }
+  proxies: { proxies, proxy }
 }) => ({
-  blockProducers: list,
-  producer,
+  proxies,
+  proxy,
   isContentLoading
 })
 
 const mapDispatchToProps = dispatch => ({
-  getBlockProducer: dispatch.blockProducers.getBlockProducerByOwner
+  getProxy: dispatch.proxies.getProxyByOwner,
+  getProxies: dispatch.proxies.getProxies
 })
 
 export default withStyles(style)(
-  connect(mapStateToProps, mapDispatchToProps)(BlockProducerProfile)
+  connect(mapStateToProps, mapDispatchToProps)(ProxyProfile)
 )

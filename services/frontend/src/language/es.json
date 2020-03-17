@@ -33,6 +33,7 @@
     "drawerLinkAllBPs": "Productores de Bloques",
     "drawerLinkSettings": "Configuración",
     "drawerLinkAccount": "Cuenta",
+    "drawerLinkAllProxies": "Proxies",
 
     "appBarSignIn": "Iniciar Sesión",
 
@@ -129,7 +130,7 @@
     "legend": "¿Quieres contribuir? Ven a aprender con nosotros"
   },
 
-  "bpProfile": {
+  "profile": {
     "generalInformation": "Información General",
     "rankings": "Clasificaciones",
     "social": "Social",
@@ -143,6 +144,7 @@
     "websiteInfo": "De su sitio web",
     "buttonRate": "Evalúa este PB",
     "allBP": "Lista de productores de bloques",
+    "allP": "Lista de Proxies",
     "noBpJson": "No encontramos un bp.json!",
     "noCountryName": "No se proporcionó ubicación.",
     "noBlockProducer": "No encontramos este PB",

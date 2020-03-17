@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import { useTranslation } from 'react-i18next'
 
-import BlockProducerRadar from 'components/block-producer-radar'
+import Radar from 'components/radar'
 
 const style = theme => ({
   root: {},
@@ -42,7 +42,7 @@ const CompareSliderView = ({ classes, selected, className, ...props }) => {
             key={`slider-card-${bp.bpjson.producer_account_name}`}
             className={classes.sliderCard}
           >
-            <BlockProducerRadar
+            <Radar
               bpData={{
                 datasets: [{ ...bp.data }]
               }}
