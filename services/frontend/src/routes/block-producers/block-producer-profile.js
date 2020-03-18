@@ -45,7 +45,8 @@ const style = ({ palette, breakpoints }) => ({
     fontSize: 14
   },
   value: {
-    marginLeft: 4
+    marginLeft: 4,
+    fontWeight: 500
   },
   category: {
     marginTop: 10

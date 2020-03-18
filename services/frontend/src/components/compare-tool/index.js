@@ -33,7 +33,8 @@ const CompareTool = ({
   selected,
   className,
   isProxy,
-  useOnlySliderView
+  useOnlySliderView,
+  optionalLabel
 }) => {
   const { t } = useTranslation('translations')
   const [isCollapsedView, setIsCollapsedView] = useState(true)
@@ -46,7 +47,7 @@ const CompareTool = ({
 
     return (
       <div className={[classes.root, className].join(' ')}>
-        <CompareSliderView removeBP={removeBP} selected={data} isProxy={isProxy} />
+        <CompareSliderView removeBP={removeBP} selected={data} isProxy={isProxy} optionalLabel={optionalLabel} />
       </div>
     )
   }
@@ -88,7 +89,8 @@ CompareTool.propTypes = {
   selected: PropTypes.array.isRequired,
   className: PropTypes.string,
   isProxy: PropTypes.bool,
-  useOnlySliderView: PropTypes.bool
+  useOnlySliderView: PropTypes.bool,
+  optionalLabel: PropTypes.string
 }
 
 CompareTool.defaultProps = {

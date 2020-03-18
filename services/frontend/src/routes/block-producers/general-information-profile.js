@@ -182,7 +182,14 @@ const GeneralInformation = ({ classes, producer = {} }) => {
     _get(producer, 'system.location', null),
     t('noCountryName')
   )
-  const average = _get(producer, 'average', null)
+  const _getAverageValue = () => {
+    let average = _get(producer, 'average', 0)
+    if (typeof average === 'string') {
+      average = parseFloat(average)
+    }
+
+    return average.toFixed(2)
+  }
 
   return (
     <>
@@ -270,7 +277,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-            {average ? average.toFixed(2) : 0}
+            {_getAverageValue()}
           </Typography>
         </Grid>
       </Grid>

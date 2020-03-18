@@ -157,6 +157,7 @@
     "slogan": "Slogan",
     "background": "Background",
     "totalVotes": "Total Votes",
-    "voteWithoutLogin": "You need to login to vote for this proxy"
+    "voteWithoutLogin": "You need to login to vote for this proxy",
+    "labelTool": "votes for"
   }
 }

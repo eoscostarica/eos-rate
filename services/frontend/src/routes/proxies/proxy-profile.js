@@ -42,14 +42,23 @@ const style = ({ palette, breakpoints }) => ({
   title: {
     color: palette.primary.main,
     fontSize: '1.5rem',
-    marginBottom: 10,
+    marginBottom: 5,
     marginTop: 5
   },
   subTitle: {
     fontSize: 14
   },
+  longSubTitle: {
+    margin: '7px 0',
+    fontSize: 14
+  },
+  longValue: {
+    marginLeft: 10,
+    fontWeight: 500
+  },
   value: {
-    marginLeft: 4
+    marginLeft: 4,
+    fontWeight: 500
   },
   category: {
     marginTop: 10
@@ -115,6 +124,12 @@ const style = ({ palette, breakpoints }) => ({
   },
   votingTextProgress: {
     display: 'flex'
+  },
+  slogan: {
+    margin: '10px 0 0 0',
+    fontStyle: 'italic',
+    '&:before': { content: 'open-quote' },
+    '&:after': { content: 'close-quote' }
   }
 })
 
@@ -256,6 +271,7 @@ const ProxyProfile = ({
                         {ProxyTitle}
                       </Typography>
                     </Grid>
+                      <Typography variant='subtitle1'><blockquote className={classes.slogan}>{_get(proxy, 'slogan', null)}</blockquote></Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -374,6 +390,7 @@ const ProxyProfile = ({
           selected={[account]}
           isProxy
           useOnlySliderView
+          optionalLabel={`${ProxyTitle} ${t('labelTool')}:`}
         />
       )}
     </Grid>

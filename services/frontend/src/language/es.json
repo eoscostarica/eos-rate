@@ -157,6 +157,7 @@
     "slogan": "Eslogan",
     "background": "Historial",
     "voteWithoutLogin": "Necesitas iniciar sesión para votar por un proxy",
-    "totalVotes": "Total de votos"
+    "totalVotes": "Total de votos",
+    "labelTool": "vota por"
   }
 }

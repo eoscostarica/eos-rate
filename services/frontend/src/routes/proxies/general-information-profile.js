@@ -134,34 +134,23 @@ const GeneralInformation = ({ classes, proxy = {}, onClick, disabled }) => {
           </Typography>
         </Grid>
         <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
-            {t('slogan')}:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
-          >
-            {_get(proxy, 'slogan', '- -')}
-          </Typography>
-        </Grid>
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
+          <Typography variant='subtitle1' className={classes.longSubTitle}>
             {t('background')}:
           </Typography>
           <Typography
             variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
+            className={classNames(classes.longValue, classes.subTitle)}
           >
             {_get(proxy, 'background', '- -')}
           </Typography>
         </Grid>
         <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
+          <Typography variant='subtitle1' className={classes.longSubTitle}>
             {t('philosophy')}:
           </Typography>
           <Typography
             variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
+            className={classNames(classes.longValue, classes.subTitle)}
           >
             {_get(proxy, 'philosophy', '- -')}
           </Typography>

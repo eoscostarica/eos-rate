@@ -29,13 +29,13 @@ const style = theme => ({
   }
 })
 
-const CompareSliderView = ({ classes, selected, className, isProxy, ...props }) => {
+const CompareSliderView = ({ classes, selected, className, isProxy, optionalLabel, ...props }) => {
   const { t } = useTranslation('translations')
 
   return (
     <div className={[classes.root, className].join(' ')}>
       <Typography className={classes.title} variant='h5'>
-        {isProxy ? t('voteToolTitle') : t('compareToolTitle')}
+        {isProxy ? optionalLabel : t('compareToolTitle')}
       </Typography>
       <div className={classes.slider}>
         {selected.map(bp => {
@@ -66,7 +66,8 @@ CompareSliderView.propTypes = {
   classes: PropTypes.object.isRequired,
   selected: PropTypes.array.isRequired,
   className: PropTypes.string,
-  isProxy: PropTypes.bool
+  isProxy: PropTypes.bool,
+  optionalLabel: PropTypes.string
 }
 
 CompareSliderView.defaultProps = {}
