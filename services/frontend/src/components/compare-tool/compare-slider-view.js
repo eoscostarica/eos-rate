@@ -35,7 +35,7 @@ const CompareSliderView = ({ classes, selected, className, isProxy, ...props }) 
   return (
     <div className={[classes.root, className].join(' ')}>
       <Typography className={classes.title} variant='h5'>
-        {t('compareToolTitle')}
+        {isProxy ? t('voteToolTitle') : t('compareToolTitle')}
       </Typography>
       <div className={classes.slider}>
         {selected.map(bp => {

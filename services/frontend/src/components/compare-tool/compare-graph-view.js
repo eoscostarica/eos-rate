@@ -9,7 +9,6 @@ import Avatar from '@material-ui/core/Avatar'
 import Help from '@material-ui/icons/HelpOutlineRounded'
 import { useTranslation } from 'react-i18next'
 import _get from 'lodash.get'
-import _isEmpty from 'lodash.isempty'
 
 import Radar from 'components/radar'
 
@@ -153,7 +152,6 @@ const CompareGraphView = ({
   removeBP,
   selected,
   className,
-  imageURL,
   isProxy,
   ...props
 }) => {

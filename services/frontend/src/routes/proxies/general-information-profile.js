@@ -88,7 +88,7 @@ const SocialNetworks = ({ classes, overrideClass, proxy }) => {
   )
 }
 
-const GeneralInformation = ({ classes, proxy = {} }) => {
+const GeneralInformation = ({ classes, proxy = {}, onClick, disabled }) => {
   const { t } = useTranslation('profile')
   const webpageURL = _get(proxy, 'website')
   const totalVotes = _get(proxy, 'totalVoteEOS') || 0
@@ -165,8 +165,9 @@ const GeneralInformation = ({ classes, proxy = {} }) => {
       <Grid container direction='column' className={classes.category}>
         <Grid container direction='row'>
           <Button
-            disabled={!proxy}
+            disabled={disabled}
             className={classes.btnBP}
+            onClick={() => onClick(_get(proxy, 'owner'))}
           >
             {t('buttonVote')}
           </Button>
@@ -184,7 +185,9 @@ SocialNetworks.propTypes = {
 
 GeneralInformation.propTypes = {
   classes: PropTypes.object,
-  proxy: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
+  proxy: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  onClick: PropTypes.func,
+  disabled: PropTypes.bool
 }
 
 export { SocialNetworks, GeneralInformation }

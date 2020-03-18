@@ -1,9 +1,13 @@
-import React, { useEffect, forwardRef } from 'react'
+import React, { useEffect, forwardRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { Link } from '@reach/router'
+import Error from '@material-ui/icons/Error'
+import CheckCircle from '@material-ui/icons/CheckCircle'
+import Chip from '@material-ui/core/Chip'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
@@ -105,33 +109,14 @@ const style = ({ palette, breakpoints }) => ({
   },
   avatar: {
     backgroundColor: palette.surface.main
+  },
+  errorBox: {
+    padding: '10px 0px'
+  },
+  votingTextProgress: {
+    display: 'flex'
   }
 })
-
-// const ProfileTitle = ({
-//   classes,
-//   hasInformation,
-//   proxy,
-//   t,
-//   bpTitle,
-//   isContentLoading
-// }) => {
-//   if (!isContentLoading && !proxy) {
-//     return (
-//       <Typography variant='h6' className={classes.bpName}>
-//         {t('noBlockProducer')}
-//       </Typography>
-//     )
-//   }
-
-//   return (
-//     <>
-//       <Typography variant='h6' className={classes.bpName}>
-//         {bpTitle}
-//       </Typography>
-//     </>
-//   )
-// }
 
 const ProxyProfile = ({
   classes,
@@ -141,21 +126,94 @@ const ProxyProfile = ({
   proxy,
   isContentLoading,
   getProxies,
+  ual,
   ...props
 }) => {
   const { t } = useTranslation('profile')
+  const [showMessage, setShowMessage] = useState(false)
+  const [ratingState, setRatingState] = useState({
+    processing: false,
+    txError: null,
+    txSuccess: false
+  })
   const logo = _get(proxy, 'logo_256', null)
   const ProxyTitle = _get(proxy, 'name', _get(proxy, 'owner', 'No Data'))
+  const accountName = _get(ual, 'activeUser.accountName', null)
+
+  const sendVoteProxy = async proxy => {
+    if (!accountName) {
+      setShowMessage(true)
+
+      return
+    }
+
+    const transaction = {
+      actions: [
+        {
+          account: 'eosio',
+          name: 'voteproducer',
+          authorization: [
+            {
+              actor: accountName,
+              permission: 'active'
+            }
+          ],
+          data: {
+            voter: accountName,
+            proxy,
+            producers: []
+          }
+        }
+      ]
+    }
+
+    try {
+      setRatingState({
+        ...ratingState,
+        txError: null,
+        processing: true,
+        txSuccess: false
+      })
+
+      await ual.activeUser.signTransaction(transaction, {
+        broadcast: true
+      })
+
+      setRatingState({
+        ...ratingState,
+        processing: false,
+        txSuccess: true
+      })
+
+      setTimeout(() => {
+        setRatingState({
+          ...ratingState,
+          txError: null,
+          txSuccess: false
+        })
+      }, 2000)
+      setShowMessage(false)
+    } catch (error) {
+      console.warn(error)
+      setRatingState({
+        ...ratingState,
+        processing: false,
+        txError: error.message ? error.message : error
+      })
+    }
+  }
 
   useEffect(() => {
-    async function getData() {
+    async function getData () {
       // await getBPs()
       await getProxies()
       await getProxy(account)
     }
 
+    if (accountName) setShowMessage(false)
+
     getData()
-  }, [account])
+  }, [account, accountName])
 
   return (
     <Grid container justify='center' className={classes.container}>
@@ -218,7 +276,61 @@ const ProxyProfile = ({
                     }}
                   />
                 </Grid>
-                <GeneralInformation classes={classes} proxy={proxy} />
+                <GeneralInformation
+                  classes={classes}
+                  proxy={proxy}
+                  onClick={sendVoteProxy}
+                  disabled={!proxy || ratingState.processing}
+                />
+                <div className={classes.errorBox}>
+                  {showMessage && (
+                    <Chip
+                      avatar={
+                        <Avatar>
+                          <Error />
+                        </Avatar>
+                      }
+                      color='secondary'
+                      label={t('voteWithoutLogin')}
+                      variant='outlined'
+                    />
+                  )}
+                  {ratingState.txError && (
+                    <Chip
+                      avatar={
+                        <Avatar>
+                          <Error />
+                        </Avatar>
+                      }
+                      color='secondary'
+                      label={ratingState.txError}
+                      variant='outlined'
+                    />
+                  )}
+                  {ratingState.txSuccess && (
+                    <Chip
+                      avatar={
+                        <Avatar>
+                          <CheckCircle />
+                        </Avatar>
+                      }
+                      color='secondary'
+                      label='Success!'
+                      variant='outlined'
+                    />
+                  )}
+                  {ratingState.processing && (
+                    <div className={classes.votingTextProgress}>
+                      <CircularProgress color='secondary' size={20} />
+                      <Typography
+                        variant='subtitle1'
+                        className={classNames(classes.subTitle, classes.bpName)}
+                      >
+                        voting ...
+                      </Typography>
+                    </div>
+                  )}
+                </div>
                 <SocialNetworks
                   classes={classes}
                   overrideClass={classes.showOnlyLg}
@@ -254,14 +366,16 @@ const ProxyProfile = ({
           </Grid>
         </Paper>
       </Grid>
-      {proxy && <CompareTool
-        removeBP={() => console.log('test')}
-        className={classes.compareTool}
-        list={[proxy]}
-        selected={[account]}
-        isProxy
-        useOnlySliderView
-      />}
+      {proxy && (
+        <CompareTool
+          removeBP={() => console.log('remove')}
+          className={classes.compareTool}
+          list={[proxy]}
+          selected={[account]}
+          isProxy
+          useOnlySliderView
+        />
+      )}
     </Grid>
   )
 }
@@ -273,7 +387,8 @@ ProxyProfile.propTypes = {
   getProxy: PropTypes.func,
   proxy: PropTypes.object,
   isContentLoading: PropTypes.bool,
-  getProxies: PropTypes.func
+  getProxies: PropTypes.func,
+  ual: PropTypes.object
 }
 
 const mapStateToProps = ({

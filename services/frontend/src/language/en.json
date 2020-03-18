@@ -153,6 +153,7 @@
     "noBlockProducer": "This BP Does Not Exist.",
     "noWebSiteInfo": "No information from their website.",
     "proxyVotes": "Proxy Votes",
-    "totalVotes": "Total Votes"
+    "totalVotes": "Total Votes",
+    "voteWithoutLogin": "You need to login to vote this proxy"
   }
 }

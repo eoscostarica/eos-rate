@@ -145,7 +145,7 @@ const AllBps = ({
               imageURL={_get(blockProducer, 'bpjson.org.branding.logo_256')}
               owner={_get(blockProducer, 'owner')}
               title={_get(blockProducer, 'bpjson.org.candidate_name')}
-              pathLink={'block-producers'}
+              pathLink='block-producers'
             />
           </Grid>
         ))}

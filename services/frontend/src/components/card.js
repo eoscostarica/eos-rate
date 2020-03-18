@@ -12,8 +12,6 @@ import Help from '@material-ui/icons/HelpOutlineRounded'
 import Error from '@material-ui/icons/Error'
 import withWidth from '@material-ui/core/withWidth'
 import Tooltip from '@material-ui/core/Tooltip'
-import _get from 'lodash.get'
-import _isEmpty from 'lodash.isempty'
 import { Link } from '@reach/router'
 
 import Radar from 'components/radar'
@@ -125,20 +123,18 @@ const CardData = ({
               )}
             </Avatar>
           }
-          title={
-            title || (
-              <div className={classes.warningBox}>
-                <span>{owner}</span>
-                <TooltipWrapper
-                  open={open}
-                  onHandleTooltip={handleTooltip}
-                  isClickable={Boolean(width === 'xs')}
-                  t={t}
-                  classes={classes}
-                />
-              </div>
-            )
-          }
+          title={title || (
+            <div className={classes.warningBox}>
+              <span>{owner}</span>
+              <TooltipWrapper
+                open={open}
+                onHandleTooltip={handleTooltip}
+                isClickable={Boolean(width === 'xs')}
+                t={t}
+                classes={classes}
+              />
+            </div>
+          )}
           subheader={owner}
         />
       </Link>
@@ -157,20 +153,22 @@ const CardData = ({
         >
           {isSelected ? 'REMOVE' : buttonLabel}
         </Button>
-        {useRateButton && <Button
-          component={forwardRef((props, ref) => (
-            <Link
-              {...props}
-              ref={ref}
-              state={{ owner: owner }}
-              to={`/block-producers/${owner}/rate`}
-            />
-          ))}
-          className={classes.btnRate}
-          size='small'
-        >
-          RATE
-        </Button>}
+        {useRateButton && (
+          <Button
+            component={forwardRef((props, ref) => (
+              <Link
+                {...props}
+                ref={ref}
+                state={{ owner: owner }}
+                to={`/block-producers/${owner}/rate`}
+              />
+            ))}
+            className={classes.btnRate}
+            size='small'
+          >
+            RATE
+          </Button>
+        )}
       </CardActions>
     </Card>
   )

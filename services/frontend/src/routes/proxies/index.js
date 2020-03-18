@@ -91,7 +91,7 @@ const AllProxies = ({
   const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
 
   useEffect(() => {
-    async function getData() {
+    async function getData () {
       await getBPs()
       await getProxies()
     }
@@ -126,7 +126,7 @@ const AllProxies = ({
         })}
         list={proxies}
         selected={selectedProxies || []}
-        isProxy={true}
+        isProxy
       />
       <Grid className={classes.wrapper} container justify='center' spacing={4}>
         {(shownList || []).map(proxy => (
@@ -153,8 +153,8 @@ const AllProxies = ({
               owner={_get(proxy, 'owner')}
               title={_get(proxy, 'name')}
               useRateButton={false}
-              buttonLabel={'View'}
-              pathLink={'proxies'}
+              buttonLabel='View'
+              pathLink='proxies'
             />
           </Grid>
         ))}

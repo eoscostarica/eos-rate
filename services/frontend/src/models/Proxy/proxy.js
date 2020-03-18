@@ -15,19 +15,19 @@ const initialState = {
   proxy: null,
   filters: {},
   filtered: [],
-  selected: [],
+  selected: []
 }
 
 const Proxies = {
   state: initialState,
   reducers: {
-    toggleCompareTool(state) {
+    toggleCompareTool (state) {
       return {
         ...state,
         compareTool: !state.compareTool
       }
     },
-    addProxies(state, proxies) {
+    addProxies (state, proxies) {
       return {
         ...state,
         proxies,
@@ -35,7 +35,7 @@ const Proxies = {
         filtered: []
       }
     },
-    addProxy(state, proxy) {
+    addProxy (state, proxy) {
       return { ...state, proxy }
     },
     addToSelected (state, owner) {
@@ -47,9 +47,7 @@ const Proxies = {
     removeSelected (state, owner) {
       return {
         ...state,
-        selected: state.selected.filter(
-          selected => selected !== owner
-        )
+        selected: state.selected.filter(selected => selected !== owner)
       }
     },
     clearFilters (state) {
@@ -74,7 +72,7 @@ const Proxies = {
         filters
       )
     },
-    async getProxies(payload, { blockProducers: { list } }) {
+    async getProxies (payload, { blockProducers: { list } }) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
@@ -94,8 +92,12 @@ const Proxies = {
         const proxiesModeled = proxies.map(proxy => {
           const rateInfo = []
           const proxyProducers = _get(proxy, 'voter_info.producers', [])
-          const proxiedVoteEOS = calculateEosFromVotes(_get(proxy, 'voter_info.last_vote_weight', 0))
-          const totalVoteEOS = calculateEosFromVotes(_get(proxy, 'voter_info.proxied_vote_weight', 0))
+          const proxiedVoteEOS = calculateEosFromVotes(
+            _get(proxy, 'voter_info.last_vote_weight', 0)
+          )
+          const totalVoteEOS = calculateEosFromVotes(
+            _get(proxy, 'voter_info.proxied_vote_weight', 0)
+          )
           const producersDataModeled = proxyProducers.map(owner => {
             const producer = list.find(bp => bp.owner === owner)
 
@@ -120,7 +122,7 @@ const Proxies = {
               const transparency = acc.transparency + current.transparency
               const trustiness = acc.trustiness + current.trustiness
 
-              if ((index + 1) === rateInfo.length) {
+              if (index + 1 === rateInfo.length) {
                 return {
                   community: community / rateInfo.length,
                   development: development / rateInfo.length,
@@ -170,7 +172,7 @@ const Proxies = {
         dispatch.isLoading.storeIsContentLoading(false)
       }
     },
-    async getProxyByOwner(payload, state) {
+    async getProxyByOwner (payload, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
@@ -189,7 +191,9 @@ const Proxies = {
         }
 
         const proxy = proxies[0]
-        const proxyModeled = state.proxies.proxies.find(({ owner }) => owner === proxy.owner)
+        const proxyModeled = state.proxies.proxies.find(
+          ({ owner }) => owner === proxy.owner
+        )
 
         this.addProxy({ ...proxy, ...proxyModeled })
         dispatch.isLoading.storeIsContentLoading(false)
@@ -198,14 +202,6 @@ const Proxies = {
         dispatch.isLoading.storeIsContentLoading(false)
       }
     }
-    // async getProxies () {
-    //   try {
-    //     dispatch.isLoading.storeIsContentLoading(true)
-
-    //   } catch (error) {
-    //     dispatch.isLoading.storeIsContentLoading(false)
-    //   }
-    // },
   })
 }
 

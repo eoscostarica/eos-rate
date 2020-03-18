@@ -153,6 +153,7 @@
     "noBlockProducer": "No encontramos este PB",
     "noWebSiteInfo": "No hay informacion de su sitio web",
     "proxyVotes": "Votos del Proxy",
+    "voteWithoutLogin": "Necesitas iniciar sesión para votar por un proxy",
     "totalVotes": "Total de votos"
   }
 }
