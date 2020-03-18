@@ -5,7 +5,7 @@ const { TextEncoder, TextDecoder } = require('util');                   // node 
 
 const contract_acct="rateproducer";
 
-const rateproducer_priv_key='5HrYs51N1Psq ....TKSRTm2sjA5LeQjJ9gUqN';
+const rateproducer_priv_key='5HrYs51N1Psq...m2sjA5LeQjJ9gUqN';
 const rateproducer_pub_key='EOS7Ca5Tc4KaEYLZdu2WxdQQktVePjFiDg42EmMAjqVR6eNKPMrAA';
 const MIN_VAL = 0;
 const MAX_VAL = 10;
