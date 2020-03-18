@@ -271,7 +271,11 @@ const ProxyProfile = ({
                         {ProxyTitle}
                       </Typography>
                     </Grid>
-                      <Typography variant='subtitle1'><blockquote className={classes.slogan}>{_get(proxy, 'slogan', null)}</blockquote></Typography>
+                    <Typography variant='subtitle1'>
+                      <blockquote className={classes.slogan}>
+                        {_get(proxy, 'slogan', null)}
+                      </blockquote>
+                    </Typography>
                   </Grid>
                 </Grid>
               </Grid>
