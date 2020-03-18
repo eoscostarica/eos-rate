@@ -145,7 +145,7 @@
     "average": "Promedio",
     "websiteInfo": "De su sitio web",
     "buttonRate": "Evalúa este PB",
-    "buttonVote": "Vote this Proxy",
+    "buttonVote": "Vota por este Proxy",
     "allBP": "Lista de productores de bloques",
     "allP": "Lista de Proxies",
     "noBpJson": "No encontramos un bp.json!",
@@ -153,6 +153,9 @@
     "noBlockProducer": "No encontramos este PB",
     "noWebSiteInfo": "No hay informacion de su sitio web",
     "proxyVotes": "Votos del Proxy",
+    "philosophy": "Filosofía",
+    "slogan": "Eslogan",
+    "background": "Historial",
     "voteWithoutLogin": "Necesitas iniciar sesión para votar por un proxy",
     "totalVotes": "Total de votos"
   }
