@@ -137,28 +137,32 @@ const GeneralInformation = ({ classes, proxy = {}, onClick, disabled }) => {
             )}
           </Typography>
         </Grid>
-        {background && (<Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.longSubTitle}>
-            {t('background')}:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.longValue, classes.subTitle)}
-          >
-            {background}
-          </Typography>
-        </Grid>)}
-        {philosophy && (<Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.longSubTitle}>
-            {t('philosophy')}:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.longValue, classes.subTitle)}
-          >
-            {philosophy}
-          </Typography>
-        </Grid>)}
+        {background && (
+          <Grid container direction='row'>
+            <Typography variant='subtitle1' className={classes.longSubTitle}>
+              {t('background')}:
+            </Typography>
+            <Typography
+              variant='subtitle1'
+              className={classNames(classes.longValue, classes.subTitle)}
+            >
+              {background}
+            </Typography>
+          </Grid>
+        )}
+        {philosophy && (
+          <Grid container direction='row'>
+            <Typography variant='subtitle1' className={classes.longSubTitle}>
+              {t('philosophy')}:
+            </Typography>
+            <Typography
+              variant='subtitle1'
+              className={classNames(classes.longValue, classes.subTitle)}
+            >
+              {philosophy}
+            </Typography>
+          </Grid>
+        )}
       </Grid>
 
       <Grid container direction='column' className={classes.category}>

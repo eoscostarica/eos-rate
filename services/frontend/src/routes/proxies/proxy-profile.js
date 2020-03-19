@@ -275,11 +275,13 @@ const ProxyProfile = ({
                         {ProxyTitle}
                       </Typography>
                     </Grid>
-                    {slogan && (<Typography variant='subtitle1'>
-                      <blockquote className={classes.slogan}>
-                        {slogan}
-                      </blockquote>
-                    </Typography>)}
+                    {slogan && (
+                      <Typography variant='subtitle1'>
+                        <blockquote className={classes.slogan}>
+                          {slogan}
+                        </blockquote>
+                      </Typography>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
