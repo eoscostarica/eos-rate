@@ -158,8 +158,6 @@ const ProxyProfile = ({
   const slogan = _get(proxy, 'slogan', null)
   const producers = _get(proxy, 'voter_info.producers', [])
 
-  console.log({ proxy })
-
   const sendVoteProxy = async proxy => {
     if (!accountName) {
       setShowMessage(true)
