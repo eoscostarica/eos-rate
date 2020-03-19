@@ -175,6 +175,7 @@ const WebsiteLegend = ({ classes, webInfo }) => {
 
 const GeneralInformation = ({ classes, producer = {} }) => {
   const { t } = useTranslation('profile')
+
   const webpageURL = _get(producer, 'system.url')
   const totalVotes = _get(producer, 'system.votesInEos') || 0
   const countryName = _getCountryName(
@@ -182,6 +183,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
     _get(producer, 'system.location', null),
     t('noCountryName')
   )
+
   const _getAverageValue = () => {
     let average = _get(producer, 'average', 0)
     if (typeof average === 'string') {
@@ -277,7 +279,9 @@ const GeneralInformation = ({ classes, producer = {} }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
+
             {_getAverageValue()}
+
           </Typography>
         </Grid>
       </Grid>
