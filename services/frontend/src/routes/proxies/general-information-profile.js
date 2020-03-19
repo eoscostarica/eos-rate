@@ -15,6 +15,8 @@ const SocialNetworks = ({ classes, overrideClass, proxy }) => {
   const twitter = _get(proxy, 'twitter')
   const telegram = _get(proxy, 'telegram')
 
+  if (!steemit && !twitter && !telegram) return null
+
   return (
     <Grid
       container
@@ -93,6 +95,8 @@ const GeneralInformation = ({ classes, proxy = {}, onClick, disabled }) => {
   const webpageURL = _get(proxy, 'website')
   const totalVotes = _get(proxy, 'totalVoteEOS') || 0
   const proxyVotes = _get(proxy, 'proxiedVoteEOS') || 0
+  const background = _get(proxy, 'background')
+  const philosophy = _get(proxy, 'philosophy')
 
   return (
     <>
@@ -133,28 +137,32 @@ const GeneralInformation = ({ classes, proxy = {}, onClick, disabled }) => {
             )}
           </Typography>
         </Grid>
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.longSubTitle}>
-            {t('background')}:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.longValue, classes.subTitle)}
-          >
-            {_get(proxy, 'background', '- -')}
-          </Typography>
-        </Grid>
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.longSubTitle}>
-            {t('philosophy')}:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.longValue, classes.subTitle)}
-          >
-            {_get(proxy, 'philosophy', '- -')}
-          </Typography>
-        </Grid>
+        {background && (
+          <Grid container direction='row'>
+            <Typography variant='subtitle1' className={classes.longSubTitle}>
+              {t('background')}:
+            </Typography>
+            <Typography
+              variant='subtitle1'
+              className={classNames(classes.longValue, classes.subTitle)}
+            >
+              {background}
+            </Typography>
+          </Grid>
+        )}
+        {philosophy && (
+          <Grid container direction='row'>
+            <Typography variant='subtitle1' className={classes.longSubTitle}>
+              {t('philosophy')}:
+            </Typography>
+            <Typography
+              variant='subtitle1'
+              className={classNames(classes.longValue, classes.subTitle)}
+            >
+              {philosophy}
+            </Typography>
+          </Grid>
+        )}
       </Grid>
 
       <Grid container direction='column' className={classes.category}>

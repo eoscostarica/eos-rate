@@ -53,7 +53,8 @@ const style = ({ palette, breakpoints }) => ({
     fontSize: 14
   },
   longValue: {
-    marginLeft: 10,
+    marginLeft: 4,
+    marginTop: 7,
     fontWeight: 500
   },
   value: {
@@ -154,6 +155,8 @@ const ProxyProfile = ({
   const logo = _get(proxy, 'logo_256', null)
   const ProxyTitle = _get(proxy, 'name', _get(proxy, 'owner', 'No Data'))
   const accountName = _get(ual, 'activeUser.accountName', null)
+  const slogan = _get(proxy, 'slogan', null)
+  const producers = _get(proxy, 'voter_info.producers', [])
 
   const sendVoteProxy = async proxy => {
     if (!accountName) {
@@ -220,7 +223,6 @@ const ProxyProfile = ({
 
   useEffect(() => {
     async function getData () {
-      // await getBPs()
       await getProxies()
       await getProxy(account)
     }
@@ -271,11 +273,13 @@ const ProxyProfile = ({
                         {ProxyTitle}
                       </Typography>
                     </Grid>
-                    <Typography variant='subtitle1'>
-                      <blockquote className={classes.slogan}>
-                        {_get(proxy, 'slogan', null)}
-                      </blockquote>
-                    </Typography>
+                    {slogan && (
+                      <Typography variant='subtitle1'>
+                        <blockquote className={classes.slogan}>
+                          {slogan}
+                        </blockquote>
+                      </Typography>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
@@ -386,7 +390,7 @@ const ProxyProfile = ({
           </Grid>
         </Paper>
       </Grid>
-      {proxy && (
+      {proxy && Boolean(producers.length) && (
         <CompareTool
           removeBP={() => console.log('remove')}
           className={classes.compareTool}
