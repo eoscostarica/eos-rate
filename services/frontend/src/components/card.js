@@ -12,11 +12,9 @@ import Help from '@material-ui/icons/HelpOutlineRounded'
 import Error from '@material-ui/icons/Error'
 import withWidth from '@material-ui/core/withWidth'
 import Tooltip from '@material-ui/core/Tooltip'
-import _get from 'lodash.get'
-import _isEmpty from 'lodash.isempty'
 import { Link } from '@reach/router'
 
-import BlockProducerRadar from 'components/block-producer-radar'
+import Radar from 'components/radar'
 
 const styles = theme => ({
   card: {
@@ -84,12 +82,18 @@ const TooltipWrapper = ({ open, onHandleTooltip, isClickable, t, classes }) => {
   )
 }
 
-const BlockProducerCard = ({
+const CardData = ({
   classes,
-  blockProducer,
+  data,
   isSelected = false,
   toggleSelection,
   width,
+  imageURL,
+  owner,
+  title,
+  useRateButton,
+  buttonLabel,
+  pathLink,
   ...props
 }) => {
   const { t } = useTranslation('translations')
@@ -103,7 +107,7 @@ const BlockProducerCard = ({
   return (
     <Card className={classes.card}>
       <Link
-        to={`/block-producers/${blockProducer.owner}`}
+        to={`/${pathLink}/${owner}`}
         style={{
           textDecoration: 'none'
         }}
@@ -111,23 +115,17 @@ const BlockProducerCard = ({
         <CardHeader
           className={classes.title}
           avatar={
-            <Avatar aria-label='Block Producer' className={classes.avatar}>
-              {_isEmpty(blockProducer.bpjson) ? (
+            <Avatar aria-label='Block Card' className={classes.avatar}>
+              {!imageURL ? (
                 <Help className={classes.helpIcon} />
               ) : (
-                <img
-                  src={_get(blockProducer, 'bpjson.org.branding.logo_256')}
-                  alt=''
-                  width='100%'
-                />
+                <img src={imageURL} alt='' width='100%' />
               )}
             </Avatar>
           }
-          title={_get(
-            blockProducer,
-            'bpjson.org.candidate_name',
+          title={title || (
             <div className={classes.warningBox}>
-              <span>{blockProducer.owner}</span>
+              <span>{owner}</span>
               <TooltipWrapper
                 open={open}
                 onHandleTooltip={handleTooltip}
@@ -137,51 +135,62 @@ const BlockProducerCard = ({
               />
             </div>
           )}
-          subheader={
-            _isEmpty(blockProducer.bpjson) ? null : blockProducer.owner
-          }
+          subheader={owner}
         />
       </Link>
       <div className={classes.radar}>
-        <BlockProducerRadar
+        <Radar
           height={200}
           bpData={{
-            datasets: [{ ...blockProducer.data }]
+            datasets: [{ ...data.data }]
           }}
         />
       </div>
       <CardActions className={classes.actions}>
         <Button
           aria-label='Add to comparison'
-          onClick={toggleSelection(!isSelected, blockProducer.owner)}
+          onClick={toggleSelection(!isSelected, owner)}
         >
-          {isSelected ? 'REMOVE' : 'ADD'}
+          {isSelected ? 'REMOVE' : buttonLabel}
         </Button>
-        <Button
-          component={forwardRef((props, ref) => (
-            <Link
-              {...props}
-              ref={ref}
-              state={{ owner: blockProducer.owner }}
-              to={`/block-producers/${blockProducer.owner}/rate`}
-            />
-          ))}
-          className={classes.btnRate}
-          size='small'
-        >
-          RATE
-        </Button>
+        {useRateButton && (
+          <Button
+            component={forwardRef((props, ref) => (
+              <Link
+                {...props}
+                ref={ref}
+                state={{ owner: owner }}
+                to={`/block-producers/${owner}/rate`}
+              />
+            ))}
+            className={classes.btnRate}
+            size='small'
+          >
+            RATE
+          </Button>
+        )}
       </CardActions>
     </Card>
   )
 }
 
-BlockProducerCard.propTypes = {
+CardData.propTypes = {
   width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
   classes: PropTypes.object,
-  blockProducer: PropTypes.object,
+  data: PropTypes.object,
   isSelected: PropTypes.bool,
-  toggleSelection: PropTypes.func
+  toggleSelection: PropTypes.func,
+  imageURL: PropTypes.string,
+  owner: PropTypes.string,
+  title: PropTypes.string,
+  useRateButton: PropTypes.bool,
+  buttonLabel: PropTypes.string,
+  pathLink: PropTypes.string
+}
+
+CardData.defaultProps = {
+  useRateButton: true,
+  buttonLabel: 'ADD'
 }
 
 TooltipWrapper.propTypes = {
@@ -192,4 +201,4 @@ TooltipWrapper.propTypes = {
   t: PropTypes.any
 }
 
-export default withStyles(styles)(withWidth()(BlockProducerCard))
+export default withStyles(styles)(withWidth()(CardData))

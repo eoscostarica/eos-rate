@@ -8,7 +8,9 @@
 
     "compareToolTitle": "Compare Tool",
     "compareToolToggle": "Compare",
+    "voteToolToggle": "Vote",
     "compareToolCollapsedSwitch": "Collapse Graphs",
+    "voteToolTitle": "Vote Tool",
 
     "loginUsername": "Username",
     "loginPassword": "Password",
@@ -33,6 +35,7 @@
     "drawerLinkAllBPs": "Block Producers",
     "drawerLinkSettings": "Settings",
     "drawerLinkAccount": "Account",
+    "drawerLinkAllProxies": "Proxies",
 
     "appBarSignIn": "Sign In",
 
@@ -129,7 +132,7 @@
     "legend": "Want to contribute? Come learn with us"
   },
 
-  "bpProfile": {
+  "profile": {
     "generalInformation": "General Information",
     "rankings": "Rankings",
     "social": "Social",
@@ -142,10 +145,19 @@
     "average": "Average",
     "websiteInfo": "From Their Website",
     "buttonRate": "Rate this BP",
+    "buttonVote": "Vote for this Proxy",
     "allBP": "All Block Producers",
+    "allP": "All Proxies",
     "noBpJson": "No BP.json file provided.",
     "noCountryName": "No location provided.",
     "noBlockProducer": "This BP Does Not Exist.",
-    "noWebSiteInfo": "No information from their website."
+    "noWebSiteInfo": "No information from their website.",
+    "proxyVotes": "Proxy Votes",
+    "philosophy": "Philosophy",
+    "slogan": "Slogan",
+    "background": "Background",
+    "totalVotes": "Total Votes",
+    "voteWithoutLogin": "You need to login to vote for this proxy",
+    "labelTool": "votes for"
   }
 }
