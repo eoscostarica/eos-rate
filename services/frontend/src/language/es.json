@@ -8,7 +8,9 @@
 
     "compareToolTitle": "Herramienta de comparación",
     "compareToolToggle": "Comparar",
+    "voteToolToggle": "Votar",
     "compareToolCollapsedSwitch": "Colapsar Gráficos",
+    "voteToolTitle": "Vote Tool",
 
     "loginUsername": "Nombre de usuario",
     "loginPassword": "Contraseña",
@@ -33,6 +35,7 @@
     "drawerLinkAllBPs": "Productores de Bloques",
     "drawerLinkSettings": "Configuración",
     "drawerLinkAccount": "Cuenta",
+    "drawerLinkAllProxies": "Proxies",
 
     "appBarSignIn": "Iniciar Sesión",
 
@@ -129,7 +132,7 @@
     "legend": "¿Quieres contribuir? Ven a aprender con nosotros"
   },
 
-  "bpProfile": {
+  "profile": {
     "generalInformation": "Información General",
     "rankings": "Clasificaciones",
     "social": "Social",
@@ -142,10 +145,19 @@
     "average": "Promedio",
     "websiteInfo": "De su sitio web",
     "buttonRate": "Evalúa este PB",
+    "buttonVote": "Vota por este Proxy",
     "allBP": "Lista de productores de bloques",
+    "allP": "Lista de Proxies",
     "noBpJson": "No encontramos un bp.json!",
     "noCountryName": "No se proporcionó ubicación.",
     "noBlockProducer": "No encontramos este PB",
-    "noWebSiteInfo": "No hay informacion de su sitio web"
+    "noWebSiteInfo": "No hay informacion de su sitio web",
+    "proxyVotes": "Votos del Proxy",
+    "philosophy": "Filosofía",
+    "slogan": "Eslogan",
+    "background": "Historial",
+    "voteWithoutLogin": "Necesitas iniciar sesión para votar por un proxy",
+    "totalVotes": "Total de votos",
+    "labelTool": "vota por"
   }
 }

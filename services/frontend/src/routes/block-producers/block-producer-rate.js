@@ -19,7 +19,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import _get from 'lodash.get'
 import { withStyles } from '@material-ui/core/styles'
 
-import BlockProducerRadar from 'components/block-producer-radar'
+import Radar from 'components/radar'
 import config from 'config'
 import getBPRadarData from 'utils/getBPRadarData'
 
@@ -315,7 +315,7 @@ const BlockProducerRate = ({
                   className={classes.radarActionsWrapper}
                 >
                   <Grid className={classes.radarWrapper} item xs={12}>
-                    <BlockProducerRadar
+                    <Radar
                       showLabel
                       bpData={{
                         datasets: [

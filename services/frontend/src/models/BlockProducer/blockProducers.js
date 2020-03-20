@@ -19,7 +19,7 @@ const initialState = {
   userRate: null
 }
 
-const blockProducers = {
+const Proxies = {
   state: initialState,
   reducers: {
     toggleCompareTool (state) {
@@ -216,4 +216,4 @@ const blockProducers = {
   })
 }
 
-export default blockProducers
+export default Proxies
