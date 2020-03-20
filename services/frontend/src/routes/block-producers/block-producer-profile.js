@@ -15,7 +15,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import Divider from '@material-ui/core/Divider'
 import _get from 'lodash.get'
 
-import BlockProducerRadar from 'components/block-producer-radar'
+import Radar from 'components/radar'
 import {
   SocialNetworks,
   GeneralInformation,
@@ -45,7 +45,8 @@ const style = ({ palette, breakpoints }) => ({
     fontSize: 14
   },
   value: {
-    marginLeft: 4
+    marginLeft: 4,
+    fontWeight: 500
   },
   category: {
     marginTop: 10
@@ -147,7 +148,7 @@ const BlockProducerProfile = ({
   isContentLoading,
   ...props
 }) => {
-  const { t } = useTranslation('bpProfile')
+  const { t } = useTranslation('profile')
   const bpHasInformation = Boolean(
     producer && Object.values(producer.bpjson).length
   )
@@ -224,7 +225,7 @@ const BlockProducerProfile = ({
                     classes.showOnlySm
                   )}
                 >
-                  <BlockProducerRadar
+                  <Radar
                     bpData={{
                       datasets: producer ? [{ ...producer.data }] : []
                     }}
@@ -248,7 +249,7 @@ const BlockProducerProfile = ({
                       classes.showOnlyLg
                     )}
                   >
-                    <BlockProducerRadar
+                    <Radar
                       bpData={{
                         datasets: producer ? [{ ...producer.data }] : []
                       }}

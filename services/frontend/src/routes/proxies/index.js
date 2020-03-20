@@ -67,22 +67,23 @@ const style = theme => ({
   }
 })
 
-const AllBps = ({
+const AllProxies = ({
   getBPs,
   classes,
-  selectedBPs,
-  blockProducers,
+  selectedProxies,
   filtered,
   compareToolVisible,
   toggleCompareTool,
   removeSelected,
-  addToSelected
+  addToSelected,
+  getProxies,
+  proxies
 }) => {
   const { t } = useTranslation('translations')
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
-  const bpList = filtered && filtered.length ? filtered : blockProducers
-  const shownList = bpList && bpList.slice(0, currentlyVisible)
-  const hasMore = bpList && currentlyVisible < bpList.length
+  const proxiesList = filtered && filtered.length ? filtered : proxies
+  const shownList = proxiesList && proxiesList.slice(0, currentlyVisible)
+  const hasMore = proxiesList && currentlyVisible < proxiesList.length
   const fabLegend = compareToolVisible
     ? t('hideComparisonTool')
     : t('showComparisonTool')
@@ -90,7 +91,12 @@ const AllBps = ({
   const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
 
   useEffect(() => {
-    getBPs()
+    async function getData () {
+      await getBPs()
+      await getProxies()
+    }
+
+    getData()
   }, [])
 
   return (
@@ -104,8 +110,8 @@ const AllBps = ({
         >
           <Badge
             classes={{ badge: classes.badge }}
-            invisible={!selectedBPs || !selectedBPs.length}
-            badgeContent={selectedBPs ? selectedBPs.length : 0}
+            invisible={!selectedProxies || !selectedProxies.length}
+            badgeContent={selectedProxies ? selectedProxies.length : 0}
           >
             {compareToolVisible ? <VisibilityOff /> : <Visibility />}
           </Badge>
@@ -118,34 +124,37 @@ const AllBps = ({
         className={classNames(classes.compareTool, {
           [classes.hidden]: !compareToolVisible
         })}
-        list={blockProducers}
-        selected={selectedBPs || []}
+        list={proxies}
+        selected={selectedProxies || []}
+        isProxy
       />
       <Grid className={classes.wrapper} container justify='center' spacing={4}>
-        {(shownList || []).map(blockProducer => (
+        {(shownList || []).map(proxy => (
           <Grid
             item
             xs={12}
             sm={6}
             md={4}
-            key={`${blockProducer.owner}-main-block-card`}
+            key={`${proxy.owner}-main-block-card`}
           >
             <Card
               isSelected={
-                selectedBPs && selectedBPs.includes(blockProducer.owner)
+                selectedProxies && selectedProxies.includes(proxy.owner)
               }
               toggleSelection={(isAdding, producerAccountName) => () => {
-                if (isAdding) {
+                if (isAdding && !selectedProxies.length) {
                   addToSelected(producerAccountName)
                 } else {
                   removeSelected(producerAccountName)
                 }
               }}
-              data={blockProducer}
-              imageURL={_get(blockProducer, 'bpjson.org.branding.logo_256')}
-              owner={_get(blockProducer, 'owner')}
-              title={_get(blockProducer, 'bpjson.org.candidate_name')}
-              pathLink='block-producers'
+              data={proxy}
+              imageURL={_get(proxy, 'logo_256')}
+              owner={_get(proxy, 'owner')}
+              title={_get(proxy, 'name')}
+              useRateButton={false}
+              buttonLabel='View'
+              pathLink='proxies'
             />
           </Grid>
         ))}
@@ -160,40 +169,53 @@ const AllBps = ({
   )
 }
 
-AllBps.propTypes = {
+AllProxies.propTypes = {
   classes: PropTypes.object.isRequired,
-  blockProducers: PropTypes.array.isRequired,
   getBPs: PropTypes.func.isRequired,
   toggleCompareTool: PropTypes.func.isRequired,
   removeSelected: PropTypes.func.isRequired,
   addToSelected: PropTypes.func.isRequired,
-  selectedBPs: PropTypes.array.isRequired,
+  selectedProxies: PropTypes.array.isRequired,
   filtered: PropTypes.array.isRequired,
-  compareToolVisible: PropTypes.bool.isRequired
+  compareToolVisible: PropTypes.bool.isRequired,
+  getProxies: PropTypes.func.isRequired,
+  proxies: PropTypes.array
 }
 
-AllBps.defaultProps = {
-  blockProducers: [],
-  selectedBPs: [],
+AllProxies.defaultProps = {
+  proxies: [],
+  selectedProxies: [],
   filtered: [],
   compareToolVisible: true
 }
 
-const mapStatetoProps = ({ blockProducers }) => ({
-  blockProducers: blockProducers.list,
-  selectedBPs: blockProducers.selected,
-  filtered: blockProducers.filtered,
-  compareToolVisible: blockProducers.compareTool
+const mapStatetoProps = ({ proxies }) => ({
+  selectedProxies: proxies.selected,
+  filtered: proxies.filtered,
+  compareToolVisible: proxies.compareTool,
+  proxies: proxies.proxies
 })
 
-const mapDispatchToProps = ({
-  blockProducers: { getBPs, toggleCompareTool, addToSelected, removeSelected }
-}) => ({ getBPs, toggleCompareTool, addToSelected, removeSelected })
+const mapDispatchToProps = ({ blockProducers, proxies }) => {
+  const { getBPs } = blockProducers
+  const {
+    getProxies,
+    toggleCompareTool,
+    addToSelected,
+    removeSelected
+  } = proxies
+
+  return {
+    getBPs,
+    toggleCompareTool,
+    addToSelected,
+    removeSelected,
+    getProxies
+  }
+}
 
 export default withStyles(style)(
-  connect(mapStatetoProps, mapDispatchToProps)(AllBps)
+  connect(mapStatetoProps, mapDispatchToProps)(AllProxies)
 )
 
-export const blockProducersDrawer = [
-  // FilterBox
-]
+export const proxiesDrawer = []

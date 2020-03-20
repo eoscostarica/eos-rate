@@ -5,7 +5,7 @@ import { Radar } from 'react-chartjs-2'
 
 import getRadarLabelName from 'utils/getRadarLabelName'
 
-const BlockProducerRadar = ({ bpData, height, showLabel, ...props }) => {
+const RadarData = ({ bpData, height, showLabel, ...props }) => {
   const { t } = useTranslation('translations')
   const labels = getRadarLabelName(t)
   const bpValidData =
@@ -54,14 +54,14 @@ const BlockProducerRadar = ({ bpData, height, showLabel, ...props }) => {
   )
 }
 
-BlockProducerRadar.propTypes = {
+RadarData.propTypes = {
   bpData: PropTypes.object,
   height: PropTypes.number,
   showLabel: PropTypes.bool
 }
 
-BlockProducerRadar.defaultProps = {
+RadarData.defaultProps = {
   showLabel: false
 }
 
-export default BlockProducerRadar
+export default RadarData
