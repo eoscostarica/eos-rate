@@ -1,0 +1,28 @@
+{
+  "spec_version": "0.1.0",
+  "name": "EOS Rate Voting Portal",
+  "shortname": "EOS Rate",
+  "scope": "/",
+  "apphome": "/",
+  "icon": "https://eosrate.io/favicon.ico#SHA256HASH",
+  "appIdentifiers": [],
+  "description": "EOS Community Block Producer Ratings and Voting Portal",
+  "sslfingerprint": "26 1C 11 CD 84 FC 9A 7F 2B C2 5E 5C 17 43 F0 3D 06 C9 3A 1E F7 23 F7 DE 90 9D 8F A9 EC 74 ED EB",
+  "chains": [
+    {
+      "chainId": "e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473",
+      "chainName": "Jungle2 Testnet",
+      "icon": "/images/manifests/jungle.ico#5424964fa0198de38ff7297f13a0162247e46e2c0d41f9281ce5d857e2f1034e"
+    },
+    {
+      "chainId": "2a02a0053e5a8cf73a56ba0fda11e4d92e0238a4a2aa74fccf46d5a910746840",
+      "chainName": "Jungle3 Testnet",
+      "icon": "/images/manifests/jungle.ico#5424964fa0198de38ff7297f13a0162247e46e2c0d41f9281ce5d857e2f1034e"
+    },
+    {
+      "chainId": "aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906",
+      "chainName": "EOS Mainnet",
+      "icon": "/images/manifests/eos.png#4f9a83541efaed8b78b9070f8066bce152651bc0cfc56f325dbca0a6dcd22561"
+    }
+  ]
+}
