@@ -1,10 +1,10 @@
 {
   "spec_version": "0.1.0",
-  "name": "EOS Rate Voting Portal",
+  "name": "EOS Ratings and Voting Portal",
   "shortname": "EOS Rate",
   "scope": "/",
   "apphome": "/",
-  "icon": "https://eosrate.io/favicon.ico#SHA256HASH",
+  "icon": "https://eosrate.io/favicon.ico#450b6ed0945e82ca590b86e49099075202e7972db177c957b9b8a32423e158f7",
   "appIdentifiers": [],
   "description": "EOS Community Block Producer Ratings and Voting Portal",
   "sslfingerprint": "26 1C 11 CD 84 FC 9A 7F 2B C2 5E 5C 17 43 F0 3D 06 C9 3A 1E F7 23 F7 DE 90 9D 8F A9 EC 74 ED EB",

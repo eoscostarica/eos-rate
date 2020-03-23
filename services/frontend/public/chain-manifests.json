@@ -6,11 +6,11 @@
       "manifest": {
         "account": "rateproducer",
         "domain": "https://eosrate.io",
-        "appmeta": "https://eosrate.io/app-metadata.json#SHA256HASH",
+        "appmeta": "https://eosrate.io/app-metadata.json#dc6ee87c67231cac62f0b1ceacd8dc1f13770e5a7a3a6933579312a0942aefc8",
         "whitelist": [
           {
-            "contract": "eosio.token",
-            "action": ""
+            "contract": "eosio",
+            "action": "voteproducer"
           },
           {
             "contract": "rateproducer",
@@ -24,10 +24,10 @@
       "manifest": {
         "account": "rateproducer",
         "domain": "https://eosrate.io",
-        "appmeta": "https://eosrate.io/app-metadata.json#SHA256HASH",
+        "appmeta": "https://eosrate.io/app-metadata.json#dc6ee87c67231cac62f0b1ceacd8dc1f13770e5a7a3a6933579312a0942aefc8",
         "whitelist": [
           {
-            "contract": "eosio.token",
+            "contract": "eosio",
             "action": "voteproducer"
           },
           {
@@ -42,10 +42,10 @@
       "manifest": {
         "account": "rateproducer",
         "domain": "https://eosrate.io",
-        "appmeta": "https://eosrate.io/app-metadata.json#SHA256HASH",
+        "appmeta": "https://eosrate.io/app-metadata.json#dc6ee87c67231cac62f0b1ceacd8dc1f13770e5a7a3a6933579312a0942aefc8 ",
         "whitelist": [
           {
-            "contract": "eosio.token",
+            "contract": "eosio",
             "action": "voteproducer"
           },
           {
