@@ -1,14 +1,13 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import RestoreIcon from '@material-ui/icons/Restore'
 import ShippingIcon from '@material-ui/icons/ControlPoint'
+import { useTranslation } from 'react-i18next'
 import SettingsIcon from '@material-ui/icons/Settings'
 import { navigate } from '@reach/router'
-
-import withT from 'components/with-t'
 
 const styles = {
   root: {
@@ -20,51 +19,44 @@ const styles = {
   }
 }
 
-class SimpleBottomNavigation extends Component {
-  state = {
-    value: 0
-  }
+const SimpleBottomNavigation = ({ classes }) => {
+  const [value, setValue] = useState(0)
+  const { t } = useTranslation('translations')
 
-  handleChange = (event, value) => {
+  const handleChange = (event, valueRoute) => {
     event.preventDefault()
     const routes = ['/recents', '/', '/settings']
 
-    navigate(routes[value])
+    navigate(routes[valueRoute])
   }
 
-  render () {
-    const { classes, t } = this.props
-    const { value } = this.state
-
-    return (
-      <>
-        <BottomNavigation
-          value={value}
-          onChange={this.handleChange}
-          showLabels
-          className={classes.root}
-        >
-          <BottomNavigationAction
-            label={t('navigationRecents')}
-            icon={<RestoreIcon />}
-          />
-          <BottomNavigationAction
-            label={t('navigationRate')}
-            icon={<ShippingIcon />}
-          />
-          <BottomNavigationAction
-            label={t('navigationSettings')}
-            icon={<SettingsIcon />}
-          />
-        </BottomNavigation>
-      </>
-    )
-  }
+  return (
+    <>
+      <BottomNavigation
+        value={value}
+        onChange={handleChange}
+        showLabels
+        className={classes.root}
+      >
+        <BottomNavigationAction
+          label={t('navigationRecents')}
+          icon={<RestoreIcon />}
+        />
+        <BottomNavigationAction
+          label={t('navigationRate')}
+          icon={<ShippingIcon />}
+        />
+        <BottomNavigationAction
+          label={t('navigationSettings')}
+          icon={<SettingsIcon />}
+        />
+      </BottomNavigation>
+    </>
+  )
 }
 
 SimpleBottomNavigation.propTypes = {
-  classes: PropTypes.object.isRequired,
-  t: PropTypes.func.isRequired
+  classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(withT(SimpleBottomNavigation))
+export default withStyles(styles)(SimpleBottomNavigation)

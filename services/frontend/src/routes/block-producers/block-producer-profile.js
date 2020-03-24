@@ -15,6 +15,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import Divider from '@material-ui/core/Divider'
 import _get from 'lodash.get'
 
+import TitlePage from 'components/title-page'
 import Radar from 'components/radar'
 import {
   SocialNetworks,
@@ -167,6 +168,7 @@ const BlockProducerProfile = ({
 
   return (
     <Grid container justify='center' className={classes.container}>
+      <TitlePage title={`${t('title')} ${BlockProducerTitle}  - EOS Rate`} />
       <Grid item xs={12}>
         <Grid container direction='row' alignItems='center'>
           <Button

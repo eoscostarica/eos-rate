@@ -13,6 +13,7 @@ import Visibility from '@material-ui/icons/Visibility'
 import classNames from 'classnames'
 import _get from 'lodash.get'
 
+import TitlePage from 'components/title-page'
 import Card from 'components/card'
 import CompareTool from 'components/compare-tool'
 
@@ -101,6 +102,7 @@ const AllProxies = ({
 
   return (
     <div className={classes.root}>
+      <TitlePage title={t('proxiesTitle')} />
       <Tooltip aria-label={fabLegend} placement='left' title={fabLegend}>
         <Fab
           color='secondary'

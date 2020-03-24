@@ -63,6 +63,9 @@ const styles = theme => ({
   },
   warningIcon: {
     color: 'rgb(255, 152, 0)'
+  },
+  marginRightElem: {
+    marginRight: 5
   }
 })
 
@@ -94,6 +97,8 @@ const CardData = ({
   useRateButton,
   buttonLabel,
   pathLink,
+  average,
+  rate,
   ...props
 }) => {
   const { t } = useTranslation('translations')
@@ -123,19 +128,31 @@ const CardData = ({
               )}
             </Avatar>
           }
-          title={title || (
+          title={
+            title || (
+              <div className={classes.warningBox}>
+                <span>{owner}</span>
+                <TooltipWrapper
+                  open={open}
+                  onHandleTooltip={handleTooltip}
+                  isClickable={Boolean(width === 'xs')}
+                  t={t}
+                  classes={classes}
+                />
+              </div>
+            )
+          }
+          subheader={
             <div className={classes.warningBox}>
               <span>{owner}</span>
-              <TooltipWrapper
-                open={open}
-                onHandleTooltip={handleTooltip}
-                isClickable={Boolean(width === 'xs')}
-                t={t}
-                classes={classes}
-              />
+              <div>
+                <span className={classes.marginRightElem}>{`${t(
+                  'averageCard'
+                )}: ${average}`}</span>
+                <span>{`${t('rateCard')}: ${rate || 0}`}</span>
+              </div>
             </div>
-          )}
-          subheader={owner}
+          }
         />
       </Link>
       <div className={classes.radar}>
@@ -185,12 +202,16 @@ CardData.propTypes = {
   title: PropTypes.string,
   useRateButton: PropTypes.bool,
   buttonLabel: PropTypes.string,
-  pathLink: PropTypes.string
+  pathLink: PropTypes.string,
+  average: PropTypes.string,
+  rate: PropTypes.string
 }
 
 CardData.defaultProps = {
   useRateButton: true,
-  buttonLabel: 'ADD'
+  buttonLabel: 'ADD',
+  average: '0',
+  rate: '0'
 }
 
 TooltipWrapper.propTypes = {
