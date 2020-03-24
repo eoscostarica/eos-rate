@@ -7,12 +7,11 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
+import { useTranslation } from 'react-i18next'
 import Typography from '@material-ui/core/Typography'
 import Switch from '@material-ui/core/Switch'
 import Language from '@material-ui/icons/Language'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-
-import withT from 'components/with-t'
 
 const styles = theme => ({
   root: {
@@ -38,7 +37,8 @@ class Settings extends Component {
   }
 
   render () {
-    const { classes, language, notifications, t } = this.props
+    const { classes, language, notifications } = this.props
+    const { t } = useTranslation('translations')
 
     return (
       <div className={classes.root}>
@@ -81,7 +81,6 @@ class Settings extends Component {
 
 Settings.propTypes = {
   classes: PropTypes.object.isRequired,
-  t: PropTypes.func.isRequired,
   i18n: PropTypes.object.isRequired,
   language: PropTypes.string.isRequired,
   notifications: PropTypes.bool.isRequired,
@@ -98,5 +97,5 @@ const mapDispatchToProps = ({ settings: { setSettings } }) => ({
 })
 
 export default withStyles(styles)(
-  connect(mapStateToProps, mapDispatchToProps)(withT(Settings))
+  connect(mapStateToProps, mapDispatchToProps)(Settings)
 )

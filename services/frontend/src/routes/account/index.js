@@ -8,6 +8,8 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import classnames from 'classnames'
 
+import TitlePage from 'components/title-page'
+
 const style = theme => ({
   container: {
     padding: 11,
@@ -56,6 +58,7 @@ const Account = ({ classes, ual }) => {
 
   return (
     <Grid container className={classes.container}>
+      <TitlePage title={`${t('title')} ${accountInfo.accountName || ''}`} />
       <Grid item xs={12}>
         <Paper className={classes.account}>
           <Typography variant='h5' className={classnames(classes.title)}>

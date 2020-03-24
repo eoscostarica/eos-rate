@@ -19,6 +19,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import _get from 'lodash.get'
 import { withStyles } from '@material-ui/core/styles'
 
+import TitlePage from 'components/title-page'
 import Radar from 'components/radar'
 import config from 'config'
 import getBPRadarData from 'utils/getBPRadarData'
@@ -236,6 +237,12 @@ const BlockProducerRate = ({
 
   return (
     <Grid container justify='center' className={classes.container}>
+      <TitlePage
+        title={`${t('title')} ${_get(
+          producer,
+          'bpjson.org.candidate_name'
+        ) || _get(producer, 'system.owner', t('noBlockProducer'))} - EOS Rate`}
+      />
       <Grid item xs={12}>
         <Grid
           container
