@@ -19,6 +19,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import Divider from '@material-ui/core/Divider'
 import _get from 'lodash.get'
 
+import TitlePage from 'components/title-page'
 import CompareTool from 'components/compare-tool'
 import Radar from 'components/radar'
 import {
@@ -234,6 +235,7 @@ const ProxyProfile = ({
 
   return (
     <Grid container justify='center' className={classes.container}>
+      <TitlePage title={`${t('proxyProfile')} ${ProxyTitle} - EOS Rate`} />
       <Grid item xs={12}>
         <Grid container direction='row' alignItems='center'>
           <Button

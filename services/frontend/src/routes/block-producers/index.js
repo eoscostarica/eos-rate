@@ -13,8 +13,10 @@ import Visibility from '@material-ui/icons/Visibility'
 import classNames from 'classnames'
 import _get from 'lodash.get'
 
+import TitlePage from 'components/title-page'
 import Card from 'components/card'
 import CompareTool from 'components/compare-tool'
+import getAverageValue from 'utils/getAverageValue'
 
 const style = theme => ({
   root: {
@@ -95,6 +97,7 @@ const AllBps = ({
 
   return (
     <div className={classes.root}>
+      <TitlePage title={t('bpsTitle')} />
       <Tooltip aria-label={fabLegend} placement='left' title={fabLegend}>
         <Fab
           color='secondary'
@@ -146,6 +149,8 @@ const AllBps = ({
               owner={_get(blockProducer, 'owner')}
               title={_get(blockProducer, 'bpjson.org.candidate_name')}
               pathLink='block-producers'
+              average={getAverageValue(_get(blockProducer, 'average', 0))}
+              rate={_get(blockProducer, 'ratings_cntr', 0)}
             />
           </Grid>
         ))}
