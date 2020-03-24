@@ -81,7 +81,6 @@ class Settings extends Component {
 
 Settings.propTypes = {
   classes: PropTypes.object.isRequired,
-  t: PropTypes.func.isRequired,
   i18n: PropTypes.object.isRequired,
   language: PropTypes.string.isRequired,
   notifications: PropTypes.bool.isRequired,

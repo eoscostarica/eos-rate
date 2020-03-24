@@ -109,6 +109,19 @@ const CardData = ({
     e.preventDefault()
   }
 
+  const titleValue = title || (
+    <div className={classes.warningBox}>
+      <span>{owner}</span>
+      <TooltipWrapper
+        open={open}
+        onHandleTooltip={handleTooltip}
+        isClickable={Boolean(width === 'xs')}
+        t={t}
+        classes={classes}
+      />
+    </div>
+  )
+
   return (
     <Card className={classes.card}>
       <Link
@@ -128,27 +141,14 @@ const CardData = ({
               )}
             </Avatar>
           }
-          title={
-            title || (
-              <div className={classes.warningBox}>
-                <span>{owner}</span>
-                <TooltipWrapper
-                  open={open}
-                  onHandleTooltip={handleTooltip}
-                  isClickable={Boolean(width === 'xs')}
-                  t={t}
-                  classes={classes}
-                />
-              </div>
-            )
-          }
+          title={titleValue}
           subheader={
             <div className={classes.warningBox}>
               <span>{owner}</span>
               <div>
-                <span className={classes.marginRightElem}>{`${t(
-                  'averageCard'
-                )}: ${average}`}</span>
+                <span className={classes.marginRightElem}>
+                  {`${t('averageCard')}: ${average}`}
+                </span>
                 <span>{`${t('rateCard')}: ${rate || 0}`}</span>
               </div>
             </div>

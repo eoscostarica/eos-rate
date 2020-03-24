@@ -22,11 +22,11 @@ export default [
   },
   {
     path: 'block-producers/:account',
-    Component: BlockProducerProfile,
+    Component: BlockProducerProfile
   },
   {
     path: 'block-producers/:account/rate',
-    Component: BlockProducerRate,
+    Component: BlockProducerRate
   },
   {
     path: '/proxies',
@@ -36,11 +36,11 @@ export default [
   },
   {
     path: 'proxies/:account',
-    Component: ProxyProfile,
+    Component: ProxyProfile
   },
   {
     path: '/account',
-    Component: Account,
+    Component: Account
     // drawerLabel: 'drawerLinkAccount'
   }
 ]

@@ -20,7 +20,7 @@ const styles = {
 }
 
 const SimpleBottomNavigation = ({ classes }) => {
-  const [value, setValue] = useState(0)
+  const [value] = useState(0)
   const { t } = useTranslation('translations')
 
   const handleChange = (event, valueRoute) => {
