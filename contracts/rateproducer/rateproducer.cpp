@@ -6,6 +6,7 @@
 #include <eosio/time.hpp>
 #include <eosio/permission.hpp> 
 #include <algorithm>
+#include <set>
 
 #define MINVAL 0
 #define MAXVAL 10
@@ -50,7 +51,7 @@ namespace eosio {
         if(it==bp.end()){
             return false;
         }
-        return true;
+        return it->is_active;
     }
 
 
@@ -82,7 +83,7 @@ namespace eosio {
       return it->producers.size();
    }
 
-     eosio::name get_proxy ( eosio::name name) {
+    eosio::name get_proxy ( eosio::name name) {
 
       voters_table _voters(system_account, system_account.value);
       auto it = _voters.find(name.value);
@@ -91,6 +92,12 @@ namespace eosio {
           return result;
       }
       return it->proxy;
+   }
+    
+   bool is_active_proxy(name name) {
+      voters_table _voters(system_account, system_account.value);
+      auto it = _voters.find(name.value);
+      return it != _voters.end() && it->is_proxy;
    }
 
 } /// namespace eosio
@@ -118,6 +125,8 @@ CONTRACT rateproducer : public contract {
         
         eosio::name proxy_name = get_proxy(user);
         if(proxy_name.length()){
+          //active proxy??
+          check(is_active_proxy(proxy_name), "votes are allowed only for active proxies" );
           //account votes through a proxy
           check(!(MIN_VOTERS > get_voters(proxy_name)), "delegated proxy does not have enough voters" );
         }else{
@@ -437,15 +446,31 @@ CONTRACT rateproducer : public contract {
                 itr++;
             }
         }
-
+        
+        //clean the stats summary
         _stats bps_stats(_self, _self.value);
-        auto itr_stats = bps_stats.begin();
-        while ( itr_stats != bps_stats.end()) {
-            if(itr_stats->bp == bp_name){
-                itr_stats = bps_stats.erase(itr_stats);
-            }else{
-                itr_stats++;
+        auto itr_stats = bps_stats.find(bp_name.value);
+        if (itr_stats != bps_stats.end()) bps_stats.erase(itr_stats);
+    }
+    
+    void erase_bp_info(std::set<eosio::name> * bps_to_clean){
+        _ratings bps(_self, _self.value);
+        _stats bps_stats(_self, _self.value);
+        
+        std::set<eosio::name>::iterator it;
+        for (it = bps_to_clean->begin(); it != bps_to_clean->end(); ++it) {
+            //clean all ratings related to an bp
+            auto itr = bps.begin();
+            while ( itr != bps.end()) {
+                if(itr->bp == *it){
+                    itr = bps.erase(itr);
+                }else{
+                    itr++;
+                }
             }
+            //clean the stats summary
+            auto itr_stats = bps_stats.find((*it).value);
+            if (itr_stats != bps_stats.end()) bps_stats.erase(itr_stats);
         }
     }
     
@@ -463,6 +488,22 @@ CONTRACT rateproducer : public contract {
         while ( itr_stats != bps_stats.end()) {
             itr_stats = bps_stats.erase(itr_stats);
         }
+    }
+    
+    ACTION rminactive() {
+        
+        require_auth(_self);
+        std::set<eosio::name> noupdated_bps; 
+        _stats bps_stats(_self, _self.value);
+        auto itr_stats = bps_stats.begin();
+        while ( itr_stats != bps_stats.end()) {
+            if (!is_blockproducer(itr_stats->bp)){
+                noupdated_bps.insert(itr_stats->bp);
+            }
+            itr_stats++;
+        }
+        if(noupdated_bps.size()) erase_bp_info(&noupdated_bps);
+        print("bps deleted:",noupdated_bps.size());
     }
 
 
@@ -506,4 +547,4 @@ CONTRACT rateproducer : public contract {
 
 };
 
-EOSIO_DISPATCH(rateproducer,(rate)(erase)(wipe));
+EOSIO_DISPATCH(rateproducer,(rate)(erase)(wipe)(rminactive));
