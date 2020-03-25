@@ -10,6 +10,7 @@ import _get from 'lodash.get'
 import Typography from '@material-ui/core/Typography'
 
 import formatNumber from 'utils/formatNumber'
+import getAverageValue from 'utils/getAverageValue'
 
 countries.registerLocale(require('i18n-iso-countries/langs/en.json'))
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'))
@@ -184,15 +185,6 @@ const GeneralInformation = ({ classes, producer = {} }) => {
     t('noCountryName')
   )
 
-  const _getAverageValue = () => {
-    let average = _get(producer, 'average', 0)
-    if (typeof average === 'string') {
-      average = parseFloat(average)
-    }
-
-    return average.toFixed(2)
-  }
-
   return (
     <>
       <Grid container direction='column' className={classes.category}>
@@ -280,7 +272,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
             className={classNames(classes.value, classes.subTitle)}
           >
 
-            {_getAverageValue()}
+            {getAverageValue(_get(producer, 'average', 0))}
 
           </Typography>
         </Grid>

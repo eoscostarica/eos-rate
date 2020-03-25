@@ -1,8 +1,11 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import { withStyles } from '@material-ui/core/styles'
+import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import PropTypes from 'prop-types'
+
+import TitlePage from 'components/title-page'
 
 import Cover from './cover'
 import SubTopic from './subTopic'
@@ -11,7 +14,6 @@ import RateCategory from './rateCategory'
 const styles = ({ spacing, palette }) => ({
   spacingContainers: {
     padding: spacing(8, 0, 8, 0)
-
   },
   coverContainer: {
     backgroundColor: palette.surface.main
@@ -24,14 +26,16 @@ const styles = ({ spacing, palette }) => ({
   }
 })
 
-class Home extends Component {
-  componentDidMount () {
-    this.props.getBlockData()
-  }
+const Home = ({ classes, home, getBlockData }) => {
+  const { t } = useTranslation('home')
 
-  render () {
-    const { classes, home } = this.props
-    return (
+  useEffect(() => {
+    getBlockData()
+  }, [])
+
+  return (
+    <>
+      <TitlePage title={t('title')} />
       <Grid container direction='column'>
         <Grid item xs>
           {home.blockProducer && (
@@ -73,8 +77,8 @@ class Home extends Component {
           </Grid>
         </Grid>
       </Grid>
-    )
-  }
+    </>
+  )
 }
 
 const mapStatetoProps = ({ home }) => ({
