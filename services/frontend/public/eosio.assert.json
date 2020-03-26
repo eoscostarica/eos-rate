@@ -1,0 +1,16 @@
+//cleos -u https://api.jungle.alohaeos.com push transaction '{"delay_sec":0,"max_cpu_usage_ms":0,"actions":[{"account":"eosio.assert","name":"add.manifest","data":{"account":"rateproducer","domain":"https://eosrate.io","appmeta":"https://eosrate.io/app-metadata.json#e247d1918bec22b10154f32ecf75a3b8a85fd48cfc8e3b70b28c391af26b4789","whitelist":[{"contract":"eosio","action":"voteproducer"},{"contract":"rateproducer","action":"rate"}]},"authorization":[{"actor":"rateproducer","permission":"active"}]}]}'
+{
+  "account": "rateproducer",
+  "domain": "https://eosrate.io",
+  "appmeta": "https://eosrate.io/app-metadata.json#e247d1918bec22b10154f32ecf75a3b8a85fd48cfc8e3b70b28c391af26b4789",
+  "whitelist": [
+    {
+      "contract": "eosio",
+      "action": "voteproducer"
+    },
+    {
+      "contract": "rateproducer",
+      "action": "rate"
+    }
+  ]
+}
