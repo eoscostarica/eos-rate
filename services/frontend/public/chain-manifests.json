@@ -6,7 +6,7 @@
       "manifest": {
         "account": "rateproducer",
         "domain": "https://eosrate.io",
-        "appmeta": "https://eosrate.io/app-metadata.json#dc6ee87c67231cac62f0b1ceacd8dc1f13770e5a7a3a6933579312a0942aefc8",
+        "appmeta": "https://eosrate.io/app-metadata.json#e247d1918bec22b10154f32ecf75a3b8a85fd48cfc8e3b70b28c391af26b4789",
         "whitelist": [
           {
             "contract": "eosio",
@@ -24,7 +24,7 @@
       "manifest": {
         "account": "rateproducer",
         "domain": "https://eosrate.io",
-        "appmeta": "https://eosrate.io/app-metadata.json#dc6ee87c67231cac62f0b1ceacd8dc1f13770e5a7a3a6933579312a0942aefc8",
+        "appmeta": "https://eosrate.io/app-metadata.json#e247d1918bec22b10154f32ecf75a3b8a85fd48cfc8e3b70b28c391af26b4789",
         "whitelist": [
           {
             "contract": "eosio",
@@ -42,7 +42,7 @@
       "manifest": {
         "account": "rateproducer",
         "domain": "https://eosrate.io",
-        "appmeta": "https://eosrate.io/app-metadata.json#dc6ee87c67231cac62f0b1ceacd8dc1f13770e5a7a3a6933579312a0942aefc8 ",
+        "appmeta": "https://eosrate.io/app-metadata.json#e247d1918bec22b10154f32ecf75a3b8a85fd48cfc8e3b70b28c391af26b4789",
         "whitelist": [
           {
             "contract": "eosio",
