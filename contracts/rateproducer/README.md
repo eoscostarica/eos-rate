@@ -15,16 +15,19 @@ Push rating with partial categories:
 cleos -u http://monitor.jungletestnet.io:8888 push action rateproducer rate '{ "user": "rateproducer", "bp":"alohaeostest","transparency":8,"infrastructure":0,"trustiness":0,"development":0,"community":0 }' -p rateproducer@active
 
 Get stats table:
-Cleos -u http://jungle2.cryptolions.io:80 get table rateproducer rateproducer stats
+cleos -u http://jungle2.cryptolions.io:80 get table -l 50 rateproducer rateproducer stats
 
 Get bp table:
-Cleos -u http://jungle2.cryptolions.io:80 get table rateproducer rateproducer ratings
+cleos -u http://jungle2.cryptolions.io:80 get table -l 50 rateproducer rateproducer ratings
 
 Clean data for a block producer :
 cleos -u http://monitor.jungletestnet.io:8888 push action rateproducer erase '{"bp_name":"eoscrprodo55"}' -p rateproducer@active
 
 Clean all tables:
 cleos -u http://monitor.jungletestnet.io:8888 push action rateproducer wipe '[]' -p rateproducer@active
+
+Clean data from un-register/inactive bp
+cleos -u http://monitor.jungletestnet.io:8888 push action rateproducer rminactive '[]' -p rateproducer@active
 
 ```
 Run test
@@ -36,5 +39,6 @@ you need to assign the priv key for the variable ```rateproducer_priv_key``` wit
  yarn install
  yarn test
  yarn test_average
+ yarn test_unreg_bp
 ```
 
