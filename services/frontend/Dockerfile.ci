@@ -28,11 +28,8 @@ RUN yarn install --ignore-optional --frozen-lockfile --network-timeout 1000000 -
 # Copy app source
 COPY . .
 
-# Build
-RUN yarn build
+EXPOSE 5000
 
-EXPOSE 3000
-
-# Server
-# CMD yarn && yarn start
-CMD serve --single ./build --listen tcp://0.0.0.0:3000
+# Build and serve
+# For now we are avoiding running yarn build during docker build stage to reduce CI times
+CMD yarn build && serve --single ./build --listen tcp://0.0.0.0:5000
