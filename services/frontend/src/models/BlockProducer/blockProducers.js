@@ -49,6 +49,12 @@ const Proxies = {
         selected: uniq([...state.selected, producerAccountName])
       }
     },
+    addArrayToSelected (state, producerAccountNames) {
+      return {
+        ...state,
+        selected: uniq([...state.selected, ...producerAccountNames])
+      }
+    },
     removeSelected (state, producerAccountName) {
       return {
         ...state,

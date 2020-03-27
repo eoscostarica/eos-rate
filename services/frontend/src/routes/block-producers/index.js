@@ -2,14 +2,9 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
-import Badge from '@material-ui/core/Badge'
 import Button from '@material-ui/core/Button'
-import Fab from '@material-ui/core/Fab'
 import { withStyles } from '@material-ui/core/styles'
-import Tooltip from '@material-ui/core/Tooltip'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import { useTranslation } from 'react-i18next'
-import Visibility from '@material-ui/icons/Visibility'
 import classNames from 'classnames'
 import _get from 'lodash.get'
 
@@ -78,42 +73,108 @@ const AllBps = ({
   compareToolVisible,
   toggleCompareTool,
   removeSelected,
-  addToSelected
+  addToSelected,
+  ual,
+  getUserChainData,
+  user,
+  storeIsContentLoading
 }) => {
   const { t } = useTranslation('translations')
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
+  const [ratingState, setRatingState] = useState({
+    txError: null,
+    txSuccess: false,
+    showChipMessage: false
+  })
   const bpList = filtered && filtered.length ? filtered : blockProducers
   const shownList = bpList && bpList.slice(0, currentlyVisible)
   const hasMore = bpList && currentlyVisible < bpList.length
-  const fabLegend = compareToolVisible
-    ? t('hideComparisonTool')
-    : t('showComparisonTool')
+  const accountName = _get(ual, 'activeUser.accountName', null)
 
   const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
 
+  const sendVoteBps = async BPs => {
+    if (!accountName) return
+
+    const transaction = {
+      actions: [
+        {
+          account: 'eosio',
+          name: 'voteproducer',
+          authorization: [
+            {
+              actor: accountName,
+              permission: 'active'
+            }
+          ],
+          data: {
+            voter: accountName,
+            proxy: '',
+            producers: BPs.sort()
+          }
+        }
+      ]
+    }
+
+    try {
+      storeIsContentLoading(true)
+
+      console.log({ transaction, BPs })
+
+      await ual.activeUser.signTransaction(transaction, {
+        broadcast: true
+      })
+
+      setRatingState({
+        ...ratingState,
+        txSuccess: true,
+        showChipMessage: true
+      })
+
+      await getUserChainData(accountName)
+
+      storeIsContentLoading(false)
+
+      setTimeout(() => {
+        setRatingState({
+          ...ratingState,
+          txError: null,
+          txSuccess: false,
+          showChipMessage: false
+        })
+      }, 2000)
+    } catch (error) {
+      console.warn(error)
+      setRatingState({
+        ...ratingState,
+        txError: 'error', // error.cause ? error.cause.message : error,
+        showChipMessage: true
+      })
+      storeIsContentLoading(false)
+    }
+  }
+
   useEffect(() => {
-    getBPs()
+    async function getData () {
+      await getBPs()
+    }
+
+    getData()
   }, [])
+
+  useEffect(() => {
+    async function getUserData () {
+      if (ual.activeUser && !user) {
+        await getUserChainData({ accountName: ual.activeUser.accountName })
+      }
+    }
+
+    getUserData()
+  })
 
   return (
     <div className={classes.root}>
       <TitlePage title={t('bpsTitle')} />
-      <Tooltip aria-label={fabLegend} placement='left' title={fabLegend}>
-        <Fab
-          color='secondary'
-          aria-label={fabLegend}
-          className={classes.compareToggleButton}
-          onClick={() => toggleCompareTool()}
-        >
-          <Badge
-            classes={{ badge: classes.badge }}
-            invisible={!selectedBPs || !selectedBPs.length}
-            badgeContent={selectedBPs ? selectedBPs.length : 0}
-          >
-            {compareToolVisible ? <VisibilityOff /> : <Visibility />}
-          </Badge>
-        </Fab>
-      </Tooltip>
       <CompareTool
         removeBP={producerAccountName => () => {
           removeSelected(producerAccountName)
@@ -123,6 +184,9 @@ const AllBps = ({
         })}
         list={blockProducers}
         selected={selectedBPs || []}
+        onHandleVote={() => sendVoteBps(selectedBPs || [])}
+        userInfo={user}
+        message={ratingState}
       />
       <Grid className={classes.wrapper} container justify='center' spacing={4}>
         {(shownList || []).map(blockProducer => (
@@ -139,8 +203,12 @@ const AllBps = ({
               }
               toggleSelection={(isAdding, producerAccountName) => () => {
                 if (isAdding) {
+                  // if (!(selectedBPs || []).length) toggleCompareTool()
+
                   addToSelected(producerAccountName)
                 } else {
+                  // if ((selectedBPs || []).length === 1) toggleCompareTool()
+
                   removeSelected(producerAccountName)
                 }
               }}
@@ -174,26 +242,40 @@ AllBps.propTypes = {
   addToSelected: PropTypes.func.isRequired,
   selectedBPs: PropTypes.array.isRequired,
   filtered: PropTypes.array.isRequired,
-  compareToolVisible: PropTypes.bool.isRequired
+  compareToolVisible: PropTypes.bool.isRequired,
+  ual: PropTypes.object,
+  getUserChainData: PropTypes.func,
+  user: PropTypes.object,
+  storeIsContentLoading: PropTypes.func
 }
 
 AllBps.defaultProps = {
   blockProducers: [],
   selectedBPs: [],
   filtered: [],
-  compareToolVisible: true
+  compareToolVisible: false
 }
 
-const mapStatetoProps = ({ blockProducers }) => ({
+const mapStatetoProps = ({ blockProducers, user }) => ({
   blockProducers: blockProducers.list,
   selectedBPs: blockProducers.selected,
   filtered: blockProducers.filtered,
-  compareToolVisible: blockProducers.compareTool
+  compareToolVisible: blockProducers.compareTool,
+  user: user.data
 })
 
 const mapDispatchToProps = ({
-  blockProducers: { getBPs, toggleCompareTool, addToSelected, removeSelected }
-}) => ({ getBPs, toggleCompareTool, addToSelected, removeSelected })
+  blockProducers: { getBPs, toggleCompareTool, addToSelected, removeSelected },
+  user: { getUserChainData },
+  isLoading: { storeIsContentLoading }
+}) => ({
+  getBPs,
+  toggleCompareTool,
+  addToSelected,
+  removeSelected,
+  getUserChainData,
+  storeIsContentLoading
+})
 
 export default withStyles(style)(
   connect(mapStatetoProps, mapDispatchToProps)(AllBps)

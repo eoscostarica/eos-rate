@@ -2,14 +2,9 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
-import Badge from '@material-ui/core/Badge'
 import Button from '@material-ui/core/Button'
-import Fab from '@material-ui/core/Fab'
 import { withStyles } from '@material-ui/core/styles'
-import Tooltip from '@material-ui/core/Tooltip'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import { useTranslation } from 'react-i18next'
-import Visibility from '@material-ui/icons/Visibility'
 import classNames from 'classnames'
 import _get from 'lodash.get'
 
@@ -78,16 +73,16 @@ const AllProxies = ({
   removeSelected,
   addToSelected,
   getProxies,
-  proxies
+  proxies,
+  getUserChainData,
+  user,
+  ual
 }) => {
   const { t } = useTranslation('translations')
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
   const proxiesList = filtered && filtered.length ? filtered : proxies
   const shownList = proxiesList && proxiesList.slice(0, currentlyVisible)
   const hasMore = proxiesList && currentlyVisible < proxiesList.length
-  const fabLegend = compareToolVisible
-    ? t('hideComparisonTool')
-    : t('showComparisonTool')
 
   const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
 
@@ -100,25 +95,19 @@ const AllProxies = ({
     getData()
   }, [])
 
+  useEffect(() => {
+    async function getUserData () {
+      if (ual.activeUser && !user) {
+        await getUserChainData({ accountName: ual.activeUser.accountName })
+      }
+    }
+
+    getUserData()
+  })
+
   return (
     <div className={classes.root}>
       <TitlePage title={t('proxiesTitle')} />
-      <Tooltip aria-label={fabLegend} placement='left' title={fabLegend}>
-        <Fab
-          color='secondary'
-          aria-label={fabLegend}
-          className={classes.compareToggleButton}
-          onClick={() => toggleCompareTool()}
-        >
-          <Badge
-            classes={{ badge: classes.badge }}
-            invisible={!selectedProxies || !selectedProxies.length}
-            badgeContent={selectedProxies ? selectedProxies.length : 0}
-          >
-            {compareToolVisible ? <VisibilityOff /> : <Visibility />}
-          </Badge>
-        </Fab>
-      </Tooltip>
       <CompareTool
         removeBP={producerAccountName => () => {
           removeSelected(producerAccountName)
@@ -129,6 +118,7 @@ const AllProxies = ({
         list={proxies}
         selected={selectedProxies || []}
         isProxy
+        userInfo={user}
       />
       <Grid className={classes.wrapper} container justify='center' spacing={4}>
         {(shownList || []).map(proxy => (
@@ -145,8 +135,10 @@ const AllProxies = ({
               }
               toggleSelection={(isAdding, producerAccountName) => () => {
                 if (isAdding && !selectedProxies.length) {
+                  toggleCompareTool()
                   addToSelected(producerAccountName)
-                } else {
+                } else if (!isAdding) {
+                  toggleCompareTool()
                   removeSelected(producerAccountName)
                 }
               }}
@@ -181,24 +173,28 @@ AllProxies.propTypes = {
   filtered: PropTypes.array.isRequired,
   compareToolVisible: PropTypes.bool.isRequired,
   getProxies: PropTypes.func.isRequired,
-  proxies: PropTypes.array
+  proxies: PropTypes.array,
+  getUserChainData: PropTypes.func,
+  user: PropTypes.object,
+  ual: PropTypes.object
 }
 
 AllProxies.defaultProps = {
   proxies: [],
   selectedProxies: [],
   filtered: [],
-  compareToolVisible: true
+  compareToolVisible: false
 }
 
-const mapStatetoProps = ({ proxies }) => ({
+const mapStatetoProps = ({ proxies, user }) => ({
   selectedProxies: proxies.selected,
   filtered: proxies.filtered,
   compareToolVisible: proxies.compareTool,
-  proxies: proxies.proxies
+  proxies: proxies.proxies,
+  user: user.data
 })
 
-const mapDispatchToProps = ({ blockProducers, proxies }) => {
+const mapDispatchToProps = ({ blockProducers, proxies, user }) => {
   const { getBPs } = blockProducers
   const {
     getProxies,
@@ -206,13 +202,15 @@ const mapDispatchToProps = ({ blockProducers, proxies }) => {
     addToSelected,
     removeSelected
   } = proxies
+  const { getUserChainData } = user
 
   return {
     getBPs,
     toggleCompareTool,
     addToSelected,
     removeSelected,
-    getProxies
+    getProxies,
+    getUserChainData
   }
 }
 
