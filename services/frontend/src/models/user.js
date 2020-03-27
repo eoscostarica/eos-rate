@@ -20,15 +20,17 @@ const user = {
 
   effects: dispatch => ({
     async getUserChainData ({ accountName }, state) {
-      const account = await eosjsAPI.rpc.get_account(accountName)
-      const producers = _get(account, 'voter_info.producers', [])
-      const proxy = _get(account, 'voter_info.proxy', '')
+      console.log({ accountName })
 
-      // console.log('STORE PAPEEEE!', { account, state })
+      const account = accountName ? await eosjsAPI.rpc.get_account(accountName) : null
+      // const producers = _get(account, 'voter_info.producers', [])
+      // const proxy = _get(account, 'voter_info.proxy', '')
+
+      console.log({ account })
 
       this.setUser(account)
-      producers.length && dispatch.blockProducers.addArrayToSelected(producers)
-      proxy.length && dispatch.proxies.addToSelected(proxy)
+      // producers.length && dispatch.blockProducers.addArrayToSelected(producers)
+      // proxy.length && dispatch.proxies.addToSelected(proxy)
 
       // if (
       //   (producers.length || proxy.length) &&

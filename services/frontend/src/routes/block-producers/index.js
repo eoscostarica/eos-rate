@@ -131,8 +131,6 @@ const AllBps = ({
         showChipMessage: true
       })
 
-      await getUserChainData(accountName)
-
       storeIsContentLoading(false)
 
       setTimeout(() => {
@@ -147,7 +145,7 @@ const AllBps = ({
       console.warn(error)
       setRatingState({
         ...ratingState,
-        txError: 'error', // error.cause ? error.cause.message : error,
+        txError: error && error.cause ? error.cause.message : error,
         showChipMessage: true
       })
       storeIsContentLoading(false)
