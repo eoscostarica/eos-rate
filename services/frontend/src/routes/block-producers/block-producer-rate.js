@@ -225,7 +225,7 @@ const BlockProducerRate = ({
       setRatingState({
         ...ratingState,
         processing: false,
-        txError: err.message ? err.message : err
+        txError: err.cause ? err.cause.message : err
       })
     }
   }

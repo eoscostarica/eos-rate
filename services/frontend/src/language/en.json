@@ -8,13 +8,16 @@
 
     "bpsTitle": "EOS Block producers and BP voting Portal - EOS Rate",
     "proxiesTitle": "EOS Proxies and proxy voting tool - EOS Rate",
+    "availableToRate": "You can rate BPs",
+    "notAvailableToRate": "You need to vote for a Proxy or at least 21 BPs",
+    "voteWithoutLogin": "You need to login to vote",
 
     "compareToolTitle": "Compare Tool",
     "compareToolToggle": "Compare",
     "voteToolToggle": "Vote",
     "compareToolCollapsedSwitch": "Collapse Graphs",
-    "voteToolTitle": "Vote Tool",
-    "averageCard": "Avg",
+    "voteToolTitle": "Voting Tool",
+    "averageCard": "Average",
     "rateCard": "Rate",
 
     "loginUsername": "Username",
