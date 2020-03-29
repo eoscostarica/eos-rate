@@ -20,23 +20,24 @@ const user = {
 
   effects: dispatch => ({
     async getUserChainData ({ accountName }, state) {
-      console.log({ accountName })
-
       const account = accountName ? await eosjsAPI.rpc.get_account(accountName) : null
-      // const producers = _get(account, 'voter_info.producers', [])
-      // const proxy = _get(account, 'voter_info.proxy', '')
-
-      console.log({ account })
+      const producers = _get(account, 'voter_info.producers', [])
+      const proxy = _get(account, 'voter_info.proxy', '')
 
       this.setUser(account)
-      // producers.length && dispatch.blockProducers.addArrayToSelected(producers)
-      // proxy.length && dispatch.proxies.addToSelected(proxy)
+      producers.length && dispatch.blockProducers.addArrayToSelected(producers)
+      proxy.length && dispatch.proxies.addToSelected(proxy)
 
-      // if (
-      //   (producers.length || proxy.length) &&
-      //   !state.blockProducers.compareTool
-      // )
-      //   dispatch.blockProducers.toggleCompareTool()
+      if (
+        (producers.length || proxy.length) &&
+        !state.blockProducers.compareTool
+      ) {
+        dispatch.blockProducers.toggleCompareTool()
+      }
+    },
+    async removeBlockProducersVotedByUser () {
+      this.setUser(null)
+      dispatch.blockProducers.clearSelected()
     }
   })
 }

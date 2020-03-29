@@ -201,11 +201,11 @@ const AllBps = ({
               }
               toggleSelection={(isAdding, producerAccountName) => () => {
                 if (isAdding) {
-                  // if (!(selectedBPs || []).length) toggleCompareTool()
+                  if (!(selectedBPs || []).length && !compareToolVisible) toggleCompareTool()
 
                   addToSelected(producerAccountName)
                 } else {
-                  // if ((selectedBPs || []).length === 1) toggleCompareTool()
+                  if ((selectedBPs || []).length === 1 && compareToolVisible) toggleCompareTool()
 
                   removeSelected(producerAccountName)
                 }

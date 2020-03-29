@@ -141,7 +141,7 @@ const CompareTool = ({
               className={classes.btnRate}
               size='large'
             >
-              Vote for this BPs
+              {t('btnVoteBPs')}
             </Button>
             {showChip && (
               <Chip
