@@ -11,6 +11,7 @@
     "availableToRate": "You can rate BPs",
     "notAvailableToRate": "You need to vote for a Proxy or at least 21 BPs",
     "voteWithoutLogin": "You need to login to vote",
+    "btnVoteBPs":"Vote for these BPs",
 
     "compareToolTitle": "Compare Tool",
     "compareToolToggle": "Compare",

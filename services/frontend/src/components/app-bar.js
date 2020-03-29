@@ -160,7 +160,7 @@ const MainTopBar = ({
               color='inherit'
               onClick={() => {
                 ual.logout()
-                setUser(null)
+                setUser()
               }}
             >
               <LogoutIcon />
@@ -204,7 +204,7 @@ MainTopBar.propTypes = {
 
 const mapDispatchToProps = ({ user }) => ({
   getUserChainData: user.getUserChainData,
-  setUser: user.setUser
+  setUser: user.removeBlockProducersVotedByUser
 })
 
 export default withStyles(styles)(connect(null, mapDispatchToProps)(MainTopBar))

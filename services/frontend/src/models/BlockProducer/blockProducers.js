@@ -63,6 +63,12 @@ const Proxies = {
         )
       }
     },
+    clearSelected (state) {
+      return {
+        ...state,
+        selected: []
+      }
+    },
     clearFilters (state) {
       return {
         ...state,

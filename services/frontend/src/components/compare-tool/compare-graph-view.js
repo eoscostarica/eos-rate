@@ -9,7 +9,7 @@ import Avatar from '@material-ui/core/Avatar'
 import LockOpenIcon from '@material-ui/icons/LockOpenOutlined'
 import LockIcon from '@material-ui/icons/LockOutlined'
 import Tooltip from '@material-ui/core/Tooltip'
-// import withWidth from '@material-ui/core/withWidth'
+import withWidth from '@material-ui/core/withWidth'
 import Help from '@material-ui/icons/HelpOutlineRounded'
 import { useTranslation } from 'react-i18next'
 import _get from 'lodash.get'
@@ -192,9 +192,9 @@ const TooltipWrapper = ({
   return (
     <Tooltip title={isUser ? message : t('voteWithoutLogin')} arrow>
       {userHasVote ? (
-        <LockOpenIcon className={classes.icon} onClick={onHandleTooltip} />
+        <LockOpenIcon className={classes.icon} />
       ) : (
-        <LockIcon className={classes.icon} onClick={onHandleTooltip} />
+        <LockIcon className={classes.icon} />
       )}
     </Tooltip>
   )
@@ -207,6 +207,7 @@ const CompareGraphView = ({
   className,
   isProxy,
   userInfo,
+  width,
   ...props
 }) => {
   const { t } = useTranslation('translations')
@@ -239,7 +240,7 @@ const CompareGraphView = ({
           <TooltipWrapper
             open={open}
             onHandleTooltip={handleTooltip}
-            // isClickable={Boolean(width === 'xs')}
+            isClickable={Boolean(width === 'xs')}
             t={t}
             classes={classes}
             userHasVote={userHasVote}
@@ -259,6 +260,7 @@ const CompareGraphView = ({
 
 CompareGraphView.propTypes = {
   classes: PropTypes.object.isRequired,
+  width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
   removeBP: PropTypes.func.isRequired,
   selected: PropTypes.array.isRequired,
   className: PropTypes.string,
@@ -289,4 +291,4 @@ TooltipWrapper.propTypes = {
   isUser: PropTypes.bool
 }
 
-export default withStyles(styles)(CompareGraphView)
+export default withStyles(styles)(withWidth()(CompareGraphView))
