@@ -141,7 +141,7 @@ Basic knowledge about Docker, Docker Compose, EOSIO and NodeJS is required.
 ```
 git clone git@github.com:eoscostarica/eos-rate.git
 cd eos-rate
-make start
+make dev
 ```
 
 ## Design Assets

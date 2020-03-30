@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -6,6 +6,10 @@ import CardHeader from '@material-ui/core/CardHeader'
 import Chip from '@material-ui/core/Chip'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
+import LockOpenIcon from '@material-ui/icons/LockOpenOutlined'
+import LockIcon from '@material-ui/icons/LockOutlined'
+import Tooltip from '@material-ui/core/Tooltip'
+import withWidth from '@material-ui/core/withWidth'
 import Help from '@material-ui/icons/HelpOutlineRounded'
 import { useTranslation } from 'react-i18next'
 import _get from 'lodash.get'
@@ -51,6 +55,21 @@ const styles = theme => ({
   },
   cardHeader: {
     borderBottom: `1px solid ${theme.palette.primary.light}`
+  },
+  titleLock: {
+    display: 'flex',
+    justifyContent: 'stretch',
+    alignItems: 'center'
+  },
+  marginRightElem: {
+    marginRight: 10
+  },
+  icon: {
+    color: theme.palette.primary.submenu,
+    fontSize: 30,
+    '&:hover': {
+      cursor: 'pointer'
+    }
   }
 })
 
@@ -147,15 +166,59 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
   )
 }
 
+const TooltipWrapper = ({
+  open,
+  onHandleTooltip,
+  isClickable,
+  t,
+  classes,
+  userHasVote,
+  isUser
+}) => {
+  const message = userHasVote ? t('availableToRate') : t('notAvailableToRate')
+
+  if (isClickable) {
+    return (
+      <Tooltip open={open} title={isUser ? message : t('voteWithoutLogin')} arrow>
+        {userHasVote ? (
+          <LockOpenIcon className={classes.icon} onClick={onHandleTooltip} />
+        ) : (
+          <LockIcon className={classes.icon} onClick={onHandleTooltip} />
+        )}
+      </Tooltip>
+    )
+  }
+
+  return (
+    <Tooltip title={isUser ? message : t('voteWithoutLogin')} arrow>
+      {userHasVote ? (
+        <LockOpenIcon className={classes.icon} />
+      ) : (
+        <LockIcon className={classes.icon} />
+      )}
+    </Tooltip>
+  )
+}
+
 const CompareGraphView = ({
   classes,
   removeBP,
   selected,
   className,
   isProxy,
+  userInfo,
+  width,
   ...props
 }) => {
   const { t } = useTranslation('translations')
+  const [open, setOpen] = useState(false)
+  const userHasVote =
+    Boolean(userInfo.proxy.length) || Boolean(userInfo.producers.length > 21)
+
+  const handleTooltip = e => {
+    setOpen(!open)
+    e.preventDefault()
+  }
 
   return (
     <Grid container className={classes.root}>
@@ -170,9 +233,20 @@ const CompareGraphView = ({
         />
       </Grid>
       <Grid item xs={12} md={4}>
-        <Typography variant='h5'>
-          {isProxy ? t('voteToolTitle') : t('compareToolTitle')}
-        </Typography>
+        <div className={classes.titleLock}>
+          <Typography variant='h5' className={classes.marginRightElem}>
+            {t('voteToolTitle')}
+          </Typography>
+          <TooltipWrapper
+            open={open}
+            onHandleTooltip={handleTooltip}
+            isClickable={Boolean(width === 'xs')}
+            t={t}
+            classes={classes}
+            userHasVote={userHasVote}
+            isUser={userInfo.isUser}
+          />
+        </div>
         <CompareBodyList
           isProxy={isProxy}
           selectedData={selected}
@@ -186,15 +260,18 @@ const CompareGraphView = ({
 
 CompareGraphView.propTypes = {
   classes: PropTypes.object.isRequired,
+  width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
   removeBP: PropTypes.func.isRequired,
   selected: PropTypes.array.isRequired,
   className: PropTypes.string,
-  isProxy: PropTypes.bool
+  isProxy: PropTypes.bool,
+  userInfo: PropTypes.object
 }
 
 CompareGraphView.defaultProps = {
   className: '',
-  isProxy: false
+  isProxy: false,
+  userInfo: { proxy: '', producers: [], isUser: false }
 }
 
 CompareBodyList.propTypes = {
@@ -204,4 +281,14 @@ CompareBodyList.propTypes = {
   removeBP: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(CompareGraphView)
+TooltipWrapper.propTypes = {
+  classes: PropTypes.object,
+  isClickable: PropTypes.bool,
+  open: PropTypes.bool,
+  onHandleTooltip: PropTypes.func,
+  t: PropTypes.any,
+  userHasVote: PropTypes.bool,
+  isUser: PropTypes.bool
+}
+
+export default withStyles(styles)(withWidth()(CompareGraphView))

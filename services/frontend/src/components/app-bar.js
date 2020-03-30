@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
+import { connect } from 'react-redux'
 import AppBar from '@material-ui/core/AppBar'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import FingerprintIcon from '@material-ui/icons/Fingerprint'
@@ -14,6 +15,7 @@ import Typography from '@material-ui/core/Typography'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import { withStyles } from '@material-ui/core/styles'
 import { Link } from '@reach/router'
+
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
 import LanguageSelect from 'components/language-select'
@@ -100,9 +102,21 @@ const MainTopBar = ({
   handleDrawerToggle,
   handleSearchDialogOpen,
   handleSearchDialogClose,
-  ual
+  ual,
+  getUserChainData,
+  setUser
 }) => {
   const { t } = useTranslation('translations')
+
+  useEffect(() => {
+    async function getData () {
+      if (ual.activeUser) {
+        await getUserChainData({ accountName: ual.activeUser.accountName })
+      }
+    }
+
+    getData()
+  }, [ual.loading])
 
   return (
     <AppBar position='absolute'>
@@ -134,10 +148,7 @@ const MainTopBar = ({
         <LanguageSelect />
         {ual.activeUser ? (
           <>
-            <Link
-              to='/account'
-              className={classes.link}
-            >
+            <Link to='/account' className={classes.link}>
               <IconButton color='inherit'>
                 <AccountCircleIcon />
                 <Typography className={classes.sessionText} variant='subtitle1'>
@@ -145,16 +156,19 @@ const MainTopBar = ({
                 </Typography>
               </IconButton>
             </Link>
-            <IconButton color='inherit' onClick={() => ual.logout()}>
+            <IconButton
+              color='inherit'
+              onClick={() => {
+                ual.logout()
+                setUser()
+              }}
+            >
               <LogoutIcon />
             </IconButton>
           </>
         ) : (
           <>
-            <IconButton
-              color='inherit'
-              onClick={() => ual.showModal()}
-            >
+            <IconButton color='inherit' onClick={() => ual.showModal()}>
               {ual.loading ? (
                 <CircularProgress color='secondary' size={20} />
               ) : (
@@ -183,7 +197,14 @@ MainTopBar.propTypes = {
   handleSearchDialogOpen: PropTypes.func,
   handleSearchDialogClose: PropTypes.func,
   isSearchOpen: PropTypes.bool,
-  ual: PropTypes.object
+  ual: PropTypes.object,
+  getUserChainData: PropTypes.func,
+  setUser: PropTypes.func
 }
 
-export default withStyles(styles)(MainTopBar)
+const mapDispatchToProps = ({ user }) => ({
+  getUserChainData: user.getUserChainData,
+  setUser: user.removeBlockProducersVotedByUser
+})
+
+export default withStyles(styles)(connect(null, mapDispatchToProps)(MainTopBar))
