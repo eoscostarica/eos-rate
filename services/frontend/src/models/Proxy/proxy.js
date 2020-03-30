@@ -11,7 +11,7 @@ import QUERY_GET_PROXY_BY_OWNER from './query_get_proxy_by_owner'
 
 const initialState = {
   proxies: [],
-  compareTool: true,
+  compareTool: false,
   proxy: null,
   filters: {},
   filtered: [],

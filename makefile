@@ -1,11 +1,14 @@
+dev: scripts/develop.sh
+	./scripts/develop.sh
+
+start: scripts/start.sh
+	./scripts/start.sh
+
 flush: scripts/flush.sh
 	./scripts/flush.sh
 
 fresh: scripts/fresh.sh
 	./scripts/fresh.sh
-
-start: scripts/start.sh
-	./scripts/start.sh
 
 hasura: scripts/hasura.sh
 	./scripts/hasura.sh
