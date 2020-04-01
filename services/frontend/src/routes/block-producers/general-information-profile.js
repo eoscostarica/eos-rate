@@ -165,11 +165,7 @@ const WebsiteLegend = ({ classes, webInfo }) => {
         {webInfo.websiteText}
       </Typography>
     </>
-  ) : (
-    <Typography variant='subtitle1' className={classes.title}>
-      {t('noWebSiteInfo')}
-    </Typography>
-  )
+  ) : null
 
   return <Grid item xs={12} className={classes.websiteLegend}>{content}</Grid>
 }

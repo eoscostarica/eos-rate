@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import { useTranslation } from 'react-i18next'
+import Typography from '@material-ui/core/Typography'
 import CardActions from '@material-ui/core/CardActions'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -39,7 +40,6 @@ const styles = theme => ({
   },
   radar: {
     background: theme.palette.surface.light,
-    paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2)
   },
   avatar: {
@@ -66,6 +66,14 @@ const styles = theme => ({
   },
   marginRightElem: {
     marginRight: 5
+  },
+  blockIcons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '100%',
+    height: 25,
+    padding: '0 10px'
   }
 })
 
@@ -109,19 +117,6 @@ const CardData = ({
     e.preventDefault()
   }
 
-  const titleValue = title || (
-    <div className={classes.warningBox}>
-      <span>{owner}</span>
-      <TooltipWrapper
-        open={open}
-        onHandleTooltip={handleTooltip}
-        isClickable={Boolean(width === 'xs')}
-        t={t}
-        classes={classes}
-      />
-    </div>
-  )
-
   return (
     <Card className={classes.card}>
       <Link
@@ -141,21 +136,48 @@ const CardData = ({
               )}
             </Avatar>
           }
-          title={titleValue}
+          title={
+            <div className={classes.warningBox}>
+              <Typography variant='h6'>{title || owner}</Typography>
+              <div className={classes.warningBox}>
+                <Typography
+                  variant='subtitle2'
+                  className={classes.marginRightElem}
+                >
+                  {`${t('averageCard')}:`}
+                </Typography>
+                <Typography variant='body2'>{average}</Typography>
+              </div>
+            </div>
+          }
           subheader={
             <div className={classes.warningBox}>
               <span>{owner}</span>
-              <div>
-                <span className={classes.marginRightElem}>
-                  {`${t('averageCard')}: ${average}`}
-                </span>
-                <span>{`${t('rateCard')}: ${rate || 0}`}</span>
+              <div className={classes.warningBox}>
+                <Typography
+                  variant='subtitle2'
+                  className={classes.marginRightElem}
+                >
+                  {`${t('rateCard')}:`}
+                </Typography>
+                <Typography variant='body2'>{rate || 0}</Typography>
               </div>
             </div>
           }
         />
       </Link>
       <div className={classes.radar}>
+        <div className={classes.blockIcons}>
+          {!title && (
+            <TooltipWrapper
+              open={open}
+              onHandleTooltip={handleTooltip}
+              isClickable={Boolean(width === 'xs')}
+              t={t}
+              classes={classes}
+            />
+          )}
+        </div>
         <Radar
           height={200}
           bpData={{
@@ -203,8 +225,8 @@ CardData.propTypes = {
   useRateButton: PropTypes.bool,
   buttonLabel: PropTypes.string,
   pathLink: PropTypes.string,
-  average: PropTypes.string,
-  rate: PropTypes.string
+  average: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  rate: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 CardData.defaultProps = {
