@@ -104,11 +104,7 @@ services:
       dockerfile: ./Dockerfile
     image: eosrate/frontend
     depends_on:
-      - postgres
       - hasura
-      - hapi
-      - pgweb
-      - demux
     ports:
       - "3000:3000"
     networks:
