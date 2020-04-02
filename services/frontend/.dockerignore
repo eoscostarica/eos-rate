@@ -1,0 +1,8 @@
+.git
+.github
+contracts
+docs
+infrastructure-scripts
+node_modules
+scripts
+services

@@ -105,8 +105,9 @@ services:
     image: eosrate/frontend
     depends_on:
       - hasura
+      - hapi
     ports:
-      - "3000:3000"
+      - "80:80"
     networks:
       default:
 
