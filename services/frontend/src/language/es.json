@@ -58,6 +58,19 @@
     "language": "Idioma"
   },
 
+  "sortInput": {
+    "sortby": "Ordenar por",
+    "alphabetical": "Alfabético",
+    "generalRate": "Mayor Calificación General",
+    "infrastructure": "Mayor Calificación Infraestructura",
+    "community": "Mayor Calificación Comunidad",
+    "trustiness": "Mayor Calificación Confianza",
+    "development": "Mayor Calificación Desarrollo",
+    "transparency": "Mayor Calificación Transparencia",
+    "vote": "Mayor número de votos",
+    "reward": "Mayor recompensas por día"
+  },
+
   "not-found": {
     "graphic": "Oh no!",
     "description": "Parece que algo salió mal!",

@@ -58,6 +58,19 @@
     "language": "language"
   },
 
+  "sortInput": {
+    "sortby": "Sort By",
+    "alphabetical": "Alphabetical",
+    "generalRate": "Top Ratings General",
+    "infrastructure": "Top Ratings Infrastructure",
+    "community": "Top Ratings Community",
+    "trustiness": "Top Ratings Trustiness",
+    "development": "Top Ratings Development",
+    "transparency": "Top Ratings Transparency",
+    "vote": "Votes",
+    "reward": "Rewards per day"
+  },
+
   "not-found": {
     "graphic": "Oh Snap!",
     "description": "Looks like something went wrong!",

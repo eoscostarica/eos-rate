@@ -13,6 +13,7 @@ const initialState = {
   filters: {},
   list: [],
   filtered: [],
+  sortBy: null,
   selected: [],
   compareTool: true,
   producer: null,
@@ -81,6 +82,12 @@ const Proxies = {
         ...state,
         filtered: [...filtered],
         filters: { ...filters }
+      }
+    },
+    setSortBy (state, sort) {
+      return {
+        ...state,
+        sortBy: sort
       }
     },
     addProducer (state, producer) {

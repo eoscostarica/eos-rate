@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { navigate } from '@reach/router'
@@ -10,6 +10,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Paper from '@material-ui/core/Paper'
+import _get from 'lodash.get'
 import MenuItem from '@material-ui/core/MenuItem'
 
 import withT from 'components/with-t'
@@ -58,19 +59,45 @@ const style = theme => ({
   }
 })
 
-class InputAutocomplete extends PureComponent {
-  state = {
-    selectedBlockProducer: '',
-    suggestions: []
-  }
+const InputAutocomplete = ({
+  getBPs,
+  getProxies,
+  list,
+  t,
+  proxies,
+  ...props
+}) => {
+  const [suggestions, setSuggestions] = useState([])
+  const [text, setText] = useState('')
+  const [data, setData] = useState([])
 
-  componentDidMount () {
-    this.props.getBPs()
-  }
+  useEffect(() => {
+    async function getData () {
+      await getBPs()
+      await getProxies()
+    }
 
-  renderInputComponent = inputProps => {
+    getData()
+  }, [])
+
+  useEffect(() => {
+    const bpsList = (list || []).map(bp => {
+      const name = _get(bp, 'bpjson.org.candidate_name', bp.owner)
+
+      return { name, owner: bp.owner, path: '/block-producers/' }
+    })
+    const proxiesList = (proxies || []).map(proxy => {
+      const name = _get(proxy, 'name', proxy.owner)
+
+      return { name, owner: proxy.owner, path: '/proxies/' }
+    })
+
+    setData([...bpsList, ...proxiesList])
+  }, [list, proxies])
+
+  const renderInputComponent = inputProps => {
     const { classes, inputRef = () => {}, ref, ...other } = inputProps
-    const { hideSearchIcon, isFocused } = this.props
+    const { hideSearchIcon, isFocused } = props
 
     return (
       <TextField
@@ -97,103 +124,79 @@ class InputAutocomplete extends PureComponent {
     )
   }
 
-  renderSuggestion = (
-    {
-      bpjson: {
-        org: { candidate_name: suggestion }
-      }
-    },
-    { query, isHighlighted }
-  ) => (
+  const renderSuggestion = ({ name: suggestion }, { query, isHighlighted }) => (
     <MenuItem selected={isHighlighted} component='div'>
       <Highlight
         search={query}
         matchElement='span'
-        matchClass={this.props.classes.highlightMatch}
+        matchClass={props.classes.highlightMatch}
       >
         {suggestion}
       </Highlight>
     </MenuItem>
   )
 
-  getSuggestions = (list, value) => {
+  const getSuggestions = (list, value) => {
     return filterObjects.filter(
       {
-        bpjson: {
-          org: {
-            candidate_name: new RegExp(`${value.trim()}`, 'gi')
-          }
-        }
+        name: new RegExp(`${value.trim()}`, 'gi')
       },
       list
     )
   }
 
-  getSuggestionValue = ({
-    bpjson: {
-      org: { candidate_name: name }
-    }
-  }) => name
+  const getSuggestionValue = ({ name }) => name
 
-  handleSuggestionsFetchRequested = list => ({ value }) =>
-    this.setState({
-      suggestions: this.getSuggestions(list, value)
-    })
+  const handleSuggestionsFetchRequested = list => ({ value }) =>
+    setSuggestions(getSuggestions(list, value))
 
-  handleSuggestionsClearRequested = () =>
-    this.setState({
-      selectedBlockProducer: '',
-      suggestions: []
-    })
-
-  handleSelectedBlockProducer = (event, { newValue }) => {
-    this.setState({
-      selectedBlockProducer: newValue
-    })
+  const handleSuggestionsClearRequested = () => {
+    setText('')
+    setSuggestions([])
   }
 
-  handleSelectedSuggestion = (event, { suggestion }) => {
-    navigate(`/block-producers/${suggestion.owner}`)
-    this.props.onItemSelected && this.props.onItemSelected()
+  const handleSelected = (event, { newValue }) => {
+    setText(newValue)
   }
 
-  render () {
-    const { classes, list, t } = this.props
-
-    return (
-      <div className={classes.root}>
-        <Autosuggest
-          renderInputComponent={this.renderInputComponent}
-          suggestions={this.state.suggestions}
-          onSuggestionSelected={this.handleSelectedSuggestion}
-          onSuggestionsFetchRequested={event => {
-            this.handleSuggestionsFetchRequested(list)(event)
-          }}
-          onSuggestionsClearRequested={() =>
-            this.handleSuggestionsClearRequested()}
-          getSuggestionValue={this.getSuggestionValue}
-          renderSuggestion={this.renderSuggestion}
-          inputProps={{
-            classes,
-            placeholder: t('searchAutocomplete'),
-            value: this.state.selectedBlockProducer,
-            onChange: this.handleSelectedBlockProducer
-          }}
-          theme={{
-            container: classes.container,
-            suggestionsContainerOpen: classes.suggestionsContainerOpen,
-            suggestionsList: classes.suggestionsList,
-            suggestion: classes.suggestion
-          }}
-          renderSuggestionsContainer={options => (
-            <Paper {...options.containerProps} square>
-              {options.children}
-            </Paper>
-          )}
-        />
-      </div>
-    )
+  const handleSelectedSuggestion = (event, { suggestion }) => {
+    navigate(`${suggestion.path}${suggestion.owner}`)
+    props.onItemSelected && props.onItemSelected()
   }
+  const { classes } = props
+
+  return (
+    <div className={classes.root}>
+      <Autosuggest
+        renderInputComponent={renderInputComponent}
+        suggestions={suggestions}
+        onSuggestionSelected={handleSelectedSuggestion}
+        onSuggestionsFetchRequested={event => {
+          handleSuggestionsFetchRequested(data)(event)
+        }}
+        onSuggestionsClearRequested={() => handleSuggestionsClearRequested()}
+        getSuggestionValue={getSuggestionValue}
+        renderSuggestion={renderSuggestion}
+        inputProps={{
+          classes,
+          placeholder: t('searchAutocomplete'),
+          value: text,
+          onChange: handleSelected
+        }}
+        theme={{
+          container: classes.container,
+          suggestionsContainerOpen: classes.suggestionsContainerOpen,
+          suggestionsList: classes.suggestionsList,
+          suggestion: classes.suggestion
+        }}
+        renderSuggestionsContainer={options => (
+          <Paper {...options.containerProps} square>
+            {options.children}
+          </Paper>
+        )}
+      />
+    </div>
+  )
 }
 
 InputAutocomplete.propTypes = {
@@ -203,7 +206,10 @@ InputAutocomplete.propTypes = {
   hideSearchIcon: PropTypes.bool,
   list: PropTypes.array,
   onItemSelected: PropTypes.func,
-  isFocused: PropTypes.bool
+  isFocused: PropTypes.bool,
+  proxies: PropTypes.array,
+  getProxies: PropTypes.func,
+  name: PropTypes.any
 }
 
 InputAutocomplete.defaultProps = {
@@ -211,11 +217,16 @@ InputAutocomplete.defaultProps = {
 }
 
 const mapStatetoProps = state => ({
-  list: state.blockProducers.list
+  list: state.blockProducers.list,
+  proxies: state.proxies.proxies
 })
 
-const mapDispatchToProps = ({ blockProducers: { getBPs } }) => ({
-  getBPs
+const mapDispatchToProps = ({
+  blockProducers: { getBPs },
+  proxies: { getProxies }
+}) => ({
+  getBPs,
+  getProxies
 })
 
 export default withStyles(style)(
