@@ -10,7 +10,7 @@ const user = {
   state: initialState,
 
   reducers: {
-    setUser(state, data) {
+    setUser (state, data) {
       return {
         ...state,
         data
@@ -19,7 +19,7 @@ const user = {
   },
 
   effects: dispatch => ({
-    async getUserChainData({ accountName }, state) {
+    async getUserChainData ({ accountName }, state) {
       try {
         const account = accountName
           ? await eosjsAPI.rpc.get_account(accountName)
@@ -43,7 +43,7 @@ const user = {
         this.setUser(null)
       }
     },
-    async removeBlockProducersVotedByUser() {
+    async removeBlockProducersVotedByUser () {
       this.setUser(null)
       dispatch.blockProducers.clearSelected()
     }
