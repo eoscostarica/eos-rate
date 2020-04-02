@@ -69,7 +69,7 @@ export default (sortBy, blockProducers) => {
     }
 
     case 'reward': {
-      return blockProducers // (blockProducers || []).sort((a, b) => _sortValues(a, b, 'ratings_cntr'))
+      return blockProducers
     }
 
     default:

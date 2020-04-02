@@ -155,13 +155,11 @@ const InputAutocomplete = ({
     setSuggestions([])
   }
 
-  const handleSelectedBlockProducer = (event, { newValue }) => {
+  const handleSelected = (event, { newValue }) => {
     setText(newValue)
   }
 
   const handleSelectedSuggestion = (event, { suggestion }) => {
-    console.log({ suggestion })
-
     navigate(`${suggestion.path}${suggestion.owner}`)
     props.onItemSelected && props.onItemSelected()
   }
@@ -183,7 +181,7 @@ const InputAutocomplete = ({
           classes,
           placeholder: t('searchAutocomplete'),
           value: text,
-          onChange: handleSelectedBlockProducer
+          onChange: handleSelected
         }}
         theme={{
           container: classes.container,
