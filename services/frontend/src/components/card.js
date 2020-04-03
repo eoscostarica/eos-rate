@@ -95,7 +95,7 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '0 16px',
-    color: theme.palette.primary.main //'#443f56'
+    color: theme.palette.primary.main
   }
 })
 
