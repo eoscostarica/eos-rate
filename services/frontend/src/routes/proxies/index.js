@@ -149,6 +149,7 @@ const AllProxies = ({
               useRateButton={false}
               buttonLabel='View'
               pathLink='proxies'
+              showOptions={false}
             />
           </Grid>
         ))}
