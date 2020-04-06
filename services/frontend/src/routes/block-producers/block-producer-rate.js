@@ -95,7 +95,8 @@ const BlockProducerRate = ({
   addUserRating,
   userRate,
   getBlockProducer,
-  ual
+  ual,
+  setShowSortSelected
 }) => {
   const [ratingState, setRatingState] = useState(INIT_RATING_STATE_DATA)
   const [showMessage, setShowMessage] = useState(false)
@@ -128,6 +129,10 @@ const BlockProducerRate = ({
       setRatingState(INIT_RATING_STATE_DATA)
     }
   }, [userRate])
+
+  useEffect(() => {
+    setShowSortSelected(false)
+  })
 
   const getRatingData = (useString = false) => {
     const {
@@ -427,7 +432,8 @@ BlockProducerRate.propTypes = {
   addUserRating: PropTypes.func,
   userRate: PropTypes.object,
   getBlockProducer: PropTypes.func,
-  ual: PropTypes.object
+  ual: PropTypes.object,
+  setShowSortSelected: PropTypes.func
 }
 
 const mapStateToProps = ({ blockProducers: { producer, userRate } }) => ({
@@ -435,10 +441,11 @@ const mapStateToProps = ({ blockProducers: { producer, userRate } }) => ({
   userRate
 })
 
-const mapDispatchToProps = dispatch => ({
-  getBPRating: dispatch.blockProducers.getBlockProducerRatingByOwner,
-  addUserRating: dispatch.blockProducers.mutationInsertUserRating,
-  getBlockProducer: dispatch.blockProducers.getBlockProducerByOwner
+const mapDispatchToProps = ({ blockProducers }) => ({
+  getBPRating: blockProducers.getBlockProducerRatingByOwner,
+  addUserRating: blockProducers.mutationInsertUserRating,
+  getBlockProducer: blockProducers.getBlockProducerByOwner,
+  setShowSortSelected: blockProducers.setShowSortSelected
 })
 
 export default withStyles(style)(

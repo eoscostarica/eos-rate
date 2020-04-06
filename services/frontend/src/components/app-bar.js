@@ -106,7 +106,9 @@ const MainTopBar = ({
   ual,
   getUserChainData,
   setUser,
-  setSortBy
+  setSortBy,
+  showSortSelected,
+  setShowSortSelected
 }) => {
   const { t } = useTranslation('translations')
 
@@ -119,6 +121,12 @@ const MainTopBar = ({
 
     getData()
   }, [ual.loading])
+
+  useEffect(() => {
+    if (window.location.pathname !== '/block-producers' && showSortSelected) {
+      setShowSortSelected(false)
+    }
+  })
 
   return (
     <AppBar position='absolute'>
@@ -147,7 +155,7 @@ const MainTopBar = ({
         >
           <SearchIcon />
         </IconButton>
-        <FilterSelect onHandleApplySortBy={setSortBy} />
+        {showSortSelected && <FilterSelect onHandleApplySortBy={setSortBy} />}
         <LanguageSelect />
         {ual.activeUser ? (
           <>
@@ -203,13 +211,20 @@ MainTopBar.propTypes = {
   ual: PropTypes.object,
   getUserChainData: PropTypes.func,
   setUser: PropTypes.func,
-  setSortBy: PropTypes.func
+  setSortBy: PropTypes.func,
+  showSortSelected: PropTypes.bool,
+  setShowSortSelected: PropTypes.func
 }
+
+const mapStatetoProps = ({ blockProducers }) => ({
+  showSortSelected: blockProducers.showSortSelected
+})
 
 const mapDispatchToProps = ({ user, blockProducers }) => ({
   getUserChainData: user.getUserChainData,
   setUser: user.removeBlockProducersVotedByUser,
-  setSortBy: blockProducers.setSortBy
+  setSortBy: blockProducers.setSortBy,
+  setShowSortSelected: blockProducers.setShowSortSelected
 })
 
-export default withStyles(styles)(connect(null, mapDispatchToProps)(MainTopBar))
+export default withStyles(styles)(connect(mapStatetoProps, mapDispatchToProps)(MainTopBar))

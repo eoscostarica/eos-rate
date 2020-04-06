@@ -78,7 +78,8 @@ const AllBps = ({
   getUserChainData,
   user,
   storeIsContentLoading,
-  sortBy
+  sortBy,
+  setShowSortSelected
 }) => {
   const { t } = useTranslation('translations')
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
@@ -168,6 +169,7 @@ const AllBps = ({
       }
     }
 
+    setShowSortSelected(true)
     getUserData()
   })
 
@@ -245,7 +247,8 @@ AllBps.propTypes = {
   getUserChainData: PropTypes.func,
   user: PropTypes.object,
   storeIsContentLoading: PropTypes.func,
-  sortBy: PropTypes.string
+  sortBy: PropTypes.string,
+  setShowSortSelected: PropTypes.func
 }
 
 AllBps.defaultProps = {
@@ -263,7 +266,7 @@ const mapStatetoProps = ({ blockProducers, user }) => ({
 })
 
 const mapDispatchToProps = ({
-  blockProducers: { getBPs, toggleCompareTool, addToSelected, removeSelected },
+  blockProducers: { getBPs, toggleCompareTool, addToSelected, removeSelected, setShowSortSelected },
   user: { getUserChainData },
   isLoading: { storeIsContentLoading }
 }) => ({
@@ -272,7 +275,8 @@ const mapDispatchToProps = ({
   addToSelected,
   removeSelected,
   getUserChainData,
-  storeIsContentLoading
+  storeIsContentLoading,
+  setShowSortSelected
 })
 
 export default withStyles(style)(

@@ -76,7 +76,8 @@ const AllProxies = ({
   proxies,
   getUserChainData,
   user,
-  ual
+  ual,
+  setShowSortSelected
 }) => {
   const { t } = useTranslation('translations')
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
@@ -102,6 +103,7 @@ const AllProxies = ({
       }
     }
 
+    setShowSortSelected(false)
     getUserData()
   })
 
@@ -177,7 +179,8 @@ AllProxies.propTypes = {
   proxies: PropTypes.array,
   getUserChainData: PropTypes.func,
   user: PropTypes.object,
-  ual: PropTypes.object
+  ual: PropTypes.object,
+  setShowSortSelected: PropTypes.func
 }
 
 AllProxies.defaultProps = {
@@ -196,7 +199,7 @@ const mapStatetoProps = ({ proxies, user }) => ({
 })
 
 const mapDispatchToProps = ({ blockProducers, proxies, user }) => {
-  const { getBPs } = blockProducers
+  const { getBPs, setShowSortSelected } = blockProducers
   const {
     getProxies,
     toggleCompareTool,
@@ -211,7 +214,8 @@ const mapDispatchToProps = ({ blockProducers, proxies, user }) => {
     addToSelected,
     removeSelected,
     getProxies,
-    getUserChainData
+    getUserChainData,
+    setShowSortSelected
   }
 }
 
