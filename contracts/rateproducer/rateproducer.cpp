@@ -74,7 +74,7 @@ namespace eosio {
 
     typedef eosio::multi_index< "voters"_n, voter_info >  voters_table; 
 
-   int get_voters (name name) {
+   unsigned long long int get_voters (name name) {
       voters_table _voters(system_account, system_account.value);
       auto it = _voters.find(name.value);
       if(it==_voters.end()){
