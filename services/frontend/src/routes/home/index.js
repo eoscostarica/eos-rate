@@ -26,12 +26,16 @@ const styles = ({ spacing, palette }) => ({
   }
 })
 
-const Home = ({ classes, home, getBlockData }) => {
+const Home = ({ classes, home, getBlockData, setShowSortSelected, showSortSelected }) => {
   const { t } = useTranslation('home')
 
   useEffect(() => {
     getBlockData()
   }, [])
+
+  useEffect(() => {
+    setShowSortSelected(false)
+  })
 
   return (
     <>
@@ -81,18 +85,22 @@ const Home = ({ classes, home, getBlockData }) => {
   )
 }
 
-const mapStatetoProps = ({ home }) => ({
-  home
+const mapStatetoProps = ({ home, blockProducers }) => ({
+  home,
+  showSortSelected: blockProducers.showSortSelected
 })
 
-const mapDispatchToProps = ({ home: { getBlockData } }) => ({
-  getBlockData
+const mapDispatchToProps = ({ home: { getBlockData }, blockProducers: { setShowSortSelected } }) => ({
+  getBlockData,
+  setShowSortSelected
 })
 
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
   home: PropTypes.object.isRequired,
-  getBlockData: PropTypes.func.isRequired
+  getBlockData: PropTypes.func.isRequired,
+  showSortSelected: PropTypes.bool,
+  setShowSortSelected: PropTypes.func
 }
 
 export default withStyles(styles)(

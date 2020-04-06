@@ -17,7 +17,8 @@ const initialState = {
   selected: [],
   compareTool: true,
   producer: null,
-  userRate: null
+  userRate: null,
+  showSortSelected: false
 }
 
 const Proxies = {
@@ -27,6 +28,12 @@ const Proxies = {
       return {
         ...state,
         compareTool: !state.compareTool
+      }
+    },
+    setShowSortSelected (state, showSortSelected) {
+      return {
+        ...state,
+        showSortSelected
       }
     },
     setBPs (state, list) {
