@@ -69,7 +69,7 @@
     "transparency": "Mayor Calificación Transparencia",
     "vote": "Mayor número de votos",
     "reward": "Mayor recompensas por día",
-    "ratings": "Ratings"
+    "ratings": "# Evaluaciones"
   },
 
   "not-found": {
@@ -79,7 +79,7 @@
   },
 
   "home": {
-    "title": "Calificaciones de productores de bloques yhttps://www.etsy.com/es/listing/671420232/2011-2012-2013-2014-2015-2016-2017-jeep?ga_order=most_relevant&ga_search_type=all&ga_view_type=gallery&ga_search_query=compass+2011&ref=sr_gallery-1-2&organic_search_click=1&col=1 portal de votación EOSIO - EOS Costa Rica",
+    "title": "Calificaciones de productores de bloques y portal de votación EOSIO - EOS Costa Rica",
     "cover": {
       "title": "Califique fácilmente a los productores de bloques EOS",
       "paragraph1": "EOS Rate es un dApp de código abierto que permite a los titulares de tokens EOS calificar a los productores de bloques con solo unos pocos clics.",
