@@ -61,14 +61,15 @@
   "sortInput": {
     "sortby": "Sort By",
     "alphabetical": "Alphabetical",
-    "generalRate": "Top Ratings General",
-    "infrastructure": "Top Ratings Infrastructure",
-    "community": "Top Ratings Community",
-    "trustiness": "Top Ratings Trustiness",
-    "development": "Top Ratings Development",
-    "transparency": "Top Ratings Transparency",
+    "generalRate": "Top Rated General",
+    "infrastructure": "Top Rated Infrastructure",
+    "community": "Top Rated Community",
+    "trustiness": "Top Rated Trustiness",
+    "development": "Top Rated Development",
+    "transparency": "Top Rated Transparency",
     "vote": "Votes",
-    "reward": "Rewards per day"
+    "reward": "Rewards per day",
+    "ratings": "Ratings"
   },
 
   "not-found": {

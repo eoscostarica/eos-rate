@@ -28,7 +28,7 @@ export default (sortBy, blockProducers) => {
 
     case 'generalRate': {
       return (blockProducers || []).sort((a, b) =>
-        _sortValues(a, b, 'ratings_cntr')
+        _sortValues(a, b, 'average')
       )
     }
 
@@ -65,6 +65,12 @@ export default (sortBy, blockProducers) => {
     case 'vote': {
       return (blockProducers || []).sort((a, b) =>
         _sortValues(a, b, 'system.total_votes')
+      )
+    }
+
+    case 'ratings': {
+      return (blockProducers || []).sort((a, b) =>
+        _sortValues(a, b, 'ratings_cntr')
       )
     }
 
