@@ -102,6 +102,7 @@ services:
     build:
       context: ./services/frontend
       dockerfile: ./Dockerfile
+      target: server
     image: eosrate/frontend
     depends_on:
       - hasura
