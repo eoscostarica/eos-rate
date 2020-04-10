@@ -19,7 +19,7 @@
     "compareToolCollapsedSwitch": "Colapsar Gráficos",
     "voteToolTitle": "Herramienta de votación",
     "averageCard": "Promedio",
-    "rateCard": "Valuacion",
+    "rateCard": "Evaluaciones",
 
     "loginUsername": "Nombre de usuario",
     "loginPassword": "Contraseña",
@@ -56,6 +56,20 @@
     "hideComparisonTool": "Ocultar herramienta de comparación",
     "showComparisonTool": "Mostrar herramienta de comparación",
     "language": "Idioma"
+  },
+
+  "sortInput": {
+    "sortby": "Ordenar por",
+    "alphabetical": "Alfabético",
+    "generalRate": "Mayor Calificación General",
+    "infrastructure": "Mayor Calificación Infraestructura",
+    "community": "Mayor Calificación Comunidad",
+    "trustiness": "Mayor Calificación Confianza",
+    "development": "Mayor Calificación Desarrollo",
+    "transparency": "Mayor Calificación Transparencia",
+    "vote": "Mayor número de votos",
+    "reward": "Mayor recompensas por día",
+    "ratings": "# Evaluaciones"
   },
 
   "not-found": {

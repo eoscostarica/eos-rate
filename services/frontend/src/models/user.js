@@ -10,7 +10,7 @@ const user = {
   state: initialState,
 
   reducers: {
-    setUser(state, data) {
+    setUser (state, data) {
       return {
         ...state,
         data
@@ -19,23 +19,32 @@ const user = {
   },
 
   effects: dispatch => ({
-    async getUserChainData({ accountName }, state) {
+    async getUserChainData ({ accountName }, { user, blockProducers }) {
       try {
-        const account = accountName
-          ? await eosjsAPI.rpc.get_account(accountName)
-          : null
+        if (user.data && user.data.account_name === accountName) return
+
+        let account = null
+        const { rpc } = eosjsAPI
+
+        if (accountName.length) {
+          account = await rpc.get_account(accountName)
+        }
+
         const producers = _get(account, 'voter_info.producers', [])
         const proxy = _get(account, 'voter_info.proxy', '')
 
         this.setUser(account)
-        producers.length &&
-          dispatch.blockProducers.addArrayToSelected(producers)
+
+        if (producers.length) {
+          const filterBPs = producers.filter(bpName =>
+            blockProducers.list.find(({ owner }) => bpName === owner)
+          )
+
+          dispatch.blockProducers.addArrayToSelected(filterBPs)
+        }
         proxy.length && dispatch.proxies.addToSelected(proxy)
 
-        if (
-          (producers.length || proxy.length) &&
-          !state.blockProducers.compareTool
-        ) {
+        if ((producers.length || proxy.length) && !blockProducers.compareTool) {
           dispatch.blockProducers.toggleCompareTool()
         }
       } catch (error) {
@@ -43,7 +52,7 @@ const user = {
         this.setUser(null)
       }
     },
-    async removeBlockProducersVotedByUser() {
+    async removeBlockProducersVotedByUser () {
       this.setUser(null)
       dispatch.blockProducers.clearSelected()
     }

@@ -15,6 +15,7 @@ const RadarData = ({ bpData, height, showLabel, ...props }) => {
 
   return (
     <Radar
+      redraw
       height={height}
       data={bpValidData}
       options={{
@@ -46,7 +47,26 @@ const RadarData = ({ bpData, height, showLabel, ...props }) => {
             label: (tooltipItem, data) =>
               `${data.labels[tooltipItem.index]}: ${
                 data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
-              }`
+              }`,
+            title: (tooltipItem, data) => {
+              const titleModeled = tooltipItem.reduce(
+                (acc, current, index) => {
+                  if (current.datasetIndex === acc.prevDatasetIndex) return acc
+
+                  const label = `${acc.title} ${index ? '||' : ''} ${
+                    data.datasets[current.datasetIndex].label
+                  }`
+
+                  return {
+                    title: label,
+                    prevDatasetIndex: current.datasetIndex
+                  }
+                },
+                { title: '', prevDatasetIndex: null }
+              )
+
+              return titleModeled.title
+            }
           }
         }
       }}

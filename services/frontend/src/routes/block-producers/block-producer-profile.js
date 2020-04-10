@@ -147,6 +147,7 @@ const BlockProducerProfile = ({
   getBlockProducer,
   producer,
   isContentLoading,
+  setShowSortSelected,
   ...props
 }) => {
   const { t } = useTranslation('profile')
@@ -165,6 +166,10 @@ const BlockProducerProfile = ({
   useEffect(() => {
     getBlockProducer(account)
   }, [account])
+
+  useEffect(() => {
+    setShowSortSelected(false)
+  })
 
   return (
     <Grid container justify='center' className={classes.container}>
@@ -280,7 +285,8 @@ BlockProducerProfile.propTypes = {
   blockProducers: PropTypes.array,
   getBlockProducer: PropTypes.func,
   producer: PropTypes.object,
-  isContentLoading: PropTypes.bool
+  isContentLoading: PropTypes.bool,
+  setShowSortSelected: PropTypes.func
 }
 
 ProfileTitle.propTypes = {
@@ -301,8 +307,9 @@ const mapStateToProps = ({
   isContentLoading
 })
 
-const mapDispatchToProps = dispatch => ({
-  getBlockProducer: dispatch.blockProducers.getBlockProducerByOwner
+const mapDispatchToProps = ({ blockProducers }) => ({
+  getBlockProducer: blockProducers.getBlockProducerByOwner,
+  setShowSortSelected: blockProducers.setShowSortSelected
 })
 
 export default withStyles(style)(

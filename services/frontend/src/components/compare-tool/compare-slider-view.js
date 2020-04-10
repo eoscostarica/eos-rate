@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+import _get from 'lodash.get'
 import { useTranslation } from 'react-i18next'
 
 import Radar from 'components/radar'
@@ -39,7 +40,9 @@ const CompareSliderView = ({ classes, selected, className, isProxy, optionalLabe
       </Typography>
       <div className={classes.slider}>
         {selected.map(bp => {
-          const name = isProxy ? bp.owner : bp.bpjson.producer_account_name
+          if (!bp) return null
+
+          const name = isProxy ? _get(bp, 'owner') : _get(bp, 'bpjson.producer_account_name')
 
           return (
             <div
