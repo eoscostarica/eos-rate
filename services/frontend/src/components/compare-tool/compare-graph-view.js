@@ -202,40 +202,6 @@ const TooltipWrapper = ({
   )
 }
 
-const TooltipWrapper = ({
-  open,
-  onHandleTooltip,
-  isClickable,
-  t,
-  classes,
-  userHasVote,
-  isUser
-}) => {
-  const message = userHasVote ? t('availableToRate') : t('notAvailableToRate')
-
-  if (isClickable) {
-    return (
-      <Tooltip open={open} title={isUser ? message : t('voteWithoutLogin')} arrow>
-        {userHasVote ? (
-          <LockOpenIcon className={classes.icon} onClick={onHandleTooltip} />
-        ) : (
-          <LockIcon className={classes.icon} onClick={onHandleTooltip} />
-        )}
-      </Tooltip>
-    )
-  }
-
-  return (
-    <Tooltip title={isUser ? message : t('voteWithoutLogin')} arrow>
-      {userHasVote ? (
-        <LockOpenIcon className={classes.icon} />
-      ) : (
-        <LockIcon className={classes.icon} />
-      )}
-    </Tooltip>
-  )
-}
-
 const CompareGraphView = ({
   classes,
   removeBP,
