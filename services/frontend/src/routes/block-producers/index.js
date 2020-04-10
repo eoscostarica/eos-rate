@@ -12,6 +12,7 @@ import TitlePage from 'components/title-page'
 import Card from 'components/card'
 import CompareTool from 'components/compare-tool'
 import getAverageValue from 'utils/getAverageValue'
+import applySortBy from 'utils/sortedBy'
 
 const style = theme => ({
   root: {
@@ -69,7 +70,6 @@ const AllBps = ({
   classes,
   selectedBPs,
   blockProducers,
-  filtered,
   compareToolVisible,
   toggleCompareTool,
   removeSelected,
@@ -77,7 +77,9 @@ const AllBps = ({
   ual,
   getUserChainData,
   user,
-  storeIsContentLoading
+  storeIsContentLoading,
+  sortBy,
+  setShowSortSelected
 }) => {
   const { t } = useTranslation('translations')
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
@@ -86,9 +88,9 @@ const AllBps = ({
     txSuccess: false,
     showChipMessage: false
   })
-  const bpList = filtered && filtered.length ? filtered : blockProducers
-  const shownList = bpList && bpList.slice(0, currentlyVisible)
-  const hasMore = bpList && currentlyVisible < bpList.length
+  const sortedBPs = applySortBy(sortBy, blockProducers)
+  const shownList = sortedBPs && sortedBPs.slice(0, currentlyVisible)
+  const hasMore = blockProducers && currentlyVisible < blockProducers.length
   const accountName = _get(ual, 'activeUser.accountName', null)
 
   const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
@@ -154,7 +156,7 @@ const AllBps = ({
 
   useEffect(() => {
     async function getData () {
-      await getBPs()
+      !blockProducers.length && await getBPs()
     }
 
     getData()
@@ -167,8 +169,9 @@ const AllBps = ({
       }
     }
 
+    setShowSortSelected(true)
     getUserData()
-  })
+  }, [user, ual.activeUser])
 
   return (
     <div className={classes.root}>
@@ -239,31 +242,31 @@ AllBps.propTypes = {
   removeSelected: PropTypes.func.isRequired,
   addToSelected: PropTypes.func.isRequired,
   selectedBPs: PropTypes.array.isRequired,
-  filtered: PropTypes.array.isRequired,
   compareToolVisible: PropTypes.bool.isRequired,
   ual: PropTypes.object,
   getUserChainData: PropTypes.func,
   user: PropTypes.object,
-  storeIsContentLoading: PropTypes.func
+  storeIsContentLoading: PropTypes.func,
+  sortBy: PropTypes.string,
+  setShowSortSelected: PropTypes.func
 }
 
 AllBps.defaultProps = {
   blockProducers: [],
   selectedBPs: [],
-  filtered: [],
   compareToolVisible: false
 }
 
 const mapStatetoProps = ({ blockProducers, user }) => ({
   blockProducers: blockProducers.list,
   selectedBPs: blockProducers.selected,
-  filtered: blockProducers.filtered,
   compareToolVisible: blockProducers.compareTool,
+  sortBy: blockProducers.sortBy,
   user: user.data
 })
 
 const mapDispatchToProps = ({
-  blockProducers: { getBPs, toggleCompareTool, addToSelected, removeSelected },
+  blockProducers: { getBPs, toggleCompareTool, addToSelected, removeSelected, setShowSortSelected },
   user: { getUserChainData },
   isLoading: { storeIsContentLoading }
 }) => ({
@@ -272,7 +275,8 @@ const mapDispatchToProps = ({
   addToSelected,
   removeSelected,
   getUserChainData,
-  storeIsContentLoading
+  storeIsContentLoading,
+  setShowSortSelected
 })
 
 export default withStyles(style)(

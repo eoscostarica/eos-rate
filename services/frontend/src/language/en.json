@@ -19,7 +19,7 @@
     "compareToolCollapsedSwitch": "Collapse Graphs",
     "voteToolTitle": "Voting Tool",
     "averageCard": "Average",
-    "rateCard": "Rate",
+    "rateCard": "Ratings",
 
     "loginUsername": "Username",
     "loginPassword": "Password",
@@ -56,6 +56,20 @@
     "hideComparisonTool": "Hide comparison tool",
     "showComparisonTool": "Show comparison tool",
     "language": "language"
+  },
+
+  "sortInput": {
+    "sortby": "Sort By",
+    "alphabetical": "Alphabetical",
+    "generalRate": "Top Rated General",
+    "infrastructure": "Top Rated Infrastructure",
+    "community": "Top Rated Community",
+    "trustiness": "Top Rated Trustiness",
+    "development": "Top Rated Development",
+    "transparency": "Top Rated Transparency",
+    "vote": "Votes",
+    "reward": "Rewards per day",
+    "ratings": "Ratings"
   },
 
   "not-found": {

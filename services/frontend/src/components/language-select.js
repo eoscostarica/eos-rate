@@ -36,7 +36,7 @@ const LanguageSelect = ({ classes, style, alt }) => {
 
   const handleClose = item => {
     setAnchorEl(null)
-    i18n.changeLanguage(item.value)
+    if (typeof item === 'string') i18n.changeLanguage(item)
   }
 
   const languages = [
@@ -52,9 +52,8 @@ const LanguageSelect = ({ classes, style, alt }) => {
 
   return (
     <>
-      <IconButton className={classes.wrapper}>
+      <IconButton className={classes.wrapper} onClick={handleClick}>
         <LanguageIcon
-          onClick={handleClick}
           alt={alt}
           className={classes.iconLanguage}
         />
@@ -67,7 +66,7 @@ const LanguageSelect = ({ classes, style, alt }) => {
           languages.map(item => (
             <MenuItem
               key={`language-menu-${item.label}`}
-              onClick={() => handleClose(item)}
+              onClick={() => handleClose(item.value)}
             >
               {`${item.label} - ${(item.value || '').toLocaleUpperCase()}`}
             </MenuItem>

@@ -4,6 +4,12 @@ dev: scripts/develop.sh
 start: scripts/start.sh
 	./scripts/start.sh
 
+<<<<<<< HEAD
+=======
+stop: scripts/stop.sh
+	./scripts/stop.sh
+
+>>>>>>> staging
 flush: scripts/flush.sh
 	./scripts/flush.sh
 
