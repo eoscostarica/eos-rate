@@ -15,9 +15,9 @@ import { useTranslation } from 'react-i18next'
 import _get from 'lodash.get'
 
 import Radar from 'components/radar'
+import ProducerChipAvatar from 'components/bp-chip-avatar'
 
 const styles = theme => ({
-  root: {},
   bpItem: {
     width: '75%',
     padding: '0 0 0 10px',
@@ -69,6 +69,13 @@ const styles = theme => ({
     fontSize: 30,
     '&:hover': {
       cursor: 'pointer'
+    }
+  },
+  containerList: {
+    maxHeight: 385,
+    overflow: 'auto',
+    [theme.breakpoints.up('sm')]: {
+      marginBottom: 38
     }
   }
 })
@@ -139,30 +146,21 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
   }
 
   return (
-    <>
+    <div className={classes.containerList}>
       {selectedData.map(data => {
         const imageURL = _get(data, 'bpjson.org.branding.logo_256', null)
 
         return (
-          <Chip
-            className={classes.bpName}
-            avatar={
-              <Avatar
-                aria-label='Block Compare'
-                style={{ backgroundColor: data.data.pointBackgroundColor }}
-                className={classes.avatar}
-              >
-                {!imageURL ? 'BP' : <img src={imageURL} alt='' width='100%' />}
-              </Avatar>
-            }
-            color='secondary'
-            onDelete={removeBP(data.owner)}
-            label={data.owner}
+          <ProducerChipAvatar
+            data={data}
+            onHandleRemove={removeBP}
+            classNames={classes}
+            imageURL={imageURL}
             key={`data-list-name-${data.owner}`}
           />
         )
       })}
-    </>
+    </div>
   )
 }
 
@@ -179,7 +177,11 @@ const TooltipWrapper = ({
 
   if (isClickable) {
     return (
-      <Tooltip open={open} title={isUser ? message : t('voteWithoutLogin')} arrow>
+      <Tooltip
+        open={open}
+        title={isUser ? message : t('voteWithoutLogin')}
+        arrow
+      >
         {userHasVote ? (
           <LockOpenIcon className={classes.icon} onClick={onHandleTooltip} />
         ) : (

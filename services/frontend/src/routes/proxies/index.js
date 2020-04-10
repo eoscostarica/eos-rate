@@ -105,7 +105,7 @@ const AllProxies = ({
 
     setShowSortSelected(false)
     getUserData()
-  })
+  }, [user, ual.activeUser])
 
   return (
     <div className={classes.root}>

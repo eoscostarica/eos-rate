@@ -171,7 +171,7 @@ const AllBps = ({
 
     setShowSortSelected(true)
     getUserData()
-  })
+  }, [user, ual.activeUser])
 
   return (
     <div className={classes.root}>

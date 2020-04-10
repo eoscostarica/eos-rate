@@ -75,7 +75,7 @@ export const getAllBPs = ({ nameFilter = null, setBPs = () => {} } = {}) => {
               parameters
             },
             data: getBPRadarData({
-              name: bp.owner,
+              name: _get(bp, 'bpjson.org.candidate_name', bp.owner),
               parameters
             })
           }

@@ -33,6 +33,9 @@ const style = () => ({
   topicIcon: {
     color: 'rgba(255, 255, 255, 0.38)',
     verticalAlign: 'middle'
+  },
+  switchBox: {
+    marginLeft: 10
   }
 })
 
@@ -72,6 +75,7 @@ const SliderRatingSection = ({
             max={10}
           />
           <Switch
+            className={classes.switchBox}
             onChange={handleStateChange('communityEnabled')}
             checked={ratingState.communityEnabled}
           />
@@ -106,6 +110,7 @@ const SliderRatingSection = ({
             max={10}
           />
           <Switch
+            className={classes.switchBox}
             onChange={handleStateChange('developmentEnabled')}
             checked={ratingState.developmentEnabled}
           />
@@ -138,6 +143,7 @@ const SliderRatingSection = ({
             max={10}
           />
           <Switch
+            className={classes.switchBox}
             onChange={handleStateChange('infraEnabled')}
             checked={ratingState.infraEnabled}
           />
@@ -172,6 +178,7 @@ const SliderRatingSection = ({
             max={10}
           />
           <Switch
+            className={classes.switchBox}
             onChange={handleStateChange('transparencyEnabled')}
             checked={ratingState.transparencyEnabled}
           />
@@ -204,6 +211,7 @@ const SliderRatingSection = ({
             max={10}
           />
           <Switch
+            className={classes.switchBox}
             onChange={handleStateChange('trustinessEnabled')}
             checked={ratingState.trustinessEnabled}
           />
