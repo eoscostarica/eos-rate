@@ -4,6 +4,9 @@ dev: scripts/develop.sh
 start: scripts/start.sh
 	./scripts/start.sh
 
+stop: scripts/stop.sh
+	./scripts/stop.sh
+
 flush: scripts/flush.sh
 	./scripts/flush.sh
 
