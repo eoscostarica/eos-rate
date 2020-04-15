@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: hapi
+  name: hapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: hapi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.network: "true"
+        io.kompose.service: hapi
+    spec:
+      containers:
+      - env:
+        - name: DB_HOST
+          value: postgres
+        - name: DB_NAME
+          value: eosrate
+        - name: DB_PASSWORD
+          value: pass
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_SCHEMA
+          value: public
+        - name: DB_USER
+          value: user
+        - name: EOS_API_ENDPOINT
+          value: https://jungle.eosio.cr
+        - name: VIRTUAL_HOST
+          value: 0.0.0.0
+        - name: VIRTUAL_PORT
+          value: "3005"
+        image: hapi
+        imagePullPolicy: "Never"
+        name: eosrate-hapi
+        ports:
+        - containerPort: 3005
+        volumeMounts:
+        - mountPath: /opt/application
+          name: hapi1
+        - mountPath: /opt/application/node_modules
+          name: hapi2
+      restartPolicy: Always
+      volumes:
+      - name: hapi1
+        hostPath:
+          path: /opt/eos-rate/services/hapi
+          type: Directory
+      - name: hapi2
+        hostPath:
+          path: /mnt
+          type: Directory

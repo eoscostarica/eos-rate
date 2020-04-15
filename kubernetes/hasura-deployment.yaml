@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: hasura
+  name: hasura
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: hasura
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.network: "true"
+        io.kompose.service: hasura
+    spec:
+      containers:
+      - args:
+        - graphql-engine
+        - serve
+        - --enable-console
+        env:
+        - name: HASURA_GRAPHQL_DATABASE_URL
+          value: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
+        - name: HASURA_GRAPHQL_MIGRATIONS_DIR
+          value: /hasura-migrations
+        image: hasura/graphql-engine:v1.2.0-beta.2.cli-migrations
+        imagePullPolicy: ""
+        name: eosrate-hasura
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: /hasura-migrations
+          name: hasura1
+      restartPolicy: Always
+      volumes:
+      - name: hasura1
+        hostPath:
+          path: /mnt

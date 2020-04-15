@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: demux
+  name: demux
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: demux
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.network/default: "true"
+        io.kompose.service: demux
+    spec:
+      containers:
+      - env:
+        - name: DB_HOST
+          value: postgres
+        - name: DB_NAME
+          value: eosrate
+        - name: DB_PASSWORD
+          value: pass
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_SCHEMA
+          value: public
+        - name: DB_USER
+          value: user
+        - name: EOS_API_ENDPOINT
+          value: https://jungle.eosio.cr
+        - name: WAIT_HOSTS
+          value: postgres:5432, hasura:8088
+        - name: WAIT_HOSTS_TIMEOUT
+          value: "60"
+        image: eosrate/demux
+        imagePullPolicy: "Never"
+        name: eosrate-demux
+        ports:
+        - containerPort: 3030
+        volumeMounts:
+        - mountPath: /opt/application
+          name: demux1
+        - mountPath: /opt/application/node_modules
+          name: demux2
+      restartPolicy: Always
+      volumes:
+      - name: demux1
+        hostPath:
+          path: /opt/eos-rate/services/demux
+          type: Directory
+      - name: demux2
+        hostPath:
+          path: /mnt
+          type: Directory
