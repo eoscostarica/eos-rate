@@ -19,7 +19,7 @@
     "compareToolCollapsedSwitch": "Colapsar Gráficos",
     "voteToolTitle": "Herramienta de votación",
     "averageCard": "Promedio",
-    "rateCard": "Valuacion",
+    "rateCard": "Evaluaciones",
 
     "loginUsername": "Nombre de usuario",
     "loginPassword": "Contraseña",
@@ -68,7 +68,8 @@
     "development": "Mayor Calificación Desarrollo",
     "transparency": "Mayor Calificación Transparencia",
     "vote": "Mayor número de votos",
-    "reward": "Mayor recompensas por día"
+    "reward": "Mayor recompensas por día",
+    "ratings": "# Evaluaciones"
   },
 
   "not-found": {

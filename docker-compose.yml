@@ -97,6 +97,21 @@ services:
       - serve
       - --enable-console
 
+  frontend:
+    container_name: eosrate_frontend
+    build:
+      context: ./services/frontend
+      dockerfile: ./Dockerfile
+      target: server
+    image: eosrate/frontend
+    depends_on:
+      - hasura
+      - hapi
+    ports:
+      - "80:80"
+    networks:
+      default:
+
 volumes:
   eosrate-postgres:
 

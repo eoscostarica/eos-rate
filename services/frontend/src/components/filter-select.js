@@ -54,7 +54,8 @@ const FilterSelect = ({ classes, style, alt, onHandleApplySortBy }) => {
     { value: 'development', label: t('development') },
     { value: 'transparency', label: t('transparency') },
     { value: 'vote', label: t('vote') },
-    { value: 'reward', label: t('reward') }
+    { value: 'reward', label: t('reward') },
+    { value: 'ratings', label: t('ratings') }
   ]
 
   useEffect(() => {
