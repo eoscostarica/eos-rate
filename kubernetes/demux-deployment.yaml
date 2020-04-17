@@ -50,10 +50,10 @@ spec:
       restartPolicy: Always
       volumes:
       - name: demux1
-        hostPath:
-          path: /opt/eos-rate/services/demux
-          type: Directory
+        nfs:
+          server: NFS-server
+          path: /home/ubuntu/production/eos-rate/services/demux
       - name: demux2
-        hostPath:
-          path: /mnt
-          type: Directory
+        nfs:
+          server: NFS-server
+          path: /mnt/database

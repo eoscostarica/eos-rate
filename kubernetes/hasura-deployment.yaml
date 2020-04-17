@@ -38,5 +38,6 @@ spec:
       restartPolicy: Always
       volumes:
       - name: hasura1
-        hostPath:
-          path: /mnt
+        nfs:
+          server: NFS-server
+          path: /mnt/database
