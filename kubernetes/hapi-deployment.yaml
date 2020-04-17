@@ -37,8 +37,8 @@ spec:
           value: 0.0.0.0
         - name: VIRTUAL_PORT
           value: "3005"
-        image: hapi
-        imagePullPolicy: "Never"
+        image: eoscostarica506/hapi
+        imagePullPolicy: ""
         name: eosrate-hapi
         ports:
         - containerPort: 3005

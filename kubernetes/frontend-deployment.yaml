@@ -16,8 +16,8 @@ spec:
         io.kompose.service: frontend
     spec:
       containers:
-      - image: eosrate/frontend
-        imagePullPolicy: "Never"
+      - image: eoscostarica506/frontend
+        imagePullPolicy: ""
         name: eosrate-frontend
         env:
         - name: REACT_APP_GRAPHQL_HTTP_URL
