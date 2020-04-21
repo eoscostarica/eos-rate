@@ -87,9 +87,9 @@ services:
       - postgres
     restart: always
     environment:
-      HASURA_ADMIN_SECRET:
       HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
       HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
+      HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_GRAPHQL_ADMIN_SECRET}"
     volumes:
       - ./services/hasura/migrations:/hasura-migrations #  mount hasura migrations folder
     command:
