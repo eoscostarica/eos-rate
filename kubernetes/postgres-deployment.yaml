@@ -42,6 +42,6 @@ spec:
       restartPolicy: Always
       volumes:
       - name: eosrate-postgres
-        hostPath:
-          path: /mnt
-          type: Directory
+        nfs:
+          server: NFS-server
+          path: /mnt/database
