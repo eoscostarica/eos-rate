@@ -27,6 +27,8 @@ spec:
           value: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
         - name: HASURA_GRAPHQL_MIGRATIONS_DIR
           value: /hasura-migrations
+        - name: HASURA_GRAPHQL_ADMIN_SECRET
+          value: ${HASURA_GRAPHQL_ADMIN_SECRET}
         image: hasura/graphql-engine:v1.2.0-beta.2.cli-migrations
         imagePullPolicy: ""
         name: eosrate-hasura
