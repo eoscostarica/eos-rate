@@ -5,9 +5,13 @@ import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import PropTypes from 'prop-types'
 
-import Icon from '../../components/icon'
+import CommunityIcon from '../../components/icon/communityIcon'
+import TransparencyIcon from '../../components/icon/transparencyIcon'
+import TrustinessIcon from '../../components/icon/trustinessIcon'
+import InfrastructureIcon from '../../components/icon/infrastructureIcon'
+import DevelopmentIcon from '../../components/icon/developmentIcon'
 
-const styles = ({ typography, spacing, palette }) => ({
+const styles = ({ typography, spacing }) => ({
   ratingContainer: {
     color: '#433F5B',
     maxWidth: '1024px'
@@ -34,6 +38,7 @@ const styles = ({ typography, spacing, palette }) => ({
 
 const RatingCategory = ({ classes }) => {
   const { t } = useTranslation('home')
+
   return (
     <Grid
       item
@@ -48,12 +53,7 @@ const RatingCategory = ({ classes }) => {
       </Grid>
       <Grid item xs={12} md={12}>
         <div className={classes.subTitleContainer}>
-          <Icon
-            name='transparency'
-            useImage
-            className={classes.iconStyle}
-            size={25}
-          />
+          <TransparencyIcon />
           <Typography variant='h6' className={classes.subTitle}>
             {t('ratingCategory.transparency.title')}
           </Typography>
@@ -69,13 +69,7 @@ const RatingCategory = ({ classes }) => {
       </Grid>
       <Grid item xs={12} md={12}>
         <div className={classes.subTitleContainer}>
-          <Icon
-            name='infrastructure'
-            useImage
-            className={classes.iconStyle}
-            size={25}
-          />
-
+          <InfrastructureIcon />
           <Typography variant='h6' className={classes.subTitle}>
             {t('ratingCategory.infrastructure.title')}
           </Typography>
@@ -91,12 +85,7 @@ const RatingCategory = ({ classes }) => {
       </Grid>
       <Grid item xs={12} md={12}>
         <div className={classes.subTitleContainer}>
-          <Icon
-            name='trustiness'
-            useImage
-            className={classes.iconStyle}
-            size={25}
-          />
+          <TrustinessIcon />
           <Typography variant='h6' className={classes.subTitle}>
             {t('ratingCategory.trustiness.title')}
           </Typography>
@@ -112,12 +101,7 @@ const RatingCategory = ({ classes }) => {
       </Grid>
       <Grid item xs={12} md={12}>
         <div className={classes.subTitleContainer}>
-          <Icon
-            name='community'
-            useImage
-            className={classes.iconStyle}
-            size={25}
-          />
+          <CommunityIcon />
           <Typography variant='h6' className={classes.subTitle}>
             {t('ratingCategory.community.title')}
           </Typography>
@@ -133,12 +117,7 @@ const RatingCategory = ({ classes }) => {
       </Grid>
       <Grid item xs={12} md={12}>
         <div className={classes.subTitleContainer}>
-          <Icon
-            name='development'
-            useImage
-            className={classes.iconStyle}
-            size={25}
-          />
+          <DevelopmentIcon />
           <Typography variant='h6' className={classes.subTitle}>
             {t('ratingCategory.development.title')}
           </Typography>
