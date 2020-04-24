@@ -1,0 +1,22 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - bp
+      - ratings_cntr
+      - average
+      - transparency
+      - infrastructure
+      - trustiness
+      - community
+      - development
+      - created_at
+      - updated_at
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: anonymous
+    table:
+      name: ratings_stats
+      schema: public
+  type: create_select_permission
