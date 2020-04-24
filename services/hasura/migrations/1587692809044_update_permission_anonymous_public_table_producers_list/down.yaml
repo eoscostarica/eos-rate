@@ -1,0 +1,6 @@
+- args:
+    role: anonymous
+    table:
+      name: producers_list
+      schema: public
+  type: drop_select_permission

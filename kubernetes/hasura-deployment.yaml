@@ -32,6 +32,8 @@ spec:
           value: staging.eosrate.io
         - name: HASURA_GRAPHQL_ADMIN_SECRET
           value: ${HASURA_GRAPHQL_ADMIN_SECRET}
+        - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
+          value: ${HASURA_GRAPHQL_UNAUTHORIZED_ROLE}
         image: hasura/graphql-engine:v1.2.0-beta.2.cli-migrations
         imagePullPolicy: ""
         name: eosrate-hasura
