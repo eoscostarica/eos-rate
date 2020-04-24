@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: frontend
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: frontend
+  template:
+    metadata:
+      labels:
+        io.kompose.network/default: "true"
+        io.kompose.service: frontend
+    spec:
+      containers:
+      - image: eoscostarica506/frontend
+        imagePullPolicy: ""
+        name: eosrate-frontend
+        env:
+        - name: REACT_APP_GRAPHQL_HTTP_URL
+          value: http://hasura:8088/v1alpha1/graphql
+        - name: REACT_APP_GRAPHQL_WS_URL
+          value: ws://hasura:8088/v1alpha1/graphql
+        ports:
+        - containerPort: 80
+      restartPolicy: Always

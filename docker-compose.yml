@@ -87,15 +87,31 @@ services:
       - postgres
     restart: always
     environment:
-      HASURA_ADMIN_SECRET:
       HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
       HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
+      HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_GRAPHQL_ADMIN_SECRET}"
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "${HASURA_GRAPHQL_UNAUTHORIZED_ROLE}"
     volumes:
       - ./services/hasura/migrations:/hasura-migrations #  mount hasura migrations folder
     command:
       - graphql-engine
       - serve
       - --enable-console
+
+  frontend:
+    container_name: eosrate_frontend
+    build:
+      context: ./services/frontend
+      dockerfile: ./Dockerfile
+      target: server
+    image: eosrate/frontend
+    depends_on:
+      - hasura
+      - hapi
+    ports:
+      - "80:80"
+    networks:
+      default:
 
 volumes:
   eosrate-postgres:

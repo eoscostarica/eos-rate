@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: postgres
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.network: "true"
+        io.kompose.service: postgres
+    spec:
+      containers:
+      - env:
+        - name: DB_NAME
+          value: eosrate
+        - name: DB_PASSWORD
+          value: pass
+        - name: DB_USER
+          value: user
+        - name: POSTGRES_DB
+          value: eosrate
+        - name: POSTGRES_PASSWORD
+          value: pass
+        - name: POSTGRES_USER
+          value: user
+        image: postgres:10.4
+        imagePullPolicy: ""
+        name: eosrate-postgres
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: eosrate-postgres
+      restartPolicy: Always
+      volumes:
+      - name: eosrate-postgres
+        nfs:
+          server: NFS-server
+          path: /mnt/database
