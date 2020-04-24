@@ -21,15 +21,12 @@ spec:
       - args:
         - graphql-engine
         - serve
-        # Disable for the moment given securty risks
-        # - --enable-console
+        - --enable-console
         env:
         - name: HASURA_GRAPHQL_DATABASE_URL
           value: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
         - name: HASURA_GRAPHQL_MIGRATIONS_DIR
           value: /hasura-migrations
-        - name: VIRTUAL_HOST
-          value: staging.eosrate.io
         - name: HASURA_GRAPHQL_ADMIN_SECRET
           value: ${HASURA_GRAPHQL_ADMIN_SECRET}
         - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE

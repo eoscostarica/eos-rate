@@ -21,9 +21,22 @@ spec:
         name: eosrate-frontend
         env:
         - name: REACT_APP_GRAPHQL_HTTP_URL
-          value: http://hasura:8088/v1alpha1/graphql
+          value: http://hasura:8088/v1/graphql
         - name: REACT_APP_GRAPHQL_WS_URL
-          value: ws://hasura:8088/v1alpha1/graphql
+          value: ws://hasura:8088/v1/graphql
         ports:
         - containerPort: 80
+        - containerPort: 443
+        volumeMounts:
+        - mountPath: /etc/nginx/ssl-certs
+          name: secret-volume
+        - mountPath: /etc/nginx/conf.d
+          name: configmap-volume
       restartPolicy: Always
+      volumes:
+        - name: secret-volume
+          secret:
+             secretName: eosrate.io.keys
+        - name: configmap-volume
+          configMap:
+            name:  eosrate.io.conf
