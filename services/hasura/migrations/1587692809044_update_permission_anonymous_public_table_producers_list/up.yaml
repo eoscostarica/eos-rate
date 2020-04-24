@@ -1,0 +1,25 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - owner
+      - bpjson
+      - system
+      - candidate_name
+      - total_votes
+      - average
+      - transparency
+      - infrastructure
+      - trustiness
+      - community
+      - development
+      - ratings_cntr
+      - general_info
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: anonymous
+    table:
+      name: producers_list
+      schema: public
+  type: create_select_permission

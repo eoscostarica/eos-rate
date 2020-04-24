@@ -1,0 +1,17 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - ratings
+      - tx_data
+      - bp
+      - uniq_rating
+      - user
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: anonymous
+    table:
+      name: user_ratings
+      schema: public
+  type: create_select_permission
