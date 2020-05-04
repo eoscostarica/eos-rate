@@ -6,8 +6,8 @@
     "transparency": "Transparencia",
     "trustiness": "Lealtad",
 
-    "bpsTitle": "Productores de bloques EOS y portal de votación de BP - EOS Rate",
-    "proxiesTitle": "Proxy EOS y herramienta de votación por proxy - EOS Rate",
+    "bpsTitle": "Lista de productores de bloques EOS y votar por BPs",
+    "proxiesTitle": "Votar por un proxy para productores de bloques",
     "availableToRate": "Usted puede Calificar a los Productores de Bloques",
     "notAvailableToRate": "Usted debe votar por un proxy o al menos por 21 producers",
     "voteWithoutLogin": "Necesitas iniciar sesión para votar",
@@ -79,7 +79,7 @@
   },
 
   "home": {
-    "title": "Calificaciones de productores de bloques y portal de votación EOSIO - EOS Costa Rica",
+    "title": "Productores de bloques y herramienta para votar por BP EOS",
     "cover": {
       "title": "Califique fácilmente a los productores de bloques EOS",
       "paragraph1": "EOS Rate es un dApp de código abierto que permite a los titulares de tokens EOS calificar a los productores de bloques con solo unos pocos clics.",
@@ -150,7 +150,7 @@
     "myRate": "Mi Evaluación",
     "rateWithoutLogin": "Necesitas iniciar sesión para evaluar un productor de bloques",
     "noBlockProducer": "No encontramos este PB",
-    "title": "Califique este Productor de bloques"
+    "title": "Calificación de Productores de bloques EOS"
 
   },
 
@@ -185,7 +185,7 @@
     "voteWithoutLogin": "Necesitas iniciar sesión para votar por un proxy",
     "totalVotes": "Total de votos",
     "labelTool": "vota por",
-    "title": "Calificaciones de la comunidad de productores de bloques para",
+    "title": "Calificaciones de productor de bloques EOS",
     "proxyProfile": "Reseñas sobre EOS proxy"
   }
 }

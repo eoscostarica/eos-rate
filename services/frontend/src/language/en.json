@@ -6,8 +6,8 @@
     "transparency": "Transparency",
     "trustiness": "Trustiness",
 
-    "bpsTitle": "EOS Block producers and BP voting Portal - EOS Rate",
-    "proxiesTitle": "EOS Proxies and proxy voting tool - EOS Rate",
+    "bpsTitle": "List EOS block producers ranking BP - EOS Rate",
+    "proxiesTitle": "EOS Proxies list and voting tool - EOS Rate",
     "availableToRate": "You can rate BPs",
     "notAvailableToRate": "You need to vote for a Proxy or at least 21 BPs",
     "voteWithoutLogin": "You need to login to vote",
@@ -79,7 +79,7 @@
   },
 
   "home": {
-    "title": "Block Producer Ratings and EOSIO Voting Portal - EOS Costa Rica",
+    "title": "EOS block producer ratings and BP voting portal - EOS Rate",
     "cover": {
       "title": "Easily Rate EOS Block Producers",
       "paragraph1": "EOS Rate is an open-source dApp that allows EOS token holders to rate Block Producers in just a few clicks.",
@@ -150,7 +150,7 @@
     "myRate": "My Rating",
     "rateWithoutLogin": "You need to login to rate this block producer",
     "noBlockProducer": "This BP Does Not Exist.",
-    "title": "Rate Block Producer"
+    "title": "Rate EOS Block Producer Infrastructure and Community Reputation "
   },
 
   "footer": {
