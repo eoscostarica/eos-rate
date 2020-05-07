@@ -1,7 +1,5 @@
 #!/bin/bash
 echo "Building docker containers..."
-docker build -t eoscostarica506/hasura services/hasura/
-docker push eoscostarica506/hasura
 docker build -t eoscostarica506/demux services/demux/
 docker push eoscostarica506/demux
 docker build -t eoscostarica506/hapi services/hapi/
