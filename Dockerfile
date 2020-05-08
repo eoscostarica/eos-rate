@@ -2,6 +2,7 @@ FROM ubuntu:18.04
 
 ARG ssh_prv_key
 ARG ssh_pub_key
+ARG branch
 
 # Make sure we have bash as our default shell
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
@@ -22,10 +23,10 @@ RUN mkdir -p /root/.ssh && \
 RUN echo "$ssh_prv_key" > /root/.ssh/id_rsa && \
     chmod 600 /root/.ssh/id_rsa
 
-RUN git clone --branch "${BRANCH}" https://github.com/eoscostarica/eos-rate.git /opt/eos-rate
+RUN git clone --branch "$branch" https://github.com/eoscostarica/eos-rate.git /opt/eos-rate
 
 WORKDIR /opt/eos-rate
 
 CMD eval `ssh-agent` && ssh-add \
   && export GIT_SSH_COMMAND="/usr/bin/ssh -i /root/.ssh/id_rsa" \
-  && git push "ssh://${USER}@190.171.41.42/var/repo/eos-rate.git" HEAD:"${BRANCH}"
+  && git push "ssh://${USER}@190.171.41.42/var/repo/eos-rate.git" HEAD:"$branch"
