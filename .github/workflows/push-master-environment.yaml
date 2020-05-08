@@ -1,8 +1,8 @@
-name: Push code to staging environment
+name: Push code to master environment
 
 on:
   push:
-    branches: [ staging ]
+    branches: [ master ]
 
 jobs:
   build:
@@ -18,5 +18,5 @@ jobs:
           .
         docker run \
           -e USER="${{secrets.USER}}" \
-          -e BRANCH="staging" \
+          -e BRANCH="master" \
           eosrate-deployer
