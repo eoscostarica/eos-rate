@@ -1,0 +1,18 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hapi-cronjob
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hapi-cronjob
+            image: eoscostarica506/hapi
+            args:
+            - /bin/sh
+            - -c
+            - /usr/bin/node /opt/application/src/libs/sync-bps.js; /usr/bin/node /opt/application/src/libs/sync-proxies.js
+          restartPolicy: Never
