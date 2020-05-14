@@ -13,11 +13,11 @@ jobs:
       uses: docker-practice/actions-setup-docker@0.0.1
     - name: run push
       run: |
-        docker build -t eosrate-deployer \
+        docker build -t eosrate-deployer-test \
           --build-arg ssh_prv_key="$(echo $"${{secrets.SSH_PRV_KEY}}")" \
           --build-arg branch="staging" \
           .
         docker run \
           -e USER="${{secrets.USER}}" \
           -e branch="staging" \
-          eosrate-deployer
+          eosrate-deployer-test
