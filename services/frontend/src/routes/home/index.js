@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 
 import TitlePage from 'components/title-page'
@@ -11,9 +12,12 @@ import Cover from './cover'
 import SubTopic from './subTopic'
 import RateCategory from './rateCategory'
 
-const styles = ({ spacing, palette }) => ({
+const styles = ({ spacing, palette, breakpoints }) => ({
   spacingContainers: {
-    padding: spacing(8, 0, 8, 0)
+    padding: spacing(8, 2),
+    [breakpoints.up('sm')]: {
+      padding: spacing(8, 0)
+    }
   },
   coverContainer: {
     backgroundColor: palette.surface.main
@@ -26,7 +30,13 @@ const styles = ({ spacing, palette }) => ({
   }
 })
 
-const Home = ({ classes, home, getBlockData, setShowSortSelected, showSortSelected }) => {
+const Home = ({
+  classes,
+  home,
+  getBlockData,
+  setShowSortSelected,
+  showSortSelected
+}) => {
   const { t } = useTranslation('home')
 
   useEffect(() => {
@@ -46,9 +56,10 @@ const Home = ({ classes, home, getBlockData, setShowSortSelected, showSortSelect
             <Grid
               container
               justify='center'
-              className={`${classes.spacingContainers}
-                    ${classes.coverContainer}
-                  `}
+              className={classNames(
+                classes.spacingContainers,
+                classes.coverContainer
+              )}
             >
               <Cover blockProducer={home.blockProducer} />
             </Grid>
@@ -60,9 +71,10 @@ const Home = ({ classes, home, getBlockData, setShowSortSelected, showSortSelect
             <Grid
               container
               justify='center'
-              className={`${classes.spacingContainers}
-                    ${classes.rateCategoryContainer}
-                  `}
+              className={classNames(
+                classes.spacingContainers,
+                classes.rateCategoryContainer
+              )}
             >
               <RateCategory />
             </Grid>
@@ -73,9 +85,10 @@ const Home = ({ classes, home, getBlockData, setShowSortSelected, showSortSelect
           <Grid
             container
             justify='center'
-            className={`${classes.spacingContainers}
-                ${classes.subTopicContainer}
-              `}
+            className={classNames(
+              classes.spacingContainers,
+              classes.subTopicContainer
+            )}
           >
             <SubTopic />
           </Grid>
@@ -90,7 +103,10 @@ const mapStatetoProps = ({ home, blockProducers }) => ({
   showSortSelected: blockProducers.showSortSelected
 })
 
-const mapDispatchToProps = ({ home: { getBlockData }, blockProducers: { setShowSortSelected } }) => ({
+const mapDispatchToProps = ({
+  home: { getBlockData },
+  blockProducers: { setShowSortSelected }
+}) => ({
   getBlockData,
   setShowSortSelected
 })
