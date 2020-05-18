@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 
 import Video from 'components/video'
 
-const styles = ({ palette, typography }) => ({
+const styles = ({ palette, typography, spacing }) => ({
   subTopicContainer: {
     maxWidth: '1024px'
   },
@@ -18,19 +18,21 @@ const styles = ({ palette, typography }) => ({
   },
   paragraph: {
     color: palette.grey[600]
+  },
+  subtitle: {
+    marginBottom: spacing(1),
+    color: palette.grey[600]
+  },
+  gridContent: {
+    padding: '2%'
   }
 })
 
 const SubTopic = ({ classes }) => {
   const { t } = useTranslation('home')
   return (
-    <Grid
-      item
-      container
-      xs={12}
-      className={classes.subTopicContainer}
-    >
-      <Grid item xs={12} md={6} style={{ padding: '2%' }}>
+    <Grid item container xs={12} className={classes.subTopicContainer}>
+      <Grid item xs={12} md={6} className={classes.gridContent}>
         <Typography variant='h5' className={classes.title}>
           {t('subTopic.title')}
         </Typography>
@@ -55,6 +57,20 @@ const SubTopic = ({ classes }) => {
       </Grid>
       <Grid item xs={12} md={6}>
         <Video src={t('subTopic.videoUrl')} />
+      </Grid>
+      <Grid item xs={12} md={12} className={classes.gridContent}>
+        <Typography variant='h6' className={classes.subtitle}>
+          {t('subTopic.subtitle')}
+        </Typography>
+
+        <Typography
+          variant='body2'
+          className={classes.paragraph1}
+          align='justify'
+          paragraph
+        >
+          {t('subTopic.text')}
+        </Typography>
       </Grid>
     </Grid>
   )

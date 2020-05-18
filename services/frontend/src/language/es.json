@@ -82,15 +82,23 @@
     "title": "Productores de bloques y herramienta para votar por BP EOS",
     "cover": {
       "title": "Califique fácilmente a los productores de bloques EOS",
-      "paragraph1": "EOS Rate es un dApp de código abierto que permite a los titulares de tokens EOS calificar a los productores de bloques con solo unos pocos clics.",
-      "paragraph2": "Las calificaciones globales ayudan a capturar la opinión colectiva o la \"sabiduría de la multitud\" y medir si el sentimiento de los votantes se refleja en los patrones de votación.",
-      "cta": "Block Producer Page"
+      "paragraph": {
+        "subtitle1": "¿Qué es EOS Rate?",
+        "text1": "EOS Rate es una aplicación descentralizada (dapp) de código abierto que permite a titulares de tokens EOS calificar productores de bloques (BPs) y proxies en tan solo unos clics. Los usuarios pueden acceder a un sistema de calificaciones y portal de votos, lo que ayuda a los titulares de bloques a tomar decisiones más informadas.",
+        "text2": "Además, la intención de EOS Rate es recolectar calificaciones globales para capturar la opinión colectiva y medir si los patrones de votación reflejan el sentimiento de los votantes. La dapp genera perfiles de los BPs usando un componente radial llamado “LEAF” (Liquid EOS Attribute Factors) para que los usuarios puedan comparar visualmente los atributos cualitativos más relevantes de los BPs.",
+        "subtitle2": "¿Cómo funciona EOS Rate?",
+        "text3": "Para empezar a calificar, los titulares de tokens deberán iniciar sesión usando su billetera EOS. Esto significa que una cuenta representará una calificación por cada BP. Las calificaciones quedarán registradas de forma segura en la blockchain EOS para garantizar la inmutabilidad de las evaluaciones.",
+        "text4": "¡Estamos buscando titulares de tokens que quieran ser beta testers! La versión beta de EOS Rate ya está corriendo en la EOS Mainnet."
+      },
+      "cta": "Empieza a calificar aquí"
     },
     "subTopic": {
-      "videoUrl": "https://www.youtube.com/embed/bo9ksd_X8fM",
+      "videoUrl": "https://www.youtube.com/embed/saZnZqJsMhk",
       "title": "Democracia líquida",
       "paragraph1": "Encuentra el productor de bloques que mejor te represente.",
-      "paragraph2": "EOS Rate fue construido por una comunidad que cree en la transparencia. La herramienta genera páginas de perfil de los productores de bloques. Utiliza un componente radial único que llamamos \"LEAF\" (Factores de atributos de EOS líquidos) para ayudarlo a comparar visualmente los atributos cualitativos más relevantes de los Productores de bloques, lo que facilita a los titulares de fichas hacer un voto informado."
+      "paragraph2": "EOS Rate fue construido por una comunidad que cree en la transparencia. La herramienta genera páginas de perfil de los productores de bloques. Utiliza un componente radial único que llamamos \"LEAF\" (Factores de atributos de EOS líquidos) para ayudarlo a comparar visualmente los atributos cualitativos más relevantes de los Productores de bloques, lo que facilita a los titulares de fichas hacer un voto informado.",
+      "subtitle": "¡Empieza a calificar ahora!",
+      "text": "Si tienes preguntas u observaciones durante la prueba, déjanos saber a través de nuestro grupo de Telegram (https://t.me/eoscr) o directamente a nuestro email: bp@eosio.cr."
     },
     "ratingCategory": {
       "title": "Categorías de Calificación",
