@@ -12,7 +12,7 @@ import Radar from 'components/radar'
 const bpLink = React.forwardRef((props, ref) => (
   <Link innerRef={ref} {...props} />
 ))
-const styles = ({ palette, typography }) => ({
+const styles = ({ palette, typography, spacing }) => ({
   coverContainer: {
     padding: 0,
     color: '#433F5B',
@@ -35,7 +35,9 @@ const styles = ({ palette, typography }) => ({
     display: 'flex',
     alignItems: 'center'
   },
-  btn: {},
+  subtitle: {
+    marginBottom: spacing(1)
+  },
   leftCoverBox: {
     display: 'flex',
     flexDirection: 'column',
@@ -52,13 +54,8 @@ const HomeCover = ({ classes, blockProducer }) => {
         <Typography variant='h5' className={classes.title}>
           {t('cover.title')}
         </Typography>
-        <Typography
-          variant='body2'
-          className={classes.paragraph}
-          align='justify'
-          paragraph
-        >
-          {t('cover.paragraph1')}
+        <Typography variant='h6' className={classes.subtitle}>
+          {t('cover.paragraph.subtitle1')}
         </Typography>
         <Typography
           variant='body2'
@@ -66,7 +63,34 @@ const HomeCover = ({ classes, blockProducer }) => {
           align='justify'
           paragraph
         >
-          {t('cover.paragraph2')}
+          {t('cover.paragraph.text1')}
+        </Typography>
+        <Typography
+          variant='body2'
+          className={classes.paragraph}
+          align='justify'
+          paragraph
+        >
+          {t('cover.paragraph.text2')}
+        </Typography>
+        <Typography variant='h6' className={classes.subtitle}>
+          {t('cover.paragraph.subtitle2')}
+        </Typography>
+        <Typography
+          variant='body2'
+          className={classes.paragraph}
+          align='justify'
+          paragraph
+        >
+          {t('cover.paragraph.text3')}
+        </Typography>
+        <Typography
+          variant='body2'
+          className={classes.paragraph}
+          align='justify'
+          paragraph
+        >
+          {t('cover.paragraph.text4')}
         </Typography>
         <div className={classes.ctaContainer}>
           <Button

@@ -81,16 +81,24 @@
   "home": {
     "title": "EOS block producer ratings and BP voting portal - EOS Rate",
     "cover": {
-      "title": "Easily Rate EOS Block Producers",
-      "paragraph1": "EOS Rate is an open-source dApp that allows EOS token holders to rate Block Producers in just a few clicks.",
-      "paragraph2": "Global ratings help capture collective opinion, or “wisdom of the crowd” and measure if voter sentiment is reflected in voting patterns.",
-      "cta": "Rate Block Producers"
+      "title": "Raise Your Voice. Rate Block Producers.",
+      "paragraph": {
+        "subtitle1": "What is EOS Rate?",
+        "text1": "EOS Rate is an open-source Dapp that allows EOS token holders to rate Block Producers (BPs) and Proxies in just a few clicks. Users can access a rating system and voting portal, making it easer for the token holders to make a informer decision.",
+        "text2": "Moreover, EOS Rate intends to gather global ratings to help capture collective opinion, or \"wisdom on the crowd\" and measure if the voting patterns reflect voter sentiment. The Dapp generates profile pages of the BPs, using a radial component called \"LEAF\" (Liquid EOS Attribute Factors) to help the user visually compate the most relevant qualitative attributes of BPs.",
+        "subtitle2": "How Does EOS Rate Work?",
+        "text3": "To submit ratings, the token holders must sing in with their EOS wallet. This means that one account can only represent one rating submission per BP. The ratings are securely stored in the EOS blockchain ti guarantee the immutability of the ratings.",
+        "text4": "Right now, we are looking for token holders who want to become beta testers! EOS Rate beta version is currently running in the EOS Mainnet."
+      },
+      "cta": "Start rating here"
     },
     "subTopic": {
-      "videoUrl": "https://www.youtube.com/embed/bo9ksd_X8fM",
+      "videoUrl": "https://www.youtube.com/embed/saZnZqJsMhk",
       "title": "Liquid Democracy",
       "paragraph1": "Find the Block Producer that best represents you.",
-      "paragraph2": "EOS Rate was built by a community that believes in transparency. The tool generates profile pages of the Block Producers. It uses a unique radial component we call “LEAF” (Liquid EOS Attribute Factors) to help you visually compare the most relevant qualitative attributes of Block Producers, making it easier for token holders to make an informed vote."
+      "paragraph2": "EOS Rate was built by a community that believes in transparency. The tool generates profile pages of the Block Producers.  It uses a unique radial component we call “LEAF” (Liquid EOS Attribute Factors) to compare the most relevant qualitative attributes of BPs visually.",
+      "subtitle": "Start Rating Now!",
+      "text": "If you have any questions or observations during your testing, please let us know through our Telegram group (https://t.me/eoscr) or directly to our email: bp@eosio.cr."
     },
     "ratingCategory": {
       "title": "Rating Categories",
