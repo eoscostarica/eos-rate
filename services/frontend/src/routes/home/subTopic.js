@@ -25,6 +25,10 @@ const styles = ({ palette, typography, spacing }) => ({
   },
   gridContent: {
     padding: '2%'
+  },
+  link: {
+    color: palette.grey[600],
+    fontWeight: '500'
   }
 })
 
@@ -54,11 +58,6 @@ const SubTopic = ({ classes }) => {
         >
           {t('subTopic.paragraph2')}
         </Typography>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <Video src={t('subTopic.videoUrl')} />
-      </Grid>
-      <Grid item xs={12} md={12} className={classes.gridContent}>
         <Typography variant='h6' className={classes.subtitle}>
           {t('subTopic.subtitle')}
         </Typography>
@@ -69,8 +68,15 @@ const SubTopic = ({ classes }) => {
           align='justify'
           paragraph
         >
-          {t('subTopic.text')}
+          {`${t('subTopic.text')} `}(
+          <a href='https://t.me/eoscr' target='_blank' className={classes.link}>
+            https://t.me/eoscr
+          </a>
+          ).
         </Typography>
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <Video src={t('subTopic.videoUrl')} />
       </Grid>
     </Grid>
   )

@@ -23,9 +23,6 @@ const styles = ({ palette, typography, spacing }) => ({
     fontSize: typography.h4.fontSize,
     marginBottom: 12.5
   },
-  paragraph: {
-    //    color: palette.grey[600]
-  },
   ctaContainer: {
     textAlign: 'center'
   },
@@ -50,10 +47,10 @@ const HomeCover = ({ classes, blockProducer }) => {
 
   return (
     <Grid item container xs={12} className={classes.coverContainer}>
+      <Typography variant='h5' className={classes.title}>
+        {t('cover.title')}
+      </Typography>
       <Grid item xs={12} md={6} className={classes.leftCoverBox}>
-        <Typography variant='h5' className={classes.title}>
-          {t('cover.title')}
-        </Typography>
         <Typography variant='h6' className={classes.subtitle}>
           {t('cover.paragraph.subtitle1')}
         </Typography>
