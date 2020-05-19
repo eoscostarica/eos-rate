@@ -28,7 +28,8 @@ const styles = ({ palette, typography, spacing }) => ({
   },
   link: {
     color: palette.grey[600],
-    fontWeight: '500'
+    fontWeight: '500',
+    textDecoration: 'none'
   }
 })
 
@@ -68,11 +69,10 @@ const SubTopic = ({ classes }) => {
           align='justify'
           paragraph
         >
-          {`${t('subTopic.text')} `}(
+          {`${t('subTopic.text')} `}
           <a href='https://t.me/eoscr' target='_blank' className={classes.link}>
-            https://t.me/eoscr
+            {t('subTopic.telegramGroup')}.
           </a>
-          ).
         </Typography>
       </Grid>
       <Grid item xs={12} md={6}>
