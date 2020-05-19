@@ -17,6 +17,7 @@ import CheckCircle from '@material-ui/icons/CheckCircle'
 import Error from '@material-ui/icons/Error'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import _get from 'lodash.get'
+import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 
 import TitlePage from 'components/title-page'
@@ -28,10 +29,10 @@ import SliderRatingSection from './slider-rating-section'
 
 const style = theme => ({
   container: {
-    padding: 10
+    padding: theme.spacing(1)
   },
   bpName: {
-    marginLeft: 6
+    marginLeft: theme.spacing(1)
   },
   accountCircle: {
     color: theme.palette.surface.main
@@ -42,16 +43,16 @@ const style = theme => ({
   },
   radarWrapper: {
     flexBasis: 0,
-    padding: '30px 0'
+    padding: theme.spacing(4, 0)
   },
   ctasWrapper: {
     flexBasis: 0
   },
   box: {
-    padding: 20
+    padding: theme.spacing(2)
   },
   title: {
-    marginBottom: 10
+    marginBottom: theme.spacing(1)
   },
   subTitle: {
     fontWeight: 'bold'
@@ -60,7 +61,7 @@ const style = theme => ({
     marginLeft: 4
   },
   category: {
-    marginTop: 10
+    marginTop: theme.spacing(1)
   },
   breadcrumbText: {
     color: '#fff',
@@ -68,6 +69,20 @@ const style = theme => ({
   },
   avatar: {
     backgroundColor: theme.palette.surface.main
+  },
+  showOnlySm: {
+    display: 'flex',
+
+    [theme.breakpoints.up('sm')]: {
+      display: 'none'
+    }
+  },
+  showOnlyLg: {
+    display: 'flex',
+
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
   }
 })
 
@@ -243,10 +258,8 @@ const BlockProducerRate = ({
   return (
     <Grid container justify='center' className={classes.container}>
       <TitlePage
-        title={`${t('title')} ${_get(
-          producer,
-          'bpjson.org.candidate_name'
-        ) || _get(producer, 'system.owner', t('noBlockProducer'))} - EOS Rate`}
+        title={`${t('title')} ${_get(producer, 'bpjson.org.candidate_name') ||
+          _get(producer, 'system.owner', t('noBlockProducer'))} - EOS Rate`}
       />
       <Grid item xs={12}>
         <Grid
@@ -319,6 +332,90 @@ const BlockProducerRate = ({
                   ratingState={ratingState}
                   producer={producer}
                 />
+                <Grid
+                  className={classNames(
+                    classes.ctasWrapper,
+                    classes.showOnlyLg
+                  )}
+                  item
+                  xs={12}
+                >
+                  <Grid
+                    alignItems='center'
+                    container
+                    justify='flex-end'
+                    style={{ marginTop: 10 }}
+                  >
+                    {showMessage && (
+                      <Chip
+                        avatar={
+                          <Avatar>
+                            <Error />
+                          </Avatar>
+                        }
+                        color='secondary'
+                        label={t('rateWithoutLogin')}
+                        variant='outlined'
+                      />
+                    )}
+                    {ratingState.txError && (
+                      <Chip
+                        avatar={
+                          <Avatar>
+                            <Error />
+                          </Avatar>
+                        }
+                        color='secondary'
+                        label={ratingState.txError}
+                        variant='outlined'
+                      />
+                    )}
+                    {ratingState.txSuccess && (
+                      <Chip
+                        avatar={
+                          <Avatar>
+                            <CheckCircle />
+                          </Avatar>
+                        }
+                        color='secondary'
+                        label='Success!'
+                        variant='outlined'
+                      />
+                    )}
+                    {ratingState.processing && (
+                      <CircularProgress color='secondary' size={20} />
+                    )}
+                    <Button
+                      className='textPrimary'
+                      disabled={!producer || ratingState.processing}
+                      color='secondary'
+                      onClick={transact}
+                      size='small'
+                      style={{ margin: '0 10px' }}
+                      variant='contained'
+                    >
+                      {t('publishRatingButton')}
+                    </Button>
+                    <Button
+                      disabled={!producer}
+                      component={forwardRef((props, ref) => (
+                        <Link
+                          {...props}
+                          ref={ref}
+                          to={`/block-producers/${_get(
+                            producer,
+                            'bpjson.producer_account_name',
+                            null
+                          )}`}
+                        />
+                      ))}
+                      variant='contained'
+                      size='small'
+                    >
+                      {t('cancelRatingButton')}
+                    </Button>
+                  </Grid>
+                </Grid>
               </Grid>
               <Grid item xs={12} sm={7}>
                 <Grid
@@ -337,7 +434,14 @@ const BlockProducerRate = ({
                       }}
                     />
                   </Grid>
-                  <Grid className={classes.ctasWrapper} item xs={12}>
+                  <Grid
+                    className={classNames(
+                      classes.ctasWrapper,
+                      classes.showOnlySm
+                    )}
+                    item
+                    xs={12}
+                  >
                     <Grid
                       alignItems='center'
                       container

@@ -24,7 +24,8 @@ const styles = theme => ({
   },
   title: {
     textDecoration: 'none',
-    color: theme.palette.primary.main
+    color: theme.palette.primary.main,
+    padding: theme.spacing(2, 2, 1, 2)
   },
   unsafeChip: {
     marginLeft: theme.spacing(2),
@@ -74,7 +75,7 @@ const styles = theme => ({
     alignItems: 'center',
     width: '100%',
     height: 25,
-    padding: '0 10px'
+    padding: theme.spacing(0, 1)
   },
   showOnlySm: {
     display: 'flex',
@@ -94,7 +95,7 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: '0 16px',
+    padding: theme.spacing(0, 2, 1, 2),
     color: theme.palette.primary.main
   }
 })
@@ -298,7 +299,7 @@ CardData.propTypes = {
 
 CardData.defaultProps = {
   useRateButton: true,
-  buttonLabel: 'ADD',
+  buttonLabel: 'ADD TO VOTE',
   average: '0',
   rate: '0',
   showOptions: true

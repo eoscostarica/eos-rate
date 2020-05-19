@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 
 import Video from 'components/video'
 
-const styles = ({ palette, typography }) => ({
+const styles = ({ palette, typography, spacing }) => ({
   subTopicContainer: {
     maxWidth: '1024px'
   },
@@ -18,19 +18,25 @@ const styles = ({ palette, typography }) => ({
   },
   paragraph: {
     color: palette.grey[600]
+  },
+  subtitle: {
+    marginBottom: spacing(1),
+    color: palette.grey[600]
+  },
+  gridContent: {
+    padding: '2%'
+  },
+  link: {
+    color: palette.grey[600],
+    fontWeight: '500'
   }
 })
 
 const SubTopic = ({ classes }) => {
   const { t } = useTranslation('home')
   return (
-    <Grid
-      item
-      container
-      xs={12}
-      className={classes.subTopicContainer}
-    >
-      <Grid item xs={12} md={6} style={{ padding: '2%' }}>
+    <Grid item container xs={12} className={classes.subTopicContainer}>
+      <Grid item xs={12} md={6} className={classes.gridContent}>
         <Typography variant='h5' className={classes.title}>
           {t('subTopic.title')}
         </Typography>
@@ -51,6 +57,22 @@ const SubTopic = ({ classes }) => {
           paragraph
         >
           {t('subTopic.paragraph2')}
+        </Typography>
+        <Typography variant='h6' className={classes.subtitle}>
+          {t('subTopic.subtitle')}
+        </Typography>
+
+        <Typography
+          variant='body2'
+          className={classes.paragraph1}
+          align='justify'
+          paragraph
+        >
+          {`${t('subTopic.text')} `}(
+          <a href='https://t.me/eoscr' target='_blank' className={classes.link}>
+            https://t.me/eoscr
+          </a>
+          ).
         </Typography>
       </Grid>
       <Grid item xs={12} md={6}>

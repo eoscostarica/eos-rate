@@ -39,10 +39,10 @@ const styles = theme => ({
   btnRate: {
     backgroundColor: theme.palette.secondary.main,
     marginBottom: 5,
+    color: '#ffffff',
     [theme.breakpoints.up('sm')]: {
       float: 'right',
       marginRight: 20,
-      color: '#ffffff',
       '&:hover': {
         backgroundColor: theme.palette.secondary.dark
       }
