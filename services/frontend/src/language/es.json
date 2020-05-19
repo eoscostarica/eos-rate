@@ -84,11 +84,11 @@
       "title": "Califique fácilmente a los productores de bloques EOS",
       "paragraph": {
         "subtitle1": "¿Qué es EOS Rate?",
-        "text1": "EOS Rate es una aplicación descentralizada (dapp) de código abierto que permite a titulares de tokens EOS calificar productores de bloques (BPs) y proxies en tan solo unos clics. Los usuarios pueden acceder a un sistema de calificaciones y portal de votos, lo que ayuda a los titulares de bloques a tomar decisiones más informadas.",
-        "text2": "Además, la intención de EOS Rate es recolectar calificaciones globales para capturar la opinión colectiva y medir si los patrones de votación reflejan el sentimiento de los votantes. Ingresa al portal de EOS Rate para empezar a calificar y haz que tu voz cuente.",
+        "text1": "EOS Rate es una aplicación descentralizada (dApp) de código abierto que permite a poseedores de tokens EOS calificar productores de bloques (BPs) en tan solo unos clics. Los usuarios pueden acceder a un sistema de calificaciones y portal de votos, lo que ayuda a los dueños de tokens tomar decisiones informadas.",
+        "text2": "Además, la intención de EOS Rate es recolectar calificaciones globales para capturar la opinión colectiva y medir si los patrones de votación reflejan el sentimiento de los votantes.",
         "subtitle2": "¿Cómo funciona EOS Rate?",
-        "text3": "Para empezar a calificar, los titulares de tokens deberán iniciar sesión usando su billetera EOS. Esto significa que una cuenta representará una calificación por cada BP. Las calificaciones quedarán registradas de forma segura en la blockchain EOS para garantizar la inmutabilidad de las evaluaciones.",
-        "text4": "¡Estamos buscando titulares de tokens que quieran ser beta testers! La versión beta de EOS Rate ya está corriendo en la EOS Mainnet."
+        "text3": "Para empezar a calificar, los dueños de tokens deberán iniciar una sesión usando su billetera EOS. Esto significa que una cuenta representará una calificación por cada BP. Las calificaciones quedarán registradas de forma segura en la blockchain EOS para garantizar la inmutabilidad.",
+        "text4": "Ingresa al portal de EOS Rate para empezar a calificar y haz que tu voz cuente."
       },
       "cta": "Empieza a calificar ahora"
     },
@@ -98,7 +98,8 @@
       "paragraph1": "Encuentra el productor de bloques que mejor te represente.",
       "paragraph2": "EOS Rate fue construido por una comunidad que cree en la transparencia. La herramienta genera páginas de perfil de los productores de bloques. Utiliza un componente radial único que llamamos \"LEAF\" (Factores de atributos de EOS líquidos) para ayudarlo a comparar visualmente los atributos cualitativos más relevantes de los Productores de bloques, lo que facilita a los titulares de fichas hacer un voto informado.",
       "subtitle": "¡Empieza a calificar ahora!",
-      "text": "Si tienes preguntas u observaciones durante la prueba, déjanos saber a través de nuestro grupo de Telegram"
+      "text": "Si tienes preguntas u observaciones, déjanos saber a través de nuestro",
+      "telegramGroup": "grupo de telegram"
     },
     "ratingCategory": {
       "title": "Categorías de Calificación",
