@@ -177,10 +177,6 @@ const BlockProducerProfile = ({
     setShowSortSelected(false)
   })
 
-  useEffect(() => {
-    setShowSortSelected(false)
-  })
-
   return (
     <Grid container justify='center' className={classes.container}>
       <TitlePage title={`${t('title')} ${BlockProducerTitle}  - EOS Rate`} />
