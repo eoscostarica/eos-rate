@@ -98,7 +98,8 @@
       "paragraph1": "Find the Block Producer that best represents you.",
       "paragraph2": "EOS Rate was built by a community that believes in transparency. The tool generates profile pages for each Block Producer.  Using a unique radial component we call “LEAF” (Liquid EOS Attribute Factors) to compare the most relevant qualitative attributes of BPs visually.",
       "subtitle": "Start Rating Now!",
-      "text": "If you have any questions or observations during your testing, please let us know through our Telegram group"
+      "text": "If you have any questions or observations, please let us know through our",
+      "telegramGroup": "telegram group"
     },
     "ratingCategory": {
       "title": "Rating Categories",

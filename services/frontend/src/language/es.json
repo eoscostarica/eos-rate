@@ -98,7 +98,8 @@
       "paragraph1": "Encuentra el productor de bloques que mejor te represente.",
       "paragraph2": "EOS Rate fue construido por una comunidad que cree en la transparencia. La herramienta genera páginas de perfil de los productores de bloques. Utiliza un componente radial único que llamamos \"LEAF\" (Factores de atributos de EOS líquidos) para ayudarlo a comparar visualmente los atributos cualitativos más relevantes de los Productores de bloques, lo que facilita a los titulares de fichas hacer un voto informado.",
       "subtitle": "¡Empieza a calificar ahora!",
-      "text": "Si tienes preguntas u observaciones durante la prueba, déjanos saber a través de nuestro grupo de Telegram"
+      "text": "Si tienes preguntas u observaciones, déjanos saber a través de nuestro",
+      "telegramGroup": "grupo de telegram"
     },
     "ratingCategory": {
       "title": "Categorías de Calificación",
