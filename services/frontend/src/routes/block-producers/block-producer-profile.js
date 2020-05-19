@@ -148,6 +148,7 @@ const BlockProducerProfile = ({
   producer,
   isContentLoading,
   setShowSortSelected,
+  getBPs,
   ...props
 }) => {
   const { t } = useTranslation('profile')
@@ -164,8 +165,13 @@ const BlockProducerProfile = ({
   const webInfo = _get(producer, 'general_info', null)
 
   useEffect(() => {
-    getBlockProducer(account)
-  }, [account])
+    async function getData() {
+      !blockProducers.length && (await getBPs())
+      getBlockProducer(account)
+    }
+
+    getData()
+  }, [account, blockProducers.length])
 
   useEffect(() => {
     setShowSortSelected(false)
@@ -286,7 +292,8 @@ BlockProducerProfile.propTypes = {
   getBlockProducer: PropTypes.func,
   producer: PropTypes.object,
   isContentLoading: PropTypes.bool,
-  setShowSortSelected: PropTypes.func
+  setShowSortSelected: PropTypes.func,
+  getBPs: PropTypes.func
 }
 
 ProfileTitle.propTypes = {
@@ -309,7 +316,8 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = ({ blockProducers }) => ({
   getBlockProducer: blockProducers.getBlockProducerByOwner,
-  setShowSortSelected: blockProducers.setShowSortSelected
+  setShowSortSelected: blockProducers.setShowSortSelected,
+  getBPs: blockProducers.getBPs
 })
 
 export default withStyles(style)(
