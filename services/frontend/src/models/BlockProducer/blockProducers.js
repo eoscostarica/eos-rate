@@ -24,19 +24,19 @@ const initialState = {
 const Proxies = {
   state: initialState,
   reducers: {
-    toggleCompareTool (state) {
+    toggleCompareTool(state) {
       return {
         ...state,
         compareTool: !state.compareTool
       }
     },
-    setShowSortSelected (state, showSortSelected) {
+    setShowSortSelected(state, showSortSelected) {
       return {
         ...state,
         showSortSelected
       }
     },
-    setBPs (state, list) {
+    setBPs(state, list) {
       // Whenever we get a new list, clear filters
       return {
         ...state,
@@ -45,25 +45,25 @@ const Proxies = {
         list: list.map(bp => ({ ...bp }))
       }
     },
-    updateBPList (state, list) {
+    updateBPList(state, list) {
       return {
         ...state,
         list
       }
     },
-    addToSelected (state, producerAccountName) {
+    addToSelected(state, producerAccountName) {
       return {
         ...state,
         selected: uniq([...state.selected, producerAccountName])
       }
     },
-    addArrayToSelected (state, producerAccountNames) {
+    addArrayToSelected(state, producerAccountNames) {
       return {
         ...state,
         selected: uniq([...state.selected, ...producerAccountNames])
       }
     },
-    removeSelected (state, producerAccountName) {
+    removeSelected(state, producerAccountName) {
       return {
         ...state,
         selected: state.selected.filter(
@@ -71,52 +71,52 @@ const Proxies = {
         )
       }
     },
-    clearSelected (state) {
+    clearSelected(state) {
       return {
         ...state,
         selected: []
       }
     },
-    clearFilters (state) {
+    clearFilters(state) {
       return {
         ...state,
         filtered: [],
         filters: {}
       }
     },
-    setFiltered (state, filtered, filters) {
+    setFiltered(state, filtered, filters) {
       return {
         ...state,
         filtered: [...filtered],
         filters: { ...filters }
       }
     },
-    setSortBy (state, sort) {
+    setSortBy(state, sort) {
       return {
         ...state,
         sortBy: sort
       }
     },
-    addProducer (state, producer) {
+    addProducer(state, producer) {
       return { ...state, producer }
     },
-    addUserRate (state, userRate) {
+    addUserRate(state, userRate) {
       return { ...state, userRate }
     }
   },
   effects: dispatch => ({
-    async getBPs () {
+    async getBPs() {
       return getAllBPs({
         setBPs: state => this.setBPs(state)
       })
     },
-    async applyFilter (filters, state) {
+    async applyFilter(filters, state) {
       this.setFiltered(
         filterObjects.filter(filters, state.blockProducers.list),
         filters
       )
     },
-    async getBlockProducerByOwner (owner, state) {
+    async getBlockProducerByOwner(owner, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
@@ -143,15 +143,15 @@ const Proxies = {
 
         this.addProducer({
           ...blockProducer,
-          average: bpData.average,
-          ratings_cntr: bpData.ratings_cntr,
-          general_info: bpData.general_info,
+          average: bpData ? bpData.average : 0,
+          ratings_cntr: bpData ? bpData.ratings_cntr : 0,
+          general_info: bpData ? bpData.general_info : {},
           system: {
             ...blockProducer.system,
-            votesInEos: bpData.system.votesInEos,
-            parameters: bpData.system.parameters
+            votesInEos: bpData ? bpData.system.votesInEos : 0,
+            parameters: bpData ? bpData.system.parameters : {}
           },
-          data: bpData.data || []
+          data: bpData ? bpData.data : []
         })
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
@@ -159,7 +159,7 @@ const Proxies = {
         dispatch.isLoading.storeIsContentLoading(false)
       }
     },
-    async getBlockProducerRatingByOwner ({ bp, userAccount }, state) {
+    async getBlockProducerRatingByOwner({ bp, userAccount }, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
@@ -177,7 +177,7 @@ const Proxies = {
         dispatch.isLoading.storeIsContentLoading(false)
       }
     },
-    async mutationInsertUserRating ({ user, bp, result, ...ratings }, state) {
+    async mutationInsertUserRating({ user, bp, result, ...ratings }, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
