@@ -12,7 +12,7 @@ import Radar from 'components/radar'
 const bpLink = React.forwardRef((props, ref) => (
   <Link innerRef={ref} {...props} />
 ))
-const styles = ({ palette, typography }) => ({
+const styles = ({ palette, typography, spacing }) => ({
   coverContainer: {
     padding: 0,
     color: '#433F5B',
@@ -23,9 +23,6 @@ const styles = ({ palette, typography }) => ({
     fontSize: typography.h4.fontSize,
     marginBottom: 12.5
   },
-  paragraph: {
-    //    color: palette.grey[600]
-  },
   ctaContainer: {
     textAlign: 'center'
   },
@@ -35,7 +32,9 @@ const styles = ({ palette, typography }) => ({
     display: 'flex',
     alignItems: 'center'
   },
-  btn: {},
+  subtitle: {
+    marginBottom: spacing(1)
+  },
   leftCoverBox: {
     display: 'flex',
     flexDirection: 'column',
@@ -48,9 +47,12 @@ const HomeCover = ({ classes, blockProducer }) => {
 
   return (
     <Grid item container xs={12} className={classes.coverContainer}>
+      <Typography variant='h5' className={classes.title}>
+        {t('cover.title')}
+      </Typography>
       <Grid item xs={12} md={6} className={classes.leftCoverBox}>
-        <Typography variant='h5' className={classes.title}>
-          {t('cover.title')}
+        <Typography variant='h6' className={classes.subtitle}>
+          {t('cover.paragraph.subtitle1')}
         </Typography>
         <Typography
           variant='body2'
@@ -58,7 +60,7 @@ const HomeCover = ({ classes, blockProducer }) => {
           align='justify'
           paragraph
         >
-          {t('cover.paragraph1')}
+          {t('cover.paragraph.text1')}
         </Typography>
         <Typography
           variant='body2'
@@ -66,7 +68,26 @@ const HomeCover = ({ classes, blockProducer }) => {
           align='justify'
           paragraph
         >
-          {t('cover.paragraph2')}
+          {t('cover.paragraph.text2')}
+        </Typography>
+        <Typography variant='h6' className={classes.subtitle}>
+          {t('cover.paragraph.subtitle2')}
+        </Typography>
+        <Typography
+          variant='body2'
+          className={classes.paragraph}
+          align='justify'
+          paragraph
+        >
+          {t('cover.paragraph.text3')}
+        </Typography>
+        <Typography
+          variant='body2'
+          className={classes.paragraph}
+          align='justify'
+          paragraph
+        >
+          {t('cover.paragraph.text4')}
         </Typography>
         <div className={classes.ctaContainer}>
           <Button

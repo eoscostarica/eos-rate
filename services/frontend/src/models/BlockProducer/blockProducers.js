@@ -143,15 +143,15 @@ const Proxies = {
 
         this.addProducer({
           ...blockProducer,
-          average: bpData.average,
-          ratings_cntr: bpData.ratings_cntr,
-          general_info: bpData.general_info,
+          average: bpData ? bpData.average : 0,
+          ratings_cntr: bpData ? bpData.ratings_cntr : 0,
+          general_info: bpData ? bpData.general_info : {},
           system: {
             ...blockProducer.system,
-            votesInEos: bpData.system.votesInEos,
-            parameters: bpData.system.parameters
+            votesInEos: bpData ? bpData.system.votesInEos : 0,
+            parameters: bpData ? bpData.system.parameters : {}
           },
-          data: bpData.data || []
+          data: bpData ? bpData.data : []
         })
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {

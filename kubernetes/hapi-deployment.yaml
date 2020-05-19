@@ -32,7 +32,7 @@ spec:
         - name: DB_USER
           value: user
         - name: EOS_API_ENDPOINT
-          value: https://jungle.eosio.cr
+          value: https://bp.cryptolions.io
         - name: VIRTUAL_HOST
           value: 0.0.0.0
         - name: VIRTUAL_PORT

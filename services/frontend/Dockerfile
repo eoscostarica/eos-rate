@@ -10,7 +10,7 @@ RUN yarn --frozen-lockfile
 
 COPY . .
 
-RUN yarn build
+RUN yarn build:production
 
 FROM nginx:1.16.1-alpine as server
 
