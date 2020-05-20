@@ -159,7 +159,8 @@
     "myRate": "Mi Evaluación",
     "rateWithoutLogin": "Necesitas iniciar sesión para evaluar un productor de bloques",
     "noBlockProducer": "No encontramos este PB",
-    "title": "Calificación de Productores de bloques EOS"
+    "title": "Calificación de Productores de bloques EOS",
+    "infoMessage": "Apoye la red votando por sus BP o proxy favoritos, una vez que haya votado por 21 BP puede comenzar a calificar."
   },
 
   "footer": {

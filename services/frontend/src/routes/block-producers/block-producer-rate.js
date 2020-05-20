@@ -550,8 +550,7 @@ const BlockProducerRate = ({
             </Grid>
             {showAlert && (
               <Alert className={classes.alert} severity='success'>
-                Support the network by voting for your favorite BPs or proxy,
-                once you have voted for 21 BPs you can start rating.
+                {t('infoMessage')}
               </Alert>
             )}
           </Grid>
