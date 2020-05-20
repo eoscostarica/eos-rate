@@ -79,7 +79,8 @@ const AllBps = ({
   user,
   storeIsContentLoading,
   sortBy,
-  setShowSortSelected
+  setShowSortSelected,
+  clearSelected
 }) => {
   const { t } = useTranslation('translations')
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
@@ -188,6 +189,10 @@ const AllBps = ({
         onHandleVote={() => sendVoteBps(selectedBPs || [])}
         userInfo={user}
         message={ratingState}
+        onHandleClose={() => {
+          toggleCompareTool()
+          clearSelected()
+        }}
       />
       <Grid className={classes.wrapper} container justify='center' spacing={4}>
         {(shownList || []).map(blockProducer => (
@@ -248,7 +253,8 @@ AllBps.propTypes = {
   user: PropTypes.object,
   storeIsContentLoading: PropTypes.func,
   sortBy: PropTypes.string,
-  setShowSortSelected: PropTypes.func
+  setShowSortSelected: PropTypes.func,
+  clearSelected: PropTypes.func
 }
 
 AllBps.defaultProps = {
@@ -266,7 +272,7 @@ const mapStatetoProps = ({ blockProducers, user }) => ({
 })
 
 const mapDispatchToProps = ({
-  blockProducers: { getBPs, toggleCompareTool, addToSelected, removeSelected, setShowSortSelected },
+  blockProducers: { getBPs, toggleCompareTool, addToSelected, removeSelected, setShowSortSelected, clearSelected },
   user: { getUserChainData },
   isLoading: { storeIsContentLoading }
 }) => ({
@@ -276,7 +282,8 @@ const mapDispatchToProps = ({
   removeSelected,
   getUserChainData,
   storeIsContentLoading,
-  setShowSortSelected
+  setShowSortSelected,
+  clearSelected
 })
 
 export default withStyles(style)(

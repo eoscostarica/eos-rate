@@ -182,7 +182,7 @@
     "buttonVote": "Vote for this Proxy",
     "allBP": "All Block Producers",
     "allP": "All Proxies",
-    "noBpJson": "No BP.json file provided.",
+    "noBpJson": "We could not find a bp.json file for this Block Producer.",
     "noCountryName": "No location provided.",
     "noBlockProducer": "This BP Does Not Exist.",
     "noWebSiteInfo": "No information from their website.",

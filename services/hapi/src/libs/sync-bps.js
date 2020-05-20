@@ -54,7 +54,7 @@ const getBlockProducersData = async () => {
         url: urls[i],
         method: 'get',
         json: true,
-        timeout: 2000
+        timeout: 5000
       })
       console.log('result bp', i, bp['producer_account_name'])
       try {

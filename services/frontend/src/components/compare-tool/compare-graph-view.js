@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import CardHeader from '@material-ui/core/CardHeader'
-import Chip from '@material-ui/core/Chip'
+import CloseIcon from '@material-ui/icons/HighlightOffOutlined'
+import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import LockOpenIcon from '@material-ui/icons/LockOpenOutlined'
 import LockIcon from '@material-ui/icons/LockOutlined'
 import Tooltip from '@material-ui/core/Tooltip'
+import Box from '@material-ui/core/Box'
 import withWidth from '@material-ui/core/withWidth'
 import Help from '@material-ui/icons/HelpOutlineRounded'
 import { useTranslation } from 'react-i18next'
@@ -61,6 +63,11 @@ const styles = theme => ({
     justifyContent: 'stretch',
     alignItems: 'center'
   },
+  headerVotingCompare: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
   marginRightElem: {
     marginRight: 10
   },
@@ -111,33 +118,15 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
         />
         {producers.map(producer => {
           const imageURL = _get(producer, 'bpjson.org.branding.logo_256', null)
-          const backgroundColor = _get(
-            producer,
-            'data.pointBackgroundColor',
-            '#597a81'
-          )
 
           return (
-            <Chip
-              className={classes.bpName}
-              avatar={
-                <Avatar
-                  aria-label='Block Compare'
-                  style={{
-                    backgroundColor
-                  }}
-                  className={classes.avatar}
-                >
-                  {!imageURL ? (
-                    'BP'
-                  ) : (
-                    <img src={imageURL} alt='' width='100%' />
-                  )}
-                </Avatar>
-              }
-              color='secondary'
-              label={producer.owner}
-              key={`producer-list-name-${producer.owner}`}
+            <ProducerChipAvatar
+              data={producer}
+              onHandleRemove={removeBP}
+              classNames={classes}
+              imageURL={imageURL}
+              key={`data-list-name-${producer.owner}`}
+              defaultName='P'
             />
           )
         })}
@@ -157,6 +146,7 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
             classNames={classes}
             imageURL={imageURL}
             key={`data-list-name-${data.owner}`}
+            defaultName='BP'
           />
         )
       })}
@@ -210,6 +200,7 @@ const CompareGraphView = ({
   isProxy,
   userInfo,
   width,
+  onHandleClose,
   ...props
 }) => {
   const { t } = useTranslation('translations')
@@ -235,20 +226,25 @@ const CompareGraphView = ({
         />
       </Grid>
       <Grid item xs={12} md={4}>
-        <div className={classes.titleLock}>
-          <Typography variant='h5' className={classes.marginRightElem}>
-            {t('voteToolTitle')}
-          </Typography>
-          <TooltipWrapper
-            open={open}
-            onHandleTooltip={handleTooltip}
-            isClickable={Boolean(width === 'xs')}
-            t={t}
-            classes={classes}
-            userHasVote={userHasVote}
-            isUser={userInfo.isUser}
-          />
-        </div>
+        <Box className={classes.headerVotingCompare}>
+          <Box className={classes.titleLock}>
+            <Typography variant='h5' className={classes.marginRightElem}>
+              {t('voteToolTitle')}
+            </Typography>
+            <TooltipWrapper
+              open={open}
+              onHandleTooltip={handleTooltip}
+              isClickable={Boolean(width === 'xs')}
+              t={t}
+              classes={classes}
+              userHasVote={userHasVote}
+              isUser={userInfo.isUser}
+            />
+          </Box>
+          <IconButton aria-label='delete' onClick={onHandleClose}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
         <CompareBodyList
           isProxy={isProxy}
           selectedData={selected}
@@ -267,7 +263,8 @@ CompareGraphView.propTypes = {
   selected: PropTypes.array.isRequired,
   className: PropTypes.string,
   isProxy: PropTypes.bool,
-  userInfo: PropTypes.object
+  userInfo: PropTypes.object,
+  onHandleClose: PropTypes.func
 }
 
 CompareGraphView.defaultProps = {

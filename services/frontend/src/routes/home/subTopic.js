@@ -70,7 +70,7 @@ const SubTopic = ({ classes }) => {
           paragraph
         >
           {`${t('subTopic.text')} `}
-          <a href='https://t.me/eoscr' target='_blank' className={classes.link}>
+          <a href='https://t.me/eoscr' target='_blank' rel='noopener noreferrer' className={classes.link}>
             {t('subTopic.telegramGroup')}.
           </a>
         </Typography>

@@ -15,7 +15,7 @@ const initialState = {
   filtered: [],
   sortBy: null,
   selected: [],
-  compareTool: true,
+  compareTool: false,
   producer: null,
   userRate: null,
   showSortSelected: false

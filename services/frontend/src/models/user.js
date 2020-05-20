@@ -33,7 +33,7 @@ const user = {
         const producers = _get(account, 'voter_info.producers', [])
         const proxy = _get(account, 'voter_info.proxy', '')
 
-        this.setUser(account)
+        this.setUser(account ? { ...account, hasProxy: Boolean(proxy.length), producersCount: producers.length } : null)
 
         if (producers.length) {
           const filterBPs = producers.filter(bpName =>

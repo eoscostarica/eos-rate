@@ -18,6 +18,7 @@ import Error from '@material-ui/icons/Error'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import _get from 'lodash.get'
 import classNames from 'classnames'
+import Alert from '@material-ui/lab/Alert'
 import { withStyles } from '@material-ui/core/styles'
 
 import TitlePage from 'components/title-page'
@@ -46,7 +47,9 @@ const style = theme => ({
     padding: theme.spacing(4, 0)
   },
   ctasWrapper: {
-    flexBasis: 0
+    flexBasis: 0,
+    display: 'flex',
+    flexDirection: 'column'
   },
   box: {
     padding: theme.spacing(2)
@@ -83,6 +86,10 @@ const style = theme => ({
     [theme.breakpoints.down('sm')]: {
       display: 'none'
     }
+  },
+  alert: {
+    width: '100%',
+    marginTop: theme.spacing(1)
   }
 })
 
@@ -111,23 +118,31 @@ const BlockProducerRate = ({
   userRate,
   getBlockProducer,
   ual,
-  setShowSortSelected
+  setShowSortSelected,
+  user,
+  getUserChainData
 }) => {
   const [ratingState, setRatingState] = useState(INIT_RATING_STATE_DATA)
   const [showMessage, setShowMessage] = useState(false)
+  const [showAlert, setShowAlert] = useState(false)
   const { t } = useTranslation('bpRatePage')
   const accountName = _get(ual, 'activeUser.accountName', null)
   const bpData = _get(producer, 'data', {})
 
   useEffect(() => {
-    if (account) {
-      getBlockProducer(account)
+    async function getData () {
+      if (account) {
+        getBlockProducer(account)
+      }
+
+      if (accountName) {
+        await getUserChainData({ accountName })
+        getBPRating({ bp: account, userAccount: accountName })
+        setShowMessage(false)
+      }
     }
 
-    if (accountName) {
-      getBPRating({ bp: account, userAccount: accountName })
-      setShowMessage(false)
-    }
+    getData()
   }, [accountName, account])
 
   useEffect(() => {
@@ -148,6 +163,14 @@ const BlockProducerRate = ({
   useEffect(() => {
     setShowSortSelected(false)
   })
+
+  useEffect(() => {
+    if (user && (user.hasProxy || user.producersCount >= 21)) {
+      setShowAlert(false)
+    } else {
+      user && setShowAlert(true)
+    }
+  }, [user])
 
   const getRatingData = (useString = false) => {
     const {
@@ -321,7 +344,7 @@ const BlockProducerRate = ({
             <Grid container direction='row' style={{ marginTop: 10 }}>
               <Grid item xs={12} sm={5}>
                 <Typography variant='subtitle1' className={classes.title}>
-                  {t.subTitle}
+                  {t('subTitle')}
                 </Typography>
                 <Typography paragraph> {t('subText')} </Typography>
                 <Typography paragraph> {t('helpText')} </Typography>
@@ -387,7 +410,9 @@ const BlockProducerRate = ({
                     )}
                     <Button
                       className='textPrimary'
-                      disabled={!producer || ratingState.processing}
+                      disabled={
+                        showAlert || !producer || ratingState.processing
+                      }
                       color='secondary'
                       onClick={transact}
                       size='small'
@@ -489,7 +514,9 @@ const BlockProducerRate = ({
                       )}
                       <Button
                         className='textPrimary'
-                        disabled={!producer || ratingState.processing}
+                        disabled={
+                          showAlert || !producer || ratingState.processing
+                        }
                         color='secondary'
                         onClick={transact}
                         size='small'
@@ -521,6 +548,12 @@ const BlockProducerRate = ({
                 </Grid>
               </Grid>
             </Grid>
+            {showAlert && (
+              <Alert className={classes.alert} severity='success'>
+                Support the network by voting for your favorite BPs or proxy,
+                once you have voted for 21 BPs you can start rating.
+              </Alert>
+            )}
           </Grid>
         </Paper>
       </Grid>
@@ -537,19 +570,23 @@ BlockProducerRate.propTypes = {
   userRate: PropTypes.object,
   getBlockProducer: PropTypes.func,
   ual: PropTypes.object,
-  setShowSortSelected: PropTypes.func
+  setShowSortSelected: PropTypes.func,
+  user: PropTypes.object,
+  getUserChainData: PropTypes.func
 }
 
-const mapStateToProps = ({ blockProducers: { producer, userRate } }) => ({
+const mapStateToProps = ({ blockProducers: { producer, userRate }, user }) => ({
   producer,
-  userRate
+  userRate,
+  user: user.data
 })
 
-const mapDispatchToProps = ({ blockProducers }) => ({
+const mapDispatchToProps = ({ blockProducers, user }) => ({
   getBPRating: blockProducers.getBlockProducerRatingByOwner,
   addUserRating: blockProducers.mutationInsertUserRating,
   getBlockProducer: blockProducers.getBlockProducerByOwner,
-  setShowSortSelected: blockProducers.setShowSortSelected
+  setShowSortSelected: blockProducers.setShowSortSelected,
+  getUserChainData: user.getUserChainData
 })
 
 export default withStyles(style)(
