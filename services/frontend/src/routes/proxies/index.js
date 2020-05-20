@@ -121,6 +121,10 @@ const AllProxies = ({
         selected={selectedProxies || []}
         isProxy
         userInfo={user}
+        onHandleClose={() => {
+          toggleCompareTool()
+          removeSelected()
+        }}
       />
       <Grid className={classes.wrapper} container justify='center' spacing={4}>
         {(shownList || []).map(proxy => (
@@ -136,12 +140,12 @@ const AllProxies = ({
                 selectedProxies && selectedProxies.includes(proxy.owner)
               }
               toggleSelection={(isAdding, producerAccountName) => () => {
-                if (isAdding && !selectedProxies.length) {
-                  toggleCompareTool()
+                if (isAdding) {
+                  if (!(selectedProxies || []).length && !compareToolVisible) toggleCompareTool()
                   addToSelected(producerAccountName)
                 } else if (!isAdding) {
-                  toggleCompareTool()
-                  removeSelected(producerAccountName)
+                  if ((selectedProxies || []).length === 1 && compareToolVisible) toggleCompareTool()
+                  removeSelected()
                 }
               }}
               data={proxy}

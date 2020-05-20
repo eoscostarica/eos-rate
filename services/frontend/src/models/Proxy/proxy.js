@@ -1,6 +1,5 @@
 import _get from 'lodash.get'
 import filterObjects from 'filter-objects'
-import uniq from 'lodash.uniq'
 
 import calculateEosFromVotes from 'utils/convertVotesToEosVotes'
 import getBPRadarData from 'utils/getBPRadarData'
@@ -41,13 +40,13 @@ const Proxies = {
     addToSelected (state, owner) {
       return {
         ...state,
-        selected: uniq([...state.selected, owner])
+        selected: [owner]
       }
     },
-    removeSelected (state, owner) {
+    removeSelected (state) {
       return {
         ...state,
-        selected: state.selected.filter(selected => selected !== owner)
+        selected: []
       }
     },
     clearFilters (state) {

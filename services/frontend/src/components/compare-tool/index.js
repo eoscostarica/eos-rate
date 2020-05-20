@@ -77,7 +77,8 @@ const CompareTool = ({
   optionalLabel,
   onHandleVote,
   userInfo,
-  message
+  message,
+  onHandleClose
 }) => {
   const { t } = useTranslation('translations')
   const [isCollapsedView, setIsCollapsedView] = useState(true)
@@ -116,6 +117,7 @@ const CompareTool = ({
           selected={selectedData}
           isProxy={isProxy}
           userInfo={{ proxy, producers, isUser: Boolean(userInfo) }}
+          onHandleClose={onHandleClose}
         />
       ) : (
         <CompareSliderView removeBP={removeBP} selected={selectedData} />
@@ -188,7 +190,8 @@ CompareTool.propTypes = {
   optionalLabel: PropTypes.string,
   onHandleVote: PropTypes.func,
   userInfo: PropTypes.object,
-  message: PropTypes.object
+  message: PropTypes.object,
+  onHandleClose: PropTypes.func
 }
 
 CompareTool.defaultProps = {
@@ -197,7 +200,8 @@ CompareTool.defaultProps = {
   useOnlySliderView: false,
   onHandleVote: () => {},
   userInfo: null,
-  message: { showChipMessage: false, txError: null, txSuccess: false }
+  message: { showChipMessage: false, txError: null, txSuccess: false },
+  onHandleClose: () => {}
 }
 
 export default withStyles(styles)(CompareTool)

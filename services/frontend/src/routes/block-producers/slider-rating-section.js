@@ -31,7 +31,6 @@ const style = () => ({
     color: '#bdbdbd'
   },
   topicIcon: {
-    color: 'rgba(255, 255, 255, 0.38)',
     verticalAlign: 'middle'
   },
   switchBox: {
@@ -45,181 +44,175 @@ const SliderRatingSection = ({
   ratingState,
   classes,
   producer
-}) => {
-  return (
-    <Grid container className={classes.sliderBoxContent}>
-      <Grid item xs={12}>
-        <Typography
-          paragraph
-          className={classNames(
-            ratingState.communityEnabled ? '' : classes.parameterTitleDisabled,
-            classes.marginOff
-          )}
-        >
-          {t('community')}{' '}
-          <Tooltip title={t('communityTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <div className={classes.sliderWrapper}>
-          <RateSlider
-            disabled={!producer || !ratingState.communityEnabled}
-            onChange={handleStateChange('community')}
-            value={ratingState.community}
-            marks={MARKS}
-            valueLabelDisplay='on'
-            min={1}
-            step={1}
-            max={10}
-          />
-          <Switch
-            className={classes.switchBox}
-            onChange={handleStateChange('communityEnabled')}
-            checked={ratingState.communityEnabled}
-          />
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography
-          paragraph
-          className={classNames(
-            ratingState.developmentEnabled
-              ? ''
-              : classes.parameterTitleDisabled,
-            classes.marginOff
-          )}
-        >
-          {t('development')}{' '}
-          <Tooltip title={t('developmentTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <div className={classes.sliderWrapper}>
-          <RateSlider
-            disabled={!producer || !ratingState.developmentEnabled}
-            onChange={handleStateChange('development')}
-            value={ratingState.development}
-            marks={MARKS}
-            valueLabelDisplay='on'
-            min={1}
-            step={1}
-            max={10}
-          />
-          <Switch
-            className={classes.switchBox}
-            onChange={handleStateChange('developmentEnabled')}
-            checked={ratingState.developmentEnabled}
-          />
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography
-          paragraph
-          className={classNames(
-            ratingState.infraEnabled ? '' : classes.parameterTitleDisabled,
-            classes.marginOff
-          )}
-        >
-          {t('infrastructure')}{' '}
-          <Tooltip title={t('infrastructureTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <div className={classes.sliderWrapper}>
-          <RateSlider
-            disabled={!producer || !ratingState.infraEnabled}
-            onChange={handleStateChange('infra')}
-            value={ratingState.infra}
-            marks={MARKS}
-            valueLabelDisplay='on'
-            min={1}
-            step={1}
-            max={10}
-          />
-          <Switch
-            className={classes.switchBox}
-            onChange={handleStateChange('infraEnabled')}
-            checked={ratingState.infraEnabled}
-          />
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography
-          paragraph
-          className={classNames(
-            ratingState.transparencyEnabled
-              ? ''
-              : classes.parameterTitleDisabled,
-            classes.marginOff
-          )}
-        >
-          {t('transparency')}{' '}
-          <Tooltip title={t('transparencyTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <div className={classes.sliderWrapper}>
-          <RateSlider
-            disabled={!producer || !ratingState.transparencyEnabled}
-            onChange={handleStateChange('transparency')}
-            value={ratingState.transparency}
-            marks={MARKS}
-            valueLabelDisplay='on'
-            min={1}
-            step={1}
-            max={10}
-          />
-          <Switch
-            className={classes.switchBox}
-            onChange={handleStateChange('transparencyEnabled')}
-            checked={ratingState.transparencyEnabled}
-          />
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography
-          paragraph
-          className={classNames(
-            ratingState.trustinessEnabled ? '' : classes.parameterTitleDisabled,
-            classes.marginOff
-          )}
-        >
-          {t('trustiness')}{' '}
-          <Tooltip title={t('trustinessTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <div className={classes.sliderWrapper}>
-          <RateSlider
-            disabled={!producer || !ratingState.trustinessEnabled}
-            onChange={handleStateChange('trustiness')}
-            value={ratingState.trustiness}
-            marks={MARKS}
-            valueLabelDisplay='on'
-            min={1}
-            step={1}
-            max={10}
-          />
-          <Switch
-            className={classes.switchBox}
-            onChange={handleStateChange('trustinessEnabled')}
-            checked={ratingState.trustinessEnabled}
-          />
-        </div>
-      </Grid>
+}) => (
+  <Grid container className={classes.sliderBoxContent}>
+    <Grid item xs={12}>
+      <Typography
+        paragraph
+        className={classNames(
+          ratingState.communityEnabled ? '' : classes.parameterTitleDisabled,
+          classes.marginOff
+        )}
+      >
+        {t('community')}{' '}
+        <Tooltip title={t('communityTooltip')} placement='right'>
+          <HelpOutline fontSize='inherit' className={classes.topicIcon} />
+        </Tooltip>
+      </Typography>
     </Grid>
-  )
-}
+    <Grid item xs={12}>
+      <div className={classes.sliderWrapper}>
+        <RateSlider
+          disabled={!producer || !ratingState.communityEnabled}
+          onChange={handleStateChange('community')}
+          value={ratingState.community}
+          marks={MARKS}
+          valueLabelDisplay='on'
+          min={1}
+          step={1}
+          max={10}
+        />
+        <Switch
+          className={classes.switchBox}
+          onChange={handleStateChange('communityEnabled')}
+          checked={ratingState.communityEnabled}
+        />
+      </div>
+    </Grid>
+    <Grid item xs={12}>
+      <Typography
+        paragraph
+        className={classNames(
+          ratingState.developmentEnabled ? '' : classes.parameterTitleDisabled,
+          classes.marginOff
+        )}
+      >
+        {t('development')}{' '}
+        <Tooltip title={t('developmentTooltip')} placement='right'>
+          <HelpOutline fontSize='inherit' className={classes.topicIcon} />
+        </Tooltip>
+      </Typography>
+    </Grid>
+    <Grid item xs={12}>
+      <div className={classes.sliderWrapper}>
+        <RateSlider
+          disabled={!producer || !ratingState.developmentEnabled}
+          onChange={handleStateChange('development')}
+          value={ratingState.development}
+          marks={MARKS}
+          valueLabelDisplay='on'
+          min={1}
+          step={1}
+          max={10}
+        />
+        <Switch
+          className={classes.switchBox}
+          onChange={handleStateChange('developmentEnabled')}
+          checked={ratingState.developmentEnabled}
+        />
+      </div>
+    </Grid>
+    <Grid item xs={12}>
+      <Typography
+        paragraph
+        className={classNames(
+          ratingState.infraEnabled ? '' : classes.parameterTitleDisabled,
+          classes.marginOff
+        )}
+      >
+        {t('infrastructure')}{' '}
+        <Tooltip title={t('infrastructureTooltip')} placement='right'>
+          <HelpOutline fontSize='inherit' className={classes.topicIcon} />
+        </Tooltip>
+      </Typography>
+    </Grid>
+    <Grid item xs={12}>
+      <div className={classes.sliderWrapper}>
+        <RateSlider
+          disabled={!producer || !ratingState.infraEnabled}
+          onChange={handleStateChange('infra')}
+          value={ratingState.infra}
+          marks={MARKS}
+          valueLabelDisplay='on'
+          min={1}
+          step={1}
+          max={10}
+        />
+        <Switch
+          className={classes.switchBox}
+          onChange={handleStateChange('infraEnabled')}
+          checked={ratingState.infraEnabled}
+        />
+      </div>
+    </Grid>
+    <Grid item xs={12}>
+      <Typography
+        paragraph
+        className={classNames(
+          ratingState.transparencyEnabled ? '' : classes.parameterTitleDisabled,
+          classes.marginOff
+        )}
+      >
+        {t('transparency')}{' '}
+        <Tooltip title={t('transparencyTooltip')} placement='right'>
+          <HelpOutline fontSize='inherit' className={classes.topicIcon} />
+        </Tooltip>
+      </Typography>
+    </Grid>
+    <Grid item xs={12}>
+      <div className={classes.sliderWrapper}>
+        <RateSlider
+          disabled={!producer || !ratingState.transparencyEnabled}
+          onChange={handleStateChange('transparency')}
+          value={ratingState.transparency}
+          marks={MARKS}
+          valueLabelDisplay='on'
+          min={1}
+          step={1}
+          max={10}
+        />
+        <Switch
+          className={classes.switchBox}
+          onChange={handleStateChange('transparencyEnabled')}
+          checked={ratingState.transparencyEnabled}
+        />
+      </div>
+    </Grid>
+    <Grid item xs={12}>
+      <Typography
+        paragraph
+        className={classNames(
+          ratingState.trustinessEnabled ? '' : classes.parameterTitleDisabled,
+          classes.marginOff
+        )}
+      >
+        {t('trustiness')}{' '}
+        <Tooltip title={t('trustinessTooltip')} placement='right'>
+          <HelpOutline fontSize='inherit' className={classes.topicIcon} />
+        </Tooltip>
+      </Typography>
+    </Grid>
+    <Grid item xs={12}>
+      <div className={classes.sliderWrapper}>
+        <RateSlider
+          disabled={!producer || !ratingState.trustinessEnabled}
+          onChange={handleStateChange('trustiness')}
+          value={ratingState.trustiness}
+          marks={MARKS}
+          valueLabelDisplay='on'
+          min={1}
+          step={1}
+          max={10}
+        />
+        <Switch
+          className={classes.switchBox}
+          onChange={handleStateChange('trustinessEnabled')}
+          checked={ratingState.trustinessEnabled}
+        />
+      </div>
+    </Grid>
+  </Grid>
+)
 
 SliderRatingSection.propTypes = {
   classes: PropTypes.object,
