@@ -256,7 +256,7 @@ CONTRACT rateproducer : public contract {
                 row.bp = bp_name;
                 row.ratings_cntr = 1;
                 row.average =sum/counter;
-                print("sum/counter",sum ,counter);
+                
             }
           });
       }else{
@@ -418,16 +418,26 @@ CONTRACT rateproducer : public contract {
       _stats bps_stats(_self, _self.value);
       auto itr = bps_stats.find(bp_name->value);
       if(itr != bps_stats.end()){
-        bps_stats.modify(itr,*user, [&]( auto& row ) {
-            row.transparency = *transparency;
-            row.infrastructure = *infrastructure;
-            row.trustiness = *trustiness;
-            row.development = *development;
-            row.community = *community;      
-            row.ratings_cntr= *ratings_cntr;
-            row.average = *average;
-         });
-          
+        //if rate categories are more than zero
+        // we store, otherwise remove the entry
+        if( *transparency +
+            *infrastructure +
+            *trustiness +
+            *community +
+            *development){
+        
+            bps_stats.modify(itr,*user, [&]( auto& row ) {
+                row.transparency = *transparency;
+                row.infrastructure = *infrastructure;
+                row.trustiness = *trustiness;
+                row.development = *development;
+                row.community = *community;      
+                row.ratings_cntr= *ratings_cntr;
+                row.average = *average;
+             });
+        }else{
+            bps_stats.erase(itr);
+        }  
       }
     }
     
@@ -505,6 +515,52 @@ CONTRACT rateproducer : public contract {
         if(noupdated_bps.size()) erase_bp_info(&noupdated_bps);
         print("bps deleted:",noupdated_bps.size());
     }
+    
+    ACTION rmrate(name user, 
+                name bp){
+        require_auth(user);
+       
+        _ratings bps(_self, _self.value);
+        auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
+
+        auto uniq_rating_index = bps.get_index<name("uniqrating")>();
+        auto existing_rating = uniq_rating_index.find(uniq_rating);
+
+        if( existing_rating != uniq_rating_index.end() ) {
+            
+            //delete rate info
+            auto itr = uniq_rating_index.erase(existing_rating);
+            
+            //update bp stats
+           float bp_transparency = 0;
+           float bp_infrastructure = 0;
+           float bp_trustiness = 0;
+           float bp_community = 0;
+           float bp_development = 0;
+           uint32_t  bp_ratings_cntr = 0;
+           float  bp_average = 0;
+           //re-calculate stats for the bp 
+           calculate_bp_stats (bp,
+                               &bp_transparency,
+                               &bp_infrastructure,
+                               &bp_trustiness,
+                               &bp_community,
+                               &bp_development,
+                               &bp_ratings_cntr,
+                               &bp_average);
+           //save the re-calcualtes stats
+           update_bp_stats (&user,
+                            &bp,
+                            &bp_transparency,
+                            &bp_infrastructure,
+                            &bp_trustiness,
+                            &bp_community,
+                            &bp_development,
+                            &bp_ratings_cntr,
+                            &bp_average);
+              
+        }
+    }
 
 
   private:
@@ -547,4 +603,4 @@ CONTRACT rateproducer : public contract {
 
 };
 
-EOSIO_DISPATCH(rateproducer,(rate)(erase)(wipe)(rminactive));
+EOSIO_DISPATCH(rateproducer,(rate)(erase)(wipe)(rminactive)(rmrate));
