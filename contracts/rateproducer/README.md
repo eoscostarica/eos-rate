@@ -9,7 +9,11 @@ Publish Contract:
 cleos -u http://jungle2.cryptolions.io:80 set contract rateproducer ./ -p rateproducer@active
 
 Push rating with all categories:
-cleos -u http://monitor.jungletestnet.io:8888 push action rateproducer rate '{ "user": "rateproducer", "bp":"alohaeostest","transparency":8,"infrastructure":8,"trustiness":7,"development":6,"community":9 }' -p rateproducer@active
+example 1:
+cleos -u hhttp://jungle2.cryptolions.io:80 push action rateproducer rate '{ "user": "rateproducer", "bp":"alohaeostest","transparency":8,"infrastructure":8,"trustiness":7,"development":6,"community":9 }' -p rateproducer@active
+
+example 2:
+cleos -u http://jungle2.cryptolions.io:80 push action rateproducer rate '{ "user": "eoscrvoter11", "bp":"eoscrprodo51","transparency":8,"infrastructure":8,"trustiness":7,"development":6,"community":9 }' -p eoscrvoter11@active
 
 Push rating with partial categories:
 cleos -u http://monitor.jungletestnet.io:8888 push action rateproducer rate '{ "user": "rateproducer", "bp":"alohaeostest","transparency":8,"infrastructure":0,"trustiness":0,"development":0,"community":0 }' -p rateproducer@active
@@ -28,6 +32,13 @@ cleos -u http://monitor.jungletestnet.io:8888 push action rateproducer wipe '[]'
 
 Clean data from un-register/inactive bp
 cleos -u http://monitor.jungletestnet.io:8888 push action rateproducer rminactive '[]' -p rateproducer@active
+
+Remove a rate
+example 1:
+cleos -u http://monitor.jungletestnet.io:8888 push action rateproducer rmrate '{"user": "rateproducer", "bp":"alohaeostest"}' -p rateproducer@active
+
+example 2:
+cleos -u http://monitor.jungletestnet.io:8888 push action rateproducer rmrate '{"user": "eoscrvoter11", "bp":"eoscrprodo51"}' -p eoscrvoter11@active
 
 ```
 Run test
