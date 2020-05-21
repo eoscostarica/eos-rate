@@ -159,7 +159,8 @@
     "myRate": "Mi Evaluación",
     "rateWithoutLogin": "Necesitas iniciar sesión para evaluar un productor de bloques",
     "noBlockProducer": "No encontramos este PB",
-    "title": "Calificación de Productores de bloques EOS"
+    "title": "Calificación de Productores de bloques EOS",
+    "infoMessage": "Apoye la red votando por sus BP o proxy favoritos, una vez que haya votado por 21 BP puede comenzar a calificar."
   },
 
   "footer": {
@@ -182,7 +183,7 @@
     "buttonVote": "Vota por este Proxy",
     "allBP": "Lista de productores de bloques",
     "allP": "Lista de Proxies",
-    "noBpJson": "No encontramos un bp.json!",
+    "noBpJson": "No pudimos encontrar un archivo bp.json para este productor de bloques.",
     "noCountryName": "No se proporcionó ubicación.",
     "noBlockProducer": "No encontramos este PB",
     "noWebSiteInfo": "No hay informacion de su sitio web",
