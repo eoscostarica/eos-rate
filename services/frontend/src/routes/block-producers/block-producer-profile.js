@@ -165,7 +165,7 @@ const BlockProducerProfile = ({
   const webInfo = _get(producer, 'general_info', null)
 
   useEffect(() => {
-    async function getData() {
+    async function getData () {
       !blockProducers.length && (await getBPs())
       getBlockProducer(account)
     }

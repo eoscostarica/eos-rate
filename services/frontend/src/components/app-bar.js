@@ -116,6 +116,8 @@ const MainTopBar = ({
     async function getData () {
       if (ual.activeUser) {
         await getUserChainData({ accountName: ual.activeUser.accountName })
+      } else {
+        setUser()
       }
     }
 
