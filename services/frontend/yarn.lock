@@ -12356,10 +12356,10 @@ ua-parser-js@^0.7.18:
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.21.tgz#853cf9ce93f642f67174273cc34565ae6f308777"
   integrity sha512-+O8/qh/Qj8CgC6eYBVBykMrNtp5Gebn4dlGD/kKXVkJNDwyrAwSIqwz8CDf+tsAIWVycKcku6gIXJ0qwx/ZXaQ==
 
-ual-anchor@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/ual-anchor/-/ual-anchor-0.4.0.tgz#cea4c14480aedad30a53f6c7ee32be04a4277a3f"
-  integrity sha512-YmAMXD3cOq+TY5X91lu6+qVNMiAvFEoCBmTKeTdCPaBAaudZ53fxXeYpDLC1c5SBpMwmFv3oUx7DoWE3PEMwrg==
+ual-anchor@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/ual-anchor/-/ual-anchor-0.4.1.tgz#8bd3320bdee2c815d28aab02d235eb442256b8b6"
+  integrity sha512-Yqd2Tii3bpA2rjm3FAzVOtdMS3w61QsguPHg5SbwCZgK+Fq6R0Ywwl7gMlMnteyU0D00lUrHZkrFu6gJ/COpVA==
   dependencies:
     anchor-link "^2.0.0"
     anchor-link-browser-transport "^2.0.0"
