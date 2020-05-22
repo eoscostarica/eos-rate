@@ -25,7 +25,7 @@ const getBlockProducersData = async () => {
       {
         owner: producer.owner,
         system: { ...producer },
-        bpJson: {},
+        bpJson: {}
       }
     ]
   }, [])
