@@ -54,7 +54,7 @@ const getBlockProducersData = async () => {
         url: urls[i],
         method: 'get',
         json: true,
-        timeout: 5000
+        timeout: 10000
       })
       console.log('result bp', i, bp['producer_account_name'])
       try {
@@ -91,8 +91,13 @@ const updateBlockProducersData = async () => {
     const bpData = {
       owner,
       system,
-      bpjson
+      bpjson 
     }
+
+    if(!Object.keys(bpjson).length) {
+      console.log("skipping blank result for " + owner)
+      return
+    } 
 
     try {
       const result = await db.producers.save(bpData)
