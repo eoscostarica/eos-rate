@@ -67,7 +67,7 @@
     "serve": "^11.3.0",
     "subscriptions-transport-ws": "^0.9.16",
     "text-encoding": "^0.7.0",
-    "ual-anchor": "^0.4.0",
+    "ual-anchor": "^0.4.1",
     "ual-ledger": "^0.2.0",
     "ual-lynx": "^0.3.0",
     "ual-meetone": "^0.1.1",

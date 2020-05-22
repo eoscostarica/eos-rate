@@ -94,15 +94,15 @@ const style = theme => ({
 })
 
 const INIT_RATING_STATE_DATA = {
-  community: 0,
+  community: 1,
   communityEnabled: true,
-  development: 0,
+  development: 1,
   developmentEnabled: true,
-  infra: 0,
+  infra: 1,
   infraEnabled: true,
-  transparency: 0,
+  transparency: 1,
   transparencyEnabled: true,
-  trustiness: 0,
+  trustiness: 1,
   trustinessEnabled: true,
   processing: false,
   txError: null,
