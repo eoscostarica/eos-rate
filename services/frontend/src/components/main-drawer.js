@@ -59,11 +59,11 @@ const Menu = ({
   onClick,
   currentPathname,
   links,
-  classes,
   sortBy,
   setSortBy
 }) => {
   const { t } = useTranslation('sortInput')
+  const classes = useStyles()
 
   return (
     <List>
@@ -160,7 +160,6 @@ const MainDrawer = ({
               label: t(route.drawerLabel),
               collapsedItems: route.drawerComponents
             }))}
-            classes={classes}
             sortBy={sortBy}
             setSortBy={setSortBy}
           />
@@ -181,7 +180,6 @@ const MainDrawer = ({
               label: t(route.drawerLabel),
               collapsedItems: route.drawerComponents
             }))}
-            classes={classes}
             sortBy={sortBy}
             setSortBy={setSortBy}
           />
@@ -195,6 +193,7 @@ Menu.propTypes = {
   links: PropTypes.array,
   onClick: PropTypes.func,
   currentPathname: PropTypes.string,
+  setSortBy: PropTypes.func,
   sortBy: PropTypes.string
 }
 

@@ -122,8 +122,6 @@ const AllBps = ({
     try {
       storeIsContentLoading(true)
 
-      console.log({ transaction, BPs })
-
       await ual.activeUser.signTransaction(transaction, {
         broadcast: true
       })
@@ -209,13 +207,15 @@ const AllBps = ({
               }
               toggleSelection={(isAdding, producerAccountName) => () => {
                 if (isAdding) {
-                  if (!(selectedBPs || []).length && !compareToolVisible)
+                  if (!(selectedBPs || []).length && !compareToolVisible) {
                     toggleCompareTool()
+                  }
 
                   addToSelected(producerAccountName)
                 } else {
-                  if ((selectedBPs || []).length === 1 && compareToolVisible)
+                  if ((selectedBPs || []).length === 1 && compareToolVisible) {
                     toggleCompareTool()
+                  }
 
                   removeSelected(producerAccountName)
                 }

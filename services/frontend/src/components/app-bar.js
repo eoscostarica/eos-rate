@@ -206,7 +206,7 @@ MainTopBar.propTypes = {
 
 const mapDispatchToProps = ({ user }) => ({
   getUserChainData: user.getUserChainData,
-  setUser: user.removeBlockProducersVotedByUser,
+  setUser: user.removeBlockProducersVotedByUser
 })
 
 export default withStyles(styles)(connect(null, mapDispatchToProps)(MainTopBar))
