@@ -79,6 +79,8 @@ export default (sortBy, blockProducers) => {
     }
 
     default:
-      return blockProducers
+      return (blockProducers || []).sort((a, b) =>
+        _sortValues(a, b, 'system.total_votes')
+      )
   }
 }

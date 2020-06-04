@@ -59,7 +59,7 @@
   },
 
   "sortInput": {
-    "sortby": "Ordenar por",
+    "sortby": "Todos los Productores de Bloques",
     "alphabetical": "Alfabético",
     "generalRate": "Mayor Calificación General",
     "infrastructure": "Mayor Calificación Infraestructura",
@@ -69,7 +69,7 @@
     "transparency": "Mayor Calificación Transparencia",
     "vote": "Mayor número de votos",
     "reward": "Mayor recompensas por día",
-    "ratings": "# Evaluaciones"
+    "ratings": "Número de Evaluaciones"
   },
 
   "not-found": {

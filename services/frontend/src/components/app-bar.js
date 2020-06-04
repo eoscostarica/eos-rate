@@ -19,7 +19,6 @@ import { Link } from '@reach/router'
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
 import LanguageSelect from 'components/language-select'
-import FilterSelect from 'components/filter-select'
 
 const styles = theme => ({
   root: {
@@ -105,10 +104,7 @@ const MainTopBar = ({
   handleSearchDialogClose,
   ual,
   getUserChainData,
-  setUser,
-  setSortBy,
-  showSortSelected,
-  setShowSortSelected
+  setUser
 }) => {
   const { t } = useTranslation('translations')
 
@@ -123,12 +119,6 @@ const MainTopBar = ({
 
     getData()
   }, [ual.loading])
-
-  useEffect(() => {
-    if (window.location.pathname !== '/block-producers' && showSortSelected) {
-      setShowSortSelected(false)
-    }
-  })
 
   return (
     <AppBar position='absolute'>
@@ -157,7 +147,6 @@ const MainTopBar = ({
         >
           <SearchIcon />
         </IconButton>
-        {showSortSelected && <FilterSelect onHandleApplySortBy={setSortBy} />}
         <LanguageSelect />
         {ual.activeUser ? (
           <>
@@ -212,21 +201,12 @@ MainTopBar.propTypes = {
   isSearchOpen: PropTypes.bool,
   ual: PropTypes.object,
   getUserChainData: PropTypes.func,
-  setUser: PropTypes.func,
-  setSortBy: PropTypes.func,
-  showSortSelected: PropTypes.bool,
-  setShowSortSelected: PropTypes.func
+  setUser: PropTypes.func
 }
 
-const mapStatetoProps = ({ blockProducers }) => ({
-  showSortSelected: blockProducers.showSortSelected
-})
-
-const mapDispatchToProps = ({ user, blockProducers }) => ({
+const mapDispatchToProps = ({ user }) => ({
   getUserChainData: user.getUserChainData,
   setUser: user.removeBlockProducersVotedByUser,
-  setSortBy: blockProducers.setSortBy,
-  setShowSortSelected: blockProducers.setShowSortSelected
 })
 
-export default withStyles(styles)(connect(mapStatetoProps, mapDispatchToProps)(MainTopBar))
+export default withStyles(styles)(connect(null, mapDispatchToProps)(MainTopBar))

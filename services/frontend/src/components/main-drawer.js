@@ -3,16 +3,19 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
+import Box from '@material-ui/core/Box'
 import Collapse from '@material-ui/core/Collapse'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
+import { useTheme } from '@material-ui/core/styles'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import { Link } from '@reach/router'
 import { useTranslation } from 'react-i18next'
+import classnames from 'classnames'
 
 import routes from 'routes'
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: 240,
@@ -22,7 +25,14 @@ const styles = theme => ({
     }
   },
   innerList: {
-    backgroundColor: theme.palette.surface.main
+    backgroundColor: theme.palette.surface.main,
+    '& li': {
+      paddingLeft: theme.spacing(3),
+      '&:hover': {
+        cursor: 'pointer',
+        backgroundColor: '#adbcbf'
+      }
+    }
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -34,70 +44,97 @@ const styles = theme => ({
   link: {
     textDecoration: 'none',
     color: '#443f56'
+  },
+  linkSelected: {
+    backgroundColor: '#ced7d8  !important',
+    color: '#443f5b'
+  },
+  sortSelected: {
+    backgroundColor: '#adbcbf !important',
+    color: '#443f5b'
   }
-})
+}))
 
-const Menu = ({ onClick, currentPathname, links, classes }) => (
-  <List>
-    {links
-      .filter(({ label }) => label)
-      .map(({ to, label, collapsedItems }) => {
-        // FIXME: we should try to use mui's way, for some reason
-        // it didn't work for me
-        const isSelected = currentPathname === to
-        const selectedStyle = {
-          backgroundColor: '#f5f5f5',
-          color: '#443f5b'
-        }
-        return (
-          <React.Fragment key={`link-${to}`}>
-            <Link
-              to={to}
-              className={classes.link}
-              onClick={() => onClick && onClick(!!collapsedItems)}
-            >
-              <ListItem
-                button
-                ContainerProps={{
-                  onClick: () => onClick && onClick(!!collapsedItems)
-                }}
-                selected={isSelected}
-                style={isSelected ? selectedStyle : {}}
+const Menu = ({
+  onClick,
+  currentPathname,
+  links,
+  classes,
+  sortBy,
+  setSortBy
+}) => {
+  const { t } = useTranslation('sortInput')
+
+  return (
+    <List>
+      {links
+        .filter(({ label }) => label)
+        .map(({ to, label, collapsedItems }) => {
+          // FIXME: we should try to use mui's way, for some reason
+          // it didn't work for me
+          const isSelected = currentPathname === to
+
+          return (
+            <React.Fragment key={`link-${to}`}>
+              <Link
+                to={to}
+                className={classes.link}
+                onClick={() => onClick && onClick(!!collapsedItems)}
               >
-                <ListItemText primary={label} />
-              </ListItem>
-            </Link>
-            {collapsedItems && !!collapsedItems.length && (
-              <Collapse
-                className={classes.innerList}
-                in={isSelected}
-                timeout='auto'
-              >
-                {collapsedItems.map((Item, index) => (
-                  <Item key={`${to}-collapsed-item-${index}`} />
-                ))}
-              </Collapse>
-            )}
-          </React.Fragment>
-        )
-      })}
-  </List>
-)
+                <ListItem
+                  button
+                  ContainerProps={{
+                    onClick: () => onClick && onClick(!!collapsedItems)
+                  }}
+                  selected={isSelected}
+                  className={classnames({ [classes.linkSelected]: isSelected })}
+                >
+                  <ListItemText primary={label} />
+                </ListItem>
+              </Link>
+              {collapsedItems && !!collapsedItems.length && (
+                <Collapse
+                  className={classes.innerList}
+                  in={isSelected}
+                  timeout='auto'
+                >
+                  {collapsedItems.map(({ value }, index) => (
+                    <ListItem
+                      key={`${value}-collapsed-item-${index}`}
+                      selected={value === sortBy}
+                      className={classnames({
+                        [classes.sortSelected]: value === sortBy
+                      })}
+                      onClick={() => setSortBy(value)}
+                    >
+                      {t(value)}
+                    </ListItem>
+                  ))}
+                </Collapse>
+              )}
+            </React.Fragment>
+          )
+        })}
+    </List>
+  )
+}
 
 const MainDrawer = ({
-  classes,
-  theme,
   variant = 'desktop',
   onClose,
   open = false,
-
+  sortBy,
+  setSortBy,
   currentPathname,
   ...props
 }) => {
   const { t } = useTranslation('translations')
+  const classes = useStyles()
+  const theme = useTheme()
+
   return (
     <>
-      <div className={classes.toolbar} />
+      <Box className={classes.toolbar} />
       {variant === 'mobile' && (
         <Drawer
           variant='temporary'
@@ -124,7 +161,8 @@ const MainDrawer = ({
               collapsedItems: route.drawerComponents
             }))}
             classes={classes}
-            t={t}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
           />
         </Drawer>
       )}
@@ -144,7 +182,8 @@ const MainDrawer = ({
               collapsedItems: route.drawerComponents
             }))}
             classes={classes}
-            t={t}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
           />
         </Drawer>
       )}
@@ -153,30 +192,32 @@ const MainDrawer = ({
 }
 
 Menu.propTypes = {
-  classes: PropTypes.object,
   links: PropTypes.array,
   onClick: PropTypes.func,
-  currentPathname: PropTypes.string
+  currentPathname: PropTypes.string,
+  sortBy: PropTypes.string
 }
 
 MainDrawer.propTypes = {
-  classes: PropTypes.object,
   currentPathname: PropTypes.string,
   theme: PropTypes.object,
   variant: PropTypes.string,
   onClose: PropTypes.func,
-  open: PropTypes.bool
+  open: PropTypes.bool,
+  sortBy: PropTypes.string,
+  setSortBy: PropTypes.func
 }
 
-const mapStateToProps = ({ location: { pathname: currentPathname } }) => ({
-  currentPathname
+const mapStateToProps = ({
+  location: { pathname: currentPathname },
+  blockProducers
+}) => ({
+  currentPathname,
+  sortBy: blockProducers.sortBy
 })
 
-const mapDispatchToProps = () => ({})
+const mapDispatchToProps = ({ blockProducers }) => ({
+  setSortBy: blockProducers.setSortBy
+})
 
-export default withStyles(styles, { withTheme: true })(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(MainDrawer)
-)
+export default connect(mapStateToProps, mapDispatchToProps)(MainDrawer)
