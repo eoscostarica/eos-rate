@@ -122,8 +122,6 @@ const AllBps = ({
     try {
       storeIsContentLoading(true)
 
-      console.log({ transaction, BPs })
-
       await ual.activeUser.signTransaction(transaction, {
         broadcast: true
       })
@@ -157,7 +155,7 @@ const AllBps = ({
 
   useEffect(() => {
     async function getData () {
-      !blockProducers.length && await getBPs()
+      !blockProducers.length && (await getBPs())
     }
 
     getData()
@@ -209,11 +207,15 @@ const AllBps = ({
               }
               toggleSelection={(isAdding, producerAccountName) => () => {
                 if (isAdding) {
-                  if (!(selectedBPs || []).length && !compareToolVisible) toggleCompareTool()
+                  if (!(selectedBPs || []).length && !compareToolVisible) {
+                    toggleCompareTool()
+                  }
 
                   addToSelected(producerAccountName)
                 } else {
-                  if ((selectedBPs || []).length === 1 && compareToolVisible) toggleCompareTool()
+                  if ((selectedBPs || []).length === 1 && compareToolVisible) {
+                    toggleCompareTool()
+                  }
 
                   removeSelected(producerAccountName)
                 }
@@ -272,7 +274,14 @@ const mapStatetoProps = ({ blockProducers, user }) => ({
 })
 
 const mapDispatchToProps = ({
-  blockProducers: { getBPs, toggleCompareTool, addToSelected, removeSelected, setShowSortSelected, clearSelected },
+  blockProducers: {
+    getBPs,
+    toggleCompareTool,
+    addToSelected,
+    removeSelected,
+    setShowSortSelected,
+    clearSelected
+  },
   user: { getUserChainData },
   isLoading: { storeIsContentLoading }
 }) => ({
@@ -291,5 +300,15 @@ export default withStyles(style)(
 )
 
 export const blockProducersDrawer = [
-  // FilterBox
+  { value: 'sortby' },
+  { value: 'alphabetical' },
+  { value: 'generalRate' },
+  { value: 'infrastructure' },
+  { value: 'community' },
+  { value: 'trustiness' },
+  { value: 'development' },
+  { value: 'transparency' },
+  { value: 'vote' },
+  { value: 'reward' },
+  { value: 'ratings' }
 ]
