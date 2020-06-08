@@ -5,8 +5,9 @@ import BlockProducerRate from './block-producers/block-producer-rate'
 import AllBps, { blockProducersDrawer } from './block-producers'
 import AllProxies, { proxiesDrawer } from './proxies'
 import ProxyProfile from './proxies/proxy-profile'
-
-// import Settings from './settings'
+import Help from './help'
+import TermsOfUse from './termsOfUse'
+import About from './about'
 
 export default [
   {
@@ -41,6 +42,20 @@ export default [
   {
     path: '/account',
     Component: Account
-    // drawerLabel: 'drawerLinkAccount'
+  },
+  {
+    path: '/about',
+    Component: About,
+    drawerLabel: 'drawerLinkAbout'
+  },
+  {
+    path: '/terms-of-use',
+    Component: TermsOfUse,
+    drawerLabel: 'drawerLinkTermsOfUse'
+  },
+  {
+    path: '/help',
+    Component: Help,
+    drawerLabel: 'drawerLinkHelp'
   }
 ]

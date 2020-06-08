@@ -45,6 +45,9 @@
     "drawerLinkSettings": "Settings",
     "drawerLinkAccount": "Account",
     "drawerLinkAllProxies": "Proxies",
+    "drawerLinkAbout": "About",
+    "drawerLinkTermsOfUse": "Terms Of Use",
+    "drawerLinkHelp": "Help",
 
     "appBarSignIn": "Sign In",
 
@@ -59,17 +62,15 @@
   },
 
   "sortInput": {
-    "sortby": "All BPs",
+    "vote": "Total Votes",
     "alphabetical": "Alphabetical",
+    "ratings": "Number of Ratings",
     "generalRate": "Top Rated General",
     "infrastructure": "Top Rated Infrastructure",
     "community": "Top Rated Community",
     "trustiness": "Top Rated Trustiness",
     "development": "Top Rated Development",
-    "transparency": "Top Rated Transparency",
-    "vote": "Votes",
-    "reward": "Rewards per day",
-    "ratings": "Ratings"
+    "transparency": "Top Rated Transparency"
   },
 
   "not-found": {

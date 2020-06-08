@@ -1,0 +1,9 @@
+- args:
+    permission:
+      backend_only: false
+      filter: {}
+    role: anonymous
+    table:
+      name: user_ratings
+      schema: public
+  type: create_delete_permission

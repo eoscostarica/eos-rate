@@ -181,7 +181,7 @@ const Proxies = {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
-        await apolloClient.mutate({
+        const { data: { rateProducer } } = await apolloClient.mutate({
           variables: {
             ratingInput: { producer: bp, user }
           },
@@ -233,6 +233,7 @@ const Proxies = {
         this.addProducer(currentBP)
         this.updateBPList(producerUpdatedList)
         this.getBlockProducerRatingByOwner({ bp, userAccount: user })
+        dispatch.user.getUserRates({ userRate: { ...rateProducer, ...currentBP } })
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
         console.error('mutationInsertUserRating', error)

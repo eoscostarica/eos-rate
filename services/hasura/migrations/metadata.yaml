@@ -1,0 +1,127 @@
+version: 2
+tables:
+- table:
+    schema: public
+    name: producers
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - bpjson
+      - general_info
+      - owner
+      - system
+      filter: {}
+- table:
+    schema: public
+    name: producers_list
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - owner
+      - bpjson
+      - system
+      - candidate_name
+      - total_votes
+      - average
+      - transparency
+      - infrastructure
+      - trustiness
+      - community
+      - development
+      - ratings_cntr
+      - general_info
+      filter: {}
+- table:
+    schema: public
+    name: proxies
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - owner
+      - name
+      - website
+      - slogan
+      - philosophy
+      - background
+      - logo_256
+      - telegram
+      - steemit
+      - twitter
+      - wechat
+      - voter_info
+      filter: {}
+- table:
+    schema: public
+    name: ratings_stats
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - bp
+      - ratings_cntr
+      - average
+      - transparency
+      - infrastructure
+      - trustiness
+      - community
+      - development
+      - created_at
+      - updated_at
+      filter: {}
+- table:
+    schema: public
+    name: user_ratings
+  select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+      - ratings
+      - tx_data
+      - bp
+      - uniq_rating
+      - user
+      filter: {}
+  delete_permissions:
+  - role: anonymous
+    permission:
+      filter: {}
+actions:
+- name: rateProducer
+  definition:
+    handler: http://hapi:3005/ratebp
+    output_type: RatingOutput
+    arguments:
+    - name: ratingInput
+      type: RatingInput!
+    type: mutation
+    kind: synchronous
+  permissions:
+  - role: anonymous
+custom_types:
+  input_objects:
+  - name: RatingInput
+    fields:
+    - name: user
+      type: String!
+    - name: producer
+      type: String!
+  objects:
+  - name: RatingOutput
+    fields:
+    - name: message
+      type: String!
+    - name: uniq_rating
+      type: String
+    - name: user
+      type: String
+    - name: bp
+      type: String
+    - name: ratings
+      type: jsonb
+  - name: deleteUserRateOutput
+    fields:
+    - name: message
+      type: String!

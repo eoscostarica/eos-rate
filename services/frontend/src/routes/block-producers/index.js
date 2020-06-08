@@ -300,7 +300,6 @@ export default withStyles(style)(
 )
 
 export const blockProducersDrawer = [
-  { value: 'sortby' },
   { value: 'alphabetical' },
   { value: 'generalRate' },
   { value: 'infrastructure' },
@@ -309,6 +308,5 @@ export const blockProducersDrawer = [
   { value: 'development' },
   { value: 'transparency' },
   { value: 'vote' },
-  { value: 'reward' },
   { value: 'ratings' }
 ]
