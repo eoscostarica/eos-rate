@@ -26,6 +26,7 @@ const user = {
     async getUserChainData ({ accountName }, { user, blockProducers }) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
+
         if (user.data && user.data.account_name === accountName) {
           dispatch.isLoading.storeIsContentLoading(false)
           return
@@ -95,6 +96,7 @@ const user = {
     async deleteUserRate ({ user, bpName }, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
+        
         const {
           data: {
             delete_user_ratings: { affected_rows: affectedRows }
