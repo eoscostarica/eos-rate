@@ -3,7 +3,7 @@ const { VIRTUAL_PORT, VIRTUAL_HOST } = process.env
 
 const updateBpStats = require('./libs/sync-bp-stats')
 const updateUserRatings = require('./libs/sync-user-rating')
-const isValidAccountName = require('./libs/valid-account-name')
+const accountValidation = require('./libs/valid-account-name')
 
 const Hapi = require('@hapi/hapi')
 
@@ -24,35 +24,34 @@ const init = async () => {
   server.route({
     method: 'POST',
     path: '/ratebp',
-    handler: req => {
-      var bp, user, message
+    handler: async req => {
+      try {
+        const {
+          payload: { input }
+        } = req
 
-      if (req.payload.input) {
-        user = req.payload.input.ratingInput.user
-        bp = req.payload.input.ratingInput.producer
-        message = ''
-      } else {
-        message = 'Invalid Input'
-        return { message }
+        if (!input) throw new Error('Invalid ratebp Input')
+
+        const {
+          ratingInput: { user, producer }
+        } = input
+        const isValidAccountName = accountValidation([
+          { name: user, type: 'user account' },
+          { name: producer, type: 'block producer' }
+        ])
+
+        if (!isValidAccountName.isValidAccountName)
+          throw new Error(isValidAccountName.message)
+
+        updateBpStats(producer)
+        const result = await updateUserRatings(user, producer)
+
+        return { message: 'rate block producer was successfully!', ...result }
+      } catch (error) {
+        console.error('ratebp', error)
+
+        return error
       }
-
-      const isBp = isValidAccountName(bp)
-      if (isBp) {
-        updateBpStats(bp)
-        message += 'Updating BP -'
-      } else {
-        message += 'Invalid block producer provided! -'
-      }
-
-      const isUser = isValidAccountName(user)
-      if (isUser) {
-        updateUserRatings(user)
-        message += 'Updating user '
-      } else {
-        message += ' Invalid user account provided!'
-      }
-
-      return { message }
     }
   })
 

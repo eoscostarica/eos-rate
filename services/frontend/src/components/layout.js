@@ -83,7 +83,7 @@ const Layout = ({ classes, children, ual }) => {
       >
         <MainDrawer open={state.isNavOpen} onClose={handleDrawerToggle} />
       </Hidden>
-      <main className={classes.content}>
+      <main className={classes.content} id='mainContent'>
         <div className={classes.toolbar} />
         <div className={classes.contentWrapper}>{children}</div>
         <MainFooter />

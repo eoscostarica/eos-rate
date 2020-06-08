@@ -1,12 +1,30 @@
 'use strict'
 
 const isValidAccountName = name => {
-  if (!name) return false
-  if (typeof name !== 'string') return false
-  if (name.length > 12) return false
-  if (!/[a-z]/.test(name[0])) return false
+  if (
+    !name ||
+    typeof name !== 'string' ||
+    name.length > 12 ||
+    !/[a-z]/.test(name[0])
+  )
+    return false
 
   return !/[^abcdefghijklmnopqrstuvwxyz12345.]/.test(name)
 }
 
-module.exports = isValidAccountName
+const accountValidation = (accounts = []) => {
+  const result = accounts.find(({ name }) => !isValidAccountName(name))
+
+  if (result)
+    return {
+      message: `Invalid ${result.type} provided!`,
+      isValidAccountName: false
+    }
+
+  return {
+    message: null,
+    isValidAccountName: true
+  }
+}
+
+module.exports = accountValidation

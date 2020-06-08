@@ -45,6 +45,9 @@
     "drawerLinkSettings": "Configuración",
     "drawerLinkAccount": "Cuenta",
     "drawerLinkAllProxies": "Proxies",
+    "drawerLinkAbout": "Acerca de EOS Rate",
+    "drawerLinkTermsOfUse": "Términos de uso",
+    "drawerLinkHelp": "Ayuda",
 
     "appBarSignIn": "Iniciar Sesión",
 
@@ -59,17 +62,15 @@
   },
 
   "sortInput": {
-    "sortby": "Todos los Productores de Bloques",
+    "vote": "Mayor número de votos",
     "alphabetical": "Alfabético",
+    "ratings": "Número de Evaluaciones",
     "generalRate": "Mayor Calificación General",
     "infrastructure": "Mayor Calificación Infraestructura",
     "community": "Mayor Calificación Comunidad",
     "trustiness": "Mayor Calificación Confianza",
     "development": "Mayor Calificación Desarrollo",
-    "transparency": "Mayor Calificación Transparencia",
-    "vote": "Mayor número de votos",
-    "reward": "Mayor recompensas por día",
-    "ratings": "Número de Evaluaciones"
+    "transparency": "Mayor Calificación Transparencia"
   },
 
   "not-found": {
