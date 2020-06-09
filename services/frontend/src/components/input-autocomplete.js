@@ -66,7 +66,7 @@ const InputAutocomplete = ({ getBPs, getProxies, list, proxies, ...props }) => {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    async function getData() {
+    const getData = async () => {
       await getBPs()
       await getProxies()
     }
