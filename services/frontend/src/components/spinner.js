@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-const styles = ({ spacing }) => ({
+const useStyles = makeStyles((theme) => ({
   blockContainer: {
     '&:focus': {
       outline: 'none'
@@ -30,14 +30,16 @@ const styles = ({ spacing }) => ({
     display: 'flex',
     justifyContent: 'center',
     position: 'absolute',
-    top: spacing(10),
+    top: theme.spacing(10),
     width: '100%',
     zIndex: 999999
   }
-})
+}))
 
-const IsLoading = ({ classes, isLoading }) =>
-  isLoading ? (
+const IsLoading = ({ isLoading }) => {
+  const classes = useStyles()
+
+  return isLoading ? (
     <div>
       <div className={classes.blockContainer}>
         <div className={classes.blockOverlay} />
@@ -50,10 +52,10 @@ const IsLoading = ({ classes, isLoading }) =>
       </div>
     </div>
   ) : null
+}
 
 IsLoading.propTypes = {
-  classes: PropTypes.object.isRequired,
   isLoading: PropTypes.bool
 }
 
-export default withStyles(styles)(IsLoading)
+export default IsLoading

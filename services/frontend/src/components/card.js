@@ -1,7 +1,8 @@
 import React, { useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
-
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
+import { useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Card from '@material-ui/core/Card'
 import classNames from 'classnames'
 import CardHeader from '@material-ui/core/CardHeader'
@@ -12,13 +13,12 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Help from '@material-ui/icons/HelpOutlineRounded'
 import Error from '@material-ui/icons/Error'
-import withWidth from '@material-ui/core/withWidth'
 import Tooltip from '@material-ui/core/Tooltip'
 import { Link } from '@reach/router'
 
 import Radar from 'components/radar'
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   card: {
     backgroundColor: theme.palette.surface.dark
   },
@@ -98,7 +98,7 @@ const styles = theme => ({
     padding: theme.spacing(0, 2, 1, 2),
     color: theme.palette.primary.main
   }
-})
+}))
 
 const TooltipWrapper = ({ open, onHandleTooltip, isClickable, t, classes }) => {
   if (isClickable) {
@@ -117,11 +117,9 @@ const TooltipWrapper = ({ open, onHandleTooltip, isClickable, t, classes }) => {
 }
 
 const CardData = ({
-  classes,
   data,
   isSelected = false,
   toggleSelection,
-  width,
   imageURL,
   owner,
   title,
@@ -135,6 +133,9 @@ const CardData = ({
 }) => {
   const { t } = useTranslation('translations')
   const [open, setOpen] = useState(false)
+  const classes = useStyles()
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.only('xs'))
 
   const handleTooltip = e => {
     setOpen(!open)
@@ -226,7 +227,7 @@ const CardData = ({
             <TooltipWrapper
               open={open}
               onHandleTooltip={handleTooltip}
-              isClickable={Boolean(width === 'xs')}
+              isClickable={isMobile}
               t={t}
               classes={classes}
             />
@@ -268,8 +269,6 @@ const CardData = ({
 }
 
 CardData.propTypes = {
-  width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
-  classes: PropTypes.object,
   data: PropTypes.object,
   isSelected: PropTypes.bool,
   toggleSelection: PropTypes.func,
@@ -300,4 +299,4 @@ TooltipWrapper.propTypes = {
   t: PropTypes.any
 }
 
-export default withStyles(styles)(withWidth()(CardData))
+export default CardData

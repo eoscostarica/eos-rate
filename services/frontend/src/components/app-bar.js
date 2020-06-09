@@ -13,14 +13,14 @@ import SearchIcon from '@material-ui/icons/Search'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { fade } from '@material-ui/core/styles/colorManipulator'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
 import { Link } from '@reach/router'
 
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
 import LanguageSelect from 'components/language-select'
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
@@ -94,10 +94,9 @@ const styles = theme => ({
       display: 'inline'
     }
   }
-})
+}))
 
 const MainTopBar = ({
-  classes,
   isSearchOpen,
   handleDrawerToggle,
   handleSearchDialogOpen,
@@ -106,10 +105,11 @@ const MainTopBar = ({
   getUserChainData,
   setUser
 }) => {
+  const classes = useStyles()
   const { t } = useTranslation('translations')
 
   useEffect(() => {
-    async function getData () {
+    const getData = async () => {
       if (ual.activeUser) {
         await getUserChainData({ accountName: ual.activeUser.accountName })
       } else {
@@ -194,7 +194,6 @@ const MainTopBar = ({
 }
 
 MainTopBar.propTypes = {
-  classes: PropTypes.object,
   handleDrawerToggle: PropTypes.func,
   handleSearchDialogOpen: PropTypes.func,
   handleSearchDialogClose: PropTypes.func,
@@ -209,4 +208,4 @@ const mapDispatchToProps = ({ user }) => ({
   setUser: user.removeBlockProducersVotedByUser
 })
 
-export default withStyles(styles)(connect(null, mapDispatchToProps)(MainTopBar))
+export default connect(null, mapDispatchToProps)(MainTopBar)
