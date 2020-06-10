@@ -1,6 +1,6 @@
 ```
 Compile contract:
-eosio-cpp rateproducer.cpp -o rateproducer.wasm -abigen 
+eosio-cpp -R ricardian rateproducer.cpp -o rateproducer.wasm -abigen 
 
 Add resources:
 cleos -u http://jungle2.cryptolions.io:80 system buyram rateproducer rateproducer "100 EOS"
