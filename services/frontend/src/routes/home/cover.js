@@ -54,39 +54,19 @@ const HomeCover = ({ classes, blockProducer }) => {
         <Typography variant='h6' className={classes.subtitle}>
           {t('cover.paragraph.subtitle1')}
         </Typography>
-        <Typography
-          variant='body2'
-          className={classes.paragraph}
-          align='justify'
-          paragraph
-        >
+        <Typography variant='body2' align='justify' paragraph>
           {t('cover.paragraph.text1')}
         </Typography>
-        <Typography
-          variant='body2'
-          className={classes.paragraph}
-          align='justify'
-          paragraph
-        >
+        <Typography variant='body2' align='justify' paragraph>
           {t('cover.paragraph.text2')}
         </Typography>
         <Typography variant='h6' className={classes.subtitle}>
           {t('cover.paragraph.subtitle2')}
         </Typography>
-        <Typography
-          variant='body2'
-          className={classes.paragraph}
-          align='justify'
-          paragraph
-        >
+        <Typography variant='body2' align='justify' paragraph>
           {t('cover.paragraph.text3')}
         </Typography>
-        <Typography
-          variant='body2'
-          className={classes.paragraph}
-          align='justify'
-          paragraph
-        >
+        <Typography variant='body2' align='justify' paragraph>
           {t('cover.paragraph.text4')}
         </Typography>
         <div className={classes.ctaContainer}>
@@ -114,10 +94,6 @@ const HomeCover = ({ classes, blockProducer }) => {
           />
         </div>
       </Grid>
-
-      {/* <Grid item xs={12}>
-      <ParameterRangeSelector defaultValue={[0, 50]} />
-    </Grid> */}
     </Grid>
   )
 }

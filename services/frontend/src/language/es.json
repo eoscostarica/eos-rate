@@ -197,5 +197,61 @@
     "labelTool": "vota por",
     "title": "Calificaciones de productor de bloques EOS",
     "proxyProfile": "Reseñas sobre EOS proxy"
+  },
+
+  "about": {
+    "tabTitle": "Acerca de EOS Rate",
+    "title": "EOS RATE: UN SISTEMA DE CALIFICACIÓN PARA LA RED PRINCIPAL EOS",
+    "subtitle1": "¿Qué es la EOS Mainnet?",
+    "body1": {
+      "paragraph1": "Si pertenece a la comunidad EOSIO, o ha leído algo sobre la cadena de bloques EOSIO, es posible que haya oído hablar de EOS Mainnet. EOS Mainnet es la red principal de la plataforma EOSIO blockchain donde se realizan las transacciones. Además, si está leyendo esto, es muy probable que conozca la terminología de blockchain.",
+      "paragraph2": "Además, EOSIO utiliza un mecanismo de consenso nativo conocido como \"Prueba de participación delegada\" (DPoS por sus siglas en inglés), desarrollado por Daniel Larimer. DPoS en EOSIO utiliza un proceso de elección en el que los titulares de tokens de EOS votan por los productores de bloques (BP) que creen que son los más calificados para ser los custodios de la red. EOS Mainnet funciona con los veintiún BP que obtienen la mayor cantidad de votos.",
+      "paragraph3": "Por lo tanto, el mecanismo DPoS requiere estos veintiún nodos elegidos para producir los bloques y, a cambio, pueden recibir recompensas. Una de las oportunidades subyacentes de EOSIO al usar DPoS es la capacidad de escalar. Por lo tanto, DPoS permite a los productores de bloques llegar a un consenso más rápido que los mecanismos tradicionales de PoW (prueba de trabajo) o PoS (prueba de participación). Por ejemplo, esto permite que los nodos EOS validen hasta 4,000 transacciones por segundo, en comparación con Ethereum que puede llegar a 15."
+    },
+    "subtitle2": "Con un gran poder viene una gran responsabilidad",
+    "body2": {
+      "paragraph1": "No obstante, las personas de la comunidad EOS afirman que tanto DPoS como EOS Mainnet pueden tener algunos inconvenientes, incluida una mayor centralización en una red que se supone que está descentralizada. Por ejemplo, en un caso, algunas cuentas fueron congeladas por BP, lo que levantó las cejas de las personas en la comunidad. Además, ha habido algunos desacuerdos asociados con la degradación del rendimiento en la red.",
+      "paragraph2": "En consecuencia, los titulares de tokens que eligen los veintiún nodos solo pueden confiar en la transparencia y la democracia de EOS Mainnet. Por lo tanto, estos BP son los que deben proteger y mantener la red principal en funcionamiento en el mejor interés de la comunidad de votantes.",
+      "paragraph3": "A partir de ahora, solo es posible realizar un seguimiento de las clasificaciones según los votos de los titulares de tokens. Sin embargo, el peso de los votos de los titulares de tokens está determinado por la cantidad de tokens EOS que poseen, lo que significa que los titulares de tokens con más EOS pueden emitir un voto más ponderado para los BP que desean respaldar. En otras palabras, aquellos que tienen menos tokens EOS pueden parecer subrepresentados. Entonces, la importancia de mantener un proceso electoral transparente y confiable en EOS Mainnet es lo que dio vida a la idea de la aplicación de código abierto llamada EOS Rate."
+    },
+    "subtitle3": "¿Qué es EOS Rate?",
+    "body3": {
+      "paragraph1": "EOS Rate es una aplicación descentralizada de código abierto (Dapp por sus siglas en inglés) creada por un equipo de desarrolladores en Costa Rica. Permite a los titulares de tokens EOS acceder a un sistema de clasificación y portal de votación para BPs y Proxies, lo que facilita a los titulares de tokens tomar una decisión informada.",
+      "paragraph2": "Además, EOS Rate tiene la intención de reunir calificaciones globales para ayudar a capturar la opinión colectiva, o \"sabiduría de la multitud\", y medir si los patrones de votación reflejan el sentimiento de los votantes. Luego, el Dapp genera páginas de perfil de los BP, utilizando un componente radial llamado \"LEAF\" (Factores de atributo Liquid EOS) para ayudar a los usuarios a comparar visualmente los atributos cualitativos más relevantes de los BP.",
+      "paragraph3": "Por lo tanto, para enviar calificaciones, los titulares de tokens deben iniciar sesión con su billetera EOS, lo que hace que el proceso de votación sea más seguro y transparente. Esto significa que una cuenta solo puede representar una presentación de calificación por BP. Luego, las clasificaciones se almacenan de forma segura en la cadena de bloques EOS para garantizar la inmutabilidad de las clasificaciones.",
+      "paragraph4": "Además, los titulares de tokens pueden enviar su calificación en EOS Rate usando cinco categorías distintas:",
+      "paragraph5": "En particular, una vez que el titular de un token presenta sus calificaciones, el total de las calificaciones se mostrará como gráficos radiales. Entonces, el proceso de EOS Rate sería algo como esto:"
+    },
+    "categories": {
+      "transparency": {
+        "title": "Transparencia",
+        "description": "Cumplimiento de la divulgación de la propiedad, bp.json completo, uso de recompensas y estadísticas financieras."
+      },
+      "infrastructure": {
+        "title": "Infraestructura",
+        "description": "Estabilidad y confiabilidad de la infraestructura EOS."
+      },
+      "trustiness": {
+        "title": "Lealtad",
+        "description": "Colaboración y reputación entre la comunidad EOS."
+      },
+      "community": {
+        "title": "Comunidad",
+        "description": "Creación de valor comunitario a través de la educación y la promoción de charlas, chats, hackatones, conferencias, seminarios, espacios para desarrolladores y otro contenido útil."
+      },
+      "development": {
+        "title": "Desarrollo",
+        "description": "Conocimientos técnicos y uso de software de código abierto, scripts, marcos, billeteras, portales de votación, métricas, etc."
+      }
+    }
+  },
+
+  "help": {
+    "tabTitle": "Ayuda",
+    "title": "¡Gracias por usar EOS Rate!",
+    "paragraph": "EOS Rate aún está en progreso. Si tiene algún problema, contáctenos utilizando los siguientes enlaces:",
+    "githubEOSCR": "Github de EOS Costa Rica",
+    "telegramChannel": "Canal de Telegram",
+    "websiteEOSCR": "Website de EOS Costa Rica"
   }
 }
