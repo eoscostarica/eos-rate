@@ -12,9 +12,9 @@ if [ "$1" == "production" ]; then
     docker push eoscostarica506/demux
     docker build -t eoscostarica506/hapi services/hapi/
     docker push eoscostarica506/hapi
-    docker build -t eoscostarica506/frontend --build-arg branch="production" --target server services/frontend/
-    docker push eoscostarica506/frontend
+    docker build -t eoscostarica506/frontend:latest --build-arg branch="production" --target server services/frontend/
+    docker push eoscostarica506/frontend:latest
 elif [ "$1" == "testing" ]; then
-    docker build -t eoscostarica506/frontend-staging --build-arg branch="staging" --target server services/frontend/
-    docker push eoscostarica506/frontend-staging
+    docker build -t eoscostarica506/frontend:staging --build-arg branch="staging" --target server services/frontend/
+    docker push eoscostarica506/frontend:staging
 fi
