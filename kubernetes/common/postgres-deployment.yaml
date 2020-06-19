@@ -29,9 +29,10 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: eosrate-postgres
+          subPathExpr: $(DATABASE_DIRECTORY)
       restartPolicy: Always
       volumes:
       - name: eosrate-postgres
         nfs:
           server: NFS-server
-          path: /mnt/database
+          path: /mnt
