@@ -23,10 +23,6 @@ spec:
         - serve
         - --enable-console
         env:
-        - name: HASURA_GRAPHQL_DATABASE_URL
-          value: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
-        - name: HASURA_GRAPHQL_MIGRATIONS_DIR
-          value: /hasura-migrations
         - name: HASURA_GRAPHQL_ADMIN_SECRET
           valueFrom:
             secretKeyRef:
@@ -37,6 +33,9 @@ spec:
             secretKeyRef:
               name: hasura-secret
               key: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
+        envFrom:
+        - configMapRef:
+            name: hasura-config
         image: hasura/graphql-engine:v1.2.0-beta.4.cli-migrations
         imagePullPolicy: ""
         name: eosrate-hasura
