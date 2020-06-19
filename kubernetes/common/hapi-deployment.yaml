@@ -35,4 +35,4 @@ spec:
       - name: hapi1
         nfs:
           server: NFS-server
-          path: /home/ubuntu
+          path: /home/ubuntu/

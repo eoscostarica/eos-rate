@@ -35,4 +35,4 @@ spec:
       - name: eosrate-postgres
         nfs:
           server: NFS-server
-          path: /mnt
+          path: /mnt/
