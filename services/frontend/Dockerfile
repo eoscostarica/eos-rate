@@ -1,5 +1,7 @@
 FROM node:12-slim as builder
 
+ARG branch
+
 WORKDIR /usr/src/app
 
 COPY package.json .
@@ -10,7 +12,7 @@ RUN yarn --frozen-lockfile
 
 COPY . .
 
-RUN yarn build:production
+RUN yarn build:"$branch"
 
 FROM nginx:1.16.1-alpine as server
 
