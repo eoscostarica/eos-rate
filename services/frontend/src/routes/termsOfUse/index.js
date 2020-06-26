@@ -1,10 +1,31 @@
 import React from 'react'
-import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/styles'
+import { RicardianContract } from '@eoscostarica/eoscr-components'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
+    '& svg': {
+      fontSize: '35px !important'
+    },
+    '& h4': {
+      fontSize: '15px !important',
+      fontWeight: '600'
+    },
+    '& a': {
+      lineBreak: 'anywhere'
+    },
+    [theme.breakpoints.up('sm')]: {
+      '& svg': {
+        fontSize: '45px !important'
+      },
+
+      '& h4': {
+        fontSize: '34px !important',
+        fontWeight: 'normal'
+      }
+    }
   }
 }))
 
@@ -12,16 +33,10 @@ const TermsOfUse = () => {
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
-      <Typography
-        variant='h5'
-      >
-        Terms of Use
-      </Typography>
-    </div>
+    <Box className={classes.root}>
+      <RicardianContract name='rateproducer' />
+    </Box>
   )
 }
-
-TermsOfUse.propTypes = {}
 
 export default TermsOfUse
