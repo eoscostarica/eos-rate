@@ -6,6 +6,9 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import classNames from 'classnames'
 import Link from '@material-ui/core/Link'
+import HttpIcon from '@material-ui/icons/Http'
+import TelegramIcon from '@material-ui/icons/Telegram'
+import GitHubIcon from '@material-ui/icons/GitHub'
 
 import TitlePage from 'components/title-page'
 
@@ -24,6 +27,21 @@ const useStyles = makeStyles(theme => ({
     '& h5': {
       fontSize: theme.typography.h4.fontSize,
       marginBottom: 12.5
+    }
+  },
+  boxLinks: {
+    display: 'flex',
+    marginTop: theme.spacing(3),
+    '& a': {
+      '&:hover': {
+        textDecoration: 'none'
+      }
+    },
+    '& svg': {
+      marginRight: theme.spacing(3)
+    },
+    '& p': {
+      marginTop: 0
     }
   }
 }))
@@ -49,41 +67,37 @@ const Help = () => {
             <Typography variant='body2' align='justify' paragraph>
               {t('paragraph')}
             </Typography>
-            <ul>
-              <li>
-                <Typography variant='body2' align='justify' paragraph>
-                  <Link
-                    href='https://github.com/eoscostarica'
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    {t('githubEOSCR')}
-                  </Link>
-                </Typography>
-              </li>
-              <li>
-                <Typography variant='body2' align='justify' paragraph>
-                  <Link
-                    href='https://web.telegram.org/#/eoscr'
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    {t('telegramChannel')}
-                  </Link>
-                </Typography>
-              </li>
-              <li>
-                <Typography variant='body2' align='justify' paragraph>
-                  <Link
-                    href='https://eoscostarica.io/'
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    {t('websiteEOSCR')}
-                  </Link>
-                </Typography>
-              </li>
-            </ul>
+
+            <Box className={classes.boxLinks}>
+              <GitHubIcon />
+              <Link
+                href='https://github.com/eoscostarica'
+                target='_blank'
+                rel='noreferrer'
+              >
+                <Typography variant='body1'>{t('githubEOSCR')}</Typography>
+              </Link>
+            </Box>
+            <Box className={classes.boxLinks}>
+              <TelegramIcon />
+              <Link
+                href='https://web.telegram.org/#/eoscr'
+                target='_blank'
+                rel='noreferrer'
+              >
+                <Typography variant='body1'>{t('telegramChannel')}</Typography>
+              </Link>
+            </Box>
+            <Box className={classes.boxLinks}>
+              <HttpIcon />
+              <Link
+                href='https://eoscostarica.io/'
+                target='_blank'
+                rel='noreferrer'
+              >
+                <Typography variant='body1'>{t('websiteEOSCR')}</Typography>
+              </Link>
+            </Box>
           </Grid>
         </Grid>
       </Grid>
