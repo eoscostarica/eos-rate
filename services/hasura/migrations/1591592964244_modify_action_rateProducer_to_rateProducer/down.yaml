@@ -1,0 +1,58 @@
+- args:
+    enums: []
+    input_objects:
+    - description: null
+      fields:
+      - description: null
+        name: user
+        type: String!
+      - description: null
+        name: producer
+        type: String!
+      name: RatingInput
+    objects:
+    - description: null
+      fields:
+      - arguments: null
+        description: null
+        name: message
+        type: String!
+      - arguments: null
+        description: null
+        name: uniq_rating
+        type: String
+      - arguments: null
+        description: null
+        name: user
+        type: String
+      - arguments: null
+        description: null
+        name: bp
+        type: String
+      name: RatingOutput
+      relationships: null
+    - description: null
+      fields:
+      - arguments: null
+        description: null
+        name: message
+        type: String!
+      name: deleteUserRateOutput
+      relationships: null
+    scalars: []
+  type: set_custom_types
+- args:
+    comment: null
+    definition:
+      arguments:
+      - description: null
+        name: ratingInput
+        type: RatingInput!
+      forward_client_headers: false
+      handler: http://hapi:3005/ratebp
+      headers: []
+      kind: synchronous
+      output_type: RatingOutput
+      type: mutation
+    name: rateProducer
+  type: update_action

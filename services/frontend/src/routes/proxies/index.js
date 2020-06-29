@@ -86,6 +86,7 @@ const AllProxies = ({
   const hasMore = proxiesList && currentlyVisible < proxiesList.length
 
   const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
+  const goToTop = () => document.getElementById('mainContent').scrollTo(0, 0)
 
   useEffect(() => {
     async function getData () {
@@ -143,6 +144,7 @@ const AllProxies = ({
                 if (isAdding) {
                   if (!(selectedProxies || []).length && !compareToolVisible) toggleCompareTool()
                   addToSelected(producerAccountName)
+                  goToTop()
                 } else if (!isAdding) {
                   if ((selectedProxies || []).length === 1 && compareToolVisible) toggleCompareTool()
                   removeSelected()

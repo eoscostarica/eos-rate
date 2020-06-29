@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
 import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import FilterListIcon from '@material-ui/icons/FilterList'
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   wrapper: {
     color: 'inherit'
   },
@@ -24,10 +24,11 @@ const styles = theme => ({
     width: 24,
     height: 24
   }
-})
+}))
 
-const FilterSelect = ({ classes, style, alt, onHandleApplySortBy }) => {
+const FilterSelect = ({ style, alt, onHandleApplySortBy }) => {
   const { t, i18n } = useTranslation('sortInput')
+  const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
   const [sort, setSort] = useState(t('sortby'))
 
@@ -45,7 +46,6 @@ const FilterSelect = ({ classes, style, alt, onHandleApplySortBy }) => {
   }
 
   const filters = [
-    { value: 'sortby', label: t('sortby') },
     { value: 'alphabetical', label: t('alphabetical') },
     { value: 'generalRate', label: t('generalRate') },
     { value: 'infrastructure', label: t('infrastructure') },
@@ -54,7 +54,6 @@ const FilterSelect = ({ classes, style, alt, onHandleApplySortBy }) => {
     { value: 'development', label: t('development') },
     { value: 'transparency', label: t('transparency') },
     { value: 'vote', label: t('vote') },
-    { value: 'reward', label: t('reward') },
     { value: 'ratings', label: t('ratings') }
   ]
 
@@ -89,10 +88,9 @@ const FilterSelect = ({ classes, style, alt, onHandleApplySortBy }) => {
 }
 
 FilterSelect.propTypes = {
-  classes: PropTypes.object.isRequired,
   alt: PropTypes.string,
   style: PropTypes.any,
   onHandleApplySortBy: PropTypes.func
 }
 
-export default withStyles(styles)(FilterSelect)
+export default FilterSelect

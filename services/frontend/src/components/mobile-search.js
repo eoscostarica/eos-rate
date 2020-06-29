@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
 import Dialog from '@material-ui/core/Dialog'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -10,45 +10,44 @@ import Slide from '@material-ui/core/Slide'
 
 import InputAutocomplete from 'components/input-autocomplete'
 
-const styles = theme => ({
+const useStyles = makeStyles(() => ({
   appBar: {
     position: 'relative'
   },
   flex: {
     flex: 1
   }
-})
+}))
 
-const Transition = React.forwardRef((props, ref) => <Slide direction='up' {...props} ref={ref} />)
+const Transition = React.forwardRef((props, ref) => (
+  <Slide direction='up' {...props} ref={ref} />
+))
 
-class MobileSearch extends PureComponent {
-  static propTypes = {
-    classes: PropTypes.object,
-    isOpen: PropTypes.bool,
-    onClose: PropTypes.func
-  }
+const MobileSearch = ({ isOpen, onClose }) => {
+  const classes = useStyles()
 
-  render () {
-    const { classes, isOpen, onClose } = this.props
-
-    return (
-      <Dialog
-        fullScreen
-        open={isOpen}
-        onClose={onClose}
-        TransitionComponent={Transition}
-      >
-        <AppBar className={classes.appBar}>
-          <Toolbar>
-            <InputAutocomplete onItemSelected={onClose} isFocused={isOpen} />
-            <IconButton color='inherit' onClick={onClose} aria-label='Close'>
-              <CloseIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-      </Dialog>
-    )
-  }
+  return (
+    <Dialog
+      fullScreen
+      open={isOpen}
+      onClose={onClose}
+      TransitionComponent={Transition}
+    >
+      <AppBar className={classes.appBar}>
+        <Toolbar>
+          <InputAutocomplete onItemSelected={onClose} isFocused={isOpen} />
+          <IconButton color='inherit' onClick={onClose} aria-label='Close'>
+            <CloseIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+    </Dialog>
+  )
 }
 
-export default withStyles(styles)(MobileSearch)
+MobileSearch.propTypes = {
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func
+}
+
+export default MobileSearch

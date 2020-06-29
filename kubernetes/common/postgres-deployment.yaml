@@ -18,30 +18,21 @@ spec:
         io.kompose.service: postgres
     spec:
       containers:
-      - env:
-        - name: DB_NAME
-          value: eosrate
-        - name: DB_PASSWORD
-          value: pass
-        - name: DB_USER
-          value: user
-        - name: POSTGRES_DB
-          value: eosrate
-        - name: POSTGRES_PASSWORD
-          value: pass
-        - name: POSTGRES_USER
-          value: user
-        image: postgres:10.4
+      - image: postgres:10.4
         imagePullPolicy: ""
         name: eosrate-postgres
+        envFrom:
+        - configMapRef:
+            name: postgres-config
         ports:
         - containerPort: 5432
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: eosrate-postgres
+          subPathExpr: $(DATABASE_DIRECTORY)
       restartPolicy: Always
       volumes:
       - name: eosrate-postgres
         nfs:
           server: NFS-server
-          path: /mnt/database
+          path: /mnt/

@@ -14,6 +14,7 @@ const MUTATION_UPDATE_USER_RATING = gql`
         user
         bp
         ratings
+        uniq_rating
       }
     }
   }

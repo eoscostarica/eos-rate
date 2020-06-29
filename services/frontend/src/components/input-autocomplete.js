@@ -5,7 +5,8 @@ import { navigate } from '@reach/router'
 import Highlight from 'react-highlighter'
 import Autosuggest from 'react-autosuggest'
 import filterObjects from 'filter-objects'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
+import { useTranslation } from 'react-i18next'
 import SearchIcon from '@material-ui/icons/Search'
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
@@ -13,9 +14,7 @@ import Paper from '@material-ui/core/Paper'
 import _get from 'lodash.get'
 import MenuItem from '@material-ui/core/MenuItem'
 
-import withT from 'components/with-t'
-
-const style = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
@@ -57,22 +56,17 @@ const style = theme => ({
   searchIcon: {
     fill: 'white'
   }
-})
+}))
 
-const InputAutocomplete = ({
-  getBPs,
-  getProxies,
-  list,
-  t,
-  proxies,
-  ...props
-}) => {
+const InputAutocomplete = ({ getBPs, getProxies, list, proxies, ...props }) => {
+  const classes = useStyles()
+  const { t } = useTranslation('translations')
   const [suggestions, setSuggestions] = useState([])
   const [text, setText] = useState('')
   const [data, setData] = useState([])
 
   useEffect(() => {
-    async function getData () {
+    const getData = async () => {
       await getBPs()
       await getProxies()
     }
@@ -96,7 +90,7 @@ const InputAutocomplete = ({
   }, [list, proxies])
 
   const renderInputComponent = inputProps => {
-    const { classes, inputRef = () => {}, ref, ...other } = inputProps
+    const { inputRef = () => {}, ref, ...other } = inputProps
     const { hideSearchIcon, isFocused } = props
 
     return (
@@ -129,7 +123,7 @@ const InputAutocomplete = ({
       <Highlight
         search={query}
         matchElement='span'
-        matchClass={props.classes.highlightMatch}
+        matchClass={classes.highlightMatch}
       >
         {suggestion}
       </Highlight>
@@ -163,7 +157,6 @@ const InputAutocomplete = ({
     navigate(`${suggestion.path}${suggestion.owner}`)
     props.onItemSelected && props.onItemSelected()
   }
-  const { classes } = props
 
   return (
     <div className={classes.root}>
@@ -200,8 +193,6 @@ const InputAutocomplete = ({
 }
 
 InputAutocomplete.propTypes = {
-  classes: PropTypes.object.isRequired,
-  t: PropTypes.func.isRequired,
   getBPs: PropTypes.func.isRequired,
   hideSearchIcon: PropTypes.bool,
   list: PropTypes.array,
@@ -229,6 +220,4 @@ const mapDispatchToProps = ({
   getProxies
 })
 
-export default withStyles(style)(
-  connect(mapStatetoProps, mapDispatchToProps)(withT(InputAutocomplete))
-)
+export default connect(mapStatetoProps, mapDispatchToProps)(InputAutocomplete)

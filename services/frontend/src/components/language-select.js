@@ -3,18 +3,18 @@ import PropTypes from 'prop-types'
 import { Language as LanguageIcon } from '@material-ui/icons'
 import { useTranslation } from 'react-i18next'
 import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
 import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   wrapper: {
     color: 'inherit'
   },
   languageText: {
     fontSize: '1rem',
-    marginLeft: 3,
+    marginLeft: theme.spacing(0.5),
     display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'inline'
@@ -24,10 +24,11 @@ const styles = theme => ({
     width: 24,
     height: 24
   }
-})
+}))
 
-const LanguageSelect = ({ classes, style, alt }) => {
+const LanguageSelect = ({ style, alt }) => {
   const { i18n } = useTranslation('translations')
+  const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = event => {
@@ -77,9 +78,8 @@ const LanguageSelect = ({ classes, style, alt }) => {
 }
 
 LanguageSelect.propTypes = {
-  classes: PropTypes.object.isRequired,
   alt: PropTypes.string,
   style: PropTypes.any
 }
 
-export default withStyles(styles)(LanguageSelect)
+export default LanguageSelect

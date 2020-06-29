@@ -16,7 +16,7 @@ spec:
         io.kompose.service: frontend
     spec:
       containers:
-      - image: eoscostarica506/frontend
+      - image: eoscostarica506/frontend:latest
         imagePullPolicy: ""
         name: eosrate-frontend
         env:
