@@ -31,24 +31,6 @@ const theme = createMuiTheme({
     root: {
       fontSize: '2em'
     },
-    MuiSlider: {
-      thumb: {
-        backgroundColor: '#597a81',
-        '&$focused, &:hover': {
-          boxShadow: '0px 0px 0px 9px rgba(0, 194, 91, 0.16)'
-        },
-        '&$activated': {
-          boxShadow: '0px 0px 0px 18px rgba(0, 194, 91, 0.16)'
-        }
-      },
-      trackBefore: {
-        backgroundColor: '#597a81'
-      },
-      trackAfter: {
-        opacity: 0.8,
-        backgroundColor: '#fff'
-      }
-    },
     MuiListItem: {
       button: {
         // color: 'black',

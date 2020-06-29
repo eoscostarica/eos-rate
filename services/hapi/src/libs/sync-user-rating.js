@@ -26,58 +26,60 @@ const getUserRatings = async () => {
 }
 
 // updates the postgresdb
-const updateUserRatings = async usr => {
-  console.log('==== updating user ratings ====')
-  const db = await massive(dbConfig)
-  const userRatings = await getUserRatings()
+const updateUserRatings = async (userAccount, bpAccount) => {
+  console.log('\x1b[33m%s\x1b[0m', '==== updating user ratings ====')
 
-  if (usr) {
-    userRatings.rows.filter(function(el) {
-      return el.user == usr
+  try {
+    const db = await massive(dbConfig)
+    const userRatings = await getUserRatings()
+
+    if (!userAccount || !bpAccount)
+      throw new Error('User Account and Block Producer owner are required!')
+
+    const [blockProducer] = userRatings.rows.filter(
+      ({ user, bp }) => user == userAccount && bp === bpAccount
+    )
+
+    if (!blockProducer) throw new Error('Block Producer rate not found')
+
+    const ratings = {
+      transparency: blockProducer.transparency || 0,
+      infrastructure: blockProducer.infrastructure || 0,
+      trustiness: blockProducer.trustiness || 0,
+      development: blockProducer.development || 0,
+      community: blockProducer.community || 0
+    }
+
+    const result = await db.user_ratings.save({
+      uniq_rating: blockProducer.uniq_rating,
+      user: blockProducer.user,
+      bp: blockProducer.bp,
+      ratings: ratings
     })
-  }
 
-  const saveRatings = async rating => {
-    //console.log('updating... ', rating)
-
-    let ratings = {
-      transparency: rating.transparency || 0,
-      infrastructure: rating.infrastructure || 0,
-      trustiness: rating.trustiness || 0,
-      development: rating.development || 0,
-      community: rating.community || 0
-    }
-
-    try {
-      const result = await db.user_ratings.save({
-        uniq_rating: rating.uniq_rating,
-        user: rating.user,
-        bp: rating.bp,
-        ratings: ratings
+    if (!result) {
+      const insertResult = await db.user_ratings.insert({
+        uniq_rating: blockProducer.uniq_rating,
+        user: blockProducer.user,
+        bp: blockProducer.bp,
+        ratings
       })
-      if (!result) {
-        const insertResult = await db.user_ratings.insert({
-          uniq_rating: rating.uniq_rating,
-          user: rating.user,
-          bp: rating.bp,
-          ratings
-        })
-        if (!insertResult) {
-          console.log(`could not save or insert ${rating.uniq_rating}`)
-          return
-        }
-      }
-      console.log(`succefully saved ${rating.uniq_rating}`)
-    } catch (error) {
-      console.log('error', error)
+
+      if (!insertResult)
+        throw new Error(`could not save or insert ${blockProducer.uniq_rating}`)
     }
-  }
 
-  for (let rating of userRatings.rows) {
-    await saveRatings(rating)
-  }
+    return {
+      uniq_rating: blockProducer.uniq_rating,
+      user: blockProducer.user,
+      bp: blockProducer.bp,
+      ratings
+    }
+  } catch (error) {
+    console.error('updateUserRatings', error)
 
-  // TODO : better error handling, report and retry unfulfilled
+    return error
+  }
 }
 
 module.exports = updateUserRatings

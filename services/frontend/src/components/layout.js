@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
 import Hidden from '@material-ui/core/Hidden'
 import classnames from 'classnames'
 
@@ -9,7 +9,7 @@ import MainDrawer from 'components/main-drawer'
 import MainFooter from 'components/main-footer'
 import { InitGA, LogPageView } from 'config/google-analitycs-module'
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     height: '100vh',
@@ -36,9 +36,10 @@ const styles = theme => ({
   contentWrapper: {
     minHeight: 'calc(100vh - 128px)'
   }
-})
+}))
 
-const Layout = ({ classes, children, ual }) => {
+const Layout = ({ children, ual }) => {
+  const classes = useStyles()
   const [state, setState] = useState({
     isNavOpen: false,
     isSearchOpen: false
@@ -83,7 +84,7 @@ const Layout = ({ classes, children, ual }) => {
       >
         <MainDrawer open={state.isNavOpen} onClose={handleDrawerToggle} />
       </Hidden>
-      <main className={classes.content}>
+      <main className={classes.content} id='mainContent'>
         <div className={classes.toolbar} />
         <div className={classes.contentWrapper}>{children}</div>
         <MainFooter />
@@ -94,8 +95,7 @@ const Layout = ({ classes, children, ual }) => {
 
 Layout.propTypes = {
   children: PropTypes.object,
-  classes: PropTypes.object,
   ual: PropTypes.object
 }
 
-export default withStyles(styles, { withTheme: true })(Layout)
+export default Layout

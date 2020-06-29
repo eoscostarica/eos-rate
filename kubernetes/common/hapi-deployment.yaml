@@ -18,36 +18,21 @@ spec:
         io.kompose.service: hapi
     spec:
       containers:
-      - env:
-        - name: DB_HOST
-          value: postgres
-        - name: DB_NAME
-          value: eosrate
-        - name: DB_PASSWORD
-          value: pass
-        - name: DB_PORT
-          value: "5432"
-        - name: DB_SCHEMA
-          value: public
-        - name: DB_USER
-          value: user
-        - name: EOS_API_ENDPOINT
-          value: https://bp.cryptolions.io
-        - name: VIRTUAL_HOST
-          value: 0.0.0.0
-        - name: VIRTUAL_PORT
-          value: "3005"
-        image: eoscostarica506/hapi
+      - image: eoscostarica506/hapi
         imagePullPolicy: ""
         name: eosrate-hapi
+        envFrom:
+        - configMapRef:
+            name: hapi-config
         ports:
         - containerPort: 3005
         volumeMounts:
         - mountPath: /opt/application
           name: hapi1
+          subPathExpr: $(CODE_DIRECTORY)
       restartPolicy: Always
       volumes:
       - name: hapi1
         nfs:
           server: NFS-server
-          path: /home/ubuntu/production/eos-rate/services/hapi
+          path: /home/ubuntu/

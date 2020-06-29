@@ -13,15 +13,14 @@ import SearchIcon from '@material-ui/icons/Search'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { fade } from '@material-ui/core/styles/colorManipulator'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
 import { Link } from '@reach/router'
 
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
 import LanguageSelect from 'components/language-select'
-import FilterSelect from 'components/filter-select'
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
@@ -95,25 +94,22 @@ const styles = theme => ({
       display: 'inline'
     }
   }
-})
+}))
 
 const MainTopBar = ({
-  classes,
   isSearchOpen,
   handleDrawerToggle,
   handleSearchDialogOpen,
   handleSearchDialogClose,
   ual,
   getUserChainData,
-  setUser,
-  setSortBy,
-  showSortSelected,
-  setShowSortSelected
+  setUser
 }) => {
+  const classes = useStyles()
   const { t } = useTranslation('translations')
 
   useEffect(() => {
-    async function getData () {
+    const getData = async () => {
       if (ual.activeUser) {
         await getUserChainData({ accountName: ual.activeUser.accountName })
       } else {
@@ -123,12 +119,6 @@ const MainTopBar = ({
 
     getData()
   }, [ual.loading])
-
-  useEffect(() => {
-    if (window.location.pathname !== '/block-producers' && showSortSelected) {
-      setShowSortSelected(false)
-    }
-  })
 
   return (
     <AppBar position='absolute'>
@@ -157,7 +147,6 @@ const MainTopBar = ({
         >
           <SearchIcon />
         </IconButton>
-        {showSortSelected && <FilterSelect onHandleApplySortBy={setSortBy} />}
         <LanguageSelect />
         {ual.activeUser ? (
           <>
@@ -205,28 +194,18 @@ const MainTopBar = ({
 }
 
 MainTopBar.propTypes = {
-  classes: PropTypes.object,
   handleDrawerToggle: PropTypes.func,
   handleSearchDialogOpen: PropTypes.func,
   handleSearchDialogClose: PropTypes.func,
   isSearchOpen: PropTypes.bool,
   ual: PropTypes.object,
   getUserChainData: PropTypes.func,
-  setUser: PropTypes.func,
-  setSortBy: PropTypes.func,
-  showSortSelected: PropTypes.bool,
-  setShowSortSelected: PropTypes.func
+  setUser: PropTypes.func
 }
 
-const mapStatetoProps = ({ blockProducers }) => ({
-  showSortSelected: blockProducers.showSortSelected
-})
-
-const mapDispatchToProps = ({ user, blockProducers }) => ({
+const mapDispatchToProps = ({ user }) => ({
   getUserChainData: user.getUserChainData,
-  setUser: user.removeBlockProducersVotedByUser,
-  setSortBy: blockProducers.setSortBy,
-  setShowSortSelected: blockProducers.setShowSortSelected
+  setUser: user.removeBlockProducersVotedByUser
 })
 
-export default withStyles(styles)(connect(mapStatetoProps, mapDispatchToProps)(MainTopBar))
+export default connect(null, mapDispatchToProps)(MainTopBar)

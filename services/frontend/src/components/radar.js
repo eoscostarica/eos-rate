@@ -70,7 +70,6 @@ const RadarData = ({ bpData, height, showLabel, ...props }) => {
           }
         }
       }}
-      redraw
     />
   )
 }

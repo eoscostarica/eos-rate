@@ -1,6 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
@@ -10,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton'
 import TelegramIcon from 'components/telegram-icon'
 import GithubIcon from 'components/github-icon'
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     position: 'static',
     bottom: 0,
@@ -37,12 +36,13 @@ const styles = theme => ({
     letterSpacing: 1,
     textAlign: 'right',
     color: 'rgba(255, 255, 255, 0.6)',
-    paddingRight: 13
+    paddingRight: theme.spacing(2)
   }
-})
+}))
 
-const MainFooter = ({ classes, ...props }) => {
+const MainFooter = () => {
   const { t } = useTranslation('footer')
+  const classes = useStyles()
 
   return (
     <AppBar className={classes.root}>
@@ -81,8 +81,4 @@ const MainFooter = ({ classes, ...props }) => {
   )
 }
 
-MainFooter.propTypes = {
-  classes: PropTypes.object
-}
-
-export default withStyles(styles)(MainFooter)
+export default MainFooter
