@@ -39,7 +39,7 @@ const TermsOfUse = () => {
   return (
     <Box className={classes.root}>
       <TitlePage title={t('tabTitle')} />
-      <RicardianContract name='rateproducer' url={'https://bloks.io'} />
+      <RicardianContract name='rateproducer' />
     </Box>
   )
 }
