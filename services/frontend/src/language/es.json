@@ -200,7 +200,7 @@
   },
 
   "about": {
-    "tabTitle": "Acerca de EOS Rate",
+    "tabTitle": "Acerca de EOS Rate Block Producer Ratings y la herramienta de votación EOS",
     "title": "EOS RATE: UN SISTEMA DE CALIFICACIÓN PARA LA RED PRINCIPAL EOS",
     "subtitle1": "¿Qué es la EOS Mainnet?",
     "body1": {
@@ -247,11 +247,15 @@
   },
 
   "help": {
-    "tabTitle": "Ayuda",
+    "tabTitle": "Ayuda para herramientas de codigo abierto - EOS Rate",
     "title": "¡Gracias por usar EOS Rate!",
     "paragraph": "EOS Rate aún está en progreso. Si tiene algún problema, contáctenos utilizando los siguientes enlaces:",
     "githubEOSCR": "Github de EOS Costa Rica",
     "telegramChannel": "Canal de Telegram",
     "websiteEOSCR": "Website de EOS Costa Rica"
+  },
+
+  "termsOfUse": {
+    "tabTitle": "Contratos ricardianos para EOS Rate Smart Contract"
   }
 }

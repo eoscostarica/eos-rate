@@ -200,7 +200,7 @@
   },
 
   "about": {
-    "tabTitle": "About EOS Rate",
+    "tabTitle": "About EOS Rate Block Producer Ratings and EOS voting tool",
     "title": "EOS RATE: A RATING SYSTEM FOR THE EOS MAINNET",
     "subtitle1": "What is the EOS Mainnet?",
     "body1": {
@@ -247,11 +247,15 @@
   },
 
   "help": {
-    "tabTitle": "Help",
+    "tabTitle": "EOS Community help for Open Source Tools - EOS Rate",
     "title": "Thank you for using EOS Rate!",
     "paragraph": "EOS Rate is still in progress. If you are experiencing any issues, please contact us using the following links:",
     "githubEOSCR": "Github EOS Costa Rica",
     "telegramChannel": "Telegram Channel",
     "websiteEOSCR": "Website EOS Costa Rica"
+  },
+
+  "termsOfUse": {
+    "tabTitle": "Ricardian Contracts for EOS Rate Smart Contract"
   }
 }
