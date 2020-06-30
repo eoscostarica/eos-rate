@@ -50,10 +50,11 @@ Each EOS account can submit their rating for each BP as many times as they like 
 
 ## Test Environment
 
-We are testing this application on the [Jungle TestNet](https://jungletestnet.io).  
-This UI is currently available at https://eosrate.netlify.com.  
-The Smart Contract is code deployed under the account [eoseosrateio](https://jungle.bloks.io/account/eoseosrateio).  
-We are running a demux and hasura on premises in Costa Rica.
+We are testing this application on the [Jungle TestNet](https://jungletestnet.io). The Smart Contract is code deployed under the account [rateproducer](https://jungle.bloks.io/account/rateproducer).
+
+The `staging` branch contains our test environment. This UI is currently available at https://jungle.eosrate.io:8080  
+  
+We are running the application infrastructure on premises in San Jose, Costa Rica.
 
 ## Feature Roadmap
 
