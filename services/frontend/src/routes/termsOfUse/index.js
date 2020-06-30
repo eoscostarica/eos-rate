@@ -1,7 +1,10 @@
 import React from 'react'
 import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/styles'
+import { useTranslation } from 'react-i18next'
 import { RicardianContract } from '@eoscostarica/eoscr-components'
+
+import TitlePage from 'components/title-page'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,10 +34,12 @@ const useStyles = makeStyles(theme => ({
 
 const TermsOfUse = () => {
   const classes = useStyles()
+  const { t } = useTranslation('termsOfUse')
 
   return (
     <Box className={classes.root}>
-      <RicardianContract name='rateproducer' />
+      <TitlePage title={t('tabTitle')} />
+      <RicardianContract name='rateproducer' url={'https://bloks.io'} />
     </Box>
   )
 }
