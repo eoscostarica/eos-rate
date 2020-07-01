@@ -21,7 +21,7 @@
     "now-start": "serve --single ./build"
   },
   "dependencies": {
-    "@eoscostarica/eoscr-components": "^1.0.2",
+    "@eoscostarica/eoscr-components": "^1.0.5",
     "@material-ui/core": "^4.9.12",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.51",
@@ -69,13 +69,13 @@
     "serve": "^11.3.0",
     "subscriptions-transport-ws": "^0.9.16",
     "text-encoding": "^0.7.0",
-    "ual-anchor": "^0.4.1",
-    "ual-ledger": "^0.2.0",
-    "ual-lynx": "^0.3.0",
+    "ual-anchor": "^0.5.0",
+    "ual-ledger": "^0.3.0",
+    "ual-lynx": "^0.4.0",
     "ual-meetone": "^0.1.1",
-    "ual-reactjs-renderer": "^0.2.0",
-    "ual-scatter": "^0.2.0",
-    "ual-token-pocket": "^0.2.0",
+    "ual-reactjs-renderer": "^0.3.1",
+    "ual-scatter": "^0.3.0",
+    "ual-token-pocket": "^0.3.0",
     "yup": "0.28.3"
   },
   "devDependencies": {

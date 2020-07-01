@@ -49,9 +49,9 @@ export default [
     drawerLabel: 'drawerLinkAbout'
   },
   {
-    path: '/terms-of-use',
+    path: '/ricardian-contract',
     Component: TermsOfUse,
-    drawerLabel: 'drawerLinkTermsOfUse'
+    drawerLabel: 'drawerLinkRicardianContract'
   },
   {
     path: '/help',
