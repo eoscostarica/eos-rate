@@ -9,8 +9,8 @@ import TitlePage from 'components/title-page'
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3),
-    '& svg': {
-      fontSize: '35px !important'
+    '& img': {
+      width: '35px !important'
     },
     '& h4': {
       fontSize: '15px !important',
@@ -20,8 +20,8 @@ const useStyles = makeStyles(theme => ({
       lineBreak: 'anywhere'
     },
     [theme.breakpoints.up('sm')]: {
-      '& svg': {
-        fontSize: '45px !important'
+      '& img': {
+        width: '45px !important'
       },
 
       '& h4': {
@@ -39,7 +39,10 @@ const TermsOfUse = () => {
   return (
     <Box className={classes.root}>
       <TitlePage title={t('tabTitle')} />
-      <RicardianContract name='rateproducer' />
+      <RicardianContract
+        contractName='rateproducer'
+        httpEndpoint='https://api.eosio.cr'
+      />
     </Box>
   )
 }
