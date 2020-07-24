@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - image: postgres:10.4
-        imagePullPolicy: ""
+        imagePullPolicy: "Always"
         name: eosrate-postgres
         envFrom:
         - configMapRef:
@@ -34,5 +34,5 @@ spec:
       volumes:
       - name: eosrate-postgres
         nfs:
-          server: NFS-server
+          server: nfs-server-new
           path: /mnt/
