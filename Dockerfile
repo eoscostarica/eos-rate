@@ -17,7 +17,7 @@ RUN apt-get -y update && \
 # Authorize SSH Host
 RUN mkdir -p /root/.ssh && \
     chmod 0700 /root/.ssh && \
-    ssh-keyscan 190.171.41.42 > /root/.ssh/known_hosts
+    ssh-keyscan 190.171.41.51 > /root/.ssh/known_hosts
 
 # Add the keys and set permissions
 RUN echo "$ssh_prv_key" > /root/.ssh/id_rsa && \
@@ -29,4 +29,4 @@ WORKDIR /opt/eos-rate
 
 CMD eval `ssh-agent` && ssh-add \
   && export GIT_SSH_COMMAND="/usr/bin/ssh -i /root/.ssh/id_rsa" \
-  && git push "ssh://${USER}@190.171.41.42/var/repo/eos-rate.git" HEAD:"$branch"
+  && git push "ssh://${USER}@190.171.41.51/var/repo/eos-rate.git" HEAD:"$branch"
