@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - image: eoscostarica506/frontend:latest
-        imagePullPolicy: ""
+        imagePullPolicy: "Always"
         name: eosrate-frontend
         env:
         - name: REACT_APP_GRAPHQL_HTTP_URL

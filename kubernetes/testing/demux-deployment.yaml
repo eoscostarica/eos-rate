@@ -38,7 +38,7 @@ spec:
         - name: WAIT_HOSTS_TIMEOUT
           value: "60"
         image: eoscostarica506/demux
-        imagePullPolicy: ""
+        imagePullPolicy: "Always"
         name: eosrate-demux
         ports:
         - containerPort: 3030
@@ -49,5 +49,5 @@ spec:
       volumes:
       - name: demux1
         nfs:
-          server: NFS-server
+          server: nfs-server-new
           path: /home/ubuntu/production/eos-rate/services/demux

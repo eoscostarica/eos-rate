@@ -41,5 +41,5 @@ spec:
           volumes:
           - name: hapi1
             nfs:
-              server: NFS-server
+              server: nfs-server-new
               path: /home/ubuntu/production/eos-rate/services/hapi
