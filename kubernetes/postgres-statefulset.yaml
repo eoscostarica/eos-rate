@@ -2,20 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: postgres
+    service: postgres
   name: postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: postgres
+      service: postgres
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        io.kompose.network: "true"
-        io.kompose.service: postgres
+        network: "true"
+        service: postgres
     spec:
       containers:
       - image: postgres:10.4

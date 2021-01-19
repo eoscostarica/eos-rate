@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: frontend
+    service: frontend
   name: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: frontend
+      service: frontend
   template:
     metadata:
       labels:
-        io.kompose.network/default: "true"
-        io.kompose.service: frontend
+        network/default: "true"
+        service: frontend
     spec:
       containers:
       - image: eoscostarica506/frontend:latest
@@ -27,16 +27,4 @@ spec:
         ports:
         - containerPort: 80
         - containerPort: 443
-        volumeMounts:
-        - mountPath: /etc/nginx/ssl-certs
-          name: secret-volume
-        - mountPath: /etc/nginx/conf.d
-          name: configmap-volume
       restartPolicy: Always
-      volumes:
-        - name: secret-volume
-          secret:
-             secretName: eosrate.io.keys
-        - name: configmap-volume
-          configMap:
-            name:  eosrate.io.conf

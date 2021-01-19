@@ -2,20 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: hapi
+    service: hapi
   name: hapi
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: hapi
+      service: hapi
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        io.kompose.network: "true"
-        io.kompose.service: hapi
+        service: hapi
     spec:
       containers:
       - image: eoscostarica506/hapi
@@ -26,13 +25,4 @@ spec:
             name: hapi-config
         ports:
         - containerPort: 3005
-        volumeMounts:
-        - mountPath: /opt/application
-          name: hapi1
-          subPathExpr: $(CODE_DIRECTORY)
       restartPolicy: Always
-      volumes:
-      - name: hapi1
-        nfs:
-          server: nfs-server-new
-          path: /home/ubuntu/

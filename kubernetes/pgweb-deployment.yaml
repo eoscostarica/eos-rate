@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: pgweb
+    service: pgweb
   name: pgweb
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: pgweb
+      service: pgweb
   template:
     metadata:
       labels:
-        io.kompose.network: "true"
-        io.kompose.service: pgweb
+        network: "true"
+        service: pgweb
     spec:
       containers:
       - env:
