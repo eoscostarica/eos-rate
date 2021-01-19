@@ -1,16 +1,15 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   labels:
     service: postgres
   name: postgres
 spec:
+  serviceName: postgres
   replicas: 1
   selector:
     matchLabels:
       service: postgres
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -28,11 +27,15 @@ spec:
         - containerPort: 5432
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: eosrate-postgres
-          subPathExpr: $(DATABASE_DIRECTORY)
+          name: postgres
+          subPath: postgres
       restartPolicy: Always
-      volumes:
-      - name: eosrate-postgres
-        nfs:
-          server: nfs-server-new
-          path: /mnt/
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: jungle
+        resources:
+          requests:
+            storage: 100Gi
