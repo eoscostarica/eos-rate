@@ -2,20 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: demux
+    service: demux
   name: demux
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: demux
+      service: demux
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        io.kompose.network/default: "true"
-        io.kompose.service: demux
+        network/default: "true"
+        service: demux
     spec:
       containers:
       - env:
@@ -42,12 +42,4 @@ spec:
         name: eosrate-demux
         ports:
         - containerPort: 3030
-        volumeMounts:
-        - mountPath: /opt/application
-          name: demux1
       restartPolicy: Always
-      volumes:
-      - name: demux1
-        nfs:
-          server: nfs-server-new
-          path: /home/ubuntu/production/eos-rate/services/demux
