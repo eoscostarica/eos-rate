@@ -47,21 +47,21 @@ build-kubernetes: ./kubernetes
 deploy-kubernetes: ##@devops Publish the build k8s files
 deploy-kubernetes: $(K8S_BUILD_DIR)
 	@echo "Creating SSL certificates..."
-	@kubectl create secret tls \
+	kubectl create secret tls \
 		tls-secret \
 		--key ./ssl/eosrate.cr.priv.key \
 		--cert ./ssl/eosrate.cr.crt \
 		-n $(NAMESPACE)  || echo "SSL cert already configured.";
 	@echo "Applying kubernetes files..."
 	@for file in $(shell find $(K8S_BUILD_DIR) -name '*.yaml' | sed 's:$(K8S_BUILD_DIR)/::g'); do \
-		@kubectl apply -f $(K8S_BUILD_DIR)/$$file -n $(NAMESPACE); \
+		kubectl apply -f $(K8S_BUILD_DIR)/$$file -n $(NAMESPACE); \
 	done
 
 build-docker-images: ##@devops Build docker images
 build-docker-images:
 	@echo "Building docker containers..."
 	@for dir in $(SUBDIRS); do \
-		$(MAKE) build-docker -C $$dir; \
+		$(MAKE) build-docker -C services/$$dir; \
 	done
 
 push-docker-images: ##@devops Publish docker images
@@ -70,5 +70,5 @@ push-docker-images:
 		--username $(DOCKER_USERNAME) \
 		--password-stdin
 	for dir in $(SUBDIRS); do \
-		$(MAKE) push-image -C $$dir; \
+		$(MAKE) push-image -C services/$$dir; \
 	done

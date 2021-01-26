@@ -40,6 +40,7 @@ jobs:
             build-kubernetes
         env:
           # general
+          BRANCH: production
           NAMESPACE: eos-rate
           INGRESS_HOST: eosrate.io
           INGRESS_GRAPHQL_HOST: graphql.eosrate.io
@@ -66,6 +67,8 @@ jobs:
           HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
           HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
           MIGRATION_DIRECTORY: production/eos-rate/services/hasura/migrations
+          HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
+          HASURA_GRAPHQL_UNAUTHORIZED_ROLE: ${{ secrets.HASURA_GRAPHQL_UNAUTHORIZED_ROLE }}
 
       - name: Deploy kubernetes files
         uses: Consensys/kubernetes-action@master

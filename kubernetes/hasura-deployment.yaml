@@ -22,17 +22,6 @@ spec:
         - graphql-engine
         - serve
         - --enable-console
-        env:
-        - name: HASURA_GRAPHQL_ADMIN_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: hasura-secret
-              key: HASURA_GRAPHQL_ADMIN_SECRET
-        - name: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
-          valueFrom:
-            secretKeyRef:
-              name: hasura-secret
-              key: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
         envFrom:
         - configMapRef:
             name: hasura-config
