@@ -10,7 +10,7 @@ spec:
     match: Host(`${INGRESS_HOST}`)
     services:
     - kind: Service
-      name: monitor-webapp
+      name: frontend
       port: 80
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -25,7 +25,7 @@ spec:
     match: Host(`${INGRESS_HOST}`)
     services:
     - kind: Service
-      name: monitor-webapp
+      name: frontend
       port: 80
   tls:
     secretName: tls-secret
@@ -42,7 +42,7 @@ spec:
     match: Host(`${INGRESS_GRAPHQL_HOST}`)
     services:
     - kind: Service
-      name: monitor-hasura
+      name: hasura
       port: 8080
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -57,7 +57,7 @@ spec:
     match: Host(`${INGRESS_GRAPHQL_HOST}`)
     services:
     - kind: Service
-      name: monitor-hasura
+      name: hasura
       port: 8080
   tls:
     secretName: tls-secret

@@ -1,3 +1,8 @@
+include utils/meta.mk
+
+K8S_BUILD_DIR ?= ./build_k8s
+K8S_FILES := $(shell find ./kubernetes -name '*.yaml' | sed 's:./kubernetes/::g')
+
 dev: scripts/develop.sh
 	./scripts/develop.sh
 

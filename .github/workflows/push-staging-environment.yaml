@@ -1,23 +1,80 @@
-name: Push code to staging environment
+name: Build images from latest staging branch
 
 on:
   push:
-    branches: [ staging ]
+    branches:
+      - staging
 
 jobs:
-  build:
+  create-staging-image:
+    name:
     runs-on: ubuntu-latest
+    environment: staging
     steps:
-    - uses: actions/checkout@v1
-    - name: setup-docker
-      uses: docker-practice/actions-setup-docker@0.0.1
-    - name: run push
-      run: |
-        docker build -t eosrate-deployer-test \
-          --build-arg ssh_prv_key="$(echo $"${{secrets.SSH_PRV_KEY}}")" \
-          --build-arg branch="staging" \
-          .
-        docker run \
-          -e USER="${{secrets.USER}}" \
-          -e branch="staging" \
-          eosrate-deployer-test
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Setup Docker
+        uses: docker-practice/actions-setup-docker@0.0.1
+
+      - name: Log in to docker registry
+        run: |
+          echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login \
+            --username ${{ secrets.DOCKER_HUB_USER }} \
+            --password-stdin
+
+      - name: Build new images and push
+        run: |
+          make \
+            build-docker-images \
+            push-docker-images
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          # webapp
+
+      - name: Build kubernetes files
+        id: build_kubernetes_files
+        run: |
+          make \
+            build-kubernetes
+        env:
+          # general
+          NAMESPACE: eos-rate
+          INGRESS_HOST: jungle.eosrate.io
+          INGRESS_GRAPHQL_HOST: staging-graphql.eosrate.io
+          # webapp
+          # postgres
+          DATABASE_DIRECTORY: database
+          DB_NAME: eosrate
+          DB_PASSWORD: pass
+          DB_USER: user
+          POSTGRES_DB: eosrate
+          POSTGRES_PASSWORD: pass
+          POSTGRES_USER: user
+          # hapi
+          DB_HOST: postgres
+          DB_NAME: eosrate
+          DB_PASSWORD: pass
+          DB_PORT: "5432"
+          DB_SCHEMA: public
+          DB_USER: user
+          EOS_API_ENDPOINT: https://bp.cryptolions.io
+          VIRTUAL_HOST: 0.0.0.0
+          VIRTUAL_PORT: "3005"
+          # hasura
+          HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
+          HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
+          MIGRATION_DIRECTORY: production/eos-rate/services/hasura/migrations
+
+      - name: Deploy kubernetes files
+        uses: Consensys/kubernetes-action@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          args: apply -f build_k8s -n eos-rate
+
+#      - name: Verify deployment
+#        id: verify_deployment
+#        run: |
+#          kubectl rollout status deployment/hapi
