@@ -69,6 +69,8 @@ jobs:
           MIGRATION_DIRECTORY: production/eos-rate/services/hasura/migrations
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
           HASURA_GRAPHQL_UNAUTHORIZED_ROLE: ${{ secrets.HASURA_GRAPHQL_UNAUTHORIZED_ROLE }}
+          # pgweb
+          DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
 
       - name: Deploy kubernetes files
         uses: Consensys/kubernetes-action@master

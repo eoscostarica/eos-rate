@@ -16,12 +16,12 @@ spec:
         service: pgweb
     spec:
       containers:
-      - env:
-        - name: DATABASE_URL
-          value: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
+      - name: eosrate-pgweb
         image: sosedoff/pgweb:latest
         imagePullPolicy: "Always"
-        name: eosrate-pgweb
+        envFrom:
+        - configMapRef:
+            name: pgweb-config
         ports:
         - containerPort: 8081
       restartPolicy: Always

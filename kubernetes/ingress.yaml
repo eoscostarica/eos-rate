@@ -43,7 +43,7 @@ spec:
     services:
     - kind: Service
       name: hasura
-      port: 8080
+      port: 8088
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -58,6 +58,6 @@ spec:
     services:
     - kind: Service
       name: hasura
-      port: 8080
+      port: 8088
   tls:
     secretName: tls-secret
