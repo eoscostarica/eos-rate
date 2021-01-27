@@ -17,7 +17,7 @@ spec:
         service: hapi
     spec:
       containers:
-      - image: eoscostarica506/hapi
+      - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HAPI}:${VERSION}
         imagePullPolicy: "Always"
         name: eosrate-hapi
         envFrom:

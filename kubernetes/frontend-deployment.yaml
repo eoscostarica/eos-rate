@@ -16,7 +16,7 @@ spec:
         service: frontend
     spec:
       containers:
-      - image: eoscostarica506/frontend:latest
+      - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_WEBAPP}:${VERSION}
         imagePullPolicy: "Always"
         name: eosrate-frontend
         env:
