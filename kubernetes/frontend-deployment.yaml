@@ -26,5 +26,4 @@ spec:
           value: ws://hasura:8088/v1/graphql
         ports:
         - containerPort: 80
-        - containerPort: 443
       restartPolicy: Always

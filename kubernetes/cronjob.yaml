@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
           - name: hapi-cronjob
-            image: eoscostarica506/hapi
+            image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HAPI}:${VERSION}
             args:
             - /bin/sh
             - -c
