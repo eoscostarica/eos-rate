@@ -2,20 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    service: demux
+    app: demux
   name: demux
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: demux
+      app: demux
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        network/default: "true"
-        service: demux
+        app: demux
     spec:
       containers:
       - env:

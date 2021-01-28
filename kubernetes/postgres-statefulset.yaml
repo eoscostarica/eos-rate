@@ -2,19 +2,18 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
-    service: postgres
+    app: postgres
   name: postgres
 spec:
   serviceName: postgres
   replicas: 1
   selector:
     matchLabels:
-      service: postgres
+      app: postgres
   template:
     metadata:
       labels:
-        network: "true"
-        service: postgres
+        app: postgres
     spec:
       containers:
       - image: postgres:10.4

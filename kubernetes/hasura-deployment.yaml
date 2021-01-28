@@ -2,20 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    service: hasura
+    app: hasura
   name: hasura
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: hasura
+      app: hasura
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        network: "true"
-        service: hasura
+        app: hasura
     spec:
       containers:
       - args:

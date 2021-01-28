@@ -2,18 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    service: pgweb
+    app: pgweb
   name: pgweb
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: pgweb
+      app: pgweb
   template:
     metadata:
       labels:
-        network: "true"
-        service: pgweb
+        app: pgweb
     spec:
       containers:
       - name: eosrate-pgweb

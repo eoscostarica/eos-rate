@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    service: pgweb
+    app: pgweb
   name: pgweb
 spec:
   ports:
@@ -10,4 +10,4 @@ spec:
     port: 8082
     targetPort: 8082
   selector:
-    service: pgweb
+    app: pgweb

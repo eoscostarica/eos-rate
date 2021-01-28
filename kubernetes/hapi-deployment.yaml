@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    service: hapi
+    app: hapi
   name: hapi
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: hapi
+      app: hapi
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        service: hapi
+        app: hapi
     spec:
       containers:
       - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HAPI}:${VERSION}
