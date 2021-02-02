@@ -12,6 +12,8 @@ RUN yarn --frozen-lockfile
 
 COPY . .
 
+ENV GENERATE_SOURCEMAP false
+
 RUN yarn build:"$branch"
 
 FROM nginx:1.16.1-alpine as server
