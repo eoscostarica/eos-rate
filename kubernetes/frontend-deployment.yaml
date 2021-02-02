@@ -20,9 +20,9 @@ spec:
         name: eosrate-frontend
         env:
         - name: REACT_APP_GRAPHQL_HTTP_URL
-          value: http://hasura:8088/v1/graphql
+          value: http://hasura:8080/v1/graphql
         - name: REACT_APP_GRAPHQL_WS_URL
-          value: ws://hasura:8088/v1/graphql
+          value: ws://hasura:8080/v1/graphql
         ports:
         - containerPort: 80
       restartPolicy: Always

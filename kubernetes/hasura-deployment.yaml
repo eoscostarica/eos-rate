@@ -28,5 +28,5 @@ spec:
         imagePullPolicy: "Always"
         name: eosrate-hasura
         ports:
-        - containerPort: 8088
+        - containerPort: 8080
       restartPolicy: Always

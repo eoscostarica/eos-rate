@@ -33,7 +33,7 @@ spec:
         - name: EOS_API_ENDPOINT
           value: https://bp.cryptolions.io
         - name: WAIT_HOSTS
-          value: postgres:5432, hasura:8088
+          value: postgres:5432, hasura:8080
         - name: WAIT_HOSTS_TIMEOUT
           value: "60"
         image: eoscostarica506/demux

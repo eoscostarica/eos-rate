@@ -6,8 +6,8 @@ metadata:
   name: hasura
 spec:
   ports:
-  - port: 8088
-    targetPort: 8088
+  - port: 8080
+    targetPort: 8080
     name: hasura
     protocol: TCP
   selector:
