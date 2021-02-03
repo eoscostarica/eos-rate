@@ -19,7 +19,7 @@ build-docker: ##@devops Build the docker image
 build-docker: ./Dockerfile
 	@docker pull $(DOCKER_REGISTRY)/$(IMAGE_NAME_HASURA):$(VERSION) || true
 	@docker build \
-                --build-arg hasura_graphql_migrations_dir=hasura-migrations \
+                --build-arg hasura_graphql_migrations_dir=/hasura-migrations \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_HASURA):$(VERSION) \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_HASURA):$(LATEST_TAG) \
 		.
