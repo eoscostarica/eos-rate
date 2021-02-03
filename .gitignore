@@ -36,3 +36,4 @@ __docs
 
 .env
 build_k8s/
+ssl/
