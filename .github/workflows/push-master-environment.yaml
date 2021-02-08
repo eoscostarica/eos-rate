@@ -80,7 +80,7 @@ jobs:
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
-          args: apply -f build_k8s -n eos-rate
+          args: apply -f build_k8s -n mainnet-eosrate
 
 #      - name: Verify deployment
 #        id: verify_deployment
