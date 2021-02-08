@@ -23,6 +23,14 @@ jobs:
             --username ${{ secrets.DOCKER_HUB_USER }} \
             --password-stdin
 
+      - name: Install node module dependencies
+        run: |
+          cd services/hapi
+          yarn
+          cd ../frontend
+          yarn
+          cd ../..
+
       - name: Build new images and push
         run: |
           make \
