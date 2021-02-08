@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    io.kompose.service: demux
+    app: demux
   name: demux
 spec:
   ports:
@@ -10,4 +10,4 @@ spec:
     port: 3030
     targetPort: 3030
   selector:
-    io.kompose.service: demux
+    app: demux

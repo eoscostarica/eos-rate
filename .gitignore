@@ -34,3 +34,6 @@ keys
 
 __docs
 
+.env
+build_k8s/
+ssl/

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hasura
+  name: hasura
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hasura
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: hasura
+    spec:
+      containers:
+      - args:
+        - graphql-engine
+        - serve
+        - --enable-console
+        envFrom:
+        - configMapRef:
+            name: hasura-config
+        image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HASURA}:${VERSION}
+        imagePullPolicy: "Always"
+        name: eosrate-hasura
+        ports:
+        - containerPort: 8080
+      restartPolicy: Always

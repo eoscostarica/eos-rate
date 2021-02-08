@@ -2,20 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: demux
+    app: demux
   name: demux
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: demux
+      app: demux
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        io.kompose.network/default: "true"
-        io.kompose.service: demux
+        app: demux
     spec:
       containers:
       - env:
@@ -34,7 +33,7 @@ spec:
         - name: EOS_API_ENDPOINT
           value: https://bp.cryptolions.io
         - name: WAIT_HOSTS
-          value: postgres:5432, hasura:8088
+          value: postgres:5432, hasura:8080
         - name: WAIT_HOSTS_TIMEOUT
           value: "60"
         image: eoscostarica506/demux
@@ -42,12 +41,4 @@ spec:
         name: eosrate-demux
         ports:
         - containerPort: 3030
-        volumeMounts:
-        - mountPath: /opt/application
-          name: demux1
       restartPolicy: Always
-      volumes:
-      - name: demux1
-        nfs:
-          server: nfs-server-new
-          path: /home/ubuntu/production/eos-rate/services/demux

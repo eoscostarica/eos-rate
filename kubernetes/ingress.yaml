@@ -1,0 +1,63 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: http
+spec:
+  entryPoints:
+    - web
+  routes:
+  - kind: Rule
+    match: Host(`${INGRESS_HOST}`)
+    services:
+    - kind: Service
+      name: frontend
+      port: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: https
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - kind: Rule
+    match: Host(`${INGRESS_HOST}`)
+    services:
+    - kind: Service
+      name: frontend
+      port: 80
+  tls:
+    secretName: tls-secret
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hasura-http
+spec:
+  entryPoints:
+    - web
+  routes:
+  - kind: Rule
+    match: Host(`${INGRESS_GRAPHQL_HOST}`)
+    services:
+    - kind: Service
+      name: hasura
+      port: 8080
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hasura-https
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - kind: Rule
+    match: Host(`${INGRESS_GRAPHQL_HOST}`)
+    services:
+    - kind: Service
+      name: hasura
+      port: 8080
+  tls:
+    secretName: tls-secret

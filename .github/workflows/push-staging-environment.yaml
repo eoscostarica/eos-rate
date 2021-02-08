@@ -1,23 +1,88 @@
-name: Push code to staging environment
+name: Build images from latest staging branch
 
 on:
   push:
-    branches: [ staging ]
+    branches:
+      - staging
 
 jobs:
-  build:
+  create-staging-image:
+    name:
     runs-on: ubuntu-latest
+    environment: staging
     steps:
-    - uses: actions/checkout@v1
-    - name: setup-docker
-      uses: docker-practice/actions-setup-docker@0.0.1
-    - name: run push
-      run: |
-        docker build -t eosrate-deployer-test \
-          --build-arg ssh_prv_key="$(echo $"${{secrets.SSH_PRV_KEY}}")" \
-          --build-arg branch="staging" \
-          .
-        docker run \
-          -e USER="${{secrets.USER}}" \
-          -e branch="staging" \
-          eosrate-deployer-test
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Setup Docker
+        uses: docker-practice/actions-setup-docker@0.0.1
+
+      - name: Log in to docker registry
+        run: |
+          echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login \
+            --username ${{ secrets.DOCKER_HUB_USER }} \
+            --password-stdin
+
+      - name: Build new images and push
+        run: |
+          make \
+            build-docker-images \
+            push-docker-images
+        env:
+          # general
+          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          BRANCH: staging
+          NAMESPACE: jungle-eosrate
+
+      - name: Build kubernetes files
+        id: build_kubernetes_files
+        run: |
+          make \
+            build-kubernetes
+        env:
+          # general
+          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          BRANCH: staging
+          NAMESPACE: jungle-eosrate
+          INGRESS_HOST: jungle.eosrate.io
+          INGRESS_GRAPHQL_HOST: graphql-jungle.eosrate.io
+          # webapp
+          # postgres
+          DATABASE_DIRECTORY: database
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_USER: ${{ secrets.DB_USER }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          # hapi
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_PORT: "5432"
+          DB_SCHEMA: ${{ secrets.DB_SCHEMA }}
+          DB_USER: ${{ secrets.DB_USER }}
+          EOS_API_ENDPOINT: https://jungle3.cryptolions.io
+          VIRTUAL_HOST: 0.0.0.0
+          VIRTUAL_PORT: "3005"
+          # hasura
+          HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_MIGRATIONS_DIR }}
+          HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
+          HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
+          HASURA_GRAPHQL_UNAUTHORIZED_ROLE: ${{ secrets.HASURA_GRAPHQL_UNAUTHORIZED_ROLE }}
+          # pgweb
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Deploy kubernetes files
+        uses: Consensys/kubernetes-action@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          args: apply -f build_k8s -n eos-rate
+
+#      - name: Verify deployment
+#        id: verify_deployment
+#        run: |
+#          kubectl rollout status deployment/hapi

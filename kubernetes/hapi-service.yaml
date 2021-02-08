@@ -2,12 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    io.kompose.service: hapi
+    app: hapi
   name: hapi
 spec:
   ports:
-  - name: "3005"
+  - name: hapi
     port: 3005
     targetPort: 3005
   selector:
-    io.kompose.service: hapi
+    app: hapi

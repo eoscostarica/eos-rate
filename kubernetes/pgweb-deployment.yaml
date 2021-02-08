@@ -2,26 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: pgweb
+    app: pgweb
   name: pgweb
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: pgweb
+      app: pgweb
   template:
     metadata:
       labels:
-        io.kompose.network: "true"
-        io.kompose.service: pgweb
+        app: pgweb
     spec:
       containers:
-      - env:
-        - name: DATABASE_URL
-          value: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
+      - name: eosrate-pgweb
         image: sosedoff/pgweb:latest
         imagePullPolicy: "Always"
-        name: eosrate-pgweb
+        envFrom:
+        - configMapRef:
+            name: pgweb-config
         ports:
         - containerPort: 8081
       restartPolicy: Always
