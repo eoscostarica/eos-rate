@@ -40,7 +40,7 @@ jobs:
           # general
           DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USER }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          BRANCH: master
+          BRANCH: production
           NAMESPACE: mainnet-eosrate
 
       - name: Build kubernetes files
@@ -52,7 +52,7 @@ jobs:
           # general
           DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USER }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          BRANCH: master
+          BRANCH: production
           NAMESPACE: mainnet-eosrate
           INGRESS_HOST: eosrate.io
           INGRESS_GRAPHQL_HOST: graphql.eosrate.io
