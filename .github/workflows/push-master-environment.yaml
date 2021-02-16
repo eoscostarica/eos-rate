@@ -67,11 +67,8 @@ jobs:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           # hapi
           DB_HOST: ${{ secrets.DB_HOST }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_PORT: "5432"
           DB_SCHEMA: ${{ secrets.DB_SCHEMA }}
-          DB_USER: ${{ secrets.DB_USER }}
           EOS_API_ENDPOINT: https://bp.cryptolions.io
           VIRTUAL_HOST: 0.0.0.0
           VIRTUAL_PORT: "3005"
