@@ -95,18 +95,18 @@ const AllProxies = ({
     }
 
     getData()
-  }, [])
+  }, [getBPs, getProxies])
 
   useEffect(() => {
     async function getUserData () {
       if (ual.activeUser && !user) {
-        await getUserChainData({ accountName: ual.activeUser.accountName })
+        await getUserChainData({ ual })
       }
     }
 
     setShowSortSelected(false)
     getUserData()
-  }, [user, ual.activeUser])
+  }, [user, ual.activeUser, ual, getUserChainData, setShowSortSelected])
 
   return (
     <div className={classes.root}>

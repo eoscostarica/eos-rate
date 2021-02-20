@@ -136,14 +136,22 @@ const BlockProducerRate = ({
       }
 
       if (accountName) {
-        await getUserChainData({ accountName })
+        await getUserChainData({ ual })
         getBPRating({ bp: account, userAccount: accountName })
         setShowMessage(false)
       }
     }
 
     getData()
-  }, [accountName, account])
+  }, [
+    accountName,
+    account,
+    getUserChainData,
+    ual,
+    getBPRating,
+    setShowMessage,
+    getBlockProducer
+  ])
 
   useEffect(() => {
     if (userRate) {
@@ -158,7 +166,7 @@ const BlockProducerRate = ({
     } else {
       setRatingState(INIT_RATING_STATE_DATA)
     }
-  }, [userRate])
+  }, [userRate, accountName, ratingState])
 
   useEffect(() => {
     setShowSortSelected(false)
@@ -246,6 +254,7 @@ const BlockProducerRate = ({
       })
 
       await addUserRating({
+        ual,
         user: accountName,
         bp: account,
         ...getRatingData(false),

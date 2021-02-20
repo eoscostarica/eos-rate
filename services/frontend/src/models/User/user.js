@@ -1,7 +1,7 @@
 import _get from 'lodash.get'
 
 import apolloClient from 'services/graphql'
-import eosjsAPI from 'services/eosjs-api'
+import { getRpc, getAccountName } from 'utils/eosjsUtils'
 
 import QUERY_GET_RATES from './query_get_rates'
 import MUTATION_DELETE_USER_RATE from './mutation_delete_user_rate'
@@ -23,9 +23,11 @@ const user = {
   },
 
   effects: dispatch => ({
-    async getUserChainData ({ accountName }, { user, blockProducers }) {
+    async getUserChainData ({ ual }, { user, blockProducers }) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
+        console.log({ ual })
+        const accountName = getAccountName(ual)
 
         if (user.data && user.data.account_name === accountName) {
           dispatch.isLoading.storeIsContentLoading(false)
@@ -34,7 +36,9 @@ const user = {
 
         let account = null
         let userRates = []
-        const { rpc } = eosjsAPI
+        const rpc = getRpc(ual)
+
+        console.log({ rpc })
 
         if (accountName.length) {
           account = await rpc.get_account(accountName)

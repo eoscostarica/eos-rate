@@ -9,22 +9,21 @@ import config from 'config'
 
 export const network = {
   chainId:
-    config.eosChainId ||
-    'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473',
+    config.eosChainId,
   rpcEndpoints: [
     {
       blockchain: 'eos',
-      protocol: config.eosApiProtocol || 'https',
-      host: config.eosApiHost || 'jungle.eosio.cr',
-      port: parseInt(config.eosApiPort || '443')
+      protocol: config.eosApiProtocol,
+      host: config.eosApiHost,
+      port: parseInt(config.eosApiPort)
     }
   ]
 }
 
-const appName = config.appName || 'EOSRate'
+const appName = config.appName
 const lynx = new Lynx([network])
 const ledger = new Ledger([network])
-const tokenPocket = new TokenPocket([network.chainId])
+const tokenPocket = new TokenPocket([network])
 const meetOne = new MeetOne([network.chainId])
 const scatter = new Scatter([network], { appName })
 const anchor = new Anchor([network], { appName })

@@ -171,7 +171,7 @@ const BlockProducerProfile = ({
     }
 
     getData()
-  }, [account, blockProducers.length])
+  }, [account, blockProducers.length, getBlockProducer, getBPs])
 
   useEffect(() => {
     setShowSortSelected(false)

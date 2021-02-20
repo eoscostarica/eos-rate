@@ -3,7 +3,7 @@ import uniq from 'lodash.uniq'
 
 import apolloClient from 'services/graphql'
 import { getAllBPs } from 'services/bps'
-import eosjsAPI from 'services/eosjs-api'
+import { getRpc } from 'utils/eosjsUtils'
 
 import QUERY_PRODUCER from './query_get_producer_by'
 import QUERY_RATING from './query_get_bp_rating_by'
@@ -177,7 +177,7 @@ const Proxies = {
         dispatch.isLoading.storeIsContentLoading(false)
       }
     },
-    async mutationInsertUserRating ({ user, bp, result, ...ratings }, state) {
+    async mutationInsertUserRating ({ ual, user, bp, result, ...ratings }, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
@@ -188,7 +188,8 @@ const Proxies = {
           mutation: MUTATION_UPDATE_RATING
         })
 
-        const { rows: rateStat } = await eosjsAPI.rpc.get_table_rows({
+        const rpc = getRpc(ual)
+        const { rows: rateStat } = await rpc.get_table_rows({
           json: true,
           code: 'rateproducer',
           scope: 'rateproducer',

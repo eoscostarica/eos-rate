@@ -231,7 +231,7 @@ const ProxyProfile = ({
     if (accountName) setShowMessage(false)
 
     getData()
-  }, [account, accountName])
+  }, [account, accountName, setShowMessage, getProxies, getProxy])
 
   return (
     <Grid container justify='center' className={classes.container}>
