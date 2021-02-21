@@ -159,18 +159,18 @@ const AllBps = ({
     }
 
     getData()
-  }, [])
+  }, [getBPs, blockProducers.length])
 
   useEffect(() => {
     async function getUserData () {
       if (ual.activeUser && !user) {
-        await getUserChainData({ accountName: ual.activeUser.accountName })
+        await getUserChainData({ ual })
       }
     }
 
     setShowSortSelected(true)
     getUserData()
-  }, [user, ual.activeUser])
+  }, [user, ual.activeUser, getUserChainData, ual, setShowSortSelected])
 
   return (
     <div className={classes.root}>

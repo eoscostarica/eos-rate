@@ -41,7 +41,7 @@ const Home = ({
 
   useEffect(() => {
     getBlockData()
-  }, [])
+  }, [getBlockData])
 
   useEffect(() => {
     setShowSortSelected(false)

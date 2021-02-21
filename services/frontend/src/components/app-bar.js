@@ -111,14 +111,14 @@ const MainTopBar = ({
   useEffect(() => {
     const getData = async () => {
       if (ual.activeUser) {
-        await getUserChainData({ accountName: ual.activeUser.accountName })
+        await getUserChainData({ ual })
       } else {
         setUser()
       }
     }
 
     getData()
-  }, [ual.loading])
+  }, [ual.loading, ual, setUser, getUserChainData])
 
   return (
     <AppBar position='absolute'>
