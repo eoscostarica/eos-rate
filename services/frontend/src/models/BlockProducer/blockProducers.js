@@ -4,6 +4,7 @@ import uniq from 'lodash.uniq'
 import apolloClient from 'services/graphql'
 import { getAllBPs } from 'services/bps'
 import eosjsAPI from 'services/eosjs-api'
+// import { getRpc, getAccountName } from 'utils/eosjsUtils'
 
 import QUERY_PRODUCER from './query_get_producer_by'
 import QUERY_RATING from './query_get_bp_rating_by'

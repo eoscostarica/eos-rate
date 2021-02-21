@@ -89,24 +89,24 @@ const AllProxies = ({
   const goToTop = () => document.getElementById('mainContent').scrollTo(0, 0)
 
   useEffect(() => {
-    async function getData () {
+    const getData = async () => {
       await getBPs()
       await getProxies()
     }
 
     getData()
-  }, [])
+  }, [getBPs, getProxies])
 
   useEffect(() => {
-    async function getUserData () {
+    const getUserData = async () => {
       if (ual.activeUser && !user) {
-        await getUserChainData({ accountName: ual.activeUser.accountName })
+        await getUserChainData({ ual })
       }
     }
 
     setShowSortSelected(false)
     getUserData()
-  }, [user, ual.activeUser])
+  }, [user, ual.activeUser, getUserChainData, ual, setShowSortSelected])
 
   return (
     <div className={classes.root}>

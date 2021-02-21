@@ -88,7 +88,7 @@ const Account = ({ ual, user, getUserChainData, deleteUserRate }) => {
         bpName
       })
 
-      await getUserChainData({ accountName: ual.activeUser.accountName })
+      await getUserChainData({ ual })
     } catch (error) {
       console.log(error)
     }
@@ -97,12 +97,12 @@ const Account = ({ ual, user, getUserChainData, deleteUserRate }) => {
   useEffect(() => {
     async function getAccountInfo () {
       if (ual.activeUser) {
-        await getUserChainData({ accountName: ual.activeUser.accountName })
+        await getUserChainData({ ual })
       }
     }
 
     getAccountInfo()
-  }, [ual.activeUser])
+  }, [ual.activeUser, getUserChainData, ual])
 
   return (
     <Grid container className={classes.container}>

@@ -72,7 +72,7 @@ const InputAutocomplete = ({ getBPs, getProxies, list, proxies, ...props }) => {
     }
 
     getData()
-  }, [])
+  }, [getBPs, getProxies])
 
   useEffect(() => {
     const bpsList = (list || []).map(bp => {
