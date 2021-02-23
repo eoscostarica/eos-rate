@@ -98,7 +98,7 @@ const user = {
     async deleteUserRate ({ user, bpName }, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
-        
+
         const {
           data: {
             delete_user_ratings: { affected_rows: affectedRows }
