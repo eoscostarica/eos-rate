@@ -1,7 +1,7 @@
 import { Chart } from 'react-chartjs-2'
 import get from 'lodash.get'
 
-function renderBackgroundColor (chart) {
+const renderBackgroundColor = (chart) => {
   const { ctx, scale, config } = chart
   const { xCenter, yCenter, drawingArea: radius } = scale
   const backgroundColor = get(
@@ -19,7 +19,7 @@ function renderBackgroundColor (chart) {
   ctx.restore()
 }
 
-function renderCenterDot (ctx, config, scale) {
+const renderCenterDot = (ctx, config, scale) => {
   const { xCenter, yCenter, drawingArea: radius } = scale
 
   const centerDotColor = get(config, 'options.scale.gridLines.color', false)
@@ -33,7 +33,7 @@ function renderCenterDot (ctx, config, scale) {
   ctx.restore()
 }
 
-function renderPerimeter (ctx, config, scale) {
+const renderPerimeter = (ctx, config, scale) => {
   const { xCenter, yCenter, drawingArea: radius } = scale
 
   const strokeColor = get(config, 'options.chartArea.strokeColor', false)
@@ -51,7 +51,7 @@ function renderPerimeter (ctx, config, scale) {
 
 Chart.pluginService.register({
   beforeDraw: renderBackgroundColor,
-  beforeDatasetsDraw: chart => {
+  beforeDatasetsDraw: (chart) => {
     const { ctx, config, scale } = chart
 
     renderCenterDot(ctx, config, scale)

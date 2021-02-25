@@ -10,7 +10,7 @@ const _sortValues = (firstValues, secondValues, path) => {
 export default (sortBy, blockProducers) => {
   switch (sortBy) {
     case 'alphabetical': {
-      const _getValidName = bp => {
+      const _getValidName = (bp) => {
         const name = _get(bp, 'bpjson.org.candidate_name', null)
 
         if (name && name.length) return name.toUpperCase()
@@ -27,9 +27,7 @@ export default (sortBy, blockProducers) => {
     }
 
     case 'generalRate': {
-      return (blockProducers || []).sort((a, b) =>
-        _sortValues(a, b, 'average')
-      )
+      return (blockProducers || []).sort((a, b) => _sortValues(a, b, 'average'))
     }
 
     case 'infrastructure': {

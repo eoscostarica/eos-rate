@@ -10,7 +10,7 @@ const home = {
   state: initialState,
 
   reducers: {
-    setBP (state, blockProducer) {
+    setBP(state, blockProducer) {
       return {
         ...state,
         blockProducer
@@ -19,7 +19,7 @@ const home = {
   },
 
   effects: {
-    async getBlockData () {
+    async getBlockData() {
       const blockProducer = await findBPById(0)
       this.setBP({
         ...blockProducer,

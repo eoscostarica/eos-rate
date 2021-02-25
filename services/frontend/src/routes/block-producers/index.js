@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import { useTranslation } from 'react-i18next'
 import classNames from 'classnames'
 import _get from 'lodash.get'
@@ -14,76 +14,23 @@ import CompareTool from 'components/compare-tool'
 import getAverageValue from 'utils/getAverageValue'
 import applySortBy from 'utils/sortedBy'
 
-const style = theme => ({
-  root: {
-    position: 'relative'
-  },
-  compareToggleButton: {
-    position: 'fixed',
-    bottom: 0,
-    right: 0,
-    margin: theme.spacing(2),
-    zIndex: 1
-  },
-  badge: {
-    border: `2px solid ${theme.palette.secondary}`,
-    background: theme.palette.surface.main,
-    color: theme.palette.primary.main
-  },
-  wrapper: {
-    padding: theme.spacing(3)
-  },
-  compareTool: {
-    minHeight: 340,
-    transform: 'scaleY(1)',
-    transformOrigin: 'top',
-    opacity: 1,
-    transition: [
-      'opacity 0.25s ease',
-      'height 0.25s ease',
-      'transform 0.25s ease',
-      'min-height 0.25s ease'
-    ]
-  },
-  bpCard: {
-    backgroundColor: theme.palette.primary.light
-  },
-  loadMoreButton: {
-    color: '#443f56',
-    display: 'block',
-    margin: `${theme.spacing(2)}px auto`,
-    '&:hover': {
-      backgroundColor: theme.palette.secondary.light,
-      color: 'white'
-    }
-  },
-  hidden: {
-    opacity: 0,
-    transform: 'scaleY(0)',
-    minHeight: 0,
-    height: 0
-  }
-})
+import styles from './styles'
 
-const AllBps = ({
-  getBPs,
-  classes,
-  selectedBPs,
-  blockProducers,
-  compareToolVisible,
-  toggleCompareTool,
-  removeSelected,
-  addToSelected,
-  ual,
-  getUserChainData,
-  user,
-  storeIsContentLoading,
-  sortBy,
-  setShowSortSelected,
-  clearSelected
-}) => {
+const useStyles = makeStyles(styles)
+
+const AllBps = ({ ual }) => {
   const { t } = useTranslation('translations')
+  const dispatch = useDispatch()
+  const classes = useStyles()
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
+  const { data: user } = useSelector((state) => state.user)
+  const {
+    list: blockProducers,
+    selected: selectedBPs,
+    compareTool: compareToolVisible,
+    sortBy
+  } = useSelector((state) => state.blockProducers)
+
   const [ratingState, setRatingState] = useState({
     txError: null,
     txSuccess: false,
@@ -96,7 +43,24 @@ const AllBps = ({
 
   const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
 
-  const sendVoteBps = async BPs => {
+  const handleToggleCompareTool = () => {
+    dispatch.blockProducers.toggleCompareTool()
+  }
+
+  const handleToggleSelected = (item, isAddItem = false) => {
+    if (isAddItem) {
+      dispatch.blockProducers.addToSelected(item)
+    } else {
+      dispatch.blockProducers.removeSelected(item)
+    }
+  }
+
+  const handleOnClose = () => {
+    handleToggleCompareTool()
+    dispatch.blockProducers.clearSelected()
+  }
+
+  const sendVoteBps = async (BPs) => {
     if (!accountName) return
 
     const transaction = {
@@ -120,7 +84,7 @@ const AllBps = ({
     }
 
     try {
-      storeIsContentLoading(true)
+      dispatch.isLoading.storeIsContentLoading(true)
 
       await ual.activeUser.signTransaction(transaction, {
         broadcast: true
@@ -132,7 +96,7 @@ const AllBps = ({
         showChipMessage: true
       })
 
-      storeIsContentLoading(false)
+      dispatch.isLoading.storeIsContentLoading(false)
 
       setTimeout(() => {
         setRatingState({
@@ -144,41 +108,40 @@ const AllBps = ({
       }, 2000)
     } catch (error) {
       console.warn(error)
+
       setRatingState({
         ...ratingState,
         txError: error && error.cause ? error.cause.message : error,
         showChipMessage: true
       })
-      storeIsContentLoading(false)
+      dispatch.isLoading.storeIsContentLoading(false)
     }
   }
 
   useEffect(() => {
-    async function getData () {
-      !blockProducers.length && (await getBPs())
+    const getData = async () => {
+      !blockProducers.length && (await dispatch.blockProducers.getBPs())
     }
 
     getData()
-  }, [getBPs, blockProducers.length])
+  }, [blockProducers.length])
 
   useEffect(() => {
-    async function getUserData () {
+    const getUserData = async () => {
       if (ual.activeUser && !user) {
-        await getUserChainData({ ual })
+        await dispatch.user.getUserChainData({ ual })
       }
     }
 
-    setShowSortSelected(true)
+    dispatch.blockProducers.setShowSortSelected(true)
     getUserData()
-  }, [user, ual.activeUser, getUserChainData, ual, setShowSortSelected])
+  }, [user, ual.activeUser, ual])
 
   return (
     <div className={classes.root}>
       <TitlePage title={t('bpsTitle')} />
       <CompareTool
-        removeBP={producerAccountName => () => {
-          removeSelected(producerAccountName)
-        }}
+        removeBP={handleToggleSelected}
         className={classNames(classes.compareTool, {
           [classes.hidden]: !compareToolVisible
         })}
@@ -187,13 +150,10 @@ const AllBps = ({
         onHandleVote={() => sendVoteBps(selectedBPs || [])}
         userInfo={user}
         message={ratingState}
-        onHandleClose={() => {
-          toggleCompareTool()
-          clearSelected()
-        }}
+        onHandleClose={() => handleOnClose()}
       />
       <Grid className={classes.wrapper} container justify='center' spacing={4}>
-        {(shownList || []).map(blockProducer => (
+        {(shownList || []).map((blockProducer) => (
           <Grid
             item
             xs={12}
@@ -208,16 +168,16 @@ const AllBps = ({
               toggleSelection={(isAdding, producerAccountName) => () => {
                 if (isAdding) {
                   if (!(selectedBPs || []).length && !compareToolVisible) {
-                    toggleCompareTool()
+                    handleToggleCompareTool()
                   }
 
-                  addToSelected(producerAccountName)
+                  handleToggleSelected(producerAccountName, isAdding)
                 } else {
                   if ((selectedBPs || []).length === 1 && compareToolVisible) {
-                    toggleCompareTool()
+                    handleToggleCompareTool()
                   }
 
-                  removeSelected(producerAccountName)
+                  handleToggleSelected(producerAccountName, isAdding)
                 }
               }}
               data={blockProducer}
@@ -242,62 +202,10 @@ const AllBps = ({
 }
 
 AllBps.propTypes = {
-  classes: PropTypes.object.isRequired,
-  blockProducers: PropTypes.array.isRequired,
-  getBPs: PropTypes.func.isRequired,
-  toggleCompareTool: PropTypes.func.isRequired,
-  removeSelected: PropTypes.func.isRequired,
-  addToSelected: PropTypes.func.isRequired,
-  selectedBPs: PropTypes.array.isRequired,
-  compareToolVisible: PropTypes.bool.isRequired,
-  ual: PropTypes.object,
-  getUserChainData: PropTypes.func,
-  user: PropTypes.object,
-  storeIsContentLoading: PropTypes.func,
-  sortBy: PropTypes.string,
-  setShowSortSelected: PropTypes.func,
-  clearSelected: PropTypes.func
+  ual: PropTypes.object
 }
 
-AllBps.defaultProps = {
-  blockProducers: [],
-  selectedBPs: [],
-  compareToolVisible: false
-}
-
-const mapStatetoProps = ({ blockProducers, user }) => ({
-  blockProducers: blockProducers.list,
-  selectedBPs: blockProducers.selected,
-  compareToolVisible: blockProducers.compareTool,
-  sortBy: blockProducers.sortBy,
-  user: user.data
-})
-
-const mapDispatchToProps = ({
-  blockProducers: {
-    getBPs,
-    toggleCompareTool,
-    addToSelected,
-    removeSelected,
-    setShowSortSelected,
-    clearSelected
-  },
-  user: { getUserChainData },
-  isLoading: { storeIsContentLoading }
-}) => ({
-  getBPs,
-  toggleCompareTool,
-  addToSelected,
-  removeSelected,
-  getUserChainData,
-  storeIsContentLoading,
-  setShowSortSelected,
-  clearSelected
-})
-
-export default withStyles(style)(
-  connect(mapStatetoProps, mapDispatchToProps)(AllBps)
-)
+export default AllBps
 
 export const blockProducersDrawer = [
   { value: 'alphabetical' },

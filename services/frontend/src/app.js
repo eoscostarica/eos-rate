@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-// import { connect } from 'react-redux'
 import { useSelector } from 'react-redux'
-// import { useDispatch, useSelector } from 'react-redux'
 import { Router } from '@reach/router'
 
 import Spinner from 'components/spinner'
@@ -11,7 +9,6 @@ import NotFound from 'routes/not-found'
 import routes from 'routes'
 
 const App = ({ ual }) => {
-  // const dispatch = useDispatch()
   const { isContentLoading } = useSelector((state) => state.isLoading)
 
   return (
@@ -19,7 +16,7 @@ const App = ({ ual }) => {
       <Spinner isLoading={isContentLoading} />
       <Layout ual={ual}>
         <Router>
-          {routes.map(({ path, Component }) => (
+          {(routes || []).map(({ path, Component }) => (
             <Component key={`path-${path}`} path={path} ual={ual} />
           ))}
           <NotFound default />

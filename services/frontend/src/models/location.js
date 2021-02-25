@@ -7,7 +7,7 @@ const location = {
   state: initialState,
 
   reducers: {
-    setLocation (state, pathname, data = {}) {
+    setLocation(state, pathname, data = {}) {
       return {
         ...state,
         pathname,

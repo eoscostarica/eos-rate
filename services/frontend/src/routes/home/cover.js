@@ -1,53 +1,27 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import { Link } from '@reach/router'
 import PropTypes from 'prop-types'
 
 import Radar from 'components/radar'
 
-const bpLink = React.forwardRef((props, ref) => (
-  <Link innerRef={ref} {...props} />
-))
-const styles = ({ palette, typography, spacing }) => ({
-  coverContainer: {
-    padding: 0,
-    color: '#433F5B',
-    maxWidth: '1024px',
-    backgroundColor: palette.surface.main
-  },
-  title: {
-    fontSize: typography.h4.fontSize,
-    marginBottom: 12.5
-  },
-  ctaContainer: {
-    textAlign: 'center'
-  },
-  chartContainer: {
-    maxWidth: '400px',
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center'
-  },
-  subtitle: {
-    marginBottom: spacing(1)
-  },
-  leftCoverBox: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-  }
-})
+import styles from './styles'
 
-const HomeCover = ({ classes, blockProducer }) => {
+// eslint-disable-next-line react/display-name
+const bpLink = forwardRef((props, ref) => <Link innerRef={ref} {...props} />)
+const useStyles = makeStyles(styles)
+
+const HomeCover = ({ blockProducer }) => {
   const { t } = useTranslation('home')
+  const classes = useStyles()
 
   return (
     <Grid item container xs={12} className={classes.coverContainer}>
-      <Typography variant='h5' className={classes.title}>
+      <Typography variant='h5' className={classes.coverTitle}>
         {t('cover.title')}
       </Typography>
       <Grid item xs={12} md={6} className={classes.leftCoverBox}>
@@ -99,8 +73,7 @@ const HomeCover = ({ classes, blockProducer }) => {
 }
 
 HomeCover.propTypes = {
-  classes: PropTypes.object.isRequired,
   blockProducer: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(HomeCover)
+export default HomeCover

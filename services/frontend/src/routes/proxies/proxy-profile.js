@@ -1,6 +1,6 @@
 import React, { useEffect, forwardRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { Link } from '@reach/router'
@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import Divider from '@material-ui/core/Divider'
@@ -27,126 +27,15 @@ import {
   GeneralInformation
 } from './general-information-profile'
 
-const style = ({ palette, breakpoints }) => ({
-  container: {
-    padding: 10
-  },
-  bpName: {
-    marginLeft: 6
-  },
-  accountCircle: {
-    color: palette.secondary.main
-  },
-  box: {
-    padding: '3%'
-  },
-  title: {
-    color: palette.primary.main,
-    fontSize: '1.5rem',
-    marginBottom: 5,
-    marginTop: 5
-  },
-  subTitle: {
-    fontSize: 14
-  },
-  longSubTitle: {
-    margin: '7px 0',
-    fontSize: 14
-  },
-  longValue: {
-    marginLeft: 4,
-    marginTop: 7,
-    fontWeight: 500
-  },
-  value: {
-    marginLeft: 4,
-    fontWeight: 500
-  },
-  category: {
-    marginTop: 10
-  },
-  btnBP: {
-    color: palette.surface.main,
-    backgroundColor: palette.secondary.main,
-    width: '100%',
-    '&:hover': {
-      backgroundColor: palette.secondary.light
-    },
+import styles from './styles'
 
-    [breakpoints.up('sm')]: {
-      marginRight: 10
-    }
-  },
-  wrapperBox: {
-    marginTop: 10,
-    display: 'flex',
-    flexDirection: 'column',
+const useStyles = makeStyles(styles)
 
-    [breakpoints.up('sm')]: {
-      flexDirection: 'row',
-      width: '100%'
-    }
-  },
-  BlockProducerRadarBox: {
-    padding: '30px 0',
-    backgroundColor: palette.surface.main
-  },
-  showOnlySm: {
-    display: 'flex',
-
-    [breakpoints.up('sm')]: {
-      display: 'none'
-    }
-  },
-  showOnlyLg: {
-    display: 'flex',
-
-    [breakpoints.down('sm')]: {
-      display: 'none'
-    }
-  },
-  websiteLegend: {
-    margin: '10px 0',
-    [breakpoints.up('sm')]: {
-      margin: 0
-    }
-  },
-  links: {
-    textDecoration: 'none',
-    color: palette.secondary.main,
-    '&:hover': {
-      textDecoration: 'underline'
-    }
-  },
-  avatar: {
-    backgroundColor: palette.surface.main
-  },
-  errorBox: {
-    padding: '10px 0px'
-  },
-  votingTextProgress: {
-    display: 'flex'
-  },
-  slogan: {
-    margin: '10px 0 0 0',
-    fontStyle: 'italic',
-    '&:before': { content: 'open-quote' },
-    '&:after': { content: 'close-quote' }
-  }
-})
-
-const ProxyProfile = ({
-  classes,
-  account,
-  proxies,
-  getProxy,
-  proxy,
-  isContentLoading,
-  getProxies,
-  ual,
-  ...props
-}) => {
+const ProxyProfile = ({ account, ual, ...props }) => {
   const { t } = useTranslation('profile')
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const { proxy } = useSelector((state) => state.proxies)
   const [showMessage, setShowMessage] = useState(false)
   const [ratingState, setRatingState] = useState({
     processing: false,
@@ -159,7 +48,7 @@ const ProxyProfile = ({
   const slogan = _get(proxy, 'slogan', null)
   const producers = _get(proxy, 'voter_info.producers', [])
 
-  const sendVoteProxy = async proxy => {
+  const sendVoteProxy = async (proxy) => {
     if (!accountName) {
       setShowMessage(true)
 
@@ -223,15 +112,15 @@ const ProxyProfile = ({
   }
 
   useEffect(() => {
-    async function getData () {
-      await getProxies()
-      await getProxy(account)
+    const getData = async () => {
+      await dispatch.proxies.getProxies()
+      await dispatch.proxies.getProxyByOwner(account)
     }
 
     if (accountName) setShowMessage(false)
 
     getData()
-  }, [account, accountName, getProxies, setShowMessage, getProxy])
+  }, [account, accountName, setShowMessage])
 
   return (
     <Grid container justify='center' className={classes.container}>
@@ -239,6 +128,7 @@ const ProxyProfile = ({
       <Grid item xs={12}>
         <Grid container direction='row' alignItems='center'>
           <Button
+            // eslint-disable-next-line react/display-name
             component={forwardRef((props, ref) => (
               <Link {...props} ref={ref} to='/proxies' />
             ))}
@@ -408,30 +298,8 @@ const ProxyProfile = ({
 }
 
 ProxyProfile.propTypes = {
-  classes: PropTypes.object,
   account: PropTypes.string,
-  proxies: PropTypes.array,
-  getProxy: PropTypes.func,
-  proxy: PropTypes.object,
-  isContentLoading: PropTypes.bool,
-  getProxies: PropTypes.func,
   ual: PropTypes.object
 }
 
-const mapStateToProps = ({
-  isLoading: { isContentLoading },
-  proxies: { proxies, proxy }
-}) => ({
-  proxies,
-  proxy,
-  isContentLoading
-})
-
-const mapDispatchToProps = dispatch => ({
-  getProxy: dispatch.proxies.getProxyByOwner,
-  getProxies: dispatch.proxies.getProxies
-})
-
-export default withStyles(style)(
-  connect(mapStateToProps, mapDispatchToProps)(ProxyProfile)
-)
+export default ProxyProfile

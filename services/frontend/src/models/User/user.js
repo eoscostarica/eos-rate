@@ -14,7 +14,7 @@ const user = {
   state: initialState,
 
   reducers: {
-    setUser (state, data) {
+    setUser(state, data) {
       return {
         ...state,
         data
@@ -22,8 +22,8 @@ const user = {
     }
   },
 
-  effects: dispatch => ({
-    async getUserChainData ({ ual }, { user, blockProducers }) {
+  effects: (dispatch) => ({
+    async getUserChainData({ ual }, { user, blockProducers }) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
@@ -54,7 +54,7 @@ const user = {
         userRates = userRatings
 
         if (userRatings.length) {
-          userRates = userRatings.map(bpRated => {
+          userRates = userRatings.map((bpRated) => {
             const item = blockProducers.list.find(
               ({ owner }) => bpRated.bp === owner
             )
@@ -65,15 +65,15 @@ const user = {
 
         account
           ? this.setUser({
-            ...account,
-            hasProxy: Boolean(proxy.length),
-            producersCount: producers.length,
-            userRates
-          })
+              ...account,
+              hasProxy: Boolean(proxy.length),
+              producersCount: producers.length,
+              userRates
+            })
           : this.setUser(null)
 
         if (producers.length) {
-          const filterBPs = producers.filter(bpName =>
+          const filterBPs = producers.filter((bpName) =>
             blockProducers.list.find(({ owner }) => bpName === owner)
           )
 
@@ -91,11 +91,11 @@ const user = {
         this.setUser(null)
       }
     },
-    async removeBlockProducersVotedByUser () {
+    async removeBlockProducersVotedByUser() {
       this.setUser(null)
       dispatch.blockProducers.clearSelected()
     },
-    async deleteUserRate ({ user, bpName }, state) {
+    async deleteUserRate({ user, bpName }, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
@@ -123,7 +123,7 @@ const user = {
         dispatch.isLoading.storeIsContentLoading(false)
       }
     },
-    async getUserRates ({ userRate }, { user }) {
+    async getUserRates({ userRate }, { user }) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 

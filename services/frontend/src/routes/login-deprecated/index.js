@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import TextField from 'components/textField'
 import Button from 'components/button'
 
-const validationSchema = t =>
+const validationSchema = (t) =>
   yup.object().shape({
     username: yup.string().required(t('loginValidationUsername')),
     password: yup.string().required(t('loginValidationPassword'))
@@ -29,7 +29,7 @@ const Login = () => {
             }
           }}
         >
-          {form => (
+          {(form) => (
             <Form>
               <TextField
                 autoFocus

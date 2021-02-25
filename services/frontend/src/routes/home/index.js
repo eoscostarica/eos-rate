@@ -1,50 +1,31 @@
 import React, { useEffect } from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import classNames from 'classnames'
-import PropTypes from 'prop-types'
 
 import TitlePage from 'components/title-page'
 
+import styles from './styles'
 import Cover from './cover'
 import SubTopic from './subTopic'
 import RateCategory from './rateCategory'
 
-const styles = ({ spacing, palette, breakpoints }) => ({
-  spacingContainers: {
-    padding: spacing(8, 2),
-    [breakpoints.up('sm')]: {
-      padding: spacing(8, 0)
-    }
-  },
-  coverContainer: {
-    backgroundColor: palette.surface.main
-  },
-  subTopicContainer: {
-    backgroundColor: palette.surface.main
-  },
-  rateCategoryContainer: {
-    backgroundColor: '#f5f5f5'
-  }
-})
+const useStyles = makeStyles(styles)
 
-const Home = ({
-  classes,
-  home,
-  getBlockData,
-  setShowSortSelected,
-  showSortSelected
-}) => {
+const Home = () => {
   const { t } = useTranslation('home')
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const { blockProducer } = useSelector((state) => state.home)
 
   useEffect(() => {
-    getBlockData()
-  }, [getBlockData])
+    dispatch.home.getBlockData()
+  }, [])
 
   useEffect(() => {
-    setShowSortSelected(false)
+    dispatch.blockProducers.setShowSortSelected(false)
   })
 
   return (
@@ -52,22 +33,22 @@ const Home = ({
       <TitlePage title={t('title')} />
       <Grid container direction='column'>
         <Grid item xs>
-          {home.blockProducer && (
+          {blockProducer && (
             <Grid
               container
               justify='center'
               className={classNames(
                 classes.spacingContainers,
-                classes.coverContainer
+                classes.mainCoverContainer
               )}
             >
-              <Cover blockProducer={home.blockProducer} />
+              <Cover blockProducer={blockProducer} />
             </Grid>
           )}
         </Grid>
 
         <Grid item xs>
-          {home.blockProducer && (
+          {blockProducer && (
             <Grid
               container
               justify='center'
@@ -87,7 +68,7 @@ const Home = ({
             justify='center'
             className={classNames(
               classes.spacingContainers,
-              classes.subTopicContainer
+              classes.mainSubTopicContainer
             )}
           >
             <SubTopic />
@@ -98,27 +79,4 @@ const Home = ({
   )
 }
 
-const mapStatetoProps = ({ home, blockProducers }) => ({
-  home,
-  showSortSelected: blockProducers.showSortSelected
-})
-
-const mapDispatchToProps = ({
-  home: { getBlockData },
-  blockProducers: { setShowSortSelected }
-}) => ({
-  getBlockData,
-  setShowSortSelected
-})
-
-Home.propTypes = {
-  classes: PropTypes.object.isRequired,
-  home: PropTypes.object.isRequired,
-  getBlockData: PropTypes.func.isRequired,
-  showSortSelected: PropTypes.bool,
-  setShowSortSelected: PropTypes.func
-}
-
-export default withStyles(styles)(
-  connect(mapStatetoProps, mapDispatchToProps)(Home)
-)
+export default Home

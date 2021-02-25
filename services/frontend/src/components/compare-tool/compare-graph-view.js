@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import CardHeader from '@material-ui/core/CardHeader'
 import CloseIcon from '@material-ui/icons/HighlightOffOutlined'
@@ -19,73 +19,9 @@ import _get from 'lodash.get'
 import Radar from 'components/radar'
 import ProducerChipAvatar from 'components/bp-chip-avatar'
 
-const styles = theme => ({
-  bpItem: {
-    width: '75%',
-    padding: '0 0 0 10px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    '&:hover': {
-      backgroundColor: theme.palette.primary.submenu
-    }
-  },
-  bpNameWrapper: {
-    height: 48,
-    paddingTop: 14
-  },
-  bpColorCode: {
-    display: 'inline-block',
-    width: 15,
-    height: 15,
-    verticalAlign: 'text-bottom'
-  },
-  bpName: {
-    margin: theme.spacing(1),
-    color: 'white',
-    backgroundColor: theme.palette.primary.light
-  },
-  title: {
-    textDecoration: 'none',
-    color: theme.palette.primary.main
-  },
-  avatar: {
-    backgroundColor: theme.palette.surface.main
-  },
-  helpIcon: {
-    width: '90%',
-    height: '90%'
-  },
-  cardHeader: {
-    borderBottom: `1px solid ${theme.palette.primary.light}`
-  },
-  titleLock: {
-    display: 'flex',
-    justifyContent: 'stretch',
-    alignItems: 'center'
-  },
-  headerVotingCompare: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  marginRightElem: {
-    marginRight: 10
-  },
-  icon: {
-    color: theme.palette.primary.submenu,
-    fontSize: 30,
-    '&:hover': {
-      cursor: 'pointer'
-    }
-  },
-  containerList: {
-    maxHeight: 385,
-    overflow: 'auto',
-    [theme.breakpoints.up('sm')]: {
-      marginBottom: 38
-    }
-  }
-})
+import styles from './styles'
+
+const useStyles = makeStyles(styles)
 
 const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
   if (!selectedData.length) return null
@@ -116,7 +52,7 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
           title={title || <span>{owner}</span>}
           subheader={owner}
         />
-        {producers.map(producer => {
+        {producers.map((producer) => {
           const imageURL = _get(producer, 'bpjson.org.branding.logo_256', null)
 
           return (
@@ -136,7 +72,7 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
 
   return (
     <div className={classes.containerList}>
-      {selectedData.map(data => {
+      {selectedData.map((data) => {
         const imageURL = _get(data, 'bpjson.org.branding.logo_256', null)
 
         return (
@@ -193,7 +129,6 @@ const TooltipWrapper = ({
 }
 
 const CompareGraphView = ({
-  classes,
   removeBP,
   selected,
   className,
@@ -204,11 +139,12 @@ const CompareGraphView = ({
   ...props
 }) => {
   const { t } = useTranslation('translations')
+  const classes = useStyles()
   const [open, setOpen] = useState(false)
   const userHasVote =
     Boolean(userInfo.proxy.length) || Boolean(userInfo.producers.length > 21)
 
-  const handleTooltip = e => {
+  const handleTooltip = (e) => {
     setOpen(!open)
     e.preventDefault()
   }
@@ -290,4 +226,4 @@ TooltipWrapper.propTypes = {
   isUser: PropTypes.bool
 }
 
-export default withStyles(styles)(withWidth()(CompareGraphView))
+export default withWidth()(CompareGraphView)
