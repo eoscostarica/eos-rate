@@ -193,7 +193,6 @@ const CompareGraphView = ({
 }
 
 CompareGraphView.propTypes = {
-  classes: PropTypes.object.isRequired,
   width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
   removeBP: PropTypes.func.isRequired,
   selected: PropTypes.array.isRequired,

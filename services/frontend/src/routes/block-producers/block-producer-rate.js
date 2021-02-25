@@ -74,6 +74,7 @@ const BlockProducerRate = ({ account, ual }) => {
 
       if (accountName) {
         await dispatch.blockProducers.getUserChainData({ ual })
+
         dispatch.blockProducers.getBlockProducerRatingByOwner({
           bp: account,
           userAccount: accountName

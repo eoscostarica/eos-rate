@@ -23,7 +23,7 @@ const user = {
   },
 
   effects: (dispatch) => ({
-    async getUserChainData({ ual }, { user, blockProducers }) {
+    async getUserChainData({ ual }, { user, blockProducers, isLoading }) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
@@ -38,7 +38,7 @@ const user = {
         let userRates = []
         const rpc = getRpc(ual)
 
-        if (accountName.length) {
+        if (accountName.length && !isLoading.isContentLoading) {
           account = await rpc.get_account(accountName)
         }
 
