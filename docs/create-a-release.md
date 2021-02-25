@@ -6,16 +6,16 @@ These are the steps:
 VERSION='v0.1.x'
 
 # Checked out into develop branch
-git checkout dev
+git checkout staging
  
 # Fetched all remote updates
 git remote update
  
 # Update local develop branch with remote copy
-git pull origin dev
+git pull origin staging
  
 # Created a release branch that tracks origin/develop
-git checkout -b release/$VERSION origin/dev
+git checkout -b release/$VERSION origin/staging
  
 # Pushed release branch to remote repository
 git push origin release/$VERSION
@@ -41,13 +41,13 @@ git push origin master
 git push origin --tags
  
 # Checkout into develop branch
-git checkout dev
+git checkout staging
  
 # Merged release branch into develop branch
 git merge release/$VERSION
  
 # Pushed develop branch to remote repository
-git push origin dev
+git push origin staging
  
 # Removed release branch from the local repository
 git branch -D release/$VERSION
