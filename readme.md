@@ -40,6 +40,7 @@ Each EOS account can submit their rating for each BP as many times as they like 
 - [Development Setup](#development-setup)
   - [Install Global Dependencies](#install-global-dependencies)
   - [Run EOS Rate on your Computer](#run-eos-rate-on-your-computer)
+  - [Create a new release](docs/create-a-release.md)
 - [Design Assets](#design-assets)
 - [Contributing](#contributing)
 - [About EOS Costa Rica](#about-eos-costa-rica)
