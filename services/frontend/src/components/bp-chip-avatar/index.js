@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import Chip from '@material-ui/core/Chip'
 import Avatar from '@material-ui/core/Avatar'
@@ -41,4 +41,4 @@ ProducerChipAvatar.propTypes = {
   defaultName: PropTypes.string
 }
 
-export default React.memo(ProducerChipAvatar)
+export default memo(ProducerChipAvatar)
