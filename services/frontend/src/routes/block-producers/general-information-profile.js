@@ -167,7 +167,11 @@ const WebsiteLegend = ({ classes, webInfo }) => {
     </>
   ) : null
 
-  return <Grid item xs={12} className={classes.websiteLegend}>{content}</Grid>
+  return (
+    <Grid item xs={12} className={classes.websiteLegend}>
+      {content}
+    </Grid>
+  )
 }
 
 const GeneralInformation = ({ classes, producer = {} }) => {
@@ -267,9 +271,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
             variant='subtitle1'
             className={classNames(classes.value, classes.subTitle)}
           >
-
             {getAverageValue(_get(producer, 'average', 0))}
-
           </Typography>
         </Grid>
       </Grid>
@@ -277,6 +279,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
         <Grid container direction='row'>
           <Button
             disabled={!producer}
+            // eslint-disable-next-line react/display-name
             component={forwardRef((props, ref) => (
               <Link
                 {...props}

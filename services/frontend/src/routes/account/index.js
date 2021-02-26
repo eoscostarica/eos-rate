@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/styles'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -23,43 +23,17 @@ import _get from 'lodash.get'
 import TitlePage from 'components/title-page'
 import config from 'config'
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    padding: theme.spacing(3),
-    color: '#ffffff'
-  },
-  account: {
-    padding: theme.spacing(3, 4)
-  },
-  title: {
-    textAlign: 'center'
-  },
-  box: {
-    padding: theme.spacing(3, 0)
-  },
-  bold: {
-    fontWeight: 'bold',
-    wordBreak: 'break-all'
-  },
-  button: {
-    marginBottom: theme.spacing(1),
-    marginTop: theme.spacing(1)
-  },
-  rateList: {
-    '& hr': {
-      width: '100%'
-    }
-  },
-  avatar: {
-    backgroundColor: theme.palette.surface.main
-  }
-}))
+import styles from './styles'
 
-const Account = ({ ual, user, getUserChainData, deleteUserRate }) => {
+const useStyles = makeStyles(styles)
+
+const Account = ({ ual }) => {
   const { t } = useTranslation('account')
+  const dispatch = useDispatch()
   const classes = useStyles()
+  const { data: user } = useSelector((state) => state.user)
 
-  const onHandleDeleteUserRate = async bpName => {
+  const onHandleDeleteUserRate = async (bpName) => {
     try {
       if (!user) return
 
@@ -83,26 +57,26 @@ const Account = ({ ual, user, getUserChainData, deleteUserRate }) => {
         broadcast: true
       })
 
-      await deleteUserRate({
+      await dispatch.user.deleteUserRate({
         user: user.account_name,
         bpName
       })
 
-      await getUserChainData({ ual })
+      await dispatch.user.getUserChainData({ ual })
     } catch (error) {
       console.log(error)
     }
   }
 
   useEffect(() => {
-    async function getAccountInfo () {
+    const getAccountInfo = async () => {
       if (ual.activeUser) {
-        await getUserChainData({ ual })
+        await dispatch.user.getUserChainData({ ual })
       }
     }
 
     getAccountInfo()
-  }, [ual.activeUser, getUserChainData, ual])
+  }, [ual.activeUser, ual])
 
   return (
     <Grid container className={classes.container}>
@@ -120,7 +94,7 @@ const Account = ({ ual, user, getUserChainData, deleteUserRate }) => {
             </Typography>
             <Box className={classes.rateList}>
               <List>
-                {(user ? user.userRates : []).map(rate => {
+                {(user ? user.userRates : []).map((rate) => {
                   const imageURL = _get(
                     rate,
                     'bpjson.org.branding.logo_256',
@@ -185,19 +159,7 @@ const Account = ({ ual, user, getUserChainData, deleteUserRate }) => {
 }
 
 Account.propTypes = {
-  ual: PropTypes.object,
-  user: PropTypes.object,
-  getUserChainData: PropTypes.func,
-  deleteUserRate: PropTypes.func
+  ual: PropTypes.object
 }
 
-const mapStatetoProps = ({ user }) => ({
-  user: user.data
-})
-
-const mapDispatchToProps = ({ user }) => ({
-  getUserChainData: user.getUserChainData,
-  deleteUserRate: user.deleteUserRate
-})
-
-export default connect(mapStatetoProps, mapDispatchToProps)(Account)
+export default Account

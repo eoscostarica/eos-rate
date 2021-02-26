@@ -2,15 +2,11 @@ import React from 'react'
 import SvgIcon from '@material-ui/core/SvgIcon'
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    color: '#433F5B',
-    marginTop: 8,
-    marginRight: 16
-  }
-}))
+import styles from './styles'
 
-const TrustinessIcon = props => {
+const useStyles = makeStyles(styles)
+
+const TrustinessIcon = (props) => {
   const classes = useStyles()
 
   return (

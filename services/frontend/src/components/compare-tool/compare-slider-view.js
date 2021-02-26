@@ -1,54 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import _get from 'lodash.get'
 import { useTranslation } from 'react-i18next'
 
 import Radar from 'components/radar'
 
-const style = theme => ({
-  root: {},
-  title: {},
-  bpName: {
-    paddingTop: 10,
-    textAlign: 'center'
-  },
-  slider: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    overflowX: 'auto',
-    '-webkit-overflow-scrolling': 'touch',
-    '&::-webkit-scrollbar': {
-      display: 'none'
-    }
-  },
-  sliderCard: {
-    flex: '0 0 auto',
-    width: 360,
-    paddingRight: 16
-  }
-})
+import styles from './styles'
 
-const CompareSliderView = ({ classes, selected, className, isProxy, optionalLabel, ...props }) => {
+const useStyles = makeStyles(styles)
+
+const CompareSliderView = ({
+  selected,
+  className,
+  isProxy,
+  optionalLabel,
+  ...props
+}) => {
   const { t } = useTranslation('translations')
+  const classes = useStyles()
 
   return (
-    <div className={[classes.root, className].join(' ')}>
-      <Typography className={classes.title} variant='h5'>
+    <div className={className}>
+      <Typography variant='h5'>
         {isProxy ? optionalLabel : t('compareToolTitle')}
       </Typography>
       <div className={classes.slider}>
-        {selected.map(bp => {
+        {selected.map((bp) => {
           if (!bp) return null
 
-          const name = isProxy ? _get(bp, 'owner') : _get(bp, 'bpjson.producer_account_name')
+          const name = isProxy
+            ? _get(bp, 'owner')
+            : _get(bp, 'bpjson.producer_account_name')
 
           return (
-            <div
-              key={`slider-card-${name}`}
-              className={classes.sliderCard}
-            >
+            <div key={`slider-card-${name}`} className={classes.sliderCard}>
               <Radar
                 bpData={{
                   datasets: bp.data ? [{ ...bp.data }] : []
@@ -66,7 +53,6 @@ const CompareSliderView = ({ classes, selected, className, isProxy, optionalLabe
 }
 
 CompareSliderView.propTypes = {
-  classes: PropTypes.object.isRequired,
   selected: PropTypes.array.isRequired,
   className: PropTypes.string,
   isProxy: PropTypes.bool,
@@ -75,4 +61,4 @@ CompareSliderView.propTypes = {
 
 CompareSliderView.defaultProps = {}
 
-export default withStyles(style)(CompareSliderView)
+export default CompareSliderView

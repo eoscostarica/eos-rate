@@ -13,7 +13,7 @@ import Switch from '@material-ui/core/Switch'
 import Language from '@material-ui/icons/Language'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     padding: theme.spacing(3)
   }
@@ -36,7 +36,7 @@ class Settings extends Component {
     }
   }
 
-  render () {
+  render() {
     const { classes, language, notifications } = this.props
     const { t } = useTranslation('translations')
 

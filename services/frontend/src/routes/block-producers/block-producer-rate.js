@@ -1,7 +1,8 @@
+/* eslint-disable react/display-name */
 import React, { useState, useEffect, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from '@reach/router'
 import {
   Avatar,
@@ -19,7 +20,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import _get from 'lodash.get'
 import classNames from 'classnames'
 import Alert from '@material-ui/lab/Alert'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 
 import TitlePage from 'components/title-page'
 import Radar from 'components/radar'
@@ -27,71 +28,9 @@ import config from 'config'
 import getBPRadarData from 'utils/getBPRadarData'
 
 import SliderRatingSection from './slider-rating-section'
+import styles from './styles'
 
-const style = theme => ({
-  container: {
-    padding: theme.spacing(1)
-  },
-  bpName: {
-    marginLeft: theme.spacing(1)
-  },
-  accountCircle: {
-    color: theme.palette.surface.main
-  },
-  radarActionsWrapper: {
-    height: '100%',
-    justifyContent: 'space-between'
-  },
-  radarWrapper: {
-    flexBasis: 0,
-    padding: theme.spacing(4, 0)
-  },
-  ctasWrapper: {
-    flexBasis: 0,
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  box: {
-    padding: theme.spacing(2)
-  },
-  title: {
-    marginBottom: theme.spacing(1)
-  },
-  subTitle: {
-    fontWeight: 'bold'
-  },
-  value: {
-    marginLeft: 4
-  },
-  category: {
-    marginTop: theme.spacing(1)
-  },
-  breadcrumbText: {
-    color: '#fff',
-    textTransform: 'uppercase'
-  },
-  avatar: {
-    backgroundColor: theme.palette.surface.main
-  },
-  showOnlySm: {
-    display: 'flex',
-
-    [theme.breakpoints.up('sm')]: {
-      display: 'none'
-    }
-  },
-  showOnlyLg: {
-    display: 'flex',
-
-    [theme.breakpoints.down('sm')]: {
-      display: 'none'
-    }
-  },
-  alert: {
-    width: '100%',
-    marginTop: theme.spacing(1)
-  }
-})
+const useStyles = makeStyles(styles)
 
 const INIT_RATING_STATE_DATA = {
   community: 1,
@@ -109,49 +48,43 @@ const INIT_RATING_STATE_DATA = {
   txSuccess: false
 }
 
-const BlockProducerRate = ({
-  classes,
-  account,
-  producer,
-  getBPRating,
-  addUserRating,
-  userRate,
-  getBlockProducer,
-  ual,
-  setShowSortSelected,
-  user,
-  getUserChainData
-}) => {
+const BlockProducerRate = ({ account, ual }) => {
   const [ratingState, setRatingState] = useState(INIT_RATING_STATE_DATA)
   const [showMessage, setShowMessage] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
   const { t } = useTranslation('bpRatePage')
+  const dispatch = useDispatch()
+  const { producer, userRate } = useSelector((state) => state.blockProducers)
+  const { data: user } = useSelector((state) => state.user)
+  const classes = useStyles()
   const accountName = _get(ual, 'activeUser.accountName', null)
   const bpData = _get(producer, 'data', {})
 
+  const handleStateChange = (parameter) => (event, value) => {
+    setRatingState({ ...ratingState, [parameter]: value })
+  }
+
+  const bPLogo = _get(producer, 'bpjson.org.branding.logo_256', null)
+
   useEffect(() => {
-    async function getData () {
+    const getData = async () => {
       if (account) {
-        getBlockProducer(account)
+        dispatch.blockProducers.getBlockProducerByOwner(account)
       }
 
       if (accountName) {
-        await getUserChainData({ ual })
-        getBPRating({ bp: account, userAccount: accountName })
+        await dispatch.blockProducers.getUserChainData({ ual })
+
+        dispatch.blockProducers.getBlockProducerRatingByOwner({
+          bp: account,
+          userAccount: accountName
+        })
         setShowMessage(false)
       }
     }
 
     getData()
-  }, [
-    accountName,
-    account,
-    getBlockProducer,
-    ual,
-    getBPRating,
-    setShowMessage,
-    getUserChainData
-  ])
+  }, [accountName, account, ual, setShowMessage])
 
   useEffect(() => {
     if (userRate) {
@@ -166,11 +99,11 @@ const BlockProducerRate = ({
     } else {
       setRatingState(INIT_RATING_STATE_DATA)
     }
-  }, [userRate, accountName, setRatingState, ratingState])
+  }, [userRate, accountName, setRatingState])
 
   useEffect(() => {
-    setShowSortSelected(false)
-  })
+    dispatch.blockProducers.setShowSortSelected(false)
+  }, [])
 
   useEffect(() => {
     if (user && (user.hasProxy || user.producersCount >= 21)) {
@@ -253,7 +186,7 @@ const BlockProducerRate = ({
         broadcast: true
       })
 
-      await addUserRating({
+      await dispatch.blockProducers.mutationInsertUserRating({
         ual,
         user: accountName,
         bp: account,
@@ -282,16 +215,13 @@ const BlockProducerRate = ({
     }
   }
 
-  const handleStateChange = parameter => (event, value) =>
-    setRatingState({ ...ratingState, [parameter]: value })
-
-  const bPLogo = _get(producer, 'bpjson.org.branding.logo_256', null)
-
   return (
     <Grid container justify='center' className={classes.container}>
       <TitlePage
-        title={`${t('title')} ${_get(producer, 'bpjson.org.candidate_name') ||
-          _get(producer, 'system.owner', t('noBlockProducer'))} - EOS Rate`}
+        title={`${t('title')} ${
+          _get(producer, 'bpjson.org.candidate_name') ||
+          _get(producer, 'system.owner', t('noBlockProducer'))
+        } - EOS Rate`}
       />
       <Grid item xs={12}>
         <Grid
@@ -570,33 +500,8 @@ const BlockProducerRate = ({
 }
 
 BlockProducerRate.propTypes = {
-  classes: PropTypes.object,
   account: PropTypes.string,
-  producer: PropTypes.object,
-  getBPRating: PropTypes.func,
-  addUserRating: PropTypes.func,
-  userRate: PropTypes.object,
-  getBlockProducer: PropTypes.func,
-  ual: PropTypes.object,
-  setShowSortSelected: PropTypes.func,
-  user: PropTypes.object,
-  getUserChainData: PropTypes.func
+  ual: PropTypes.object
 }
 
-const mapStateToProps = ({ blockProducers: { producer, userRate }, user }) => ({
-  producer,
-  userRate,
-  user: user.data
-})
-
-const mapDispatchToProps = ({ blockProducers, user }) => ({
-  getBPRating: blockProducers.getBlockProducerRatingByOwner,
-  addUserRating: blockProducers.mutationInsertUserRating,
-  getBlockProducer: blockProducers.getBlockProducerByOwner,
-  setShowSortSelected: blockProducers.setShowSortSelected,
-  getUserChainData: user.getUserChainData
-})
-
-export default withStyles(style)(
-  connect(mapStateToProps, mapDispatchToProps)(BlockProducerRate)
-)
+export default BlockProducerRate

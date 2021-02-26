@@ -7,7 +7,7 @@ const initialState = {
 const settings = {
   state: initialState,
   reducers: {
-    setSettings (state, { key, value }) {
+    setSettings(state, { key, value }) {
       return {
         ...state,
         [key]: value
