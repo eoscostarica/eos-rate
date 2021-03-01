@@ -1,4 +1,4 @@
-const getComparisonParameter = t => {
+const getComparisonParameter = (t) => {
   return [
     t('community'),
     t('development'),

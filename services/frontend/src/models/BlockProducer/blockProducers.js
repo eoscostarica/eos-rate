@@ -3,7 +3,7 @@ import uniq from 'lodash.uniq'
 
 import apolloClient from 'services/graphql'
 import { getAllBPs } from 'services/bps'
-import eosjsAPI from 'services/eosjs-api'
+import { getRpc } from 'utils/eosjsUtils'
 
 import QUERY_PRODUCER from './query_get_producer_by'
 import QUERY_RATING from './query_get_bp_rating_by'
@@ -24,99 +24,99 @@ const initialState = {
 const Proxies = {
   state: initialState,
   reducers: {
-    toggleCompareTool (state) {
+    toggleCompareTool(state) {
       return {
         ...state,
         compareTool: !state.compareTool
       }
     },
-    setShowSortSelected (state, showSortSelected) {
+    setShowSortSelected(state, showSortSelected) {
       return {
         ...state,
         showSortSelected
       }
     },
-    setBPs (state, list) {
+    setBPs(state, list) {
       // Whenever we get a new list, clear filters
       return {
         ...state,
         filters: {},
         filtered: [],
-        list: list.map(bp => ({ ...bp }))
+        list: list.map((bp) => ({ ...bp }))
       }
     },
-    updateBPList (state, list) {
+    updateBPList(state, list) {
       return {
         ...state,
         list
       }
     },
-    addToSelected (state, producerAccountName) {
+    addToSelected(state, producerAccountName) {
       return {
         ...state,
         selected: uniq([...state.selected, producerAccountName])
       }
     },
-    addArrayToSelected (state, producerAccountNames) {
+    addArrayToSelected(state, producerAccountNames) {
       return {
         ...state,
         selected: uniq([...state.selected, ...producerAccountNames])
       }
     },
-    removeSelected (state, producerAccountName) {
+    removeSelected(state, producerAccountName) {
       return {
         ...state,
         selected: state.selected.filter(
-          selected => selected !== producerAccountName
+          (selected) => selected !== producerAccountName
         )
       }
     },
-    clearSelected (state) {
+    clearSelected(state) {
       return {
         ...state,
         selected: []
       }
     },
-    clearFilters (state) {
+    clearFilters(state) {
       return {
         ...state,
         filtered: [],
         filters: {}
       }
     },
-    setFiltered (state, filtered, filters) {
+    setFiltered(state, filtered, filters) {
       return {
         ...state,
         filtered: [...filtered],
         filters: { ...filters }
       }
     },
-    setSortBy (state, sort) {
+    setSortBy(state, sort) {
       return {
         ...state,
         sortBy: sort
       }
     },
-    addProducer (state, producer) {
+    addProducer(state, producer) {
       return { ...state, producer }
     },
-    addUserRate (state, userRate) {
+    addUserRate(state, userRate) {
       return { ...state, userRate }
     }
   },
-  effects: dispatch => ({
-    async getBPs () {
+  effects: (dispatch) => ({
+    async getBPs() {
       return getAllBPs({
-        setBPs: state => this.setBPs(state)
+        setBPs: (state) => this.setBPs(state)
       })
     },
-    async applyFilter (filters, state) {
+    async applyFilter(filters, state) {
       this.setFiltered(
         filterObjects.filter(filters, state.blockProducers.list),
         filters
       )
     },
-    async getBlockProducerByOwner (owner, state) {
+    async getBlockProducerByOwner(owner, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
@@ -159,7 +159,7 @@ const Proxies = {
         dispatch.isLoading.storeIsContentLoading(false)
       }
     },
-    async getBlockProducerRatingByOwner ({ bp, userAccount }, state) {
+    async getBlockProducerRatingByOwner({ bp, userAccount }, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
@@ -177,18 +177,25 @@ const Proxies = {
         dispatch.isLoading.storeIsContentLoading(false)
       }
     },
-    async mutationInsertUserRating ({ user, bp, result, ...ratings }, state) {
+    async mutationInsertUserRating(
+      { ual, user, bp, result, ...ratings },
+      state
+    ) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
-        const { data: { rateProducer } } = await apolloClient.mutate({
+        const {
+          data: { rateProducer }
+        } = await apolloClient.mutate({
           variables: {
             ratingInput: { producer: bp, user }
           },
           mutation: MUTATION_UPDATE_RATING
         })
 
-        const { rows: rateStat } = await eosjsAPI.rpc.get_table_rows({
+        const rpc = getRpc(ual)
+
+        const { rows: rateStat } = await rpc.get_table_rows({
           json: true,
           code: 'rateproducer',
           scope: 'rateproducer',
@@ -199,41 +206,45 @@ const Proxies = {
           show_payer: false
         })
 
-        const producerUpdatedList = state.blockProducers.list.map(producer => {
-          if (rateStat.length && producer.owner === rateStat[0].bp) {
-            const parameters = {
-              community: rateStat[0].community,
-              development: rateStat[0].development,
-              infrastructure: rateStat[0].infrastructure,
-              transparency: rateStat[0].transparency,
-              trustiness: rateStat[0].trustiness
-            }
-            const graphData = Object.values(parameters)
+        const producerUpdatedList = state.blockProducers.list.map(
+          (producer) => {
+            if (rateStat.length && producer.owner === rateStat[0].bp) {
+              const parameters = {
+                community: rateStat[0].community,
+                development: rateStat[0].development,
+                infrastructure: rateStat[0].infrastructure,
+                transparency: rateStat[0].transparency,
+                trustiness: rateStat[0].trustiness
+              }
+              const graphData = Object.values(parameters)
 
-            return {
-              ...producer,
-              average: rateStat[0].average,
-              system: {
-                ...producer.system,
-                parameters
-              },
-              data: {
-                ...producer.data,
-                data: graphData
+              return {
+                ...producer,
+                average: rateStat[0].average,
+                system: {
+                  ...producer.system,
+                  parameters
+                },
+                data: {
+                  ...producer.data,
+                  data: graphData
+                }
               }
             }
-          }
 
-          return producer
-        })
+            return producer
+          }
+        )
         const currentBP = producerUpdatedList.find(
-          producer => producer.owner === bp
+          (producer) => producer.owner === bp
         )
 
         this.addProducer(currentBP)
         this.updateBPList(producerUpdatedList)
         this.getBlockProducerRatingByOwner({ bp, userAccount: user })
-        dispatch.user.getUserRates({ userRate: { ...rateProducer, ...currentBP } })
+        dispatch.user.getUserRates({
+          userRate: { ...rateProducer, ...currentBP }
+        })
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
         console.error('mutationInsertUserRating', error)

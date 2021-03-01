@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Error from '@material-ui/icons/ErrorOutlined'
 import Button from '@material-ui/core/Button'
 import { Avatar, Chip } from '@material-ui/core'
@@ -12,62 +12,11 @@ import Switch from '@material-ui/core/Switch'
 
 import CompareGraphView from './compare-graph-view'
 import CompareSliderView from './compare-slider-view'
+import styles from './styles'
 
-const styles = theme => ({
-  root: {
-    padding: theme.spacing(2),
-    background: theme.palette.surface.main,
-    width: '100%',
-    position: 'relative'
-  },
-  footer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-      position: 'absolute',
-      bottom: 0,
-      width: 'calc(100% - 16px)'
-    }
-  },
-  switch: {
-    [theme.breakpoints.up('sm')]: {
-      float: 'right'
-    }
-  },
-  btnRate: {
-    backgroundColor: theme.palette.secondary.main,
-    marginBottom: 5,
-    color: '#ffffff',
-    [theme.breakpoints.up('sm')]: {
-      float: 'right',
-      marginRight: 20,
-      '&:hover': {
-        backgroundColor: theme.palette.secondary.dark
-      }
-    }
-  },
-  chipMessage: {
-    [theme.breakpoints.up('sm')]: {
-      float: 'right',
-      marginTop: 5,
-      marginRight: 5
-    }
-  },
-  errorColor: {
-    backgroundColor: 'red'
-  },
-  errorChip: {
-    border: '1px solid red'
-  },
-  labelErrorColor: {
-    color: 'red'
-  }
-})
+const useStyles = makeStyles(styles)
 
 const CompareTool = ({
-  classes,
   removeBP,
   list,
   selected,
@@ -81,8 +30,9 @@ const CompareTool = ({
   onHandleClose
 }) => {
   const { t } = useTranslation('translations')
+  const classes = useStyles()
   const [isCollapsedView, setIsCollapsedView] = useState(true)
-  const selectedData = selected.map(name =>
+  const selectedData = selected.map((name) =>
     list.find(({ owner }) => name === owner)
   )
   const { proxy, producers } = _get(userInfo, 'voter_info', {
@@ -130,7 +80,7 @@ const CompareTool = ({
               control={
                 <Switch
                   checked={isCollapsedView}
-                  onChange={event => setIsCollapsedView(event.target.checked)}
+                  onChange={(event) => setIsCollapsedView(event.target.checked)}
                   value='isCollapsedView'
                 />
               }
@@ -180,7 +130,6 @@ const CompareTool = ({
 }
 
 CompareTool.propTypes = {
-  classes: PropTypes.object.isRequired,
   removeBP: PropTypes.func.isRequired,
   list: PropTypes.array.isRequired,
   selected: PropTypes.array.isRequired,
@@ -204,4 +153,4 @@ CompareTool.defaultProps = {
   onHandleClose: () => {}
 }
 
-export default withStyles(styles)(CompareTool)
+export default CompareTool

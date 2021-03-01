@@ -1,6 +1,6 @@
 import React, { useEffect, forwardRef } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { Link } from '@reach/router'
@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import Divider from '@material-ui/core/Divider'
@@ -17,98 +17,15 @@ import _get from 'lodash.get'
 
 import TitlePage from 'components/title-page'
 import Radar from 'components/radar'
+
 import {
   SocialNetworks,
   GeneralInformation,
   WebsiteLegend
 } from './general-information-profile'
+import styles from './styles'
 
-const style = ({ palette, breakpoints }) => ({
-  container: {
-    padding: 10
-  },
-  bpName: {
-    marginLeft: 6
-  },
-  accountCircle: {
-    color: palette.secondary.main
-  },
-  box: {
-    padding: '3%'
-  },
-  title: {
-    color: palette.primary.main,
-    fontSize: '1.5rem',
-    marginBottom: 10,
-    marginTop: 5
-  },
-  subTitle: {
-    fontSize: 14
-  },
-  value: {
-    marginLeft: 4,
-    fontWeight: 500
-  },
-  category: {
-    marginTop: 10
-  },
-  btnBP: {
-    color: palette.surface.main,
-    backgroundColor: palette.secondary.main,
-    width: '100%',
-    '&:hover': {
-      backgroundColor: palette.secondary.light
-    },
-
-    [breakpoints.up('sm')]: {
-      marginRight: 10
-    }
-  },
-  wrapperBox: {
-    marginTop: 10,
-    display: 'flex',
-    flexDirection: 'column',
-
-    [breakpoints.up('sm')]: {
-      flexDirection: 'row',
-      width: '100%'
-    }
-  },
-  BlockProducerRadarBox: {
-    padding: '30px 0',
-    backgroundColor: palette.surface.main
-  },
-  showOnlySm: {
-    display: 'flex',
-
-    [breakpoints.up('sm')]: {
-      display: 'none'
-    }
-  },
-  showOnlyLg: {
-    display: 'flex',
-
-    [breakpoints.down('sm')]: {
-      display: 'none'
-    }
-  },
-  websiteLegend: {
-    margin: '10px 0',
-    [breakpoints.up('sm')]: {
-      margin: 0
-    }
-  },
-  links: {
-    textDecoration: 'none',
-    color: palette.secondary.main,
-    '&:hover': {
-      textDecoration: 'underline'
-    }
-  },
-  avatar: {
-    backgroundColor: palette.surface.main
-  }
-})
+const useStyles = makeStyles(styles)
 
 const ProfileTitle = ({
   classes,
@@ -140,18 +57,14 @@ const ProfileTitle = ({
   )
 }
 
-const BlockProducerProfile = ({
-  classes,
-  account,
-  blockProducers,
-  getBlockProducer,
-  producer,
-  isContentLoading,
-  setShowSortSelected,
-  getBPs,
-  ...props
-}) => {
+const BlockProducerProfile = ({ account, ...props }) => {
   const { t } = useTranslation('profile')
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const { list: blockProducers, producer } = useSelector(
+    (state) => state.blockProducers
+  )
+  const { isContentLoading } = useSelector((state) => state.isLoading)
   const bpHasInformation = Boolean(
     producer && Object.values(producer.bpjson).length
   )
@@ -165,24 +78,25 @@ const BlockProducerProfile = ({
   const webInfo = _get(producer, 'general_info', null)
 
   useEffect(() => {
-    async function getData () {
-      !blockProducers.length && (await getBPs())
-      getBlockProducer(account)
+    const getData = async () => {
+      !blockProducers.length && (await dispatch.blockProducers.getBPs())
+      dispatch.blockProducers.getBlockProducerByOwner(account)
     }
 
     getData()
   }, [account, blockProducers.length])
 
   useEffect(() => {
-    setShowSortSelected(false)
-  })
+    dispatch.blockProducers.setShowSortSelected(false)
+  }, [])
 
   return (
     <Grid container justify='center' className={classes.container}>
-      <TitlePage title={`${t('title')} ${BlockProducerTitle}  - EOS Rate`} />
+      <TitlePage title={`${t('title')} ${BlockProducerTitle} - EOS Rate`} />
       <Grid item xs={12}>
         <Grid container direction='row' alignItems='center'>
           <Button
+            // eslint-disable-next-line react/display-name
             component={forwardRef((props, ref) => (
               <Link {...props} ref={ref} to='/block-producers' />
             ))}
@@ -286,14 +200,7 @@ const BlockProducerProfile = ({
 }
 
 BlockProducerProfile.propTypes = {
-  classes: PropTypes.object,
-  account: PropTypes.string,
-  blockProducers: PropTypes.array,
-  getBlockProducer: PropTypes.func,
-  producer: PropTypes.object,
-  isContentLoading: PropTypes.bool,
-  setShowSortSelected: PropTypes.func,
-  getBPs: PropTypes.func
+  account: PropTypes.string
 }
 
 ProfileTitle.propTypes = {
@@ -305,21 +212,4 @@ ProfileTitle.propTypes = {
   isContentLoading: PropTypes.bool
 }
 
-const mapStateToProps = ({
-  isLoading: { isContentLoading },
-  blockProducers: { list, producer }
-}) => ({
-  blockProducers: list,
-  producer,
-  isContentLoading
-})
-
-const mapDispatchToProps = ({ blockProducers }) => ({
-  getBlockProducer: blockProducers.getBlockProducerByOwner,
-  setShowSortSelected: blockProducers.setShowSortSelected,
-  getBPs: blockProducers.getBPs
-})
-
-export default withStyles(style)(
-  connect(mapStateToProps, mapDispatchToProps)(BlockProducerProfile)
-)
+export default BlockProducerProfile

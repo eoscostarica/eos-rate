@@ -20,13 +20,13 @@ const initialState = {
 const Proxies = {
   state: initialState,
   reducers: {
-    toggleCompareTool (state) {
+    toggleCompareTool(state) {
       return {
         ...state,
         compareTool: !state.compareTool
       }
     },
-    addProxies (state, proxies) {
+    addProxies(state, proxies) {
       return {
         ...state,
         proxies,
@@ -34,29 +34,29 @@ const Proxies = {
         filtered: []
       }
     },
-    addProxy (state, proxy) {
+    addProxy(state, proxy) {
       return { ...state, proxy }
     },
-    addToSelected (state, owner) {
+    addToSelected(state, owner) {
       return {
         ...state,
         selected: [owner]
       }
     },
-    removeSelected (state) {
+    removeSelected(state) {
       return {
         ...state,
         selected: []
       }
     },
-    clearFilters (state) {
+    clearFilters(state) {
       return {
         ...state,
         filtered: [],
         filters: {}
       }
     },
-    setFiltered (state, filtered, filters) {
+    setFiltered(state, filtered, filters) {
       return {
         ...state,
         filtered: [...filtered],
@@ -64,14 +64,14 @@ const Proxies = {
       }
     }
   },
-  effects: dispatch => ({
-    async applyFilter (filters, state) {
+  effects: (dispatch) => ({
+    async applyFilter(filters, state) {
       this.setFiltered(
         filterObjects.filter(filters, state.proxies.proxies),
         filters
       )
     },
-    async getProxies (payload, { blockProducers: { list } }) {
+    async getProxies(payload, { blockProducers: { list } }) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
@@ -88,7 +88,7 @@ const Proxies = {
 
           return
         }
-        const proxiesModeled = proxies.map(proxy => {
+        const proxiesModeled = proxies.map((proxy) => {
           const rateInfo = []
           const proxyProducers = _get(proxy, 'voter_info.producers', [])
           const proxiedVoteEOS = calculateEosFromVotes(
@@ -97,8 +97,8 @@ const Proxies = {
           const totalVoteEOS = calculateEosFromVotes(
             _get(proxy, 'voter_info.proxied_vote_weight', 0)
           )
-          const producersDataModeled = proxyProducers.map(owner => {
-            const producer = list.find(bp => bp.owner === owner)
+          const producersDataModeled = proxyProducers.map((owner) => {
+            const producer = list.find((bp) => bp.owner === owner)
 
             if (producer) {
               const {
@@ -171,7 +171,7 @@ const Proxies = {
         dispatch.isLoading.storeIsContentLoading(false)
       }
     },
-    async getProxyByOwner (payload, state) {
+    async getProxyByOwner(payload, state) {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 

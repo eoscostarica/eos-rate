@@ -9,7 +9,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ParameterRangeSelector from 'components/parameter-range-selector'
 import bpParameters from 'config/comparison-parameters'
 
-const styles = theme => ({
+const styles = (theme) => ({
   nested: {
     paddingLeft: theme.spacing(2),
     color: 'white'
@@ -30,19 +30,19 @@ class FilterBox extends Component {
     )
   }
 
-  handleValueChange = parameter => value =>
+  handleValueChange = (parameter) => (value) =>
     this.setState({
       [parameter]: value
     })
 
-  render () {
+  render() {
     const { classes } = this.props
     return (
       <List
         className={classes.nested}
         subheader={<ListSubheader>Filter Parameters</ListSubheader>}
       >
-        {bpParameters.map(parameter => (
+        {bpParameters.map((parameter) => (
           <ListItem
             className={classes.listItem}
             key={`filter-parameter-${parameter}`}

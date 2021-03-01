@@ -48,8 +48,8 @@ export const getAllBPs = ({ nameFilter = null, setBPs = () => {} } = {}) => {
       }
     })
     .subscribe({
-      next ({ data: { producers_list: producers } }) {
-        const BPs = producers.map(producer => {
+      next({ data: { producers_list: producers } }) {
+        const BPs = producers.map((producer) => {
           const {
             community,
             trustiness,
@@ -65,7 +65,9 @@ export const getAllBPs = ({ nameFilter = null, setBPs = () => {} } = {}) => {
             transparency: transparency || 0,
             trustiness: trustiness || 0
           }
-          const votesInEos = calculateEosFromVotes(_get(bp, 'system.total_votes', 0))
+          const votesInEos = calculateEosFromVotes(
+            _get(bp, 'system.total_votes', 0)
+          )
 
           return {
             ...bp,
@@ -83,7 +85,7 @@ export const getAllBPs = ({ nameFilter = null, setBPs = () => {} } = {}) => {
 
         return setBPs(BPs)
       },
-      error (err) {
+      error(err) {
         console.error('err', err)
       }
     })
@@ -91,6 +93,6 @@ export const getAllBPs = ({ nameFilter = null, setBPs = () => {} } = {}) => {
 
 export const findBPs = async (filter = {}) => mockedBPs
 
-export const findBPById = async id => mockedBPs[id]
+export const findBPById = async (id) => mockedBPs[id]
 
 window.getAllBPs = getAllBPs

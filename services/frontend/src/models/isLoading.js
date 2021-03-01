@@ -4,7 +4,7 @@ export default {
   },
 
   reducers: {
-    storeIsContentLoading (state, isLoading) {
+    storeIsContentLoading(state, isLoading) {
       return {
         ...state,
         isContentLoading: isLoading

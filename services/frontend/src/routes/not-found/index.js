@@ -1,57 +1,18 @@
 import React, { forwardRef } from 'react'
-import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import { Link } from '@reach/router'
 
-const styles = ({ spacing, palette }) => ({
-  root: {
-    width: '100%',
-    height: 'calc(100vh - 128px)',
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'space-around'
-  },
-  container: {
-    margin: spacing(2),
-    height: '100%',
-    width: '50%',
-    background: palette.primary.sectionBackground,
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column',
-    '& > *': {
-      marginTop: spacing(4)
-    }
-  },
-  graphic: {
-    borderRadius: '50%',
-    background: palette.primary.dark,
-    color: 'white',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '200px',
-    height: '200px',
-    '& > span': {
-      fontWeight: '600',
-      lineHeight: 1
-    },
-    '& > span:first-child': {
-      fontSize: '4rem'
-    },
-    '& > span:nth-child(2)': {
-      fontSize: '1.8rem'
-    }
-  }
-})
+import styles from './styles'
 
-const NotFound = ({ classes }) => {
+const useStyles = makeStyles(styles)
+
+const NotFound = () => {
   const { t } = useTranslation('not-found')
+  const classes = useStyles()
+
   return (
     <div className={classes.root}>
       <div className={classes.container}>
@@ -65,6 +26,7 @@ const NotFound = ({ classes }) => {
         <Button
           className={classes.recoveryCta}
           variant='contained'
+          // eslint-disable-next-line react/display-name
           component={forwardRef((props, ref) => (
             <Link {...props} ref={ref} to='/' />
           ))}
@@ -77,8 +39,4 @@ const NotFound = ({ classes }) => {
   )
 }
 
-NotFound.propTypes = {
-  classes: PropTypes.object.isRequired
-}
-
-export default withStyles(styles)(NotFound)
+export default NotFound
