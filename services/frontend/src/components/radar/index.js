@@ -15,7 +15,6 @@ const RadarData = ({ bpData, height, showLabel, ...props }) => {
 
   return (
     <Radar
-      redraw
       height={height}
       data={bpValidData}
       options={{
