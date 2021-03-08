@@ -11,9 +11,9 @@
 
 # misc
 .DS_Store
+
 .env
-.env.staging
-.env.production
+.env.*
 
 .eslintcache
 
