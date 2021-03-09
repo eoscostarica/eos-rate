@@ -26,17 +26,17 @@ services:
       DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
     depends_on:
       - postgres
-  
+
   hapi:
     container_name: eosrate_hapi
     build:
       context: ./services/hapi
       dockerfile: Dockerfile
     volumes:
-      - ./services/hapi:/opt/application  
+      - ./services/hapi:/opt/application
       - /opt/application/node_modules # prevents host/container conflicts
     ports:
-      - '3005:3005'
+      - "3005:3005"
     environment:
       VIRTUAL_HOST: 0.0.0.0
       VIRTUAL_PORT: 3005
@@ -49,7 +49,7 @@ services:
       EOS_API_ENDPOINT: "https://jungle.eosio.cr"
 
     depends_on:
-     - postgres
+      - postgres
 
   demux:
     container_name: eosrate_demux
@@ -80,6 +80,9 @@ services:
 
   hasura:
     container_name: eosrate_hasura
+    build:
+      context: ./services/hasura
+      dockerfile: ./Dockerfile
     image: hasura/graphql-engine:v1.2.0-beta.4.cli-migrations
     ports:
       - "8088:8080"
