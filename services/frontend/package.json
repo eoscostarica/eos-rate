@@ -12,7 +12,7 @@
     "start": "env-cmd -f .env react-scripts start",
     "start:staging": "env-cmd -f .env.staging react-scripts start",
     "prod": "serve -l 9000 --single ./build",
-    "build": "env-cmd -f .env react-scripts build",
+    "build": "react-scripts build",
     "build:staging": "react-scripts build",
     "build:production": "env-cmd -f .env.production react-scripts build",
     "test": "env-cmd -f .env react-scripts test --env=jsdom",
