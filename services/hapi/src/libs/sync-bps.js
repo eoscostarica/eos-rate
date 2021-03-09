@@ -5,7 +5,8 @@ const request = require('request-promise')
 
 const dbConfig = require('../config/dbConfig')
 
-const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+const EOS_API_ENDPOINT =
+  process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 
 // gets data from mainnet
 const getBlockProducersData = async () => {
@@ -13,7 +14,10 @@ const getBlockProducersData = async () => {
     httpEndpoint: EOS_API_ENDPOINT,
     verbose: false
   })
-  const { rows: producers } = await eos.getProducers({ json: true, limit: 1000 })
+  const { rows: producers } = await eos.getProducers({
+    json: true,
+    limit: 1000
+  })
 
   const allProducers = producers.reduce((result, producer) => {
     if (!producer.is_active || !parseInt(producer.total_votes)) return result
@@ -59,7 +63,10 @@ const getBlockProducersData = async () => {
       console.log('result bp', i, bp['producer_account_name'])
       try {
         if (bp['producer_account_name'] && bp['producer_account_name'] !== '') {
-          if (EOS_API_ENDPOINT !== 'https://jungle.eosio.cr' && bp['producer_account_name'] === allProducers[i]['owner']) {
+          if (
+            EOS_API_ENDPOINT !== 'https://jungle.eosio.cr' &&
+            bp['producer_account_name'] === allProducers[i]['owner']
+          ) {
             console.log('add', urls[i])
             allProducers[i]['bpJson'] = bp
           } else if (EOS_API_ENDPOINT === 'https://jungle.eosio.cr') {
@@ -91,13 +98,13 @@ const updateBlockProducersData = async () => {
     const bpData = {
       owner,
       system,
-      bpjson 
+      bpjson
     }
 
-    if(!Object.keys(bpjson).length) {
-      console.log("skipping blank result for " + owner)
+    if (!Object.keys(bpjson).length) {
+      console.log('skipping blank result for ' + owner)
       return
-    } 
+    }
 
     try {
       const result = await db.producers.save(bpData)
@@ -119,9 +126,9 @@ const updateBlockProducersData = async () => {
   }
 
   // TODO : better error handling, report and retry unfulffilled
-};
+}
 
-(async () => {
+;(async () => {
   try {
     console.log('updateBlockProducersData')
     await updateBlockProducersData()
