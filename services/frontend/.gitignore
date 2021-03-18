@@ -12,9 +12,6 @@
 # misc
 .DS_Store
 
-.env
-.env.*
-
 .eslintcache
 
 npm-debug.log*
