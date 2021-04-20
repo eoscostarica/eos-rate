@@ -33,10 +33,10 @@ services:
       context: ./services/hapi
       dockerfile: Dockerfile
     volumes:
-      - ./services/hapi:/opt/application  
-      - /opt/application/node_modules 
+      - ./services/hapi:/opt/application
+      - /opt/application/node_modules
     ports:
-      - '3005:3005'
+      - "3005:3005"
     environment:
       VIRTUAL_HOST: 0.0.0.0
       VIRTUAL_PORT: 3005
@@ -49,7 +49,7 @@ services:
       EOS_API_ENDPOINT: "https://jungle.eosio.cr"
 
     depends_on:
-     - postgres
+      - postgres
 
   demux:
     container_name: eosrate_demux
@@ -91,6 +91,7 @@ services:
       HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
       VIRTUAL_HOST: staging.eosrate.io
       VIRTUAL_PORT: 8088
+      HASURA_GRAPHQL_ACTION_BASE_URL: http://hapi:9090
     volumes:
       - ./services/hasura/migrations:/hasura-migrations #  mount hasura migrations folder
     command:
