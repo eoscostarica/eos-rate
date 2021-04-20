@@ -7,17 +7,13 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 
 // Create an http link:
 const httpLink = new HttpLink({
-  uri:
-    process.env.REACT_APP_GRAPHQL_HTTP_URL ||
-    'http://localhost:8088/v1alpha1/graphql',
+  uri: process.env.REACT_APP_GRAPHQL_HTTP_URL,
   credentials: 'same-origin'
 })
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri:
-    process.env.REACT_APP_GRAPHQL_WS_URL ||
-    'ws://localhost:8088/v1alpha1/graphql',
+  uri: process.env.REACT_APP_GRAPHQL_WS_URL,
   options: {
     reconnect: true
   }
