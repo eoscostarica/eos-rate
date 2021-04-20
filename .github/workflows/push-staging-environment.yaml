@@ -71,7 +71,7 @@ jobs:
           DB_SCHEMA: ${{ secrets.DB_SCHEMA }}
           EOS_API_ENDPOINT: https://jungle3.cryptolions.io
           VIRTUAL_HOST: 0.0.0.0
-          VIRTUAL_PORT: "3005"
+          VIRTUAL_PORT: "9090"
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
           HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
