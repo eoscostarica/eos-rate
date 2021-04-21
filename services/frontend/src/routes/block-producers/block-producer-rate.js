@@ -7,19 +7,21 @@ import { Link } from '@reach/router'
 import {
   Avatar,
   Button,
+  IconButton,
   Chip,
   Grid,
   Paper,
   CircularProgress,
-  Typography
+  Typography,
+  Link as MLink
 } from '@material-ui/core'
 import AccountCircle from '@material-ui/icons/AccountCircle'
-import CheckCircle from '@material-ui/icons/CheckCircle'
+import Close from '@material-ui/icons/Close'
 import Error from '@material-ui/icons/Error'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import _get from 'lodash.get'
 import classNames from 'classnames'
-import Alert from '@material-ui/lab/Alert'
+import { Alert } from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles'
 
 import TitlePage from 'components/title-page'
@@ -59,6 +61,7 @@ const BlockProducerRate = ({ account, ual }) => {
   const classes = useStyles()
   const accountName = _get(ual, 'activeUser.accountName', null)
   const bpData = _get(producer, 'data', {})
+  const [lastTransactionId, setLastTransactionId] = useState(undefined)
 
   const handleStateChange = (parameter) => (event, value) => {
     setRatingState({ ...ratingState, [parameter]: value })
@@ -186,6 +189,8 @@ const BlockProducerRate = ({ account, ual }) => {
         broadcast: true
       })
 
+      setLastTransactionId(result.transactionId)
+
       await dispatch.blockProducers.mutationInsertUserRating({
         ual,
         user: accountName,
@@ -199,13 +204,6 @@ const BlockProducerRate = ({ account, ual }) => {
         processing: false,
         txSuccess: true
       })
-
-      setTimeout(() => {
-        setRatingState({
-          ...ratingState,
-          txSuccess: false
-        })
-      }, 2000)
     } catch (err) {
       setRatingState({
         ...ratingState,
@@ -332,21 +330,6 @@ const BlockProducerRate = ({ account, ual }) => {
                         variant='outlined'
                       />
                     )}
-                    {ratingState.txSuccess && (
-                      <Chip
-                        avatar={
-                          <Avatar>
-                            <CheckCircle />
-                          </Avatar>
-                        }
-                        color='secondary'
-                        label='Success!'
-                        variant='outlined'
-                      />
-                    )}
-                    {ratingState.processing && (
-                      <CircularProgress color='secondary' size={20} />
-                    )}
                     <Button
                       className='textPrimary'
                       disabled={
@@ -409,7 +392,7 @@ const BlockProducerRate = ({ account, ual }) => {
                     <Grid
                       alignItems='center'
                       container
-                      justify='flex-end'
+                      justify='center'
                       style={{ marginTop: 10 }}
                     >
                       {showMessage && (
@@ -433,18 +416,6 @@ const BlockProducerRate = ({ account, ual }) => {
                           }
                           color='secondary'
                           label={ratingState.txError}
-                          variant='outlined'
-                        />
-                      )}
-                      {ratingState.txSuccess && (
-                        <Chip
-                          avatar={
-                            <Avatar>
-                              <CheckCircle />
-                            </Avatar>
-                          }
-                          color='secondary'
-                          label='Success!'
                           variant='outlined'
                         />
                       )}
@@ -487,10 +458,52 @@ const BlockProducerRate = ({ account, ual }) => {
                 </Grid>
               </Grid>
             </Grid>
+            {lastTransactionId && (
+              <Grid item md={4} xs={12} lg={2} style={{ margin: 'auto' }}>
+                <Alert show className={classes.alert} severity='success'>
+                  <Grid
+                    container
+                    className={classes.alertBody}
+                    justify='space-between'
+                  >
+                    <Typography>Success!</Typography>
+                    <Grid
+                      className={classes.alertActionsContainer}
+                      container
+                      justify='space-evenly'
+                    >
+                      <IconButton
+                        className={classes.closeIconButton}
+                        onClick={() => setLastTransactionId(undefined)}
+                      >
+                        <Close />
+                      </IconButton>
+                      <Button
+                        variant='contained'
+                        disableElevation
+                        className={classes.detailsIconButton}
+                        color='primary'
+                      >
+                        <MLink
+                          rel='noopener'
+                          target='_blank'
+                          style={{ color: 'white' }}
+                          href={`${config.blockExplorer}/transaction/${lastTransactionId}`}
+                        >
+                          Details
+                        </MLink>
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Alert>
+              </Grid>
+            )}
             {showAlert && (
-              <Alert className={classes.alert} severity='success'>
-                {t('infoMessage')}
-              </Alert>
+              <Grid container>
+                <Alert className={classes.alert} severity='success'>
+                  {t('infoMessage')}
+                </Alert>
+              </Grid>
             )}
           </Grid>
         </Paper>
