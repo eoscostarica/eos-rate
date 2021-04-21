@@ -186,6 +186,7 @@ const BlockProducerRate = ({ account, ual }) => {
         broadcast: true
       })
 
+      console.log('before mutation')
       await dispatch.blockProducers.mutationInsertUserRating({
         ual,
         user: accountName,

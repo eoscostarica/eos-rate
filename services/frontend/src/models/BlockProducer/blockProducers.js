@@ -184,6 +184,7 @@ const Proxies = {
       try {
         dispatch.isLoading.storeIsContentLoading(true)
 
+        console.log(bp)
         const {
           data: { rateProducer }
         } = await apolloClient.mutate({
@@ -193,6 +194,7 @@ const Proxies = {
           mutation: MUTATION_UPDATE_RATING
         })
 
+        console.log('after mutation')
         const rpc = getRpc(ual)
 
         const { rows: rateStat } = await rpc.get_table_rows({
@@ -247,6 +249,7 @@ const Proxies = {
         })
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
+        console.log('||||||||||||||||||||||||||||||||')
         console.error('mutationInsertUserRating', error)
         dispatch.isLoading.storeIsContentLoading(false)
       }

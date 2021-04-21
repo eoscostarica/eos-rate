@@ -9,7 +9,7 @@ const Hapi = require('@hapi/hapi')
 
 const init = async () => {
   const server = Hapi.server({
-    port: VIRTUAL_PORT || 3005,
+    port: VIRTUAL_PORT || 9090,
     host: VIRTUAL_HOST || '0.0.0.0'
   })
 
