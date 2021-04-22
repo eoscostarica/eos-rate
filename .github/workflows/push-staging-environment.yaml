@@ -71,23 +71,21 @@ jobs:
           DB_SCHEMA: ${{ secrets.DB_SCHEMA }}
           EOS_API_ENDPOINT: https://jungle3.cryptolions.io
           VIRTUAL_HOST: 0.0.0.0
-          VIRTUAL_PORT: "3005"
+          VIRTUAL_PORT: "9090"
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
           HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
           HASURA_GRAPHQL_UNAUTHORIZED_ROLE: ${{ secrets.HASURA_GRAPHQL_UNAUTHORIZED_ROLE }}
+          HASURA_GRAPHQL_ACTION_BASE_URL: ${{secrets.HASURA_GRAPHQL_ACTION_BASE_URL}}
           # pgweb
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
-      - name: Deploy kubernetes files
-        uses: Consensys/kubernetes-action@master
+      - name: Setup and deploy kubernetes environment
+        uses: steebchen/kubectl@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+          NAMESPACE: jungle-eosrate
+          K8S_BUILD_DIR: build_k8s
         with:
-          args: apply -f build_k8s -n jungle-eosrate
-
-#      - name: Verify deployment
-#        id: verify_deployment
-#        run: |
-#          kubectl rollout status deployment/hapi
+          args: version && make deploy-kubernetes

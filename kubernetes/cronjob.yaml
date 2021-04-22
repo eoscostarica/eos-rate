@@ -9,29 +9,29 @@ spec:
       template:
         spec:
           containers:
-          - name: hapi-cronjob
-            image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HAPI}:${VERSION}
-            args:
-            - /bin/sh
-            - -c
-            - /usr/bin/node /opt/application/src/libs/sync-bps.js; /usr/bin/node /opt/application/src/libs/sync-proxies.js
-            env:
-            - name: DB_HOST
-              value: postgres
-            - name: DB_NAME
-              value: eosrate
-            - name: DB_PASSWORD
-              value: pass
-            - name: DB_PORT
-              value: "5432"
-            - name: DB_SCHEMA
-              value: public
-            - name: DB_USER
-              value: user
-            - name: EOS_API_ENDPOINT
-              value: https://bp.cryptolions.io
-            - name: VIRTUAL_HOST
-              value: 0.0.0.0
-            - name: VIRTUAL_PORT
-              value: "3005"
+            - name: hapi-cronjob
+              image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HAPI}:${VERSION}
+              args:
+                - /bin/sh
+                - -c
+                - /usr/bin/node /opt/application/src/libs/sync-bps.js; /usr/bin/node /opt/application/src/libs/sync-proxies.js
+              env:
+                - name: DB_HOST
+                  value: postgres
+                - name: DB_NAME
+                  value: eosrate
+                - name: DB_PASSWORD
+                  value: pass
+                - name: DB_PORT
+                  value: "5432"
+                - name: DB_SCHEMA
+                  value: public
+                - name: DB_USER
+                  value: user
+                - name: EOS_API_ENDPOINT
+                  value: https://bp.cryptolions.io
+                - name: VIRTUAL_HOST
+                  value: 0.0.0.0
+                - name: VIRTUAL_PORT
+                  value: "9090"
           restartPolicy: Never

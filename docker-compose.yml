@@ -36,10 +36,10 @@ services:
       - ./services/hapi:/opt/application
       - /opt/application/node_modules # prevents host/container conflicts
     ports:
-      - "3005:3005"
+      - "3005:9090"
     environment:
       VIRTUAL_HOST: 0.0.0.0
-      VIRTUAL_PORT: 3005
+      VIRTUAL_PORT: 9090
       DB_USER: user
       DB_PASSWORD: pass
       DB_PORT: 5432
@@ -92,8 +92,8 @@ services:
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
       HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
-      HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_GRAPHQL_ADMIN_SECRET}"
-      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "${HASURA_GRAPHQL_UNAUTHORIZED_ROLE}"
+      HASURA_GRAPHQL_ACTION_BASE_URL: http://hapi:9090
+
     volumes:
       - ./services/hasura/migrations:/hasura-migrations #  mount hasura migrations folder
     command:
