@@ -138,7 +138,24 @@ export default (theme) => ({
   },
   alert: {
     width: '100%',
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    '& > div.MuiAlert-message': {
+      width: '100%'
+    }
+  },
+  alertBody: {
+    width: '100%'
+  },
+  alertActionsContainer: {
+    maxWidth: '60%'
+  },
+  closeIconButton: {
+    padding: 0,
+    verticalAlign: 'middle',
+    color: 'red'
+  },
+  detailsIconButton: {
+    padding: '0 10px'
   },
   // bp profile
   bpAccountCircle: {
