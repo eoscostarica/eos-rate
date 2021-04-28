@@ -66,7 +66,7 @@ start-hasura-cli:
 start-frontend:
 	$(eval -include .env)
 	@until \
-		curl -s -o /dev/null -w 'hasura status %{http_code}\n' http://localhost:8080/healthz; \
+		curl -s -o /dev/null -w 'hasura status %{http_code}\n' http://localhost:8080; \
 		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-frontend |$(RESET) waiting for hasura service"; \
 		sleep 5; done;
 	@cd services/frontend && yarn && yarn start:local | cat
