@@ -4,16 +4,16 @@ LATEST_TAG ?= latest
 
 install: ##@local Install all dependencies
 install:
-	@npm install
+	@yarn
 
 clean-install: ##@local Reinstalls all dependencies
 clean-install:
 	@rm -Rf node_modules
-	@npm install
+	@yarn
 
 run: ##@local Run the project locally (without docker)
 run: node_modules
-	@$(SHELL_EXPORT) npm run dev
+	@$(SHELL_EXPORT) yarn run dev
 
 build-docker: ##@devops Build the docker image
 build-docker: ./Dockerfile
@@ -22,6 +22,13 @@ build-docker: ./Dockerfile
 	@docker build \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_WEBAPP):$(VERSION) --target server \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_WEBAPP):$(LATEST_TAG) --target server \
+		--build-arg react_app_graphql_http_url="$(REACT_APP_GRAPHQL_HTTP_URL)" \
+		--build-arg react_app_graphql_ws_url="$(REACT_APP_GRAPHQL_WS_URL)" \
+		--build-arg react_app_eos_api_url=$(REACT_APP_EOS_API_URL) \
+		--build-arg react_app_eos_api_host="$(REACT_APP_EOS_API_HOST)" \
+		--build-arg react_app_eos_api_port="$(REACT_APP_EOS_API_PORT)" \
+		--build-arg react_app_eos_api_protocol="$(REACT_APP_EOS_API_PROTOCOL)" \
+		--build-arg react_app_eos_chain_id="$(REACT_APP_EOS_CHAIN_ID)" \
 		--build-arg branch="$(BRANCH)" \
 		.
 

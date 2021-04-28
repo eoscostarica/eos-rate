@@ -70,8 +70,8 @@ jobs:
           DB_PORT: "5432"
           DB_SCHEMA: ${{ secrets.DB_SCHEMA }}
           EOS_API_ENDPOINT: https://bp.cryptolions.io
-          VIRTUAL_HOST: 0.0.0.0
-          VIRTUAL_PORT: "9090"
+          VIRTUAL_HOST: ${{ secrets.VIRTUAL_HOST }}
+          VIRTUAL_PORT: ${{ secrets.VIRTUAL_PORT }}
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
           HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
