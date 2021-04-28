@@ -13,8 +13,8 @@ K8S_FILES := $(shell find ./kubernetes -name '*.yaml' | sed 's:./kubernetes/::g'
 dev: scripts/develop.sh
 	./scripts/develop.sh
 
-start: scripts/start.sh
-	./scripts/start.sh
+# start: scripts/start.sh
+# 	./scripts/start.sh
 
 stop: scripts/stop.sh
 	./scripts/stop.sh
@@ -32,7 +32,7 @@ start:
 	make start-postgres
 	make start-hapi
 	make start-hasura
-	make -j 3 start-hasura-cli start-logs start-webapp
+	make -j 3 start-hasura-cli start-logs start-frontend
 
 start-postgres:
 	@docker-compose up -d --build postgres
@@ -47,7 +47,7 @@ start-hasura:
 		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-hasura |$(RESET) waiting for postgres service"; \
 		sleep 5; done;
 	@until \
-		curl http://localhost:9090/healthz; \
+		curl http://localhost:9090; \
 		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-hasura |$(RESET) waiting for hapi service"; \
 		sleep 5; done;
 	@echo "..."
@@ -57,16 +57,16 @@ start-hasura:
 start-hasura-cli:
 	$(eval -include .env)
 	@until \
-		curl http://localhost:8585/healthz; \
+		curl http://localhost:8080; \
 		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-hasura |$(RESET) ..."; \
 		sleep 5; done;
 	@echo "..."
-	@cd services/hasura && hasura console --endpoint http://localhost:8585 --skip-update-check --no-browser --admin-secret $(HASURA_GRAPHQL_ADMIN_SECRET);
+	@cd services/hasura && hasura console --endpoint http://localhost:8080 --skip-update-check --no-browser;
 
-start-frontend-service:
+start-frontend:
 	$(eval -include .env)
 	@until \
-		curl -s -o /dev/null -w 'hasura status %{http_code}\n' http://localhost:8585/healthz; \
+		curl -s -o /dev/null -w 'hasura status %{http_code}\n' http://localhost:8080/healthz; \
 		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-frontend |$(RESET) waiting for hasura service"; \
 		sleep 5; done;
 	@cd services/frontend && yarn && yarn start:local | cat

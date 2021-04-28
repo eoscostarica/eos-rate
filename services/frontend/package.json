@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "start": "env-cmd -f .env react-scripts start",
     "start:staging": "env-cmd -f .env.staging react-scripts start",
+    "start:local": "env-cmd -f ../../.env react-scripts start",
     "prod": "serve -l 9000 --single ./build",
     "build": "env-cmd -f .env react-scripts build",
     "build:staging": "env-cmd -f .env.staging react-scripts build",

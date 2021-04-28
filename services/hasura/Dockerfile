@@ -17,6 +17,4 @@ COPY migrations $HASURA_GRAPHQL_MIGRATIONS_DIR
 
 CMD graphql-engine \
   serve \
-  --database-url $HASURA_GRAPHQL_DATABASE_URL \
-  --admin-secret $HASURA_GRAPHQL_ADMIN_SECRET \
-  --unauthorized-role $HASURA_GRAPHQL_UNAUTHORIZED_ROLE
+  --database-url $HASURA_GRAPHQL_DATABASE_URL 

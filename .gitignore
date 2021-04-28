@@ -23,10 +23,13 @@ temp
 .eslintcache
 
 # database data
-.dbdata/
+db_data
 
 # wallet keys
 keys
+
+# env files
+.env*
 
 # netlify cli
 .netlify/

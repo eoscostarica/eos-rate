@@ -5,7 +5,7 @@ services:
     container_name: eosrate_postgres
     image: postgres:10.4
     volumes:
-      - eosrate-postgres:/var/lib/postgresql/data
+      - ${POSTGRES_DATA}:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     environment:
@@ -36,7 +36,7 @@ services:
       - ./services/hapi:/opt/application
       - /opt/application/node_modules # prevents host/container conflicts
     ports:
-      - "3005:9090"
+      - "9090:9090"
     environment:
       VIRTUAL_HOST: "${VIRTUAL_HOST}"
       VIRTUAL_PORT: "${VIRTUAL_PORT}"
@@ -85,7 +85,7 @@ services:
       dockerfile: ./Dockerfile
     image: hasura/graphql-engine:v1.2.0-beta.4.cli-migrations
     ports:
-      - "8088:8080"
+      - "8080:8080"
     depends_on:
       - postgres
     restart: always
