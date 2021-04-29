@@ -10,23 +10,11 @@ RESET  := $(shell tput -Txterm sgr0)
 K8S_BUILD_DIR ?= ./build_k8s
 K8S_FILES := $(shell find ./kubernetes -name '*.yaml' | sed 's:./kubernetes/::g')
 
-dev: scripts/develop.sh
-	./scripts/develop.sh
-
-# start: scripts/start.sh
-# 	./scripts/start.sh
-
-stop: scripts/stop.sh
-	./scripts/stop.sh
-
-flush: scripts/flush.sh
-	./scripts/flush.sh
+stop:
+	@docker-compose stop
 
 fresh: scripts/fresh.sh
 	./scripts/fresh.sh
-
-# hasura: scripts/hasura.sh
-# 	./scripts/hasura.sh
 
 start:
 	make start-postgres
