@@ -24,7 +24,7 @@ build-docker: ./Dockerfile
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_WEBAPP):$(LATEST_TAG) --target server \
 		--build-arg react_app_graphql_http_url="$(REACT_APP_GRAPHQL_HTTP_URL)" \
 		--build-arg react_app_graphql_ws_url="$(REACT_APP_GRAPHQL_WS_URL)" \
-		--build-arg react_app_eos_api_url=$(REACT_APP_EOS_API_URL) \
+		--build-arg react_app_eos_api_url="$(REACT_APP_EOS_API_URL)" \
 		--build-arg react_app_eos_api_host="$(REACT_APP_EOS_API_HOST)" \
 		--build-arg react_app_eos_api_port="$(REACT_APP_EOS_API_PORT)" \
 		--build-arg react_app_eos_api_protocol="$(REACT_APP_EOS_API_PROTOCOL)" \
