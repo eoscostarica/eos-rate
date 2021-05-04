@@ -132,7 +132,7 @@ export default (theme) => ({
   showOnlyLg: {
     display: 'flex',
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       display: 'none'
     }
   },
