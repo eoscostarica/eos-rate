@@ -38,15 +38,15 @@ services:
     ports:
       - "3005:9090"
     environment:
-      VIRTUAL_HOST: 0.0.0.0
-      VIRTUAL_PORT: 9090
-      DB_USER: user
-      DB_PASSWORD: pass
-      DB_PORT: 5432
-      DB_NAME: eosrate
+      VIRTUAL_HOST: "${VIRTUAL_HOST}"
+      VIRTUAL_PORT: "${VIRTUAL_PORT}"
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_PORT: "${DB_PORT}"
+      DB_NAME: "${DB_NAME}"
       DB_HOST: postgres
       DB_SCHEMA: public
-      EOS_API_ENDPOINT: "https://jungle.eosio.cr"
+      EOS_API_ENDPOINT: "${EOS_API_ENDPOINT}"
 
     depends_on:
       - postgres
@@ -64,14 +64,14 @@ services:
       - postgres
       - hasura
     environment:
-      DB_USER: user
-      DB_PASSWORD: pass
-      DB_PORT: 5432
-      DB_NAME: eosrate
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_PORT: "${DB_PORT}"
+      DB_NAME: "${DB_NAME}"
       DB_HOST: postgres
       DB_SCHEMA: public
-      EOS_API_ENDPOINT: "https://jungle.eosio.cr"
-      WAIT_HOSTS: postgres:5432, hasura:8080
+      EOS_API_ENDPOINT: "${EOS_API_ENDPOINT}"
+      WAIT_HOSTS: postgres:"${DB_PORT}" , hasura:8080
       WAIT_HOSTS_TIMEOUT: 60
     ports:
       - "3030:3030"

@@ -1,7 +1,7 @@
 import qs from 'qs'
 import store from '../store'
 
-const http = method => (endpoint, body, options = {}) => {
+const http = (method) => (endpoint, body, options = {}) => {
   const token = store.getState().session
     ? store.getState().session.accessToken
     : null
@@ -26,8 +26,10 @@ const http = method => (endpoint, body, options = {}) => {
     }
   }
 
-  return fetch(`${process.env.REACT_APP_API_URL}/${endpoint}`, params)
-    .then(response => response.json().then(payload => ({ payload, response })))
+  return fetch(`${process.env.REACT_APP_EOS_API_URL}/${endpoint}`, params)
+    .then((response) =>
+      response.json().then((payload) => ({ payload, response }))
+    )
     .then(({ response, payload }) =>
       response.ok ? payload : Promise.reject(payload)
     )

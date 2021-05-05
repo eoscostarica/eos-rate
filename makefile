@@ -1,25 +1,67 @@
 include utils/meta.mk
 
+#COLORS
+WHITE  := $(shell tput -Txterm setaf 7)
+BLUE   := $(shell tput -Txterm setaf 6)
+YELLOW := $(shell tput -Txterm setaf 3)
+GREEN  := $(shell tput -Txterm setaf 2)
+RESET  := $(shell tput -Txterm sgr0)
+
 K8S_BUILD_DIR ?= ./build_k8s
 K8S_FILES := $(shell find ./kubernetes -name '*.yaml' | sed 's:./kubernetes/::g')
 
-dev: scripts/develop.sh
-	./scripts/develop.sh
-
-start: scripts/start.sh
-	./scripts/start.sh
-
-stop: scripts/stop.sh
-	./scripts/stop.sh
-
-flush: scripts/flush.sh
-	./scripts/flush.sh
+stop:
+	@docker-compose stop
 
 fresh: scripts/fresh.sh
 	./scripts/fresh.sh
 
-hasura: scripts/hasura.sh
-	./scripts/hasura.sh
+start:
+	make start-postgres
+	make start-hapi
+	make start-hasura
+	make -j 3 start-hasura-cli start-logs start-frontend
+
+start-postgres:
+	@docker-compose up -d --build postgres
+
+start-hapi:
+	@docker-compose up -d --build hapi
+
+start-hasura:
+	$(eval -include .env)
+	@until \
+		docker-compose exec -T postgres pg_isready; \
+		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-hasura |$(RESET) waiting for postgres service"; \
+		sleep 5; done;
+	@until \
+		curl http://localhost:9090; \
+		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-hasura |$(RESET) waiting for hapi service"; \
+		sleep 5; done;
+	@echo "..."
+	@docker-compose stop hasura
+	@docker-compose up -d --build hasura
+
+start-hasura-cli:
+	$(eval -include .env)
+	@until \
+		curl http://localhost:8080; \
+		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-hasura |$(RESET) ..."; \
+		sleep 5; done;
+	@echo "..."
+	@cd services/hasura && hasura console --endpoint http://localhost:8080 --skip-update-check --no-browser;
+
+start-frontend:
+	$(eval -include .env)
+	@until \
+		curl -s -o /dev/null -w 'hasura status %{http_code}\n' http://localhost:8080; \
+		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-frontend |$(RESET) waiting for hasura service"; \
+		sleep 5; done;
+	@cd services/frontend && yarn && yarn start | cat
+	@echo "done frontend start"
+
+start-logs:
+	@docker-compose logs -f hapi frontend
 
 migrate: scripts/migrate.sh
 	./scripts/migrate.sh
