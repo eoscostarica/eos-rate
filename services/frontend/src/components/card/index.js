@@ -167,7 +167,7 @@ const CardData = ({
           aria-label='Add to comparison'
           onClick={toggleSelection(!isSelected, owner)}
         >
-          {isSelected ? 'REMOVE' : buttonLabel}
+          {isSelected ? t('remove') : buttonLabel}
         </Button>
         {useRateButton && (
           <Button
@@ -208,7 +208,7 @@ CardData.propTypes = {
 
 CardData.defaultProps = {
   useRateButton: true,
-  buttonLabel: 'ADD TO VOTE',
+  buttonLabel: t('addToVote'),
   average: '0',
   rate: '0',
   showOptions: true
