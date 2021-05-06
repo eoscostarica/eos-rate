@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import CardHeader from '@material-ui/core/CardHeader'
-import CloseIcon from '@material-ui/icons/HighlightOffOutlined'
-import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import LockOpenIcon from '@material-ui/icons/LockOpenOutlined'
@@ -135,7 +133,6 @@ const CompareGraphView = ({
   isProxy,
   userInfo,
   width,
-  onHandleClose,
   ...props
 }) => {
   const { t } = useTranslation('translations')
@@ -177,9 +174,6 @@ const CompareGraphView = ({
               isUser={userInfo.isUser}
             />
           </Box>
-          <IconButton aria-label='delete' onClick={onHandleClose}>
-            <CloseIcon />
-          </IconButton>
         </Box>
         <CompareBodyList
           isProxy={isProxy}
@@ -198,8 +192,7 @@ CompareGraphView.propTypes = {
   selected: PropTypes.array.isRequired,
   className: PropTypes.string,
   isProxy: PropTypes.bool,
-  userInfo: PropTypes.object,
-  onHandleClose: PropTypes.func
+  userInfo: PropTypes.object
 }
 
 CompareGraphView.defaultProps = {

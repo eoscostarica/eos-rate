@@ -183,7 +183,7 @@ const CardData = ({
             className={classes.btnRate}
             size='small'
           >
-            RATE
+            {t('view')}
           </Button>
         )}
       </CardActions>
