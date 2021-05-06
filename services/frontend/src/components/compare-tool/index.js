@@ -4,11 +4,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import Error from '@material-ui/icons/ErrorOutlined'
 import Button from '@material-ui/core/Button'
 import { Avatar, Chip } from '@material-ui/core'
-// import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import _get from 'lodash.get'
-// import Switch from '@material-ui/core/Switch'
+import Switch from '@material-ui/core/Switch'
 
 import CompareGraphView from './compare-graph-view'
 import CompareSliderView from './compare-slider-view'
@@ -31,7 +31,7 @@ const CompareTool = ({
 }) => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
-  const [isCollapsedView /* , setIsCollapsedView */] = useState(true)
+  const [isCollapsedView, setIsCollapsedView] = useState(true)
   const selectedData = selected.map((name) =>
     list.find(({ owner }) => name === owner)
   )
@@ -74,7 +74,7 @@ const CompareTool = ({
       <div className={classes.footer}>
         {!isProxy && (
           <>
-            {/* <FormControlLabel
+            <FormControlLabel
               className={classes.switch}
               control={
                 <Switch
@@ -84,7 +84,7 @@ const CompareTool = ({
                 />
               }
               label={t('compareToolCollapsedSwitch')}
-            /> */}
+            />
 
             <Button
               onClick={onHandleClose}
