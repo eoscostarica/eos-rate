@@ -17,10 +17,10 @@ fresh: scripts/fresh.sh
 	./scripts/fresh.sh
 
 start:
-	make start-postgres
-	make start-hapi
-	make start-hasura
-	make -j 3 start-hasura-cli start-logs start-frontend
+	make -B start-postgres
+	make -B start-hapi
+	make -B start-hasura
+	make -B -j 3 start-hasura-cli start-logs start-frontend
 
 start-postgres:
 	@docker-compose up -d --build postgres
@@ -49,7 +49,7 @@ start-hasura-cli:
 		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-hasura |$(RESET) ..."; \
 		sleep 5; done;
 	@echo "..."
-	@cd services/hasura && hasura console --endpoint http://localhost:8080 --skip-update-check --no-browser;
+	@cd services/hasura && hasura console --endpoint http://localhost:8080 --skip-update-check;
 
 start-frontend:
 	$(eval -include .env)
