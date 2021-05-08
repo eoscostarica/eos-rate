@@ -15,7 +15,10 @@
     "clearSelection": "Borrar selección",
     "loadMore": "Cargar más",
     "view": "Ver",
-
+    "remove": "Remover",
+    "addToVote": "Add to vote",
+    "details": "Details",
+    "voting": "votando",
     "compareToolTitle": "Herramienta de comparación",
     "compareToolToggle": "Comparar",
     "voteToolToggle": "Votar",

@@ -490,7 +490,7 @@ const BlockProducerRate = ({ account, ual }) => {
                           style={{ color: 'white' }}
                           href={`${config.blockExplorer}/transaction/${lastTransactionId}`}
                         >
-                          Details
+                          {t('details')}
                         </MLink>
                       </Button>
                     </Grid>
