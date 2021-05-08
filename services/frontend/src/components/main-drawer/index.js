@@ -29,8 +29,6 @@ const Menu = ({ onClick, currentPathname, links, sortBy, setSortBy }) => {
       {links
         .filter(({ label }) => label)
         .map(({ to, label, collapsedItems }) => {
-          // FIXME: we should try to use mui's way, for some reason
-          // it didn't work for me
           const isSelected = currentPathname === to
 
           return (

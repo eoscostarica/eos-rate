@@ -8,13 +8,15 @@ export default (theme) => ({
   },
   footer: {
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
     [theme.breakpoints.up('sm')]: {
-      display: 'block',
-      position: 'absolute',
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
+      margin: 'auto',
       bottom: 0,
-      width: 'calc(100% - 16px)'
+      width: 'calc(50% - 16px)'
     }
   },
   switch: {

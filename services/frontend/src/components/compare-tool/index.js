@@ -67,7 +67,6 @@ const CompareTool = ({
           selected={selectedData}
           isProxy={isProxy}
           userInfo={{ proxy, producers, isUser: Boolean(userInfo) }}
-          onHandleClose={onHandleClose}
         />
       ) : (
         <CompareSliderView removeBP={removeBP} selected={selectedData} />
@@ -86,11 +85,20 @@ const CompareTool = ({
               }
               label={t('compareToolCollapsedSwitch')}
             />
+
+            <Button
+              onClick={onHandleClose}
+              aria-label='Clear selection'
+              size='large'
+            >
+              {t('clearSelection')}
+            </Button>
             <Button
               disabled={!userInfo}
               aria-label='Add to comparison'
               onClick={onHandleVote}
               className={classes.btnRate}
+              variant='contained'
               size='large'
             >
               {t('btnVoteBPs')}

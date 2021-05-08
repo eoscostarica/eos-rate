@@ -12,6 +12,13 @@
     "notAvailableToRate": "Usted debe votar por un proxy o al menos por 21 producers",
     "voteWithoutLogin": "Necesitas iniciar sesión para votar",
     "btnVoteBPs": "Vote por estos BPs",
+    "clearSelection": "Borrar selección",
+    "loadMore": "Cargar más",
+    "view": "Ver",
+    "remove": "Remover",
+    "addToVote": "Add to vote",
+    "details": "Details",
+    "voting": "votando",
 
     "compareToolTitle": "Herramienta de comparación",
     "compareToolToggle": "Comparar",

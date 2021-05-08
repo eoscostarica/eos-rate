@@ -1,6 +1,7 @@
 export default (theme) => ({
   card: {
-    backgroundColor: theme.palette.surface.dark
+    backgroundColor: theme.palette.surface.dark,
+    minWidth: 320
   },
   title: {
     textDecoration: 'none',
@@ -32,8 +33,8 @@ export default (theme) => ({
     height: '90%'
   },
   btnRate: {
-    backgroundColor: theme.palette.secondary.main,
-    color: '#ffffff',
+    backgroundColor: theme.palette.primary.main,
+    color: 'white',
     '&:hover': {
       backgroundColor: theme.palette.secondary.dark
     }
