@@ -13,6 +13,7 @@ K8S_FILES := $(shell find ./kubernetes -name '*.yaml' | sed 's:./kubernetes/::g'
 stop:
 	@docker-compose stop
 
+## MAKE SURE YOU HAVE INITIALIZED THE PROJECT (make start) BEFORE RUN THIS
 fresh: scripts/fresh.sh
 	./scripts/fresh.sh
 
