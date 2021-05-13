@@ -1,5 +1,0 @@
-- args:
-    cascade: false
-    read_only: false
-    sql: ALTER TABLE "public"."user_ratings" ALTER COLUMN "ratings" DROP NOT NULL;
-  type: run_sql

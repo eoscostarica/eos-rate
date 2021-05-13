@@ -1,7 +1,9 @@
 export default (theme) => ({
   // index style
   root: {
-    position: 'relative'
+    position: 'relative',
+    maxWidth: '100%',
+    margin: 'auto'
   },
   compareToggleButton: {
     position: 'fixed',
@@ -16,7 +18,9 @@ export default (theme) => ({
     color: theme.palette.primary.main
   },
   wrapper: {
-    padding: theme.spacing(3)
+    padding: theme.spacing(1),
+    maxWidth: '100%',
+    margin: 'auto'
   },
   compareTool: {
     minHeight: 340,
@@ -132,13 +136,30 @@ export default (theme) => ({
   showOnlyLg: {
     display: 'flex',
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       display: 'none'
     }
   },
   alert: {
     width: '100%',
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    '& > div.MuiAlert-message': {
+      width: '100%'
+    }
+  },
+  alertBody: {
+    width: '100%'
+  },
+  alertActionsContainer: {
+    maxWidth: '60%'
+  },
+  closeIconButton: {
+    padding: 0,
+    verticalAlign: 'middle',
+    color: 'red'
+  },
+  detailsIconButton: {
+    padding: '0 10px'
   },
   // bp profile
   bpAccountCircle: {
@@ -183,6 +204,17 @@ export default (theme) => ({
     margin: '10px 0',
     [theme.breakpoints.up('sm')]: {
       margin: 0
+    }
+  },
+  openBottomSheetContainer: {
+    position: 'fixed',
+    bottom: 0,
+    zIndex: 999,
+    maxWidth: '100%',
+    '& > button': {
+      backgroundColor: 'black',
+      color: 'white',
+      borderRadius: '24px 0 0 0'
     }
   },
   links: {

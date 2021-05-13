@@ -1,6 +1,0 @@
-- args:
-    sql: ALTER TABLE "public"."ratings" ALTER COLUMN "created_at" TYPE integer;
-  type: run_sql
-- args:
-    sql: COMMENT ON COLUMN "public"."ratings"."created_at" IS E'null'
-  type: run_sql

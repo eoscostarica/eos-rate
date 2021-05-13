@@ -1,4 +1,4 @@
-FROM hasura/graphql-engine:v1.2.0-beta.4.cli-migrations
+FROM hasura/graphql-engine:v1.3.3.cli-migrations-v2
 
 ARG hasura_graphql_migrations_dir
 
@@ -17,6 +17,4 @@ COPY migrations $HASURA_GRAPHQL_MIGRATIONS_DIR
 
 CMD graphql-engine \
   serve \
-  --database-url $HASURA_GRAPHQL_DATABASE_URL \
-  --admin-secret $HASURA_GRAPHQL_ADMIN_SECRET \
-  --unauthorized-role $HASURA_GRAPHQL_UNAUTHORIZED_ROLE
+  --database-url $HASURA_GRAPHQL_DATABASE_URL 

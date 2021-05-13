@@ -6,31 +6,31 @@ const massive = require('massive')
 
 const dbConfig = require('../config/dbConfig')
 
-const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+const EOS_API_ENDPOINT =
+  process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 
 // gets data from blockchain
 const getProxiesData = async () => {
   const db = await massive(dbConfig)
   const eos = new JsonRpc(EOS_API_ENDPOINT, { fetch })
-  const eosApi = EosApi({ 
-    httpEndpoint: EOS_API_ENDPOINT, 
-    verbose: false 
+  const eosApi = EosApi({
+    httpEndpoint: EOS_API_ENDPOINT,
+    verbose: false
   })
 
-   const  {rows : proxies} = await eos.get_table_rows({
+  const { rows: proxies } = await eos.get_table_rows({
     json: true,
-    code: 'regproxyinfo',
-    scope: 'regproxyinfo',
+    code: process.env.PROXY_INFO_CONTRACT_CODE,
+    scope: process.env.PROXY_INFO_CONTRACT_SCOPE,
     table: 'proxies',
     limit: 1000,
     reverse: false,
     show_payer: false
   })
 
-  const getProxyAccount = async (proxy,i) => {
-
+  const getProxyAccount = async (proxy, i) => {
     let account = await eosApi.getAccount({ account_name: proxy.owner })
-    
+
     if (account.voter_info.is_proxy) {
       proxies[i].voter_info = account.voter_info
       try {
@@ -48,7 +48,7 @@ const getProxiesData = async () => {
       }
     } else {
       //proxies.splice(i, 1)
-      console.log(proxies[i].owner + " is not a proxy") 
+      console.log(proxies[i].owner + ' is not a proxy')
     }
   }
 
@@ -56,6 +56,4 @@ const getProxiesData = async () => {
   return proxies
 }
 
-
 getProxiesData()
-

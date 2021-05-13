@@ -167,7 +167,7 @@ const CardData = ({
           aria-label='Add to comparison'
           onClick={toggleSelection(!isSelected, owner)}
         >
-          {isSelected ? 'REMOVE' : buttonLabel}
+          {isSelected ? t('remove') : buttonLabel}
         </Button>
         {useRateButton && (
           <Button
@@ -183,7 +183,7 @@ const CardData = ({
             className={classes.btnRate}
             size='small'
           >
-            RATE
+            {t('view')}
           </Button>
         )}
       </CardActions>

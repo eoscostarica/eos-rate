@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import { makeStyles } from '@material-ui/core/styles'
 import { useTranslation } from 'react-i18next'
 import classNames from 'classnames'
@@ -15,6 +17,8 @@ import getAverageValue from 'utils/getAverageValue'
 import applySortBy from 'utils/sortedBy'
 
 import styles from './styles'
+import SelectedBpsBottomSheet from './bottom-sheet-selected-bps'
+import { useMediaQuery } from '@material-ui/core'
 
 const useStyles = makeStyles(styles)
 
@@ -23,7 +27,12 @@ const AllBps = ({ ual }) => {
   const dispatch = useDispatch()
   const classes = useStyles()
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
+  const [openVoteDrawer, setOpenVoteDrawer] = useState(false)
   const { data: user } = useSelector((state) => state.user)
+  const isDesktop = useMediaQuery('(min-width:600px)', {
+    defaultMatches: false
+  })
+  const [openDesktopVotingTool, setOpenDesktopVotingTool] = useState(isDesktop)
   const {
     list: blockProducers,
     selected: selectedBPs,
@@ -58,6 +67,7 @@ const AllBps = ({ ual }) => {
   const handleOnClose = () => {
     handleToggleCompareTool()
     dispatch.blockProducers.clearSelected()
+    setOpenDesktopVotingTool(false)
   }
 
   const sendVoteBps = async (BPs) => {
@@ -118,6 +128,21 @@ const AllBps = ({ ual }) => {
     }
   }
 
+  const cmprTool = () => (
+    <CompareTool
+      removeBP={handleToggleSelected}
+      className={classNames(classes.compareTool, {
+        [classes.hidden]: !compareToolVisible
+      })}
+      list={blockProducers}
+      selected={selectedBPs || []}
+      onHandleVote={() => sendVoteBps(selectedBPs || [])}
+      userInfo={user}
+      message={ratingState}
+      onHandleClose={handleOnClose}
+    />
+  )
+
   useEffect(() => {
     const getData = async () => {
       !blockProducers.length && (await dispatch.blockProducers.getBPs())
@@ -140,18 +165,7 @@ const AllBps = ({ ual }) => {
   return (
     <div className={classes.root}>
       <TitlePage title={t('bpsTitle')} />
-      <CompareTool
-        removeBP={handleToggleSelected}
-        className={classNames(classes.compareTool, {
-          [classes.hidden]: !compareToolVisible
-        })}
-        list={blockProducers}
-        selected={selectedBPs || []}
-        onHandleVote={() => sendVoteBps(selectedBPs || [])}
-        userInfo={user}
-        message={ratingState}
-        onHandleClose={() => handleOnClose()}
-      />
+      {isDesktop && openDesktopVotingTool && cmprTool()}
       <Grid className={classes.wrapper} container justify='center' spacing={4}>
         {(shownList || []).map((blockProducer) => (
           <Grid
@@ -191,11 +205,34 @@ const AllBps = ({ ual }) => {
           </Grid>
         ))}
       </Grid>
+      {selectedBPs && selectedBPs.length > 0 && (
+        <Grid
+          className={classes.openBottomSheetContainer}
+          bottom
+          container
+          justify='flex-end'
+        >
+          <Button
+            onClick={() =>
+              isDesktop
+                ? setOpenDesktopVotingTool(true)
+                : setOpenVoteDrawer(true)
+            }
+            variant='contained'
+          >
+            <ThumbUpAltIcon />
+            <Typography>Vote ({selectedBPs.length})</Typography>
+          </Button>
+        </Grid>
+      )}
+      <SelectedBpsBottomSheet open={openVoteDrawer} setOpen={setOpenVoteDrawer}>
+        {cmprTool()}
+      </SelectedBpsBottomSheet>
       <Button
         className={classes.loadMoreButton}
         onClick={() => hasMore && loadMore()}
       >
-        LOAD MORE
+        {t('loadMore')}
       </Button>
     </div>
   )

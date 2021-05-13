@@ -242,7 +242,7 @@ const ProxyProfile = ({ account, ual, ...props }) => {
                         variant='subtitle1'
                         className={classNames(classes.subTitle, classes.bpName)}
                       >
-                        voting ...
+                        {t('voting')} ...
                       </Typography>
                     </div>
                   )}

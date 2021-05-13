@@ -17,6 +17,7 @@ const RadarData = ({ bpData, height, showLabel, ...props }) => {
     <Radar
       height={height}
       data={bpValidData}
+      style={{ margin: 'auto' }}
       options={{
         legend: { display: showLabel },
         layout: {

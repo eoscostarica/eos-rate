@@ -117,7 +117,7 @@ const AllProxies = ({ ual }) => {
               owner={_get(proxy, 'owner')}
               title={_get(proxy, 'name')}
               useRateButton={false}
-              buttonLabel='View'
+              buttonLabel={t('view')}
               pathLink='proxies'
               showOptions={false}
             />
@@ -128,7 +128,7 @@ const AllProxies = ({ ual }) => {
         className={classes.loadMoreButton}
         onClick={() => hasMore && loadMore()}
       >
-        LOAD MORE
+        {t('loadMore')}
       </Button>
     </div>
   )
