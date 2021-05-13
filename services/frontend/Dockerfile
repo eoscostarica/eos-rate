@@ -32,7 +32,7 @@ COPY . .
 
 ENV GENERATE_SOURCEMAP false
 
-RUN yarn build:"$branch"
+RUN yarn build
 
 FROM nginx:1.16.1-alpine as server
 
