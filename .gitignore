@@ -1,9 +1,4 @@
-# Compiled codes
-build/
-dist/
-*.wast
 
-# IDE's
 .vscode
 .idea
 *.iml
