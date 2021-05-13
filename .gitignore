@@ -1,9 +1,4 @@
-# Compiled codes
-build/
-dist/
-*.wast
 
-# IDE's
 .vscode
 .idea
 *.iml
@@ -23,10 +18,14 @@ temp
 .eslintcache
 
 # database data
-.dbdata/
+db_data
 
 # wallet keys
 keys
+
+# env files
+.env*
+!.env.example
 
 # netlify cli
 .netlify/
