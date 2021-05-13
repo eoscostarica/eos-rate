@@ -80,7 +80,7 @@ services:
 
   hasura:
     container_name: eosrate_hasura
-    image: hasura/graphql-engine:v1.2.0-beta.4.cli-migrations
+    image: hasura/graphql-engine:v1.3.3.cli-migrations-v2
     ports:
       - "8088:8080"
     depends_on:
@@ -94,6 +94,7 @@ services:
       HASURA_GRAPHQL_ACTION_BASE_URL: http://hapi:9090
     volumes:
       - ./services/hasura/migrations:/hasura-migrations #  mount hasura migrations folder
+      - ./services/hasura/migrations:/hasura-metadata
     command:
       - graphql-engine
       - serve

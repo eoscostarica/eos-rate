@@ -1,4 +1,0 @@
-- args:
-    action: rateProducer
-    role: anonymous
-  type: drop_action_permission

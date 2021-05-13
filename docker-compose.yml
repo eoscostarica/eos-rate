@@ -83,7 +83,7 @@ services:
     build:
       context: ./services/hasura
       dockerfile: ./Dockerfile
-    image: hasura/graphql-engine:v1.2.0-beta.4.cli-migrations
+    image: hasura/graphql-engine:v1.3.3.cli-migrations-v2
     ports:
       - "8080:8080"
     depends_on:
@@ -98,6 +98,7 @@ services:
 
     volumes:
       - ./services/hasura/migrations:/hasura-migrations #  mount hasura migrations folder
+      - ./services/hasura/migrations:/hasura-metadata
 
   frontend:
     container_name: eosrate_frontend
@@ -119,5 +120,6 @@ services:
       REACT_APP_EOS_API_PORT: "${REACT_APP_EOS_API_PORT}"
       REACT_APP_EOS_API_PROTOCOL: "${REACT_APP_EOS_API_PROTOCOL}"
       REACT_APP_EOS_CHAIN_ID: "${REACT_APP_EOS_CHAIN_ID}"
+      REACT_APP_BLOCK_EXPLORER: "${REACT_APP_BLOCK_EXPLORER}"
     networks:
       default:
