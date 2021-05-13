@@ -1,0 +1,2 @@
+
+CREATE TABLE "public".ratings ( bp varchar(12) NOT NULL , ratings_cntr integer , average decimal , transparency decimal , infrastructure decimal , trustiness decimal , community decimal , development decimal , created_at integer , updated_at integer , CONSTRAINT pk_ratings_bp PRIMARY KEY ( bp ) ) 

@@ -1,6 +1,0 @@
-- args:
-    sql: ALTER TABLE "public"."ratings" ALTER COLUMN "updated_at" TYPE int8;
-  type: run_sql
-- args:
-    sql: COMMENT ON COLUMN "public"."ratings"."updated_at" IS E''
-  type: run_sql
