@@ -208,7 +208,6 @@ const AllBps = ({ ual }) => {
       {selectedBPs && selectedBPs.length > 0 && (
         <Grid
           className={classes.openBottomSheetContainer}
-          bottom
           container
           justify='flex-end'
         >
