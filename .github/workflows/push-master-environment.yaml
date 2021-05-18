@@ -44,7 +44,7 @@ jobs:
           NAMESPACE: mainnet-eosrate
           # webapp
           REACT_APP_GRAPHQL_HTTP_URL: https://graphql.eosrate.io/v1/graphql
-          REACT_APP_GRAPHQL_WS_URL: ws://graphql.eosrate.io/v1/graphql
+          REACT_APP_GRAPHQL_WS_URL: wss://graphql.eosrate.io/v1/graphql
           REACT_APP_EOS_API_URL: https://api.eosio.cr
           REACT_APP_EOS_API_HOST: api.eosio.cr
           REACT_APP_EOS_API_PORT: 443
@@ -67,7 +67,7 @@ jobs:
           INGRESS_GRAPHQL_HOST: graphql.eosrate.io
           # webapp
           REACT_APP_GRAPHQL_HTTP_URL: https://graphql.eosrate.io/v1/graphql
-          REACT_APP_GRAPHQL_WS_URL: ws://graphql.eosrate.io/v1/graphql
+          REACT_APP_GRAPHQL_WS_URL: wss://graphql.eosrate.io/v1/graphql
           REACT_APP_EOS_API_URL: https://api.eosio.cr
           REACT_APP_EOS_API_HOST: api.eosio.cr
           REACT_APP_EOS_API_PORT: 443
