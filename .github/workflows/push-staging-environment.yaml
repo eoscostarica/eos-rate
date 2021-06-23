@@ -99,7 +99,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Setup and deploy kubernetes environment
-        uses: steebchen/kubectl@master
+        uses: steebchen/kubectl@v1.1.0
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
           NAMESPACE: jungle-eosrate
