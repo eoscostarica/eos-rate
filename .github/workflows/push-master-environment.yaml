@@ -86,7 +86,7 @@ jobs:
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_PORT: "5432"
           DB_SCHEMA: ${{ secrets.DB_SCHEMA }}
-          EOS_API_ENDPOINT: https://bp.cryptolions.io
+          EOS_API_ENDPOINT: https://api.eosio.cr
           VIRTUAL_HOST: 0.0.0.0
           VIRTUAL_PORT: 9090
           # hasura
