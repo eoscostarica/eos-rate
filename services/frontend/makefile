@@ -29,7 +29,7 @@ build-docker: ./Dockerfile
 		--build-arg react_app_eos_api_port="$(REACT_APP_EOS_API_PORT)" \
 		--build-arg react_app_eos_api_protocol="$(REACT_APP_EOS_API_PROTOCOL)" \
 		--build-arg react_app_eos_chain_id="$(REACT_APP_EOS_CHAIN_ID)" \
-		--build-arg REACT_APP_BLOCK_EXPLORER="$(REACT_APP_BLOCK_EXPLORER)" \
+		--build-arg react_app_block_explorer="$(REACT_APP_BLOCK_EXPLORER)" \
 		--build-arg branch="$(BRANCH)" \
 		.
 
