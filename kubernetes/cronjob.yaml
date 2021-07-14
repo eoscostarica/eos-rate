@@ -34,4 +34,8 @@ spec:
                   value: 0.0.0.0
                 - name: VIRTUAL_PORT
                   value: "9090"
+          dnsConfig:
+            options:
+              - name: ndots
+                value: "1"
           restartPolicy: Never
