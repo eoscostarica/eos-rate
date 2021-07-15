@@ -89,6 +89,8 @@ jobs:
           EOS_API_ENDPOINT: https://jungle3.cryptolions.io
           VIRTUAL_HOST: 0.0.0.0
           VIRTUAL_PORT: 9090
+          PROXY_INFO_CONTRACT_CODE: proxyaccount
+          PROXY_INFO_CONTRACT_SCOPE: proxyaccount
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
           HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
