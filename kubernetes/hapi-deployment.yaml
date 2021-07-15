@@ -24,7 +24,7 @@ spec:
         - configMapRef:
             name: hapi-config
         ports:
-        - containerPort: 3005
+        - containerPort: 9090
       dnsConfig:
         options:
           - name: ndots
