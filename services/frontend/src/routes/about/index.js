@@ -123,8 +123,8 @@ const About = () => {
               {t('body3.paragraph5')}
             </Typography>
             <img
-              src='https://eoscostarica.io/wp-content/uploads/2020/04/20200422_Infographic_EOS_Rate-Mod-Hermes-1-scaled.jpg'
-              alt='eosrate-flow'
+              src='/EOS-Rate-Infographic.jpg'
+              alt='EOS block producer ratings'
             />
           </Grid>
         </Grid>
