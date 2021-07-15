@@ -1,7 +1,7 @@
 const getColorHashByString = (inputString = 'defaultString') => {
   let inputStringSum = 0
 
-  for (var i in inputString) {
+  for (const i in inputString) {
     inputStringSum += inputString.charCodeAt(i)
   }
 
