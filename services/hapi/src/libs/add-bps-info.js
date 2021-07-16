@@ -366,7 +366,7 @@ const jungleBPinfo = [
 ];
 
 const massive = require("massive");
-const dbConfig = require("../config/dbConfig");
+const { massiveConfig } = require("../config");
 
 const updateGeneralInfo = async (bpInfo, db) => {
   await db.producers.save(bpInfo)
@@ -376,7 +376,7 @@ const updateGeneralInfo = async (bpInfo, db) => {
 
 const updateBps = async (bpInfoObj) => {
   if (Array.isArray(bpInfoObj)) {
-    const db = await massive(dbConfig)
+    const db = await massive(massiveConfig)
     console.log('db', db.listTables())
     for (var i = 0; i < bpInfoObj.length; i++) {
       await updateGeneralInfo(bpInfoObj[i], db);
