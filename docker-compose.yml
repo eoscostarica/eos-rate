@@ -9,12 +9,12 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      DB_NAME: eosrate
-      DB_USER: user
-      DB_PASSWORD: pass
-      POSTGRES_DB: eosrate
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      DB_NAME: "${DB_NAME}"
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
 
   pgweb:
     container_name: eosrate_pgweb
@@ -44,7 +44,7 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_PORT: "${DB_PORT}"
       DB_NAME: "${DB_NAME}"
-      DB_HOST: postgres
+      DB_HOST: "${DB_HOST}"
       DB_SCHEMA: public
       EOS_API_ENDPOINT: "${EOS_API_ENDPOINT}"
 
@@ -68,7 +68,7 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_PORT: "${DB_PORT}"
       DB_NAME: "${DB_NAME}"
-      DB_HOST: postgres
+      DB_HOST: "${DB_HOST}"
       DB_SCHEMA: public
       EOS_API_ENDPOINT: "${EOS_API_ENDPOINT}"
       WAIT_HOSTS: postgres:"${DB_PORT}", hasura:8080
@@ -97,7 +97,7 @@ services:
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "${HASURA_GRAPHQL_UNAUTHORIZED_ROLE}"
 
     volumes:
-      - ./services/hasura/migrations:/hasura-migrations #  mount hasura migrations folder
+      - ./services/hasura/migrations:/hasura-migrations
       - ./services/hasura/metadata:/hasura-metadata
 
   frontend:
