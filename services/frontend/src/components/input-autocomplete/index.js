@@ -104,8 +104,10 @@ const InputAutocomplete = ({ ...props }) => {
 
   const getSuggestionValue = ({ name }) => name
 
-  const handleSuggestionsFetchRequested = (list) => ({ value }) =>
-    setSuggestions(getSuggestions(list, value))
+  const handleSuggestionsFetchRequested =
+    (list) =>
+    ({ value }) =>
+      setSuggestions(getSuggestions(list, value))
 
   const handleSuggestionsClearRequested = () => {
     setText('')
