@@ -13,7 +13,7 @@ services:
       DB_PASSWORD: "${DB_PASSWORD}"
       DB_NAME: "${DB_NAME}"
       DB_PASSWORD: "${DB_PASSWORD}"
-      DB_DB: "${DB_NAME}"
+      DB_NAME: "${DB_NAME}"
 
   pgweb:
     container_name: eosrate_pgweb
