@@ -89,12 +89,14 @@ jobs:
           EOS_API_ENDPOINT: https://api.eosio.cr
           VIRTUAL_HOST: 0.0.0.0
           VIRTUAL_PORT: 9090
+          PROXY_INFO_CONTRACT_CODE: regproxyinfo
+          PROXY_INFO_CONTRACT_SCOPE: regproxyinfo
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
           HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
           HASURA_GRAPHQL_UNAUTHORIZED_ROLE: ${{ secrets.HASURA_GRAPHQL_UNAUTHORIZED_ROLE }}
-          HASURA_GRAPHQL_ACTION_BASE_URL: ${{secrets.HASURA_GRAPHQL_ACTION_BASE_URL}}
+          HASURA_GRAPHQL_ACTION_BASE_URL: http://hapi:9090
           # pgweb
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
