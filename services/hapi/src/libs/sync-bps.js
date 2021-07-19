@@ -5,8 +5,7 @@ const request = require('request-promise')
 
 const { massiveConfig } = require('../config')
 
-const EOS_API_ENDPOINT =
-  process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+const EOS_API_ENDPOINT = 'http://bp.cryptolions.io'
 
 // gets data from mainnet
 const getBlockProducersData = async () => {
@@ -14,10 +13,12 @@ const getBlockProducersData = async () => {
     httpEndpoint: EOS_API_ENDPOINT,
     verbose: false
   })
+  console.log('MARK')
   const { rows: producers } = await eos.getProducers({
     json: true,
     limit: 1000
   })
+  console.log('MARK2')
 
   const allProducers = producers.reduce((result, producer) => {
     if (!producer.is_active || !parseInt(producer.total_votes)) return result
@@ -33,6 +34,8 @@ const getBlockProducersData = async () => {
       }
     ]
   }, [])
+
+  console.log('MARK3')
 
   const urls = allProducers
     .filter(({ bpJson, system }) => !Object.keys(bpJson).length && system.url)
@@ -85,45 +88,49 @@ const getBlockProducersData = async () => {
       console.log(error)
     }
   }
+
+  console.log('ALL-PRODUCERS', allProducers)
+
   return allProducers
 }
 
 // updates the postgresdb
 const updateBlockProducersData = async () => {
   console.log('==== updating block producer info ====')
-  const db = await massive(massiveConfig)
+  // const db = await massive(massiveConfig)
   const producersData = await getBlockProducersData()
+  console.log('PRODUCERS', producersData)
 
-  const saveBP = async ({ owner, system, bpJson: bpjson }) => {
-    const bpData = {
-      owner,
-      system,
-      bpjson
-    }
+  // const saveBP = async ({ owner, system, bpJson: bpjson }) => {
+  //   const bpData = {
+  //     owner,
+  //     system,
+  //     bpjson
+  //   }
 
-    if (!Object.keys(bpjson).length) {
-      console.log('skipping blank result for ' + owner)
-      return
-    }
+  //   if (!Object.keys(bpjson).length) {
+  //     console.log('skipping blank result for ' + owner)
+  //     return
+  //   }
 
-    try {
-      const result = await db.producers.save(bpData)
-      if (!result) {
-        const insertResult = await db.producers.insert(bpData)
-        if (!insertResult) {
-          console.log(`couldnt save or insert ${owner}`)
-          return
-        }
-      }
-      console.log(`succefully saved ${owner}`)
-    } catch (error) {
-      console.log('error', error)
-    }
-  }
+  //   try {
+  //     const result = await db.producers.save(bpData)
+  //     if (!result) {
+  //       const insertResult = await db.producers.insert(bpData)
+  //       if (!insertResult) {
+  //         console.log(`couldnt save or insert ${owner}`)
+  //         return
+  //       }
+  //     }
+  //     console.log(`succefully saved ${owner}`)
+  //   } catch (error) {
+  //     console.log('error', error)
+  //   }
+  // }
 
-  for (let bp of producersData) {
-    await saveBP(bp)
-  }
+  // for (let bp of producersData) {
+  //   await saveBP(bp)
+  // }
 
   // TODO : better error handling, report and retry unfulffilled
 }

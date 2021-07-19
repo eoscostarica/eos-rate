@@ -19,7 +19,7 @@ fresh: scripts/fresh.sh
 
 install: ##@local Install hapi dependencies
 install:
-	@cd ./services/hapi && yarn
+	@cd /services/hapi && yarn
 
 run:
 	make -B run-postgres
@@ -31,7 +31,9 @@ run-postgres:
 	@docker-compose up -d --build postgres
 
 run-hapi:
+	@docker-compose stop hapi
 	@docker-compose up -d --build hapi
+	@echo "done hapi"
 
 run-hasura:
 	$(eval -include .env)
@@ -50,11 +52,13 @@ run-hasura:
 run-hasura-cli:
 	$(eval -include .env)
 	@until \
-		curl http://localhost:8080; \
+		curl http://localhost:8080/v1/version; \
 		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-hasura |$(RESET) ..."; \
 		sleep 5; done;
-	@echo "..."
-	@cd services/hasura && hasura console --endpoint http://localhost:8080 --skip-update-check;
+	@if [ $(STAGE) = "dev" ]; then\
+	 	cd services/hasura;\
+	 	hasura console --endpoint http://localhost:8080 --no-browser;\
+	fi
 
 run-frontend:
 	$(eval -include .env)
