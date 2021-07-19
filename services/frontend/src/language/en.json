@@ -49,6 +49,7 @@
 
     "drawerLinkHome": "Home",
     "drawerLinkAllBPs": "Block Producers",
+    "drawerLinkNetworkMonitor": "EOS Network Monitor",
     "drawerLinkSettings": "Settings",
     "drawerLinkAccount": "Account",
     "drawerLinkAllProxies": "Proxies",
