@@ -9,12 +9,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      DB_NAME: eosrate
-      DB_USER: user
-      DB_PASSWORD: pass
-      POSTGRES_DB: eosrate
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
 
   pgweb:
     container_name: eosrate_pgweb
@@ -23,7 +20,7 @@ services:
     ports:
       - "8082:8081"
     environment:
-      DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
+      DATABASE_URL: "${HASURA_GRAPHQL_DATABASE_URL}"
     depends_on:
       - postgres
 
@@ -34,18 +31,18 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./services/hapi:/opt/application
-      - /opt/application/node_modules # prevents host/container conflicts
+      - /opt/application/node_modules
     ports:
       - "9090:9090"
     environment:
-      VIRTUAL_HOST: "${VIRTUAL_HOST}"
-      VIRTUAL_PORT: "${VIRTUAL_PORT}"
-      DB_USER: "${DB_USER}"
-      DB_PASSWORD: "${DB_PASSWORD}"
-      DB_PORT: "${DB_PORT}"
-      DB_NAME: "${DB_NAME}"
-      DB_HOST: postgres
-      DB_SCHEMA: public
+      HAPI_SERVER_ADDRESS: "${HAPI_SERVER_ADDRESS}"
+      HAPI_SERVER_PORT: "${HAPI_SERVER_PORT}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_PORT: "${POSTGRES_PORT}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_HOST: "${POSTGRES_HOST}"
+      POSTGRES_SCHEMA: "${POSTGRES_SCHEMA}"
       EOS_API_ENDPOINT: "${EOS_API_ENDPOINT}"
 
     depends_on:
@@ -58,20 +55,20 @@ services:
       dockerfile: ./Dockerfile
     image: eosrate/demux
     volumes:
-      - ./services/demux:/opt/application # mount demux service folder
-      - /opt/application/node_modules # prevents host/container conflicts
+      - ./services/demux:/opt/application
+      - /opt/application/node_modules
     depends_on:
       - postgres
       - hasura
     environment:
-      DB_USER: "${DB_USER}"
-      DB_PASSWORD: "${DB_PASSWORD}"
-      DB_PORT: "${DB_PORT}"
-      DB_NAME: "${DB_NAME}"
-      DB_HOST: postgres
-      DB_SCHEMA: public
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_PORT: "${POSTGRES_PORT}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_HOST: "${POSTGRES_HOST}"
+      POSTGRES_SCHEMA: "${POSTGRES_SCHEMA}"
       EOS_API_ENDPOINT: "${EOS_API_ENDPOINT}"
-      WAIT_HOSTS: postgres:"${DB_PORT}", hasura:8080
+      WAIT_HOSTS: postgres:"${POSTGRES_PORT}", hasura:8080
       WAIT_HOSTS_TIMEOUT: 60
     ports:
       - "3030:3030"
@@ -92,13 +89,14 @@ services:
     environment:
       HASURA_GRAPHQL_DATABASE_URL: "${HASURA_GRAPHQL_DATABASE_URL}"
       HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
-      HASURA_GRAPHQL_ACTION_BASE_URL: http://hapi:9090
+      HASURA_GRAPHQL_METADATA_DIR: /hasura-metadata
+      HASURA_GRAPHQL_ACTION_BASE_URL: "${HASURA_GRAPHQL_ACTION_BASE_URL}"
       HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_GRAPHQL_ADMIN_SECRET}"
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "${HASURA_GRAPHQL_UNAUTHORIZED_ROLE}"
 
     volumes:
-      - ./services/hasura/migrations:/hasura-migrations #  mount hasura migrations folder
-      - ./services/hasura/migrations:/hasura-metadata
+      - ./services/hasura/migrations:/hasura-migrations
+      - ./services/hasura/metadata:/hasura-metadata
 
   frontend:
     container_name: eosrate_frontend

@@ -13,23 +13,27 @@ K8S_FILES := $(shell find ./kubernetes -name '*.yaml' | sed 's:./kubernetes/::g'
 stop:
 	@docker-compose stop
 
-## MAKE SURE YOU HAVE INITIALIZED THE PROJECT (make start) BEFORE RUN THIS
+## MAKE SURE YOU HAVE INITIALIZED THE PROJECT (make run) BEFORE RUN THIS
 fresh: scripts/fresh.sh
 	./scripts/fresh.sh
 
-start:
-	make -B start-postgres
-	make -B start-hapi
-	make -B start-hasura
-	make -B -j 3 start-hasura-cli start-logs start-frontend
+install: ##@local Install hapi dependencies
+install:
+	@cd ./services/hapi && yarn
 
-start-postgres:
+run:
+	make -B run-postgres
+	make -B run-hapi
+	make -B run-hasura
+	make -B -j 3 run-hasura-cli run-logs run-frontend
+
+run-postgres:
 	@docker-compose up -d --build postgres
 
-start-hapi:
+run-hapi:
 	@docker-compose up -d --build hapi
 
-start-hasura:
+run-hasura:
 	$(eval -include .env)
 	@until \
 		docker-compose exec -T postgres pg_isready; \
@@ -43,7 +47,7 @@ start-hasura:
 	@docker-compose stop hasura
 	@docker-compose up -d --build hasura
 
-start-hasura-cli:
+run-hasura-cli:
 	$(eval -include .env)
 	@until \
 		curl http://localhost:8080; \
@@ -52,7 +56,7 @@ start-hasura-cli:
 	@echo "..."
 	@cd services/hasura && hasura console --endpoint http://localhost:8080 --skip-update-check;
 
-start-frontend:
+run-frontend:
 	$(eval -include .env)
 	@until \
 		curl -s -o /dev/null -w 'hasura status %{http_code}\n' http://localhost:8080; \
@@ -61,7 +65,7 @@ start-frontend:
 	@cd services/frontend && yarn && yarn start | cat
 	@echo "done frontend start"
 
-start-logs:
+run-logs:
 	@docker-compose logs -f hapi frontend
 
 migrate: scripts/migrate.sh

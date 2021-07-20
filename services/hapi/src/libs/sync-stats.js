@@ -3,7 +3,7 @@ const { JsonRpc } = require('eosjs')
 const fetch = require('node-fetch')
 const massive = require('massive')
 
-const dbConfig = require('../config/dbConfig')
+const { massiveConfig } = require('../config')
 
 const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 
@@ -27,7 +27,7 @@ const getRatingsStats = async () => {
 // updates the postgresdb
 const updateRatingsStats = async () => {
   console.log('==== updating ratings stats ====')
-  const db = await massive(dbConfig)
+  const db = await massive(massiveConfig)
   const ratingsStats = await getRatingsStats()
 
   const saveRatings = async (rating) => {

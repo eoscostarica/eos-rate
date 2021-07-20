@@ -4,14 +4,14 @@ const EosApi = require('eosjs-api')
 const fetch = require('node-fetch')
 const massive = require('massive')
 
-const dbConfig = require('../config/dbConfig')
+const { massiveConfig } = require('../config')
 
 const EOS_API_ENDPOINT =
   process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 
 // gets data from blockchain
 const getProxiesData = async () => {
-  const db = await massive(dbConfig)
+  const db = await massive(massiveConfig)
   const eos = new JsonRpc(EOS_API_ENDPOINT, { fetch })
   const eosApi = EosApi({
     httpEndpoint: EOS_API_ENDPOINT,
