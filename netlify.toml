@@ -1,2 +1,2 @@
 NODE_OPTIONS="--max-old-space-size=16384"
-command = "CI= npm run build"
+command = "CI= yarn install && yarn build"
