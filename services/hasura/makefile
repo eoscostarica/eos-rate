@@ -4,16 +4,16 @@ LATEST_TAG ?= latest
 
 install: ##@local Install all dependencies
 install:
-	@npm install
+	@yarn
 
 clean-install: ##@local Reinstalls all dependencies
 clean-install:
 	@rm -Rf node_modules
-	@npm install
+	@yarn
 
 run: ##@local Run the project locally (without docker)
 run: node_modules
-	@$(SHELL_EXPORT) npm run dev
+	@$(SHELL_EXPORT) yarn run dev
 
 build-docker: ##@devops Build the docker image
 build-docker: ./Dockerfile
