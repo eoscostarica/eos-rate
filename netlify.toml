@@ -1,2 +1,1 @@
-NODE_OPTIONS="--max-old-space-size=16384"
-command = "CI= yarn install && yarn build"
+NODE_OPTIONS="--max-old-space-size=65536"
