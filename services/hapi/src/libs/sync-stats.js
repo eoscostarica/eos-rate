@@ -20,7 +20,7 @@ const getRatingsStats = async () => {
     reverse: false,
     show_payer: false
   })
-  // console.log(ratings)
+  
   return ratings
 }
 
@@ -31,8 +31,8 @@ const updateRatingsStats = async () => {
   const ratingsStats = await getRatingsStats()
 
   const saveRatings = async (rating) => {
-    // console.log('updating... ', rating)
-
+    console.log('updating... ', rating)
+    
     try {
       const result = await db.ratings_stats.save(rating)
       if (!result) {
@@ -42,7 +42,7 @@ const updateRatingsStats = async () => {
           return
         }
       }
-      // console.log(`succefully saved ${rating.bp}`)
+      console.log(`succefully saved ${rating.bp}`)
     } catch (error) {
       console.log('error', error)
     }
@@ -57,9 +57,9 @@ const updateRatingsStats = async () => {
 
 (async () => {
   try {
-    // console.log('Updating Ratings Stats')
+    console.log('Updating Ratings Stats')
     await updateRatingsStats()
-    // console.log('OK')
+    console.log('OK')
     process.exit(0)
   } catch (err) {
     console.log('!!!!', err)
