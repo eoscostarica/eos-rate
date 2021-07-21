@@ -19,7 +19,7 @@ fresh: scripts/fresh.sh
 
 install: ##@local Install hapi dependencies
 install:
-	@cd /services/hapi && yarn
+	@cd ./services/hapi && yarn
 
 run:
 	make -B run-postgres
@@ -31,7 +31,6 @@ run-postgres:
 	@docker-compose up -d --build postgres
 
 run-hapi:
-	@docker-compose stop hapi
 	@docker-compose up -d --build hapi
 	@echo "done hapi"
 
