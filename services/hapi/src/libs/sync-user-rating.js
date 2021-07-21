@@ -3,7 +3,7 @@ const { JsonRpc } = require('eosjs')
 const fetch = require('node-fetch')
 const massive = require('massive')
 
-const dbConfig = require('../config/dbConfig')
+const { massiveConfig } = require('../config')
 
 const EOS_API_ENDPOINT =
   process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
@@ -30,7 +30,7 @@ const updateUserRatings = async (userAccount, bpAccount) => {
   console.log('\x1b[33m%s\x1b[0m', '==== updating user ratings ====')
 
   try {
-    const db = await massive(dbConfig)
+    const db = await massive(massiveConfig)
     const userRatings = await getUserRatings()
 
     if (!userAccount || !bpAccount)

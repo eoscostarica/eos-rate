@@ -1,5 +1,5 @@
 'use strict'
-const { VIRTUAL_PORT, VIRTUAL_HOST } = process.env
+const { HAPI_SERVER_PORT, HAPI_SERVER_ADDRESS } = process.env
 
 const updateBpStats = require('./libs/sync-bp-stats')
 const updateUserRatings = require('./libs/sync-user-rating')
@@ -9,8 +9,8 @@ const Hapi = require('@hapi/hapi')
 
 const init = async () => {
   const server = Hapi.server({
-    port: VIRTUAL_PORT,
-    host: VIRTUAL_HOST
+    port: HAPI_SERVER_PORT,
+    host: HAPI_SERVER_ADDRESS
   })
 
   server.route({
@@ -56,7 +56,8 @@ const init = async () => {
   })
 
   await server.start()
-  console.log('Server running on %s', server.info.uri)
+  console.log(`🚀 Server ready at ${server.info.uri}`)
+  server.table().forEach(route => console.log(`${route.method}\t${route.path}`))
 }
 
 process.on('unhandledRejection', err => {

@@ -4,14 +4,17 @@ const EosApi = require('eosjs-api')
 const fetch = require('node-fetch')
 const massive = require('massive')
 
-const dbConfig = require('../config/dbConfig')
+const { massiveConfig } = require('../config')
 
-const EOS_API_ENDPOINT =
-  process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+
+const PROXY_INFO_CONTRACT_CODE = process.env.PROXY_INFO_CONTRACT_CODE || 'proxyaccount'
+
+const PROXY_INFO_CONTRACT_SCOPE = process.env.PROXY_INFO_CONTRACT_SCOPE || 'proxyaccount'
 
 // gets data from blockchain
 const getProxiesData = async () => {
-  const db = await massive(dbConfig)
+  const db = await massive(massiveConfig)
   const eos = new JsonRpc(EOS_API_ENDPOINT, { fetch })
   const eosApi = EosApi({
     httpEndpoint: EOS_API_ENDPOINT,
@@ -20,8 +23,8 @@ const getProxiesData = async () => {
 
   const { rows: proxies } = await eos.get_table_rows({
     json: true,
-    code: process.env.PROXY_INFO_CONTRACT_CODE,
-    scope: process.env.PROXY_INFO_CONTRACT_SCOPE,
+    code: PROXY_INFO_CONTRACT_CODE,
+    scope: PROXY_INFO_CONTRACT_SCOPE,
     table: 'proxies',
     limit: 1000,
     reverse: false,
@@ -47,7 +50,6 @@ const getProxiesData = async () => {
         console.log('error', error)
       }
     } else {
-      //proxies.splice(i, 1)
       console.log(proxies[i].owner + ' is not a proxy')
     }
   }
