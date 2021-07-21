@@ -87,15 +87,7 @@ const CardData = ({
           title={
             <div className={classes.warningBox}>
               <Box style={{ width: '270px' }}>
-                <Typography
-                  style={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap'
-                  }}
-                  noWrap
-                  variant='h6'
-                >
+                <Typography noWrap variant='h6'>
                   {title || owner}
                 </Typography>
               </Box>
