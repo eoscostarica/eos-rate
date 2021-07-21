@@ -166,9 +166,15 @@ const AllBps = ({ ual }) => {
     <div className={classes.root}>
       <TitlePage title={t('bpsTitle')} />
       {isDesktop && openDesktopVotingTool && cmprTool()}
-      <Grid className={classes.wrapper} container justify='center' spacing={4}>
+      <Grid
+        className={classes.wrapper}
+        container
+        justify='center'
+        spacing={isDesktop ? 4 : 1}
+      >
         {(shownList || []).map((blockProducer) => (
           <Grid
+            style={{ backgroundColor: '#b0b7b0', borderStyle: 'groove' }}
             item
             xs={12}
             sm={6}

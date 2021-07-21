@@ -1,7 +1,7 @@
 export default (theme) => ({
   card: {
     backgroundColor: theme.palette.surface.dark,
-    minWidth: 320
+    minWidth: 250
   },
   title: {
     textDecoration: 'none',
