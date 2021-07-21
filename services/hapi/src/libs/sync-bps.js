@@ -3,7 +3,7 @@ const EosApi = require('eosjs-api')
 const massive = require('massive')
 const request = require('request-promise')
 
-const dbConfig = require('../config/dbConfig')
+const { massiveConfig } = require('../config')
 
 const EOS_API_ENDPOINT =
   process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
@@ -91,7 +91,7 @@ const getBlockProducersData = async () => {
 // updates the postgresdb
 const updateBlockProducersData = async () => {
   console.log('==== updating block producer info ====')
-  const db = await massive(dbConfig)
+  const db = await massive(massiveConfig)
   const producersData = await getBlockProducersData()
 
   const saveBP = async ({ owner, system, bpJson: bpjson }) => {

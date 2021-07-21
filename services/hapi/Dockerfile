@@ -23,5 +23,5 @@ COPY yarn.lock ./
 # Bundle app source
 COPY . .
 
-EXPOSE 3005
+EXPOSE 9090
 CMD nodemon -L src/index.js

@@ -1,5 +1,5 @@
 const massive = require('massive')
-const dbConfig = require('../config/dbConfig')
+const { massiveConfig } = require('../config')
 const eosjs = require('eosjs')
 const fetch = require('node-fetch')
 
@@ -33,7 +33,7 @@ const getBpStats = async bp => {
 const updateBpStats = async bpName => {
   let message
   const updateStat = async stat => {
-    await massive(dbConfig).then(async db => {
+    await massive(massiveConfig).then(async db => {
       const blockProducerStat = await db.ratings_stats.findOne({ bp: stat.bp })
 
       if (blockProducerStat && blockProducerStat.bp) {
