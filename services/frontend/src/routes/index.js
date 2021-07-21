@@ -8,6 +8,9 @@ import ProxyProfile from './proxies/proxy-profile'
 import Help from './help'
 import TermsOfUse from './termsOfUse'
 import About from './about'
+import config from '../config'
+
+console.log('config.networkMonitor: ', config)
 
 export default [
   {
@@ -51,8 +54,7 @@ export default [
     target: '_self'
   },
   {
-    path: 'https://mainnet.eosio.cr/',
-    Component: 'EOS Network Monitor',
+    path: config.networkMonitor,
     drawerLabel: 'drawerLinkNetworkMonitor',
     target: '_blank'
   },

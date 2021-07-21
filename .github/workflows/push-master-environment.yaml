@@ -51,6 +51,7 @@ jobs:
           REACT_APP_EOS_API_PROTOCOL: https
           REACT_APP_EOS_CHAIN_ID: aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906
           REACT_APP_BLOCK_EXPLORER: https://bloks.io
+          REACT_APP_NETWORK_MONITOR_URL: https://jungle.eosio.online/
 
       - name: Build kubernetes files
         id: build_kubernetes_files
@@ -74,6 +75,7 @@ jobs:
           REACT_APP_EOS_API_PROTOCOL: https
           REACT_APP_EOS_CHAIN_ID: aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906
           REACT_APP_BLOCK_EXPLORER: https://bloks.io
+          REACT_APP_NETWORK_MONITOR_URL: https://jungle.eosio.online/
           # postgres
           DATABASE_DIRECTORY: database
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
