@@ -86,7 +86,7 @@ const CardData = ({
           }
           title={
             <div className={classes.warningBox}>
-              <Box style={{ width: '300px' }}>
+              <Box style={{ width: '270px' }}>
                 <Typography
                   style={{
                     overflow: 'hidden',
