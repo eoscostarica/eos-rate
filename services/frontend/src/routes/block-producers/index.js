@@ -32,6 +32,9 @@ const AllBps = ({ ual }) => {
   const isDesktop = useMediaQuery('(min-width:600px)', {
     defaultMatches: false
   })
+  const isTablet = useMediaQuery('(max-width:1024px)', {
+    defaultMatches: false
+  })
   const [openDesktopVotingTool, setOpenDesktopVotingTool] = useState(isDesktop)
   const {
     list: blockProducers,
@@ -174,11 +177,10 @@ const AllBps = ({ ual }) => {
       >
         {(shownList || []).map((blockProducer) => (
           <Grid
-            style={{ backgroundColor: '#b0b7b0', borderStyle: 'groove' }}
             item
             xs={12}
             sm={6}
-            md={4}
+            md={isTablet ? 6 : 4}
             key={`${blockProducer.owner}-main-block-card`}
           >
             <Card

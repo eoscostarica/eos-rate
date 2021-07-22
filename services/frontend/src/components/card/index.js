@@ -86,24 +86,11 @@ const CardData = ({
           }
           title={
             <div className={classes.warningBox}>
-              <Box style={{ width: '270px' }}>
-                <Typography noWrap variant='h6'>
+              <Box className={classes.boxTitle}>
+                <Typography className={classes.noWrap} variant='h6'>
                   {title || owner}
                 </Typography>
               </Box>
-              {showOptions && (
-                <div
-                  className={classNames(classes.warningBox, classes.showOnlyLg)}
-                >
-                  <Typography
-                    variant='subtitle2'
-                    className={classes.marginRightElem}
-                  >
-                    {`${t('averageCard')}:`}
-                  </Typography>
-                  <Typography variant='body2'>{average}</Typography>
-                </div>
-              )}
             </div>
           }
           subheader={

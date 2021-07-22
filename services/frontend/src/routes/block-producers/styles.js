@@ -20,8 +20,7 @@ export default (theme) => ({
   wrapper: {
     padding: theme.spacing(1),
     maxWidth: '100%',
-    margin: 'auto',
-    backgroundColor: '#f0b9f0'
+    margin: 'auto'
   },
   compareTool: {
     minHeight: 340,

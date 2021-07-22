@@ -58,19 +58,32 @@ export default (theme) => ({
     height: 25,
     padding: theme.spacing(0, 1)
   },
-  showOnlySm: {
-    display: 'flex',
-
+  boxTitle: {
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    },
     [theme.breakpoints.up('sm')]: {
-      display: 'none'
+      width: '250px'
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '260px'
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: '370px'
     }
   },
-  showOnlyLg: {
-    display: 'flex',
-
-    [theme.breakpoints.down('sm')]: {
-      display: 'none'
+  noWrap: {
+    [theme.breakpoints.up('sm')]: {
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis'
     }
+  },
+  showOnlySm: {
+    display: 'flex'
+  },
+  showOnlyLg: {
+    display: 'none'
   },
   mobileBox: {
     display: 'flex',
