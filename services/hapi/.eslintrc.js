@@ -1,17 +1,20 @@
 module.exports = {
-    "env": {
-        "commonjs": true,
-        "es6": true,
-        "node": true
+    parser: 'babel-eslint',
+    env: {
+        'commonjs': true,
+        'es6': true,
+        'node': true
     },
-    "extends": "eslint:recommended",
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+    extends: ["standard", "prettier", "plugin:prettier/recommended"],
+    globals: {
+        'Atomics': 'readonly',
+        'SharedArrayBuffer': 'readonly'
     },
-    "parserOptions": {
-        "ecmaVersion": 2018
+    parserOptions: {
+        'ecmaVersion': 2018
     },
-    "rules": {
+    rules: {
+        'multiline-ternary': 'off',
+        'space-before-function-paren': 'off'
     }
-};
+}

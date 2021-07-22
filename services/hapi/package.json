@@ -4,8 +4,14 @@
   "description": "EOS Rate Backend API Service",
   "main": "index.js",
   "scripts": {
+    "precommit": "pretty-quick --staged && lint-staged",
     "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "author": "EOS Costa Rica",
   "license": "MIT",
@@ -22,6 +28,7 @@
   },
   "devDependencies": {
     "eslint": "^7.30.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-config-standard-react": "^11.0.1",
     "eslint-plugin-import": ">=2.23.4",
@@ -37,12 +44,10 @@
     "standard": "^16.0.3"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
     "*.{js,css,md}": "prettier --write"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }
