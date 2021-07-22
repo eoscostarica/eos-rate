@@ -212,22 +212,21 @@ const AllBps = ({ ual }) => {
         ))}
       </Grid>
       {selectedBPs && selectedBPs.length > 0 && (
-        <Grid
-          className={classes.openBottomSheetContainer}
-          container
-          justify='flex-end'
-        >
-          <Button
-            onClick={() =>
-              isDesktop
-                ? setOpenDesktopVotingTool(true)
-                : setOpenVoteDrawer(true)
-            }
-            variant='contained'
-          >
-            <ThumbUpAltIcon />
-            <Typography>Vote ({selectedBPs.length})</Typography>
-          </Button>
+        <Grid container justify='flex-end'>
+          <Grid item md={12} className={classes.openBottomSheetContainer}>
+            <Button
+              onClick={() =>
+                isDesktop
+                  ? setOpenDesktopVotingTool(true)
+                  : setOpenVoteDrawer(true)
+              }
+              variant='contained'
+            >
+              {console.log('')}
+              <ThumbUpAltIcon />
+              <Typography>Vote ({selectedBPs.length})</Typography>
+            </Button>
+          </Grid>
         </Grid>
       )}
       <SelectedBpsBottomSheet open={openVoteDrawer} setOpen={setOpenVoteDrawer}>

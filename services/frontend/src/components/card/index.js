@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/styles'
 import { useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Card from '@material-ui/core/Card'
+import Box from '@material-ui/core/Box'
 import classNames from 'classnames'
 import CardHeader from '@material-ui/core/CardHeader'
 import { useTranslation } from 'react-i18next'
@@ -85,7 +86,11 @@ const CardData = ({
           }
           title={
             <div className={classes.warningBox}>
-              <Typography variant='h6'>{title || owner}</Typography>
+              <Box style={{ width: '270px' }}>
+                <Typography noWrap variant='h6'>
+                  {title || owner}
+                </Typography>
+              </Box>
               {showOptions && (
                 <div
                   className={classNames(classes.warningBox, classes.showOnlyLg)}
