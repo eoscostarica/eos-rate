@@ -10,8 +10,6 @@ import TermsOfUse from './termsOfUse'
 import About from './about'
 import config from '../config'
 
-console.log('config.networkMonitor: ', config)
-
 export default [
   {
     path: '/',
