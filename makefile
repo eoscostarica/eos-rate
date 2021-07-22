@@ -20,6 +20,7 @@ fresh: scripts/fresh.sh
 install: ##@local Install hapi dependencies
 install:
 	@cd ./services/hapi && yarn
+	@cd ./services/frontend && yarn
 
 run:
 	make -B run-postgres

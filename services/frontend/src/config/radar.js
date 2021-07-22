@@ -2,8 +2,10 @@ import { Chart } from 'react-chartjs-2'
 import get from 'lodash.get'
 
 const renderBackgroundColor = (chart) => {
-  const { ctx, scale, config } = chart
-  const { xCenter, yCenter, drawingArea: radius } = scale
+  const { ctx, scales: scale, config } = chart
+  const {
+    r: { xCenter, yCenter, drawingArea: radius }
+  } = scale
   const backgroundColor = get(
     config,
     'options.chartArea.backgroundColor',
@@ -20,7 +22,9 @@ const renderBackgroundColor = (chart) => {
 }
 
 const renderCenterDot = (ctx, config, scale) => {
-  const { xCenter, yCenter, drawingArea: radius } = scale
+  const {
+    r: { xCenter, yCenter, drawingArea: radius }
+  } = scale
 
   const centerDotColor = get(config, 'options.scale.gridLines.color', false)
 
@@ -34,7 +38,9 @@ const renderCenterDot = (ctx, config, scale) => {
 }
 
 const renderPerimeter = (ctx, config, scale) => {
-  const { xCenter, yCenter, drawingArea: radius } = scale
+  const {
+    r: { xCenter, yCenter, drawingArea: radius }
+  } = scale
 
   const strokeColor = get(config, 'options.chartArea.strokeColor', false)
   const lineWidth = get(config, 'options.chartArea.lineWidth', 0)
@@ -49,10 +55,11 @@ const renderPerimeter = (ctx, config, scale) => {
   ctx.restore()
 }
 
-Chart.pluginService.register({
+Chart.register({
+  id: Chart.name,
   beforeDraw: renderBackgroundColor,
   beforeDatasetsDraw: (chart) => {
-    const { ctx, config, scale } = chart
+    const { ctx, config, scales: scale } = chart
 
     renderCenterDot(ctx, config, scale)
     renderPerimeter(ctx, config, scale)
