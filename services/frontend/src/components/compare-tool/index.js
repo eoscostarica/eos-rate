@@ -67,6 +67,8 @@ const CompareTool = ({
           selected={selectedData}
           isProxy={isProxy}
           userInfo={{ proxy, producers, isUser: Boolean(userInfo) }}
+          onHandleClose={onHandleClose}
+          onHandleVote={onHandleVote}
         />
       ) : (
         <CompareSliderView removeBP={removeBP} selected={selectedData} />

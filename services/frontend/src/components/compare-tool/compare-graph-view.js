@@ -134,6 +134,8 @@ const CompareGraphView = ({
   isProxy,
   userInfo,
   width,
+  onHandleClose,
+  onHandleVote,
   ...props
 }) => {
   const { t } = useTranslation('translations')
@@ -185,7 +187,7 @@ const CompareGraphView = ({
             }}
           />
         </Grid>
-        {!selected && (
+        {isProxy && (
           <Grid
             item
             md={12}
@@ -234,13 +236,17 @@ CompareGraphView.propTypes = {
   selected: PropTypes.array.isRequired,
   className: PropTypes.string,
   isProxy: PropTypes.bool,
-  userInfo: PropTypes.object
+  userInfo: PropTypes.object,
+  onHandleClose: PropTypes.func,
+  onHandleVote: PropTypes.func
 }
 
 CompareGraphView.defaultProps = {
   className: '',
   isProxy: false,
-  userInfo: { proxy: '', producers: [], isUser: false }
+  userInfo: { proxy: '', producers: [], isUser: false },
+  onHandleVote: () => {},
+  onHandleClose: () => {}
 }
 
 CompareBodyList.propTypes = {
@@ -257,7 +263,7 @@ TooltipWrapper.propTypes = {
   onHandleTooltip: PropTypes.func,
   t: PropTypes.any,
   userHasVote: PropTypes.bool,
-  isUser: PropTypes.bool
+  isUser: PropTypes.bool.apply
 }
 
 export default withWidth()(CompareGraphView)
