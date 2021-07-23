@@ -25,6 +25,8 @@
     "voteToolToggle": "Votar",
     "compareToolCollapsedSwitch": "Colapsar Gráficos",
     "voteToolTitle": "Herramienta de votación",
+    "voteToolDescription": "Inicie sesión en su cuenta y vote por los productores de bloques seleccionados.",
+    "selected": "Seleccionados",
     "averageCard": "Promedio",
     "rateCard": "Evaluaciones",
 
@@ -49,6 +51,7 @@
 
     "drawerLinkHome": "Página Principal",
     "drawerLinkAllBPs": "Productores de Bloques",
+    "drawerLinkNetworkMonitor": "Monitor de Red EOS",
     "drawerLinkSettings": "Configuración",
     "drawerLinkAccount": "Cuenta",
     "drawerLinkAllProxies": "Proxies",

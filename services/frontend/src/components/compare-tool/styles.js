@@ -28,6 +28,7 @@ export default (theme) => ({
     backgroundColor: theme.palette.secondary.main,
     marginBottom: 5,
     color: '#ffffff',
+    padding: '5px 20px 5px 20px',
     [theme.breakpoints.up('sm')]: {
       float: 'right',
       marginRight: 20,
@@ -131,5 +132,10 @@ export default (theme) => ({
     [theme.breakpoints.up('sm')]: {
       marginBottom: 38
     }
+  },
+  centerBox: {
+    margin: 'auto',
+    width: '60%',
+    padding: '10px'
   }
 })

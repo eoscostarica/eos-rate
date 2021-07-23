@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/styles'
 import { useTheme } from '@material-ui/core/styles'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
-import { Link } from '@reach/router'
+import Link from '@material-ui/core/Link'
 import { useTranslation } from 'react-i18next'
 import classnames from 'classnames'
 
@@ -28,15 +28,17 @@ const Menu = ({ onClick, currentPathname, links, sortBy, setSortBy }) => {
     <List>
       {links
         .filter(({ label }) => label)
-        .map(({ to, label, collapsedItems }) => {
+        .map(({ to, label, target, collapsedItems }) => {
           const isSelected = currentPathname === to
 
           return (
             <Fragment key={`link-${to}`}>
               {label === 'About' && <Divider className={classes.divider} />}
               <Link
-                to={to}
+                href={to}
                 className={classes.link}
+                style={{ textDecoration: 'none' }}
+                target={target}
                 onClick={() => onClick && onClick(!!collapsedItems)}
               >
                 <ListItem
@@ -118,7 +120,8 @@ const MainDrawer = ({
             links={routes.map((route) => ({
               to: route.path,
               label: t(route.drawerLabel),
-              collapsedItems: route.drawerComponents
+              collapsedItems: route.drawerComponents,
+              target: route.target
             }))}
             sortBy={sortBy}
             setSortBy={handleSortBy}
@@ -138,7 +141,8 @@ const MainDrawer = ({
             links={routes.map((route) => ({
               to: route.path,
               label: t(route.drawerLabel),
-              collapsedItems: route.drawerComponents
+              collapsedItems: route.drawerComponents,
+              target: route.target
             }))}
             sortBy={sortBy}
             setSortBy={handleSortBy}

@@ -25,6 +25,8 @@
     "voteToolToggle": "Vote",
     "compareToolCollapsedSwitch": "Collapse Graphs",
     "voteToolTitle": "Voting Tool",
+    "voteToolDescription": "Login to your account and vote for the selected block producers.",
+    "selected": "Selected",
     "averageCard": "Average",
     "rateCard": "Ratings",
 
@@ -49,6 +51,7 @@
 
     "drawerLinkHome": "Home",
     "drawerLinkAllBPs": "Block Producers",
+    "drawerLinkNetworkMonitor": "EOS Network Monitor",
     "drawerLinkSettings": "Settings",
     "drawerLinkAccount": "Account",
     "drawerLinkAllProxies": "Proxies",

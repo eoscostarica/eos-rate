@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import LockOpenIcon from '@material-ui/icons/LockOpenOutlined'
 import LockIcon from '@material-ui/icons/LockOutlined'
+import Button from '@material-ui/core/Button'
 import Tooltip from '@material-ui/core/Tooltip'
 import Box from '@material-ui/core/Box'
 import withWidth from '@material-ui/core/withWidth'
@@ -137,34 +138,24 @@ const CompareGraphView = ({
 }) => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
-  const [open, setOpen] = useState(false)
-  const userHasVote =
-    Boolean(userInfo.proxy.length) || Boolean(userInfo.producers.length > 21)
+  // const [open, setOpen] = useState(false)
+  // const userHasVote =
+  //   Boolean(userInfo.proxy.length) || Boolean(userInfo.producers.length > 21)
 
-  const handleTooltip = (e) => {
-    setOpen(!open)
-    e.preventDefault()
-  }
+  // const handleTooltip = (e) => {
+  //   setOpen(!open)
+  //   e.preventDefault()
+  // }
 
   return (
-    <Grid container className={classes.root}>
-      <Grid item xs={12} md={8}>
-        <Radar
-          bpData={{
-            datasets: selected.map(({ data }) => ({
-              ...data,
-              backgroundColor: data.backgroundColor.replace('.9', '.2')
-            }))
-          }}
-        />
-      </Grid>
-      <Grid item xs={12} md={4}>
+    <Grid container style={{ backgroundColor: '#bb11bb' }} spacing={2}>
+      <Grid item md={12} xs={12}>
         <Box className={classes.headerVotingCompare}>
-          <Box className={classes.titleLock}>
-            <Typography variant='h5' className={classes.marginRightElem}>
-              {t('voteToolTitle')}
+          <Box>
+            <Typography variant='h6' className={classes.marginRightElem}>
+              {`${t('voteToolTitle')} (${selected.length} ${t('selected')})`}
             </Typography>
-            <TooltipWrapper
+            {/* <TooltipWrapper
               open={open}
               onHandleTooltip={handleTooltip}
               isClickable={Boolean(width === 'xs')}
@@ -172,9 +163,60 @@ const CompareGraphView = ({
               classes={classes}
               userHasVote={userHasVote}
               isUser={userInfo.isUser}
-            />
+            /> */}
+            <Typography variant='body1' style={{ display: 'flex' }}>
+              {t('voteToolDescription')}
+            </Typography>
           </Box>
         </Box>
+      </Grid>
+      <Grid style={{ backgroundColor: '#11bb11' }} container xs={12} md={5}>
+        <Grid
+          item
+          md={12}
+          style={{ backgroundColor: '#001100', padding: '20px' }}
+        >
+          <Radar
+            bpData={{
+              datasets: selected.map(({ data }) => ({
+                ...data,
+                backgroundColor: data.backgroundColor.replace('.9', '.2')
+              }))
+            }}
+          />
+        </Grid>
+        {!selected && (
+          <Grid
+            item
+            md={12}
+            style={{
+              backgroundColor: '#ababab',
+              textAlign: 'center',
+              padding: '10px'
+            }}
+          >
+            <Typography>PROXY NAME</Typography>
+          </Grid>
+        )}
+        <Grid item md={6} style={{ backgroundColor: '#cf0f0c' }}>
+          <Box className={classes.centerBox}>
+            <Button aria-label='Clear selection'>{t('clearSelection')}</Button>
+          </Box>
+        </Grid>
+        <Grid item md={6} style={{ backgroundColor: '#c0f0fc' }}>
+          <Box className={classes.centerBox}>
+            <Button
+              disabled={!userInfo}
+              aria-label='Add to comparison'
+              className={classes.btnRate}
+              variant='contained'
+            >
+              {t('btnVoteBPs')}
+            </Button>
+          </Box>
+        </Grid>
+      </Grid>
+      <Grid style={{ backgroundColor: '#0011bb' }} item xs={12} md={7}>
         <CompareBodyList
           isProxy={isProxy}
           selectedData={selected}
