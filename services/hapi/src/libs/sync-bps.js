@@ -38,7 +38,7 @@ const getBlockProducersData = async () => {
 
   console.log('Getting bpJson information for BPs...')
 
-  const finalProducers = []
+  const producersBPJSON = []
   for (const producer of allProducers) {
     try {
       const bp = await request(
@@ -50,7 +50,7 @@ const getBlockProducersData = async () => {
       })
       if (bp['producer_account_name'] && bp['producer_account_name'] !== '') {
         producer['bpJson'] = bp
-        finalProducers.push(producer)
+        producersBPJSON.push(producer)
       }
     } catch (error) {
       console.log(`Failed to add bpJson info for ${producer.owner}`)
@@ -58,9 +58,9 @@ const getBlockProducersData = async () => {
   }
 
   console.log(`Incoming total producers ${allProducers.length}`)
-  console.log(`Outcoming total producers ${finalProducers.length}`)
+  console.log(`Outcoming total producers ${producersBPJSON.length}`)
 
-  return finalProducers
+  return producersBPJSON
 }
 
 const updateBlockProducersData = async () => {
