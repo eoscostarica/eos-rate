@@ -2,10 +2,10 @@ import { Chart } from 'react-chartjs-2'
 import get from 'lodash.get'
 
 const renderBackgroundColor = (chart) => {
-  const { ctx, scales: scale, config } = chart
+  const { ctx, config, scales } = chart
   const {
     r: { xCenter, yCenter, drawingArea: radius }
-  } = scale
+  } = scales
   const backgroundColor = get(
     config,
     'options.chartArea.backgroundColor',
@@ -26,7 +26,7 @@ const renderCenterDot = (ctx, config, scale) => {
     r: { xCenter, yCenter, drawingArea: radius }
   } = scale
 
-  const centerDotColor = get(config, 'options.scale.gridLines.color', false)
+  const centerDotColor = get(config, 'options.scales.gridLines.color', false)
 
   ctx.save()
   ctx.arc(xCenter, yCenter, radius / 16, 0, Math.PI * 2)
@@ -59,9 +59,9 @@ Chart.register({
   id: Chart.name,
   beforeDraw: renderBackgroundColor,
   beforeDatasetsDraw: (chart) => {
-    const { ctx, config, scales: scale } = chart
+    const { ctx, config } = chart
 
-    renderCenterDot(ctx, config, scale)
-    renderPerimeter(ctx, config, scale)
+    renderCenterDot(ctx, config, config.options.scales)
+    renderPerimeter(ctx, config, config.options.scales)
   }
 })

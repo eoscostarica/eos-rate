@@ -15,11 +15,28 @@ const RadarData = ({ bpData, height, showLabel, ...props }) => {
 
   return (
     <Radar
-      height={height}
       data={bpValidData}
       style={{ margin: 'auto' }}
       options={{
-        legend: { display: showLabel },
+        plugins: {
+          legend: showLabel
+        },
+        scales: {
+          r: {
+            ticks: {
+              display: false,
+              min: 0,
+              max: 10,
+              stepSize: 2
+            },
+            grid: {
+              circular: true,
+              lineWidth: 4
+            },
+            angleLines: { color: '#e5e5e5', lineWidth: 4 },
+            pointLabels: { fontColor: '#443F5B', fontSize: 14 }
+          }
+        },
         layout: {
           padding: {
             bottom: 10
@@ -29,17 +46,6 @@ const RadarData = ({ bpData, height, showLabel, ...props }) => {
           backgroundColor: '#f8f8f8',
           strokeColor: '#e5e5e5',
           lineWidth: 4
-        },
-        scale: {
-          ticks: {
-            display: false,
-            min: 0,
-            max: 10,
-            stepSize: 2
-          },
-          gridLines: { lineWidth: 4, circular: true },
-          angleLines: { color: '#e5e5e5', lineWidth: 4 },
-          pointLabels: { fontColor: '#443F5B', fontSize: 14 }
         },
         tooltips: {
           enabled: true,
