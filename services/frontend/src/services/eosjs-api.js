@@ -6,7 +6,7 @@ import fetch from 'node-fetch'
 const signatureProvider = new JsSignatureProvider([])
 
 const rpc = new JsonRpc(
-  process.env.REACT_APP_EOS_API_URL || 'https://jungle.eosio.cr',
+  process.env.WEBAPP_EOS_API_URL || 'https://jungle.eosio.cr',
   { fetch }
 )
 const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() })
