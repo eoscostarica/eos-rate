@@ -27,7 +27,7 @@ const actionHandler = new ObjectActionHandler([handlerVersion]);
 const actionReader = new NodeosActionReader({
   startAtBlock: 0,
   onlyIrreversible: false,
-  nodeosEndpoint: process.env.EOS_API_ENDPOINT || "https://jungle.eosio.cr"
+  nodeosEndpoint: process.env.HAPI_EOS_API_ENDPOINT || "https://jungle.eosio.cr"
 });
 
 /* BaseActionWatcher

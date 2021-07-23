@@ -28,7 +28,7 @@ spec:
                   value: "${POSTGRES_SCHEMA}"
                 - name: POSTGRES_USER
                   value: "${POSTGRES_USER}"
-                - name: EOS_API_ENDPOINT
+                - name: HAPI_EOS_API_ENDPOINT
                   value: https://api.eosio.cr
                 - name: HAPI_SERVER_ADDRESS
                   value: 0.0.0.0
