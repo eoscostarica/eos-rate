@@ -8,54 +8,70 @@ import ProxyProfile from './proxies/proxy-profile'
 import Help from './help'
 import TermsOfUse from './termsOfUse'
 import About from './about'
+import config from '../config'
 
 export default [
   {
     path: '/',
     Component: Home,
-    drawerLabel: 'drawerLinkHome'
+    drawerLabel: 'drawerLinkHome',
+    target: '_self'
   },
   {
     path: '/block-producers',
     Component: AllBps,
     drawerLabel: 'drawerLinkAllBPs',
-    drawerComponents: blockProducersDrawer
+    drawerComponents: blockProducersDrawer,
+    target: '_self'
   },
   {
     path: 'block-producers/:account',
-    Component: BlockProducerProfile
+    Component: BlockProducerProfile,
+    target: '_self'
   },
   {
     path: 'block-producers/:account/rate',
-    Component: BlockProducerRate
+    Component: BlockProducerRate,
+    target: '_self'
   },
   {
     path: '/proxies',
     Component: AllProxies,
     drawerLabel: 'drawerLinkAllProxies',
-    drawerComponents: proxiesDrawer
+    drawerComponents: proxiesDrawer,
+    target: '_self'
   },
   {
     path: 'proxies/:account',
-    Component: ProxyProfile
+    Component: ProxyProfile,
+    target: '_self'
   },
   {
     path: '/account',
-    Component: Account
+    Component: Account,
+    target: '_self'
+  },
+  {
+    path: config.networkMonitor,
+    drawerLabel: 'drawerLinkNetworkMonitor',
+    target: '_blank'
   },
   {
     path: '/about',
     Component: About,
-    drawerLabel: 'drawerLinkAbout'
+    drawerLabel: 'drawerLinkAbout',
+    target: '_self'
   },
   {
     path: '/ricardian-contract',
     Component: TermsOfUse,
-    drawerLabel: 'drawerLinkRicardianContract'
+    drawerLabel: 'drawerLinkRicardianContract',
+    target: '_self'
   },
   {
     path: '/help',
     Component: Help,
-    drawerLabel: 'drawerLinkHelp'
+    drawerLabel: 'drawerLinkHelp',
+    target: '_self'
   }
 ]

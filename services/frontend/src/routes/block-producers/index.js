@@ -32,6 +32,9 @@ const AllBps = ({ ual }) => {
   const isDesktop = useMediaQuery('(min-width:600px)', {
     defaultMatches: false
   })
+  const isTablet = useMediaQuery('(max-width:1024px)', {
+    defaultMatches: false
+  })
   const [openDesktopVotingTool, setOpenDesktopVotingTool] = useState(isDesktop)
   const {
     list: blockProducers,
@@ -166,13 +169,18 @@ const AllBps = ({ ual }) => {
     <div className={classes.root}>
       <TitlePage title={t('bpsTitle')} />
       {isDesktop && openDesktopVotingTool && cmprTool()}
-      <Grid className={classes.wrapper} container justify='center' spacing={4}>
+      <Grid
+        className={classes.wrapper}
+        container
+        justify='center'
+        spacing={isDesktop ? 4 : 1}
+      >
         {(shownList || []).map((blockProducer) => (
           <Grid
             item
             xs={12}
             sm={6}
-            md={4}
+            md={isTablet ? 6 : 4}
             key={`${blockProducer.owner}-main-block-card`}
           >
             <Card
@@ -206,22 +214,21 @@ const AllBps = ({ ual }) => {
         ))}
       </Grid>
       {selectedBPs && selectedBPs.length > 0 && (
-        <Grid
-          className={classes.openBottomSheetContainer}
-          container
-          justify='flex-end'
-        >
-          <Button
-            onClick={() =>
-              isDesktop
-                ? setOpenDesktopVotingTool(true)
-                : setOpenVoteDrawer(true)
-            }
-            variant='contained'
-          >
-            <ThumbUpAltIcon />
-            <Typography>Vote ({selectedBPs.length})</Typography>
-          </Button>
+        <Grid container justify='flex-end'>
+          <Grid item md={12} className={classes.openBottomSheetContainer}>
+            <Button
+              onClick={() =>
+                isDesktop
+                  ? setOpenDesktopVotingTool(true)
+                  : setOpenVoteDrawer(true)
+              }
+              variant='contained'
+            >
+              {console.log('')}
+              <ThumbUpAltIcon />
+              <Typography>Vote ({selectedBPs.length})</Typography>
+            </Button>
+          </Grid>
         </Grid>
       )}
       <SelectedBpsBottomSheet open={openVoteDrawer} setOpen={setOpenVoteDrawer}>
