@@ -25,7 +25,7 @@ jobs:
 
       - name: Install node module dependencies
         run: |
-          cd services/hapi
+          cd hapi
           yarn
           cd ../webapp
           yarn

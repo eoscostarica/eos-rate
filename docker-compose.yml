@@ -27,10 +27,10 @@ services:
   hapi:
     container_name: eosrate_hapi
     build:
-      context: ./services/hapi
+      context: ./hapi
       dockerfile: Dockerfile
     volumes:
-      - ./services/hapi:/opt/application
+      - ./hapi:/opt/application
       - /opt/application/node_modules
     ports:
       - "9090:9090"
@@ -51,11 +51,11 @@ services:
   demux:
     container_name: eosrate_demux
     build:
-      context: ./services/demux
+      context: ./demux
       dockerfile: ./Dockerfile
     image: eosrate/demux
     volumes:
-      - ./services/demux:/opt/application
+      - ./demux:/opt/application
       - /opt/application/node_modules
     depends_on:
       - postgres
@@ -96,13 +96,13 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
 
     volumes:
-      - ./services/hasura/migrations:/hasura-migrations
-      - ./services/hasura/metadata:/hasura-metadata
+      - ./hasura/migrations:/hasura-migrations
+      - ./hasura/metadata:/hasura-metadata
 
   webapp:
     container_name: eosrate_webapp
     build:
-      context: ./services/webapp
+      context: ./webapp
       dockerfile: ./Dockerfile
       target: server
     image: eosrate/webapp

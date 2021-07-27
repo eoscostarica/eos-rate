@@ -3,7 +3,7 @@ import filterObjects from 'filter-objects'
 
 import calculateEosFromVotes from 'utils/convertVotesToEosVotes'
 import getBPRadarData from 'utils/getBPRadarData'
-import apolloClient from 'services/graphql'
+import apolloClient from 'graphql'
 
 import QUERY_GET_PROXIES from './query_get_proxies'
 import QUERY_GET_PROXY_BY_OWNER from './query_get_proxy_by_owner'

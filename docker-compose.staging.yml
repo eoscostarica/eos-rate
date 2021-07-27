@@ -27,10 +27,10 @@ services:
   hapi:
     container_name: eosrate_hapi
     build:
-      context: ./services/hapi
+      context: ./hapi
       dockerfile: Dockerfile
     volumes:
-      - ./services/hapi:/opt/application
+      - ./hapi:/opt/application
       - /opt/application/node_modules
     ports:
       - "3005:9090"
@@ -51,11 +51,11 @@ services:
   demux:
     container_name: eosrate_demux
     build:
-      context: ./services/demux
+      context: ./demux
       dockerfile: ./Dockerfile
     image: eosrate/demux
     volumes:
-      - ./services/demux:/opt/application # mount demux service folder
+      - ./demux:/opt/application # mount demux service folder
       - /opt/application/node_modules # prevents host/container conflicts
     depends_on:
       - postgres
@@ -90,8 +90,8 @@ services:
       HAPI_SERVER_PORT: 8088
       HASURA_GRAPHQL_ACTION_BASE_URL: http://hapi:9090
     volumes:
-      - ./services/hasura/migrations:/hasura-migrations #  mount hasura migrations folder
-      - ./services/hasura/migrations:/hasura-metadata
+      - ./hasura/migrations:/hasura-migrations #  mount hasura migrations folder
+      - ./hasura/migrations:/hasura-metadata
     command:
       - graphql-engine
       - serve

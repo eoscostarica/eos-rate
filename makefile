@@ -25,8 +25,8 @@ fresh: scripts/fresh.sh
 
 install: ##@local Install hapi dependencies
 install:
-	@cd ./services/hapi && yarn
-	@cd ./services/webapp && yarn
+	@cd ./hapi && yarn
+	@cd ./webapp && yarn
 
 run:
 	make -B run-postgres
@@ -70,7 +70,7 @@ run-webapp:
 		curl -s -o /dev/null -w 'hasura status %{http_code}\n' http://localhost:8080/healthz; \
 		do echo "$(BLUE)webapp |$(RESET) waiting for webapp service"; \
 		sleep 5; done;
-	@cd services/webapp && yarn && yarn start:local | cat
+	@cd webapp && yarn && yarn start:local | cat
 	@echo "done webapp"
 run-logs:
 	@docker-compose logs -f hapi webapp
@@ -115,7 +115,7 @@ build-docker-images: ##@devops Build docker images
 build-docker-images:
 	@echo "Building docker containers..."
 	@for dir in $(SUBDIRS); do \
-		$(MAKE) build-docker -C services/$$dir; \
+		$(MAKE) build-docker -C $$dir; \
 	done
 
 push-docker-images: ##@devops Publish docker images
@@ -124,5 +124,5 @@ push-docker-images:
 		--username $(DOCKER_USERNAME) \
 		--password-stdin
 	for dir in $(SUBDIRS); do \
-		$(MAKE) push-image -C services/$$dir; \
+		$(MAKE) push-image -C $$dir; \
 	done

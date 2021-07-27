@@ -18,7 +18,7 @@ We use [standardjs code style](https://standardjs.com) and we favor [functional 
 |     |── language/ .................................... i18n translations
 |     |── models/ ...................................... rematch models
 |     |── routes/ ...................................... route components
-|     |── services/ .................................... singleton services ( vanillajs )
+|     |──  .................................... singleton services ( vanillajs )
 |     |── utils/ ....................................... utilities folder ( vanillajs )
 |     |── app.js ....................................... main app container
 |     |── serviceWorker.js ............................. cra service worker
