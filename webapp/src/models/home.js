@@ -1,4 +1,4 @@
-import { findBPById } from 'bps'
+import { findBPById } from 'services/bps'
 import getBPRadarData from 'utils/getBPRadarData'
 
 const initialState = {

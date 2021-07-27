@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import _get from 'lodash.get'
 
 import mockedBPs from 'mock/bps'
-import client from 'graphql'
+import client from 'services/graphql'
 import getBPRadarData from 'utils/getBPRadarData'
 import calculateEosFromVotes from 'utils/convertVotesToEosVotes'
 

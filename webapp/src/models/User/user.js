@@ -1,6 +1,6 @@
 import _get from 'lodash.get'
 
-import apolloClient from 'graphql'
+import apolloClient from 'services/graphql'
 import { getRpc, getAccountName } from 'utils/eosjsUtils'
 
 import QUERY_GET_RATES from './query_get_rates'

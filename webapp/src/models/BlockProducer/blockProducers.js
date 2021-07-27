@@ -1,8 +1,8 @@
 import filterObjects from 'filter-objects'
 import uniq from 'lodash.uniq'
 
-import apolloClient from 'graphql'
-import { getAllBPs } from 'bps'
+import apolloClient from 'services/graphql'
+import { getAllBPs } from 'services/bps'
 import { getRpc } from 'utils/eosjsUtils'
 
 import QUERY_PRODUCER from './query_get_producer_by'
