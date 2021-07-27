@@ -68,24 +68,16 @@ const updateBlockProducersData = async () => {
   const db = await massive(massiveConfig)
   const producersData = await getBlockProducersData()
 
-  for (let bp of producersData) {
+  producersData.forEach(async (bp) => {
     const { owner, system, bpJson: bpjson } = bp
-
-    const bpData = {
-      owner,
-      system,
-      bpjson
-    }
+    const bpData = { owner, system, bpjson }
     
     try {
       const saveBPResult = await db.producers.save(bpData)
       const dbResult = saveBPResult ? saveBPResult : await db.producers.insert(bpData)
-
-      console.log(`Save or insert of ${owner} was ${dbResult ? 'SUCCESSFUL' : 'UNSUCCESSFUL'}`)
-    } catch (error) {
-      console.log('error', error)
-    }
-  }
+      console.log(`Save or insert of ${owner} was ${dbResult ? 'SUCCESSFULLY' : 'UNSUCCESSFULLY'}`)
+    } catch (error) { console.log('error', error) }
+  })
 }
 
 ;(async () => {
