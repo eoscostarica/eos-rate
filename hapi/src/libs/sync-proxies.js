@@ -6,7 +6,7 @@ const massive = require('massive')
 
 const { massiveConfig } = require('../config')
 
-const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 
 const PROXY_INFO_CONTRACT_CODE = process.env.PROXY_INFO_CONTRACT_CODE || 'proxyaccount'
 
@@ -15,9 +15,9 @@ const PROXY_INFO_CONTRACT_SCOPE = process.env.PROXY_INFO_CONTRACT_SCOPE || 'prox
 // gets data from blockchain
 const getProxiesData = async () => {
   const db = await massive(massiveConfig)
-  const eos = new JsonRpc(EOS_API_ENDPOINT, { fetch })
+  const eos = new JsonRpc(HAPI_EOS_API_ENDPOINT, { fetch })
   const eosApi = EosApi({
-    httpEndpoint: EOS_API_ENDPOINT,
+    httpEndpoint: HAPI_EOS_API_ENDPOINT,
     verbose: false
   })
 
