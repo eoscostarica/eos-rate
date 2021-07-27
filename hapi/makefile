@@ -1,4 +1,4 @@
-include ../../utils/meta.mk
+include ../utils/meta.mk
 
 LATEST_TAG ?= latest
 

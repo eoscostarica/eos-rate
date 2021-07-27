@@ -1,4 +1,4 @@
-include ../../utils/meta.mk
+include ../utils/meta.mk
 
 LATEST_TAG ?= latest
 
@@ -30,7 +30,7 @@ build-docker: ./Dockerfile
 		--build-arg webapp_eos_api_protocol="$(WEBAPP_EOS_API_PROTOCOL)" \
 		--build-arg webapp_eos_chain_id="$(WEBAPP_EOS_CHAIN_ID)" \
 		--build-arg webapp_block_explorer="$(WEBAPP_BLOCK_EXPLORER)" \
-		--build-arg webnetwork_monitor_url="$(WEBAPP_NETWORK_MONITOR_URL)" \
+		--build-arg webapp_network_monitor_url="$(WEBAPP_NETWORK_MONITOR_URL)" \
 		--build-arg branch="$(BRANCH)" \
 		.
 
