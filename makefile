@@ -17,7 +17,9 @@ clean:
 	@docker compose stop
 	@rm -rf db_data
 	@rm -rf webapp/node_modules
+	@rm -rf webapp/yarn.lock
 	@rm -rf hapi/node_modules
+	@rm -rf hapi/yarn.lock
 
 ## MAKE SURE YOU HAVE INITIALIZED THE PROJECT (make run) BEFORE RUN THIS
 fresh: scripts/fresh.sh
