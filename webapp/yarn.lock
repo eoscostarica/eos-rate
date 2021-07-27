@@ -2707,17 +2707,17 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-anchor-link-browser-transport@^3.1.3:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/anchor-link-browser-transport/-/anchor-link-browser-transport-3.1.3.tgz#eb65dbcba9380885f36b08b2a9d05bf9cdeb4e46"
-  integrity sha512-r5S7r/NkkBQaUydh0Q3MOZZ7oQo1KZZ72LHtJzW5PX1v2dIW76/hxsKVE9IjwmIIeHvB6jqgHgTk0Rm3YVdqYw==
+anchor-link-browser-transport@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/anchor-link-browser-transport/-/anchor-link-browser-transport-3.2.3.tgz#a4770ae1fd42d362e513f04198ec298a87d8ed53"
+  integrity sha512-nLWcB2gCY95R3F54RiPltuOUssK9hry+Z8GXziRxj+HX9GNyb2f0lQ3YG3+U+yhJvQbXwIU9O5ssllZF2zpZPA==
   dependencies:
     tslib "^2.0.3"
 
-anchor-link@^3.2.3:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/anchor-link/-/anchor-link-3.2.3.tgz#ed57b54050a74ae3fb391bdb67f78c7196d8a343"
-  integrity sha512-1AnQLwO6tKWAP7l9/dwQ4iRT8RvNFBDPb7mxdqS2hURJa6zXEI9UdIMKCVKP64iiu2Jekf8/TSXnFKJFVXIPog==
+anchor-link@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/anchor-link/-/anchor-link-3.3.2.tgz#7165b7d28cfe26ce2f7db959e8971bb13c029c20"
+  integrity sha512-JDsI2Xwy4Y4D1AzfgSOioOBb5GfDPteQZOSu+cs2hT8gdRg4Asfhnxj8qDwpZX5RWdxP2NyHJEqBW5xDWH93kw==
   dependencies:
     "@greymass/eosio" "^0.4.0"
     asmcrypto.js "^2.3.2"
@@ -3907,9 +3907,9 @@ chart.js@^2.9.3:
     moment "^2.10.2"
 
 chart.js@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.4.1.tgz#ff3b2b2a04a37b83618b4a6399a5f87ccc0f1e8a"
-  integrity sha512-0R4mL7WiBcYoazIhrzSYnWcOw6RmrRn7Q4nKZNsBQZCBrlkZKodQbfeojCCo8eETPRCs1ZNTsAcZhIfyhyP61g==
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.5.0.tgz#6eb075332d4ebbbb20a94e5a07a234052ed6c4fb"
+  integrity sha512-J1a4EAb1Gi/KbhwDRmoovHTRuqT8qdF0kZ4XgwxpGethJHUdDrkqyPYwke0a+BuvSeUxPf8Cos6AX2AB8H8GLA==
 
 chartjs-color-string@^0.6.0:
   version "0.6.0"
@@ -7120,9 +7120,9 @@ i18next@14.0.1:
   integrity sha512-wsKfQuYsy4RdCaqqN71eDjWMhizhTfQSIBGttEA7vcboQrUfpQlCezrSzrtmoW9F9tmVyNs38iBgLYLMhRSeIQ==
 
 i18next@^20.3.3:
-  version "20.3.4"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-20.3.4.tgz#5e05524a8baa17bbf99b89cdb427d3a68406aa64"
-  integrity sha512-xj3A2tGvwdWI1QBDKKFLOT/n4QImm+tN8QvHBIaTU/zN4YWK1NlpWPZN6mKzd3G1Wd7J1jU5BkFeaKQWHpf05w==
+  version "20.3.5"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-20.3.5.tgz#14308b79a3f1cafb24fdcd8e182d3673baf1e979"
+  integrity sha512-//MGeU6n4TencJmCgG+TCrpdgAD/NDEU/KfKQekYbJX6QV7sD/NjWQdVdBi+bkT0snegnSoB7QhjSeatrk3a0w==
   dependencies:
     "@babel/runtime" "^7.12.0"
 
@@ -8497,9 +8497,9 @@ lines-and-columns@^1.1.6:
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
 lint-staged@^11.0.1:
-  version "11.0.1"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-11.0.1.tgz#1b8ae8ed5a52ed87252db95fe008c2618c85f55a"
-  integrity sha512-RkTA1ulE6jAGFskxpGAwxfVRXjHp7D9gFg/+KMARUWMPiVFP0t28Em2u0gL8sA0w3/ck3TC57F2v2RNeQ5XPnw==
+  version "11.1.1"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-11.1.1.tgz#9c2018b872654cf80b2b1ff5a10b6b74aef6e300"
+  integrity sha512-eTNGe6i78PSUUH2BZi1gZmGmNfb8IeN4z2OzMYxSZ1qnP1WXKn1E7D+OHwLbRDm/wQINnzIj0bsKJ6lLVSuZiQ==
   dependencies:
     chalk "^4.1.1"
     cli-truncate "^2.1.0"
@@ -8518,9 +8518,9 @@ lint-staged@^11.0.1:
     stringify-object "^3.3.0"
 
 listr2@^3.8.2:
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/listr2/-/listr2-3.10.0.tgz#58105a53ed7fa1430d1b738c6055ef7bb006160f"
-  integrity sha512-eP40ZHihu70sSmqFNbNy2NL1YwImmlMmPh9WO5sLmPDleurMHt3n+SwEWNu2kzKScexZnkyFtc1VI0z/TGlmpw==
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/listr2/-/listr2-3.11.0.tgz#9771b02407875aa78e73d6e0ff6541bbec0aaee9"
+  integrity sha512-XLJVe2JgXCyQTa3FbSv11lkKExYmEyA4jltVo8z4FX10Vt1Yj8IMekBfwim0BSOM9uj1QMTJvDQQpHyuPbB/dQ==
   dependencies:
     cli-truncate "^2.1.0"
     colorette "^1.2.2"
@@ -11186,9 +11186,9 @@ react-highlighter@^0.4.3:
     prop-types "^15.6.0"
 
 react-i18next@^11.11.2:
-  version "11.11.3"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.11.3.tgz#38d083bb079c3e6ee376b3321b0d6e409d798f68"
-  integrity sha512-upzG5/SpyOlYP5oSF4K8TZBvDWVhnCo38JNV+KnWjrg0+IaJCBltyh6lRGZDO5ovLyA4dU6Ip0bwbUCjb6Yyxw==
+  version "11.11.4"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.11.4.tgz#f6f9a1c827e7a5271377de2bf14db04cb1c9e5ce"
+  integrity sha512-ayWFlu8Sc7GAxW1PzMaPtzq+yiozWMxs0P1WeITNVzXAVRhC0Httkzw/IiODBta6seJRBCLrtUeFUSXhAIxlRg==
   dependencies:
     "@babel/runtime" "^7.14.5"
     html-parse-stringify "^3.0.1"
@@ -13268,13 +13268,13 @@ ua-parser-js@^0.7.18:
   integrity sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g==
 
 ual-anchor@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/ual-anchor/-/ual-anchor-1.0.6.tgz#55c0214cc2cb21abf103ab30cf9e23705a106aab"
-  integrity sha512-rtyCgmY7zf3BSFdiZx6y18e04kjLud6/vZibEwVmbN5XHywM/QhuD20986TQwMcvhS7vZ/pLExUcQEc3ycN+3w==
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/ual-anchor/-/ual-anchor-1.0.8.tgz#4be584fd088490422d1be4881540b864c88f687b"
+  integrity sha512-N2BnzDbQlLSP32+IhUYGXASR956wmgIRhmCwnaKyzM5xo4S1jmxikYKI+6XG+XlkDvGKTwSMkykA9PorQp4GlQ==
   dependencies:
     "@greymass/eosio" "^0.4.3"
-    anchor-link "^3.2.3"
-    anchor-link-browser-transport "^3.1.3"
+    anchor-link "^3.3.2"
+    anchor-link-browser-transport "^3.2.3"
     elliptic "6.5.4"
     eosio-signing-request "^2.2.1"
     eosjs "^21.0.3"
@@ -13546,10 +13546,18 @@ url-loader@4.1.1:
     mime-types "^2.1.27"
     schema-utils "^3.0.0"
 
-url-parse@^1.4.3, url-parse@^1.5.1:
+url-parse@^1.4.3:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.1.tgz#d5fa9890af8a5e1f274a2c98376510f6425f6e3b"
   integrity sha512-HOfCOUJt7iSYzEx/UqgtwKRMC6EU91NFhsCHMv9oM03VJcVo2Qrp8T8kI9D7amFf1cu+/3CEhgb3rF9zL7k85Q==
+  dependencies:
+    querystringify "^2.1.1"
+    requires-port "^1.0.0"
+
+url-parse@^1.5.1:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.3.tgz#71c1303d38fb6639ade183c2992c8cc0686df862"
+  integrity sha512-IIORyIQD9rvj0A4CLWsHkBBJuNqWpFQe224b6j9t/ABmquIS0qDU2pY6kl6AuOrL5OkCXHMCFNe1jBcuAggjvQ==
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"

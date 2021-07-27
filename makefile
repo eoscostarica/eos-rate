@@ -16,8 +16,8 @@ stop:
 clean:
 	@docker compose stop
 	@rm -rf db_data
-	@rm -rf tmp/hapi
-	@rm -rf tmp/webapp
+	@rm -rf webapp/node_modules
+	@rm -rf hapi/node_modules
 
 ## MAKE SURE YOU HAVE INITIALIZED THE PROJECT (make run) BEFORE RUN THIS
 fresh: scripts/fresh.sh
@@ -35,6 +35,7 @@ run:
 	make -B -j 3 run-hasura-cli run-logs run-webapp
 
 run-postgres:
+	mkdir -p $(POSTGRES_DATA)
 	@docker compose up -d --build postgres
 
 run-hapi:

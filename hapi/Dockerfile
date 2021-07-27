@@ -5,16 +5,14 @@ WORKDIR /opt/application
 
 # Install dev tools
 # Install global depedencies
-RUN apk add --no-cache yarn
-RUN apk add --no-cache git
-RUN apk add --no-cache jq
-RUN apk add --no-cache curl
-RUN apk add --no-cache vim
-RUN yarn global add serve
-RUN yarn global add eslint
-
-# Install nodemon for dev
-RUN yarn --ignore-optional --frozen-lockfile global add nodemon
+RUN apk add --no-cache yarn &&\
+    apk add --no-cache git &&\
+    apk add --no-cache jq &&\
+    apk add --no-cache curl &&\
+    apk add --no-cache vim &&\
+    yarn global add serve &&\
+    yarn global add eslint &&\
+    yarn --ignore-optional --frozen-lockfile global add nodemon
 
 # Install app dependencies
 COPY package*.json ./
