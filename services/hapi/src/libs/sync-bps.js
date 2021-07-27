@@ -76,16 +76,8 @@ const updateBlockProducersData = async () => {
       const saveBPResult = await db.producers.save(bpData)
       const dbResult = saveBPResult ? saveBPResult : await db.producers.insert(bpData)
       console.log(`Save or insert of ${owner} was ${dbResult ? 'SUCCESSFULLY' : 'UNSUCCESSFULLY'}`)
-    } catch (error) { console.log('error', error) }
+    } catch (err) { console.log(`Error: ${err}`) }
   })
 }
 
-;(async () => {
-  try {
-    await updateBlockProducersData()
-    console.log('OK...')
-    process.exit(0)
-  } catch (err) {
-    console.log('!!!!', err)
-  }
-})()
+updateBlockProducersData()
