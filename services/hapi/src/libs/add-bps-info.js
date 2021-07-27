@@ -365,7 +365,7 @@ const jungleBPinfo = [
   },
 ];
 
-const massive = require("massive");
+const massive = require("massive")
 const { massiveConfig } = require("../config");
 
 
