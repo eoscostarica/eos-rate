@@ -43,7 +43,7 @@ services:
       POSTGRES_DB: "${POSTGRES_DB}"
       POSTGRES_HOST: "${POSTGRES_HOST}"
       POSTGRES_SCHEMA: "${POSTGRES_SCHEMA}"
-      EOS_API_ENDPOINT: "${EOS_API_ENDPOINT}"
+      HAPI_EOS_API_ENDPOINT: "${HAPI_EOS_API_ENDPOINT}"
 
     depends_on:
       - postgres
@@ -67,7 +67,7 @@ services:
       POSTGRES_DB: "${POSTGRES_DB}"
       POSTGRES_HOST: postgres
       POSTGRES_SCHEMA: "${POSTGRES_SCHEMA}"
-      EOS_API_ENDPOINT: "${EOS_API_ENDPOINT}"
+      HAPI_EOS_API_ENDPOINT: "${HAPI_EOS_API_ENDPOINT}"
       WAIT_HOSTS: postgres:"${POSTGRES_PORT}" , hasura:8080
       WAIT_HOSTS_TIMEOUT: 60
     ports:

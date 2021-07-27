@@ -26,7 +26,7 @@ const http = (method) => (endpoint, body, options = {}) => {
     }
   }
 
-  return fetch(`${process.env.REACT_APP_EOS_API_URL}/${endpoint}`, params)
+  return fetch(`${process.env.WEBAPP_EOS_API_URL}/${endpoint}`, params)
     .then((response) =>
       response.json().then((payload) => ({ payload, response }))
     )

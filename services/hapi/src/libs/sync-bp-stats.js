@@ -4,7 +4,7 @@ const eosjs = require('eosjs')
 const fetch = require('node-fetch')
 
 const rpc = new eosjs.JsonRpc(
-  process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr',
+  process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr',
   { fetch }
 )
 

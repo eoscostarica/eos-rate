@@ -43,15 +43,15 @@ jobs:
           BRANCH: staging
           NAMESPACE: jungle-eosrate
           # webapp
-          REACT_APP_GRAPHQL_HTTP_URL: https://graphql-jungle.eosrate.io/v1/graphql
-          REACT_APP_GRAPHQL_WS_URL: wss://graphql-jungle.eosrate.io/v1/graphql
-          REACT_APP_EOS_API_URL: https://jungle.eosio.cr
-          REACT_APP_EOS_API_HOST: jungle.eosio.cr
-          REACT_APP_EOS_API_PORT: 443
-          REACT_APP_EOS_API_PROTOCOL: https
-          REACT_APP_EOS_CHAIN_ID: 2a02a0053e5a8cf73a56ba0fda11e4d92e0238a4a2aa74fccf46d5a910746840
-          REACT_APP_BLOCK_EXPLORER: https://jungle3.bloks.io
-          REACT_APP_NETWORK_MONITOR_URL: https://jungle.eosio.online/
+          WEBAPP_GRAPHQL_HTTP_URL: https://graphql-jungle.eosrate.io/v1/graphql
+          WEBAPP_GRAPHQL_WS_URL: wss://graphql-jungle.eosrate.io/v1/graphql
+          WEBAPP_EOS_API_URL: https://jungle.eosio.cr
+          WEBAPP_EOS_API_HOST: jungle.eosio.cr
+          WEBAPP_EOS_API_PORT: 443
+          WEBAPP_EOS_API_PROTOCOL: https
+          WEBAPP_EOS_CHAIN_ID: 2a02a0053e5a8cf73a56ba0fda11e4d92e0238a4a2aa74fccf46d5a910746840
+          WEBAPP_BLOCK_EXPLORER: https://jungle3.bloks.io
+          WEBAPP_NETWORK_MONITOR_URL: https://jungle.eosio.online/
 
       - name: Build kubernetes files
         id: build_kubernetes_files
@@ -67,15 +67,15 @@ jobs:
           INGRESS_HOST: jungle.eosrate.io
           INGRESS_GRAPHQL_HOST: graphql-jungle.eosrate.io
           # webapp
-          REACT_APP_GRAPHQL_HTTP_URL: https://graphql-jungle.eosrate.io/v1/graphql
-          REACT_APP_GRAPHQL_WS_URL: wss://graphql-jungle.eosrate.io/v1/graphql
-          REACT_APP_EOS_API_URL: https://jungle.eosio.cr
-          REACT_APP_EOS_API_HOST: jungle.eosio.cr
-          REACT_APP_EOS_API_PORT: 443
-          REACT_APP_EOS_API_PROTOCOL: https
-          REACT_APP_EOS_CHAIN_ID: 2a02a0053e5a8cf73a56ba0fda11e4d92e0238a4a2aa74fccf46d5a910746840
-          REACT_APP_BLOCK_EXPLORER: https://jungle3.bloks.io
-          REACT_APP_NETWORK_MONITOR_URL: https://jungle.eosio.online/
+          WEBAPP_GRAPHQL_HTTP_URL: https://graphql-jungle.eosrate.io/v1/graphql
+          WEBAPP_GRAPHQL_WS_URL: wss://graphql-jungle.eosrate.io/v1/graphql
+          WEBAPP_EOS_API_URL: https://jungle.eosio.cr
+          WEBAPP_EOS_API_HOST: jungle.eosio.cr
+          WEBAPP_EOS_API_PORT: 443
+          WEBAPP_EOS_API_PROTOCOL: https
+          WEBAPP_EOS_CHAIN_ID: 2a02a0053e5a8cf73a56ba0fda11e4d92e0238a4a2aa74fccf46d5a910746840
+          WEBAPP_BLOCK_EXPLORER: https://jungle3.bloks.io
+          WEBAPP_NETWORK_MONITOR_URL: https://jungle.eosio.online/
           # postgres
           DATABASE_DIRECTORY: database
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
@@ -85,11 +85,11 @@ jobs:
           POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
           POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
           POSTGRES_SCHEMA: ${{ secrets.POSTGRES_SCHEMA }}
-          EOS_API_ENDPOINT: https://jungle3.cryptolions.io
+          HAPI_EOS_API_ENDPOINT: https://jungle3.cryptolions.io
           HAPI_SERVER_ADDRESS: 0.0.0.0
           HAPI_SERVER_PORT: 9090
-          PROXY_INFO_CONTRACT_CODE: proxyaccount
-          PROXY_INFO_CONTRACT_SCOPE: proxyaccount
+          HAPI_PROXY_INFO_CONTRACT_CODE: proxyaccount
+          HAPI_PROXY_INFO_CONTRACT_SCOPE: proxyaccount
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
           HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
