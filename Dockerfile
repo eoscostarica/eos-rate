@@ -8,7 +8,7 @@ ARG branch
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Get the packages needed for Ubuntu
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_webapp noninteractive
 RUN apt-get -y update && \
   apt-get install -y \
   openssh-server \

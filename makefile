@@ -13,6 +13,12 @@ K8S_FILES := $(shell find ./kubernetes -name '*.yaml' | sed 's:./kubernetes/::g'
 stop:
 	@docker-compose stop
 
+clean:
+	@docker-compose stop
+	@rm -rf db_data
+	@rm -rf tmp/hapi
+	@rm -rf tmp/webapp
+
 ## MAKE SURE YOU HAVE INITIALIZED THE PROJECT (make run) BEFORE RUN THIS
 fresh: scripts/fresh.sh
 	./scripts/fresh.sh
@@ -20,13 +26,13 @@ fresh: scripts/fresh.sh
 install: ##@local Install hapi dependencies
 install:
 	@cd ./services/hapi && yarn
-	@cd ./services/frontend && yarn
+	@cd ./services/webapp && yarn
 
 run:
 	make -B run-postgres
 	make -B run-hapi
 	make -B run-hasura
-	make -B -j 3 run-hasura-cli run-logs run-frontend
+	make -B -j 3 run-hasura-cli run-logs run-webapp
 
 run-postgres:
 	@docker-compose up -d --build postgres
@@ -39,43 +45,40 @@ run-hasura:
 	$(eval -include .env)
 	@until \
 		docker-compose exec -T postgres pg_isready; \
-		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-hasura |$(RESET) waiting for postgres service"; \
+		do echo "$(BLUE)hasura |$(RESET) waiting for postgres service"; \
 		sleep 5; done;
 	@until \
-		curl http://localhost:9090; \
-		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-hasura |$(RESET) waiting for hapi service"; \
+		curl -s -o /dev/null -w 'hapi status %{http_code}\n' http://localhost:9090/healthz; \
+		do echo "$(BLUE)hasura |$(RESET) waiting for hapi service"; \
 		sleep 5; done;
-	@echo "..."
 	@docker-compose stop hasura
 	@docker-compose up -d --build hasura
+	@echo "done hasura"
 
 run-hasura-cli:
 	$(eval -include .env)
 	@until \
-		curl http://localhost:8080/v1/version; \
-		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-hasura |$(RESET) ..."; \
+		curl -s -o /dev/null -w 'hasura status %{http_code}\n' http://localhost:8080/healthz; \
+		do echo "$(BLUE)hasura |$(RESET) waiting for hasura service"; \
 		sleep 5; done;
-	@if [ $(STAGE) = "dev" ]; then\
-	 	cd services/hasura;\
-	 	hasura console --endpoint http://localhost:8080 --no-browser;\
-	fi
+	@cd hasura && hasura seeds apply --admin-secret $(HASURA_GRAPHQL_ADMIN_SECRET) && echo "success!" || echo "failure!";
+	@cd hasura && hasura console --endpoint http://localhost:8080 --skip-update-check --no-browser --admin-secret $(HASURA_GRAPHQL_ADMIN_SECRET);
 
-run-frontend:
+run-webapp:
 	$(eval -include .env)
 	@until \
-		curl -s -o /dev/null -w 'hasura status %{http_code}\n' http://localhost:8080; \
-		do echo "$(BLUE)$(STAGE)-$(APP_NAME)-frontend |$(RESET) waiting for hasura service"; \
+		curl -s -o /dev/null -w 'hasura status %{http_code}\n' http://localhost:8080/healthz; \
+		do echo "$(BLUE)webapp |$(RESET) waiting for webapp service"; \
 		sleep 5; done;
-	@cd services/frontend && yarn && yarn start | cat
-	@echo "done frontend start"
-
+	@cd services/webapp && yarn && yarn start:local | cat
+	@echo "done webapp"
 run-logs:
-	@docker-compose logs -f hapi frontend
+	@docker-compose logs -f hapi webapp
 
 migrate: scripts/migrate.sh
 	./scripts/migrate.sh
 
-pgweb: scripts/pgweb.sh
+run-pgweb: scripts/pgweb.sh
 	./scripts/pgweb.sh
 
 push-staging:

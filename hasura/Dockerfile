@@ -1,4 +1,4 @@
-FROM hasura/graphql-engine:v1.3.3.cli-migrations-v2
+FROM hasura/graphql-engine:v2.0.3.cli-migrations-v2
 
 ARG hasura_graphql_migrations_dir
 ARG hasura_graphql_metadata_dir

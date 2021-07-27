@@ -6,25 +6,25 @@ const massive = require('massive')
 
 const { massiveConfig } = require('../config')
 
-const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 
-const HAPI_PROXY_INFO_CONTRACT_CODE = process.env.HAPI_PROXY_INFO_CONTRACT_CODE || 'proxyaccount'
+const PROXY_INFO_CONTRACT_CODE = process.env.PROXY_INFO_CONTRACT_CODE || 'proxyaccount'
 
-const HAPI_PROXY_INFO_CONTRACT_SCOPE = process.env.HAPI_PROXY_INFO_CONTRACT_SCOPE || 'proxyaccount'
+const PROXY_INFO_CONTRACT_SCOPE = process.env.PROXY_INFO_CONTRACT_SCOPE || 'proxyaccount'
 
 // gets data from blockchain
 const getProxiesData = async () => {
   const db = await massive(massiveConfig)
-  const eos = new JsonRpc(HAPI_EOS_API_ENDPOINT, { fetch })
+  const eos = new JsonRpc(EOS_API_ENDPOINT, { fetch })
   const eosApi = EosApi({
-    httpEndpoint: HAPI_EOS_API_ENDPOINT,
+    httpEndpoint: EOS_API_ENDPOINT,
     verbose: false
   })
 
   const { rows: proxies } = await eos.get_table_rows({
     json: true,
-    code: HAPI_PROXY_INFO_CONTRACT_CODE,
-    scope: HAPI_PROXY_INFO_CONTRACT_SCOPE,
+    code: PROXY_INFO_CONTRACT_CODE,
+    scope: PROXY_INFO_CONTRACT_SCOPE,
     table: 'proxies',
     limit: 1000,
     reverse: false,

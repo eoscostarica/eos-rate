@@ -5,11 +5,11 @@ const massive = require('massive')
 
 const { massiveConfig } = require('../config')
 
-const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 
 // gets data from blockchain
 const getRatingsStats = async () => {
-  const eos = new JsonRpc(HAPI_EOS_API_ENDPOINT, { fetch })
+  const eos = new JsonRpc(EOS_API_ENDPOINT, { fetch })
 
   const ratings = await eos.get_table_rows({
     json: true,

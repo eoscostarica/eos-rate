@@ -9,13 +9,11 @@
   "scripts": {
     "precommit": "pretty-quick --staged && lint-staged",
     "lint": "eslint .",
-    "start": "env-cmd -f ../../.env react-scripts start",
-    "prod": "serve -l 9000 --single ./build",
+    "start": "react-scripts start",
+    "start:local": "env-cmd -f ../../.env react-scripts start",
     "build": "react-scripts build",
     "test": "env-cmd -f .env react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "now": "now --public --npm && now alias",
-    "now-start": "serve --single ./build"
+    "eject": "react-scripts eject"
   },
   "husky": {
     "hooks": {

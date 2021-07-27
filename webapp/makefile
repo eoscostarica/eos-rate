@@ -22,14 +22,14 @@ build-docker: ./Dockerfile
 	@docker build \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_WEBAPP):$(VERSION) --target server \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_WEBAPP):$(LATEST_TAG) --target server \
-		--build-arg WEBAPP_graphql_http_url="$(WEBAPP_GRAPHQL_HTTP_URL)" \
-		--build-arg WEBAPP_graphql_ws_url="$(WEBAPP_GRAPHQL_WS_URL)" \
-		--build-arg WEBAPP_eos_api_url="$(WEBAPP_EOS_API_URL)" \
-		--build-arg WEBAPP_eos_api_host="$(WEBAPP_EOS_API_HOST)" \
-		--build-arg WEBAPP_eos_api_port="$(WEBAPP_EOS_API_PORT)" \
-		--build-arg WEBAPP_eos_api_protocol="$(WEBAPP_EOS_API_PROTOCOL)" \
-		--build-arg WEBAPP_eos_chain_id="$(WEBAPP_EOS_CHAIN_ID)" \
-		--build-arg WEBAPP_block_explorer="$(WEBAPP_BLOCK_EXPLORER)" \
+		--build-arg react_app_graphql_http_url="$(WEBAPP_GRAPHQL_HTTP_URL)" \
+		--build-arg react_app_graphql_ws_url="$(WEBAPP_GRAPHQL_WS_URL)" \
+		--build-arg react_app_eos_api_url="$(WEBAPP_EOS_API_URL)" \
+		--build-arg react_app_eos_api_host="$(WEBAPP_EOS_API_HOST)" \
+		--build-arg react_app_eos_api_port="$(WEBAPP_EOS_API_PORT)" \
+		--build-arg react_app_eos_api_protocol="$(WEBAPP_EOS_API_PROTOCOL)" \
+		--build-arg react_app_eos_chain_id="$(WEBAPP_EOS_CHAIN_ID)" \
+		--build-arg react_app_block_explorer="$(WEBAPP_BLOCK_EXPLORER)" \
 		--build-arg react_network_monitor_url="$(WEBAPP_NETWORK_MONITOR_URL)" \
 		--build-arg branch="$(BRANCH)" \
 		.

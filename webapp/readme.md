@@ -1,6 +1,6 @@
-# EOS Rate FrontEnd
+# EOS Rate webapp
 
-EOS React.js based dApp frontend.
+EOS React.js based dApp webapp.
 
 ## Code Standards
 

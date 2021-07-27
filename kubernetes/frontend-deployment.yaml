@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: frontend
-  name: frontend
+    app: webapp
+  name: webapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: webapp
   template:
     metadata:
       labels:
-        app: frontend
+        app: webapp
     spec:
       containers:
       - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_WEBAPP}:${VERSION}
         imagePullPolicy: "Always"
-        name: eosrate-frontend
+        name: eosrate-webapp
         env:
         - name: WEBAPP_GRAPHQL_HTTP_URL
           value: http://hasura:8080/v1/graphql

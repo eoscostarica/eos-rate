@@ -1,9 +1,9 @@
-version: "3.5"
+version: "3.6"
 
 services:
   postgres:
     container_name: eosrate_postgres
-    image: postgres:10.4
+    image: postgres:13.3-alpine
     volumes:
       - ${POSTGRES_DATA}:/var/lib/postgresql/data
     ports:
@@ -20,7 +20,7 @@ services:
     ports:
       - "8082:8081"
     environment:
-      DATABASE_URL: "${HASURA_GRAPHQL_DATABASE_URL}"
+      DATABASE_URL: "${HASURA_GRAPHQL_DATABASE_URL}?sslmode=disable"
     depends_on:
       - postgres
 
@@ -77,14 +77,11 @@ services:
 
   hasura:
     container_name: eosrate_hasura
-    build:
-      context: ./services/hasura
-      dockerfile: ./Dockerfile
-    image: hasura/graphql-engine:v1.3.3.cli-migrations-v2
+    image: hasura/graphql-engine:v2.0.3
     ports:
-      - "8080:8080"
+    - "8080:8080"
     depends_on:
-      - postgres
+    - "postgres"
     restart: always
     environment:
       HASURA_GRAPHQL_DATABASE_URL: "${HASURA_GRAPHQL_DATABASE_URL}"
@@ -93,18 +90,22 @@ services:
       HASURA_GRAPHQL_ACTION_BASE_URL: "${HASURA_GRAPHQL_ACTION_BASE_URL}"
       HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_GRAPHQL_ADMIN_SECRET}"
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "${HASURA_GRAPHQL_UNAUTHORIZED_ROLE}"
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
 
     volumes:
       - ./services/hasura/migrations:/hasura-migrations
       - ./services/hasura/metadata:/hasura-metadata
 
-  frontend:
-    container_name: eosrate_frontend
+  webapp:
+    container_name: eosrate_webapp
     build:
-      context: ./services/frontend
+      context: ./services/webapp
       dockerfile: ./Dockerfile
       target: server
-    image: eosrate/frontend
+    image: eosrate/webapp
     depends_on:
       - hasura
       - hapi

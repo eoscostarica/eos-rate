@@ -27,7 +27,7 @@ jobs:
         run: |
           cd services/hapi
           yarn
-          cd ../frontend
+          cd ../webapp
           yarn
           cd ../..
 

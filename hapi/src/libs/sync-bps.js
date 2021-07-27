@@ -5,12 +5,12 @@ const request = require('request-promise')
 
 const { massiveConfig } = require('../config')
 
-const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 
 // gets data from mainnet
 const getBlockProducersData = async () => {
   const eos = EosApi({
-    httpEndpoint: HAPI_EOS_API_ENDPOINT,
+    httpEndpoint: EOS_API_ENDPOINT,
     verbose: false
   })
   
@@ -64,12 +64,12 @@ const getBlockProducersData = async () => {
       try {
         if (bp['producer_account_name'] && bp['producer_account_name'] !== '') {
           if (
-            HAPI_EOS_API_ENDPOINT !== 'https://jungle.eosio.cr' &&
+            EOS_API_ENDPOINT !== 'https://jungle.eosio.cr' &&
             bp['producer_account_name'] === allProducers[i]['owner']
           ) {
             console.log('add', urls[i])
             allProducers[i]['bpJson'] = bp
-          } else if (HAPI_EOS_API_ENDPOINT === 'https://jungle.eosio.cr') {
+          } else if (EOS_API_ENDPOINT === 'https://jungle.eosio.cr') {
             console.log('add', urls[i], 'jungle')
             allProducers[i]['bpJson'] = bp
           }
