@@ -11,10 +11,10 @@ K8S_BUILD_DIR ?= ./build_k8s
 K8S_FILES := $(shell find ./kubernetes -name '*.yaml' | sed 's:./kubernetes/::g')
 
 stop:
-	@docker-compose stop
+	@docker compose stop
 
 clean:
-	@docker-compose stop
+	@docker compose stop
 	@rm -rf db_data
 	@rm -rf tmp/hapi
 	@rm -rf tmp/webapp
@@ -35,24 +35,24 @@ run:
 	make -B -j 3 run-hasura-cli run-logs run-webapp
 
 run-postgres:
-	@docker-compose up -d --build postgres
+	@docker compose up -d --build postgres
 
 run-hapi:
-	@docker-compose up -d --build hapi
+	@docker compose up -d --build hapi
 	@echo "done hapi"
 
 run-hasura:
 	$(eval -include .env)
 	@until \
-		docker-compose exec -T postgres pg_isready; \
+		docker compose exec -T postgres pg_isready; \
 		do echo "$(BLUE)hasura |$(RESET) waiting for postgres service"; \
 		sleep 5; done;
 	@until \
 		curl -s -o /dev/null -w 'hapi status %{http_code}\n' http://localhost:9090/healthz; \
 		do echo "$(BLUE)hasura |$(RESET) waiting for hapi service"; \
 		sleep 5; done;
-	@docker-compose stop hasura
-	@docker-compose up -d --build hasura
+	@docker compose stop hasura
+	@docker compose up -d --build hasura
 	@echo "done hasura"
 
 run-hasura-cli:
@@ -73,7 +73,7 @@ run-webapp:
 	@cd webapp && yarn && yarn start:local | cat
 	@echo "done webapp"
 run-logs:
-	@docker-compose logs -f hapi webapp
+	@docker compose logs -f hapi webapp
 
 migrate: scripts/migrate.sh
 	./scripts/migrate.sh

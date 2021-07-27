@@ -1,15 +1,6 @@
-actions:
-- name: rateProducer
-  definition:
-    kind: synchronous
-    handler: '{{HASURA_GRAPHQL_ACTION_BASE_URL}}/ratebp'
-  permissions:
-  - role: anonymous
+actions: []
 custom_types:
   enums: []
-  input_objects:
-  - name: RatingInput
-  objects:
-  - name: RatingOutput
-  - name: deleteUserRateOutput
+  input_objects: []
+  objects: []
   scalars: []
