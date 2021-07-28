@@ -1,1 +1,5 @@
-[]
+- "!include public_producers.yaml"
+- "!include public_producers_list.yaml"
+- "!include public_proxies.yaml"
+- "!include public_ratings_stats.yaml"
+- "!include public_user_ratings.yaml"

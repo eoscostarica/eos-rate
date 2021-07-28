@@ -64,7 +64,7 @@ run-hasura-cli:
 		curl -s -o /dev/null -w 'hasura status %{http_code}\n' http://localhost:8080/healthz; \
 		do echo "$(BLUE)hasura |$(RESET) waiting for hasura service"; \
 		sleep 5; done;
-	@cd hasura && hasura seeds apply --admin-secret $(HASURA_GRAPHQL_ADMIN_SECRET) && echo "success!" || echo "failure!";
+	@cd hasura && hasura seeds apply --database-name default --admin-secret $(HASURA_GRAPHQL_ADMIN_SECRET) && echo "success!" || echo "failure!";
 	@cd hasura && hasura console --endpoint http://localhost:8080 --skip-update-check --no-browser --admin-secret $(HASURA_GRAPHQL_ADMIN_SECRET);
 
 run-webapp:
@@ -75,6 +75,7 @@ run-webapp:
 		sleep 5; done;
 	@cd webapp && yarn && yarn start:local | cat
 	@echo "done webapp"
+
 run-logs:
 	@docker compose logs -f hapi webapp
 

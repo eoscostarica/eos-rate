@@ -12,7 +12,7 @@
     "start": "react-scripts start",
     "start:local": "env-cmd -f ../.env react-scripts start",
     "build": "react-scripts build",
-    "test": "env-cmd -f .env react-scripts test --env=jsdom",
+    "test": "env-cmd -f ../.env react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "husky": {

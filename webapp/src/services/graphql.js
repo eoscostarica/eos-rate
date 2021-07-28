@@ -5,15 +5,18 @@ import { split } from 'apollo-link'
 import { getMainDefinition } from 'apollo-utilities'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
+const REACT_APP_GRAPHQL_HTTP_URL = process.env.REACT_APP_GRAPHQL_HTTP_URL
+console.log(`REACT_APP_GRAPHQL_HTTP_URL: ${REACT_APP_GRAPHQL_HTTP_URL}`)
+
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: process.env.WEBAPP_GRAPHQL_HTTP_URL,
+  uri: process.env.REACT_APP_GRAPHQL_HTTP_URL,
   credentials: 'same-origin'
 })
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri: process.env.WEBAPP_GRAPHQL_WS_URL,
+  uri: process.env.REACT_APP_GRAPHQL_WS_URL,
   options: {
     reconnect: true
   }
