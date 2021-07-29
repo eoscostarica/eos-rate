@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webapp
+  name: webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_WEBAPP}:${VERSION}
+        imagePullPolicy: "Always"
+        name: eosrate-webapp
+        env:
+        - name: REACT_APP_GRAPHQL_HTTP_URL
+          value: http://hasura:8080/v1/graphql
+        - name: REACT_APP_GRAPHQL_WS_URL
+          value: ws://hasura:8080/v1/graphql
+        ports:
+        - containerPort: 80
+      restartPolicy: Always
