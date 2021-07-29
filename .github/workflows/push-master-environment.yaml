@@ -25,9 +25,9 @@ jobs:
 
       - name: Install node module dependencies
         run: |
-          cd services/hapi
+          cd hapi
           yarn
-          cd ../frontend
+          cd ../webapp
           yarn
           cd ../..
 
@@ -85,11 +85,11 @@ jobs:
           POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
           POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
           POSTGRES_SCHEMA: ${{ secrets.POSTGRES_SCHEMA }}
-          EOS_API_ENDPOINT: https://api.eosio.cr
+          HAPI_EOS_API_ENDPOINT: https://api.eosio.cr
           HAPI_SERVER_ADDRESS: 0.0.0.0
           HAPI_SERVER_PORT: 9090
-          PROXY_INFO_CONTRACT_CODE: regproxyinfo
-          PROXY_INFO_CONTRACT_SCOPE: regproxyinfo
+          HAPI_PROXY_INFO_CONTRACT_CODE: regproxyinfo
+          HAPI_PROXY_INFO_CONTRACT_SCOPE: regproxyinfo
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
           HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
