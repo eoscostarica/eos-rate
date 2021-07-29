@@ -8,14 +8,17 @@ const rpc = new eosjs.JsonRpc(
   { fetch }
 )
 
+const HAPI_STATS_CONTRACT_CODE = process.env.HAPI_STATS_CONTRACT_CODE || 'rateproducer'
+const HAPI_STATS_CONTRACT_SCODE = process.env.HAPI_STATS_CONTRACT_SCODE || 'rateproducer'
+
 // Read from Blockchain
 const getBpStats = async bp => {
   let result
   try {
     result = await rpc.get_table_rows({
       json: true, // Get the response as json
-      code: 'rateproducer', // Contract that we target
-      scope: 'rateproducer', // Account that owns the data
+      code: HAPI_STATS_CONTRACT_CODE, // Contract that we target
+      scope: HAPI_STATS_CONTRACT_SCODE, // Account that owns the data
       table: 'stats', // Table name
       lower_bound: bp, // block producer PK
       limit: 1, // Maximum number of rows that we want to get

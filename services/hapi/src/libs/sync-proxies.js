@@ -6,8 +6,8 @@ const massive = require('massive')
 const { massiveConfig } = require('../config')
 
 const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
-const PROXY_INFO_CONTRACT_CODE = process.env.PROXY_INFO_CONTRACT_CODE || 'proxyaccount'
-const PROXY_INFO_CONTRACT_SCOPE = process.env.PROXY_INFO_CONTRACT_SCOPE || 'proxyaccount'
+const HAPI_PROXY_CONTRACT_CODE = process.env.HAPI_PROXY_CONTRACT_CODE || 'proxyaccount'
+const HAPI_PROXY_CONTRACT_SCOPE = process.env.HAPI_PROXY_CONTRACT_SCOPE || 'proxyaccount'
 
 
 const getProxiesData = async () => {
@@ -20,8 +20,8 @@ const getProxiesData = async () => {
 
   const { rows: proxies } = await eos.get_table_rows({
     json: true,
-    code: PROXY_INFO_CONTRACT_CODE,
-    scope: PROXY_INFO_CONTRACT_SCOPE,
+    code: HAPI_PROXY_CONTRACT_CODE,
+    scope: HAPI_PROXY_CONTRACT_SCOPE,
     table: 'proxies',
     limit: 1000,
     reverse: false,

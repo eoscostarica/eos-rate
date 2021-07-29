@@ -58,7 +58,7 @@ const getBlockProducersData = async () => {
   }
 
   console.log(`Incoming total producers ${allProducers.length}`)
-  console.log(`Outcoming total producers ${producersBPJSON.length}`)
+  console.log(`Outgoing total producers ${producersBPJSON.length}`)
 
   return producersBPJSON
 }

@@ -5,15 +5,16 @@ const massive = require('massive')
 const { massiveConfig } = require('../config')
 
 const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
-
+const HAPI_RATING_CONTRACT_CODE = process.env.HAPI_RATING_CONTRACT_CODE || 'rateproducer'
+const HAPI_RATING_CONTRACT_SCODE = process.env.HAPI_RATING_CONTRACT_SCODE || 'rateproducer'
 
 const getUserRatings = async () => {
   const eos = new JsonRpc(EOS_API_ENDPOINT, { fetch })
 
   let ratings = await eos.get_table_rows({
     json: true,
-    code: 'rateproducer',
-    scope: 'rateproducer',
+    code: HAPI_RATING_CONTRACT_CODE,
+    scope: HAPI_RATING_CONTRACT_SCODE,
     table: 'ratings',
     limit: 1000,
     reverse: false,
