@@ -6,8 +6,7 @@ const massive = require('massive')
 const { massiveConfig } = require('../config')
 
 const EOS_API_ENDPOINT = process.env.EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
-const HAPI_RATING_CONTRACT_CODE = process.env.HAPI_RATING_CONTRACT_CODE || 'rateproducer'
-const HAPI_RATING_CONTRACT_SCODE = process.env.HAPI_RATING_CONTRACT_SCODE || 'rateproducer'
+const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
 
 // gets data from blockchain
 const getUserRatings = async () => {
@@ -15,8 +14,8 @@ const getUserRatings = async () => {
 
   let ratings = await eos.get_table_rows({
     json: true,
-    code: HAPI_RATING_CONTRACT_CODE,
-    scope: HAPI_RATING_CONTRACT_SCODE,
+    code: HAPI_RATING_CONTRACT,
+    scope: HAPI_RATING_CONTRACT,
     table: 'ratings',
     limit: 1000,
     reverse: false,
