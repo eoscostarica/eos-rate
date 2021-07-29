@@ -1,2 +1,22 @@
+type Mutation {
+  rateProducer (
+    ratingInput: RatingInput!
+  ): RatingOutput
+}
 
+
+
+
+input RatingInput {
+  user : String!
+  producer : String!
+}
+
+type RatingOutput {
+  message : String!
+  uniq_rating : String
+  user : String
+  bp : String
+  ratings : jsonb
+}
 
