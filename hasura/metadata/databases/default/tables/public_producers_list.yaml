@@ -1,0 +1,3 @@
+table:
+  name: producers_list
+  schema: public

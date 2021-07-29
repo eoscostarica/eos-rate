@@ -1,0 +1,3 @@
+table:
+  name: ratings_stats
+  schema: public

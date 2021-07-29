@@ -101,7 +101,7 @@ We are running the application infrastructure on premises in San Jose, Costa Ric
 
 ## App Services
 
-- **frontend:** http://localhost:3000  
+- **webapp:** http://localhost:3000  
   A React JS Web Client based on create-react-app that starts up at the available port (default is 3000).
 
 - **[hasura](https://hasura.io)** http://localhost:8088  
