@@ -17,7 +17,7 @@ ACTION rateproducer::rate(
     check( (MINVAL<= community &&  community<=MAXVAL ), "Error community value out of range" );
     
     //checks if the bp is active 
-    check(is_blockproducer(bp),"votes are allowed only for registered block producers");
+    check( is_blockproducer(bp), "votes are allowed only for registered block producers" );
     
     eosio::name proxy_name = get_proxy(user);
     if(proxy_name.length()) {
@@ -97,166 +97,124 @@ ACTION rateproducer::rate(
                         &bp_average);
     }    
 }
-
-/**
-*
-*  Stores the rate stats within stats table
-*  for a specific block producer
-*
-* @param user - Voter account name,
-* @param bp_name -  Block Producer account name
-* @param transparency - Rate for transparency category
-* @param infrastructure - Rate for infrastructure category
-* @param trustiness - Rate for trustiness category
-* @param community - Rate for community category
-* @param development - Rate for development category
-*
-* @memo this function is called for the first-time rate made 
-*       by the tuple {user,bp}
-*
-*/      
-void rateproducer::save_bp_stats (name user,
-                    name bp_name,
-                    float transparency,
-                    float infrastructure,
-                    float trustiness,
-                    float community,
-                    float development
-                    ){
+    
+void rateproducer::save_bp_stats (
+    name user,
+    name bp_name,
+    float transparency,
+    float infrastructure,
+    float trustiness,
+    float community,
+    float development) {
     _stats bps_stats(_self, _self.value);
     auto itr = bps_stats.find(bp_name.value);
     float counter =0;
     float sum = 0;
-    if(itr == bps_stats.end()){
+    if(itr == bps_stats.end()) {
     //new entry
         bps_stats.emplace(user, [&]( auto& row ) {
-        
-        if (transparency){
-            row.transparency = transparency;
-            counter++;
-            sum += transparency;
-        }
+            if (transparency) {
+                row.transparency = transparency;
+                counter++;
+                sum += transparency;
+            }
 
-        if (infrastructure){
-            row.infrastructure = infrastructure;
-            counter++;
-            sum += infrastructure;
-        }
+            if (infrastructure) {
+                row.infrastructure = infrastructure;
+                counter++;
+                sum += infrastructure;
+            }
 
-        if (trustiness){
-            row.trustiness = trustiness;
-            counter++;
-            sum += trustiness;
-        }
+            if (trustiness) {
+                row.trustiness = trustiness;
+                counter++;
+                sum += trustiness;
+            }
 
-        if (development){
-            row.development = development;
-            counter++;
-            sum += development;
-        }
+            if (development) {
+                row.development = development;
+                counter++;
+                sum += development;
+            }
 
-        if (community){
-            row.community = community;
-            counter++;
-            sum += community;
-        }
+            if (community) {
+                row.community = community;
+                counter++;
+                sum += community;
+            }
 
-        if(counter){
-            row.bp = bp_name;
-            row.ratings_cntr = 1;
-            row.average =sum/counter;
-            
-        }
+            if(counter) {
+                row.bp = bp_name;
+                row.ratings_cntr = 1;
+                row.average =sum/counter;
+                
+            }
         });
-    }else{
-    //update the entry
-    bps_stats.modify(itr,user, [&]( auto& row ) {
-        if (transparency){
-            sum += transparency;
-            if(row.transparency){
-                transparency = (transparency + row.transparency)/2;
+    } else {
+        //update the entry
+        bps_stats.modify(itr,user, [&]( auto& row ) {
+            if (transparency) {
+                sum += transparency;
+                if(row.transparency) {
+                    transparency = (transparency + row.transparency)/2;
+                }
+                row.transparency = transparency;
+                counter++;
             }
-            row.transparency = transparency;
-            counter++;
-        }
 
-        if (infrastructure){
-            sum += infrastructure;
-            if(row.infrastructure){
-                infrastructure = (infrastructure + row.infrastructure)/2;
+            if (infrastructure) {
+                sum += infrastructure;
+                if(row.infrastructure) {
+                    infrastructure = (infrastructure + row.infrastructure)/2;
+                }
+                row.infrastructure = infrastructure;
+                counter++;
             }
-            row.infrastructure = infrastructure;
-            counter++;
-        }
 
-        if (trustiness){
-            sum += trustiness;
-            if(row.trustiness){
-                trustiness = (trustiness + row.trustiness)/2;
+            if (trustiness) {
+                sum += trustiness;
+                if(row.trustiness) {
+                    trustiness = (trustiness + row.trustiness) / 2;
+                }
+                row.trustiness = trustiness;
+                counter++;
             }
-            row.trustiness = trustiness;
-            counter++;
-        }
 
-        if (development){
-            sum += development;
-            if(row.development){
-                development  = (development + row.development)/2;
+            if (development) {
+                sum += development;
+                if(row.development) {
+                    development  = (development + row.development) / 2;
+                }
+                row.development = development;
+                counter++;
             }
-            row.development = development;
-            counter++;
-        }
 
-        if (community){
-            sum += community;
-            if(row.community){
-                community = (community + row.community)/2;
+            if (community) {
+                sum += community;
+                if(row.community) {
+                    community = (community + row.community) / 2;
+                }
+                row.community = community;
+                counter++;
             }
-            row.community = community;
-            counter++;
-        }
 
-        if(counter){
-            row.ratings_cntr++;
-            row.average =( (sum/counter) + row.average ) /2;
-        }
+            if(counter) {
+                row.ratings_cntr++;
+                row.average =( (sum/counter) + row.average ) / 2;
+            }
         });
     }
 }
 
-/**
-*
-*  Calculates the value for all categories 
-*  for a specified block producer, this fucntion
-*  iterates on ratings table 
-*
-* @param bp_name -  Block Producer account name
-* @param transparency - Calculated value for transparency category
-* @param infrastructure - Calculated value for infrastructure category
-* @param trustiness - Calculated value for trustiness category
-* @param community - Calculated value for community category
-* @param development - Calculated value for development category
-* @param ratings_cntr - Calculated value for rates counter
-* @param average -  Calculated average for categories 
-*
-* @memo zero values are ignored, see the unit test script test_averaje.js
-*       in order to learn more details about the average calculation
-* 
-* @memo  variables transparency, infrastructure, trustiness, community
-*        development, ratings_cntr, average are passed by reference
-*
-* @return calculated values for: transparency, infrastructure, trustiness, community
-*        development, ratings_cntr
-*/ 
-void rateproducer::calculate_bp_stats ( name bp_name,
-                    float * transparency,
-                    float * infrastructure,
-                    float * trustiness,
-                    float * community,
-                    float * development,
-                    uint32_t * ratings_cntr,
-                    float  * average
-                    ){
+void rateproducer::calculate_bp_stats (
+    name bp_name,
+    float * transparency,
+    float * infrastructure,
+    float * trustiness,
+    float * community,
+    float * development,
+    uint32_t * ratings_cntr,
+    float  * average) {
     
     float category_counter = 0;
     
@@ -277,29 +235,29 @@ void rateproducer::calculate_bp_stats ( name bp_name,
     auto bps_index = bps.get_index<name("bp")>();
     auto bps_it = bps_index.find(bp_name.value); 
     
-    while(bps_it != bps_index.end()){
-        if(bp_name == bps_it->bp){
-            if(bps_it->transparency){
+    while(bps_it != bps_index.end()) {
+        if(bp_name == bps_it->bp) {
+            if(bps_it->transparency) {
                 transparency_total+=bps_it->transparency;
                 transparency_cntr++;
             }
 
-            if(bps_it->infrastructure){
+            if(bps_it->infrastructure) {
                 infrastructure_total+=bps_it->infrastructure;
                 infrastructure_cntr++;
             }
 
-            if(bps_it->trustiness){
+            if(bps_it->trustiness) {
                 trustiness_total+=bps_it->trustiness;
                 trustiness_cntr++;
             }
 
-            if(bps_it->community){
+            if(bps_it->community) {
                 community_total+=bps_it->community;
                 community_cntr++;
             }
 
-            if(bps_it->development){
+            if(bps_it->development) {
                 development_total+=bps_it->development;
                 development_cntr++;
             }
@@ -308,27 +266,27 @@ void rateproducer::calculate_bp_stats ( name bp_name,
         bps_it ++;
     }
     
-    if(transparency_cntr){
+    if(transparency_cntr) {
         *transparency = transparency_total/transparency_cntr;
         category_counter++;
     }
     
-    if(infrastructure_cntr){
+    if(infrastructure_cntr) {
         *infrastructure =infrastructure_total/infrastructure_cntr;
         category_counter++;
     }
         
-    if(trustiness_cntr){
+    if(trustiness_cntr) {
         *trustiness = trustiness_total/trustiness_cntr;
         category_counter++;
     }
         
-    if(community_cntr){
+    if(community_cntr) {
         *community = community_total/community_cntr;
         category_counter++;
     }
         
-    if(development_cntr){
+    if(development_cntr) {
         *development = development_total/development_cntr;
         category_counter++;
     } 
@@ -336,74 +294,53 @@ void rateproducer::calculate_bp_stats ( name bp_name,
     *ratings_cntr = voters_cntr;
 }
 
-/**
-*
-*  Updates the stats table, with the new
-*  categories values for a specific block producer
-*  
-* @param user - Voter account name,
-* @param bp_name -  Block Producer account name
-* @param transparency - Rate for transparency category
-* @param infrastructure - Rate for infrastructure category
-* @param trustiness - Rate for trustiness category
-* @param community - Rate for community category
-* @param development - Rate for development category
-*
-*/ 
-void rateproducer::update_bp_stats (name * user,
-                    name * bp_name,
-                    float * transparency,
-                    float * infrastructure,
-                    float * trustiness,
-                    float * community,
-                    float * development,
-                    uint32_t * ratings_cntr,
-                    float * average
-                    ){
+void rateproducer::update_bp_stats (
+    name * user,
+    name * bp_name,
+    float * transparency,
+    float * infrastructure,
+    float * trustiness,
+    float * community,
+    float * development,
+    uint32_t * ratings_cntr,
+    float * average) {
     
     _stats bps_stats(_self, _self.value);
     auto itr = bps_stats.find(bp_name->value);
-    if(itr != bps_stats.end()){
-    //if rate categories are more than zero
-    // we store, otherwise remove the entry
-    if( *transparency +
-        *infrastructure +
-        *trustiness +
-        *community +
-        *development){
-    
-        bps_stats.modify(itr,*user, [&]( auto& row ) {
-            row.transparency = *transparency;
-            row.infrastructure = *infrastructure;
-            row.trustiness = *trustiness;
-            row.development = *development;
-            row.community = *community;      
-            row.ratings_cntr= *ratings_cntr;
-            row.average = *average;
-            });
-    }else{
-        bps_stats.erase(itr);
-    }  
+    if(itr != bps_stats.end()) {
+        //if rate categories are more than zero
+        // we store, otherwise remove the entry
+        if( *transparency +
+            *infrastructure +
+            *trustiness +
+            *community +
+            *development) {
+        
+            bps_stats.modify(itr,*user, [&]( auto& row ) {
+                row.transparency = *transparency;
+                row.infrastructure = *infrastructure;
+                row.trustiness = *trustiness;
+                row.development = *development;
+                row.community = *community;      
+                row.ratings_cntr= *ratings_cntr;
+                row.average = *average;
+                });
+        } else {
+            bps_stats.erase(itr);
+        }  
     }
 }
 
-/**
-*
-*  Erase all data related for a specific block producer
-*
-* @param bp_name -  Block Producer account name
-* 
-*/ 
 ACTION rateproducer::erase(name bp_name) {
     
     require_auth(_self);
 
     _ratings bps(_self, _self.value);
     auto itr = bps.begin();
-    while ( itr != bps.end()) {
-        if(itr->bp == bp_name){
+    while (itr != bps.end()) {
+        if(itr->bp == bp_name) {
             itr = bps.erase(itr);
-        }else{
+        } else {
             itr++;
         }
     }
@@ -414,14 +351,6 @@ ACTION rateproducer::erase(name bp_name) {
     if (itr_stats != bps_stats.end()) bps_stats.erase(itr_stats);
 }
 
-
-/**
-*
-*  Erase all data related for a set of block producer
-*
-* @param bps_to_clean -  List of Block Producer accounts 
-* 
-*/ 
 void rateproducer::erase_bp_info(std::set<eosio::name> * bps_to_clean){
     _ratings bps(_self, _self.value);
     _stats bps_stats(_self, _self.value);
@@ -430,10 +359,10 @@ void rateproducer::erase_bp_info(std::set<eosio::name> * bps_to_clean){
     for (it = bps_to_clean->begin(); it != bps_to_clean->end(); ++it) {
         //clean all ratings related to an bp
         auto itr = bps.begin();
-        while ( itr != bps.end()) {
-            if(itr->bp == *it){
+        while (itr != bps.end()) {
+            if(itr->bp == *it) {
                 itr = bps.erase(itr);
-            }else{
+            } else {
                 itr++;
             }
         }
@@ -443,33 +372,22 @@ void rateproducer::erase_bp_info(std::set<eosio::name> * bps_to_clean){
     }
 }
 
-
-/**
-*
-*  Clean all data store within the tables
-* 
-*/ 
 ACTION rateproducer::wipe() {
     
     require_auth(_self);
     _ratings bps(_self, _self.value);
     auto itr = bps.begin();
-    while ( itr != bps.end()) {
+    while (itr != bps.end()) {
         itr = bps.erase(itr);
     }
 
     _stats bps_stats(_self, _self.value);
     auto itr_stats = bps_stats.begin();
-    while ( itr_stats != bps_stats.end()) {
+    while (itr_stats != bps_stats.end()) {
         itr_stats = bps_stats.erase(itr_stats);
     }
 }
 
-/**
-*
-*  Erase all data for inactive block producers
-* 
-*/ 
 ACTION rateproducer::rminactive() {
     
     require_auth(_self);
@@ -477,7 +395,7 @@ ACTION rateproducer::rminactive() {
     _stats bps_stats(_self, _self.value);
     auto itr_stats = bps_stats.begin();
     while ( itr_stats != bps_stats.end()) {
-        if (!is_blockproducer(itr_stats->bp)){
+        if (!is_blockproducer(itr_stats->bp)) {
             noupdated_bps.insert(itr_stats->bp);
         }
         itr_stats++;
@@ -486,17 +404,7 @@ ACTION rateproducer::rminactive() {
     print("bps deleted:",noupdated_bps.size());
 }
 
-/**
-*
-*  Erase a rate made for a specific account 
-*  to a specific block producer
-*
-* @param user - Voter account name,
-* @param bp -  Block Producer account name
-* 
-*/ 
-
-ACTION rateproducer::rmrate(name user, name bp){
+ACTION rateproducer::rmrate(name user, name bp) {
     require_auth(user);
     
     _ratings bps(_self, _self.value);
@@ -518,6 +426,7 @@ ACTION rateproducer::rmrate(name user, name bp){
         float bp_development = 0;
         uint32_t  bp_ratings_cntr = 0;
         float  bp_average = 0;
+
         //re-calculate stats for the bp 
         calculate_bp_stats (bp,
                             &bp_transparency,
@@ -527,6 +436,7 @@ ACTION rateproducer::rmrate(name user, name bp){
                             &bp_development,
                             &bp_ratings_cntr,
                             &bp_average);
+                            
         //save the re-calcualtes stats
         update_bp_stats (&user,
                         &bp,

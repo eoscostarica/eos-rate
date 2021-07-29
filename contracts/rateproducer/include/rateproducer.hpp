@@ -178,7 +178,8 @@ CONTRACT rateproducer : public contract {
         * @memo user account must voted for at least 21 blockproducer 
         *       or vote for a proxy with at least 21 votes
         */  
-        ACTION rate(name user, 
+        ACTION rate(
+            name user, 
             name bp, 
             int8_t transparency,
             int8_t infrastructure,
