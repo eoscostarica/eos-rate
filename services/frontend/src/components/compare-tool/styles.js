@@ -127,7 +127,7 @@ export default (theme) => ({
     }
   },
   containerList: {
-    maxHeight: 385,
+    height: '100%',
     overflow: 'auto',
     [theme.breakpoints.up('sm')]: {
       marginBottom: 38
@@ -135,7 +135,17 @@ export default (theme) => ({
   },
   centerBox: {
     margin: 'auto',
-    width: '60%',
-    padding: '10px'
+    width: '45%',
+    padding: '5px',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    }
+  },
+  buttonsBox: {
+    [theme.breakpoints.down('sm')]: {
+      bottom: 0,
+      position: 'absolute',
+      left: 0
+    }
   }
 })

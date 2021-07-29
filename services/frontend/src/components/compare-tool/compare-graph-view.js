@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid'
 import CardHeader from '@material-ui/core/CardHeader'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import LockOpenIcon from '@material-ui/icons/LockOpenOutlined'
 import LockIcon from '@material-ui/icons/LockOutlined'
 import Button from '@material-ui/core/Button'
@@ -12,7 +13,9 @@ import Tooltip from '@material-ui/core/Tooltip'
 import Box from '@material-ui/core/Box'
 import withWidth from '@material-ui/core/withWidth'
 import Help from '@material-ui/icons/HelpOutlineRounded'
+import { useMediaQuery } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
+import Switch from '@material-ui/core/Switch'
 import _get from 'lodash.get'
 
 import Radar from 'components/radar'
@@ -134,49 +137,38 @@ const CompareGraphView = ({
   isProxy,
   userInfo,
   width,
-  onHandleClose,
+  handleOnClose,
   onHandleVote,
+  setIsCollapsedView,
+  isCollapsedView,
   ...props
 }) => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
-  // const [open, setOpen] = useState(false)
-  // const userHasVote =
-  //   Boolean(userInfo.proxy.length) || Boolean(userInfo.producers.length > 21)
-
-  // const handleTooltip = (e) => {
-  //   setOpen(!open)
-  //   e.preventDefault()
-  // }
+  const isDesktop = useMediaQuery('(min-width:900px)', {
+    defaultMatches: false
+  })
+  const mobileMedium = useMediaQuery('(min-height:711px)')
 
   return (
-    <Grid container style={{ backgroundColor: '#bb11bb' }} spacing={2}>
+    <Grid justify='center' container spacing={2}>
       <Grid item md={12} xs={12}>
         <Box className={classes.headerVotingCompare}>
           <Box>
             <Typography variant='h6' className={classes.marginRightElem}>
               {`${t('voteToolTitle')} (${selected.length} ${t('selected')})`}
             </Typography>
-            {/* <TooltipWrapper
-              open={open}
-              onHandleTooltip={handleTooltip}
-              isClickable={Boolean(width === 'xs')}
-              t={t}
-              classes={classes}
-              userHasVote={userHasVote}
-              isUser={userInfo.isUser}
-            /> */}
             <Typography variant='body1' style={{ display: 'flex' }}>
               {t('voteToolDescription')}
             </Typography>
           </Box>
         </Box>
       </Grid>
-      <Grid style={{ backgroundColor: '#11bb11' }} container xs={12} md={5}>
+      <Grid container justify='center' xs={12} md={5}>
         <Grid
           item
           md={12}
-          style={{ backgroundColor: '#001100', padding: '20px' }}
+          style={{ padding: mobileMedium ? '15px 0 15px 0' : '0' }}
         >
           <Radar
             bpData={{
@@ -187,45 +179,96 @@ const CompareGraphView = ({
             }}
           />
         </Grid>
-        {isProxy && (
+        <Grid
+          item
+          md={12}
+          xs={12}
+          style={{
+            textAlign: 'center',
+            height: '50px'
+          }}
+        >
+          <Box className={classes.centerBox}>
+            {isProxy && <Typography>{selected[0].name}</Typography>}
+            {!isProxy && (
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={isCollapsedView}
+                    onChange={(event) =>
+                      setIsCollapsedView(event.target.checked)
+                    }
+                    value='isCollapsedView'
+                  />
+                }
+                label={t('compareToolCollapsedSwitch')}
+              />
+            )}
+          </Box>
+        </Grid>
+        {!isDesktop && (
           <Grid
             item
-            md={12}
+            xs={12}
+            md={7}
             style={{
-              backgroundColor: '#ababab',
-              textAlign: 'center',
-              padding: '10px'
+              height: mobileMedium ? '260px' : '135px'
             }}
           >
-            <Typography>PROXY NAME</Typography>
+            <CompareBodyList
+              isProxy={isProxy}
+              selectedData={selected}
+              classes={classes}
+              removeBP={removeBP}
+            />
           </Grid>
         )}
-        <Grid item md={6} style={{ backgroundColor: '#cf0f0c' }}>
-          <Box className={classes.centerBox}>
-            <Button aria-label='Clear selection'>{t('clearSelection')}</Button>
-          </Box>
-        </Grid>
-        <Grid item md={6} style={{ backgroundColor: '#c0f0fc' }}>
-          <Box className={classes.centerBox}>
-            <Button
-              disabled={!userInfo}
-              aria-label='Add to comparison'
-              className={classes.btnRate}
-              variant='contained'
-            >
-              {t('btnVoteBPs')}
-            </Button>
-          </Box>
-        </Grid>
+        {!isProxy && (
+          <Grid md={12} container xs={12} className={classes.buttonsBox}>
+            <Grid item md={6} xs={7}>
+              <Box className={classes.centerBox}>
+                <Button
+                  style={{ textAlign: 'center', marginLeft: '10px' }}
+                  aria-label='Clear selection'
+                  onClick={handleOnClose}
+                >
+                  {t('clearSelection')}
+                </Button>
+              </Box>
+            </Grid>
+            <Grid item md={6} xs={5}>
+              <Box
+                className={classes.centerBox}
+                style={{
+                  width: '50%',
+                  justifyContent: 'flex-end',
+                  display: 'flex'
+                }}
+              >
+                <Button
+                  disabled={!userInfo.isUser}
+                  aria-label='Add to comparison'
+                  className={classes.btnRate}
+                  variant='contained'
+                  onClick={onHandleVote}
+                >
+                  {t('btnVoteBPs')}
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
+        )}
       </Grid>
-      <Grid style={{ backgroundColor: '#0011bb' }} item xs={12} md={7}>
-        <CompareBodyList
-          isProxy={isProxy}
-          selectedData={selected}
-          classes={classes}
-          removeBP={removeBP}
-        />
-      </Grid>
+      {isDesktop && (
+        <Grid item xs={12} md={7}>
+          <CompareBodyList
+            isProxy={isProxy}
+            selectedData={selected}
+            classes={classes}
+            removeBP={removeBP}
+          />
+        </Grid>
+      )}
     </Grid>
   )
 }
@@ -237,8 +280,10 @@ CompareGraphView.propTypes = {
   className: PropTypes.string,
   isProxy: PropTypes.bool,
   userInfo: PropTypes.object,
-  onHandleClose: PropTypes.func,
-  onHandleVote: PropTypes.func
+  handleOnClose: PropTypes.func,
+  onHandleVote: PropTypes.func,
+  setIsCollapsedView: PropTypes.func,
+  isCollapsedView: PropTypes.bool
 }
 
 CompareGraphView.defaultProps = {
@@ -246,7 +291,9 @@ CompareGraphView.defaultProps = {
   isProxy: false,
   userInfo: { proxy: '', producers: [], isUser: false },
   onHandleVote: () => {},
-  onHandleClose: () => {}
+  handleOnClose: () => {},
+  setIsCollapsedView: () => {},
+  isCollapsedView: true
 }
 
 CompareBodyList.propTypes = {

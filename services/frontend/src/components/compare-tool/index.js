@@ -27,7 +27,7 @@ const CompareTool = ({
   onHandleVote,
   userInfo,
   message,
-  onHandleClose
+  handleOnClose
 }) => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
@@ -67,14 +67,16 @@ const CompareTool = ({
           selected={selectedData}
           isProxy={isProxy}
           userInfo={{ proxy, producers, isUser: Boolean(userInfo) }}
-          onHandleClose={onHandleClose}
+          handleOnClose={handleOnClose}
           onHandleVote={onHandleVote}
+          isCollapsedView={isCollapsedView}
+          setIsCollapsedView={setIsCollapsedView}
         />
       ) : (
         <CompareSliderView removeBP={removeBP} selected={selectedData} />
       )}
       <div className={classes.footer}>
-        {!isProxy && (
+        {!isCollapsedView && (
           <>
             <FormControlLabel
               className={classes.switch}
@@ -89,7 +91,7 @@ const CompareTool = ({
             />
 
             <Button
-              onClick={onHandleClose}
+              onClick={handleOnClose}
               aria-label='Clear selection'
               size='large'
             >
@@ -150,7 +152,7 @@ CompareTool.propTypes = {
   onHandleVote: PropTypes.func,
   userInfo: PropTypes.object,
   message: PropTypes.object,
-  onHandleClose: PropTypes.func
+  handleOnClose: PropTypes.func
 }
 
 CompareTool.defaultProps = {
@@ -160,7 +162,7 @@ CompareTool.defaultProps = {
   onHandleVote: () => {},
   userInfo: null,
   message: { showChipMessage: false, txError: null, txSuccess: false },
-  onHandleClose: () => {}
+  handleOnClose: () => {}
 }
 
 export default CompareTool

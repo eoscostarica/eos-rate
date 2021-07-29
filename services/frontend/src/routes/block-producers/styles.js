@@ -23,10 +23,11 @@ export default (theme) => ({
     margin: 'auto'
   },
   compareTool: {
-    minHeight: 340,
+    paddingTop: '0 !important',
     transform: 'scaleY(1)',
     transformOrigin: 'top',
     opacity: 1,
+    height: '100%',
     transition: [
       'opacity 0.25s ease',
       'height 0.25s ease',
@@ -223,5 +224,9 @@ export default (theme) => ({
     '&:hover': {
       textDecoration: 'underline'
     }
+  },
+  paperAnchor: {
+    right: '0',
+    overflowY: 'initial'
   }
 })
