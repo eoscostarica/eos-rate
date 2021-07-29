@@ -20,3 +20,7 @@ type RatingOutput {
   ratings : jsonb
 }
 
+type deleteUserRateOutput {
+  message : String!
+}
+

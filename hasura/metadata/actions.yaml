@@ -11,4 +11,5 @@ custom_types:
   - name: RatingInput
   objects:
   - name: RatingOutput
+  - name: deleteUserRateOutput
   scalars: []
