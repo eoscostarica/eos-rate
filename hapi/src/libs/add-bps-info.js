@@ -366,7 +366,7 @@ const jungleBPinfo = [
 ];
 
 const massive = require("massive")
-const { massiveConfig } = require("../config");
+const { massiveConfig } = require("../config")
 
 
 const updateBps = async () => {
