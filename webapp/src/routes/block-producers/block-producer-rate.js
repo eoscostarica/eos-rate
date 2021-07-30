@@ -165,14 +165,14 @@ const BlockProducerRate = ({ account, ual }) => {
       const transaction = {
         actions: [
           {
-            account: config.contract,
-            name: 'rate',
             authorization: [
               {
                 actor: accountName,
                 permission: 'active'
               }
             ],
+            account: config.contractName,
+            name: 'rate',
             data: { user: accountName, bp: account, ...getRatingData(true) }
           }
         ]

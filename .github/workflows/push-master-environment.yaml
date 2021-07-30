@@ -88,8 +88,8 @@ jobs:
           HAPI_EOS_API_ENDPOINT: https://api.eosio.cr
           HAPI_SERVER_ADDRESS: 0.0.0.0
           HAPI_SERVER_PORT: 9090
-          HAPI_PROXY_INFO_CONTRACT_CODE: regproxyinfo
-          HAPI_PROXY_INFO_CONTRACT_SCOPE: regproxyinfo
+          HAPI_PROXY_CONTRACT: ${{ secrets.HAPI_PROXY_CONTRACT }}
+          HAPI_RATING_CONTRACT: ${{ secrets.HAPI_RATING_CONTRACT }}
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
           HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
