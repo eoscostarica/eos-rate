@@ -10,16 +10,22 @@ const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
 const getUserRatings = async () => {
   const eos = new JsonRpc(HAPI_EOS_API_ENDPOINT, { fetch })
 
-  let ratings = await eos.get_table_rows({
-    json: true,
-    code: HAPI_RATING_CONTRACT,
-    scope: HAPI_RATING_CONTRACT,
-    table: 'ratings',
-    limit: 1000,
-    reverse: false,
-    show_payer: false
-  })
-  return ratings
+  try {
+    const ratings = await eos.get_table_rows({
+      json: true,
+      code: HAPI_RATING_CONTRACT,
+      scope: HAPI_RATING_CONTRACT,
+      table: 'ratings',
+      limit: 1000,
+      reverse: false,
+      show_payer: false
+    })
+
+    return ratings
+  } catch (err) { 
+    console.log(`Database connection error ${err}`)
+    return []
+  }
 }
 
 const updateUserRatings = async () => {

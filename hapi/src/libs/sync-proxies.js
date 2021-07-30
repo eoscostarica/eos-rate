@@ -5,11 +5,12 @@ const fetch = require('node-fetch')
 const massive = require('massive')
 const { massiveConfig } = require('../config')
 
-const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+const HAPI_EOS_API_ENDPOINT = 'https://jungle3.cryptolions.io'
 const HAPI_PROXY_CONTRACT = process.env.HAPI_PROXY_CONTRACT || 'proxyaccount'
 
 
 const getProxiesData = async () => {
+  console.log('==== Updating proxies ====')
   const db = await massive(massiveConfig)
   const eos = new JsonRpc(HAPI_EOS_API_ENDPOINT, { fetch })
   const eosApi = EosApi({
@@ -17,15 +18,22 @@ const getProxiesData = async () => {
     verbose: false
   })
 
-  const { rows: proxies } = await eos.get_table_rows({
-    json: true,
-    code: HAPI_PROXY_CONTRACT,
-    scope: HAPI_PROXY_CONTRACT,
-    table: 'proxies',
-    limit: 1000,
-    reverse: false,
-    show_payer: false
-  })
+  let proxies
+
+  try {
+    ({rows: proxies} = await eos.get_table_rows({
+      json: true,
+      code: HAPI_PROXY_CONTRACT,
+      scope: HAPI_PROXY_CONTRACT,
+      table: 'proxies',
+      limit: 1000,
+      reverse: false,
+      show_payer: false
+    }))
+  } catch (err) { 
+    console.log(`Database connection error ${err}`)
+    return []
+  }
 
   proxies.forEach(async (proxy) => {
     const account = await eosApi.getAccount({ account_name: proxy.owner })
