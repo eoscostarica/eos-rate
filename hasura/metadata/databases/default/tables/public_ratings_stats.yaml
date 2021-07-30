@@ -1,3 +1,18 @@
+select_permissions:
+- permission:
+    columns:
+    - average
+    - bp
+    - community
+    - created_at
+    - development
+    - infrastructure
+    - ratings_cntr
+    - transparency
+    - trustiness
+    - updated_at
+    filter: {}
+  role: anonymous
 table:
   name: ratings_stats
   schema: public
