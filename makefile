@@ -104,6 +104,7 @@ build-kubernetes: ./kubernetes
 
 deploy-kubernetes: ##@devops Publish the build k8s files
 deploy-kubernetes: $(K8S_BUILD_DIR)
+	@kubectl create ns $(NAMESPACE) || echo "Namespace '$(NAMESPACE)' already exists.";
 	@echo "Creating SSL certificates..."
 	kubectl create secret tls \
 		tls-secret \
