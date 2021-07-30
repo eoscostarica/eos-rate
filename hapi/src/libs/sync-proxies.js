@@ -5,7 +5,7 @@ const fetch = require('node-fetch')
 const massive = require('massive')
 const { massiveConfig } = require('../config')
 
-const HAPI_EOS_API_ENDPOINT = 'https://jungle3.cryptolions.io'
+const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 const HAPI_PROXY_CONTRACT = process.env.HAPI_PROXY_CONTRACT || 'proxyaccount'
 
 
