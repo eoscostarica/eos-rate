@@ -123,7 +123,7 @@ const ProxyProfile = ({ account, ual, ...props }) => {
   }, [account, accountName, setShowMessage])
 
   return (
-    <Grid container justify='center' className={classes.container}>
+    <Grid container justifyContent='center' className={classes.container}>
       <TitlePage title={`${t('proxyProfile')} ${ProxyTitle} - EOS Rate`} />
       <Grid item xs={12}>
         <Grid container direction='row' alignItems='center'>

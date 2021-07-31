@@ -172,7 +172,7 @@ const AllBps = ({ ual }) => {
       <Grid
         className={classes.wrapper}
         container
-        justify='center'
+        justifyContent='center'
         spacing={isDesktop ? 4 : 1}
       >
         {(shownList || []).map((blockProducer) => (
@@ -214,7 +214,7 @@ const AllBps = ({ ual }) => {
         ))}
       </Grid>
       {selectedBPs && selectedBPs.length > 0 && (
-        <Grid container justify='flex-end'>
+        <Grid container justifyContent='flex-end'>
           <Grid item md={12} className={classes.openBottomSheetContainer}>
             <Button
               onClick={() =>

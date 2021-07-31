@@ -58,7 +58,7 @@ const HomeCover = ({ blockProducer }) => {
         </div>
       </Grid>
 
-      <Grid item container xs={12} md={6} justify='center'>
+      <Grid item container xs={12} md={6} justifyContent='center'>
         <div className={classes.chartContainer}>
           <Radar
             height={230}

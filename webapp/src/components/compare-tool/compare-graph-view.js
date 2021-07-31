@@ -151,7 +151,7 @@ const CompareGraphView = ({
   const mobileMedium = useMediaQuery('(min-height:711px)')
 
   return (
-    <Grid justify='center' container spacing={2}>
+    <Grid justifyContent='center' container spacing={2}>
       <Grid item md={12} xs={12}>
         <Box className={classes.headerVotingCompare}>
           <Box>
@@ -164,7 +164,7 @@ const CompareGraphView = ({
           </Box>
         </Box>
       </Grid>
-      <Grid container justify='center' xs={12} md={5}>
+      <Grid container justifyContent='center' xs={12} md={5}>
         <Grid
           item
           md={12}
