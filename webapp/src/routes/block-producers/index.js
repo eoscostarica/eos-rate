@@ -11,14 +11,14 @@ import classNames from 'classnames'
 import _get from 'lodash.get'
 
 import TitlePage from 'components/title-page'
-import Card from 'components/card'
 import CompareTool from 'components/compare-tool'
 import getAverageValue from 'utils/getAverageValue'
+import { useMediaQuery } from '@material-ui/core'
 import applySortBy from 'utils/sortedBy'
+import Card from 'components/card'
 
 import styles from './styles'
 import SelectedBpsBottomSheet from './bottom-sheet-selected-bps'
-import { useMediaQuery } from '@material-ui/core'
 
 const useStyles = makeStyles(styles)
 
@@ -142,7 +142,7 @@ const AllBps = ({ ual }) => {
       onHandleVote={() => sendVoteBps(selectedBPs || [])}
       userInfo={user}
       message={ratingState}
-      onHandleClose={handleOnClose}
+      handleOnClose={handleOnClose}
     />
   )
 
@@ -224,7 +224,6 @@ const AllBps = ({ ual }) => {
               }
               variant='contained'
             >
-              {console.log('')}
               <ThumbUpAltIcon />
               <Typography>Vote ({selectedBPs.length})</Typography>
             </Button>

@@ -3,15 +3,30 @@ import PropTypes from 'prop-types'
 import Drawer from '@material-ui/core/Drawer'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
+import { makeStyles } from '@material-ui/core/styles'
 import CloseIcon from '@material-ui/icons/Close'
 
+import styles from './styles'
+
+const useStyles = makeStyles(styles)
+
 const SelectedBpsBottomSheet = ({ open, setOpen, children }) => {
+  const classesStyle = useStyles()
+
   return (
-    <Drawer anchor='bottom' open={open}>
-      <Grid container justify='flex-end'>
-        <IconButton onClick={() => setOpen(false)}>
-          <CloseIcon />
-        </IconButton>
+    <Drawer
+      classes={{
+        paperAnchorLeft: classesStyle.paperAnchor
+      }}
+      open={open}
+    >
+      <Grid container spacing={2}>
+        <Grid item xs={10} />
+        <Grid item md={12} xs={2} style={{ textAlign: 'end' }}>
+          <IconButton onClick={() => setOpen(false)}>
+            <CloseIcon />
+          </IconButton>
+        </Grid>
       </Grid>
       {children}
     </Drawer>

@@ -25,6 +25,8 @@
     "voteToolToggle": "Vote",
     "compareToolCollapsedSwitch": "Collapse Graphs",
     "voteToolTitle": "Voting Tool",
+    "voteToolDescription": "Login to your account and vote for the selected block producers.",
+    "selected": "Selected",
     "averageCard": "Average",
     "rateCard": "Ratings",
 

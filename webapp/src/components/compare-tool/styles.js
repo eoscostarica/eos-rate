@@ -28,6 +28,7 @@ export default (theme) => ({
     backgroundColor: theme.palette.secondary.main,
     marginBottom: 5,
     color: '#ffffff',
+    padding: '5px 20px 5px 20px',
     [theme.breakpoints.up('sm')]: {
       float: 'right',
       marginRight: 20,
@@ -126,10 +127,25 @@ export default (theme) => ({
     }
   },
   containerList: {
-    maxHeight: 385,
+    height: '100%',
     overflow: 'auto',
     [theme.breakpoints.up('sm')]: {
       marginBottom: 38
+    }
+  },
+  centerBox: {
+    margin: 'auto',
+    width: '45%',
+    padding: '5px',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    }
+  },
+  buttonsBox: {
+    [theme.breakpoints.down('sm')]: {
+      bottom: 0,
+      position: 'absolute',
+      left: 0
     }
   }
 })
