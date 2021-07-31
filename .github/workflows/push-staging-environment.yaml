@@ -98,8 +98,6 @@ jobs:
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
           HASURA_GRAPHQL_UNAUTHORIZED_ROLE: ${{ secrets.HASURA_GRAPHQL_UNAUTHORIZED_ROLE }}
           HASURA_GRAPHQL_ACTION_BASE_URL: http://hapi:9090
-          # pgweb
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Setup and deploy kubernetes environment
         uses: steebchen/kubectl@v1.1.0
