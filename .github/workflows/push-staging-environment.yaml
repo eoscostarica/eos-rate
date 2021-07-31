@@ -7,7 +7,6 @@ on:
 
 jobs:
   create-staging-image:
-    name:
     runs-on: ubuntu-latest
     environment: staging
     steps:
@@ -88,7 +87,7 @@ jobs:
           HAPI_POSTGRES_PASSWORD: ${{ secrets.HAPI_POSTGRES_PASSWORD }}
           HAPI_PROXY_CONTRACT: proxyaccount
           HAPI_RATING_CONTRACT: rateproducer
-          HAPI_POSTGRES_DB: localdb
+          HAPI_POSTGRES_DB: eosrate
           HAPI_POSTGRES_HOST: postgres
           HAPI_POSTGRES_PORT: 5432
           HAPI_POSTGRES_SCHEMA: public
