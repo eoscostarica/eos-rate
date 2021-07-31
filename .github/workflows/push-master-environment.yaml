@@ -82,14 +82,17 @@ jobs:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           # hapi
-          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
-          POSTGRES_SCHEMA: ${{ secrets.POSTGRES_SCHEMA }}
-          HAPI_EOS_API_ENDPOINT: https://api.eosio.cr
           HAPI_SERVER_ADDRESS: 0.0.0.0
           HAPI_SERVER_PORT: 9090
-          HAPI_PROXY_CONTRACT: ${{ secrets.HAPI_PROXY_CONTRACT }}
-          HAPI_RATING_CONTRACT: ${{ secrets.HAPI_RATING_CONTRACT }}
+          HAPI_POSTGRES_USER: ${{ secrets.HAPI_POSTGRES_USER }}
+          HAPI_POSTGRES_PASSWORD: ${{ secrets.HAPI_POSTGRES_PASSWORD }}
+          HAPI_PROXY_CONTRACT: proxyaccount
+          HAPI_RATING_CONTRACT: rateproducer
+          HAPI_POSTGRES_DB: localdb
+          HAPI_POSTGRES_HOST: postgres
+          HAPI_POSTGRES_PORT: 5432
+          HAPI_POSTGRES_SCHEMA: public
+          HAPI_EOS_API_ENDPOINT: https://jungle3.cryptolions.io
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
           HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations

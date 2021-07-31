@@ -4,7 +4,7 @@ const massive = require('massive')
 const request = require('request-promise')
 const { massiveConfig } = require('../config')
 
-const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle3.cryptolions.io'
 
 
 const getBlockProducersData = async () => {
@@ -13,10 +13,19 @@ const getBlockProducersData = async () => {
     verbose: false
   })
   
-  const { rows: producers } = await eos.getProducers({
-    json: true,
-    limit: 1000
-  })
+  let producers
+
+  try {
+    const { rows: tempProducers } = await eos.getProducers({
+      json: true,
+      limit: 1000
+    })
+
+    producers = tempProducers
+  } catch (err) { 
+    console.log(`Database connection error ${err}`)
+    return []
+  }
 
   const allProducers = producers.reduce((result, producer) => {
     if (!producer.is_active || !parseInt(producer.total_votes) || !producer.url) return result
@@ -51,7 +60,7 @@ const getBlockProducersData = async () => {
         producer['bpJson'] = bp
         producersBPJSON.push(producer)
       }
-    } catch (error) {
+    } catch (err) {
       console.log(`Failed to add bpJson info for ${producer.owner}`)
     }
   }
