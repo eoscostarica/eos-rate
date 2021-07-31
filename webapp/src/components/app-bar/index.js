@@ -12,7 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import { fade } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@material-ui/core/styles'
 import { makeStyles } from '@material-ui/styles'
 import { Link } from '@reach/router'
 
@@ -22,7 +22,7 @@ import LanguageSelect from 'components/language-select'
 
 import styles from './styles'
 
-const useStyles = makeStyles((theme) => styles(theme, fade))
+const useStyles = makeStyles((theme) => styles(theme, alpha))
 
 const MainTopBar = ({
   isSearchOpen,

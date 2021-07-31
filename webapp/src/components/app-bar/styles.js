@@ -1,4 +1,4 @@
-export default (theme, fade) => ({
+export default (theme, alpha) => ({
   root: {
     flexGrow: 1
   },
@@ -32,9 +32,9 @@ export default (theme, fade) => ({
     position: 'relative',
     flexGrow: 1,
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
+      backgroundColor: alpha(theme.palette.common.white, 0.25)
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
