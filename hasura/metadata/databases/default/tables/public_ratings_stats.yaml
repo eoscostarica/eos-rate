@@ -1,3 +1,6 @@
+table:
+  name: ratings_stats
+  schema: public
 select_permissions:
 - permission:
     columns:
@@ -13,6 +16,3 @@ select_permissions:
     - updated_at
     filter: {}
   role: anonymous
-table:
-  name: ratings_stats
-  schema: public

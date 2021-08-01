@@ -1,3 +1,6 @@
+table:
+  name: producers
+  schema: public
 select_permissions:
 - permission:
     columns:
@@ -7,6 +10,3 @@ select_permissions:
     - system
     filter: {}
   role: anonymous
-table:
-  name: producers
-  schema: public
