@@ -93,7 +93,6 @@ jobs:
           HAPI_EOS_API_ENDPOINT: https://jungle3.cryptolions.io
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
-          HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
           HASURA_GRAPHQL_UNAUTHORIZED_ROLE: ${{ secrets.HASURA_GRAPHQL_UNAUTHORIZED_ROLE }}
           HASURA_GRAPHQL_ACTION_BASE_URL: http://hapi:9090
