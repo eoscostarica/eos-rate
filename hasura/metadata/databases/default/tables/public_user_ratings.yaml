@@ -1,3 +1,6 @@
+table:
+  name: user_ratings
+  schema: public
 select_permissions:
 - permission:
     columns:
@@ -8,6 +11,3 @@ select_permissions:
     - user
     filter: {}
   role: anonymous
-table:
-  name: user_ratings
-  schema: public

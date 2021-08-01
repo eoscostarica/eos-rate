@@ -4,9 +4,6 @@ type Mutation {
   ): RatingOutput
 }
 
-
-
-
 input RatingInput {
   user : String!
   producer : String!
