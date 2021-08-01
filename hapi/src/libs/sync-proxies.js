@@ -43,7 +43,7 @@ const getProxiesData = async () => {
       try {
         const resultProxySave = await db.proxies.save(proxy)
         const dbResult = resultProxySave ? resultProxySave : await db.proxies.insert(proxy)
-        console.log(`Save or insert of ${proxy.owner} was ${dbResult ? 'SUCCESSFULLY' : 'UNSUCCESSFULLY'}`)
+        console.log(`Save or insert of ${proxy.owner} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
       } catch (err) { console.log(`Error: ${err}`) }
     } else console.log(`${proxy.owner} is not a proxy`)
   })

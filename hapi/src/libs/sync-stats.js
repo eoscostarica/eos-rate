@@ -37,7 +37,7 @@ const updateRatingsStats = async () => {
     try {
       const resultRatingStatsSave = await db.ratings_stats.save(rating)
       const dbResult = resultRatingStatsSave ? resultRatingStatsSave : await db.ratings_stats.insert(rating)
-      console.log(`Save or insert of ${rating.bp} was ${dbResult ? 'SUCCESSFULLY' : 'UNSUCCESSFULLY'}`)
+      console.log(`Save or insert of ${rating.bp} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
     } catch (err) { console.log(`Error: ${err}`) }
   })
 }
