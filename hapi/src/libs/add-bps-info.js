@@ -376,7 +376,7 @@ const updateBps = async () => {
   jungleBPinfo.forEach(async (bpInfo) => {
     try {
       const dbResult = await db.producers.save(bpInfo)
-      console.log(`Save of ${bpInfo.owner} was ${dbResult ? 'SUCCESSFULLY' : 'UNSUCCESSFULLY'}`)
+      console.log(`Save of ${bpInfo.owner} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
     } catch(err) { console.log(`Error: ${err}`) }
   })
 
@@ -384,7 +384,7 @@ const updateBps = async () => {
   mainnetBPinfo.forEach(async (bpInfo) => {
     try {
       const dbResult = await db.producers.save(bpInfo)
-      console.log(`Save of ${bpInfo.owner} was ${dbResult ? 'SUCCESSFULLY' : 'UNSUCCESSFULLY'}`)
+      console.log(`Save of ${bpInfo.owner} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
     } catch(err) { console.log(`Error: ${err}`) }
   })
 };

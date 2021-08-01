@@ -89,6 +89,7 @@ services:
       HASURA_GRAPHQL_DATABASE_URL: "${HASURA_GRAPHQL_DATABASE_URL}"
       HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
       HASURA_GRAPHQL_METADATA_DIR: /hasura-metadata
+      HASURA_GRAPHQL_SEEDS_DIR: /hasura-seeds
       HASURA_GRAPHQL_ACTION_BASE_URL: "${HASURA_GRAPHQL_ACTION_BASE_URL}"
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
       # Local Development Configurations It is recommended to disable this in production
@@ -101,6 +102,7 @@ services:
     volumes:
       - ./hasura/migrations:/hasura-migrations
       - ./hasura/metadata:/hasura-metadata
+      - ./hasura/seeds:/hasura-seeds
 
   webapp:
     container_name: eosrate_webapp
