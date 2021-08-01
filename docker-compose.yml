@@ -91,15 +91,13 @@ services:
       HASURA_GRAPHQL_METADATA_DIR: /hasura-metadata
       HASURA_GRAPHQL_ACTION_BASE_URL: "${HASURA_GRAPHQL_ACTION_BASE_URL}"
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
-      
       # Local Development Configurations It is recommended to disable this in production
       HASURA_GRAPHQL_DEV_MODE: "true"
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
-      HASURA_GRAPHQL_ENABLE_LOGGING: "true" 
+      HASURA_GRAPHQL_ENABLE_LOGGING: "true"
       # disabled security for local development
       # HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_GRAPHQL_ADMIN_SECRET}"
       # HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "${HASURA_GRAPHQL_UNAUTHORIZED_ROLE}"
-
     volumes:
       - ./hasura/migrations:/hasura-migrations
       - ./hasura/metadata:/hasura-metadata
