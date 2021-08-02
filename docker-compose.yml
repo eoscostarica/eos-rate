@@ -83,7 +83,7 @@ services:
     ports:
     - "8080:8080"
     depends_on:
-    - "postgres"
+    - postgres
     restart: always
     environment:
       HASURA_GRAPHQL_DATABASE_URL: "${HASURA_GRAPHQL_DATABASE_URL}"
