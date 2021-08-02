@@ -7,9 +7,9 @@ api_paths:
   graphql: v1/graphql
   pg_dump: v1alpha1/pg_dump
   version: v1/version
-metadata_directory: hasura-metadata
-migrations_directory: hasura-migrations
-seeds_directory: hasura-seeds
+metadata_directory: metadata
+migrations_directory: migrations
+seeds_directory: seeds
 actions:
   kind: synchronous
   handler_webhook_baseurl: http://localhost:3000
