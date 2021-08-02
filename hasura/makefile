@@ -19,9 +19,6 @@ build-docker: ##@devops Build the docker image
 build-docker: ./Dockerfile
 	@docker pull $(DOCKER_REGISTRY)/$(IMAGE_NAME_HASURA):$(VERSION) || true
 	@docker build \
-		--build-arg hasura_graphql_migrations_dir=migrations \
-		--build-arg hasura_graphql_metadata_dir=metadata \
-		--build-arg hasura_graphql_seeds_dir=seeds \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_HASURA):$(VERSION) \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_HASURA):$(LATEST_TAG) \
 		.
@@ -33,9 +30,6 @@ pull-image:
 build-docker-cached: ##@devops Build the docker image using cached layers
 build-docker-cached: ./Dockerfile
 	@docker build \
-		--build-arg hasura_graphql_migrations_dir=migrations \
-		--build-arg hasura_graphql_metadata_dir=metadata \
-		--build-arg hasura_graphql_seeds_dir=seeds \
 		--cache-from $(DOCKER_REGISTRY)/$(IMAGE_NAME_HASURA):$(LATEST_TAG) \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_HASURA):$(VERSION) \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_HASURA):$(LATEST_TAG) \
