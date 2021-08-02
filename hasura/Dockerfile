@@ -1,11 +1,8 @@
 FROM hasura/graphql-engine:v2.0.4.cli-migrations-v3
 
-# Create app directory
-WORKDIR /opt/application
-
-ENV HASURA_GRAPHQL_MIGRATIONS_DIR hasura-migrations
-ENV HASURA_GRAPHQL_METADATA_DIR hasura-metadata
-ENV HASURA_GRAPHQL_SEEDS_DIR  hasura-seeds
+ENV HASURA_GRAPHQL_MIGRATIONS_DIR /hasura-migrations
+ENV HASURA_GRAPHQL_METADATA_DIR /hasura-metadata
+ENV HASURA_GRAPHQL_SEEDS_DIR  /hasura-seeds
 ENV HASURA_PORT 8080
 
 COPY migrations $HASURA_GRAPHQL_MIGRATIONS_DIR
