@@ -1,3 +1,21 @@
 table:
   name: producers_list
   schema: public
+select_permissions:
+- permission:
+    columns:
+    - average
+    - bpjson
+    - candidate_name
+    - community
+    - development
+    - general_info
+    - infrastructure
+    - owner
+    - ratings_cntr
+    - system
+    - total_votes
+    - transparency
+    - trustiness
+    filter: {}
+  role: anonymous

@@ -365,30 +365,29 @@ const jungleBPinfo = [
   },
 ];
 
-const massive = require("massive");
-const { massiveConfig } = require("../config");
+const massive = require("massive")
+const { massiveConfig } = require("../config")
 
-const updateGeneralInfo = async (bpInfo, db) => {
-  await db.producers.save(bpInfo)
-  console.log('Saved')
-  console.log(bpInfo)
+
+const updateBps = async () => {
+  const db = await massive(massiveConfig)
+
+  console.log('UPDATING JUNGLE-BP-INFO')
+  jungleBPinfo.forEach(async (bpInfo) => {
+    try {
+      const dbResult = await db.producers.save(bpInfo)
+      console.log(`Save of ${bpInfo.owner} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
+    } catch(err) { console.log(`Error: ${err}`) }
+  })
+
+  console.log('UPDATING MAINNET-BP-INFO')
+  mainnetBPinfo.forEach(async (bpInfo) => {
+    try {
+      const dbResult = await db.producers.save(bpInfo)
+      console.log(`Save of ${bpInfo.owner} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
+    } catch(err) { console.log(`Error: ${err}`) }
+  })
 };
 
-const updateBps = async (bpInfoObj) => {
-  if (Array.isArray(bpInfoObj)) {
-    const db = await massive(massiveConfig)
-    console.log('db', db.listTables())
-    for (var i = 0; i < bpInfoObj.length; i++) {
-      await updateGeneralInfo(bpInfoObj[i], db);
-    }
-  } else {
-    console.log("Cannot save Block Producer Info object.");
-  }
-};
-
-(async () => {
-
-  await updateBps(jungleBPinfo);
-  await updateBps(mainnetBPinfo);
-
-})();
+(async () => { await updateBps() })
+();

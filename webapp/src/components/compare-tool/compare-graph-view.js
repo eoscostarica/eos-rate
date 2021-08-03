@@ -145,6 +145,7 @@ const CompareGraphView = ({
 }) => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
+<<<<<<< HEAD
   const isDesktop = useMediaQuery('(min-width:767px)')
   const mobileMedium = useMediaQuery('(min-height:711px)')
   const [sizes, setSizes] = useState()
@@ -152,6 +153,12 @@ const CompareGraphView = ({
   useEffect(() => {
     setSizes(isDesktop ? 400 : 240)
   }, [isDesktop])
+=======
+  const isDesktop = useMediaQuery('(min-width:900px)', {
+    defaultMatches: false
+  })
+  const mobileMedium = useMediaQuery('(min-height:711px)')
+>>>>>>> 787b8d753a585a1614ecc102f37cf8f3face0ef7
 
   return (
     <Grid justify='center' container spacing={2}>
@@ -174,8 +181,11 @@ const CompareGraphView = ({
           style={{ padding: mobileMedium ? '15px 0 15px 0' : '0' }}
         >
           <Radar
+<<<<<<< HEAD
             height={sizes}
             width={sizes}
+=======
+>>>>>>> 787b8d753a585a1614ecc102f37cf8f3face0ef7
             bpData={{
               datasets: selected.map(({ data }) => ({
                 ...data,

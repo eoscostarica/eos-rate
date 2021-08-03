@@ -37,13 +37,15 @@ services:
     environment:
       HAPI_SERVER_ADDRESS: "${HAPI_SERVER_ADDRESS}"
       HAPI_SERVER_PORT: "${HAPI_SERVER_PORT}"
-      HAPI_POSTGRES_USER: "${POSTGRES_USER}"
-      HAPI_POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-      HAPI_POSTGRES_PORT: "${POSTGRES_PORT}"
-      HAPI_POSTGRES_DB: "${POSTGRES_DB}"
+      HAPI_POSTGRES_USER: "${HAPI_POSTGRES_USER}"
+      HAPI_POSTGRES_PASSWORD: "${HAPI_POSTGRES_PASSWORD}"
+      HAPI_POSTGRES_PORT: "${HAPI_POSTGRES_PORT}"
+      HAPI_POSTGRES_DB: "${HAPI_POSTGRES_DB}"
       HAPI_POSTGRES_HOST: "${HAPI_POSTGRES_HOST}"
-      HAPI_POSTGRES_SCHEMA: "${POSTGRES_SCHEMA}"
+      HAPI_POSTGRES_SCHEMA: "${HAPI_POSTGRES_SCHEMA}"
       HAPI_EOS_API_ENDPOINT: "${HAPI_EOS_API_ENDPOINT}"
+      HAPI_PROXY_CONTRACT: "${HAPI_PROXY_CONTRACT}"
+      HAPI_RATING_CONTRACT: "${HAPI_RATING_CONTRACT}"
 
     depends_on:
       - postgres
@@ -77,27 +79,30 @@ services:
 
   hasura:
     container_name: eosrate_hasura
-    image: hasura/graphql-engine:v2.0.3.cli-migrations-v3
+    image: hasura/graphql-engine:v2.0.4.cli-migrations-v3
     ports:
     - "8080:8080"
     depends_on:
-    - "postgres"
+    - postgres
     restart: always
     environment:
       HASURA_GRAPHQL_DATABASE_URL: "${HASURA_GRAPHQL_DATABASE_URL}"
-      HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
-      HASURA_GRAPHQL_METADATA_DIR: /hasura-metadata
+      HASURA_GRAPHQL_MIGRATIONS_DIR: /migrations
+      HASURA_GRAPHQL_METADATA_DIR: /metadata
+      HASURA_GRAPHQL_SEEDS_DIR: /seeds
       HASURA_GRAPHQL_ACTION_BASE_URL: "${HASURA_GRAPHQL_ACTION_BASE_URL}"
-      HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_GRAPHQL_ADMIN_SECRET}"
-      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "${HASURA_GRAPHQL_UNAUTHORIZED_ROLE}"
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
-      ## enable debugging mode. It is recommended to disable this in production
+      # Local Development Configurations It is recommended to disable this in production
       HASURA_GRAPHQL_DEV_MODE: "true"
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
-
+      HASURA_GRAPHQL_ENABLE_LOGGING: "true"
+      # disabled security for local development
+      # HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_GRAPHQL_ADMIN_SECRET}"
+      # HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "${HASURA_GRAPHQL_UNAUTHORIZED_ROLE}"
     volumes:
-      - ./hasura/migrations:/hasura-migrations
-      - ./hasura/metadata:/hasura-metadata
+      - ./hasura/migrations:/migrations
+      - ./hasura/metadata:/metadata
+      - ./hasura/seeds:/seeds
 
   webapp:
     container_name: eosrate_webapp

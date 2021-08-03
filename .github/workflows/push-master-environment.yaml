@@ -7,7 +7,6 @@ on:
 
 jobs:
   create-master-image:
-    name:
     runs-on: ubuntu-latest
     environment: master
     steps:
@@ -77,27 +76,26 @@ jobs:
           REACT_APP_BLOCK_EXPLORER: https://bloks.io
           REACT_APP_NETWORK_MONITOR_URL: https://jungle.eosio.online/
           # postgres
-          DATABASE_DIRECTORY: database
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           # hapi
-          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
-          POSTGRES_SCHEMA: ${{ secrets.POSTGRES_SCHEMA }}
-          HAPI_EOS_API_ENDPOINT: https://api.eosio.cr
           HAPI_SERVER_ADDRESS: 0.0.0.0
           HAPI_SERVER_PORT: 9090
-          HAPI_PROXY_INFO_CONTRACT_CODE: regproxyinfo
-          HAPI_PROXY_INFO_CONTRACT_SCOPE: regproxyinfo
+          HAPI_PROXY_CONTRACT: regproxyinfo
+          HAPI_RATING_CONTRACT: rateproducer
+          HAPI_POSTGRES_USER: ${{ secrets.HAPI_POSTGRES_USER }}
+          HAPI_POSTGRES_PASSWORD: ${{ secrets.HAPI_POSTGRES_PASSWORD }}
+          HAPI_POSTGRES_DB: eosrate
+          HAPI_POSTGRES_HOST: postgres
+          HAPI_POSTGRES_PORT: 5432
+          HAPI_POSTGRES_SCHEMA: public
+          HAPI_EOS_API_ENDPOINT: https://jungle3.cryptolions.io
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
-          HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
           HASURA_GRAPHQL_UNAUTHORIZED_ROLE: ${{ secrets.HASURA_GRAPHQL_UNAUTHORIZED_ROLE }}
           HASURA_GRAPHQL_ACTION_BASE_URL: http://hapi:9090
-          # pgweb
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Setup and deploy kubernetes environment
         uses: steebchen/kubectl@v1.1.0
