@@ -1,4 +1,4 @@
-import React, { useEffect, forwardRef } from 'react'
+import React, { useState, useEffect, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import classNames from 'classnames'
@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import AccountCircle from '@material-ui/icons/AccountCircle'
+import { useMediaQuery } from '@material-ui/core'
 import Divider from '@material-ui/core/Divider'
 import _get from 'lodash.get'
 
@@ -61,6 +62,8 @@ const BlockProducerProfile = ({ account, ...props }) => {
   const { t } = useTranslation('profile')
   const classes = useStyles()
   const dispatch = useDispatch()
+  const isDesktop = useMediaQuery('(min-width:767px)')
+  const [sizes, setSizes] = useState()
   const { list: blockProducers, producer } = useSelector(
     (state) => state.blockProducers
   )
@@ -76,6 +79,10 @@ const BlockProducerProfile = ({ account, ...props }) => {
     _get(producer, 'system.owner', 'No Data')
   )
   const webInfo = _get(producer, 'general_info', null)
+
+  useEffect(() => {
+    setSizes(isDesktop ? 400 : 240)
+  }, [isDesktop])
 
   useEffect(() => {
     const getData = async () => {
@@ -153,6 +160,8 @@ const BlockProducerProfile = ({ account, ...props }) => {
                   )}
                 >
                   <Radar
+                    height={sizes}
+                    width={sizes}
                     bpData={{
                       datasets: producer ? [{ ...producer.data }] : []
                     }}
@@ -177,6 +186,8 @@ const BlockProducerProfile = ({ account, ...props }) => {
                     )}
                   >
                     <Radar
+                      height={sizes}
+                      width={sizes}
                       bpData={{
                         datasets: producer ? [{ ...producer.data }] : []
                       }}

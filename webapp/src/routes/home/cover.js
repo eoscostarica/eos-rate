@@ -1,7 +1,8 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
+import { useMediaQuery } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import { Link } from '@reach/router'
@@ -18,6 +19,12 @@ const useStyles = makeStyles(styles)
 const HomeCover = ({ blockProducer }) => {
   const { t } = useTranslation('home')
   const classes = useStyles()
+  const isDesktop = useMediaQuery('(min-width:767px)')
+  const [sizes, setSizes] = useState()
+
+  useEffect(() => {
+    setSizes(isDesktop ? 400 : 240)
+  }, [isDesktop])
 
   return (
     <Grid item container xs={12} className={classes.coverContainer}>
@@ -61,7 +68,8 @@ const HomeCover = ({ blockProducer }) => {
       <Grid item container xs={12} md={6} justify='center'>
         <div className={classes.chartContainer}>
           <Radar
-            height={230}
+            height={sizes}
+            width={sizes}
             bpData={{
               datasets: [blockProducer.data]
             }}

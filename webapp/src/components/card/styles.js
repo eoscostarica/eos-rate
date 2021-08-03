@@ -22,8 +22,7 @@ export default (theme) => ({
     justifyContent: 'space-between'
   },
   radar: {
-    background: theme.palette.surface.light,
-    paddingBottom: theme.spacing(2)
+    background: theme.palette.surface.light
   },
   avatar: {
     backgroundColor: theme.palette.surface.main
@@ -55,7 +54,6 @@ export default (theme) => ({
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: '100%',
-    height: 25,
     padding: theme.spacing(0, 1)
   },
   boxTitle: {
