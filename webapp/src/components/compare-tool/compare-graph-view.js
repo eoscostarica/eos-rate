@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -145,10 +145,13 @@ const CompareGraphView = ({
 }) => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
-  const isDesktop = useMediaQuery('(min-width:900px)', {
-    defaultMatches: false
-  })
+  const isDesktop = useMediaQuery('(min-width:767px)')
   const mobileMedium = useMediaQuery('(min-height:711px)')
+  const [sizes, setSizes] = useState()
+
+  useEffect(() => {
+    setSizes(isDesktop ? 400 : 240)
+  }, [isDesktop])
 
   return (
     <Grid justify='center' container spacing={2}>
@@ -171,6 +174,8 @@ const CompareGraphView = ({
           style={{ padding: mobileMedium ? '15px 0 15px 0' : '0' }}
         >
           <Radar
+            height={sizes}
+            width={sizes}
             bpData={{
               datasets: selected.map(({ data }) => ({
                 ...data,

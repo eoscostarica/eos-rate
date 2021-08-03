@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
+import { useMediaQuery } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
@@ -37,6 +38,8 @@ const ProxyProfile = ({ account, ual, ...props }) => {
   const dispatch = useDispatch()
   const { proxy } = useSelector((state) => state.proxies)
   const [showMessage, setShowMessage] = useState(false)
+  const isDesktop = useMediaQuery('(min-width:767px)')
+  const [sizes, setSizes] = useState()
   const [ratingState, setRatingState] = useState({
     processing: false,
     txError: null,
@@ -122,6 +125,10 @@ const ProxyProfile = ({ account, ual, ...props }) => {
     getData()
   }, [account, accountName, setShowMessage])
 
+  useEffect(() => {
+    setSizes(isDesktop ? 400 : 240)
+  }, [isDesktop])
+
   return (
     <Grid container justify='center' className={classes.container}>
       <TitlePage title={`${t('proxyProfile')} ${ProxyTitle} - EOS Rate`} />
@@ -187,6 +194,8 @@ const ProxyProfile = ({ account, ual, ...props }) => {
                   )}
                 >
                   <Radar
+                    height={sizes}
+                    width={sizes}
                     bpData={{
                       datasets: proxy ? [{ ...proxy.data }] : []
                     }}
@@ -265,6 +274,8 @@ const ProxyProfile = ({ account, ual, ...props }) => {
                     )}
                   >
                     <Radar
+                      height={sizes}
+                      width={sizes}
                       bpData={{
                         datasets: proxy ? [{ ...proxy.data }] : []
                       }}

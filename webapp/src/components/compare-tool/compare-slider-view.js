@@ -1,9 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import _get from 'lodash.get'
+import { useMediaQuery } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
+import PropTypes from 'prop-types'
+import _get from 'lodash.get'
 
 import Radar from 'components/radar'
 
@@ -20,6 +21,12 @@ const CompareSliderView = ({
 }) => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
+  const isDesktop = useMediaQuery('(min-width:767px)')
+  const [sizes, setSizes] = useState()
+
+  useEffect(() => {
+    setSizes(isDesktop ? 400 : 240)
+  }, [isDesktop])
 
   return (
     <div className={className}>
@@ -37,6 +44,8 @@ const CompareSliderView = ({
           return (
             <div key={`slider-card-${name}`} className={classes.sliderCard}>
               <Radar
+                height={sizes}
+                width={sizes}
                 bpData={{
                   datasets: bp.data ? [{ ...bp.data }] : []
                 }}

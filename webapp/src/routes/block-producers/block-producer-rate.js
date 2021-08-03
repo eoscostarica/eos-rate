@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from '@reach/router'
 import {
+  useMediaQuery,
   Avatar,
   Button,
   IconButton,
@@ -62,12 +63,18 @@ const BlockProducerRate = ({ account, ual }) => {
   const accountName = _get(ual, 'activeUser.accountName', null)
   const bpData = _get(producer, 'data', {})
   const [lastTransactionId, setLastTransactionId] = useState(undefined)
+  const isDesktop = useMediaQuery('(min-width:767px)')
+  const [sizes, setSizes] = useState()
 
   const handleStateChange = (parameter) => (event, value) => {
     setRatingState({ ...ratingState, [parameter]: value })
   }
 
   const bPLogo = _get(producer, 'bpjson.org.branding.logo_256', null)
+
+  useEffect(() => {
+    setSizes(isDesktop ? 400 : 240)
+  }, [isDesktop])
 
   useEffect(() => {
     const getData = async () => {
@@ -372,6 +379,8 @@ const BlockProducerRate = ({ account, ual }) => {
                 >
                   <Grid className={classes.radarWrapper} item xs={12}>
                     <Radar
+                      height={sizes}
+                      width={sizes}
                       showLabel
                       bpData={{
                         datasets: [

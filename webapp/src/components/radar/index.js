@@ -1,23 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { Radar } from 'react-chartjs-2'
 
 import getRadarLabelName from 'utils/getRadarLabelName'
 
-const RadarData = ({ bpData, height, showLabel, ...props }) => {
+const RadarData = ({ bpData, height, showLabel, width, ...props }) => {
   const { t } = useTranslation('translations')
   const labels = getRadarLabelName(t)
+  const [sizes, setSizes] = useState({ width: 240, height: 240 })
   const bpValidData =
     bpData.datasets && bpData.datasets.length
       ? { ...bpData, labels }
       : { labels, datasets: [{ data: [0, 0, 0, 0, 0] }] }
 
+  useEffect(() => {
+    if (!width && !height) return
+
+    setSizes({ width, height })
+  }, [width, height])
+
   return (
     <Radar
       data={bpValidData}
-      style={{ margin: 'auto' }}
+      style={{ margin: 'auto', width: sizes.width, height: sizes.height }}
       options={{
+        animation: {
+          duration: false
+        },
         plugins: {
           legend: showLabel
         },
@@ -33,8 +43,10 @@ const RadarData = ({ bpData, height, showLabel, ...props }) => {
               circular: true,
               lineWidth: 4
             },
+            suggestedMin: 1,
+            suggestedMax: 10,
             angleLines: { color: '#e5e5e5', lineWidth: 4 },
-            pointLabels: { fontColor: '#443F5B', fontSize: 14 }
+            pointLabels: { fontColor: '#443F5B', fontSize: 20 }
           }
         },
         layout: {
@@ -82,7 +94,8 @@ const RadarData = ({ bpData, height, showLabel, ...props }) => {
 
 RadarData.propTypes = {
   bpData: PropTypes.object,
-  height: PropTypes.number,
+  height: PropTypes.any,
+  width: PropTypes.any,
   showLabel: PropTypes.bool
 }
 

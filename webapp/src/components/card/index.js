@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from 'react'
+import React, { useState, forwardRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import { useTheme } from '@material-ui/core/styles'
@@ -59,11 +59,17 @@ const CardData = ({
   const classes = useStyles()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.only('xs'))
+  const isDesktop = useMediaQuery('(min-width:770px)')
+  const [sizes, setSizes] = useState()
 
   const handleTooltip = (e) => {
     setOpen(!open)
     e.preventDefault()
   }
+
+  useEffect(() => {
+    setSizes(isDesktop ? 400 : 240)
+  }, [isDesktop])
 
   return (
     <Card className={classes.card}>
@@ -148,7 +154,8 @@ const CardData = ({
           )}
         </div>
         <Radar
-          height={200}
+          height={sizes}
+          width={sizes}
           bpData={{
             datasets: [{ ...data.data }]
           }}
