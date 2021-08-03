@@ -194,7 +194,9 @@ const CompareGraphView = ({
           }}
         >
           <Box className={classes.centerBox}>
-            {isProxy && <Typography>{selected[0].name}</Typography>}
+            {isProxy && selected.length > 0 && (
+              <Typography>{selected[0].name}</Typography>
+            )}
             {!isProxy && (
               <FormControlLabel
                 control={
