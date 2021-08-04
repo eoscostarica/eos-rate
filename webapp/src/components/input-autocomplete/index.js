@@ -55,7 +55,6 @@ const InputAutocomplete = ({ ...props }) => {
   const renderInputComponent = (inputProps) => {
     const { inputRef = () => {}, ref, classes, ...other } = inputProps
     const { hideSearchIcon, isFocused } = props
-    console.log({ other, classes })
 
     return (
       <TextField
