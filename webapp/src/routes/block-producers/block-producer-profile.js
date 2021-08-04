@@ -1,19 +1,16 @@
 import React, { useState, useEffect, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
-import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { Link } from '@reach/router'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import AccountCircle from '@material-ui/icons/AccountCircle'
-import { useMediaQuery } from '@material-ui/core'
-import Divider from '@material-ui/core/Divider'
+import { Box, useMediaQuery } from '@material-ui/core'
 import _get from 'lodash.get'
 
 import TitlePage from 'components/title-page'
@@ -98,9 +95,15 @@ const BlockProducerProfile = ({ account, ...props }) => {
   }, [])
 
   return (
-    <Grid container justify='center' className={classes.container}>
+    <Grid
+      style={{ backgroundColor: '#22cc22' }}
+      container
+      justify='center'
+      className={classes.container}
+      spacing={5}
+    >
       <TitlePage title={`${t('title')} ${BlockProducerTitle} - EOS Rate`} />
-      <Grid item xs={12}>
+      <Grid style={{ backgroundColor: '#0ccc00' }} item md={12} xs={12}>
         <Grid container direction='row' alignItems='center'>
           <Button
             // eslint-disable-next-line react/display-name
@@ -113,98 +116,71 @@ const BlockProducerProfile = ({ account, ...props }) => {
           </Button>
         </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Paper>
-          <Grid
-            container
-            direction='row'
-            alignItems='center'
-            className={classes.box}
+      <Grid item md={12} style={{ backgroundColor: '#f8f8f8' }}>
+        <Box style={{ display: 'flex' }}>
+          {bPLogo ? (
+            <Avatar aria-label='Block Producer' className={classes.avatar}>
+              <img src={bPLogo} alt='' width='100%' />
+            </Avatar>
+          ) : (
+            <AccountCircle className={classes.accountCircle} />
+          )}
+          <ProfileTitle
+            classes={classes}
+            hasInformation={bpHasInformation}
+            producer={producer}
+            t={t}
+            bpTitle={BlockProducerTitle}
+            isContentLoading={isContentLoading}
+          />
+        </Box>
+      </Grid>
+      <Grid style={{ backgroundColor: '#0ccccc' }} item md={7}>
+        <GeneralInformation classes={classes} producer={producer} />
+        <SocialNetworks
+          classes={classes}
+          overrideClass={classes.showOnlyLg}
+          producer={bpHasInformation && producer.bpjson}
+        />
+      </Grid>
+      <Grid
+        style={{ backgroundColor: '#011100' }}
+        container
+        justify='center'
+        md={5}
+      >
+        <Grid item md={12}>
+          <Radar
+            height={sizes}
+            width={sizes}
+            bpData={{
+              datasets: producer ? [{ ...producer.data }] : []
+            }}
+          />
+        </Grid>
+        <Grid item md={4}>
+          <Button
+            disabled={!producer}
+            // eslint-disable-next-line react/display-name
+            component={forwardRef((props, ref) => (
+              <Link
+                {...props}
+                ref={ref}
+                to={`/block-producers/${_get(
+                  producer,
+                  'owner',
+                  'noBlockProducerName'
+                )}/rate`}
+              />
+            ))}
+            className={classes.btnBP}
           >
-            <Grid container direction='row' alignItems='center'>
-              <Grid item xs={12}>
-                <Grid container direction='row' alignItems='center'>
-                  <Grid item sm={12} lg={4}>
-                    <Grid container direction='row' alignItems='center'>
-                      {bPLogo ? (
-                        <Avatar
-                          aria-label='Block Producer'
-                          className={classes.avatar}
-                        >
-                          <img src={bPLogo} alt='' width='100%' />
-                        </Avatar>
-                      ) : (
-                        <AccountCircle className={classes.accountCircle} />
-                      )}
-                      <ProfileTitle
-                        classes={classes}
-                        hasInformation={bpHasInformation}
-                        producer={producer}
-                        t={t}
-                        bpTitle={BlockProducerTitle}
-                        isContentLoading={isContentLoading}
-                      />
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-            <div className={classes.wrapperBox}>
-              <Grid item sm={12} lg={4}>
-                <Grid
-                  item
-                  xs={12}
-                  className={classNames(
-                    classes.BlockProducerRadarBox,
-                    classes.showOnlySm
-                  )}
-                >
-                  <Radar
-                    height={sizes}
-                    width={sizes}
-                    bpData={{
-                      datasets: producer ? [{ ...producer.data }] : []
-                    }}
-                  />
-                </Grid>
-                <GeneralInformation classes={classes} producer={producer} />
-                <SocialNetworks
-                  classes={classes}
-                  overrideClass={classes.showOnlyLg}
-                  producer={bpHasInformation && producer.bpjson}
-                />
-              </Grid>
-
-              <Grid item sm={12} lg={8}>
-                <Grid container direction='column'>
-                  <Grid
-                    item
-                    xs={12}
-                    className={classNames(
-                      classes.BlockProducerRadarBox,
-                      classes.showOnlyLg
-                    )}
-                  >
-                    <Radar
-                      height={sizes}
-                      width={sizes}
-                      bpData={{
-                        datasets: producer ? [{ ...producer.data }] : []
-                      }}
-                    />
-                  </Grid>
-                  <WebsiteLegend classes={classes} webInfo={webInfo} />
-                  <Divider variant='middle' className={classes.showOnlySm} />
-                  <SocialNetworks
-                    classes={classes}
-                    overrideClass={classes.showOnlySm}
-                    producer={bpHasInformation && producer.bpjson}
-                  />
-                </Grid>
-              </Grid>
-            </div>
-          </Grid>
-        </Paper>
+            {t('buttonRate')}
+          </Button>
+        </Grid>
+      </Grid>
+      <Grid item md={12}>
+        <WebsiteLegend classes={classes} webInfo={webInfo} />
       </Grid>
     </Grid>
   )
