@@ -53,8 +53,9 @@ const InputAutocomplete = ({ ...props }) => {
   }, [list, proxies])
 
   const renderInputComponent = (inputProps) => {
-    const { inputRef = () => {}, ref, ...other } = inputProps
+    const { inputRef = () => {}, ref, classes, ...other } = inputProps
     const { hideSearchIcon, isFocused } = props
+    console.log({ other, classes })
 
     return (
       <TextField
@@ -75,6 +76,9 @@ const InputAutocomplete = ({ ...props }) => {
           classes: {
             input: classes.input
           }
+        }}
+        classes={{
+          root: classes.root
         }}
         {...other}
       />
