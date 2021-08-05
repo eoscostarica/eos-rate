@@ -84,7 +84,12 @@ const AllProxies = ({ ual }) => {
           handleToggleSelected()
         }}
       />
-      <Grid className={classes.wrapper} container justify='center' spacing={4}>
+      <Grid
+        className={classes.wrapper}
+        container
+        justifyContent='center'
+        spacing={4}
+      >
         {(shownList || []).map((proxy) => (
           <Grid
             item

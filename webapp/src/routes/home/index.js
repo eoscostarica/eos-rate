@@ -36,7 +36,7 @@ const Home = () => {
           {blockProducer && (
             <Grid
               container
-              justify='center'
+              justifyContent='center'
               className={classNames(
                 classes.spacingContainers,
                 classes.mainCoverContainer
@@ -51,7 +51,7 @@ const Home = () => {
           {blockProducer && (
             <Grid
               container
-              justify='center'
+              justifyContent='center'
               className={classNames(
                 classes.spacingContainers,
                 classes.rateCategoryContainer
@@ -65,7 +65,7 @@ const Home = () => {
         <Grid item xs>
           <Grid
             container
-            justify='center'
+            justifyContent='center'
             className={classNames(
               classes.spacingContainers,
               classes.mainSubTopicContainer

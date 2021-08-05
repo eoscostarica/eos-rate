@@ -221,7 +221,7 @@ const BlockProducerRate = ({ account, ual }) => {
   }
 
   return (
-    <Grid container justify='center' className={classes.container}>
+    <Grid container justifyContent='center' className={classes.container}>
       <TitlePage
         title={`${t('title')} ${
           _get(producer, 'bpjson.org.candidate_name') ||
@@ -310,7 +310,7 @@ const BlockProducerRate = ({ account, ual }) => {
                   <Grid
                     alignItems='center'
                     container
-                    justify='flex-end'
+                    justifyContent='flex-end'
                     style={{ marginTop: 10 }}
                   >
                     {showMessage && (
@@ -401,7 +401,7 @@ const BlockProducerRate = ({ account, ual }) => {
                     <Grid
                       alignItems='center'
                       container
-                      justify='center'
+                      justifyContent='center'
                       style={{ marginTop: 10 }}
                     >
                       {showMessage && (
@@ -473,13 +473,13 @@ const BlockProducerRate = ({ account, ual }) => {
                   <Grid
                     container
                     className={classes.alertBody}
-                    justify='space-between'
+                    justifyContent='space-between'
                   >
                     <Typography>Success!</Typography>
                     <Grid
                       className={classes.alertActionsContainer}
                       container
-                      justify='space-evenly'
+                      justifyContent='space-evenly'
                     >
                       <IconButton
                         className={classes.closeIconButton}
