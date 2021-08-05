@@ -30,7 +30,7 @@ const _getCountryName = (country = null, locationNumber, defaultMessage) => {
   return defaultMessage
 }
 
-const SocialNetworks = ({ classes, overrideClass, producer }) => {
+const SocialNetworks = ({ classes, producer }) => {
   const { t } = useTranslation('profile')
   const github = _get(producer, 'org.social.github')
   const twitter = _get(producer, 'org.social.twitter')
@@ -39,15 +39,11 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
   const instagram = _get(producer, 'org.social.instagram')
 
   return (
-    <Grid
-      container
-      direction='column'
-      className={classNames(classes.category, overrideClass)}
-    >
+    <Grid container direction='column' className={classes.category}>
       <Typography variant='h6' className={classes.title}>
         {t('social')}
       </Typography>
-      <Box style={{ marginLeft: '20px' }}>
+      <Box className={classes.marginLeftBox}>
         {github && (
           <Grid container direction='row'>
             <Typography variant='subtitle1' className={classes.subTitle}>
@@ -157,16 +153,16 @@ const WebsiteLegend = ({ classes, webInfo }) => {
   const { t } = useTranslation('profile')
 
   const content = webInfo ? (
-    <>
+    <Box className={classes.category}>
       <Typography variant='h6' className={classes.title}>
         {t('websiteInfo')}:
       </Typography>
-      <Box style={{ marginLeft: '20px' }}>
-        <Typography variant='subtitle1' className={classes.value}>
+      <Box className={classes.marginLeftBox}>
+        <Typography variant='subtitle1' style={{ fontWeight: 500 }}>
           {webInfo.websiteText}
         </Typography>
       </Box>
-    </>
+    </Box>
   ) : null
 
   return (
@@ -189,16 +185,11 @@ const GeneralInformation = ({ classes, producer = {} }) => {
 
   return (
     <>
-      <Grid
-        container
-        style={{ backgroundColor: '#f88008' }}
-        direction='column'
-        className={classes.category}
-      >
+      <Grid container direction='column' className={classes.category}>
         <Typography variant='h6' className={classes.title}>
           {t('generalInformation')}
         </Typography>
-        <Box style={{ marginLeft: '20px' }}>
+        <Box className={classes.marginLeftBox}>
           <Grid container direction='row'>
             <Typography variant='subtitle1' className={classes.subTitle}>
               {t('account')}:
@@ -221,11 +212,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
               {countryName}
             </Typography>
           </Grid>
-          <Grid
-            container
-            style={{ backgroundColor: '#800008' }}
-            direction='row'
-          >
+          <Grid container direction='row'>
             <Typography variant='subtitle1' className={classes.subTitle}>
               {t('website')}:
             </Typography>
@@ -247,11 +234,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
               )}
             </Typography>
           </Grid>
-          <Grid
-            container
-            style={{ backgroundColor: '#800008' }}
-            direction='row'
-          >
+          <Grid container direction='row'>
             <Typography variant='subtitle1' className={classes.subTitle}>
               {t('votes')}:
             </Typography>
@@ -264,43 +247,106 @@ const GeneralInformation = ({ classes, producer = {} }) => {
           </Grid>
         </Box>
       </Grid>
-      <Grid
-        container
-        style={{ backgroundColor: '#889998' }}
-        direction='column'
-        className={classes.category}
-      >
-        <Typography variant='h6' className={classes.title}>
-          {t('rankings')}
-        </Typography>
-        <Box style={{ marginLeft: '20px' }}>
-          <Grid
-            container
-            style={{ backgroundColor: '#288228' }}
-            direction='row'
-          >
-            <Typography variant='subtitle1' className={classes.subTitle}>
-              {t('rates')}:
-            </Typography>
-            <Typography
-              variant='subtitle1'
-              className={classNames(classes.value, classes.subTitle)}
-            >
-              {_get(producer, 'ratings_cntr', null) || 0}
+      <Grid container className={classes.category}>
+        <Grid container justify='center' md={4} xs={12}>
+          <Grid item md={12} xs={12}>
+            <Typography variant='h6' className={classes.title}>
+              {t('eosRates')}
             </Typography>
           </Grid>
-          <Grid container direction='row'>
-            <Typography variant='subtitle1' className={classes.subTitle}>
-              {t('average')}:
-            </Typography>
-            <Typography
-              variant='subtitle1'
-              className={classNames(classes.value, classes.subTitle)}
-            >
-              {getAverageValue(_get(producer, 'average', 0))}
+          <Grid item md={11} xs={6}>
+            <Box style={{ display: 'flex' }}>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                {t('rates')}:
+              </Typography>
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
+              >
+                {_get(producer, 'ratings_cntr', null) || 0}
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item md={11} xs={5}>
+            <Box style={{ display: 'flex' }}>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                {t('average')}:
+              </Typography>
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
+              >
+                {getAverageValue(_get(producer, 'average', 0))}
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid container justify='center' md={4} xs={12}>
+          <Grid item md={12} xs={12}>
+            <Typography variant='h6' className={classes.title}>
+              {t('edenRates')}
             </Typography>
           </Grid>
-        </Box>
+          <Grid item md={11} xs={6}>
+            <Box style={{ display: 'flex' }}>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                {t('rates')}:
+              </Typography>
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
+              >
+                {_get(producer, 'ratings_cntr', null) || 0}
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item md={11} xs={5}>
+            <Box style={{ display: 'flex' }}>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                {t('average')}:
+              </Typography>
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
+              >
+                {getAverageValue(_get(producer, 'average', 0))}
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid container justify='center' md={4} xs={12}>
+          <Grid item md={12} xs={12}>
+            <Typography variant='h6' className={classes.title}>
+              {t('tatolRates')}
+            </Typography>
+          </Grid>
+          <Grid item md={11} xs={6}>
+            <Box style={{ display: 'flex' }}>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                {t('rates')}:
+              </Typography>
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
+              >
+                {_get(producer, 'ratings_cntr', null) || 0}
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item md={11} xs={5}>
+            <Box style={{ display: 'flex' }}>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                {t('average')}:
+              </Typography>
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
+              >
+                {getAverageValue(_get(producer, 'average', 0))}
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
       </Grid>
     </>
   )
@@ -308,7 +354,6 @@ const GeneralInformation = ({ classes, producer = {} }) => {
 
 SocialNetworks.propTypes = {
   classes: PropTypes.object,
-  overrideClass: PropTypes.any,
   producer: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
 }
 

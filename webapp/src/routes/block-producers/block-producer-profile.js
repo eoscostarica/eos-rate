@@ -60,6 +60,7 @@ const BlockProducerProfile = ({ account, ...props }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const isDesktop = useMediaQuery('(min-width:767px)')
+  const isMobile = useMediaQuery('(max-width:768px)')
   const [sizes, setSizes] = useState()
   const { list: blockProducers, producer } = useSelector(
     (state) => state.blockProducers
@@ -95,15 +96,9 @@ const BlockProducerProfile = ({ account, ...props }) => {
   }, [])
 
   return (
-    <Grid
-      style={{ backgroundColor: '#22cc22' }}
-      container
-      justify='center'
-      className={classes.container}
-      spacing={5}
-    >
+    <Grid container justify='center' className={classes.container} spacing={5}>
       <TitlePage title={`${t('title')} ${BlockProducerTitle} - EOS Rate`} />
-      <Grid style={{ backgroundColor: '#0ccc00' }} item md={12} xs={12}>
+      <Grid item md={12} xs={12}>
         <Grid container direction='row' alignItems='center'>
           <Button
             // eslint-disable-next-line react/display-name
@@ -116,71 +111,84 @@ const BlockProducerProfile = ({ account, ...props }) => {
           </Button>
         </Grid>
       </Grid>
-      <Grid item md={12} style={{ backgroundColor: '#f8f8f8' }}>
-        <Box style={{ display: 'flex' }}>
-          {bPLogo ? (
-            <Avatar aria-label='Block Producer' className={classes.avatar}>
-              <img src={bPLogo} alt='' width='100%' />
-            </Avatar>
-          ) : (
-            <AccountCircle className={classes.accountCircle} />
-          )}
-          <ProfileTitle
-            classes={classes}
-            hasInformation={bpHasInformation}
-            producer={producer}
-            t={t}
-            bpTitle={BlockProducerTitle}
-            isContentLoading={isContentLoading}
-          />
-        </Box>
-      </Grid>
-      <Grid style={{ backgroundColor: '#0ccccc' }} item md={7}>
-        <GeneralInformation classes={classes} producer={producer} />
-        <SocialNetworks
-          classes={classes}
-          overrideClass={classes.showOnlyLg}
-          producer={bpHasInformation && producer.bpjson}
-        />
-      </Grid>
-      <Grid
-        style={{ backgroundColor: '#011100' }}
-        container
-        justify='center'
-        md={5}
-      >
-        <Grid item md={12}>
-          <Radar
-            height={sizes}
-            width={sizes}
-            bpData={{
-              datasets: producer ? [{ ...producer.data }] : []
-            }}
-          />
+      <Grid container className={classes.reliefGrid}>
+        <Grid item md={12} xs={12}>
+          <Box style={{ display: 'flex' }}>
+            {bPLogo ? (
+              <Avatar aria-label='Block Producer' className={classes.avatar}>
+                <img src={bPLogo} alt='' width='100%' />
+              </Avatar>
+            ) : (
+              <AccountCircle className={classes.accountCircle} />
+            )}
+            <ProfileTitle
+              classes={classes}
+              hasInformation={bpHasInformation}
+              producer={producer}
+              t={t}
+              bpTitle={BlockProducerTitle}
+              isContentLoading={isContentLoading}
+            />
+          </Box>
         </Grid>
-        <Grid item md={4}>
-          <Button
-            disabled={!producer}
-            // eslint-disable-next-line react/display-name
-            component={forwardRef((props, ref) => (
-              <Link
-                {...props}
-                ref={ref}
-                to={`/block-producers/${_get(
-                  producer,
-                  'owner',
-                  'noBlockProducerName'
-                )}/rate`}
-              />
-            ))}
-            className={classes.btnBP}
-          >
-            {t('buttonRate')}
-          </Button>
+        {!isMobile && (
+          <Grid item xs={12} md={7}>
+            <GeneralInformation classes={classes} producer={producer} />
+            <SocialNetworks
+              classes={classes}
+              overrideClass={classes.showOnlyLg}
+              producer={bpHasInformation && producer.bpjson}
+            />
+          </Grid>
+        )}
+        <Grid container justify='center' md={5}>
+          <Grid item md={12} xs={12}>
+            <Radar
+              height={sizes}
+              width={sizes}
+              bpData={{
+                datasets: producer ? [{ ...producer.data }] : []
+              }}
+            />
+          </Grid>
+          <Grid item md={4} xs={5}>
+            <Button
+              disabled={!producer}
+              // eslint-disable-next-line react/display-name
+              component={forwardRef((props, ref) => (
+                <Link
+                  {...props}
+                  ref={ref}
+                  to={`/block-producers/${_get(
+                    producer,
+                    'owner',
+                    'noBlockProducerName'
+                  )}/rate`}
+                />
+              ))}
+              className={classes.btnBP}
+            >
+              {t('buttonRate')}
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid item md={12}>
-        <WebsiteLegend classes={classes} webInfo={webInfo} />
+        {isMobile && (
+          <Grid item xs={12}>
+            <GeneralInformation classes={classes} producer={producer} />
+          </Grid>
+        )}
+        <Grid item md={12} xs={12}>
+          <WebsiteLegend classes={classes} webInfo={webInfo} />
+        </Grid>
+        {isMobile && (
+          <Grid style={{ marginTop: '-20px' }} item xs={12}>
+            <SocialNetworks
+              classes={classes}
+              overrideClass={classes.showOnlyLg}
+              producer={bpHasInformation && producer.bpjson}
+            />
+          </Grid>
+        )}
       </Grid>
     </Grid>
   )
