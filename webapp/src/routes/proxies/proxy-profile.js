@@ -11,7 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import { useMediaQuery } from '@material-ui/core'
+import { Box, useMediaQuery } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
@@ -143,6 +143,122 @@ const ProxyProfile = ({ account, ual, ...props }) => {
             <KeyboardArrowLeft />
             {t('allP')}
           </Button>
+        </Grid>
+      </Grid>
+      <Grid container className={classes.reliefGrid}>
+        <Grid item md={12}>
+          <Box style={{ display: 'flex' }}>
+            {logo ? (
+              <Avatar aria-label='Block Producer' className={classes.avatar}>
+                <img src={logo} alt='' width='100%' />
+              </Avatar>
+            ) : (
+              <AccountCircle className={classes.accountCircle} />
+            )}
+            <Typography variant='h6' className={classes.bpName}>
+              {ProxyTitle}
+            </Typography>
+          </Box>
+          {slogan && (
+            <Typography variant='subtitle1'>
+              <blockquote className={classes.slogan}>{slogan}</blockquote>
+            </Typography>
+          )}
+        </Grid>
+        <Grid item md={7}>
+          <GeneralInformation
+            classes={classes}
+            proxy={proxy}
+            onClick={sendVoteProxy}
+            disabled={!proxy || ratingState.processing}
+          />
+          <Box className={classes.wrapperBox}>
+            {showMessage && (
+              <Chip
+                avatar={
+                  <Avatar>
+                    <Error />
+                  </Avatar>
+                }
+                color='secondary'
+                label={t('voteWithoutLogin')}
+                variant='outlined'
+              />
+            )}
+            {ratingState.txError && (
+              <Chip
+                avatar={
+                  <Avatar>
+                    <Error />
+                  </Avatar>
+                }
+                color='secondary'
+                label={ratingState.txError}
+                variant='outlined'
+              />
+            )}
+            {ratingState.txSuccess && (
+              <Chip
+                avatar={
+                  <Avatar>
+                    <CheckCircle />
+                  </Avatar>
+                }
+                color='secondary'
+                label='Success!'
+                variant='outlined'
+              />
+            )}
+            {ratingState.processing && (
+              <div className={classes.votingTextProgress}>
+                <CircularProgress color='secondary' size={20} />
+                <Typography
+                  variant='subtitle1'
+                  className={classNames(classes.subTitle, classes.bpName)}
+                >
+                  {t('voting')} ...
+                </Typography>
+              </div>
+            )}
+          </Box>
+          <SocialNetworks
+            classes={classes}
+            overrideClass={classes.showOnlySm}
+            proxy={proxy}
+          />
+        </Grid>
+        <Grid container justify='center' md={5}>
+          <Grid item md={12} xs={12}>
+            <Radar
+              height={sizes}
+              width={sizes}
+              bpData={{
+                datasets: proxy ? [{ ...proxy.data }] : []
+              }}
+            />
+          </Grid>
+          <Grid item md={4} xs={5}>
+            <Button
+              disabled={!proxy || ratingState.processing}
+              className={classes.btnBP}
+              onClick={() => sendVoteProxy(_get(proxy, 'owner'))}
+            >
+              {t('buttonVote')}
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid item md={12}>
+          {proxy && Boolean(producers.length) && (
+            <CompareTool
+              removeBP={() => console.log('remove')}
+              className={classes.compareTool}
+              list={[proxy]}
+              selected={[account]}
+              isProxy
+              useOnlySliderView
+              optionalLabel={`${ProxyTitle} ${t('labelTool')}:`}
+            />
+          )}
         </Grid>
       </Grid>
       <Grid item xs={12}>
