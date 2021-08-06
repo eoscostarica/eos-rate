@@ -10,7 +10,7 @@ spec:
     match: Host(`${INGRESS_HOST}`)
     services:
     - kind: Service
-      name: frontend
+      name: webapp
       port: 80
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -25,7 +25,7 @@ spec:
     match: Host(`${INGRESS_HOST}`)
     services:
     - kind: Service
-      name: frontend
+      name: webapp
       port: 80
   tls:
     secretName: tls-secret

@@ -1,20 +1,17 @@
-version: "3.5"
+version: "3.6"
 
 services:
   postgres:
     container_name: eosrate_postgres
-    image: postgres:10.4
+    image: postgres:13.3-alpine
     volumes:
       - ${POSTGRES_DATA}:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      DB_NAME: eosrate
-      DB_USER: user
-      DB_PASSWORD: pass
-      POSTGRES_DB: eosrate
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
 
   pgweb:
     container_name: eosrate_pgweb
@@ -23,30 +20,32 @@ services:
     ports:
       - "8082:8081"
     environment:
-      DATABASE_URL: postgres://user:pass@postgres:5432/eosrate?sslmode=disable
+      DATABASE_URL: "${HASURA_GRAPHQL_DATABASE_URL}?sslmode=disable"
     depends_on:
       - postgres
 
   hapi:
     container_name: eosrate_hapi
     build:
-      context: ./services/hapi
+      context: ./hapi
       dockerfile: Dockerfile
     volumes:
-      - ./services/hapi:/opt/application
-      - /opt/application/node_modules # prevents host/container conflicts
+      - ./hapi:/opt/application
+      - /opt/application/node_modules
     ports:
       - "9090:9090"
     environment:
-      VIRTUAL_HOST: "${VIRTUAL_HOST}"
-      VIRTUAL_PORT: "${VIRTUAL_PORT}"
-      DB_USER: "${DB_USER}"
-      DB_PASSWORD: "${DB_PASSWORD}"
-      DB_PORT: "${DB_PORT}"
-      DB_NAME: "${DB_NAME}"
-      DB_HOST: postgres
-      DB_SCHEMA: public
-      EOS_API_ENDPOINT: "${EOS_API_ENDPOINT}"
+      HAPI_SERVER_ADDRESS: "${HAPI_SERVER_ADDRESS}"
+      HAPI_SERVER_PORT: "${HAPI_SERVER_PORT}"
+      HAPI_POSTGRES_USER: "${HAPI_POSTGRES_USER}"
+      HAPI_POSTGRES_PASSWORD: "${HAPI_POSTGRES_PASSWORD}"
+      HAPI_POSTGRES_PORT: "${HAPI_POSTGRES_PORT}"
+      HAPI_POSTGRES_DB: "${HAPI_POSTGRES_DB}"
+      HAPI_POSTGRES_HOST: "${HAPI_POSTGRES_HOST}"
+      HAPI_POSTGRES_SCHEMA: "${HAPI_POSTGRES_SCHEMA}"
+      HAPI_EOS_API_ENDPOINT: "${HAPI_EOS_API_ENDPOINT}"
+      HAPI_PROXY_CONTRACT: "${HAPI_PROXY_CONTRACT}"
+      HAPI_RATING_CONTRACT: "${HAPI_RATING_CONTRACT}"
 
     depends_on:
       - postgres
@@ -54,24 +53,24 @@ services:
   demux:
     container_name: eosrate_demux
     build:
-      context: ./services/demux
+      context: ./demux
       dockerfile: ./Dockerfile
     image: eosrate/demux
     volumes:
-      - ./services/demux:/opt/application # mount demux service folder
-      - /opt/application/node_modules # prevents host/container conflicts
+      - ./demux:/opt/application
+      - /opt/application/node_modules
     depends_on:
       - postgres
       - hasura
     environment:
-      DB_USER: "${DB_USER}"
-      DB_PASSWORD: "${DB_PASSWORD}"
-      DB_PORT: "${DB_PORT}"
-      DB_NAME: "${DB_NAME}"
-      DB_HOST: postgres
-      DB_SCHEMA: public
-      EOS_API_ENDPOINT: "${EOS_API_ENDPOINT}"
-      WAIT_HOSTS: postgres:"${DB_PORT}", hasura:8080
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_PORT: "${POSTGRES_PORT}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_HOST: "${POSTGRES_HOST}"
+      POSTGRES_SCHEMA: "${POSTGRES_SCHEMA}"
+      HAPI_EOS_API_ENDPOINT: "${HAPI_EOS_API_ENDPOINT}"
+      WAIT_HOSTS: postgres:"${POSTGRES_PORT}", hasura:8080
       WAIT_HOSTS_TIMEOUT: 60
     ports:
       - "3030:3030"
@@ -80,33 +79,38 @@ services:
 
   hasura:
     container_name: eosrate_hasura
-    build:
-      context: ./services/hasura
-      dockerfile: ./Dockerfile
-    image: hasura/graphql-engine:v1.3.3.cli-migrations-v2
+    image: hasura/graphql-engine:v2.0.4.cli-migrations-v3
     ports:
-      - "8080:8080"
+    - "8080:8080"
     depends_on:
-      - postgres
+    - postgres
     restart: always
     environment:
       HASURA_GRAPHQL_DATABASE_URL: "${HASURA_GRAPHQL_DATABASE_URL}"
-      HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
-      HASURA_GRAPHQL_ACTION_BASE_URL: http://hapi:9090
-      HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_GRAPHQL_ADMIN_SECRET}"
-      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "${HASURA_GRAPHQL_UNAUTHORIZED_ROLE}"
-
+      HASURA_GRAPHQL_MIGRATIONS_DIR: /migrations
+      HASURA_GRAPHQL_METADATA_DIR: /metadata
+      HASURA_GRAPHQL_SEEDS_DIR: /seeds
+      HASURA_GRAPHQL_ACTION_BASE_URL: "${HASURA_GRAPHQL_ACTION_BASE_URL}"
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      # Local Development Configurations It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ENABLE_LOGGING: "true"
+      # disabled security for local development
+      # HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_GRAPHQL_ADMIN_SECRET}"
+      # HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "${HASURA_GRAPHQL_UNAUTHORIZED_ROLE}"
     volumes:
-      - ./services/hasura/migrations:/hasura-migrations #  mount hasura migrations folder
-      - ./services/hasura/migrations:/hasura-metadata
+      - ./hasura/migrations:/migrations
+      - ./hasura/metadata:/metadata
+      - ./hasura/seeds:/seeds
 
-  frontend:
-    container_name: eosrate_frontend
+  webapp:
+    container_name: eosrate_webapp
     build:
-      context: ./services/frontend
+      context: ./webapp
       dockerfile: ./Dockerfile
       target: server
-    image: eosrate/frontend
+    image: eosrate/webapp
     depends_on:
       - hasura
       - hapi
@@ -121,5 +125,6 @@ services:
       REACT_APP_EOS_API_PROTOCOL: "${REACT_APP_EOS_API_PROTOCOL}"
       REACT_APP_EOS_CHAIN_ID: "${REACT_APP_EOS_CHAIN_ID}"
       REACT_APP_BLOCK_EXPLORER: "${REACT_APP_BLOCK_EXPLORER}"
+      REACT_APP_NETWORK_MONITOR_URL: "${REACT_APP_NETWORK_MONITOR_URL}"
     networks:
       default:
