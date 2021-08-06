@@ -1,14 +1,12 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import countries from 'i18n-iso-countries'
-import { Link } from '@reach/router'
-import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import _get from 'lodash.get'
 import Typography from '@material-ui/core/Typography'
-
+import Box from '@material-ui/core/Box'
 import formatNumber from 'utils/formatNumber'
 import getAverageValue from 'utils/getAverageValue'
 
@@ -32,7 +30,7 @@ const _getCountryName = (country = null, locationNumber, defaultMessage) => {
   return defaultMessage
 }
 
-const SocialNetworks = ({ classes, overrideClass, producer }) => {
+const SocialNetworks = ({ classes, producer }) => {
   const { t } = useTranslation('profile')
   const github = _get(producer, 'org.social.github')
   const twitter = _get(producer, 'org.social.twitter')
@@ -41,114 +39,112 @@ const SocialNetworks = ({ classes, overrideClass, producer }) => {
   const instagram = _get(producer, 'org.social.instagram')
 
   return (
-    <Grid
-      container
-      direction='column'
-      className={classNames(classes.category, overrideClass)}
-    >
-      <Typography variant='subtitle1' className={classes.title}>
+    <Grid container direction='column' className={classes.category}>
+      <Typography variant='h6' className={classes.title}>
         {t('social')}
       </Typography>
-      {github && (
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
-            GitHub:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
-          >
-            <a
-              href={`https://github.com/${github}`}
-              className={classes.links}
-              target='_blank'
-              rel='noopener noreferrer'
+      <Box className={classes.marginLeftBox}>
+        {github && (
+          <Grid container direction='row'>
+            <Typography variant='subtitle1' className={classes.subTitle}>
+              GitHub:
+            </Typography>
+            <Typography
+              variant='subtitle1'
+              className={classNames(classes.value, classes.subTitle)}
             >
-              {github}
-            </a>
-          </Typography>
-        </Grid>
-      )}
-      {twitter && (
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
-            Twitter:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
-          >
-            <a
-              href={`https://twitter.com/${twitter}`}
-              className={classes.links}
-              target='_blank'
-              rel='noopener noreferrer'
+              <a
+                href={`https://github.com/${github}`}
+                className={classes.links}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                {github}
+              </a>
+            </Typography>
+          </Grid>
+        )}
+        {twitter && (
+          <Grid container direction='row'>
+            <Typography variant='subtitle1' className={classes.subTitle}>
+              Twitter:
+            </Typography>
+            <Typography
+              variant='subtitle1'
+              className={classNames(classes.value, classes.subTitle)}
             >
-              {twitter}
-            </a>
-          </Typography>
-        </Grid>
-      )}
-      {linkedin && (
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
-            LinkedIn:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
-          >
-            <a
-              href={`https://www.linkedin.com/in/${linkedin}`}
-              className={classes.links}
-              target='_blank'
-              rel='noopener noreferrer'
+              <a
+                href={`https://twitter.com/${twitter}`}
+                className={classes.links}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                {twitter}
+              </a>
+            </Typography>
+          </Grid>
+        )}
+        {linkedin && (
+          <Grid container direction='row'>
+            <Typography variant='subtitle1' className={classes.subTitle}>
+              LinkedIn:
+            </Typography>
+            <Typography
+              variant='subtitle1'
+              className={classNames(classes.value, classes.subTitle)}
             >
-              {linkedin}
-            </a>
-          </Typography>
-        </Grid>
-      )}
-      {telegram && (
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
-            Telegram:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
-          >
-            <a
-              href={`https://web.telegram.org/#/${telegram}`}
-              className={classes.links}
-              target='_blank'
-              rel='noopener noreferrer'
+              <a
+                href={`https://www.linkedin.com/in/${linkedin}`}
+                className={classes.links}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                {linkedin}
+              </a>
+            </Typography>
+          </Grid>
+        )}
+        {telegram && (
+          <Grid container direction='row'>
+            <Typography variant='subtitle1' className={classes.subTitle}>
+              Telegram:
+            </Typography>
+            <Typography
+              variant='subtitle1'
+              className={classNames(classes.value, classes.subTitle)}
             >
-              {telegram}
-            </a>
-          </Typography>
-        </Grid>
-      )}
-      {instagram && (
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
-            Instagram:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
-          >
-            <a
-              href={`https://www.instagram.com/${instagram}`}
-              className={classes.links}
-              target='_blank'
-              rel='noopener noreferrer'
+              <a
+                href={`https://web.telegram.org/#/${telegram}`}
+                className={classes.links}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                {telegram}
+              </a>
+            </Typography>
+          </Grid>
+        )}
+        {instagram && (
+          <Grid container direction='row'>
+            <Typography variant='subtitle1' className={classes.subTitle}>
+              Instagram:
+            </Typography>
+            <Typography
+              variant='subtitle1'
+              className={classNames(classes.value, classes.subTitle)}
             >
-              {instagram}
-            </a>
-          </Typography>
-        </Grid>
-      )}
+              <a
+                href={`https://www.instagram.com/${instagram}`}
+                className={classes.links}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                {instagram}
+              </a>
+            </Typography>
+          </Grid>
+        )}
+      </Box>
     </Grid>
   )
 }
@@ -157,14 +153,16 @@ const WebsiteLegend = ({ classes, webInfo }) => {
   const { t } = useTranslation('profile')
 
   const content = webInfo ? (
-    <>
-      <Typography variant='subtitle1' className={classes.title}>
+    <Box className={classes.category}>
+      <Typography variant='h6' className={classes.title}>
         {t('websiteInfo')}:
       </Typography>
-      <Typography variant='subtitle1' className={classes.value}>
-        {webInfo.websiteText}
-      </Typography>
-    </>
+      <Box className={classes.marginLeftBox}>
+        <Typography variant='subtitle1' style={{ fontWeight: 500 }}>
+          {webInfo.websiteText}
+        </Typography>
+      </Box>
+    </Box>
   ) : null
 
   return (
@@ -188,113 +186,166 @@ const GeneralInformation = ({ classes, producer = {} }) => {
   return (
     <>
       <Grid container direction='column' className={classes.category}>
-        <Typography variant='subtitle1' className={classes.title}>
+        <Typography variant='h6' className={classes.title}>
           {t('generalInformation')}
         </Typography>
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
-            {t('account')}:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
-          >
-            {_get(producer, 'system.owner', '- -')}
-          </Typography>
-        </Grid>
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
-            {t('location')}:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
-          >
-            {countryName}
-          </Typography>
-        </Grid>
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
-            {t('website')}:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
-          >
-            {webpageURL ? (
-              <a
-                href={webpageURL}
-                className={classes.links}
-                target='_blank'
-                rel='noopener noreferrer'
+        <Box className={classes.marginLeftBox}>
+          <Grid container direction='row'>
+            <Typography variant='subtitle1' className={classes.subTitle}>
+              {t('account')}:
+            </Typography>
+            <Typography
+              variant='subtitle1'
+              className={classNames(classes.value, classes.subTitle)}
+            >
+              {_get(producer, 'system.owner', '- -')}
+            </Typography>
+          </Grid>
+          <Grid container direction='row'>
+            <Typography variant='subtitle1' className={classes.subTitle}>
+              {t('location')}:
+            </Typography>
+            <Typography
+              variant='subtitle1'
+              className={classNames(classes.value, classes.subTitle)}
+            >
+              {countryName}
+            </Typography>
+          </Grid>
+          <Grid container direction='row'>
+            <Typography variant='subtitle1' className={classes.subTitle}>
+              {t('website')}:
+            </Typography>
+            <Typography
+              variant='subtitle1'
+              className={classNames(classes.value, classes.subTitle)}
+            >
+              {webpageURL ? (
+                <a
+                  href={webpageURL}
+                  className={classes.links}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  {webpageURL}
+                </a>
+              ) : (
+                '- -'
+              )}
+            </Typography>
+          </Grid>
+          <Grid container direction='row'>
+            <Typography variant='subtitle1' className={classes.subTitle}>
+              {t('votes')}:
+            </Typography>
+            <Typography
+              variant='subtitle1'
+              className={classNames(classes.value, classes.subTitle)}
+            >
+              {formatNumber(parseFloat(totalVotes), 0)}
+            </Typography>
+          </Grid>
+        </Box>
+      </Grid>
+      <Grid container className={classes.category}>
+        <Grid container justify='center' md={4} xs={12}>
+          <Grid item md={12} xs={12}>
+            <Typography variant='h6' className={classes.title}>
+              {t('eosRates')}
+            </Typography>
+          </Grid>
+          <Grid item md={11} xs={6}>
+            <Box style={{ display: 'flex' }}>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                {t('rates')}:
+              </Typography>
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
               >
-                {webpageURL}
-              </a>
-            ) : (
-              '- -'
-            )}
-          </Typography>
+                {_get(producer, 'ratings_cntr', null) || 0}
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item md={11} xs={5}>
+            <Box style={{ display: 'flex' }}>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                {t('average')}:
+              </Typography>
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
+              >
+                {getAverageValue(_get(producer, 'average', 0))}
+              </Typography>
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
-
-      <Grid container direction='column' className={classes.category}>
-        <Typography variant='subtitle1' className={classes.title}>
-          {t('rankings')}
-        </Typography>
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
-            {t('votes')}:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
-          >
-            {formatNumber(parseFloat(totalVotes), 0)}
-          </Typography>
+        <Grid container justify='center' md={4} xs={12}>
+          <Grid item md={12} xs={12}>
+            <Typography variant='h6' className={classes.title}>
+              {t('edenRates')}
+            </Typography>
+          </Grid>
+          <Grid item md={11} xs={6}>
+            <Box style={{ display: 'flex' }}>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                {t('rates')}:
+              </Typography>
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
+              >
+                {_get(producer, 'ratings_cntr', null) || 0}
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item md={11} xs={5}>
+            <Box style={{ display: 'flex' }}>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                {t('average')}:
+              </Typography>
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
+              >
+                {getAverageValue(_get(producer, 'average', 0))}
+              </Typography>
+            </Box>
+          </Grid>
         </Grid>
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
-            {t('rates')}:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
-          >
-            {_get(producer, 'ratings_cntr', null) || 0}
-          </Typography>
-        </Grid>
-        <Grid container direction='row'>
-          <Typography variant='subtitle1' className={classes.subTitle}>
-            {t('average')}:
-          </Typography>
-          <Typography
-            variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
-          >
-            {getAverageValue(_get(producer, 'average', 0))}
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid container direction='column' className={classes.category}>
-        <Grid container direction='row'>
-          <Button
-            disabled={!producer}
-            // eslint-disable-next-line react/display-name
-            component={forwardRef((props, ref) => (
-              <Link
-                {...props}
-                ref={ref}
-                to={`/block-producers/${_get(
-                  producer,
-                  'owner',
-                  'noBlockProducerName'
-                )}/rate`}
-              />
-            ))}
-            className={classes.btnBP}
-          >
-            {t('buttonRate')}
-          </Button>
+        <Grid container justify='center' md={4} xs={12}>
+          <Grid item md={12} xs={12}>
+            <Typography variant='h6' className={classes.title}>
+              {t('tatolRates')}
+            </Typography>
+          </Grid>
+          <Grid item md={11} xs={6}>
+            <Box style={{ display: 'flex' }}>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                {t('rates')}:
+              </Typography>
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
+              >
+                {_get(producer, 'ratings_cntr', null) || 0}
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item md={11} xs={5}>
+            <Box style={{ display: 'flex' }}>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                {t('average')}:
+              </Typography>
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
+              >
+                {getAverageValue(_get(producer, 'average', 0))}
+              </Typography>
+            </Box>
+          </Grid>
         </Grid>
       </Grid>
     </>
@@ -303,7 +354,6 @@ const GeneralInformation = ({ classes, producer = {} }) => {
 
 SocialNetworks.propTypes = {
   classes: PropTypes.object,
-  overrideClass: PropTypes.any,
   producer: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
 }
 
