@@ -37,6 +37,7 @@ const ProxyProfile = ({ account, ual, ...props }) => {
   const { proxy } = useSelector((state) => state.proxies)
   const [showMessage, setShowMessage] = useState(false)
   const isDesktop = useMediaQuery('(min-width:767px)')
+  const isMobile = useMediaQuery('(max-width:768px)')
   const [sizes, setSizes] = useState()
   const [ratingState, setRatingState] = useState({
     processing: false,
@@ -163,7 +164,29 @@ const ProxyProfile = ({ account, ual, ...props }) => {
             </Typography>
           )}
         </Grid>
-        <Grid item md={7}>
+        {isMobile && (
+          <Grid container justify='center' xs={12}>
+            <Grid item md={12} xs={12}>
+              <Radar
+                height={sizes}
+                width={sizes}
+                bpData={{
+                  datasets: proxy ? [{ ...proxy.data }] : []
+                }}
+              />
+            </Grid>
+            <Grid item md={4} xs={10}>
+              <Button
+                disabled={!proxy || ratingState.processing}
+                className={classes.btnBP}
+                onClick={() => sendVoteProxy(_get(proxy, 'owner'))}
+              >
+                {t('buttonVote')}
+              </Button>
+            </Grid>
+          </Grid>
+        )}
+        <Grid item md={7} xs={12}>
           <GeneralInformation
             classes={classes}
             proxy={proxy}
@@ -225,27 +248,29 @@ const ProxyProfile = ({ account, ual, ...props }) => {
             proxy={proxy}
           />
         </Grid>
-        <Grid container justify='center' md={5}>
-          <Grid item md={12} xs={12}>
-            <Radar
-              height={sizes}
-              width={sizes}
-              bpData={{
-                datasets: proxy ? [{ ...proxy.data }] : []
-              }}
-            />
+        {!isMobile && (
+          <Grid container justify='center' md={5}>
+            <Grid style={{ height: '200px' }} item md={12}>
+              <Radar
+                height={sizes}
+                width={sizes}
+                bpData={{
+                  datasets: proxy ? [{ ...proxy.data }] : []
+                }}
+              />
+            </Grid>
+            <Grid item md={6}>
+              <Button
+                disabled={!proxy || ratingState.processing}
+                className={classes.btnBP}
+                onClick={() => sendVoteProxy(_get(proxy, 'owner'))}
+              >
+                {t('buttonVote')}
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item md={4} xs={5}>
-            <Button
-              disabled={!proxy || ratingState.processing}
-              className={classes.btnBP}
-              onClick={() => sendVoteProxy(_get(proxy, 'owner'))}
-            >
-              {t('buttonVote')}
-            </Button>
-          </Grid>
-        </Grid>
-        <Grid item md={12}>
+        )}
+        <Grid item md={12} xs={12}>
           {proxy && Boolean(producers.length) && (
             <CompareTool
               removeBP={() => console.log('remove')}
