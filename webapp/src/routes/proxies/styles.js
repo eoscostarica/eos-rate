@@ -160,5 +160,14 @@ export default (theme) => ({
     fontStyle: 'italic',
     '&:before': { content: 'open-quote' },
     '&:after': { content: 'close-quote' }
+  },
+  reliefGrid: {
+    margin: '0 30px 30px 30px',
+    padding: '20px',
+    border: '1px solid #f8f8f',
+    borderRadius: '6px',
+    boxShadow:
+      'inset 2px 2px 2px #fff, inset -1px 0 2px rgba(0,0,0,.1), 1px 1px 3px rgba(0,0,0,.1)',
+    backgroundColor: '#fff'
   }
 })
