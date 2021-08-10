@@ -180,6 +180,9 @@
 
   "profile": {
     "generalInformation": "General Information",
+    "eosRates": "EOS Rating",
+    "edenRates": "Eden Rating",
+    "tatolRates": "Total Rating",
     "rankings": "Rankings",
     "social": "Social",
     "account": "Account",
