@@ -1,6 +1,6 @@
 #include "../include/rateproducer.hpp"
 
-namespace ratenamespace {
+namespace eoscostarica {
     void rateproducer::rate(
         name user, 
         name bp, 
@@ -95,7 +95,7 @@ namespace ratenamespace {
                             &bp_development,
                             &bp_ratings_cntr,
                             &bp_average);
-        }    
+        }
     }
         
     void rateproducer::save_bp_stats (
@@ -450,11 +450,11 @@ namespace ratenamespace {
                 
         }
     }
-} // namespace ratenamespace
+} // namespace eoscostarica
 
 
-EOSIO_ACTION_DISPATCHER(ratenamespace::actions)
+EOSIO_ACTION_DISPATCHER(eoscostarica::actions)
 
-EOSIO_ABIGEN(actions(ratenamespace::actions),
-             table("ratings"_n, ratenamespace::ratings),
-             table("stats"_n, ratenamespace::stats))
+EOSIO_ABIGEN(actions(eoscostarica::actions),
+            table("ratings"_n, eoscostarica::ratings),
+            table("stats"_n, eoscostarica::stats))

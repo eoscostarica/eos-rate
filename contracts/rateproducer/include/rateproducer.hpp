@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * @file
  * @author  (C) 2020 by eoscostarica [ https://eoscostarica.io ]
@@ -11,6 +13,7 @@
  *    GitHub:         https://github.com/eoscostarica/eos-rate
  *
  */
+
 #include <eosio/eosio.hpp>
 #include <eosio/print.hpp>
 #include <eosio/asset.hpp>
@@ -35,7 +38,7 @@ using eosio::public_key;
 *   get_voters, get_proxy, is_active_proxy relay on these tables.
 *   this approaches came from this thread : 
 *   https://eosio.stackexchange.com/questions/4676/check-within-smart-contract-if-an-account-is-a-proxy
-*/  
+*/
 namespace eosio {
     constexpr name system_account{"eosio"_n};
 
@@ -153,7 +156,18 @@ namespace eosio {
     }
 } // namespace eosio
 
-namespace ratenamespace {
+namespace eoscostarica {
+    extern const char* rate_ricardian;
+    extern const char* erase_ricardian;
+    extern const char* wipe_ricardian;
+    extern const char* rminactive_ricardian;
+    extern const char* rmrate_ricardian;
+
+    extern const char* datastorage_clause;
+    extern const char* datausage_clause;
+    extern const char* dataownership_clause;
+    extern const char* datadistribution_clause;
+    extern const char* datafuture_clause;
 
     /*
     *   Stores the rate average stats for a block producer
@@ -391,4 +405,4 @@ namespace ratenamespace {
                  action(rminactive),
                  action(rmrate, user, bp))
                  
-} // namespace ratenamespace
+} // namespace eoscostarica
