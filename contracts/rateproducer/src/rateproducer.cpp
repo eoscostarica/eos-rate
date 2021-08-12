@@ -1,6 +1,5 @@
 #include "../include/rateproducer.hpp"
 
-// const name scope = is_eden(user)? "eden"_n : _self;
 
 namespace eoscostarica {
     void rateproducer::rate(
