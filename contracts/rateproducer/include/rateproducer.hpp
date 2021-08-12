@@ -239,7 +239,7 @@ namespace eoscostarica {
         development,
         community
     )
-    typedef eosio::multi_index<"stats"_n, stats > _stats;
+    typedef eosio::multi_index<"stats"_n, stats > stats_table;
 
     /*
     *   Stores the rate vote for a block producer
@@ -275,7 +275,7 @@ namespace eoscostarica {
         indexed_by<"uniqrating"_n, const_mem_fun<ratings, uint128_t, &ratings::by_uniq_rating>>,
         indexed_by<"user"_n, const_mem_fun<ratings, uint64_t, &ratings::by_user>>,
         indexed_by<"bp"_n, const_mem_fun<ratings, uint64_t, &ratings::by_bp>>
-    > _ratings;
+    > ratings_table;
 
     struct rateproducer  : public eosio::contract {
         // Use the base class constructors
@@ -311,6 +311,26 @@ namespace eoscostarica {
             int8_t development);
 
 
+        /**
+        *
+        *  Saves the info related with a sponsor within a community
+        * 
+        * @param scope - Table scope,
+        * @param user - Voter account name,
+        * @param bp -  Block Producer account name
+        * @param transparency - Rate for transparency category
+        * @param infrastructure - Rate for infrastructure category
+        * @param trustiness - Rate for trustiness category
+        * @param community - Rate for community category
+        * @param development - Rate for development category
+        *
+        * @pre all rate category's vales must be an integer value
+        * @pre all rate category's vales must be between 1 -10 
+        *
+        * @memo the account especific in user parameter is the ram payor
+        * @memo user account must voted for at least 21 blockproducer 
+        *       or vote for a proxy with at least 21 votes
+        */
         void rate_aux(
             name scope,
             name user,
@@ -326,6 +346,7 @@ namespace eoscostarica {
         *  Stores the rate stats within stats table
         *  for a specific block producer
         *
+        * @param scope - Table scope,
         * @param user - Voter account name,
         * @param bp_name -  Block Producer account name
         * @param transparency - Rate for transparency category
@@ -337,7 +358,7 @@ namespace eoscostarica {
         * @memo this function is called for the first-time rate made 
         *       by the tuple {user,bp}
         *
-        */      
+        */
         void save_bp_stats (
             name scope,
             name user,
@@ -354,6 +375,7 @@ namespace eoscostarica {
         *  for a specified block producer, this fucntion
         *  iterates on ratings table 
         *
+        * @param scope - Table scope,
         * @param bp_name -  Block Producer account name
         * @param transparency - Calculated value for transparency category
         * @param infrastructure - Calculated value for infrastructure category
@@ -388,6 +410,7 @@ namespace eoscostarica {
         *  Updates the stats table, with the new
         *  categories values for a specific block producer
         *  
+        * @param scope - Table scope,
         * @param user - Voter account name,
         * @param bp_name -  Block Producer account name
         * @param transparency - Rate for transparency category
@@ -417,6 +440,15 @@ namespace eoscostarica {
         * 
         */ 
         void erase(name bp_name);
+
+        /**
+        *
+        *  Erase all data related for a specific block producer
+        *
+        * @param scope - Table scope,
+        * @param bp_name -  Block Producer account name
+        * 
+        */ 
         void erase_aux(name scope, name bp_name);
 
 
@@ -424,6 +456,7 @@ namespace eoscostarica {
         *
         *  Erase all data related for a set of block producer
         *
+        * @param scope - Table scope,
         * @param bps_to_clean -  List of Block Producer accounts 
         * 
         */ 
@@ -436,6 +469,14 @@ namespace eoscostarica {
         * 
         */ 
         void wipe();
+
+        /**
+        *
+        *  Clean all data store within the tables
+        * 
+        * @param scope - Table scope
+        * 
+        */ 
         void wipe_aux(name scope);
         
         /**
@@ -444,6 +485,14 @@ namespace eoscostarica {
         * 
         */ 
         void rminactive();
+
+        /**
+        *
+        *  Erase all data for inactive block producers
+        * 
+        * @param scope - Table scope
+        * 
+        */ 
         void rminactive_aux(name scope);
 
         /**
@@ -455,8 +504,18 @@ namespace eoscostarica {
         * @param bp -  Block Producer account name
         * 
         */ 
-        
         void rmrate(name user, name bp);
+
+        /**
+        *
+        *  Erase a rate made for a specific account 
+        *  to a specific block producer
+        *
+        * @param scope - Table scope,
+        * @param user - Voter account name,
+        * @param bp -  Block Producer account name
+        * 
+        */ 
         void rmrate_aux(name scope, name user, name bp);
     };
 

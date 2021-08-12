@@ -45,17 +45,17 @@ namespace eoscostarica {
             // acount must vote for at least 21 bp
             check(!(MIN_VOTERS > get_voters(user)), "account does not have enough voters" );
         }
-            
+
         // upsert bp rating
-        _ratings bps(_self, scope.value);
+        ratings_table _ratings(_self, scope.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
-        auto uniq_rating_index = bps.get_index<name("uniqrating")>();
+        auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
         auto existing_rating = uniq_rating_index.find(uniq_rating);
 
         if( existing_rating == uniq_rating_index.end() ) {
-            bps.emplace(user, [&]( auto& row ) {
-                row.id = bps.available_primary_key();
+            _ratings.emplace(user, [&]( auto& row ) {
+                row.id = _ratings.available_primary_key();
                 row.uniq_rating = uniq_rating;
                 row.user = user;
                 row.bp = bp;
@@ -126,13 +126,13 @@ namespace eoscostarica {
         float trustiness,
         float community,
         float development) {
-        _stats bps_stats(_self, scope.value);
-        auto itr = bps_stats.find(bp_name.value);
+        stats_table _stats(_self, scope.value);
+        auto itr = _stats.find(bp_name.value);
         float counter =0;
         float sum = 0;
-        if(itr == bps_stats.end()) {
+        if(itr == _stats.end()) {
         //new entry
-            bps_stats.emplace(user, [&]( auto& row ) {
+            _stats.emplace(user, [&]( auto& row ) {
                 if (transparency) {
                     row.transparency = transparency;
                     counter++;
@@ -172,7 +172,7 @@ namespace eoscostarica {
             });
         } else {
             //update the entry
-            bps_stats.modify(itr,user, [&]( auto& row ) {
+            _stats.modify(itr,user, [&]( auto& row ) {
                 if (transparency) {
                     sum += transparency;
                     if(row.transparency) {
@@ -252,8 +252,8 @@ namespace eoscostarica {
         float development_cntr = 0;
         uint32_t voters_cntr = 0;
 
-        _ratings bps(_self, scope.value);
-        auto bps_index = bps.get_index<name("bp")>();
+        ratings_table _ratings(_self, scope.value);
+        auto bps_index = _ratings.get_index<name("bp")>();
         auto bps_it = bps_index.find(bp_name.value); 
         
         while(bps_it != bps_index.end()) {
@@ -327,9 +327,9 @@ namespace eoscostarica {
         uint32_t * ratings_cntr,
         float * average) {
         
-        _stats bps_stats(_self, scope.value);
-        auto itr = bps_stats.find(bp_name->value);
-        if(itr != bps_stats.end()) {
+        stats_table _stats(_self, scope.value);
+        auto itr = _stats.find(bp_name->value);
+        if(itr != _stats.end()) {
             //if rate categories are more than zero
             // we store, otherwise remove the entry
             if( *transparency +
@@ -338,7 +338,7 @@ namespace eoscostarica {
                 *community +
                 *development) {
             
-                bps_stats.modify(itr,*user, [&]( auto& row ) {
+                _stats.modify(itr,*user, [&]( auto& row ) {
                     row.transparency = *transparency;
                     row.infrastructure = *infrastructure;
                     row.trustiness = *trustiness;
@@ -348,7 +348,7 @@ namespace eoscostarica {
                     row.average = *average;
                     });
             } else {
-                bps_stats.erase(itr);
+                _stats.erase(itr);
             }  
         }
     }
@@ -362,20 +362,20 @@ namespace eoscostarica {
         
         require_auth(_self);
 
-        _ratings bps(_self, scope.value);
-        auto itr = bps.begin();
-        while (itr != bps.end()) {
+        ratings_table _ratings(_self, scope.value);
+        auto itr = _ratings.begin();
+        while (itr != _ratings.end()) {
             if(itr->bp == bp_name) {
-                itr = bps.erase(itr);
+                itr = _ratings.erase(itr);
             } else {
                 itr++;
             }
         }
         
         //clean the stats summary
-        _stats bps_stats(_self, scope.value);
-        auto itr_stats = bps_stats.find(bp_name.value);
-        if (itr_stats != bps_stats.end()) bps_stats.erase(itr_stats);
+        stats_table _stats(_self, scope.value);
+        auto itr_stats = _stats.find(bp_name.value);
+        if (itr_stats != _stats.end()) _stats.erase(itr_stats);
     }
 
     void rateproducer::wipe() {
@@ -385,37 +385,37 @@ namespace eoscostarica {
 
     void rateproducer::wipe_aux(name scope) {
         require_auth(_self);
-        _ratings bps(_self, scope.value);
-        auto itr = bps.begin();
-        while (itr != bps.end()) {
-            itr = bps.erase(itr);
+        ratings_table _ratings(_self, scope.value);
+        auto itr = _ratings.begin();
+        while (itr != _ratings.end()) {
+            itr = _ratings.erase(itr);
         }
 
-        _stats bps_stats(_self, scope.value);
-        auto itr_stats = bps_stats.begin();
-        while (itr_stats != bps_stats.end()) {
-            itr_stats = bps_stats.erase(itr_stats);
+        stats_table _stats(_self, scope.value);
+        auto itr_stats = _stats.begin();
+        while (itr_stats != _stats.end()) {
+            itr_stats = _stats.erase(itr_stats);
         }
     }
 
     void rateproducer::erase_bp_info(name scope, std::set<eosio::name> * bps_to_clean) {
-        _ratings bps(_self, scope.value);
-        _stats bps_stats(_self, scope.value);
+        ratings_table _ratings(_self, scope.value);
+        stats_table _stats(_self, scope.value);
         
         std::set<eosio::name>::iterator it;
         for (it = bps_to_clean->begin(); it != bps_to_clean->end(); ++it) {
             //clean all ratings related to an bp
-            auto itr = bps.begin();
-            while (itr != bps.end()) {
+            auto itr = _ratings.begin();
+            while (itr != _ratings.end()) {
                 if(itr->bp == *it) {
-                    itr = bps.erase(itr);
+                    itr = _ratings.erase(itr);
                 } else {
                     itr++;
                 }
             }
             //clean the stats summary
-            auto itr_stats = bps_stats.find((*it).value);
-            if (itr_stats != bps_stats.end()) bps_stats.erase(itr_stats);
+            auto itr_stats = _stats.find((*it).value);
+            if (itr_stats != _stats.end()) _stats.erase(itr_stats);
         }
     }
 
@@ -427,9 +427,9 @@ namespace eoscostarica {
     void rateproducer::rminactive_aux(name scope) {
         require_auth(_self);
         std::set<eosio::name> noupdated_bps; 
-        _stats bps_stats(_self, scope.value);
-        auto itr_stats = bps_stats.begin();
-        while (itr_stats != bps_stats.end()) {
+        stats_table _stats(_self, scope.value);
+        auto itr_stats = _stats.begin();
+        while (itr_stats != _stats.end()) {
             if (!is_blockproducer(itr_stats->bp)) {
                 noupdated_bps.insert(itr_stats->bp);
             }
@@ -447,10 +447,10 @@ namespace eoscostarica {
     void rateproducer::rmrate_aux(name scope, name user, name bp) {
         require_auth(user);
         
-        _ratings bps(_self, scope.value);
+        ratings_table _ratings(_self, scope.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
-        auto uniq_rating_index = bps.get_index<name("uniqrating")>();
+        auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
         auto existing_rating = uniq_rating_index.find(uniq_rating);
 
         if( existing_rating != uniq_rating_index.end() ) {
