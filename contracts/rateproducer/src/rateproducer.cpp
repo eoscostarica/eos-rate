@@ -15,7 +15,9 @@ namespace eoscostarica {
         check( (MINVAL<= trustiness &&  trustiness<=MAXVAL ), "Error trustiness value out of range" );
         check( (MINVAL<= development &&  development <=MAXVAL ), "Error development value out of range" );
         check( (MINVAL<= community &&  community<=MAXVAL ), "Error community value out of range" );
-        
+
+        const name scope = is_eden(user)? "eden"_n : _self;
+
         //checks if the bp is active 
         check( is_blockproducer(bp), "votes are allowed only for registered block producers" );
         
@@ -31,7 +33,7 @@ namespace eoscostarica {
         }
             
         // upsert bp rating
-        _ratings bps(_self, _self.value);
+        _ratings bps(_self, scope.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
         auto uniq_rating_index = bps.get_index<name("uniqrating")>();
@@ -106,7 +108,9 @@ namespace eoscostarica {
         float trustiness,
         float community,
         float development) {
-        _stats bps_stats(_self, _self.value);
+        const name scope = is_eden(user)? "eden"_n : _self;
+
+        _stats bps_stats(_self, scope.value);
         auto itr = bps_stats.find(bp_name.value);
         float counter =0;
         float sum = 0;
@@ -304,8 +308,9 @@ namespace eoscostarica {
         float * development,
         uint32_t * ratings_cntr,
         float * average) {
+        const name scope = is_eden(*user)? "eden"_n : _self;
         
-        _stats bps_stats(_self, _self.value);
+        _stats bps_stats(_self, scope.value);
         auto itr = bps_stats.find(bp_name->value);
         if(itr != bps_stats.end()) {
             //if rate categories are more than zero
@@ -407,7 +412,8 @@ namespace eoscostarica {
     void rateproducer::rmrate(name user, name bp) {
         require_auth(user);
         
-        _ratings bps(_self, _self.value);
+        const name scope = is_eden(user)? "eden"_n : _self;   
+        _ratings bps(_self, scope.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
         auto uniq_rating_index = bps.get_index<name("uniqrating")>();

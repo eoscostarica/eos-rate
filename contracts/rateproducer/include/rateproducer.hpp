@@ -23,6 +23,7 @@
 #include <eosio/permission.hpp> 
 #include <algorithm>
 #include <set>
+#include "utils.hpp"
 
 #define MINVAL 0
 #define MAXVAL 10
@@ -41,6 +42,7 @@ using eosio::public_key;
 */
 namespace eosio {
     constexpr name system_account{"eosio"_n};
+    constexpr name eden_account{"depositspend"_n};
 
     /*
     * EOSIO producer_info table
@@ -153,6 +155,49 @@ namespace eosio {
         voters_table _voters(system_account, system_account.value);
         auto it = _voters.find(name.value);
         return it != _voters.end() && it->is_proxy;
+    }
+
+    using member_status_type = uint8_t;
+    enum member_status : member_status_type {
+        pending_membership = 0,
+        active_member = 1
+    };
+
+    using election_participation_status_type = uint8_t;
+    enum election_participation_status : election_participation_status_type {
+        not_in_election = 0,
+        in_election = 1
+    };
+
+    struct member_v0 {
+        eosio::name account;
+        std::string name;
+        member_status_type status;
+        uint64_t nft_template_id;
+
+        uint64_t primary_key() const { return account.value; }
+    };
+    EOSIO_REFLECT(member_v0, account, name, status, nft_template_id)
+
+    using member_variant = std::variant<member_v0>;
+
+    struct member {
+        member_variant value;
+        EDEN_FORWARD_MEMBERS(value,
+                            account,
+                            name,
+                            status,
+                            nft_template_id);
+        EDEN_FORWARD_FUNCTIONS(value, primary_key);
+    };
+    EOSIO_REFLECT(member, value)
+    using member_table_type = eosio::multi_index<"member"_n, member>;
+
+    bool is_eden(name account) {
+        member_table_type member_tb(eden_account, 0);
+        auto it = member_tb.find(account.value);
+        if(it==member_tb.end() && !it->status()) return false;
+        else return true;
     }
 } // namespace eosio
 
