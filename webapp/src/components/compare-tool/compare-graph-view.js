@@ -219,7 +219,7 @@ const CompareGraphView = ({
             xs={12}
             md={7}
             style={{
-              height: mobileMedium ? '260px' : '135px'
+              height: mobileMedium ? '225px' : '105px'
             }}
           >
             <CompareBodyList
@@ -235,7 +235,10 @@ const CompareGraphView = ({
             <Grid item md={6} xs={7}>
               <Box className={classes.centerBox}>
                 <Button
-                  style={{ textAlign: 'center', marginLeft: '10px' }}
+                  style={{
+                    textAlign: 'center',
+                    width: '200px'
+                  }}
                   aria-label='Clear selection'
                   onClick={handleOnClose}
                 >

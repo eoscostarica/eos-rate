@@ -178,7 +178,7 @@ const BlockProducerRate = ({ account, ual }) => {
                 permission: 'active'
               }
             ],
-            account: config.contractName,
+            account: config.contract,
             name: 'rate',
             data: { user: accountName, bp: account, ...getRatingData(true) }
           }
