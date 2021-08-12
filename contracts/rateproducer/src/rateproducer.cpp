@@ -398,7 +398,7 @@ namespace eoscostarica {
         }
     }
 
-    void rateproducer::erase_bp_info(name scope, std::set<eosio::name> * bps_to_clean){
+    void rateproducer::erase_bp_info(name scope, std::set<eosio::name> * bps_to_clean) {
         _ratings bps(_self, scope.value);
         _stats bps_stats(_self, scope.value);
         
