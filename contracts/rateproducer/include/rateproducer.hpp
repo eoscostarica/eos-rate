@@ -42,7 +42,7 @@ using eosio::public_key;
 */
 namespace eosio {
     constexpr name system_account{"eosio"_n};
-    constexpr name eden_account{"depositspend"_n};
+    constexpr name eden_account{"genesis.eden"_n};
 
     /*
     * EOSIO producer_info table
