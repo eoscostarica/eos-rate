@@ -1,7 +1,23 @@
 #include "../include/rateproducer.hpp"
 
+// const name scope = is_eden(user)? "eden"_n : _self;
+
 namespace eoscostarica {
     void rateproducer::rate(
+        name user,
+        name bp, 
+        int8_t transparency,
+        int8_t infrastructure,
+        int8_t trustiness,
+        int8_t community,
+        int8_t development) {
+        
+        rate_aux(_self, user, bp, transparency, infrastructure, trustiness, community, development);
+        if(is_eden(user)) rate_aux(eden_account, user, bp, transparency, infrastructure, trustiness, community, development);
+    }
+
+    void rateproducer::rate_aux(
+        name scope,
         name user, 
         name bp, 
         int8_t transparency,
@@ -16,11 +32,9 @@ namespace eoscostarica {
         check( (MINVAL<= development &&  development <=MAXVAL ), "Error development value out of range" );
         check( (MINVAL<= community &&  community<=MAXVAL ), "Error community value out of range" );
 
-        const name scope = is_eden(user)? "eden"_n : _self;
-
         //checks if the bp is active 
         check( is_blockproducer(bp), "votes are allowed only for registered block producers" );
-        
+
         eosio::name proxy_name = get_proxy(user);
         if(proxy_name.length()) {
             //active proxy??
@@ -52,7 +66,8 @@ namespace eoscostarica {
                 row.development = development ;   
             });
             //save stats
-            save_bp_stats(user,
+            save_bp_stats(scope,
+                        user,
                         bp,
                         transparency,
                         infrastructure,
@@ -80,7 +95,8 @@ namespace eoscostarica {
             float bp_development = 0;
             uint32_t  bp_ratings_cntr = 0;
             float  bp_average = 0;
-            calculate_bp_stats (bp,
+            calculate_bp_stats (scope,
+                                bp,
                                 &bp_transparency,
                                 &bp_infrastructure,
                                 &bp_trustiness,
@@ -88,7 +104,8 @@ namespace eoscostarica {
                                 &bp_development,
                                 &bp_ratings_cntr,
                                 &bp_average);
-            update_bp_stats (&user,
+            update_bp_stats (scope,
+                            &user,
                             &bp,
                             &bp_transparency,
                             &bp_infrastructure,
@@ -101,6 +118,7 @@ namespace eoscostarica {
     }
         
     void rateproducer::save_bp_stats (
+        name scope,
         name user,
         name bp_name,
         float transparency,
@@ -108,8 +126,6 @@ namespace eoscostarica {
         float trustiness,
         float community,
         float development) {
-        const name scope = is_eden(user)? "eden"_n : _self;
-
         _stats bps_stats(_self, scope.value);
         auto itr = bps_stats.find(bp_name.value);
         float counter =0;
@@ -211,6 +227,7 @@ namespace eoscostarica {
     }
 
     void rateproducer::calculate_bp_stats (
+        name scope,
         name bp_name,
         float * transparency,
         float * infrastructure,
@@ -235,7 +252,7 @@ namespace eoscostarica {
         float development_cntr = 0;
         uint32_t voters_cntr = 0;
 
-        _ratings bps(_self, _self.value);
+        _ratings bps(_self, scope.value);
         auto bps_index = bps.get_index<name("bp")>();
         auto bps_it = bps_index.find(bp_name.value); 
         
@@ -299,6 +316,7 @@ namespace eoscostarica {
     }
 
     void rateproducer::update_bp_stats (
+        name scope,
         name * user,
         name * bp_name,
         float * transparency,
@@ -308,7 +326,6 @@ namespace eoscostarica {
         float * development,
         uint32_t * ratings_cntr,
         float * average) {
-        const name scope = is_eden(*user)? "eden"_n : _self;
         
         _stats bps_stats(_self, scope.value);
         auto itr = bps_stats.find(bp_name->value);
@@ -337,10 +354,15 @@ namespace eoscostarica {
     }
 
     void rateproducer::erase(name bp_name) {
+        erase_aux(_self, bp_name);
+        erase_aux(eden_account, bp_name);
+    }
+
+    void rateproducer::erase_aux(name scope, name bp_name) {
         
         require_auth(_self);
 
-        _ratings bps(_self, _self.value);
+        _ratings bps(_self, scope.value);
         auto itr = bps.begin();
         while (itr != bps.end()) {
             if(itr->bp == bp_name) {
@@ -351,14 +373,34 @@ namespace eoscostarica {
         }
         
         //clean the stats summary
-        _stats bps_stats(_self, _self.value);
+        _stats bps_stats(_self, scope.value);
         auto itr_stats = bps_stats.find(bp_name.value);
         if (itr_stats != bps_stats.end()) bps_stats.erase(itr_stats);
     }
 
-    void rateproducer::erase_bp_info(std::set<eosio::name> * bps_to_clean){
-        _ratings bps(_self, _self.value);
-        _stats bps_stats(_self, _self.value);
+    void rateproducer::wipe() {
+        wipe_aux(_self);
+        wipe_aux(eden_account);
+    }
+
+    void rateproducer::wipe_aux(name scope) {
+        require_auth(_self);
+        _ratings bps(_self, scope.value);
+        auto itr = bps.begin();
+        while (itr != bps.end()) {
+            itr = bps.erase(itr);
+        }
+
+        _stats bps_stats(_self, scope.value);
+        auto itr_stats = bps_stats.begin();
+        while (itr_stats != bps_stats.end()) {
+            itr_stats = bps_stats.erase(itr_stats);
+        }
+    }
+
+    void rateproducer::erase_bp_info(name scope, std::set<eosio::name> * bps_to_clean){
+        _ratings bps(_self, scope.value);
+        _stats bps_stats(_self, scope.value);
         
         std::set<eosio::name>::iterator it;
         for (it = bps_to_clean->begin(); it != bps_to_clean->end(); ++it) {
@@ -377,42 +419,34 @@ namespace eoscostarica {
         }
     }
 
-    void rateproducer::wipe() {
-        
-        require_auth(_self);
-        _ratings bps(_self, _self.value);
-        auto itr = bps.begin();
-        while (itr != bps.end()) {
-            itr = bps.erase(itr);
-        }
-
-        _stats bps_stats(_self, _self.value);
-        auto itr_stats = bps_stats.begin();
-        while (itr_stats != bps_stats.end()) {
-            itr_stats = bps_stats.erase(itr_stats);
-        }
+    void rateproducer::rminactive() {
+        rminactive_aux(_self);
+        rminactive_aux(eden_account);
     }
 
-    void rateproducer::rminactive() {
-        
+    void rateproducer::rminactive_aux(name scope) {
         require_auth(_self);
         std::set<eosio::name> noupdated_bps; 
-        _stats bps_stats(_self, _self.value);
+        _stats bps_stats(_self, scope.value);
         auto itr_stats = bps_stats.begin();
-        while ( itr_stats != bps_stats.end()) {
+        while (itr_stats != bps_stats.end()) {
             if (!is_blockproducer(itr_stats->bp)) {
                 noupdated_bps.insert(itr_stats->bp);
             }
             itr_stats++;
         }
-        if(noupdated_bps.size()) erase_bp_info(&noupdated_bps);
+        if(noupdated_bps.size()) erase_bp_info(scope, &noupdated_bps);
         print("bps deleted:",noupdated_bps.size());
     }
 
     void rateproducer::rmrate(name user, name bp) {
+        rmrate_aux(_self, user, bp);
+        if(is_eden(user)) rmrate_aux(eden_account, user, bp);
+    }
+
+    void rateproducer::rmrate_aux(name scope, name user, name bp) {
         require_auth(user);
         
-        const name scope = is_eden(user)? "eden"_n : _self;   
         _ratings bps(_self, scope.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
@@ -434,7 +468,8 @@ namespace eoscostarica {
             float  bp_average = 0;
 
             //re-calculate stats for the bp 
-            calculate_bp_stats (bp,
+            calculate_bp_stats (scope,
+                                bp,
                                 &bp_transparency,
                                 &bp_infrastructure,
                                 &bp_trustiness,
@@ -444,7 +479,8 @@ namespace eoscostarica {
                                 &bp_average);
                                 
             //save the re-calcualtes stats
-            update_bp_stats (&user,
+            update_bp_stats (scope,
+                            &user,
                             &bp,
                             &bp_transparency,
                             &bp_infrastructure,

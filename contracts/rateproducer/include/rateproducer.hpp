@@ -309,6 +309,17 @@ namespace eoscostarica {
             int8_t trustiness,
             int8_t community,
             int8_t development);
+
+
+        void rate_aux(
+            name scope,
+            name user,
+            name bp, 
+            int8_t transparency,
+            int8_t infrastructure,
+            int8_t trustiness,
+            int8_t community,
+            int8_t development);
         
         /**
         *
@@ -328,6 +339,7 @@ namespace eoscostarica {
         *
         */      
         void save_bp_stats (
+            name scope,
             name user,
             name bp_name,
             float transparency,
@@ -361,6 +373,7 @@ namespace eoscostarica {
         *        development, ratings_cntr
         */ 
         void calculate_bp_stats (
+            name scope,
             name bp_name,
             float * transparency,
             float * infrastructure,
@@ -385,6 +398,7 @@ namespace eoscostarica {
         *
         */ 
         void update_bp_stats (
+            name scope,
             name * user,
             name * bp_name,
             float * transparency,
@@ -403,6 +417,7 @@ namespace eoscostarica {
         * 
         */ 
         void erase(name bp_name);
+        void erase_aux(name scope, name bp_name);
 
 
         /**
@@ -412,7 +427,7 @@ namespace eoscostarica {
         * @param bps_to_clean -  List of Block Producer accounts 
         * 
         */ 
-        void erase_bp_info(std::set<eosio::name> * bps_to_clean);
+        void erase_bp_info(name scope, std::set<eosio::name> * bps_to_clean);
 
 
         /**
@@ -421,6 +436,7 @@ namespace eoscostarica {
         * 
         */ 
         void wipe();
+        void wipe_aux(name scope);
         
         /**
         *
@@ -428,6 +444,7 @@ namespace eoscostarica {
         * 
         */ 
         void rminactive();
+        void rminactive_aux(name scope);
 
         /**
         *
@@ -440,6 +457,7 @@ namespace eoscostarica {
         */ 
         
         void rmrate(name user, name bp);
+        void rmrate_aux(name scope, name user, name bp);
     };
 
     EOSIO_ACTIONS(rateproducer,
