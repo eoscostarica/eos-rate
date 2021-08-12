@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * @file
  * @author  (C) 2020 by eoscostarica [ https://eoscostarica.io ]
@@ -11,6 +13,7 @@
  *    GitHub:         https://github.com/eoscostarica/eos-rate
  *
  */
+
 #include <eosio/eosio.hpp>
 #include <eosio/print.hpp>
 #include <eosio/asset.hpp>
@@ -27,7 +30,7 @@
 
 using namespace std;
 using namespace eosio;
-using eosio::public_key; 
+using eosio::public_key;
 
 /*
 *   this namespace is used to map producer_info and voter_info tables
@@ -35,7 +38,7 @@ using eosio::public_key;
 *   get_voters, get_proxy, is_active_proxy relay on these tables.
 *   this approaches came from this thread : 
 *   https://eosio.stackexchange.com/questions/4676/check-within-smart-contract-if-an-account-is-a-proxy
-*/  
+*/
 namespace eosio {
     constexpr name system_account{"eosio"_n};
 
@@ -151,14 +154,89 @@ namespace eosio {
         auto it = _voters.find(name.value);
         return it != _voters.end() && it->is_proxy;
     }
-
 } // namespace eosio
 
+namespace eoscostarica {
+    extern const char* rate_ricardian;
+    extern const char* erase_ricardian;
+    extern const char* wipe_ricardian;
+    extern const char* rminactive_ricardian;
+    extern const char* rmrate_ricardian;
 
-CONTRACT rateproducer : public contract {
-  public:
-    using contract::contract;
-    
+    extern const char* datastorage_clause;
+    extern const char* datausage_clause;
+    extern const char* dataownership_clause;
+    extern const char* datadistribution_clause;
+    extern const char* datafuture_clause;
+
+    /*
+    *   Stores the rate average stats for a block producer
+    */    
+    struct stats {
+        name bp;
+        uint32_t ratings_cntr;
+        float average;
+        float transparency;
+        float infrastructure;
+        float trustiness;
+        float development;  
+        float community;
+        uint64_t primary_key() const { return bp.value; }
+    };
+    EOSIO_REFLECT(
+        stats,
+        bp,
+        ratings_cntr,
+        average,
+        transparency,
+        infrastructure,
+        trustiness,
+        development,
+        community
+    )
+    typedef eosio::multi_index<"stats"_n, stats > _stats;
+
+    /*
+    *   Stores the rate vote for a block producer
+    */
+    struct ratings {
+        uint64_t id;
+        uint128_t uniq_rating;
+        name user;
+        name bp;
+        float transparency;
+        float infrastructure;
+        float trustiness;
+        float development;  
+        float community;
+        uint64_t primary_key() const { return id; }
+        uint128_t by_uniq_rating() const { return uniq_rating; }
+        uint64_t by_user() const { return user.value; }
+        uint64_t by_bp() const { return bp.value; }
+    };
+    EOSIO_REFLECT(
+        ratings,
+        id,
+        uniq_rating,
+        user,
+        bp,
+        transparency,
+        infrastructure,
+        trustiness,
+        development,
+        community
+    )
+    typedef eosio::multi_index<"ratings"_n, ratings,
+        indexed_by<"uniqrating"_n, const_mem_fun<ratings, uint128_t, &ratings::by_uniq_rating>>,
+        indexed_by<"user"_n, const_mem_fun<ratings, uint64_t, &ratings::by_user>>,
+        indexed_by<"bp"_n, const_mem_fun<ratings, uint64_t, &ratings::by_bp>>
+    > _ratings;
+
+    struct rateproducer  : public eosio::contract {
+        // Use the base class constructors
+        using eosio::contract::contract;
+
+        
         /**
         *
         *  Saves the info related with a sponsor within a community
@@ -177,8 +255,8 @@ CONTRACT rateproducer : public contract {
         * @memo the account especific in user parameter is the ram payor
         * @memo user account must voted for at least 21 blockproducer 
         *       or vote for a proxy with at least 21 votes
-        */  
-        ACTION rate(
+        */
+        void rate(
             name user, 
             name bp, 
             int8_t transparency,
@@ -186,182 +264,145 @@ CONTRACT rateproducer : public contract {
             int8_t trustiness,
             int8_t community,
             int8_t development);
-
-    /**
-    *
-    *  Stores the rate stats within stats table
-    *  for a specific block producer
-    *
-    * @param user - Voter account name,
-    * @param bp_name -  Block Producer account name
-    * @param transparency - Rate for transparency category
-    * @param infrastructure - Rate for infrastructure category
-    * @param trustiness - Rate for trustiness category
-    * @param community - Rate for community category
-    * @param development - Rate for development category
-    *
-    * @memo this function is called for the first-time rate made 
-    *       by the tuple {user,bp}
-    *
-    */      
-    void save_bp_stats (
-        name user,
-        name bp_name,
-        float transparency,
-        float infrastructure,
-        float trustiness,
-        float community,
-        float development);
-    
-    /**
-    *
-    *  Calculates the value for all categories 
-    *  for a specified block producer, this fucntion
-    *  iterates on ratings table 
-    *
-    * @param bp_name -  Block Producer account name
-    * @param transparency - Calculated value for transparency category
-    * @param infrastructure - Calculated value for infrastructure category
-    * @param trustiness - Calculated value for trustiness category
-    * @param community - Calculated value for community category
-    * @param development - Calculated value for development category
-    * @param ratings_cntr - Calculated value for rates counter
-    * @param average -  Calculated average for categories 
-    *
-    * @memo zero values are ignored, see the unit test script test_averaje.js
-    *       in order to learn more details about the average calculation
-    * 
-    * @memo  variables transparency, infrastructure, trustiness, community
-    *        development, ratings_cntr, average are passed by reference
-    *
-    * @return calculated values for: transparency, infrastructure, trustiness, community
-    *        development, ratings_cntr
-    */ 
-    void calculate_bp_stats (
-        name bp_name,
-        float * transparency,
-        float * infrastructure,
-        float * trustiness,
-        float * community,
-        float * development,
-        uint32_t * ratings_cntr,
-        float  * average);
-    
-    /**
-    *
-    *  Updates the stats table, with the new
-    *  categories values for a specific block producer
-    *  
-    * @param user - Voter account name,
-    * @param bp_name -  Block Producer account name
-    * @param transparency - Rate for transparency category
-    * @param infrastructure - Rate for infrastructure category
-    * @param trustiness - Rate for trustiness category
-    * @param community - Rate for community category
-    * @param development - Rate for development category
-    *
-    */ 
-    void update_bp_stats (
-        name * user,
-        name * bp_name,
-        float * transparency,
-        float * infrastructure,
-        float * trustiness,
-        float * community,
-        float * development,
-        uint32_t * ratings_cntr,
-        float * average);
-    
-    /**
-    *
-    *  Erase all data related for a specific block producer
-    *
-    * @param bp_name -  Block Producer account name
-    * 
-    */ 
-    ACTION erase(name bp_name);
-
-
-    /**
-    *
-    *  Erase all data related for a set of block producer
-    *
-    * @param bps_to_clean -  List of Block Producer accounts 
-    * 
-    */ 
-    void erase_bp_info(std::set<eosio::name> * bps_to_clean);
+        
+        /**
+        *
+        *  Stores the rate stats within stats table
+        *  for a specific block producer
+        *
+        * @param user - Voter account name,
+        * @param bp_name -  Block Producer account name
+        * @param transparency - Rate for transparency category
+        * @param infrastructure - Rate for infrastructure category
+        * @param trustiness - Rate for trustiness category
+        * @param community - Rate for community category
+        * @param development - Rate for development category
+        *
+        * @memo this function is called for the first-time rate made 
+        *       by the tuple {user,bp}
+        *
+        */      
+        void save_bp_stats (
+            name user,
+            name bp_name,
+            float transparency,
+            float infrastructure,
+            float trustiness,
+            float community,
+            float development);
+        
+        /**
+        *
+        *  Calculates the value for all categories 
+        *  for a specified block producer, this fucntion
+        *  iterates on ratings table 
+        *
+        * @param bp_name -  Block Producer account name
+        * @param transparency - Calculated value for transparency category
+        * @param infrastructure - Calculated value for infrastructure category
+        * @param trustiness - Calculated value for trustiness category
+        * @param community - Calculated value for community category
+        * @param development - Calculated value for development category
+        * @param ratings_cntr - Calculated value for rates counter
+        * @param average -  Calculated average for categories 
+        *
+        * @memo zero values are ignored, see the unit test script test_averaje.js
+        *       in order to learn more details about the average calculation
+        * 
+        * @memo  variables transparency, infrastructure, trustiness, community
+        *        development, ratings_cntr, average are passed by reference
+        *
+        * @return calculated values for: transparency, infrastructure, trustiness, community
+        *        development, ratings_cntr
+        */ 
+        void calculate_bp_stats (
+            name bp_name,
+            float * transparency,
+            float * infrastructure,
+            float * trustiness,
+            float * community,
+            float * development,
+            uint32_t * ratings_cntr,
+            float  * average);
+        
+        /**
+        *
+        *  Updates the stats table, with the new
+        *  categories values for a specific block producer
+        *  
+        * @param user - Voter account name,
+        * @param bp_name -  Block Producer account name
+        * @param transparency - Rate for transparency category
+        * @param infrastructure - Rate for infrastructure category
+        * @param trustiness - Rate for trustiness category
+        * @param community - Rate for community category
+        * @param development - Rate for development category
+        *
+        */ 
+        void update_bp_stats (
+            name * user,
+            name * bp_name,
+            float * transparency,
+            float * infrastructure,
+            float * trustiness,
+            float * community,
+            float * development,
+            uint32_t * ratings_cntr,
+            float * average);
+        
+        /**
+        *
+        *  Erase all data related for a specific block producer
+        *
+        * @param bp_name -  Block Producer account name
+        * 
+        */ 
+        void erase(name bp_name);
 
 
-    /**
-    *
-    *  Clean all data store within the tables
-    * 
-    */ 
-    ACTION wipe();
-    
-    /**
-    *
-    *  Erase all data for inactive block producers
-    * 
-    */ 
-    ACTION rminactive();
-
-    /**
-    *
-    *  Erase a rate made for a specific account 
-    *  to a specific block producer
-    *
-    * @param user - Voter account name,
-    * @param bp -  Block Producer account name
-    * 
-    */ 
-    
-    ACTION rmrate(name user, name bp);
+        /**
+        *
+        *  Erase all data related for a set of block producer
+        *
+        * @param bps_to_clean -  List of Block Producer accounts 
+        * 
+        */ 
+        void erase_bp_info(std::set<eosio::name> * bps_to_clean);
 
 
-  private:
-    /*
-    *   Stores the rate average stats for a block producer
-    */    
-    TABLE stats {
-      name bp;
-      uint32_t ratings_cntr;
-      float average;
-      float transparency;
-      float infrastructure;
-      float trustiness;
-      float development;  
-      float community;
-      uint64_t primary_key() const { return bp.value; }
+        /**
+        *
+        *  Clean all data store within the tables
+        * 
+        */ 
+        void wipe();
+        
+        /**
+        *
+        *  Erase all data for inactive block producers
+        * 
+        */ 
+        void rminactive();
+
+        /**
+        *
+        *  Erase a rate made for a specific account 
+        *  to a specific block producer
+        *
+        * @param user - Voter account name,
+        * @param bp -  Block Producer account name
+        * 
+        */ 
+        
+        void rmrate(name user, name bp);
     };
 
-    typedef eosio::multi_index<"stats"_n, stats > _stats;
-
-    /*
-    *   Stores the rate vote for a block producer
-    */
-    TABLE ratings {
-      uint64_t id;
-      uint128_t uniq_rating;
-      name user;
-      name bp;
-      float transparency;
-      float infrastructure;
-      float trustiness;
-      float development;  
-      float community;
-      uint64_t primary_key() const { return id; }
-      uint128_t by_uniq_rating() const { return uniq_rating; }
-      uint64_t by_user() const { return user.value; }
-      uint64_t by_bp() const { return bp.value; }
-    };
-
-    typedef eosio::multi_index<"ratings"_n, ratings,
-        indexed_by<"uniqrating"_n, const_mem_fun<ratings, uint128_t, &ratings::by_uniq_rating>>,
-        indexed_by<"user"_n, const_mem_fun<ratings, uint64_t, &ratings::by_user>>,
-        indexed_by<"bp"_n, const_mem_fun<ratings, uint64_t, &ratings::by_bp>>
-      > _ratings;
-
-};
-
-EOSIO_DISPATCH(rateproducer,(rate)(erase)(wipe)(rminactive)(rmrate));
+    EOSIO_ACTIONS(rateproducer,
+                 "rateproducer"_n,
+                 action(rate, user, bp, transparency, infrastructure, trustiness, community, development),
+                 action(erase, bp_name),
+                 action(wipe),
+                 action(rminactive),
+                 action(rmrate, user, bp))
+                 
+} // namespace eoscostarica
