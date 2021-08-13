@@ -1,6 +1,6 @@
-const config = {
+module.exports = {
   appName: 'EOSRate',
-  contract: 'rateproducer',
+  contract: process.env.REACT_APP_RATING_CONTRACT || 'rateproducer',
   eosApiHost: process.env.REACT_APP_EOS_API_HOST,
   eosApiPort: process.env.REACT_APP_EOS_API_PORT,
   eosApiProtocol: process.env.REACT_APP_EOS_API_PROTOCOL,
@@ -9,5 +9,3 @@ const config = {
   blockExplorer: process.env.REACT_APP_BLOCK_EXPLORER,
   networkMonitor: process.env.REACT_APP_NETWORK_MONITOR_URL
 }
-
-export default config

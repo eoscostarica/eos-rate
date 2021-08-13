@@ -24,6 +24,8 @@ build-docker: ./Dockerfile
 	@docker build \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_WEBAPP):$(VERSION) --target server \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_WEBAPP):$(LATEST_TAG) --target server \
+		--build-arg REACT_APP_RATING_CONTRACT="$(REACT_APP_RATING_CONTRACT)" \
+		--build-arg REACT_APP_PROXY_CONTRACT="$(REACT_APP_PROXY_CONTRACT)" \
 		--build-arg REACT_APP_GRAPHQL_HTTP_URL="$(REACT_APP_GRAPHQL_HTTP_URL)" \
 		--build-arg REACT_APP_GRAPHQL_WS_URL="$(REACT_APP_GRAPHQL_WS_URL)" \
 		--build-arg REACT_APP_EOS_API_URL="$(REACT_APP_EOS_API_URL)" \

@@ -42,6 +42,8 @@ jobs:
           BRANCH: production
           NAMESPACE: mainnet-eosrate
           # webapp
+          REACT_APP_RATING_CONTRACT: rateproducer
+          REACT_APP_PROXY_CONTRACT: regproxyinfo
           REACT_APP_GRAPHQL_HTTP_URL: https://graphql.eosrate.io/v1/graphql
           REACT_APP_GRAPHQL_WS_URL: wss://graphql.eosrate.io/v1/graphql
           REACT_APP_EOS_API_URL: https://api.eosio.cr
@@ -66,6 +68,8 @@ jobs:
           INGRESS_HOST: eosrate.io
           INGRESS_GRAPHQL_HOST: graphql.eosrate.io
           # webapp
+          REACT_APP_RATING_CONTRACT: rateproducer
+          REACT_APP_PROXY_CONTRACT: regproxyinfo
           REACT_APP_GRAPHQL_HTTP_URL: https://graphql.eosrate.io/v1/graphql
           REACT_APP_GRAPHQL_WS_URL: wss://graphql.eosrate.io/v1/graphql
           REACT_APP_EOS_API_URL: https://api.eosio.cr
