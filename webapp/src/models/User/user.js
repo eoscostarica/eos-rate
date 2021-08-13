@@ -37,8 +37,7 @@ const user = {
         let account = null
         let userRates = []
         const rpc = getRpc(ual)
-
-        if (accountName.length && !isLoading.isContentLoading) {
+        if (accountName.length) {
           account = await rpc.get_account(accountName)
         }
 
