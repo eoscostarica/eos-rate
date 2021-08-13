@@ -2,18 +2,18 @@ const { massiveDB } = require('../config')
 const eosjs = require('eosjs')
 const fetch = require('node-fetch')
 
-const rpc = new eosjs.JsonRpc(
-  process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr',
-  { fetch }
-)
 
 const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
 
-// Read from Blockchain
+
 const getBpStats = async bp => {
-  let result
+  const rpc = new eosjs.JsonRpc(
+    process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr',
+    { fetch }
+  )
+  
   try {
-    result = await rpc.get_table_rows({
+    return await rpc.get_table_rows({
       json: true, // Get the response as json
       code: HAPI_RATING_CONTRACT, // Contract that we target
       scope: HAPI_RATING_CONTRACT, // Account that owns the data
@@ -23,14 +23,9 @@ const getBpStats = async bp => {
       reverse: false, // Optional: Get reversed data
       show_payer: false // Optional: Show ram payer
     })
-  } catch (e) {
-    result = e
-  }
-
-  return result
+  } catch (e) { return e }
 }
 
-/// Save to DB
 const updateBpStats = async bpName => {
   try {
     const bpStat = await getBpStats(bpName)
