@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 const { JsonRpc } = require('eosjs')
 const fetch = require('node-fetch')
-const massive = require('massive')
-const { massiveConfig } = require('../config')
+const { massiveDB } = require('../config')
 
 const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
@@ -29,8 +28,7 @@ const getUserRatings = async () => {
 }
 
 const updateUserRatings = async () => {
-  console.log('==== Updating user ratings ====')
-  const db = await massive(massiveConfig)
+  console.log('==== Updating ratings ====')
   const userRatings = await getUserRatings()
 
   userRatings.rows.forEach(async (rating) => {
@@ -48,8 +46,8 @@ const updateUserRatings = async () => {
     }
 
     try {
-      const resultRatingsSave = await db.user_ratings.save(ratingsCore)
-      const dbResult = resultRatingsSave ? resultRatingsSave : await db.user_ratings.insert(ratingsCore)
+      const resultRatingsSave = await (await massiveDB).user_ratings.save(ratingsCore)
+      const dbResult = resultRatingsSave ? resultRatingsSave : await (await massiveDB).user_ratings.insert(ratingsCore)
       console.log(`Save or insert of ${ratingsCore.uniq_rating} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
     } catch (err) { console.log(`Error: ${err}`) }
   })
