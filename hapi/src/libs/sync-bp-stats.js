@@ -1,5 +1,4 @@
-const massive = require('massive')
-const { massiveConfig } = require('../config')
+const { massiveDB } = require('../config')
 const eosjs = require('eosjs')
 const fetch = require('node-fetch')
 
@@ -33,30 +32,18 @@ const getBpStats = async bp => {
 
 /// Save to DB
 const updateBpStats = async bpName => {
-  let message
-  const updateStat = async stat => {
-    await massive(massiveConfig).then(async db => {
-      const blockProducerStat = await db.ratings_stats.findOne({ bp: stat.bp })
+  try {
+    const bpStat = await getBpStats(bpName)
 
-      if (blockProducerStat && blockProducerStat.bp) {
-        await db.ratings_stats.save(stat)
-        message = 'updated rating for ' + bpName
-      } else {
-        await db.ratings_stats.insert(stat)
-        message = 'inserted rating for ' + bpName
-      }
-    })
-  }
+    if (!bpStat.rows.length || !bpStat.rows[0].bp === bpName)
+      return 'Did not find ratings for BP: ' + bpName
 
-  const bpStat = await getBpStats(bpName)
+    const stat = bpStat.rows[0]
 
-  if (bpStat.rows.length && bpStat.rows[0].bp === bpName) {
-    message += await updateStat(bpStat.rows[0])
-  } else {
-    message = 'Did not find ratings for BP: ' + bpName
-  }
-  console.log(message)
-  return message
+    const resultRatingsSave = await (await massiveDB).ratings_stats.save(stat)
+    const dbResult = resultRatingsSave ? resultRatingsSave : await (await massiveDB).ratings_stats.insert(stat)
+    console.log(`Save or insert of ${bpName} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
+  } catch (err) { console.log(`Error: ${err}`) }
 }
 
 module.exports = updateBpStats

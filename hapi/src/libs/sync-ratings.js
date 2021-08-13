@@ -29,7 +29,7 @@ const getUserRatings = async () => {
 }
 
 const updateUserRatings = async () => {
-  console.log('==== Updating user ratings ====')
+  console.log('==== Updating ratings ====')
   const db = await massive(massiveConfig)
   const userRatings = await getUserRatings()
 
