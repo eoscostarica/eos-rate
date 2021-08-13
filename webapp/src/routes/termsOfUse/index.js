@@ -7,8 +7,6 @@ import { contract } from '../../config'
 import TitlePage from 'components/title-page'
 import styles from './styles'
 
-console.log('CONTRACT', contract)
-
 const useStyles = makeStyles(styles)
 
 const TermsOfUse = () => {
