@@ -69,7 +69,6 @@ jobs:
           INGRESS_GRAPHQL_HOST: graphql.eosrate.io
           # webapp
           REACT_APP_RATING_CONTRACT: rateproducer
-          REACT_APP_PROXY_CONTRACT: regproxyinfo
           REACT_APP_GRAPHQL_HTTP_URL: https://graphql.eosrate.io/v1/graphql
           REACT_APP_GRAPHQL_WS_URL: wss://graphql.eosrate.io/v1/graphql
           REACT_APP_EOS_API_URL: https://api.eosio.cr
@@ -87,7 +86,6 @@ jobs:
           HAPI_SERVER_ADDRESS: 0.0.0.0
           HAPI_SERVER_PORT: 9090
           HAPI_PROXY_CONTRACT: regproxyinfo
-          HAPI_RATING_CONTRACT: rateproducer
           HAPI_POSTGRES_USER: ${{ secrets.HAPI_POSTGRES_USER }}
           HAPI_POSTGRES_PASSWORD: ${{ secrets.HAPI_POSTGRES_PASSWORD }}
           HAPI_POSTGRES_DB: eosrate
