@@ -58,7 +58,8 @@
     "drawerLinkAbout": "Acerca de EOS Rate",
     "drawerLinkRicardianContract": "Contratos Ricardianos",
     "drawerLinkHelp": "Ayuda",
-
+    "lockedRating": " El usuario debe votar para 21 BP para desbloquear clasificaciones",
+    "unlockedRating": "El usuario es un votante. Calificaciones desbloqueadas",
     "appBarSignIn": "Iniciar Sesión",
 
     "connecting": "Conectando",

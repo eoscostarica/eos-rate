@@ -4,9 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { Link } from '@reach/router'
-import Error from '@material-ui/icons/Error'
-import CheckCircle from '@material-ui/icons/CheckCircle'
-import Chip from '@material-ui/core/Chip'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -14,6 +11,8 @@ import Grid from '@material-ui/core/Grid'
 import { Box, useMediaQuery } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import _get from 'lodash.get'
@@ -113,6 +112,24 @@ const ProxyProfile = ({ account, ual, ...props }) => {
     }
   }
 
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant='filled' {...props} />
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setShowMessage(false)
+    setRatingState({
+      ...ratingState,
+      processing: false,
+      txError: null,
+      txSuccess: false
+    })
+  }
+
   useEffect(() => {
     const getData = async () => {
       await dispatch.proxies.getProxies()
@@ -194,42 +211,33 @@ const ProxyProfile = ({ account, ual, ...props }) => {
             disabled={!proxy || ratingState.processing}
           />
           <Box className={classes.wrapperBox}>
-            {showMessage && (
-              <Chip
-                avatar={
-                  <Avatar>
-                    <Error />
-                  </Avatar>
-                }
-                color='secondary'
-                label={t('voteWithoutLogin')}
-                variant='outlined'
-              />
-            )}
-            {ratingState.txError && (
-              <Chip
-                avatar={
-                  <Avatar>
-                    <Error />
-                  </Avatar>
-                }
-                color='secondary'
-                label={ratingState.txError}
-                variant='outlined'
-              />
-            )}
-            {ratingState.txSuccess && (
-              <Chip
-                avatar={
-                  <Avatar>
-                    <CheckCircle />
-                  </Avatar>
-                }
-                color='secondary'
-                label='Success!'
-                variant='outlined'
-              />
-            )}
+            <Snackbar
+              open={showMessage}
+              autoHideDuration={4000}
+              onClose={handleClose}
+            >
+              <Alert onClose={handleClose} severity='warning'>
+                {t('voteWithoutLogin')}
+              </Alert>
+            </Snackbar>
+            <Snackbar
+              open={ratingState.txError}
+              autoHideDuration={4000}
+              onClose={handleClose}
+            >
+              <Alert onClose={handleClose} severity='error'>
+                {ratingState.txError}
+              </Alert>
+            </Snackbar>
+            <Snackbar
+              open={ratingState.txSuccess}
+              autoHideDuration={4000}
+              onClose={handleClose}
+            >
+              <Alert onClose={handleClose} severity='success'>
+                Success!
+              </Alert>
+            </Snackbar>
             {ratingState.processing && (
               <div className={classes.votingTextProgress}>
                 <CircularProgress color='secondary' size={20} />

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import AppBar from '@material-ui/core/AppBar'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import FingerprintIcon from '@material-ui/icons/Fingerprint'
@@ -12,9 +12,13 @@ import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined'
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import { alpha } from '@material-ui/core/styles'
 import { makeStyles } from '@material-ui/styles'
 import { Link } from '@reach/router'
+import Tooltip from '@material-ui/core/Tooltip'
+import Box from '@material-ui/core/Box'
 
 import InputAutocomplete from 'components/input-autocomplete'
 import MobileSearch from 'components/mobile-search'
@@ -34,8 +38,29 @@ const MainTopBar = ({
   const classes = useStyles()
   const dispatch = useDispatch()
   const { t } = useTranslation('translations')
+  const { data: user } = useSelector((state) => state.user)
+  const [mayVoting, setMayVoting] = useState(false)
 
   const handleSetUser = () => dispatch.user.removeBlockProducersVotedByUser()
+
+  const StyleTooltip = makeStyles((theme) => ({
+    arrow: {
+      color: 'rgba(97, 97, 97, 0.9)',
+      marginLeft: 30
+    },
+    tooltip: {
+      boxShadow: theme.shadows[1],
+      width: 140,
+      fontSize: 14,
+      textAlign: 'center'
+    }
+  }))
+
+  function SpecialTooltip(props) {
+    const classes = StyleTooltip()
+
+    return <Tooltip arrow classes={classes} {...props} />
+  }
 
   useEffect(() => {
     const getData = async () => {
@@ -48,6 +73,15 @@ const MainTopBar = ({
 
     if (ual) getData()
   }, [ual])
+
+  useEffect(async () => {
+    if (!user) setMayVoting(false)
+    else if (
+      user.voter_info.producers.length > 20 ||
+      user.voter_info.proxy.length > 0
+    )
+      setMayVoting(true)
+  }, [user])
 
   return (
     <AppBar position='absolute'>
@@ -76,6 +110,18 @@ const MainTopBar = ({
         >
           <SearchIcon />
         </IconButton>
+        <Box style={{ marginRight: '10px', marginTop: '5px' }}>
+          {mayVoting && (
+            <SpecialTooltip title={t('unlockedRating')}>
+              <LockOpenOutlinedIcon />
+            </SpecialTooltip>
+          )}
+          {!mayVoting && (
+            <SpecialTooltip title={t('lockedRating')}>
+              <LockOutlinedIcon />
+            </SpecialTooltip>
+          )}
+        </Box>
         <LanguageSelect />
         {ual.activeUser ? (
           <>

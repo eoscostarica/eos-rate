@@ -58,7 +58,8 @@
     "drawerLinkAbout": "About",
     "drawerLinkRicardianContract": "Ricardian Contract",
     "drawerLinkHelp": "Help",
-
+    "lockedRating": "User is must vote for 21 BPs to unlock ratings",
+    "unlockedRating": "User is a voter. Ratings unlocked",
     "appBarSignIn": "Sign In",
 
     "connecting": "Connecting",
