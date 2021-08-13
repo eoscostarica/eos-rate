@@ -23,6 +23,7 @@
 #include <eosio/permission.hpp> 
 #include <algorithm>
 #include <set>
+#include "utils.hpp"
 
 #define MINVAL 0
 #define MAXVAL 10
@@ -41,6 +42,7 @@ using eosio::public_key;
 */
 namespace eosio {
     constexpr name system_account{"eosio"_n};
+    constexpr name eden_account{"genesis.eden"_n};
 
     /*
     * EOSIO producer_info table
@@ -154,6 +156,49 @@ namespace eosio {
         auto it = _voters.find(name.value);
         return it != _voters.end() && it->is_proxy;
     }
+
+    using member_status_type = uint8_t;
+    enum member_status : member_status_type {
+        pending_membership = 0,
+        active_member = 1
+    };
+
+    using election_participation_status_type = uint8_t;
+    enum election_participation_status : election_participation_status_type {
+        not_in_election = 0,
+        in_election = 1
+    };
+
+    struct member_v0 {
+        eosio::name account;
+        std::string name;
+        member_status_type status;
+        uint64_t nft_template_id;
+
+        uint64_t primary_key() const { return account.value; }
+    };
+    EOSIO_REFLECT(member_v0, account, name, status, nft_template_id)
+
+    using member_variant = std::variant<member_v0>;
+
+    struct member {
+        member_variant value;
+        EDEN_FORWARD_MEMBERS(value,
+                            account,
+                            name,
+                            status,
+                            nft_template_id);
+        EDEN_FORWARD_FUNCTIONS(value, primary_key);
+    };
+    EOSIO_REFLECT(member, value)
+    using member_table_type = eosio::multi_index<"member"_n, member>;
+
+    bool is_eden(name account) {
+        member_table_type member_tb(eden_account, 0);
+        auto it = member_tb.find(account.value);
+        if(it==member_tb.end() && !it->status()) return false;
+        else return true;
+    }
 } // namespace eosio
 
 namespace eoscostarica {
@@ -194,7 +239,7 @@ namespace eoscostarica {
         development,
         community
     )
-    typedef eosio::multi_index<"stats"_n, stats > _stats;
+    typedef eosio::multi_index<"stats"_n, stats > stats_table;
 
     /*
     *   Stores the rate vote for a block producer
@@ -230,7 +275,7 @@ namespace eoscostarica {
         indexed_by<"uniqrating"_n, const_mem_fun<ratings, uint128_t, &ratings::by_uniq_rating>>,
         indexed_by<"user"_n, const_mem_fun<ratings, uint64_t, &ratings::by_user>>,
         indexed_by<"bp"_n, const_mem_fun<ratings, uint64_t, &ratings::by_bp>>
-    > _ratings;
+    > ratings_table;
 
     struct rateproducer  : public eosio::contract {
         // Use the base class constructors
@@ -264,12 +309,44 @@ namespace eoscostarica {
             int8_t trustiness,
             int8_t community,
             int8_t development);
+
+
+        /**
+        *
+        *  Saves the info related with a sponsor within a community
+        * 
+        * @param scope - Table scope,
+        * @param user - Voter account name,
+        * @param bp -  Block Producer account name
+        * @param transparency - Rate for transparency category
+        * @param infrastructure - Rate for infrastructure category
+        * @param trustiness - Rate for trustiness category
+        * @param community - Rate for community category
+        * @param development - Rate for development category
+        *
+        * @pre all rate category's vales must be an integer value
+        * @pre all rate category's vales must be between 1 -10 
+        *
+        * @memo the account especific in user parameter is the ram payor
+        * @memo user account must voted for at least 21 blockproducer 
+        *       or vote for a proxy with at least 21 votes
+        */
+        void rate_aux(
+            name scope,
+            name user,
+            name bp, 
+            int8_t transparency,
+            int8_t infrastructure,
+            int8_t trustiness,
+            int8_t community,
+            int8_t development);
         
         /**
         *
         *  Stores the rate stats within stats table
         *  for a specific block producer
         *
+        * @param scope - Table scope,
         * @param user - Voter account name,
         * @param bp_name -  Block Producer account name
         * @param transparency - Rate for transparency category
@@ -281,8 +358,9 @@ namespace eoscostarica {
         * @memo this function is called for the first-time rate made 
         *       by the tuple {user,bp}
         *
-        */      
+        */
         void save_bp_stats (
+            name scope,
             name user,
             name bp_name,
             float transparency,
@@ -297,6 +375,7 @@ namespace eoscostarica {
         *  for a specified block producer, this fucntion
         *  iterates on ratings table 
         *
+        * @param scope - Table scope,
         * @param bp_name -  Block Producer account name
         * @param transparency - Calculated value for transparency category
         * @param infrastructure - Calculated value for infrastructure category
@@ -316,6 +395,7 @@ namespace eoscostarica {
         *        development, ratings_cntr
         */ 
         void calculate_bp_stats (
+            name scope,
             name bp_name,
             float * transparency,
             float * infrastructure,
@@ -330,6 +410,7 @@ namespace eoscostarica {
         *  Updates the stats table, with the new
         *  categories values for a specific block producer
         *  
+        * @param scope - Table scope,
         * @param user - Voter account name,
         * @param bp_name -  Block Producer account name
         * @param transparency - Rate for transparency category
@@ -340,6 +421,7 @@ namespace eoscostarica {
         *
         */ 
         void update_bp_stats (
+            name scope,
             name * user,
             name * bp_name,
             float * transparency,
@@ -359,15 +441,26 @@ namespace eoscostarica {
         */ 
         void erase(name bp_name);
 
+        /**
+        *
+        *  Erase all data related for a specific block producer
+        *
+        * @param scope - Table scope,
+        * @param bp_name -  Block Producer account name
+        * 
+        */ 
+        void erase_aux(name scope, name bp_name);
+
 
         /**
         *
         *  Erase all data related for a set of block producer
         *
+        * @param scope - Table scope,
         * @param bps_to_clean -  List of Block Producer accounts 
         * 
         */ 
-        void erase_bp_info(std::set<eosio::name> * bps_to_clean);
+        void erase_bp_info(name scope, std::set<eosio::name> * bps_to_clean);
 
 
         /**
@@ -376,6 +469,15 @@ namespace eoscostarica {
         * 
         */ 
         void wipe();
+
+        /**
+        *
+        *  Clean all data store within the tables
+        * 
+        * @param scope - Table scope
+        * 
+        */ 
+        void wipe_aux(name scope);
         
         /**
         *
@@ -386,6 +488,15 @@ namespace eoscostarica {
 
         /**
         *
+        *  Erase all data for inactive block producers
+        * 
+        * @param scope - Table scope
+        * 
+        */ 
+        void rminactive_aux(name scope);
+
+        /**
+        *
         *  Erase a rate made for a specific account 
         *  to a specific block producer
         *
@@ -393,8 +504,19 @@ namespace eoscostarica {
         * @param bp -  Block Producer account name
         * 
         */ 
-        
         void rmrate(name user, name bp);
+
+        /**
+        *
+        *  Erase a rate made for a specific account 
+        *  to a specific block producer
+        *
+        * @param scope - Table scope,
+        * @param user - Voter account name,
+        * @param bp -  Block Producer account name
+        * 
+        */ 
+        void rmrate_aux(name scope, name user, name bp);
     };
 
     EOSIO_ACTIONS(rateproducer,
