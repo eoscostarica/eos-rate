@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 const EosApi = require('eosjs-api')
-const massive = require('massive')
 const request = require('request-promise')
-const { massiveConfig } = require('../config')
+const { massiveDB } = require('../config')
 
 const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle3.cryptolions.io'
 
@@ -73,7 +72,6 @@ const getBlockProducersData = async () => {
 
 const updateBlockProducersData = async () => {
   console.log('==== Updating block producer info ====')
-  const db = await massive(massiveConfig)
   const producersData = await getBlockProducersData()
 
   producersData.forEach(async (bp) => {
@@ -81,8 +79,8 @@ const updateBlockProducersData = async () => {
     const bpData = { owner, system, bpjson }
     
     try {
-      const saveBPResult = await db.producers.save(bpData)
-      const dbResult = saveBPResult ? saveBPResult : await db.producers.insert(bpData)
+      const saveBPResult = await (await massiveDB).producers.save(bpData)
+      const dbResult = saveBPResult ? saveBPResult : await (await massiveDB).producers.insert(bpData)
       console.log(`Save or insert of ${owner} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
     } catch (err) { console.log(`Error: ${err}`) }
   })
