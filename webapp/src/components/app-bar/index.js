@@ -39,7 +39,7 @@ const MainTopBar = ({
   const dispatch = useDispatch()
   const { t } = useTranslation('translations')
   const { data: user } = useSelector((state) => state.user)
-  const [mayVoting, setMayVoting] = useState(false)
+  const [mayVote, setMayVote] = useState(false)
 
   const handleSetUser = () => dispatch.user.removeBlockProducersVotedByUser()
 
@@ -75,12 +75,12 @@ const MainTopBar = ({
   }, [ual])
 
   useEffect(async () => {
-    if (!user) setMayVoting(false)
+    if (!user) setMayVote(false)
     else if (
       user.voter_info.producers.length > 20 ||
       user.voter_info.proxy.length > 0
     )
-      setMayVoting(true)
+      setMayVote(true)
   }, [user])
 
   return (
@@ -111,12 +111,12 @@ const MainTopBar = ({
           <SearchIcon />
         </IconButton>
         <Box style={{ marginRight: '10px', marginTop: '5px' }}>
-          {mayVoting && (
+          {mayVote && (
             <SpecialTooltip title={t('unlockedRating')}>
               <LockOpenOutlinedIcon />
             </SpecialTooltip>
           )}
-          {!mayVoting && (
+          {!mayVote && (
             <SpecialTooltip title={t('lockedRating')}>
               <LockOutlinedIcon />
             </SpecialTooltip>

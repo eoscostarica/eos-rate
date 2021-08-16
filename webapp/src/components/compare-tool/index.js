@@ -136,7 +136,7 @@ const CompareTool = ({
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity='success'>
-          Success!
+          {t('success')}
         </Alert>
       </Snackbar>
     </div>

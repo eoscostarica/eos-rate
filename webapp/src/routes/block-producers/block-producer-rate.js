@@ -480,7 +480,7 @@ const BlockProducerRate = ({ account, ual }) => {
                     className={classes.alertBody}
                     justifyContent='space-between'
                   >
-                    <Typography>Success!</Typography>
+                    <Typography>{t('success')}</Typography>
                     <Grid
                       className={classes.alertActionsContainer}
                       container
@@ -514,7 +514,7 @@ const BlockProducerRate = ({ account, ual }) => {
             )}
             {showAlert && (
               <Grid container>
-                <Alert className={classes.alert} severity='success'>
+                <Alert className={classes.alert} severity='warning'>
                   {t('infoMessage')}
                 </Alert>
               </Grid>
