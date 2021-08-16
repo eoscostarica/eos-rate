@@ -12,7 +12,7 @@ namespace eoscostarica {
         int8_t development) {
         
         rate_aux(_self, user, bp, transparency, infrastructure, trustiness, community, development);
-        if(is_eden(user)) rate_aux(eden_account, user, bp, transparency, infrastructure, trustiness, community, development);
+        if(is_eden(user)) rate_aux(eden_scope, user, bp, transparency, infrastructure, trustiness, community, development);
     }
 
     void rateproducer::rate_aux(
@@ -354,7 +354,7 @@ namespace eoscostarica {
 
     void rateproducer::erase(name bp_name) {
         erase_aux(_self, bp_name);
-        erase_aux(eden_account, bp_name);
+        erase_aux(eden_scope, bp_name);
     }
 
     void rateproducer::erase_aux(name scope, name bp_name) {
@@ -379,7 +379,7 @@ namespace eoscostarica {
 
     void rateproducer::wipe() {
         wipe_aux(_self);
-        wipe_aux(eden_account);
+        wipe_aux(eden_scope);
     }
 
     void rateproducer::wipe_aux(name scope) {
@@ -420,7 +420,7 @@ namespace eoscostarica {
 
     void rateproducer::rminactive() {
         rminactive_aux(_self);
-        rminactive_aux(eden_account);
+        rminactive_aux(eden_scope);
     }
 
     void rateproducer::rminactive_aux(name scope) {
@@ -440,7 +440,7 @@ namespace eoscostarica {
 
     void rateproducer::rmrate(name user, name bp) {
         rmrate_aux(_self, user, bp);
-        if(is_eden(user)) rmrate_aux(eden_account, user, bp);
+        if(is_eden(user)) rmrate_aux(eden_scope, user, bp);
     }
 
     void rateproducer::rmrate_aux(name scope, name user, name bp) {
