@@ -73,6 +73,15 @@ const AllBps = ({ ual }) => {
     setOpenDesktopVotingTool(false)
   }
 
+  const handleSetRatingState = () => {
+    setRatingState({
+      ...ratingState,
+      txError: null,
+      txSuccess: false,
+      showChipMessage: false
+    })
+  }
+
   const sendVoteBps = async (BPs) => {
     if (!accountName) return
 
@@ -142,6 +151,7 @@ const AllBps = ({ ual }) => {
       onHandleVote={() => sendVoteBps(selectedBPs || [])}
       userInfo={user}
       message={ratingState}
+      setMessage={handleSetRatingState}
       handleOnClose={handleOnClose}
     />
   )
