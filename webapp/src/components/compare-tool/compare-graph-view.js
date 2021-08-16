@@ -158,7 +158,7 @@ const CompareGraphView = ({
   return (
     <Grid
       justifyContent='center'
-      style={{ paddingTop: '20px' }}
+      style={{ paddingTop: isDesktop ? '20px' : 0 }}
       container
       spacing={2}
     >

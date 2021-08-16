@@ -156,11 +156,8 @@ CompareTool.propTypes = {
   onHandleVote: PropTypes.func,
   userInfo: PropTypes.object,
   message: PropTypes.object,
-<<<<<<< HEAD
   handleOnClear: PropTypes.func,
-=======
   setMessage: PropTypes.func,
->>>>>>> 614314dc1db114aae5e8ae8ed380072db4ee097f
   handleOnClose: PropTypes.func
 }
 

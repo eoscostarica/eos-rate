@@ -82,7 +82,7 @@ const AllBps = ({ ual }) => {
   const handleOnClose = () => {
     setOpenDesktopVotingTool(false)
   }
-  
+
   const handleSetRatingState = () => {
     setRatingState({
       ...ratingState,
@@ -193,7 +193,7 @@ const AllBps = ({ ual }) => {
       <Grid
         className={classes.wrapper}
         container
-        justifyContent='center'
+        justify='center'
         spacing={isDesktop ? 4 : 1}
       >
         {(shownList || []).map((blockProducer) => (
