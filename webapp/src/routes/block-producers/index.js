@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
@@ -26,6 +26,7 @@ const AllBps = ({ ual }) => {
   const { t } = useTranslation('translations')
   const dispatch = useDispatch()
   const classes = useStyles()
+  const myRef = useRef(null)
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
   const [openVoteDrawer, setOpenVoteDrawer] = useState(false)
   const { data: user } = useSelector((state) => state.user)
@@ -67,9 +68,18 @@ const AllBps = ({ ual }) => {
     }
   }
 
-  const handleOnClose = () => {
+  const handleOpenDesktopVotingTool = (value) => {
+    myRef.current.scrollIntoView({ block: 'start' })
+    setOpenDesktopVotingTool(value)
+  }
+
+  const handleOnClear = () => {
     handleToggleCompareTool()
     dispatch.blockProducers.clearSelected()
+    setOpenDesktopVotingTool(false)
+  }
+
+  const handleOnClose = () => {
     setOpenDesktopVotingTool(false)
   }
 
@@ -143,6 +153,7 @@ const AllBps = ({ ual }) => {
       userInfo={user}
       message={ratingState}
       handleOnClose={handleOnClose}
+      handleOnClear={handleOnClear}
     />
   )
 
@@ -166,7 +177,7 @@ const AllBps = ({ ual }) => {
   }, [user, ual.activeUser, ual])
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} ref={myRef}>
       <TitlePage title={t('bpsTitle')} />
       {isDesktop && openDesktopVotingTool && cmprTool()}
       <Grid
@@ -219,13 +230,15 @@ const AllBps = ({ ual }) => {
             <Button
               onClick={() =>
                 isDesktop
-                  ? setOpenDesktopVotingTool(true)
+                  ? handleOpenDesktopVotingTool(true)
                   : setOpenVoteDrawer(true)
               }
               variant='contained'
             >
               <ThumbUpAltIcon />
-              <Typography>Vote ({selectedBPs.length})</Typography>
+              <Typography>
+                {t('btnVoteBPs')} ({selectedBPs.length})
+              </Typography>
             </Button>
           </Grid>
         </Grid>

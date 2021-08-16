@@ -147,5 +147,11 @@ export default (theme) => ({
       position: 'absolute',
       left: 0
     }
+  },
+  boxCloseIcon: {
+    justifyContent: 'flex-end',
+    display: 'flex',
+    alignItems: 'center',
+    height: '100%'
   }
 })

@@ -16,6 +16,7 @@ import Help from '@material-ui/icons/HelpOutlineRounded'
 import { useMediaQuery } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 import Switch from '@material-ui/core/Switch'
+import CloseIcon from '@material-ui/icons/Close'
 import _get from 'lodash.get'
 
 import Radar from 'components/radar'
@@ -137,6 +138,7 @@ const CompareGraphView = ({
   isProxy,
   userInfo,
   width,
+  handleOnClear,
   handleOnClose,
   onHandleVote,
   setIsCollapsedView,
@@ -154,8 +156,13 @@ const CompareGraphView = ({
   }, [isDesktop])
 
   return (
-    <Grid justifyContent='center' container spacing={2}>
-      <Grid item md={12} xs={12}>
+    <Grid
+      justifyContent='center'
+      style={{ paddingTop: '20px' }}
+      container
+      spacing={2}
+    >
+      <Grid item md={11} xs={11}>
         <Box className={classes.headerVotingCompare}>
           <Box>
             <Typography variant='h6' className={classes.marginRightElem}>
@@ -167,6 +174,13 @@ const CompareGraphView = ({
           </Box>
         </Box>
       </Grid>
+      {isDesktop && (
+        <Grid item md={1} xs={1}>
+          <Box className={classes.boxCloseIcon}>
+            <CloseIcon onClick={handleOnClose} />
+          </Box>
+        </Grid>
+      )}
       <Grid container justifyContent='center' xs={12} md={5}>
         <Grid
           item
@@ -240,7 +254,7 @@ const CompareGraphView = ({
                     width: '200px'
                   }}
                   aria-label='Clear selection'
-                  onClick={handleOnClose}
+                  onClick={handleOnClear}
                 >
                   {t('clearSelection')}
                 </Button>
@@ -290,6 +304,7 @@ CompareGraphView.propTypes = {
   className: PropTypes.string,
   isProxy: PropTypes.bool,
   userInfo: PropTypes.object,
+  handleOnClear: PropTypes.func,
   handleOnClose: PropTypes.func,
   onHandleVote: PropTypes.func,
   setIsCollapsedView: PropTypes.func,
@@ -301,6 +316,7 @@ CompareGraphView.defaultProps = {
   isProxy: false,
   userInfo: { proxy: '', producers: [], isUser: false },
   onHandleVote: () => {},
+  handleOnClear: () => {},
   handleOnClose: () => {},
   setIsCollapsedView: () => {},
   isCollapsedView: true

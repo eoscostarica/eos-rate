@@ -27,6 +27,7 @@ const CompareTool = ({
   onHandleVote,
   userInfo,
   message,
+  handleOnClear,
   handleOnClose
 }) => {
   const { t } = useTranslation('translations')
@@ -67,6 +68,7 @@ const CompareTool = ({
           selected={selectedData}
           isProxy={isProxy}
           userInfo={{ proxy, producers, isUser: Boolean(userInfo) }}
+          handleOnClear={handleOnClear}
           handleOnClose={handleOnClose}
           onHandleVote={onHandleVote}
           isCollapsedView={isCollapsedView}
@@ -91,7 +93,7 @@ const CompareTool = ({
             />
 
             <Button
-              onClick={handleOnClose}
+              onClick={handleOnClear}
               aria-label='Clear selection'
               size='large'
             >
@@ -152,6 +154,7 @@ CompareTool.propTypes = {
   onHandleVote: PropTypes.func,
   userInfo: PropTypes.object,
   message: PropTypes.object,
+  handleOnClear: PropTypes.func,
   handleOnClose: PropTypes.func
 }
 
@@ -162,6 +165,7 @@ CompareTool.defaultProps = {
   onHandleVote: () => {},
   userInfo: null,
   message: { showChipMessage: false, txError: null, txSuccess: false },
+  handleOnClear: () => {},
   handleOnClose: () => {}
 }
 
