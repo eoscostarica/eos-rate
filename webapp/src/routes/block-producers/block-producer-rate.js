@@ -26,7 +26,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import TitlePage from 'components/title-page'
 import Radar from 'components/radar'
-import config from 'config'
+import { contract, blockExplorer } from '../../config'
 import getBPRadarData from 'utils/getBPRadarData'
 
 import SliderRatingSection from './slider-rating-section'
@@ -195,7 +195,7 @@ const BlockProducerRate = ({ account, ual }) => {
                 permission: 'active'
               }
             ],
-            account: config.contract,
+            account: contract,
             name: 'rate',
             data: { user: accountName, bp: account, ...getRatingData(true) }
           }
@@ -496,7 +496,7 @@ const BlockProducerRate = ({ account, ual }) => {
                           rel='noopener'
                           target='_blank'
                           style={{ color: 'white' }}
-                          href={`${config.blockExplorer}/transaction/${lastTransactionId}`}
+                          href={`${blockExplorer}/transaction/${lastTransactionId}`}
                         >
                           {t('details')}
                         </MLink>
