@@ -4,20 +4,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { Link } from '@reach/router'
-import Error from '@material-ui/icons/Error'
-import CheckCircle from '@material-ui/icons/CheckCircle'
-import Chip from '@material-ui/core/Chip'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import { useMediaQuery } from '@material-ui/core'
+import { Box, useMediaQuery } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import AccountCircle from '@material-ui/icons/AccountCircle'
-import Divider from '@material-ui/core/Divider'
 import _get from 'lodash.get'
 
 import TitlePage from 'components/title-page'
@@ -39,6 +36,7 @@ const ProxyProfile = ({ account, ual, ...props }) => {
   const { proxy } = useSelector((state) => state.proxies)
   const [showMessage, setShowMessage] = useState(false)
   const isDesktop = useMediaQuery('(min-width:767px)')
+  const isMobile = useMediaQuery('(max-width:768px)')
   const [sizes, setSizes] = useState()
   const [ratingState, setRatingState] = useState({
     processing: false,
@@ -114,6 +112,24 @@ const ProxyProfile = ({ account, ual, ...props }) => {
     }
   }
 
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant='filled' {...props} />
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setShowMessage(false)
+    setRatingState({
+      ...ratingState,
+      processing: false,
+      txError: null,
+      txSuccess: false
+    })
+  }
+
   useEffect(() => {
     const getData = async () => {
       await dispatch.proxies.getProxies()
@@ -145,165 +161,137 @@ const ProxyProfile = ({ account, ual, ...props }) => {
           </Button>
         </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Paper>
-          <Grid
-            container
-            direction='row'
-            alignItems='center'
-            className={classes.box}
-          >
-            <Grid container direction='row' alignItems='center'>
-              <Grid item xs={12}>
-                <Grid container direction='row' alignItems='center'>
-                  <Grid item sm={12} lg={4}>
-                    <Grid container direction='row' alignItems='center'>
-                      {logo ? (
-                        <Avatar
-                          aria-label='Block Producer'
-                          className={classes.avatar}
-                        >
-                          <img src={logo} alt='' width='100%' />
-                        </Avatar>
-                      ) : (
-                        <AccountCircle className={classes.accountCircle} />
-                      )}
-                      <Typography variant='h6' className={classes.bpName}>
-                        {ProxyTitle}
-                      </Typography>
-                    </Grid>
-                    {slogan && (
-                      <Typography variant='subtitle1'>
-                        <blockquote className={classes.slogan}>
-                          {slogan}
-                        </blockquote>
-                      </Typography>
-                    )}
-                  </Grid>
-                </Grid>
-              </Grid>
+      <Grid container className={classes.reliefGrid}>
+        <Grid item md={12}>
+          <Box style={{ display: 'flex' }}>
+            {logo ? (
+              <Avatar aria-label='Block Producer' className={classes.avatar}>
+                <img src={logo} alt='' width='100%' />
+              </Avatar>
+            ) : (
+              <AccountCircle className={classes.accountCircle} />
+            )}
+            <Typography variant='h6' className={classes.bpName}>
+              {ProxyTitle}
+            </Typography>
+          </Box>
+          {slogan && (
+            <Typography variant='subtitle1'>
+              <blockquote className={classes.slogan}>{slogan}</blockquote>
+            </Typography>
+          )}
+        </Grid>
+        {isMobile && (
+          <Grid container justify='center' xs={12}>
+            <Grid item md={12} xs={12}>
+              <Radar
+                height={sizes}
+                width={sizes}
+                bpData={{
+                  datasets: proxy ? [{ ...proxy.data }] : []
+                }}
+              />
             </Grid>
-            <div className={classes.wrapperBox}>
-              <Grid item sm={12} lg={4}>
-                <Grid
-                  item
-                  xs={12}
-                  className={classNames(
-                    classes.BlockProducerRadarBox,
-                    classes.showOnlySm
-                  )}
-                >
-                  <Radar
-                    height={sizes}
-                    width={sizes}
-                    bpData={{
-                      datasets: proxy ? [{ ...proxy.data }] : []
-                    }}
-                  />
-                </Grid>
-                <GeneralInformation
-                  classes={classes}
-                  proxy={proxy}
-                  onClick={sendVoteProxy}
-                  disabled={!proxy || ratingState.processing}
-                />
-                <div className={classes.errorBox}>
-                  {showMessage && (
-                    <Chip
-                      avatar={
-                        <Avatar>
-                          <Error />
-                        </Avatar>
-                      }
-                      color='secondary'
-                      label={t('voteWithoutLogin')}
-                      variant='outlined'
-                    />
-                  )}
-                  {ratingState.txError && (
-                    <Chip
-                      avatar={
-                        <Avatar>
-                          <Error />
-                        </Avatar>
-                      }
-                      color='secondary'
-                      label={ratingState.txError}
-                      variant='outlined'
-                    />
-                  )}
-                  {ratingState.txSuccess && (
-                    <Chip
-                      avatar={
-                        <Avatar>
-                          <CheckCircle />
-                        </Avatar>
-                      }
-                      color='secondary'
-                      label='Success!'
-                      variant='outlined'
-                    />
-                  )}
-                  {ratingState.processing && (
-                    <div className={classes.votingTextProgress}>
-                      <CircularProgress color='secondary' size={20} />
-                      <Typography
-                        variant='subtitle1'
-                        className={classNames(classes.subTitle, classes.bpName)}
-                      >
-                        {t('voting')} ...
-                      </Typography>
-                    </div>
-                  )}
-                </div>
-                <SocialNetworks
-                  classes={classes}
-                  overrideClass={classes.showOnlyLg}
-                  proxy={proxy}
-                />
-              </Grid>
-
-              <Grid item sm={12} lg={8}>
-                <Grid container direction='column'>
-                  <Grid
-                    item
-                    xs={12}
-                    className={classNames(
-                      classes.BlockProducerRadarBox,
-                      classes.showOnlyLg
-                    )}
-                  >
-                    <Radar
-                      height={sizes}
-                      width={sizes}
-                      bpData={{
-                        datasets: proxy ? [{ ...proxy.data }] : []
-                      }}
-                    />
-                  </Grid>
-                  <Divider variant='middle' className={classes.showOnlySm} />
-                  <SocialNetworks
-                    classes={classes}
-                    overrideClass={classes.showOnlySm}
-                    proxy={proxy}
-                  />
-                </Grid>
-              </Grid>
-            </div>
+            <Grid item md={4} xs={10}>
+              <Button
+                disabled={!proxy || ratingState.processing}
+                className={classes.btnBP}
+                onClick={() => sendVoteProxy(_get(proxy, 'owner'))}
+              >
+                {t('buttonVote')}
+              </Button>
+            </Grid>
           </Grid>
-        </Paper>
+        )}
+        <Grid item md={7} xs={12}>
+          <GeneralInformation
+            classes={classes}
+            proxy={proxy}
+            onClick={sendVoteProxy}
+            disabled={!proxy || ratingState.processing}
+          />
+          <Box className={classes.wrapperBox}>
+            <Snackbar
+              open={showMessage}
+              autoHideDuration={4000}
+              onClose={handleClose}
+            >
+              <Alert onClose={handleClose} severity='warning'>
+                {t('voteWithoutLogin')}
+              </Alert>
+            </Snackbar>
+            <Snackbar
+              open={ratingState.txError}
+              autoHideDuration={4000}
+              onClose={handleClose}
+            >
+              <Alert onClose={handleClose} severity='error'>
+                {ratingState.txError}
+              </Alert>
+            </Snackbar>
+            <Snackbar
+              open={ratingState.txSuccess}
+              autoHideDuration={4000}
+              onClose={handleClose}
+            >
+              <Alert onClose={handleClose} severity='success'>
+                {t('success')}
+              </Alert>
+            </Snackbar>
+            {ratingState.processing && (
+              <div className={classes.votingTextProgress}>
+                <CircularProgress color='secondary' size={20} />
+                <Typography
+                  variant='subtitle1'
+                  className={classNames(classes.subTitle, classes.bpName)}
+                >
+                  {t('voting')} ...
+                </Typography>
+              </div>
+            )}
+          </Box>
+          <SocialNetworks
+            classes={classes}
+            overrideClass={classes.showOnlySm}
+            proxy={proxy}
+          />
+        </Grid>
+        {!isMobile && (
+          <Grid container justify='center' md={5}>
+            <Grid style={{ height: '200px' }} item md={12}>
+              <Radar
+                height={sizes}
+                width={sizes}
+                bpData={{
+                  datasets: proxy ? [{ ...proxy.data }] : []
+                }}
+              />
+            </Grid>
+            <Grid item md={6}>
+              <Button
+                disabled={!proxy || ratingState.processing}
+                className={classes.btnBP}
+                onClick={() => sendVoteProxy(_get(proxy, 'owner'))}
+              >
+                {t('buttonVote')}
+              </Button>
+            </Grid>
+          </Grid>
+        )}
+        <Grid item md={12} xs={12}>
+          {proxy && Boolean(producers.length) && (
+            <CompareTool
+              removeBP={() => console.log('remove')}
+              className={classes.compareTool}
+              list={[proxy]}
+              selected={[account]}
+              isProxy
+              useOnlySliderView
+              optionalLabel={`${ProxyTitle} ${t('labelTool')}:`}
+            />
+          )}
+        </Grid>
       </Grid>
-      {proxy && Boolean(producers.length) && (
-        <CompareTool
-          removeBP={() => console.log('remove')}
-          className={classes.compareTool}
-          list={[proxy]}
-          selected={[account]}
-          isProxy
-          useOnlySliderView
-          optionalLabel={`${ProxyTitle} ${t('labelTool')}:`}
-        />
-      )}
     </Grid>
   )
 }

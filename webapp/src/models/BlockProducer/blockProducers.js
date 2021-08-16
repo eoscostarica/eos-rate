@@ -8,6 +8,7 @@ import { getRpc } from 'utils/eosjsUtils'
 import QUERY_PRODUCER from './query_get_producer_by'
 import QUERY_RATING from './query_get_bp_rating_by'
 import MUTATION_UPDATE_RATING from './mutation_update_rate'
+import { contract } from '../../config'
 
 const initialState = {
   filters: {},
@@ -197,8 +198,8 @@ const Proxies = {
 
         const { rows: rateStat } = await rpc.get_table_rows({
           json: true,
-          code: 'rateproducer',
-          scope: 'rateproducer',
+          code: contract,
+          scope: contract,
           table: 'stats',
           lower_bound: bp,
           limit: 1,
