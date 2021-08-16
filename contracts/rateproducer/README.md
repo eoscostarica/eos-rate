@@ -1,28 +1,75 @@
-```
-Compile contract:
-eosio-cpp -R ricardian rateproducer.cpp -o rateproducer.wasm -abigen 
+## Compilation
+This contract is build with eden `clsdk` compiler, to have the local environment configurated to compile this contract is needed to [take a look at this link](https://github.com/eoscommunity/demo-clsdk) to have it clear or just follow next steps to go forward.
 
+## Get Started
+### Ubuntu 20.04
+Run following commands to set local environment.
+```
+sudo apt-get update
+sudo apt-get install -yq    \
+    binaryen                \
+    build-essential         \
+    cmake                   \
+    gdb                     \
+    git                     \
+    libboost-all-dev        \
+    libcurl4-openssl-dev    \
+    libgmp-dev              \
+    libssl-dev              \
+    libusb-1.0-0-dev        \
+    pkg-config              \
+    wget
+
+
+mkdir ~/work
+
+cd ~/work
+wget https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-12/wasi-sdk-12.0-linux.tar.gz
+tar xf wasi-sdk-12.0-linux.tar.gz
+
+cd ~/work
+wget https://github.com/eoscommunity/Eden/releases/download/sdk-v0.1.0-alpha/clsdk-ubuntu-20-04.tar.gz
+tar xf clsdk-ubuntu-20-04.tar.gz
+```
+
+Make sure to have next variables to compile the `rateproducer` contract:
+```
+export WASI_SDK_PREFIX=~/work/wasi-sdk-12.0
+export CLSDK_PREFIX=~/work/clsdk
+
+export PATH=$CLSDK_PREFIX/bin:$PATH
+```
+
+Once before steps are done:
+```
+mkdir build
+cd build
+cmake `clsdk-cmake-args` ..
+make -j
+```
+
+```
 Add resources:
-cleos -u http://jungle2.cryptolions.io:80 system buyram rateproducer rateproducer "100 EOS"
+cleos -u https://jungle3.cryptolions.io system buyram rateproducer rateproducer "100 EOS"
 
 Publish Contract:
-cleos -u http://jungle2.cryptolions.io:80 set contract rateproducer ./ -p rateproducer@active
+cleos -u https://jungle3.cryptolions.io set contract rateproducer ./ -p rateproducer@active
 
 Push rating with all categories:
 example 1:
 cleos -u hhttp://jungle2.cryptolions.io:80 push action rateproducer rate '{ "user": "rateproducer", "bp":"alohaeostest","transparency":8,"infrastructure":8,"trustiness":7,"development":6,"community":9 }' -p rateproducer@active
 
 example 2:
-cleos -u http://jungle2.cryptolions.io:80 push action rateproducer rate '{ "user": "eoscrvoter11", "bp":"eoscrprodo51","transparency":8,"infrastructure":8,"trustiness":7,"development":6,"community":9 }' -p eoscrvoter11@active
+cleos -u https://jungle3.cryptolions.io push action rateproducer rate '{ "user": "eoscrvoter11", "bp":"eoscrprodo51","transparency":8,"infrastructure":8,"trustiness":7,"development":6,"community":9 }' -p eoscrvoter11@active
 
 Push rating with partial categories:
 cleos -u http://monitor.jungletestnet.io:8888 push action rateproducer rate '{ "user": "rateproducer", "bp":"alohaeostest","transparency":8,"infrastructure":0,"trustiness":0,"development":0,"community":0 }' -p rateproducer@active
 
 Get stats table:
-cleos -u http://jungle2.cryptolions.io:80 get table -l 50 rateproducer rateproducer stats
+cleos -u https://jungle3.cryptolions.io get table -l 50 rateproducer rateproducer stats
 
 Get bp table:
-cleos -u http://jungle2.cryptolions.io:80 get table -l 50 rateproducer rateproducer ratings
+cleos -u https://jungle3.cryptolions.io get table -l 50 rateproducer rateproducer ratings
 
 Clean data for a block producer :
 cleos -u http://monitor.jungletestnet.io:8888 push action rateproducer erase '{"bp_name":"eoscrprodo55"}' -p rateproducer@active
