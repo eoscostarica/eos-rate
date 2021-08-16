@@ -42,7 +42,7 @@ describe ('Eos-rate unit test', function(){
     
     it('Register accounts as block producers',async () => {
 
-    for(index =0 ; index < bp_accts_25.length; index++ ){  
+    for( index = 0; index < bp_accts_25.length; index++ ) {  
       try {
           const result = await api.transact({
               actions: [{

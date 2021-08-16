@@ -46,8 +46,8 @@ const MainTopBar = ({
       }
     }
 
-    getData()
-  }, [])
+    if (ual) getData()
+  }, [ual])
 
   return (
     <AppBar position='absolute'>

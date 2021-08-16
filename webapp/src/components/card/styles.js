@@ -89,5 +89,10 @@ export default (theme) => ({
     justifyContent: 'space-between',
     padding: theme.spacing(0, 2, 1, 2),
     color: theme.palette.primary.main
+  },
+  boxValueRates: {
+    display: 'flex',
+    marginBottom: '15px',
+    justifyContent: 'center'
   }
 })

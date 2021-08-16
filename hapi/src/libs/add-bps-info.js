@@ -365,17 +365,15 @@ const jungleBPinfo = [
   },
 ];
 
-const massive = require("massive")
-const { massiveConfig } = require("../config")
+const { massiveDB } = require('../config')
 
 
 const updateBps = async () => {
-  const db = await massive(massiveConfig)
 
   console.log('UPDATING JUNGLE-BP-INFO')
   jungleBPinfo.forEach(async (bpInfo) => {
     try {
-      const dbResult = await db.producers.save(bpInfo)
+      const dbResult = await (await massiveDB).producers.save(bpInfo)
       console.log(`Save of ${bpInfo.owner} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
     } catch(err) { console.log(`Error: ${err}`) }
   })
@@ -383,7 +381,7 @@ const updateBps = async () => {
   console.log('UPDATING MAINNET-BP-INFO')
   mainnetBPinfo.forEach(async (bpInfo) => {
     try {
-      const dbResult = await db.producers.save(bpInfo)
+      const dbResult = await (await massiveDB).producers.save(bpInfo)
       console.log(`Save of ${bpInfo.owner} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
     } catch(err) { console.log(`Error: ${err}`) }
   })

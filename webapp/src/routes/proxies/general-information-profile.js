@@ -2,14 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
-import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import _get from 'lodash.get'
 import Typography from '@material-ui/core/Typography'
 
 import formatNumber from 'utils/formatNumber'
 
-const SocialNetworks = ({ classes, overrideClass, proxy }) => {
+const SocialNetworks = ({ classes, proxy }) => {
   const { t } = useTranslation('profile')
   const steemit = _get(proxy, 'steemit')
   const twitter = _get(proxy, 'twitter')
@@ -18,11 +17,7 @@ const SocialNetworks = ({ classes, overrideClass, proxy }) => {
   if (!steemit && !twitter && !telegram) return null
 
   return (
-    <Grid
-      container
-      direction='column'
-      className={classNames(classes.category, overrideClass)}
-    >
+    <Grid container direction='column' className={classes.category}>
       <Typography variant='subtitle1' className={classes.title}>
         {t('social')}
       </Typography>
@@ -90,7 +85,7 @@ const SocialNetworks = ({ classes, overrideClass, proxy }) => {
   )
 }
 
-const GeneralInformation = ({ classes, proxy = {}, onClick, disabled }) => {
+const GeneralInformation = ({ classes, proxy = {} }) => {
   const { t } = useTranslation('profile')
   const webpageURL = _get(proxy, 'website')
   const totalVotes = _get(proxy, 'totalVoteEOS') || 0
@@ -164,7 +159,6 @@ const GeneralInformation = ({ classes, proxy = {}, onClick, disabled }) => {
           </Grid>
         )}
       </Grid>
-
       <Grid container direction='column' className={classes.category}>
         <Typography variant='subtitle1' className={classes.title}>
           {t('rankings')}
@@ -192,32 +186,18 @@ const GeneralInformation = ({ classes, proxy = {}, onClick, disabled }) => {
           </Typography>
         </Grid>
       </Grid>
-      <Grid container direction='column' className={classes.category}>
-        <Grid container direction='row'>
-          <Button
-            disabled={disabled}
-            className={classes.btnBP}
-            onClick={() => onClick(_get(proxy, 'owner'))}
-          >
-            {t('buttonVote')}
-          </Button>
-        </Grid>
-      </Grid>
     </>
   )
 }
 
 SocialNetworks.propTypes = {
   classes: PropTypes.object,
-  overrideClass: PropTypes.any,
   proxy: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
 }
 
 GeneralInformation.propTypes = {
   classes: PropTypes.object,
-  proxy: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  onClick: PropTypes.func,
-  disabled: PropTypes.bool
+  proxy: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
 }
 
 export { SocialNetworks, GeneralInformation }
