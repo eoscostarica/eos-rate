@@ -1,4 +1,4 @@
-const { massiveDB, CONTRACT_SCOPES } = require('../config')
+const { massiveDB, defaultContractScope, edenContractScope } = require('../config')
 const eosjs = require('eosjs')
 const fetch = require('node-fetch')
 
@@ -26,6 +26,7 @@ const getBpStats = async (bp, scope) => {
 }
 
 const updateBpStats = async bpName => {
+  const CONTRACT_SCOPES = [defaultContractScope, edenContractScope]
   CONTRACT_SCOPES.forEach(async (scope) => {
     try {
       const bpStat = await getBpStats(bpName, scope)
@@ -35,10 +36,14 @@ const updateBpStats = async bpName => {
   
       const stat = bpStat.rows[0]
 
-      await updateBpStatsDefault(bpName, stat)
-      await updateBpStatsEden(bpName, stat)
-
-    } catch (err) { console.log(`Error: ${err}`) }
+      switch(scope) {
+        case edenContractScope:
+          await updateBpStatsEden(bpName, stat)
+          break
+        default:
+          await updateBpStatsDefault(bpName, stat)
+      }
+    } catch (err) { console.log(`sync-bp-stats: ${err}`) }
   })
 }
 
