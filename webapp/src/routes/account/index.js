@@ -21,7 +21,7 @@ import CloseIcon from '@material-ui/icons/Close'
 import _get from 'lodash.get'
 
 import TitlePage from 'components/title-page'
-import config from 'config'
+import { contract } from '../../config'
 
 import styles from './styles'
 
@@ -40,7 +40,7 @@ const Account = ({ ual }) => {
       const transaction = {
         actions: [
           {
-            account: config.contract,
+            account: contract,
             name: 'rmrate',
             authorization: [
               {

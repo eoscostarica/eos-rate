@@ -5,5 +5,7 @@ const massiveDB = (async () => await massive(massiveConfig))()
 
 module.exports = {
     massiveConfig,
-    massiveDB
+    massiveDB,
+    defaultContractScope: process.env.HAPI_RATING_CONTRACT,
+    edenContractScope: 'eden'
 }

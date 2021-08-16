@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
-import Error from '@material-ui/icons/ErrorOutlined'
 import Button from '@material-ui/core/Button'
-import { Avatar, Chip } from '@material-ui/core'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import _get from 'lodash.get'
 import Switch from '@material-ui/core/Switch'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 
 import CompareGraphView from './compare-graph-view'
 import CompareSliderView from './compare-slider-view'
@@ -28,6 +27,7 @@ const CompareTool = ({
   userInfo,
   message,
   handleOnClear,
+  setMessage,
   handleOnClose
 }) => {
   const { t } = useTranslation('translations')
@@ -40,7 +40,18 @@ const CompareTool = ({
     proxy: '',
     producers: []
   })
-  const showChip = message.txSuccess || Boolean(message.txError)
+
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant='filled' {...props} />
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setMessage()
+  }
 
   if (useOnlySliderView) {
     const data =
@@ -109,36 +120,27 @@ const CompareTool = ({
             >
               {t('btnVoteBPs')}
             </Button>
-            {showChip && (
-              <Chip
-                className={classNames(classes.chipMessage, {
-                  [classes.errorChip]: message.txError
-                })}
-                avatar={
-                  <Avatar>
-                    <Error
-                      className={classNames({
-                        [classes.errorColor]: message.txError
-                      })}
-                    />
-                  </Avatar>
-                }
-                color='secondary'
-                label={
-                  <span
-                    className={classNames({
-                      [classes.labelErrorColor]: message.txError
-                    })}
-                  >
-                    {message.txSuccess ? 'Success!' : message.txError}
-                  </span>
-                }
-                variant='outlined'
-              />
-            )}
           </>
         )}
       </div>
+      <Snackbar
+        open={message.txError}
+        autoHideDuration={4000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity='error'>
+          {message.txError}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={message.txSuccess}
+        autoHideDuration={4000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity='success'>
+          {t('success')}
+        </Alert>
+      </Snackbar>
     </div>
   )
 }
@@ -154,7 +156,11 @@ CompareTool.propTypes = {
   onHandleVote: PropTypes.func,
   userInfo: PropTypes.object,
   message: PropTypes.object,
+<<<<<<< HEAD
   handleOnClear: PropTypes.func,
+=======
+  setMessage: PropTypes.func,
+>>>>>>> 614314dc1db114aae5e8ae8ed380072db4ee097f
   handleOnClose: PropTypes.func
 }
 
