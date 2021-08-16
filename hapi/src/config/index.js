@@ -7,5 +7,5 @@ module.exports = {
     massiveConfig,
     massiveDB,
     defaultContractScope: process.env.HAPI_RATING_CONTRACT,
-    edenContractScope: 'genesis.eden'
+    edenContractScope: process.env.HAPI_GENESIS_EDEN_SCOPE
 }
