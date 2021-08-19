@@ -71,7 +71,7 @@ const updateUserRatings = async (userAccount, bpAccount) => {
       user: blockProducer.user,
       bp: blockProducer.bp,
       ratings,
-      message: 'rate block producer was successfully!'
+      message: 'Block producer rated successfully!'
     }
   } catch (error) {
     console.error('updateUserRatings', error)
