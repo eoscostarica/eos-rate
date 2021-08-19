@@ -491,6 +491,36 @@ namespace eoscostarica {
                 
         }
     }
+
+    void rateproducer::loadedens() {
+        ratings_table _ratings_self(_self, _self.value);
+        ratings_table _ratings_eden(_self, eden_scope.value);
+
+        for(auto itr = _ratings_self.begin(); itr != _ratings_self.end(); itr++) {
+            _ratings_eden.emplace(_self, [&]( auto& row ) {
+                row.id = itr->id;
+                row.uniq_rating = itr->uniq_rating;
+                row.user = itr->user;
+                row.bp = itr->bp;
+                row.transparency = itr->transparency;
+                row.infrastructure = itr->infrastructure;
+                row.trustiness = itr->trustiness;
+                row.community = itr->community;
+                row.development = itr->development ;   
+            });
+            //save stats
+            save_bp_stats(eden_scope,
+                        itr->user,
+                        itr->bp,
+                        itr->transparency,
+                        itr->infrastructure,
+                        itr->trustiness,
+                        itr->community,
+                        itr->development);
+        
+
+        }
+    }
 } // namespace eoscostarica
 
 

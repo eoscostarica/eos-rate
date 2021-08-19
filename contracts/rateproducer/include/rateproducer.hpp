@@ -27,7 +27,7 @@
 
 #define MINVAL 0
 #define MAXVAL 10
-#define MIN_VOTERS 21 
+#define MIN_VOTERS 21
 
 using namespace std;
 using namespace eosio;
@@ -518,6 +518,13 @@ namespace eoscostarica {
         * 
         */ 
         void rmrate_aux(name scope, name user, name bp);
+
+        /**
+        *
+        *  Load existing eden member rates in rateproducer scope
+        * 
+        */ 
+        void loadedens();
     };
 
     EOSIO_ACTIONS(rateproducer,
