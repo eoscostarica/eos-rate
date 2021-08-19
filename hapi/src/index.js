@@ -43,10 +43,10 @@ const init = async () => {
         if (!isValidAccountName.isValidAccountName)
           throw new Error(isValidAccountName.message)
 
-        updateBpStats(producer)
+        const resultEden = await updateBpStats(producer)
         const result = await updateUserRatings(user, producer)
 
-        return { message: 'rate block producer was successfully!', ...result }
+        return { resultEden: resultEden, ...result }
       } catch (error) {
         console.error('ratebp', error)
 
