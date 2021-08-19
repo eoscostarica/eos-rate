@@ -23,6 +23,7 @@ import classNames from 'classnames'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import { makeStyles } from '@material-ui/core/styles'
+import formatNumber from 'utils/formatNumber'
 
 import TitlePage from 'components/title-page'
 import Radar from 'components/radar'
@@ -156,11 +157,20 @@ const BlockProducerRate = ({ account, ual }) => {
 
     if (useString) {
       return {
-        community: (communityEnabled ? community : 0).toString(),
-        development: (developmentEnabled ? development : 0).toString(),
-        infrastructure: (infraEnabled ? infra : 0).toString(),
-        transparency: (transparencyEnabled ? transparency : 0).toString(),
-        trustiness: (trustinessEnabled ? trustiness : 0).toString()
+        community: formatNumber(communityEnabled ? community : 0, 0).toString(),
+        development: formatNumber(
+          developmentEnabled ? development : 0,
+          0
+        ).toString(),
+        infrastructure: formatNumber(infraEnabled ? infra : 0, 0).toString(),
+        transparency: formatNumber(
+          transparencyEnabled ? transparency : 0,
+          0
+        ).toString(),
+        trustiness: formatNumber(
+          trustinessEnabled ? trustiness : 0,
+          0
+        ).toString()
       }
     }
 

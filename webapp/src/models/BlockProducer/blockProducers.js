@@ -7,6 +7,7 @@ import { getRpc } from 'utils/eosjsUtils'
 
 import QUERY_PRODUCER from './query_get_producer_by'
 import QUERY_RATING from './query_get_bp_rating_by'
+import QUERY_EDEN_RATING from './query_get_eden_stats'
 import MUTATION_UPDATE_RATING from './mutation_update_rate'
 import { contract } from '../../config'
 
@@ -19,6 +20,7 @@ const initialState = {
   compareTool: false,
   producer: null,
   userRate: null,
+  edenRate: null,
   showSortSelected: false
 }
 
@@ -103,6 +105,9 @@ const Proxies = {
     },
     addUserRate(state, userRate) {
       return { ...state, userRate }
+    },
+    addEdenRate(state, edenRate) {
+      return { ...state, edenRate }
     }
   },
   effects: (dispatch) => ({
@@ -172,9 +177,30 @@ const Proxies = {
         })
 
         this.addUserRate(userRatings.length ? userRatings[0].ratings : null)
+
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
         console.error('getBlockProducerRatingByOwner', error)
+        dispatch.isLoading.storeIsContentLoading(false)
+      }
+    },
+    async getBlockProducerEdenRating({ bp }, state) {
+      try {
+        dispatch.isLoading.storeIsContentLoading(true)
+
+        const {
+          data: { eden_ratings_stats: edenRatings }
+        } = await apolloClient.query({
+          variables: { bp },
+          query: QUERY_EDEN_RATING,
+          fetchPolicy: 'network-only'
+        })
+
+        if (edenRatings.length > 0) this.addEdenRate(edenRatings[0])
+
+        dispatch.isLoading.storeIsContentLoading(false)
+      } catch (error) {
+        console.error('getBlockProducerEdenRating', error)
         dispatch.isLoading.storeIsContentLoading(false)
       }
     },
@@ -222,6 +248,7 @@ const Proxies = {
               return {
                 ...producer,
                 average: rateStat[0].average,
+                ratings_cntr: rateStat[0].ratings_cntr,
                 system: {
                   ...producer.system,
                   parameters
@@ -241,6 +268,7 @@ const Proxies = {
         )
 
         this.addProducer(currentBP)
+        this.addEdenRate(rateProducer.resultEden)
         this.updateBPList(producerUpdatedList)
         this.getBlockProducerRatingByOwner({ bp, userAccount: user })
         dispatch.user.getUserRates({
