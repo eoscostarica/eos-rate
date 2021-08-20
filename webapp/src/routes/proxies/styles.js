@@ -16,7 +16,8 @@ export default (theme) => ({
     color: theme.palette.primary.main
   },
   wrapper: {
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
+    width: '100%'
   },
   compareTool: {
     minHeight: 340,

@@ -17,6 +17,7 @@
     "view": "View",
     "remove": "Remove",
     "addToVote": "Add to vote",
+    "selected": "Selected",
     "details": "Details",
     "voting": "voting",
 
@@ -26,7 +27,7 @@
     "compareToolCollapsedSwitch": "Collapse Graphs",
     "voteToolTitle": "Voting Tool",
     "voteToolDescription": "Login to your account and vote for the selected block producers.",
-    "selected": "Selected",
+    "selecteds": "Selected",
     "averageCard": "Average",
     "rateCard": "Ratings",
 
