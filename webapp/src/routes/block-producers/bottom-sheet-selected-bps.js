@@ -20,7 +20,7 @@ const SelectedBpsBottomSheet = ({ open, setOpen, children }) => {
       }}
       open={open}
     >
-      <Grid container style={{ backgroundColor: '#ccffcc' }} spacing={2}>
+      <Grid container spacing={2}>
         <Grid item xs={10} />
         <Grid item md={12} xs={2} style={{ textAlign: 'end' }}>
           <IconButton onClick={() => setOpen(false)}>
