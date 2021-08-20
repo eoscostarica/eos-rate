@@ -1,0 +1,3 @@
+table:
+  name: eden_ratings_stats
+  schema: public

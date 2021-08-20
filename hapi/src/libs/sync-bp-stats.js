@@ -1,23 +1,24 @@
-const massive = require('massive')
-const { massiveConfig } = require('../config')
+const {
+  massiveDB,
+  defaultContractScope,
+  edenContractScope
+} = require('../config')
 const eosjs = require('eosjs')
 const fetch = require('node-fetch')
 
-const rpc = new eosjs.JsonRpc(
-  process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr',
-  { fetch }
-)
-
 const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
 
-// Read from Blockchain
-const getBpStats = async bp => {
-  let result
+const getBpStats = async (bp, scope) => {
+  const rpc = new eosjs.JsonRpc(
+    process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr',
+    { fetch }
+  )
+
   try {
-    result = await rpc.get_table_rows({
+    return await rpc.get_table_rows({
       json: true, // Get the response as json
       code: HAPI_RATING_CONTRACT, // Contract that we target
-      scope: HAPI_RATING_CONTRACT, // Account that owns the data
+      scope, // Account that owns the data
       table: 'stats', // Table name
       lower_bound: bp, // block producer PK
       limit: 1, // Maximum number of rows that we want to get
@@ -25,38 +26,92 @@ const getBpStats = async bp => {
       show_payer: false // Optional: Show ram payer
     })
   } catch (e) {
-    result = e
+    return e
   }
-
-  return result
 }
 
-/// Save to DB
-const updateBpStats = async bpName => {
-  let message
-  const updateStat = async stat => {
-    await massive(massiveConfig).then(async db => {
-      const blockProducerStat = await db.ratings_stats.findOne({ bp: stat.bp })
+const updateBpStats = async (bpName) => {
+  // const CONTRACT_SCOPES = [defaultContractScope, edenContractScope]
 
-      if (blockProducerStat && blockProducerStat.bp) {
-        await db.ratings_stats.save(stat)
-        message = 'updated rating for ' + bpName
-      } else {
-        await db.ratings_stats.insert(stat)
-        message = 'inserted rating for ' + bpName
-      }
-    })
+  try {
+    const edenResult = await getEdenBpStats(bpName)
+    await getDefaultBpStats(bpName)
+
+    return edenResult
+
+  } catch (err) {
+    console.error(`sync-bp-stats: ${err}`)
   }
+  console.log('END FUNCTION UPDATE BP STATS')
+}
 
-  const bpStat = await getBpStats(bpName)
+const getEdenBpStats = async (bpName) => {
 
-  if (bpStat.rows.length && bpStat.rows[0].bp === bpName) {
-    message += await updateStat(bpStat.rows[0])
-  } else {
-    message = 'Did not find ratings for BP: ' + bpName
+  try {
+    const bpStat = await getBpStats(bpName, edenContractScope)
+
+    if (!bpStat.rows.length || !bpStat.rows[0].bp === bpName)
+      return 'Did not find ratings for BP: ' + bpName
+
+    const stat = bpStat.rows[0]
+
+    const edenResult = await updateBpStatsEden(bpName, stat)
+
+    return edenResult
+
+  } catch (err) {
+    console.error(`sync-bp-stats: ${err}`)
   }
-  console.log(message)
-  return message
+  console.log('END FUNCTION UPDATE BP STATS')
+}
+
+const getDefaultBpStats = async (bpName) => {
+
+  try {
+    const bpStat = await getBpStats(bpName, defaultContractScope)
+
+    if (!bpStat.rows.length || !bpStat.rows[0].bp === bpName)
+      return 'Did not find ratings for BP: ' + bpName
+
+    const stat = bpStat.rows[0]
+
+    return await updateBpStatsDefault(bpName, stat)
+
+  } catch (err) {
+    console.error(`sync-bp-stats: ${err}`)
+  }
+  console.log('END FUNCTION UPDATE BP STATS')
+}
+
+const updateBpStatsDefault = async (bpName, stat) => {
+  const db = await massiveDB
+  const resultRatingsSave = await db.ratings_stats.save(stat)
+  const dbResult = resultRatingsSave
+    ? resultRatingsSave
+    : await db.ratings_stats.insert(stat)
+  console.log(
+    `Default save or insert of ${bpName} was ${
+      dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
+    }`
+  )
+}
+
+const updateBpStatsEden = async (bpName, stat) => {
+  try {
+    const db = await massiveDB
+    const resultRatingsSave = await db.eden_ratings_stats.save(stat)
+    const dbResult = resultRatingsSave
+      ? resultRatingsSave
+      : await db.eden_ratings_stats.insert(stat)
+    console.log(
+      `Eden save or insert of ${bpName} was ${
+        dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
+      }`
+    )
+    return { bp: dbResult.bp, average: dbResult.average, ratings_cntr: dbResult.ratings_cntr }
+  } catch (error) {
+    console.log('Error:', error)
+  }
 }
 
 module.exports = updateBpStats

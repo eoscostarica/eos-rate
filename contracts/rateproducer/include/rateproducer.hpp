@@ -43,6 +43,7 @@ using eosio::public_key;
 namespace eosio {
     constexpr name system_account{"eosio"_n};
     constexpr name eden_account{"genesis.eden"_n};
+    constexpr name eden_scope{"eden"_n};
 
     /*
     * EOSIO producer_info table
@@ -196,7 +197,7 @@ namespace eosio {
     bool is_eden(name account) {
         member_table_type member_tb(eden_account, 0);
         auto it = member_tb.find(account.value);
-        if(it==member_tb.end() && !it->status()) return false;
+        if(it==member_tb.end() || !it->status()) return false;
         else return true;
     }
 } // namespace eosio

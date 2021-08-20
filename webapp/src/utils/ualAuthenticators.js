@@ -5,23 +5,28 @@ import { TokenPocket } from 'ual-token-pocket'
 import { MeetOne } from 'ual-meetone'
 import { Anchor } from 'ual-anchor'
 
-import config from 'config'
+import {
+  appName,
+  eosChainId,
+  eosApiProtocol,
+  eosApiHost,
+  eosApiPort
+} from '../config'
 
 export const network = {
   chainId:
-    config.eosChainId ||
+    eosChainId ||
     '2a02a0053e5a8cf73a56ba0fda11e4d92e0238a4a2aa74fccf46d5a910746840',
   rpcEndpoints: [
     {
       blockchain: 'eos',
-      protocol: config.eosApiProtocol || 'https',
-      host: config.eosApiHost || 'jungle.eosio.cr',
-      port: parseInt(config.eosApiPort || '443')
+      protocol: eosApiProtocol || 'https',
+      host: eosApiHost || 'jungle.eosio.cr',
+      port: parseInt(eosApiPort || '443')
     }
   ]
 }
 
-const appName = config.appName || 'EOSRate'
 const lynx = new Lynx([network])
 const ledger = new Ledger([network])
 const tokenPocket = new TokenPocket([network])
