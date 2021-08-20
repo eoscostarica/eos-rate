@@ -58,7 +58,7 @@ const AllProxies = ({ ual }) => {
       dispatch.proxies.removeSelected(item)
     }
   }
-  console.log('showMessage', showMessage)
+
   const handleOnClose = () => {
     setOpenDesktopVotingTool(false)
   }
@@ -68,10 +68,6 @@ const AllProxies = ({ ual }) => {
     producerAccountName,
     value
   ) => {
-    console.log('isAdding: ', isAdding)
-    console.log('producerAccountName: ', producerAccountName)
-    console.log('value: ', value)
-    console.log('selectedProxies:', selectedProxies)
     if (isAdding) {
       if (!(selectedProxies || []).length && !compareToolVisible)
         handleToggleCompareTool()
@@ -100,7 +96,7 @@ const AllProxies = ({ ual }) => {
 
       return
     }
-    console.log('selectedProxies: ', selectedProxies)
+
     const transaction = {
       actions: [
         {
