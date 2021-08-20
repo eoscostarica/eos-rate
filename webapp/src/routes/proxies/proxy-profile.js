@@ -37,6 +37,7 @@ const ProxyProfile = ({ account, ual, ...props }) => {
   const [showMessage, setShowMessage] = useState(false)
   const isDesktop = useMediaQuery('(min-width:767px)')
   const isMobile = useMediaQuery('(max-width:768px)')
+  const [openDesktopVotingTool, setOpenDesktopVotingTool] = useState(isDesktop)
   const [sizes, setSizes] = useState()
   const [ratingState, setRatingState] = useState({
     processing: false,
@@ -128,6 +129,10 @@ const ProxyProfile = ({ account, ual, ...props }) => {
       txError: null,
       txSuccess: false
     })
+  }
+
+  const handleOnClose = () => {
+    setOpenDesktopVotingTool(false)
   }
 
   useEffect(() => {
@@ -279,7 +284,7 @@ const ProxyProfile = ({ account, ual, ...props }) => {
           </Grid>
         )}
         <Grid item md={12} xs={12}>
-          {proxy && Boolean(producers.length) && (
+          {proxy && openDesktopVotingTool && Boolean(producers.length) && (
             <CompareTool
               removeBP={() => console.log('remove')}
               className={classes.compareTool}
@@ -288,6 +293,7 @@ const ProxyProfile = ({ account, ual, ...props }) => {
               isProxy
               useOnlySliderView
               optionalLabel={`${ProxyTitle} ${t('labelTool')}:`}
+              handleOnClose={handleOnClose}
             />
           )}
         </Grid>

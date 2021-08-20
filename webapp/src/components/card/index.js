@@ -155,28 +155,56 @@ const CardData = ({
         )}
       </div>
       <CardActions className={classes.actions}>
-        <Button
-          aria-label='Add to comparison'
-          onClick={toggleSelection(!isSelected, owner)}
-        >
-          {isSelected ? t('remove') : buttonLabel}
-        </Button>
         {useRateButton && (
-          <Button
-            // eslint-disable-next-line react/display-name
-            component={forwardRef((props, ref) => (
-              <Link
-                {...props}
-                ref={ref}
-                state={{ owner: owner }}
-                to={`/block-producers/${owner}/rate`}
-              />
-            ))}
-            className={classes.btnRate}
-            size='small'
-          >
-            {t('view')}
-          </Button>
+          <>
+            <Button
+              aria-label='Add to comparison'
+              onClick={toggleSelection(!isSelected, owner)}
+            >
+              {isSelected ? t('remove') : buttonLabel}
+            </Button>
+            <Button
+              // eslint-disable-next-line react/display-name
+              component={forwardRef((props, ref) => (
+                <Link
+                  {...props}
+                  ref={ref}
+                  state={{ owner: owner }}
+                  to={`/block-producers/${owner}/rate`}
+                />
+              ))}
+              className={classes.btnRate}
+              size='small'
+            >
+              {t('view')}
+            </Button>
+          </>
+        )}
+        {!useRateButton && (
+          <>
+            <Button
+              aria-label='Add to comparison'
+              disabled={isSelected}
+              onClick={() => toggleSelection(!isSelected, owner, true)}
+            >
+              {isSelected ? t('selected') : t('addToVote')}
+            </Button>
+            <Button
+              // eslint-disable-next-line react/display-name
+              component={forwardRef((props, ref) => (
+                <Link
+                  {...props}
+                  ref={ref}
+                  state={{ owner: owner }}
+                  to={`/${pathLink}/${owner}`}
+                />
+              ))}
+              className={classes.btnRate}
+              size='small'
+            >
+              {t('view')}
+            </Button>
+          </>
         )}
       </CardActions>
     </Card>
