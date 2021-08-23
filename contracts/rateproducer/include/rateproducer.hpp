@@ -278,9 +278,23 @@ namespace eoscostarica {
         indexed_by<"bp"_n, const_mem_fun<ratings, uint64_t, &ratings::by_bp>>
     > ratings_table;
 
+    /*
+    *   Stores contract config for migrations
+    */
+    struct config_s {
+        name owner;
+        uint32_t version;
+    }
+
+    typedef eosio::singleton<"globalconfig"_n, config_s> config_t;
+    config_t cfg;
+
     struct rateproducer  : public eosio::contract {
+        rateproducer(name receiver, name code, datastream<const char *> ds) :
+            contract(receiver, code, ds), cfg(receiver, receiver.value) {}
+
         // Use the base class constructors
-        using eosio::contract::contract;
+        // using eosio::contract::contract;
 
         
         /**
