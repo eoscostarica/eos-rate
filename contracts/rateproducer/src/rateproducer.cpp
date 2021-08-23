@@ -171,7 +171,7 @@ namespace eoscostarica {
             });
         } else {
             //update the entry
-            _stats.modify(itr,user, [&]( auto& row ) {
+            _stats.modify(itr, user, [&]( auto& row ) {
                 if (transparency) {
                     sum += transparency;
                     if(row.transparency) {
@@ -493,7 +493,7 @@ namespace eoscostarica {
     }
 
     void rateproducer::loadedens() {
-        config_s c = cfg.get_or_create(_self, config_s{.owner = _self, .version = 0});
+        config c = cfg.get_or_create(_self, config{.owner = _self, .version = 0});
         require_auth(c.owner);
 
         // assert we only run once
@@ -518,7 +518,7 @@ namespace eoscostarica {
                 });
                 //save stats
                 save_bp_stats(eden_scope,
-                            itr->user,
+                            _self,
                             itr->bp,
                             itr->transparency,
                             itr->infrastructure,

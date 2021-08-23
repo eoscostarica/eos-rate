@@ -280,29 +280,27 @@ namespace eoscostarica {
     > ratings_table;
 
     /*
-    *   Stores contract config for migrations
+    *   Stores contract config for migration versioning
     */
-    struct config_s {
+    struct config {
         name owner;
         uint32_t version;
     };
     EOSIO_REFLECT(
-        config_s,
+        config,
         owner,
         version
     )
-    typedef eosio::singleton<"globalconfig"_n, config_s> config_t;
+    typedef eosio::singleton<"globalconfig"_n, config> config_table;
 
     struct rateproducer  : public eosio::contract {
+        // Use the base class constructors
         using eosio::contract::contract;
+
         rateproducer(name receiver, name code, datastream<const char *> ds) :
             contract(receiver, code, ds), cfg(receiver, receiver.value) {}
 
-        config_t cfg;
-
-        // Use the base class constructors
-        // using eosio::contract::contract;
-
+        config_table cfg;
         
         /**
         *
@@ -537,12 +535,12 @@ namespace eoscostarica {
         * @param user - Voter account name,
         * @param bp -  Block Producer account name
         * 
-        */ 
+        */
         void rmrate_aux(name scope, name user, name bp);
 
         /**
         *
-        *  Load existing eden member rates in rateproducer scope
+        *  Load existing eden member rates into rateproducer scope
         * 
         */ 
         void loadedens();
@@ -554,6 +552,7 @@ namespace eoscostarica {
                  action(erase, bp_name),
                  action(wipe),
                  action(rminactive),
-                 action(rmrate, user, bp))
+                 action(rmrate, user, bp),
+                 action(loadedens))
                  
 } // namespace eoscostarica
