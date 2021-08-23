@@ -15,6 +15,7 @@
  */
 
 #include <eosio/eosio.hpp>
+#include <eosio/singleton.hpp>
 #include <eosio/print.hpp>
 #include <eosio/asset.hpp>
 #include <eosio/multi_index.hpp>
@@ -284,14 +285,19 @@ namespace eoscostarica {
     struct config_s {
         name owner;
         uint32_t version;
-    }
-
+    };
+    EOSIO_REFLECT(
+        config_s,
+        owner,
+        version
+    )
     typedef eosio::singleton<"globalconfig"_n, config_s> config_t;
-    config_t cfg;
 
     struct rateproducer  : public eosio::contract {
         rateproducer(name receiver, name code, datastream<const char *> ds) :
             contract(receiver, code, ds), cfg(receiver, receiver.value) {}
+
+        config_t cfg;
 
         // Use the base class constructors
         // using eosio::contract::contract;
