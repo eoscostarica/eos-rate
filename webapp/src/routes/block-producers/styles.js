@@ -157,7 +157,7 @@ export default (theme) => ({
   closeIconButton: {
     padding: 0,
     verticalAlign: 'middle',
-    color: 'red'
+    color: 'black'
   },
   detailsIconButton: {
     padding: '0 10px'

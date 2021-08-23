@@ -9,7 +9,6 @@ import {
   Avatar,
   Button,
   IconButton,
-  Chip,
   Grid,
   Paper,
   CircularProgress,
@@ -18,16 +17,17 @@ import {
 } from '@material-ui/core'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import Close from '@material-ui/icons/Close'
-import Error from '@material-ui/icons/Error'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import _get from 'lodash.get'
 import classNames from 'classnames'
-import { Alert } from '@material-ui/lab'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 import { makeStyles } from '@material-ui/core/styles'
+import formatNumber from 'utils/formatNumber'
 
 import TitlePage from 'components/title-page'
 import Radar from 'components/radar'
-import config from 'config'
+import { contract, blockExplorer } from '../../config'
 import getBPRadarData from 'utils/getBPRadarData'
 
 import SliderRatingSection from './slider-rating-section'
@@ -75,6 +75,24 @@ const BlockProducerRate = ({ account, ual }) => {
   useEffect(() => {
     setSizes(isDesktop ? 400 : 240)
   }, [isDesktop])
+
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant='filled' {...props} />
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setShowMessage(false)
+    setRatingState({
+      ...ratingState,
+      processing: false,
+      txError: null,
+      txSuccess: false
+    })
+  }
 
   useEffect(() => {
     const getData = async () => {
@@ -139,11 +157,20 @@ const BlockProducerRate = ({ account, ual }) => {
 
     if (useString) {
       return {
-        community: (communityEnabled ? community : 0).toString(),
-        development: (developmentEnabled ? development : 0).toString(),
-        infrastructure: (infraEnabled ? infra : 0).toString(),
-        transparency: (transparencyEnabled ? transparency : 0).toString(),
-        trustiness: (trustinessEnabled ? trustiness : 0).toString()
+        community: formatNumber(communityEnabled ? community : 0, 0).toString(),
+        development: formatNumber(
+          developmentEnabled ? development : 0,
+          0
+        ).toString(),
+        infrastructure: formatNumber(infraEnabled ? infra : 0, 0).toString(),
+        transparency: formatNumber(
+          transparencyEnabled ? transparency : 0,
+          0
+        ).toString(),
+        trustiness: formatNumber(
+          trustinessEnabled ? trustiness : 0,
+          0
+        ).toString()
       }
     }
 
@@ -178,7 +205,7 @@ const BlockProducerRate = ({ account, ual }) => {
                 permission: 'active'
               }
             ],
-            account: config.contract,
+            account: contract,
             name: 'rate',
             data: { user: accountName, bp: account, ...getRatingData(true) }
           }
@@ -313,30 +340,24 @@ const BlockProducerRate = ({ account, ual }) => {
                     justifyContent='flex-end'
                     style={{ marginTop: 10 }}
                   >
-                    {showMessage && (
-                      <Chip
-                        avatar={
-                          <Avatar>
-                            <Error />
-                          </Avatar>
-                        }
-                        color='secondary'
-                        label={t('rateWithoutLogin')}
-                        variant='outlined'
-                      />
-                    )}
-                    {ratingState.txError && (
-                      <Chip
-                        avatar={
-                          <Avatar>
-                            <Error />
-                          </Avatar>
-                        }
-                        color='secondary'
-                        label={ratingState.txError}
-                        variant='outlined'
-                      />
-                    )}
+                    <Snackbar
+                      open={showMessage}
+                      autoHideDuration={4000}
+                      onClose={handleClose}
+                    >
+                      <Alert onClose={handleClose} severity='warning'>
+                        {t('rateWithoutLogin')}
+                      </Alert>
+                    </Snackbar>
+                    <Snackbar
+                      open={ratingState.txError}
+                      autoHideDuration={4000}
+                      onClose={handleClose}
+                    >
+                      <Alert onClose={handleClose} severity='error'>
+                        {ratingState.txError}
+                      </Alert>
+                    </Snackbar>
                     <Button
                       className='textPrimary'
                       disabled={
@@ -404,30 +425,24 @@ const BlockProducerRate = ({ account, ual }) => {
                       justifyContent='center'
                       style={{ marginTop: 10 }}
                     >
-                      {showMessage && (
-                        <Chip
-                          avatar={
-                            <Avatar>
-                              <Error />
-                            </Avatar>
-                          }
-                          color='secondary'
-                          label={t('rateWithoutLogin')}
-                          variant='outlined'
-                        />
-                      )}
-                      {ratingState.txError && (
-                        <Chip
-                          avatar={
-                            <Avatar>
-                              <Error />
-                            </Avatar>
-                          }
-                          color='secondary'
-                          label={ratingState.txError}
-                          variant='outlined'
-                        />
-                      )}
+                      <Snackbar
+                        open={showMessage}
+                        autoHideDuration={4000}
+                        onClose={handleClose}
+                      >
+                        <Alert onClose={handleClose} severity='warning'>
+                          {t('rateWithoutLogin')}
+                        </Alert>
+                      </Snackbar>
+                      <Snackbar
+                        open={ratingState.txError}
+                        autoHideDuration={4000}
+                        onClose={handleClose}
+                      >
+                        <Alert onClose={handleClose} severity='error'>
+                          {ratingState.txError}
+                        </Alert>
+                      </Snackbar>
                       {ratingState.processing && (
                         <CircularProgress color='secondary' size={20} />
                       )}
@@ -475,18 +490,12 @@ const BlockProducerRate = ({ account, ual }) => {
                     className={classes.alertBody}
                     justifyContent='space-between'
                   >
-                    <Typography>Success!</Typography>
+                    <Typography>{t('success')}</Typography>
                     <Grid
                       className={classes.alertActionsContainer}
                       container
                       justifyContent='space-evenly'
                     >
-                      <IconButton
-                        className={classes.closeIconButton}
-                        onClick={() => setLastTransactionId(undefined)}
-                      >
-                        <Close />
-                      </IconButton>
                       <Button
                         variant='contained'
                         disableElevation
@@ -497,11 +506,17 @@ const BlockProducerRate = ({ account, ual }) => {
                           rel='noopener'
                           target='_blank'
                           style={{ color: 'white' }}
-                          href={`${config.blockExplorer}/transaction/${lastTransactionId}`}
+                          href={`${blockExplorer}/transaction/${lastTransactionId}`}
                         >
                           {t('details')}
                         </MLink>
                       </Button>
+                      <IconButton
+                        className={classes.closeIconButton}
+                        onClick={() => setLastTransactionId(undefined)}
+                      >
+                        <Close />
+                      </IconButton>
                     </Grid>
                   </Grid>
                 </Alert>
@@ -509,7 +524,7 @@ const BlockProducerRate = ({ account, ual }) => {
             )}
             {showAlert && (
               <Grid container>
-                <Alert className={classes.alert} severity='success'>
+                <Alert className={classes.alert} severity='warning'>
                   {t('infoMessage')}
                 </Alert>
               </Grid>
