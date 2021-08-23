@@ -147,5 +147,22 @@ export default (theme) => ({
       position: 'absolute',
       left: 0
     }
+  },
+  boxCloseIcon: {
+    justifyContent: 'flex-end',
+    display: 'flex',
+    alignItems: 'center',
+    height: '100%'
+  },
+  btnRateProxies: {
+    backgroundColor: theme.palette.secondary.main,
+    color: '#ffffff',
+    width: '100px',
+    padding: '5px 20px 5px 20px',
+    [theme.breakpoints.up('sm')]: {
+      '&:hover': {
+        backgroundColor: theme.palette.secondary.dark
+      }
+    }
   }
 })

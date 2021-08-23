@@ -62,9 +62,11 @@ const BlockProducerProfile = ({ account, ...props }) => {
   const isDesktop = useMediaQuery('(min-width:767px)')
   const isMobile = useMediaQuery('(max-width:768px)')
   const [sizes, setSizes] = useState()
-  const { list: blockProducers, producer } = useSelector(
-    (state) => state.blockProducers
-  )
+  const {
+    list: blockProducers,
+    producer,
+    edenRate
+  } = useSelector((state) => state.blockProducers)
   const { isContentLoading } = useSelector((state) => state.isLoading)
   const bpHasInformation = Boolean(
     producer && Object.values(producer.bpjson).length
@@ -86,6 +88,9 @@ const BlockProducerProfile = ({ account, ...props }) => {
     const getData = async () => {
       !blockProducers.length && (await dispatch.blockProducers.getBPs())
       dispatch.blockProducers.getBlockProducerByOwner(account)
+      dispatch.blockProducers.getBlockProducerEdenRating({
+        bp: account
+      })
     }
 
     getData()
@@ -133,7 +138,11 @@ const BlockProducerProfile = ({ account, ...props }) => {
         </Grid>
         {!isMobile && (
           <Grid item xs={12} md={7}>
-            <GeneralInformation classes={classes} producer={producer} />
+            <GeneralInformation
+              classes={classes}
+              producer={producer}
+              edenRate={edenRate}
+            />
             <SocialNetworks
               classes={classes}
               overrideClass={classes.showOnlyLg}
@@ -174,7 +183,11 @@ const BlockProducerProfile = ({ account, ...props }) => {
         </Grid>
         {isMobile && (
           <Grid item xs={12}>
-            <GeneralInformation classes={classes} producer={producer} />
+            <GeneralInformation
+              classes={classes}
+              producer={producer}
+              edenRate={edenRate}
+            />
           </Grid>
         )}
         <Grid item md={12} xs={12}>

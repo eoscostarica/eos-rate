@@ -172,7 +172,7 @@ const WebsiteLegend = ({ classes, webInfo }) => {
   )
 }
 
-const GeneralInformation = ({ classes, producer = {} }) => {
+const GeneralInformation = ({ classes, producer = {}, edenRate = {} }) => {
   const { t } = useTranslation('profile')
 
   const webpageURL = _get(producer, 'system.url')
@@ -296,7 +296,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
                 variant='subtitle1'
                 className={classNames(classes.value, classes.subTitle)}
               >
-                {_get(producer, 'ratings_cntr', null) || 0}
+                {_get(edenRate, 'ratings_cntr', null) || 0}
               </Typography>
             </Box>
           </Grid>
@@ -309,40 +309,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
                 variant='subtitle1'
                 className={classNames(classes.value, classes.subTitle)}
               >
-                {getAverageValue(_get(producer, 'average', 0))}
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-        <Grid container justify='center' md={4} xs={12}>
-          <Grid item md={12} xs={12}>
-            <Typography variant='h6' className={classes.title}>
-              {t('tatolRates')}
-            </Typography>
-          </Grid>
-          <Grid item md={11} xs={6}>
-            <Box style={{ display: 'flex' }}>
-              <Typography variant='subtitle1' className={classes.subTitle}>
-                {t('rates')}:
-              </Typography>
-              <Typography
-                variant='subtitle1'
-                className={classNames(classes.value, classes.subTitle)}
-              >
-                {_get(producer, 'ratings_cntr', null) || 0}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item md={11} xs={5}>
-            <Box style={{ display: 'flex' }}>
-              <Typography variant='subtitle1' className={classes.subTitle}>
-                {t('average')}:
-              </Typography>
-              <Typography
-                variant='subtitle1'
-                className={classNames(classes.value, classes.subTitle)}
-              >
-                {getAverageValue(_get(producer, 'average', 0))}
+                {getAverageValue(_get(edenRate, 'average', 0))}
               </Typography>
             </Box>
           </Grid>
@@ -359,7 +326,8 @@ SocialNetworks.propTypes = {
 
 GeneralInformation.propTypes = {
   classes: PropTypes.object,
-  producer: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
+  producer: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  edenRate: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
 }
 
 WebsiteLegend.propTypes = {

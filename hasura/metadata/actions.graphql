@@ -11,6 +11,7 @@ input RatingInput {
 
 type RatingOutput {
   message: String!
+  resultEden: jsonb
   uniq_rating: String
   user: String
   bp: String

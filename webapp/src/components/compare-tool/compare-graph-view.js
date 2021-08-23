@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import CardHeader from '@material-ui/core/CardHeader'
 import Typography from '@material-ui/core/Typography'
-import Avatar from '@material-ui/core/Avatar'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import LockOpenIcon from '@material-ui/icons/LockOpenOutlined'
 import LockIcon from '@material-ui/icons/LockOutlined'
@@ -12,10 +10,10 @@ import Button from '@material-ui/core/Button'
 import Tooltip from '@material-ui/core/Tooltip'
 import Box from '@material-ui/core/Box'
 import withWidth from '@material-ui/core/withWidth'
-import Help from '@material-ui/icons/HelpOutlineRounded'
 import { useMediaQuery } from '@material-ui/core'
 import { useTranslation } from 'react-i18next'
 import Switch from '@material-ui/core/Switch'
+import CloseIcon from '@material-ui/icons/Close'
 import _get from 'lodash.get'
 
 import Radar from 'components/radar'
@@ -30,30 +28,10 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
 
   if (isProxy) {
     const proxy = selectedData[0]
-    const owner = _get(proxy, 'owner')
-    const title = _get(proxy, 'name')
-    const imageURL = _get(proxy, 'logo_256', null)
     const producers = _get(proxy, 'voter_info.producers', [])
 
     return (
       <>
-        <CardHeader
-          className={classes.title}
-          classes={{
-            root: classes.cardHeader
-          }}
-          avatar={
-            <Avatar aria-label='Block Card' className={classes.avatar}>
-              {!imageURL ? (
-                <Help className={classes.helpIcon} />
-              ) : (
-                <img src={imageURL} alt='' width='100%' />
-              )}
-            </Avatar>
-          }
-          title={title || <span>{owner}</span>}
-          subheader={owner}
-        />
         {producers.map((producer) => {
           const imageURL = _get(producer, 'bpjson.org.branding.logo_256', null)
 
@@ -63,6 +41,7 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
               onHandleRemove={removeBP}
               classNames={classes}
               imageURL={imageURL}
+              isProxy={isProxy}
               key={`data-list-name-${producer.owner}`}
               defaultName='P'
             />
@@ -137,6 +116,7 @@ const CompareGraphView = ({
   isProxy,
   userInfo,
   width,
+  handleOnClear,
   handleOnClose,
   onHandleVote,
   setIsCollapsedView,
@@ -154,12 +134,17 @@ const CompareGraphView = ({
   }, [isDesktop])
 
   return (
-    <Grid justifyContent='center' container spacing={2}>
-      <Grid item md={12} xs={12}>
+    <Grid
+      justifyContent='center'
+      style={{ paddingTop: isDesktop ? '20px' : 0 }}
+      container
+      spacing={2}
+    >
+      <Grid item md={11} xs={11}>
         <Box className={classes.headerVotingCompare}>
           <Box>
             <Typography variant='h6' className={classes.marginRightElem}>
-              {`${t('voteToolTitle')} (${selected.length} ${t('selected')})`}
+              {`${t('voteToolTitle')} (${selected.length} ${t('selecteds')})`}
             </Typography>
             <Typography variant='body1' style={{ display: 'flex' }}>
               {t('voteToolDescription')}
@@ -167,6 +152,13 @@ const CompareGraphView = ({
           </Box>
         </Box>
       </Grid>
+      {isDesktop && (
+        <Grid item md={1} xs={1}>
+          <Box className={classes.boxCloseIcon}>
+            <CloseIcon style={{ cursor: 'pointer' }} onClick={handleOnClose} />
+          </Box>
+        </Grid>
+      )}
       <Grid container justifyContent='center' xs={12} md={5}>
         <Grid
           item
@@ -190,12 +182,29 @@ const CompareGraphView = ({
           xs={12}
           style={{
             textAlign: 'center',
-            height: '50px'
+            height: '90px'
           }}
         >
           <Box className={classes.centerBox}>
             {isProxy && selected.length > 0 && (
-              <Typography>{selected[0].name}</Typography>
+              <Grid container>
+                <Grid item md={12} xs={12}>
+                  <Typography style={{ fontSize: '20px', fontWeight: 500 }}>
+                    {selected[0].name}
+                  </Typography>
+                </Grid>
+                <Grid style={{ margin: '10px 0 10px 0' }} item md={12} xs={12}>
+                  <Button
+                    disabled={!userInfo.isUser}
+                    aria-label='Add to comparison'
+                    className={classes.btnRateProxies}
+                    variant='contained'
+                    onClick={onHandleVote}
+                  >
+                    {t('btnVoteBPs')}
+                  </Button>
+                </Grid>
+              </Grid>
             )}
             {!isProxy && (
               <FormControlLabel
@@ -240,7 +249,7 @@ const CompareGraphView = ({
                     width: '200px'
                   }}
                   aria-label='Clear selection'
-                  onClick={handleOnClose}
+                  onClick={handleOnClear}
                 >
                   {t('clearSelection')}
                 </Button>
@@ -290,6 +299,7 @@ CompareGraphView.propTypes = {
   className: PropTypes.string,
   isProxy: PropTypes.bool,
   userInfo: PropTypes.object,
+  handleOnClear: PropTypes.func,
   handleOnClose: PropTypes.func,
   onHandleVote: PropTypes.func,
   setIsCollapsedView: PropTypes.func,
@@ -301,6 +311,7 @@ CompareGraphView.defaultProps = {
   isProxy: false,
   userInfo: { proxy: '', producers: [], isUser: false },
   onHandleVote: () => {},
+  handleOnClear: () => {},
   handleOnClose: () => {},
   setIsCollapsedView: () => {},
   isCollapsedView: true
