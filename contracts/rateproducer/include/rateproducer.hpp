@@ -294,6 +294,7 @@ namespace eoscostarica {
     typedef eosio::singleton<"globalconfig"_n, config_s> config_t;
 
     struct rateproducer  : public eosio::contract {
+        using eosio::contract::contract;
         rateproducer(name receiver, name code, datastream<const char *> ds) :
             contract(receiver, code, ds), cfg(receiver, receiver.value) {}
 
