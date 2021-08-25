@@ -15,6 +15,7 @@
  */
 
 #include <eosio/eosio.hpp>
+#include <eosio/singleton.hpp>
 #include <eosio/print.hpp>
 #include <eosio/asset.hpp>
 #include <eosio/multi_index.hpp>
@@ -27,7 +28,7 @@
 
 #define MINVAL 0
 #define MAXVAL 10
-#define MIN_VOTERS 21 
+#define MIN_VOTERS 21
 
 using namespace std;
 using namespace eosio;
@@ -278,10 +279,28 @@ namespace eoscostarica {
         indexed_by<"bp"_n, const_mem_fun<ratings, uint64_t, &ratings::by_bp>>
     > ratings_table;
 
+    /*
+    *   Stores contract config for migration versioning
+    */
+    struct config {
+        name owner;
+        uint32_t version;
+    };
+    EOSIO_REFLECT(
+        config,
+        owner,
+        version
+    )
+    typedef eosio::singleton<"globalconfig"_n, config> config_table;
+
     struct rateproducer  : public eosio::contract {
         // Use the base class constructors
         using eosio::contract::contract;
 
+        rateproducer(name receiver, name code, datastream<const char *> ds) :
+            contract(receiver, code, ds), cfg(receiver, receiver.value) {}
+
+        config_table cfg;
         
         /**
         *
@@ -516,8 +535,15 @@ namespace eoscostarica {
         * @param user - Voter account name,
         * @param bp -  Block Producer account name
         * 
-        */ 
+        */
         void rmrate_aux(name scope, name user, name bp);
+
+        /**
+        *
+        *  Load existing eden member rates into rateproducer scope
+        * 
+        */ 
+        void loadedens();
     };
 
     EOSIO_ACTIONS(rateproducer,
@@ -526,6 +552,7 @@ namespace eoscostarica {
                  action(erase, bp_name),
                  action(wipe),
                  action(rminactive),
-                 action(rmrate, user, bp))
+                 action(rmrate, user, bp),
+                 action(loadedens))
                  
 } // namespace eoscostarica

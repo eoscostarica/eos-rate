@@ -36,7 +36,6 @@ const AllProxies = ({ ual }) => {
   const isDesktop = useMediaQuery('(min-width:767px)')
   const accountName = _get(ual, 'activeUser.accountName', null)
   const [openVoteDrawer, setOpenVoteDrawer] = useState(false)
-  const [showMessage, setShowMessage] = useState(false)
   const [openDesktopVotingTool, setOpenDesktopVotingTool] = useState(isDesktop)
   const [ratingState, setRatingState] = useState({
     processing: false,
@@ -91,11 +90,7 @@ const AllProxies = ({ ual }) => {
   }
 
   const sendVoteProxy = async () => {
-    if (!accountName) {
-      setShowMessage(true)
-
-      return
-    }
+    if (!accountName) return
 
     const transaction = {
       actions: [
@@ -142,7 +137,6 @@ const AllProxies = ({ ual }) => {
           txSuccess: false
         })
       }, 2000)
-      setShowMessage(false)
     } catch (error) {
       console.warn(error)
       setRatingState({
