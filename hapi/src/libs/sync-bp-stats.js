@@ -31,8 +31,6 @@ const getBpStats = async (bp, scope) => {
 }
 
 const updateBpStats = async (bpName) => {
-  // const CONTRACT_SCOPES = [defaultContractScope, edenContractScope]
-
   try {
     const edenResult = await getEdenBpStats(bpName)
     await getDefaultBpStats(bpName)
@@ -42,7 +40,6 @@ const updateBpStats = async (bpName) => {
   } catch (err) {
     console.error(`sync-bp-stats: ${err}`)
   }
-  console.log('END FUNCTION UPDATE BP STATS')
 }
 
 const getEdenBpStats = async (bpName) => {
@@ -62,7 +59,6 @@ const getEdenBpStats = async (bpName) => {
   } catch (err) {
     console.error(`sync-bp-stats: ${err}`)
   }
-  console.log('END FUNCTION UPDATE BP STATS')
 }
 
 const getDefaultBpStats = async (bpName) => {
@@ -80,7 +76,6 @@ const getDefaultBpStats = async (bpName) => {
   } catch (err) {
     console.error(`sync-bp-stats: ${err}`)
   }
-  console.log('END FUNCTION UPDATE BP STATS')
 }
 
 const updateBpStatsDefault = async (bpName, stat) => {
