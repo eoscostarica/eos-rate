@@ -31,18 +31,14 @@ const getBpStats = async (bp, scope) => {
 }
 
 const updateBpStats = async (bpName) => {
-  // const CONTRACT_SCOPES = [defaultContractScope, edenContractScope]
-
   try {
     const edenResult = await getEdenBpStats(bpName)
     await getDefaultBpStats(bpName)
 
     return edenResult
-
   } catch (err) {
     console.error(`sync-bp-stats: ${err}`)
   }
-  console.log('END FUNCTION UPDATE BP STATS')
 }
 
 <<<<<<< HEAD
@@ -62,7 +58,6 @@ const updateBpStats = async bpName => {
   } catch (err) { console.log(`Error: ${err}`) }
 =======
 const getEdenBpStats = async (bpName) => {
-
   try {
     const bpStat = await getBpStats(bpName, edenContractScope)
 
@@ -70,19 +65,15 @@ const getEdenBpStats = async (bpName) => {
       return 'Did not find ratings for BP: ' + bpName
 
     const stat = bpStat.rows[0]
-
     const edenResult = await updateBpStatsEden(bpName, stat)
 
     return edenResult
-
   } catch (err) {
     console.error(`sync-bp-stats: ${err}`)
   }
-  console.log('END FUNCTION UPDATE BP STATS')
 }
 
 const getDefaultBpStats = async (bpName) => {
-
   try {
     const bpStat = await getBpStats(bpName, defaultContractScope)
 
@@ -92,11 +83,9 @@ const getDefaultBpStats = async (bpName) => {
     const stat = bpStat.rows[0]
 
     return await updateBpStatsDefault(bpName, stat)
-
   } catch (err) {
     console.error(`sync-bp-stats: ${err}`)
   }
-  console.log('END FUNCTION UPDATE BP STATS')
 }
 
 const updateBpStatsDefault = async (bpName, stat) => {
