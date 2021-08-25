@@ -43,7 +43,6 @@ const updateBpStats = async (bpName) => {
 }
 
 const getEdenBpStats = async (bpName) => {
-
   try {
     const bpStat = await getBpStats(bpName, edenContractScope)
 
@@ -62,7 +61,6 @@ const getEdenBpStats = async (bpName) => {
 }
 
 const getDefaultBpStats = async (bpName) => {
-
   try {
     const bpStat = await getBpStats(bpName, defaultContractScope)
 
@@ -72,7 +70,6 @@ const getDefaultBpStats = async (bpName) => {
     const stat = bpStat.rows[0]
 
     return await updateBpStatsDefault(bpName, stat)
-
   } catch (err) {
     console.error(`sync-bp-stats: ${err}`)
   }
