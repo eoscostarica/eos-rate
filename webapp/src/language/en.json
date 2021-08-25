@@ -17,6 +17,7 @@
     "view": "View",
     "remove": "Remove",
     "addToVote": "Add to vote",
+    "selected": "Selected",
     "details": "Details",
     "voting": "voting",
 
@@ -26,7 +27,7 @@
     "compareToolCollapsedSwitch": "Collapse Graphs",
     "voteToolTitle": "Voting Tool",
     "voteToolDescription": "Login to your account and vote for the selected block producers.",
-    "selected": "Selected",
+    "selecteds": "Selected",
     "averageCard": "Average",
     "rateCard": "Ratings",
 
@@ -58,7 +59,9 @@
     "drawerLinkAbout": "About",
     "drawerLinkRicardianContract": "Ricardian Contract",
     "drawerLinkHelp": "Help",
-
+    "lockedRating": "You must vote for at least 21 block producers or a proxy to unlock ratings",
+    "unlockedRating": "You have voted for 21 bps or a proxy and have unlocked ratings",
+    "success" : "Success!",
     "appBarSignIn": "Sign In",
 
     "connecting": "Connecting",
@@ -170,6 +173,7 @@
     "myRate": "My Rating",
     "rateWithoutLogin": "You need to login to rate this block producer",
     "noBlockProducer": "This BP Does Not Exist.",
+    "success" : "Success!",
     "title": "Rate EOS Block Producer Infrastructure and Community Reputation ",
     "infoMessage": "Support the network by voting for your favorite BPs or proxy, once you have voted for 21 BPs you can start rating."
   },
@@ -208,6 +212,7 @@
     "totalVotes": "Total Votes",
     "voteWithoutLogin": "You need to login to vote for this proxy",
     "labelTool": "votes for",
+    "success" : "Success!",
     "title": "Block Producer Community Ratings for",
     "proxyProfile": "Reviews on EOS proxy account"
   },

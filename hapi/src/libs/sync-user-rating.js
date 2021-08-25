@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 const { JsonRpc } = require('eosjs')
 const fetch = require('node-fetch')
-const massive = require('massive')
 
-const { massiveConfig } = require('../config')
+const { massiveDB } = require('../config')
 
 const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
@@ -21,16 +20,14 @@ const getUserRatings = async () => {
     reverse: false,
     show_payer: false
   })
-  //console.log(ratings)
   return ratings
 }
 
 // updates the postgresdb
 const updateUserRatings = async (userAccount, bpAccount) => {
-  console.log('\x1b[33m%s\x1b[0m', '==== updating user ratings ====')
+  console.log('==== Updating user ratings ====')
 
   try {
-    const db = await massive(massiveConfig)
     const userRatings = await getUserRatings()
 
     if (!userAccount || !bpAccount)
@@ -50,7 +47,7 @@ const updateUserRatings = async (userAccount, bpAccount) => {
       community: blockProducer.community || 0
     }
 
-    const result = await db.user_ratings.save({
+    const result = await (await massiveDB).user_ratings.save({
       uniq_rating: blockProducer.uniq_rating,
       user: blockProducer.user,
       bp: blockProducer.bp,
@@ -58,7 +55,7 @@ const updateUserRatings = async (userAccount, bpAccount) => {
     })
 
     if (!result) {
-      const insertResult = await db.user_ratings.insert({
+      const insertResult = await (await massiveDB).user_ratings.insert({
         uniq_rating: blockProducer.uniq_rating,
         user: blockProducer.user,
         bp: blockProducer.bp,
@@ -66,14 +63,15 @@ const updateUserRatings = async (userAccount, bpAccount) => {
       })
 
       if (!insertResult)
-        throw new Error(`could not save or insert ${blockProducer.uniq_rating}`)
+        throw new Error(`Could not save or insert ${blockProducer.uniq_rating}`)
     }
 
     return {
       uniq_rating: blockProducer.uniq_rating,
       user: blockProducer.user,
       bp: blockProducer.bp,
-      ratings
+      ratings,
+      message: 'Block producer rated successfully!'
     }
   } catch (error) {
     console.error('updateUserRatings', error)

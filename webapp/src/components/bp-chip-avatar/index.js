@@ -14,22 +14,46 @@ const ProducerChipAvatar = ({
   classNames,
   onHandleRemove,
   imageURL,
-  defaultName
+  defaultName,
+  isProxy
 }) => {
   const backgroundColor = _get(data, 'data.pointBackgroundColor', '#597a81')
   const classes = useStyles({ color: backgroundColor })
 
   return (
-    <Chip
-      className={classes.root}
-      avatar={
-        <Avatar aria-label='Block Compare' className={classNames.avatar}>
-          {!imageURL ? defaultName : <img src={imageURL} alt='' width='100%' />}
-        </Avatar>
-      }
-      onDelete={() => onHandleRemove(data.owner)}
-      label={data.owner}
-    />
+    <>
+      {isProxy && (
+        <Chip
+          className={classes.root}
+          avatar={
+            <Avatar aria-label='Block Compare' className={classNames.avatar}>
+              {!imageURL ? (
+                defaultName
+              ) : (
+                <img src={imageURL} alt='' width='100%' />
+              )}
+            </Avatar>
+          }
+          label={data.owner}
+        />
+      )}
+      {!isProxy && (
+        <Chip
+          className={classes.root}
+          avatar={
+            <Avatar aria-label='Block Compare' className={classNames.avatar}>
+              {!imageURL ? (
+                defaultName
+              ) : (
+                <img src={imageURL} alt='' width='100%' />
+              )}
+            </Avatar>
+          }
+          onDelete={() => onHandleRemove(data.owner)}
+          label={data.owner}
+        />
+      )}
+    </>
   )
 }
 
@@ -38,7 +62,8 @@ ProducerChipAvatar.propTypes = {
   classNames: PropTypes.object,
   onHandleRemove: PropTypes.func,
   imageURL: PropTypes.string,
-  defaultName: PropTypes.string
+  defaultName: PropTypes.string,
+  isProxy: PropTypes.any
 }
 
 export default memo(ProducerChipAvatar)

@@ -5,7 +5,6 @@ import { useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Card from '@material-ui/core/Card'
 import Box from '@material-ui/core/Box'
-import classNames from 'classnames'
 import CardHeader from '@material-ui/core/CardHeader'
 import { useTranslation } from 'react-i18next'
 import Typography from '@material-ui/core/Typography'
@@ -15,6 +14,7 @@ import Button from '@material-ui/core/Button'
 import Help from '@material-ui/icons/HelpOutlineRounded'
 import Error from '@material-ui/icons/Error'
 import Tooltip from '@material-ui/core/Tooltip'
+import Grid from '@material-ui/core/Grid'
 import { Link } from '@reach/router'
 
 import Radar from 'components/radar'
@@ -102,44 +102,9 @@ const CardData = ({
           subheader={
             <div className={classes.warningBox}>
               <span>{owner}</span>
-              {showOptions && (
-                <div
-                  className={classNames(classes.warningBox, classes.showOnlyLg)}
-                >
-                  <Typography
-                    variant='subtitle2'
-                    className={classes.marginRightElem}
-                  >
-                    {`${t('rateCard')}:`}
-                  </Typography>
-                  <Typography variant='body2'>{rate || 0}</Typography>
-                </div>
-              )}
             </div>
           }
         />
-        {showOptions && (
-          <div className={classes.mobileBox}>
-            <div className={classNames(classes.warningBox, classes.showOnlySm)}>
-              <Typography
-                variant='subtitle2'
-                className={classes.marginRightElem}
-              >
-                {`${t('averageCard')}:`}
-              </Typography>
-              <Typography variant='body2'>{average}</Typography>
-            </div>
-            <div className={classNames(classes.warningBox, classes.showOnlySm)}>
-              <Typography
-                variant='subtitle2'
-                className={classes.marginRightElem}
-              >
-                {`${t('rateCard')}:`}
-              </Typography>
-              <Typography variant='body2'>{rate || 0}</Typography>
-            </div>
-          </div>
-        )}
       </Link>
       <div className={classes.radar}>
         <div className={classes.blockIcons}>
@@ -160,30 +125,86 @@ const CardData = ({
             datasets: [{ ...data.data }]
           }}
         />
+        {showOptions && (
+          <Grid container justify='center'>
+            <Grid item md={4} xs={4}>
+              <Box className={classes.boxValueRates}>
+                <Typography
+                  variant='subtitle2'
+                  style={{ fontWeight: 600 }}
+                  className={classes.marginRightElem}
+                >
+                  {`${t('rateCard')}:`}
+                </Typography>
+                <Typography variant='body2'>{rate || 0}</Typography>
+              </Box>
+            </Grid>
+            <Grid item md={4} xs={5}>
+              <Box className={classes.boxValueRates}>
+                <Typography
+                  variant='subtitle2'
+                  style={{ fontWeight: 600 }}
+                  className={classes.marginRightElem}
+                >
+                  {`${t('averageCard')}:`}
+                </Typography>
+                <Typography variant='body2'>{average}</Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        )}
       </div>
       <CardActions className={classes.actions}>
-        <Button
-          aria-label='Add to comparison'
-          onClick={toggleSelection(!isSelected, owner)}
-        >
-          {isSelected ? t('remove') : buttonLabel}
-        </Button>
         {useRateButton && (
-          <Button
-            // eslint-disable-next-line react/display-name
-            component={forwardRef((props, ref) => (
-              <Link
-                {...props}
-                ref={ref}
-                state={{ owner: owner }}
-                to={`/block-producers/${owner}/rate`}
-              />
-            ))}
-            className={classes.btnRate}
-            size='small'
-          >
-            {t('view')}
-          </Button>
+          <>
+            <Button
+              aria-label='Add to comparison'
+              onClick={toggleSelection(!isSelected, owner)}
+            >
+              {isSelected ? t('remove') : buttonLabel}
+            </Button>
+            <Button
+              // eslint-disable-next-line react/display-name
+              component={forwardRef((props, ref) => (
+                <Link
+                  {...props}
+                  ref={ref}
+                  state={{ owner: owner }}
+                  to={`/block-producers/${owner}/rate`}
+                />
+              ))}
+              className={classes.btnRate}
+              size='small'
+            >
+              {t('view')}
+            </Button>
+          </>
+        )}
+        {!useRateButton && (
+          <>
+            <Button
+              aria-label='Add to comparison'
+              disabled={isSelected}
+              onClick={() => toggleSelection(!isSelected, owner, true)}
+            >
+              {isSelected ? t('selected') : t('addToVote')}
+            </Button>
+            <Button
+              // eslint-disable-next-line react/display-name
+              component={forwardRef((props, ref) => (
+                <Link
+                  {...props}
+                  ref={ref}
+                  state={{ owner: owner }}
+                  to={`/${pathLink}/${owner}`}
+                />
+              ))}
+              className={classes.btnRate}
+              size='small'
+            >
+              {t('view')}
+            </Button>
+          </>
         )}
       </CardActions>
     </Card>
