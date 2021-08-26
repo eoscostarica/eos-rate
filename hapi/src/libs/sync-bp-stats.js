@@ -79,7 +79,7 @@ const updateBpStatsGeneral = async (bpName, stat) => {
     ? resultRatingsSave
     : await db.ratings_stats.insert(stat)
   console.log(
-    `Default save or insert of ${bpName} was ${
+    `General save or insert of ${bpName} was ${
       dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
     }`
   )
