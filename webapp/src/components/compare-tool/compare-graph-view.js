@@ -145,7 +145,7 @@ const CompareGraphView = ({
           <Box>
             <Typography variant='h6' className={classes.marginRightElem}>
               {selected.length > 0
-                ? `${t('voteToolTitle')} (${selected.length} ${t('selecteds')})`
+                ? `${t('voteToolTitle')} (${selected.length} ${t('chosen')})`
                 : `${t('voteToolTitle')} (${t('noBPSelected')})`}
             </Typography>
             <Typography variant='body1' style={{ display: 'flex' }}>
@@ -300,10 +300,7 @@ const CompareGraphView = ({
             />
           ) : (
             <Box className={classes.centerBox} style={{ marginTop: '20%' }}>
-              <Typography variant='h6'>
-                No block producers have been selected yet. Click on “Add to
-                vote” and proceed to vote.
-              </Typography>
+              <Typography variant='h6'>{t('noSelectedBP')}</Typography>
             </Box>
           )}
         </Grid>
