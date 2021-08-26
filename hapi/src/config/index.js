@@ -1,7 +1,16 @@
 const massive = require('massive')
 
 const massiveConfig = require('./server.config')
-const massiveDB = (async () => await massive(massiveConfig))()
+const massiveDB = (async () => {
+    try {
+        return await massive(massiveConfig)
+    } catch (err) {
+        console.log('---- Failed to connect to database ----')
+        console.log(err)
+
+        return null
+    }
+})()
 
 module.exports = {
     massiveConfig,
