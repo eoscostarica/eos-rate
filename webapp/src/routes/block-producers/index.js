@@ -55,6 +55,7 @@ const AllBps = ({ ual }) => {
   const accountName = _get(ual, 'activeUser.accountName', null)
 
   const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
+  const goToTop = () => document.getElementById('mainContent').scrollTo(0, 0)
 
   const handleToggleCompareTool = () => {
     dispatch.blockProducers.toggleCompareTool()
@@ -69,7 +70,7 @@ const AllBps = ({ ual }) => {
   }
 
   const handleOpenDesktopVotingTool = (value) => {
-    myRef.current.scrollIntoView({ block: 'start' })
+    goToTop()
     setOpenDesktopVotingTool(value)
   }
 
