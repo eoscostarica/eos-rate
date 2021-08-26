@@ -23,7 +23,7 @@ const HomeCover = ({ blockProducer }) => {
   const [sizes, setSizes] = useState()
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : 240)
+    setSizes(isDesktop ? 400 : 250)
   }, [isDesktop])
 
   return (

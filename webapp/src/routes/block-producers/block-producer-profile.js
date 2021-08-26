@@ -81,7 +81,7 @@ const BlockProducerProfile = ({ account, ...props }) => {
   const webInfo = _get(producer, 'general_info', null)
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : 240)
+    setSizes(isDesktop ? 400 : 250)
   }, [isDesktop])
 
   useEffect(() => {
