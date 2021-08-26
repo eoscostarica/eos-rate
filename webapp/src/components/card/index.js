@@ -68,7 +68,7 @@ const CardData = ({
   }
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : 250)
+    setSizes(isDesktop ? 400 : '95%')
   }, [isDesktop])
 
   return (

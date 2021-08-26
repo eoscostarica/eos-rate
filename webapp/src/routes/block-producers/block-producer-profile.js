@@ -81,7 +81,7 @@ const BlockProducerProfile = ({ account, ...props }) => {
   const webInfo = _get(producer, 'general_info', null)
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : 250)
+    setSizes(isDesktop ? 400 : '100%')
   }, [isDesktop])
 
   useEffect(() => {
@@ -160,7 +160,7 @@ const BlockProducerProfile = ({ account, ...props }) => {
               }}
             />
           </Grid>
-          <Grid item md={4} xs={5}>
+          <Grid item md={4} xs={7}>
             <Button
               disabled={!producer}
               // eslint-disable-next-line react/display-name

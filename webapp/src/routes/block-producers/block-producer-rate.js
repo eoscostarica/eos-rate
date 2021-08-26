@@ -73,7 +73,7 @@ const BlockProducerRate = ({ account, ual }) => {
   const bPLogo = _get(producer, 'bpjson.org.branding.logo_256', null)
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : 250)
+    setSizes(isDesktop ? 400 : '100%')
   }, [isDesktop])
 
   function Alert(props) {
@@ -320,6 +320,21 @@ const BlockProducerRate = ({ account, ual }) => {
                 <Typography paragraph> {t('subText')} </Typography>
                 <Typography paragraph> {t('helpText')} </Typography>
                 <Typography paragraph> {t('rateText')} </Typography>
+                {!isDesktop && (
+                  <Grid style={{ paddingTop: 20 }} item xs={12}>
+                    <Radar
+                      height={sizes}
+                      width={sizes}
+                      showLabel
+                      bpData={{
+                        datasets: [
+                          { ...bpData, label: t('globalRate') },
+                          userDataSet
+                        ]
+                      }}
+                    />
+                  </Grid>
+                )}
                 <SliderRatingSection
                   t={t}
                   handleStateChange={handleStateChange}
@@ -331,6 +346,7 @@ const BlockProducerRate = ({ account, ual }) => {
                     classes.ctasWrapper,
                     classes.showOnlyLg
                   )}
+                  style={{ margin: '10px 0 10px 0' }}
                   item
                   xs={12}
                 >
@@ -359,19 +375,6 @@ const BlockProducerRate = ({ account, ual }) => {
                       </Alert>
                     </Snackbar>
                     <Button
-                      className='textPrimary'
-                      disabled={
-                        showAlert || !producer || ratingState.processing
-                      }
-                      color='secondary'
-                      onClick={transact}
-                      size='small'
-                      style={{ margin: '0 10px' }}
-                      variant='contained'
-                    >
-                      {t('publishRatingButton')}
-                    </Button>
-                    <Button
                       disabled={!producer}
                       component={forwardRef((props, ref) => (
                         <Link
@@ -389,6 +392,19 @@ const BlockProducerRate = ({ account, ual }) => {
                     >
                       {t('cancelRatingButton')}
                     </Button>
+                    <Button
+                      className='textPrimary'
+                      disabled={
+                        showAlert || !producer || ratingState.processing
+                      }
+                      color='secondary'
+                      onClick={transact}
+                      size='small'
+                      style={{ margin: '0 10px' }}
+                      variant='contained'
+                    >
+                      {t('publishRatingButton')}
+                    </Button>
                   </Grid>
                 </Grid>
               </Grid>
@@ -398,25 +414,28 @@ const BlockProducerRate = ({ account, ual }) => {
                   direction='column'
                   className={classes.radarActionsWrapper}
                 >
-                  <Grid className={classes.radarWrapper} item xs={12}>
-                    <Radar
-                      height={sizes}
-                      width={sizes}
-                      showLabel
-                      bpData={{
-                        datasets: [
-                          { ...bpData, label: t('globalRate') },
-                          userDataSet
-                        ]
-                      }}
-                    />
-                  </Grid>
+                  {isDesktop && (
+                    <Grid className={classes.radarWrapper} item xs={12}>
+                      <Radar
+                        height={sizes}
+                        width={sizes}
+                        showLabel
+                        bpData={{
+                          datasets: [
+                            { ...bpData, label: t('globalRate') },
+                            userDataSet
+                          ]
+                        }}
+                      />
+                    </Grid>
+                  )}
                   <Grid
                     className={classNames(
                       classes.ctasWrapper,
                       classes.showOnlySm
                     )}
                     item
+                    style={{ margin: '10px 0 15px 0' }}
                     xs={12}
                   >
                     <Grid
@@ -447,19 +466,6 @@ const BlockProducerRate = ({ account, ual }) => {
                         <CircularProgress color='secondary' size={20} />
                       )}
                       <Button
-                        className='textPrimary'
-                        disabled={
-                          showAlert || !producer || ratingState.processing
-                        }
-                        color='secondary'
-                        onClick={transact}
-                        size='small'
-                        style={{ margin: '0 10px' }}
-                        variant='contained'
-                      >
-                        {t('publishRatingButton')}
-                      </Button>
-                      <Button
                         disabled={!producer}
                         component={forwardRef((props, ref) => (
                           <Link
@@ -476,6 +482,19 @@ const BlockProducerRate = ({ account, ual }) => {
                         size='small'
                       >
                         {t('cancelRatingButton')}
+                      </Button>
+                      <Button
+                        className='textPrimary'
+                        disabled={
+                          showAlert || !producer || ratingState.processing
+                        }
+                        color='secondary'
+                        onClick={transact}
+                        size='small'
+                        style={{ margin: '0 10px' }}
+                        variant='contained'
+                      >
+                        {t('publishRatingButton')}
                       </Button>
                     </Grid>
                   </Grid>
