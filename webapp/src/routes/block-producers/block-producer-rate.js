@@ -73,7 +73,7 @@ const BlockProducerRate = ({ account, ual }) => {
   const bPLogo = _get(producer, 'bpjson.org.branding.logo_256', null)
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : 240)
+    setSizes(isDesktop ? 400 : 250)
   }, [isDesktop])
 
   function Alert(props) {

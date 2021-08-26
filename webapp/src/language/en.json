@@ -26,6 +26,8 @@
     "voteToolToggle": "Vote",
     "compareToolCollapsedSwitch": "Collapse Graphs",
     "voteToolTitle": "Voting Tool",
+    "noBPSelected": "No BPs selected",
+    "noSelectedBP": "No block producers have been selected yet. Click on “Add to vote” and proceed to vote.",
     "voteToolDescription": "Login to your account and vote for the selected block producers.",
     "selecteds": "Selected",
     "averageCard": "Average",
