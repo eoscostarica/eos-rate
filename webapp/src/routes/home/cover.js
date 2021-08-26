@@ -41,7 +41,7 @@ const HomeCover = ({ blockProducer }) => {
           md={isBigTablet ? 12 : 6}
           justifyContent='center'
         >
-          <Grid item md={12} xs={12}>
+          <Grid item md={12} xs={isTablet ? 7 : 12}>
             <Radar
               height={sizes}
               width={sizes}
@@ -50,7 +50,7 @@ const HomeCover = ({ blockProducer }) => {
               }}
             />
           </Grid>
-          <Grid item md={12} xs={isTablet ? 5 : 12}>
+          <Grid item md={12} xs={isTablet ? 6 : 12}>
             <Button
               className={classes.btn}
               component={bpLink}
