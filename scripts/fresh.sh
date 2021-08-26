@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Seeding Database and Syncing with Blockchain Tables"
-cd services/hapi/src/libs/
+cd hapi/src/libs/
 pwd
 node sync-bps.js
 node sync-proxies.js

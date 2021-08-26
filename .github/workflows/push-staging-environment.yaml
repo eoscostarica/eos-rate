@@ -7,7 +7,6 @@ on:
 
 jobs:
   create-staging-image:
-    name:
     runs-on: ubuntu-latest
     environment: staging
     steps:
@@ -25,9 +24,9 @@ jobs:
 
       - name: Install node module dependencies
         run: |
-          cd services/hapi
+          cd hapi
           yarn
-          cd ../frontend
+          cd ../webapp
           yarn
           cd ../..
 
@@ -43,14 +42,17 @@ jobs:
           BRANCH: staging
           NAMESPACE: jungle-eosrate
           # webapp
+          REACT_APP_RATING_CONTRACT: rateproducer
+          REACT_APP_PROXY_CONTRACT: regproxyinfo
           REACT_APP_GRAPHQL_HTTP_URL: https://graphql-jungle.eosrate.io/v1/graphql
           REACT_APP_GRAPHQL_WS_URL: wss://graphql-jungle.eosrate.io/v1/graphql
-          REACT_APP_EOS_API_URL: https://jungle.eosio.cr
-          REACT_APP_EOS_API_HOST: jungle.eosio.cr
+          REACT_APP_EOS_API_URL: https://jungle3.cryptolions.io
+          REACT_APP_EOS_API_HOST: jungle3.cryptolions.io
           REACT_APP_EOS_API_PORT: 443
           REACT_APP_EOS_API_PROTOCOL: https
           REACT_APP_EOS_CHAIN_ID: 2a02a0053e5a8cf73a56ba0fda11e4d92e0238a4a2aa74fccf46d5a910746840
           REACT_APP_BLOCK_EXPLORER: https://jungle3.bloks.io
+          REACT_APP_NETWORK_MONITOR_URL: https://jungle.eosio.online/
 
       - name: Build kubernetes files
         id: build_kubernetes_files
@@ -66,39 +68,39 @@ jobs:
           INGRESS_HOST: jungle.eosrate.io
           INGRESS_GRAPHQL_HOST: graphql-jungle.eosrate.io
           # webapp
+          REACT_APP_RATING_CONTRACT: rateproducer
+          REACT_APP_PROXY_CONTRACT: regproxyinfo
           REACT_APP_GRAPHQL_HTTP_URL: https://graphql-jungle.eosrate.io/v1/graphql
           REACT_APP_GRAPHQL_WS_URL: wss://graphql-jungle.eosrate.io/v1/graphql
-          REACT_APP_EOS_API_URL: https://jungle.eosio.cr
-          REACT_APP_EOS_API_HOST: jungle.eosio.cr
+          REACT_APP_EOS_API_URL: https://jungle3.cryptolions.io
+          REACT_APP_EOS_API_HOST: jungle3.cryptolions.io
           REACT_APP_EOS_API_PORT: 443
           REACT_APP_EOS_API_PROTOCOL: https
           REACT_APP_EOS_CHAIN_ID: 2a02a0053e5a8cf73a56ba0fda11e4d92e0238a4a2aa74fccf46d5a910746840
           REACT_APP_BLOCK_EXPLORER: https://jungle3.bloks.io
+          REACT_APP_NETWORK_MONITOR_URL: https://jungle.eosio.online/
           # postgres
           DATABASE_DIRECTORY: database
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_USER: ${{ secrets.DB_USER }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           # hapi
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: "5432"
-          DB_SCHEMA: ${{ secrets.DB_SCHEMA }}
-          EOS_API_ENDPOINT: https://jungle3.cryptolions.io
-          VIRTUAL_HOST: 0.0.0.0
-          VIRTUAL_PORT: 9090
-          PROXY_INFO_CONTRACT_CODE: proxyaccount
-          PROXY_INFO_CONTRACT_SCOPE: proxyaccount
+          HAPI_SERVER_ADDRESS: 0.0.0.0
+          HAPI_SERVER_PORT: 9090
+          HAPI_POSTGRES_USER: ${{ secrets.HAPI_POSTGRES_USER }}
+          HAPI_POSTGRES_PASSWORD: ${{ secrets.HAPI_POSTGRES_PASSWORD }}
+          HAPI_PROXY_CONTRACT: proxyaccount
+          HAPI_RATING_CONTRACT: rateproducer
+          HAPI_POSTGRES_DB: eosrate
+          HAPI_POSTGRES_HOST: postgres
+          HAPI_POSTGRES_PORT: 5432
+          HAPI_POSTGRES_SCHEMA: public
+          HAPI_EOS_API_ENDPOINT: https://jungle3.cryptolions.io
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
-          HASURA_GRAPHQL_MIGRATIONS_DIR: /hasura-migrations
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
           HASURA_GRAPHQL_UNAUTHORIZED_ROLE: ${{ secrets.HASURA_GRAPHQL_UNAUTHORIZED_ROLE }}
           HASURA_GRAPHQL_ACTION_BASE_URL: http://hapi:9090
-          # pgweb
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Setup and deploy kubernetes environment
         uses: steebchen/kubectl@v1.1.0

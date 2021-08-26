@@ -1,0 +1,281 @@
+{
+  "translations": {
+    "community": "Community",
+    "development": "Development",
+    "infrastructure": "Infrastructure",
+    "transparency": "Transparency",
+    "trustiness": "Trustiness",
+
+    "bpsTitle": "List EOS block producers ranking BP - EOS Rate",
+    "proxiesTitle": "EOS Proxies list and voting tool - EOS Rate",
+    "availableToRate": "You can rate BPs",
+    "notAvailableToRate": "You need to vote for a Proxy or at least 21 BPs",
+    "voteWithoutLogin": "You need to login to vote",
+    "btnVoteBPs": "Vote",
+    "clearSelection": "Clear selection",
+    "loadMore": "Load more",
+    "view": "View",
+    "remove": "Remove",
+    "addToVote": "Add to vote",
+    "selected": "Selected",
+    "details": "Details",
+    "voting": "voting",
+
+    "compareToolTitle": "Compare Tool",
+    "compareToolToggle": "Compare",
+    "voteToolToggle": "Vote",
+    "compareToolCollapsedSwitch": "Collapse Graphs",
+    "voteToolTitle": "Voting Tool",
+    "noBPSelected": "No BPs selected",
+    "noSelectedBP": "No block producers have been selected yet. Click on “Add to vote” and proceed to vote.",
+    "voteToolDescription": "Login to your account and vote for the selected block producers.",
+    "chosen": "Selected",
+    "averageCard": "Average",
+    "rateCard": "Ratings",
+
+    "loginUsername": "Username",
+    "loginPassword": "Password",
+    "loginSignin": "Sign in",
+    "loginValidationUsername": "Username is required",
+    "loginValidationPassword": "Password is required",
+
+    "settingsTitle": "Settings",
+    "settingsLanguages": "English/Spanish",
+    "settingsNotifications": "Notifications",
+
+    "navigationRecents": "Recents",
+    "navigationRate": "Rate",
+    "navigationSettings": "Settings",
+
+    "searchAutocomplete": "Search...",
+
+    "notFound": "Not found",
+    "noBpJson": "No BP.json file provided.",
+
+    "drawerLinkHome": "Home",
+    "drawerLinkAllBPs": "Block Producers",
+    "drawerLinkNetworkMonitor": "EOS Network Monitor",
+    "drawerLinkSettings": "Settings",
+    "drawerLinkAccount": "Account",
+    "drawerLinkAllProxies": "Proxies",
+    "drawerLinkAbout": "About",
+    "drawerLinkRicardianContract": "Ricardian Contract",
+    "drawerLinkHelp": "Help",
+    "lockedRating": "You must vote for at least 21 block producers or a proxy to unlock ratings",
+    "unlockedRating": "You have voted for 21 bps or a proxy and have unlocked ratings",
+    "success" : "Success!",
+    "appBarSignIn": "Sign In",
+
+    "connecting": "Connecting",
+    "connectingWith": "Connecting with",
+    "connectingErrorTitle": "Error",
+    "connectingErrorActionBtn": "Ok",
+
+    "hideComparisonTool": "Hide comparison tool",
+    "showComparisonTool": "Show comparison tool",
+    "language": "language"
+  },
+
+  "sortInput": {
+    "vote": "Total Votes",
+    "alphabetical": "Alphabetical",
+    "ratings": "Number of Ratings",
+    "generalRate": "Top Rated General",
+    "infrastructure": "Top Rated Infrastructure",
+    "community": "Top Rated Community",
+    "trustiness": "Top Rated Trustiness",
+    "development": "Top Rated Development",
+    "transparency": "Top Rated Transparency"
+  },
+
+  "not-found": {
+    "graphic": "Oh Snap!",
+    "description": "Looks like something went wrong!",
+    "recoveryCta": "Please take me home"
+  },
+
+  "home": {
+    "title": "EOS block producer ratings and BP voting portal - EOS Rate",
+    "cover": {
+      "title": "Raise Your Voice. Rate Block Producers.",
+      "paragraph": {
+        "subtitle1": "What is EOS Rate?",
+        "text1": "EOS Rate is an open-source dApp that allows EOS token holders to rate Block Producers (BPs) in just a few clicks. Users can access a rating system and voting portal, making it easier for token holders to make an informed decision.",
+        "text2": "EOS Rate gathers ratings to help capture a global collective opinion, or \"wisdom of the crowd\", and measure if voting patterns truly reflect voter sentiment.",
+        "subtitle2": "How Does EOS Rate Work?",
+        "text3": "To submit ratings, the token holders must sign in with their EOS wallet. This means that one account can only represent one rating submission per BP. The ratings are securely stored in the EOS blockchain to guarantee immutability.",
+        "text4": "Access the EOS Rate portal to submit your rating and make your voice count."
+      },
+      "cta": "Start Rating Now"
+    },
+    "subTopic": {
+      "videoUrl": "https://www.youtube.com/embed/saZnZqJsMhk",
+      "title": "Liquid Democracy",
+      "paragraph1": "Find the Block Producer that best represents you.",
+      "paragraph2": "EOS Rate was built by a community that believes in transparency. The tool generates profile pages for each Block Producer.  Using a unique radial component we call “LEAF” (Liquid EOS Attribute Factors) to compare the most relevant qualitative attributes of BPs visually.",
+      "subtitle": "Start Rating Now!",
+      "text": "If you have any questions or observations, please let us know through our",
+      "telegramGroup": "telegram group"
+    },
+    "ratingCategory": {
+      "title": "Rating Categories",
+      "transparency": {
+        "title": "Transparency",
+        "description": "Compliance with disclosure of ownership, complete bp.json, use of rewards, and financial stats."
+      },
+      "infrastructure": {
+        "title": "Infrastructure",
+        "description": "Stability and reliability of the EOS infrastructure."
+      },
+      "trustiness": {
+        "title": "Trustiness",
+        "description": "Collaboration and reputation among the EOS community."
+      },
+      "community": {
+        "title": "Community",
+        "description": "Community value creation through education and promoting talks, chats, hackathons, conferences, seminars, developer spaces, and other useful content."
+      },
+      "development": {
+        "title": "Development",
+        "description": "Technical know-how and usage of open-source software, scripts, frameworks, wallets, voting portals, metrics, etc."
+      }
+    }
+  },
+
+  "account": {
+    "account_name": "Name",
+    "active": "Active",
+    "activity": "Activity",
+    "authority": "Authority",
+    "core_liquid_balance": "Liquid Balance",
+    "inactive": "Inactive",
+    "logout": "Logout",
+    "title": "Profile for account"
+  },
+
+  "bpRatePage": {
+    "allBPs": "All Block Producers",
+    "subTitle": "Rate Block Producer",
+    "subText": "Use the sliders to rate the BP.",
+    "rateText": "If you feel that you do not have enough knowledge about a specific category you can disable it.",
+    "helpText": "Publish your BP rating by signing in with your favorite wallet.",
+    "publishRatingButton": "Publish Rating",
+    "cancelRatingButton": "Cancel",
+    "transparency": "Transparency",
+    "transparencyTooltip": "Compliance with disclosure of ownership.",
+    "infrastructure": "Infrastructure",
+    "infrastructureTooltip": "Stability and reliability of the EOS infrastructure.",
+    "trustiness": "Trustiness",
+    "trustinessTooltip": "Collaboration and reputation among the EOS community.",
+    "community": "Community",
+    "communityTooltip": "Community value creation through education, events, and other useful content.",
+    "development": "Development",
+    "developmentTooltip": "Technical know-how and usage of open-source software, scripts, frameworks, wallets, voting portals, metrics, etc.",
+    "globalRate": "Average Rating",
+    "myRate": "My Rating",
+    "rateWithoutLogin": "You need to login to rate this block producer",
+    "noBlockProducer": "This BP Does Not Exist.",
+    "success" : "Success!",
+    "title": "Rate EOS Block Producer Infrastructure and Community Reputation ",
+    "infoMessage": "Support the network by voting for your favorite BPs or proxy, once you have voted for 21 BPs you can start rating."
+  },
+
+  "footer": {
+    "legend": "Want to contribute? Come learn with us"
+  },
+
+  "profile": {
+    "generalInformation": "General Information",
+    "eosRates": "EOS Rating",
+    "edenRates": "Eden Rating",
+    "tatolRates": "Total Rating",
+    "rankings": "Rankings",
+    "social": "Social",
+    "account": "Account",
+    "location": "Location",
+    "status": "Status",
+    "website": "Website",
+    "votes": "Votes",
+    "rates": "Rates",
+    "average": "Average",
+    "websiteInfo": "From Their Website",
+    "buttonRate": "Rate this BP",
+    "buttonVote": "Vote for this Proxy",
+    "allBP": "All Block Producers",
+    "allP": "All Proxies",
+    "noBpJson": "We could not find a bp.json file for this Block Producer.",
+    "noCountryName": "No location provided.",
+    "noBlockProducer": "This BP Does Not Exist.",
+    "noWebSiteInfo": "No information from their website.",
+    "proxyVotes": "Proxy Votes",
+    "philosophy": "Philosophy",
+    "slogan": "Slogan",
+    "background": "Background",
+    "totalVotes": "Total Votes",
+    "voteWithoutLogin": "You need to login to vote for this proxy",
+    "labelTool": "votes for",
+    "success" : "Success!",
+    "title": "Block Producer Community Ratings for",
+    "proxyProfile": "Reviews on EOS proxy account"
+  },
+
+  "about": {
+    "tabTitle": "About EOS Rate Block Producer Ratings and EOS voting tool",
+    "title": "EOS RATE: A RATING SYSTEM FOR THE EOS MAINNET",
+    "subtitle1": "What is the EOS Mainnet?",
+    "body1": {
+      "paragraph1": "If you belong to the EOSIO community – or have read something about the EOSIO blockchain – you might have heard of the EOS Mainnet. The EOS Mainnet is the main network of the EOSIO blockchain’s platform where transactions take place. Also, if you’re reading this, it’s highly probable that you know the terminology of blockchain.",
+      "paragraph2": "Further, EOSIO uses a native consensus mechanism known as “Delegated Proof-of-Stake” (DPoS), developed by Daniel Larimer. DPoS in EOSIO uses an election process where EOS token holders vote for the Block Producers (BPs) they think are the most qualified to be the custodians of the network. The EOS Mainnet runs with the twenty-one BPs that obtain the most votes.",
+      "paragraph3": "So, the DPoS mechanism requires these twenty-one elected nodes to produce the blocks, and, in exchange, they can receive rewards. One of the underlying opportunities of EOSIO by using DPoS is the ability to scale. Hence, DPoS allows Block Producers to reach consensus faster than traditional PoW (Proof-of-Work) or PoS (Proof-of-Stake) mechanisms. For instance, this enables EOS nodes to validate up to 4,000 transactions per second, in comparison to Ethereum that can reach 15."
+    },
+    "subtitle2": "With Great Power Comes Great Responsibility",
+    "body2": {
+      "paragraph1": "Nonetheless, people in the EOS community claim that both DPoS and the EOS Mainnet may be having some drawbacks, including more centralization in a network that’s supposed to be decentralized. For example, in one case, some accounts were frozen by BPs, which raised people’s eyebrows in the community. Also, there have been some disagreements associated with performance degradation in the network.",
+      "paragraph2": "Consequently, token holders who elect the twenty-one nodes can only trust the transparency and democracy of the EOS Mainnet. Thus, these BPs are the ones who must protect and keep the mainnet up and running in the best interests of the voting community.",
+      "paragraph3": "As of now, it’s only possible to keep track of rankings according to votes by token holders. However, the weight of token holders’ votes is determined by the number of EOS tokens they possess, meaning that token holders with more EOS can cast a more weighted vote for the BPs they want to endorse. In other words, those who have fewer EOS tokens may seem underrepresented. So, the importance of maintaining a transparent and trustworthy election process in the EOS Mainnet is what brought to life the idea of the open-source app called EOS Rate."
+    },
+    "subtitle3": "What Is EOS Rate?",
+    "body3": {
+      "paragraph1": "EOS Rate is an open-source, decentralized app (Dapp) built by a team of developers in Costa Rica. It allows EOS token holders to access a rating system and voting portal for BPs and Proxies, making it easier for the token holders to make an informed decision.",
+      "paragraph2": "Moreover, EOS Rate intends to gather global ratings to help capture collective opinion, or “wisdom of the crowd,” and measure if the voting patterns reflect voter sentiment. Then, the Dapp generates profile pages of the BPs, using a radial component called “LEAF” (Liquid EOS Attribute Factores) to help the users visually compare the most relevant qualitative attributes of BPs.",
+      "paragraph3": "So, to submit ratings, the token holders must sign in with their EOS wallet, making the voting process more secure and transparent. This means that one account can only represent one rating submission per BP. Then, the ratings are securely stored in the EOS blockchain to guarantee the immutability of the ratings.",
+      "paragraph4": "In addition, token holders can submit their rating in EOS Rate using five distinct categories:",
+      "paragraph5": "In particular, once a token holder submits his or her ratings, the total of the ratings will be displayed as radial graphs. So, the process of EOS Rate would be something like this:"
+    },
+    "categories": {
+      "transparency": {
+        "title": "Transparency",
+        "description": "Compliance with disclosure of ownership, complete bp.json, use of rewards, and financial stats."
+      },
+      "infrastructure": {
+        "title": "Infrastructure",
+        "description": "Stability and reliability of the EOS infrastructure."
+      },
+      "trustiness": {
+        "title": "Trustiness",
+        "description": "Collaboration and reputation among the EOS community."
+      },
+      "community": {
+        "title": "Community",
+        "description": "Community value creation through education and promoting talks, chats, hackathons, conferences, seminars, developer spaces, and other useful content."
+      },
+      "development": {
+        "title": "Development",
+        "description": "Technical know-how and usage of open-source software, scripts, frameworks, wallets, voting portals, metrics, etc."
+      }
+    }
+  },
+
+  "help": {
+    "tabTitle": "EOS Community help for Open Source Tools - EOS Rate",
+    "title": "Thank you for using EOS Rate!",
+    "paragraph": "EOS Rate is still in progress. If you are experiencing any issues, please contact us using the following links:",
+    "githubEOSCR": "Github EOS Costa Rica",
+    "telegramChannel": "Telegram Channel",
+    "websiteEOSCR": "Website EOS Costa Rica"
+  },
+
+  "termsOfUse": {
+    "tabTitle": "Ricardian Contracts for EOS Rate Smart Contract"
+  }
+}

@@ -1,0 +1,13 @@
+table:
+  name: user_ratings
+  schema: public
+select_permissions:
+- permission:
+    columns:
+    - bp
+    - ratings
+    - tx_data
+    - uniq_rating
+    - user
+    filter: {}
+  role: anonymous

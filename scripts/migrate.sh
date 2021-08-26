@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Applying hasura migrations"
-cd ./services/hasura
+cd ./hasura
 hasura migrate apply
 cd ../..
 

@@ -1,0 +1,12 @@
+table:
+  name: producers
+  schema: public
+select_permissions:
+- permission:
+    columns:
+    - bpjson
+    - general_info
+    - owner
+    - system
+    filter: {}
+  role: anonymous
