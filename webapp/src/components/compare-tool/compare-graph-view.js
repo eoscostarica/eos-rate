@@ -271,7 +271,7 @@ const CompareGraphView = ({
                 className={classes.centerBox}
                 style={{
                   width: '50%',
-                  justifyContent: 'flex-end',
+                  justifyContent: 'start',
                   display: 'flex'
                 }}
               >
@@ -299,7 +299,7 @@ const CompareGraphView = ({
               removeBP={removeBP}
             />
           ) : (
-            <Box className={classes.centerBox} style={{ marginTop: '23%' }}>
+            <Box className={classes.centerBox} style={{ marginTop: '20%' }}>
               <Typography variant='h6'>
                 No block producers have been selected yet. Click on “Add to
                 vote” and proceed to vote.
