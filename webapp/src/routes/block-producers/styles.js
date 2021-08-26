@@ -58,7 +58,12 @@ export default (theme) => ({
     display: 'flex',
     alignItems: 'center'
   },
-  sliderBoxContent: { marginTop: 30 },
+  sliderBoxContent: {
+    marginTop: 30,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 10
+    }
+  },
   marginOff: { margin: 0 },
   parameterTitleDisabled: {
     color: '#bdbdbd'

@@ -130,7 +130,7 @@ const CompareGraphView = ({
   const [sizes, setSizes] = useState()
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : 240)
+    setSizes(isDesktop ? 400 : '95%')
   }, [isDesktop])
 
   return (
