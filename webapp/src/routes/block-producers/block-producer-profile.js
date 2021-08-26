@@ -101,7 +101,7 @@ const BlockProducerProfile = ({ account, ...props }) => {
   }, [])
 
   return (
-    <Grid container justify='center' className={classes.container} spacing={5}>
+    <Grid container justify='center' className={classes.container}>
       <TitlePage title={`${t('title')} ${BlockProducerTitle} - EOS Rate`} />
       <Grid item md={12} xs={12}>
         <Grid container direction='row' alignItems='center'>

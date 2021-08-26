@@ -235,7 +235,7 @@ export default (theme) => ({
     overflowY: 'initial'
   },
   reliefGrid: {
-    margin: '0 30px 30px 30px',
+    margin: '20px 30px 30px 30px',
     padding: '20px',
     border: '1px solid #f8f8f',
     borderRadius: '6px',
