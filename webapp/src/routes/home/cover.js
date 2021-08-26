@@ -19,7 +19,9 @@ const useStyles = makeStyles(styles)
 const HomeCover = ({ blockProducer }) => {
   const { t } = useTranslation('home')
   const classes = useStyles()
-  const isDesktop = useMediaQuery('(min-width:767px)')
+  const isDesktop = useMediaQuery('(min-width:769px)')
+  const isTablet = useMediaQuery('(min-width:540px)')
+  const isBigTablet = useMediaQuery('(max-width:1023px)')
   const [sizes, setSizes] = useState()
 
   useEffect(() => {
@@ -27,11 +29,48 @@ const HomeCover = ({ blockProducer }) => {
   }, [isDesktop])
 
   return (
-    <Grid item container xs={12} className={classes.coverContainer}>
-      <Typography variant='h5' className={classes.coverTitle}>
+    <Grid item container xs={12} md={12} className={classes.coverContainer}>
+      <Typography variant='h4' className={classes.coverTitle}>
         {t('cover.title')}
       </Typography>
-      <Grid item xs={12} md={6} className={classes.leftCoverBox}>
+      {!isDesktop && (
+        <Grid
+          style={{ margin: '-10px 0 25px 0' }}
+          container
+          xs={12}
+          md={isBigTablet ? 12 : 6}
+          justifyContent='center'
+        >
+          <Grid item md={12} xs={12}>
+            <Radar
+              height={sizes}
+              width={sizes}
+              bpData={{
+                datasets: [blockProducer.data]
+              }}
+            />
+          </Grid>
+          <Grid item md={12} xs={isTablet ? 5 : 12}>
+            <Button
+              className={classes.btn}
+              component={bpLink}
+              variant='contained'
+              size='medium'
+              color='secondary'
+              to='/block-producers'
+              fullWidth
+            >
+              {t('cover.cta')}
+            </Button>
+          </Grid>
+        </Grid>
+      )}
+      <Grid
+        item
+        xs={12}
+        md={isBigTablet ? 12 : 6}
+        className={classes.leftCoverBox}
+      >
         <Typography variant='h6' className={classes.subtitle}>
           {t('cover.paragraph.subtitle1')}
         </Typography>
@@ -50,32 +89,35 @@ const HomeCover = ({ blockProducer }) => {
         <Typography variant='body2' align='justify' paragraph>
           {t('cover.paragraph.text4')}
         </Typography>
-        <div className={classes.ctaContainer}>
-          <Button
-            className={classes.btn}
-            component={bpLink}
-            variant='contained'
-            size='medium'
-            color='secondary'
-            to='/block-producers'
-            fullWidth
-          >
-            {t('cover.cta')}
-          </Button>
-        </div>
+        {isDesktop && (
+          <div className={classes.ctaContainer}>
+            <Button
+              className={classes.btn}
+              component={bpLink}
+              variant='contained'
+              size='medium'
+              color='secondary'
+              to='/block-producers'
+              fullWidth
+            >
+              {t('cover.cta')}
+            </Button>
+          </div>
+        )}
       </Grid>
-
-      <Grid item container xs={12} md={6} justifyContent='center'>
-        <div className={classes.chartContainer}>
-          <Radar
-            height={sizes}
-            width={sizes}
-            bpData={{
-              datasets: [blockProducer.data]
-            }}
-          />
-        </div>
-      </Grid>
+      {isDesktop && (
+        <Grid item container xs={12} md={6} justifyContent='center'>
+          <div className={classes.chartContainer}>
+            <Radar
+              height={sizes}
+              width={sizes}
+              bpData={{
+                datasets: [blockProducer.data]
+              }}
+            />
+          </div>
+        </Grid>
+      )}
     </Grid>
   )
 }
