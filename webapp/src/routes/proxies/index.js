@@ -33,7 +33,10 @@ const AllProxies = ({ ual }) => {
   const proxiesList = filtered && filtered.length ? filtered : proxies
   const shownList = proxiesList && proxiesList.slice(0, currentlyVisible)
   const hasMore = proxiesList && currentlyVisible < proxiesList.length
-  const isDesktop = useMediaQuery('(min-width:767px)')
+  const isDesktop = useMediaQuery('(min-width:600px)')
+  const isTablet = useMediaQuery('(max-width:1024px)', {
+    defaultMatches: false
+  })
   const accountName = _get(ual, 'activeUser.accountName', null)
   const [openVoteDrawer, setOpenVoteDrawer] = useState(false)
   const [openDesktopVotingTool, setOpenDesktopVotingTool] = useState(isDesktop)
@@ -194,14 +197,14 @@ const AllProxies = ({ ual }) => {
         className={classes.wrapper}
         container
         justifyContent='center'
-        spacing={4}
+        spacing={isDesktop ? 4 : 1}
       >
         {(shownList || []).map((proxy) => (
           <Grid
             item
             xs={12}
             sm={6}
-            md={4}
+            md={isTablet ? 6 : 4}
             key={`${proxy.owner}-main-block-card`}
           >
             <Card

@@ -8,7 +8,7 @@ import getRadarLabelName from 'utils/getRadarLabelName'
 const RadarData = ({ bpData, height, showLabel, width, ...props }) => {
   const { t } = useTranslation('translations')
   const labels = getRadarLabelName(t)
-  const [sizes, setSizes] = useState({ width: 250, height: 250 })
+  const [sizes, setSizes] = useState({ width: '100%', height: '100%' })
   const bpValidData =
     bpData.datasets && bpData.datasets.length
       ? { ...bpData, labels }

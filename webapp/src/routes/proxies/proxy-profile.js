@@ -147,7 +147,7 @@ const ProxyProfile = ({ account, ual, ...props }) => {
   }, [account, accountName, setShowMessage])
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : 250)
+    setSizes(isDesktop ? 400 : '95%')
   }, [isDesktop])
 
   return (
