@@ -2,7 +2,7 @@
 const { JsonRpc } = require('eosjs')
 const fetch = require('node-fetch')
 const {
-  defaultContractScope,
+  generalContractScope,
   edenContractScope,
   massiveDB
 } = require('../config')
@@ -33,14 +33,14 @@ const getRatingsStats = async (scope) => {
 
 const updateRatingsStats = async () => {
   console.log('==== Updating ratings stats ====')
-  const defaultRatingsStats = await getRatingsStats(defaultContractScope)
+  const generalRatingsStats = await getRatingsStats(generalContractScope)
   const edenRatingsStats = await getRatingsStats(edenContractScope)
 
-  defaultRatingsStats.rows.forEach(async (rating) => {
+  generalRatingsStats.rows.forEach(async (rating) => {
     try {
       const resultRatingStatsSave = await (await massiveDB).ratings_stats.save(rating)
       const dbResult = resultRatingStatsSave ? resultRatingStatsSave : await (await massiveDB).ratings_stats.insert(rating)
-      console.log(`Default save or insert of ${rating.bp} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
+      console.log(`General save or insert of ${rating.bp} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
     } catch (err) { console.log(`Error: ${err}`) }
   })
 
