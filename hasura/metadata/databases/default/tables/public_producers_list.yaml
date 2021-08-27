@@ -4,18 +4,20 @@ table:
 select_permissions:
 - permission:
     columns:
-    - average
+    - owner
     - bpjson
+    - system
     - candidate_name
+    - total_votes
+    - eden_average
+    - eden_ratings_cntr
+    - average
+    - transparency
+    - infrastructure
+    - trustiness
     - community
     - development
-    - general_info
-    - infrastructure
-    - owner
     - ratings_cntr
-    - system
-    - total_votes
-    - transparency
-    - trustiness
+    - general_info
     filter: {}
   role: anonymous

@@ -276,6 +276,7 @@ export default AllBps
 export const blockProducersDrawer = [
   { value: 'alphabetical' },
   { value: 'generalRate' },
+  { value: 'edenRate' },
   { value: 'infrastructure' },
   { value: 'community' },
   { value: 'trustiness' },
