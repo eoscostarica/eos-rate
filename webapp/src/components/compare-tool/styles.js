@@ -164,5 +164,11 @@ export default (theme) => ({
         backgroundColor: theme.palette.secondary.dark
       }
     }
+  },
+  reliefGrid: {
+    border: '1px solid #f8f8f',
+    boxShadow:
+      'inset 2px 2px 2px #fff, inset -1px 0 2px rgba(0,0,0,.1), 1px 3px 3px rgba(0,0,0,.1)',
+    backgroundColor: '#fff'
   }
 })

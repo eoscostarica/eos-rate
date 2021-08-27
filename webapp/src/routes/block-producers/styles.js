@@ -58,7 +58,12 @@ export default (theme) => ({
     display: 'flex',
     alignItems: 'center'
   },
-  sliderBoxContent: { marginTop: 30 },
+  sliderBoxContent: {
+    marginTop: 30,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 10
+    }
+  },
   marginOff: { margin: 0 },
   parameterTitleDisabled: {
     color: '#bdbdbd'
@@ -230,7 +235,7 @@ export default (theme) => ({
     overflowY: 'initial'
   },
   reliefGrid: {
-    margin: '0 30px 30px 30px',
+    margin: '20px 30px 30px 30px',
     padding: '20px',
     border: '1px solid #f8f8f',
     borderRadius: '6px',

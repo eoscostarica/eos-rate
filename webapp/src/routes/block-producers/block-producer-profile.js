@@ -81,7 +81,7 @@ const BlockProducerProfile = ({ account, ...props }) => {
   const webInfo = _get(producer, 'general_info', null)
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : 240)
+    setSizes(isDesktop ? 400 : '100%')
   }, [isDesktop])
 
   useEffect(() => {
@@ -101,7 +101,7 @@ const BlockProducerProfile = ({ account, ...props }) => {
   }, [])
 
   return (
-    <Grid container justify='center' className={classes.container} spacing={5}>
+    <Grid container justify='center' className={classes.container}>
       <TitlePage title={`${t('title')} ${BlockProducerTitle} - EOS Rate`} />
       <Grid item md={12} xs={12}>
         <Grid container direction='row' alignItems='center'>
@@ -160,7 +160,7 @@ const BlockProducerProfile = ({ account, ...props }) => {
               }}
             />
           </Grid>
-          <Grid item md={4} xs={5}>
+          <Grid item md={4} xs={7}>
             <Button
               disabled={!producer}
               // eslint-disable-next-line react/display-name
