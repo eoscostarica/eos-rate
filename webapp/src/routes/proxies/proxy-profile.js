@@ -263,7 +263,7 @@ const ProxyProfile = ({ account, ual, ...props }) => {
         </Grid>
         {!isMobile && (
           <Grid container justify='center' md={5}>
-            <Grid style={{ height: '200px' }} item md={12}>
+            <Grid style={{ height: '350px', marginTop: '-30px' }} item md={12}>
               <Radar
                 height={sizes}
                 width={sizes}
