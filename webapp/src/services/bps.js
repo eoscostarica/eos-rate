@@ -40,6 +40,8 @@ export const getAllBPs = ({ nameFilter = null, setBPs = () => {} } = {}) => {
             transparency
             ratings_cntr
             general_info
+            eden_average
+            eden_ratings_cntr
           }
         }
       `,
@@ -68,7 +70,6 @@ export const getAllBPs = ({ nameFilter = null, setBPs = () => {} } = {}) => {
           const votesInEos = calculateEosFromVotes(
             _get(bp, 'system.total_votes', 0)
           )
-
           return {
             ...bp,
             system: {

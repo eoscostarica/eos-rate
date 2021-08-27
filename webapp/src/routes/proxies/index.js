@@ -217,7 +217,6 @@ const AllProxies = ({ ual }) => {
               owner={_get(proxy, 'owner')}
               title={_get(proxy, 'name')}
               useRateButton={false}
-              buttonLabel={t('view')}
               pathLink='proxies'
               showOptions={false}
             />

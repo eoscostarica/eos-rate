@@ -170,7 +170,7 @@ const CardData = ({
                   {...props}
                   ref={ref}
                   state={{ owner: owner }}
-                  to={`/block-producers/${owner}/rate`}
+                  to={`/${pathLink}/${owner}`}
                 />
               ))}
               className={classes.btnRate}
