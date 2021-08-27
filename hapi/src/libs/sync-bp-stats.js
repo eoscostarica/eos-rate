@@ -41,6 +41,22 @@ const updateBpStats = async (bpName) => {
   }
 }
 
+<<<<<<< HEAD
+/// Save to DB
+const updateBpStats = async bpName => {
+  try {
+    const bpStat = await getBpStats(bpName)
+
+    if (!bpStat.rows.length || !bpStat.rows[0].bp === bpName)
+      return 'Did not find ratings for BP: ' + bpName
+
+    const stat = bpStat.rows[0]
+
+    const resultRatingsSave = await (await massiveDB).ratings_stats.save(stat)
+    const dbResult = resultRatingsSave ? resultRatingsSave : await (await massiveDB).ratings_stats.insert(stat)
+    console.log(`Save or insert of ${bpName} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
+  } catch (err) { console.log(`Error: ${err}`) }
+=======
 const getEdenBpStats = async (bpName) => {
   try {
     const bpStat = await getBpStats(bpName, edenContractScope)
@@ -101,6 +117,7 @@ const updateBpStatsEden = async (bpName, stat) => {
   } catch (error) {
     console.log('Error:', error)
   }
+>>>>>>> b4d2b30f18526b307d8b910ac965306b6f7eb303
 }
 
 module.exports = updateBpStats
