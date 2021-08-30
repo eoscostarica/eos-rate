@@ -43,7 +43,7 @@
     "settingsLanguages": "English/Spanish",
     "settingsNotifications": "Notifications",
 
-    "navigationRecents": "Recents",
+    "navigationRecents": "Recent",
     "navigationRate": "Rate",
     "navigationSettings": "Settings",
 
@@ -197,7 +197,7 @@
     "status": "Status",
     "website": "Website",
     "votes": "Votes",
-    "rates": "Rates",
+    "rates": "Ratings",
     "average": "Average",
     "websiteInfo": "From Their Website",
     "buttonRate": "Rate this BP",
