@@ -374,7 +374,6 @@ const BlockProducerRate = ({ account, ual }) => {
                         {ratingState.txError}
                       </Alert>
                     </Snackbar>
-                    {console.log('producer: ', producer)}
                     <Button
                       disabled={!producer}
                       component={forwardRef((props, ref) => (
@@ -474,7 +473,7 @@ const BlockProducerRate = ({ account, ual }) => {
                             ref={ref}
                             to={`/block-producers/${_get(
                               producer,
-                              'bpjson.producer_account_name',
+                              'owner',
                               null
                             )}`}
                           />
