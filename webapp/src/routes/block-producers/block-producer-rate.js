@@ -94,6 +94,14 @@ const BlockProducerRate = ({ account, ual }) => {
     })
   }
 
+  const handleSetLastTransactionId = (event, reason) => {
+    setLastTransactionId(undefined)
+    window.open(
+      window.location.href.substring(0, window.location.href.length - 5),
+      '_self'
+    )
+  }
+
   useEffect(() => {
     const getData = async () => {
       if (account) {
@@ -532,7 +540,7 @@ const BlockProducerRate = ({ account, ual }) => {
                       </Button>
                       <IconButton
                         className={classes.closeIconButton}
-                        onClick={() => setLastTransactionId(undefined)}
+                        onClick={() => handleSetLastTransactionId()}
                       >
                         <Close />
                       </IconButton>
