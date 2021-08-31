@@ -31,18 +31,20 @@ namespace eoscostarica {
         check( (MINVAL<= development &&  development <=MAXVAL ), "Error development value out of range" );
         check( (MINVAL<= community &&  community<=MAXVAL ), "Error community value out of range" );
 
-        //checks if the bp is active 
+        bool isEden = is_eden(user);
+
+        // checks if the bp is active 
         check( is_blockproducer(bp), "votes are allowed only for registered block producers" );
 
         eosio::name proxy_name = get_proxy(user);
         if(proxy_name.length()) {
-            //active proxy??
+            // active proxy??
             check(is_active_proxy(proxy_name), "votes are allowed only for active proxies" );
-            //account votes through a proxy
-            check(!(MIN_VOTERS > get_voters(proxy_name)), "delegated proxy does not have enough voters" );
+            // account votes through a proxy
+            if(!isEden) check( MIN_VOTERS <= get_voters(proxy_name), "delegated proxy does not have enough voters" );
         } else {
             // acount must vote for at least 21 bp
-            check(!(MIN_VOTERS > get_voters(user)), "account does not have enough voters" );
+            if(!isEden) check( MIN_VOTERS <= get_voters(user), "account does not have enough voters" );
         }
 
         // upsert bp rating
