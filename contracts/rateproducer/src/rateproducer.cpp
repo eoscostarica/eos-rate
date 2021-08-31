@@ -117,7 +117,7 @@ namespace eoscostarica {
                             &bp_average);
         }
     }
-        
+
     void rateproducer::save_bp_stats (
         name scope,
         name user,
