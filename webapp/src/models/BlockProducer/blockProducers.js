@@ -196,7 +196,7 @@ const Proxies = {
           fetchPolicy: 'network-only'
         })
 
-        if (edenRatings.length > 0) this.addEdenRate(edenRatings[0])
+        this.addEdenRate(edenRatings.length > 0 ? edenRatings[0] : null)
 
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
