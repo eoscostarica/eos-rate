@@ -150,7 +150,17 @@
     "core_liquid_balance": "Liquid Balance",
     "inactive": "Inactive",
     "logout": "Logout",
-    "title": "Profile for account"
+    "title": "Profile for account",
+    "yourRating": "Your Rating",
+    "unpublish": "REMOVE RATING",
+    "youRated": "You rated",
+    "infrastructure": "Infrastructure",
+    "transparency": "Transparency",
+    "trustiness": "Trustiness",
+    "community": "Community",
+    "development": "Development",
+    "voteWithoutLogin": "You need to login to execute this action",
+    "success" : "Success!"
   },
 
   "bpRatePage": {
