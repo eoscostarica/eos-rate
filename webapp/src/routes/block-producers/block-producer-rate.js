@@ -231,6 +231,12 @@ const BlockProducerRate = ({ account, ual }) => {
         broadcast: true
       })
 
+      await dispatch.blockProducers.saveLastTransaction({
+        transacction: {
+          transacctionId: result.transaction.transaction_id,
+          transacctionDate: result.transaction.processed.block_time
+        }
+      })
       setLastTransactionId(result.transactionId)
 
       await dispatch.blockProducers.mutationInsertUserRating({

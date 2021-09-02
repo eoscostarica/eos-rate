@@ -7,6 +7,7 @@ type Mutation {
 input RatingInput {
   user: String!
   producer: String!
+  transacction: jsonb!
 }
 
 type RatingOutput {
