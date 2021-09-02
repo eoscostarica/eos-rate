@@ -30,6 +30,12 @@ export default (sortBy, blockProducers) => {
       return (blockProducers || []).sort((a, b) => _sortValues(a, b, 'average'))
     }
 
+    case 'edenRate': {
+      return (blockProducers || []).sort((a, b) =>
+        _sortValues(a, b, 'eden_average')
+      )
+    }
+
     case 'infrastructure': {
       return (blockProducers || []).sort((a, b) =>
         _sortValues(a, b, 'system.parameters.infrastructure')

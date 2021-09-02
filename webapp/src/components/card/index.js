@@ -68,7 +68,7 @@ const CardData = ({
   }
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : 250)
+    setSizes(isDesktop ? 400 : '95%')
   }, [isDesktop])
 
   return (
@@ -170,7 +170,7 @@ const CardData = ({
                   {...props}
                   ref={ref}
                   state={{ owner: owner }}
-                  to={`/block-producers/${owner}/rate`}
+                  to={`/${pathLink}/${owner}`}
                 />
               ))}
               className={classes.btnRate}

@@ -1,8 +1,8 @@
 export default (theme) => ({
   spacingContainers: {
     padding: theme.spacing(8, 2),
-    [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing(8, 0)
+    [theme.breakpoints.down('sm')]: {
+      padding: theme.spacing(6, 2)
     }
   },
   mainCoverContainer: {
@@ -21,8 +21,11 @@ export default (theme) => ({
     backgroundColor: theme.palette.surface.main
   },
   coverTitle: {
-    fontSize: theme.typography.h4.fontSize,
-    marginBottom: 12.5
+    marginBottom: 12.5,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '2.03rem',
+      marginBottom: 0
+    }
   },
   ctaContainer: {
     textAlign: 'center'

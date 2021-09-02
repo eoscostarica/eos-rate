@@ -14,7 +14,11 @@ spec:
               args:
                 - /bin/sh
                 - -c
-                - /usr/bin/node /opt/application/src/libs/sync-bps.js; /usr/bin/node /opt/application/src/libs/sync-proxies.js
+                - >-
+                  /usr/bin/node /opt/application/src/libs/sync-bps.js;
+                  /usr/bin/node /opt/application/src/libs/sync-proxies.js;
+                  /usr/bin/node /opt/application/src/libs/sync-stats.js;
+                  /usr/bin/node /opt/application/src/libs/sync-ratings.js
               env:
                 - name: POSTGRES_HOST
                   value: "${POSTGRES_HOST}"
