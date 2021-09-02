@@ -130,7 +130,7 @@ const CompareGraphView = ({
   const [sizes, setSizes] = useState()
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : 240)
+    setSizes(isDesktop ? 400 : '95%')
   }, [isDesktop])
 
   return (
@@ -144,7 +144,9 @@ const CompareGraphView = ({
         <Box className={classes.headerVotingCompare}>
           <Box>
             <Typography variant='h6' className={classes.marginRightElem}>
-              {`${t('voteToolTitle')} (${selected.length} ${t('selecteds')})`}
+              {selected.length > 0
+                ? `${t('voteToolTitle')} (${selected.length} ${t('chosen')})`
+                : `${t('voteToolTitle')} (${t('noBPSelected')})`}
             </Typography>
             <Typography variant='body1' style={{ display: 'flex' }}>
               {t('voteToolDescription')}
@@ -182,7 +184,7 @@ const CompareGraphView = ({
           xs={12}
           style={{
             textAlign: 'center',
-            height: '90px'
+            height: isProxy ? '90px' : ''
           }}
         >
           <Box className={classes.centerBox}>
@@ -201,7 +203,7 @@ const CompareGraphView = ({
                     variant='contained'
                     onClick={onHandleVote}
                   >
-                    {t('btnVoteBPs')}
+                    {t('voteToolToggle')}
                   </Button>
                 </Grid>
               </Grid>
@@ -231,12 +233,21 @@ const CompareGraphView = ({
               height: mobileMedium ? '225px' : '105px'
             }}
           >
-            <CompareBodyList
-              isProxy={isProxy}
-              selectedData={selected}
-              classes={classes}
-              removeBP={removeBP}
-            />
+            {selected.length > 0 ? (
+              <CompareBodyList
+                isProxy={isProxy}
+                selectedData={selected}
+                classes={classes}
+                removeBP={removeBP}
+              />
+            ) : (
+              <Box
+                className={classes.centerBox}
+                style={{ padding: '30px 30px 0 20px', textAlign: 'center' }}
+              >
+                <Typography variant='subtitle2'>{t('noSelectedBP')}</Typography>
+              </Box>
+            )}
           </Grid>
         )}
         {!isProxy && (
@@ -260,7 +271,7 @@ const CompareGraphView = ({
                 className={classes.centerBox}
                 style={{
                   width: '50%',
-                  justifyContent: 'flex-end',
+                  justifyContent: 'start',
                   display: 'flex'
                 }}
               >
@@ -271,7 +282,7 @@ const CompareGraphView = ({
                   variant='contained'
                   onClick={onHandleVote}
                 >
-                  {t('btnVoteBPs')}
+                  {t('voteToolToggle')}
                 </Button>
               </Box>
             </Grid>
@@ -280,12 +291,18 @@ const CompareGraphView = ({
       </Grid>
       {isDesktop && (
         <Grid item xs={12} md={7}>
-          <CompareBodyList
-            isProxy={isProxy}
-            selectedData={selected}
-            classes={classes}
-            removeBP={removeBP}
-          />
+          {selected.length > 0 ? (
+            <CompareBodyList
+              isProxy={isProxy}
+              selectedData={selected}
+              classes={classes}
+              removeBP={removeBP}
+            />
+          ) : (
+            <Box className={classes.centerBox} style={{ marginTop: '20%' }}>
+              <Typography variant='h6'>{t('noSelectedBP')}</Typography>
+            </Box>
+          )}
         </Grid>
       )}
     </Grid>

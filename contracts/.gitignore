@@ -34,9 +34,3 @@
 .DS_Store
 build
 .vscode
-
-
-# EOS contracts wasm and abi
-*.wast
-*.abi
-*.wasm

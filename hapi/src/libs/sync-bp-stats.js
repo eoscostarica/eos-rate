@@ -1,6 +1,6 @@
 const {
   massiveDB,
-  defaultContractScope,
+  generalContractScope,
   edenContractScope
 } = require('../config')
 const eosjs = require('eosjs')
@@ -31,22 +31,17 @@ const getBpStats = async (bp, scope) => {
 }
 
 const updateBpStats = async (bpName) => {
-  // const CONTRACT_SCOPES = [defaultContractScope, edenContractScope]
-
   try {
     const edenResult = await getEdenBpStats(bpName)
-    await getDefaultBpStats(bpName)
+    await getGeneralBpStats(bpName)
 
     return edenResult
-
   } catch (err) {
     console.error(`sync-bp-stats: ${err}`)
   }
-  console.log('END FUNCTION UPDATE BP STATS')
 }
 
 const getEdenBpStats = async (bpName) => {
-
   try {
     const bpStat = await getBpStats(bpName, edenContractScope)
 
@@ -54,43 +49,37 @@ const getEdenBpStats = async (bpName) => {
       return 'Did not find ratings for BP: ' + bpName
 
     const stat = bpStat.rows[0]
-
     const edenResult = await updateBpStatsEden(bpName, stat)
 
     return edenResult
-
   } catch (err) {
     console.error(`sync-bp-stats: ${err}`)
   }
-  console.log('END FUNCTION UPDATE BP STATS')
 }
 
-const getDefaultBpStats = async (bpName) => {
-
+const getGeneralBpStats = async (bpName) => {
   try {
-    const bpStat = await getBpStats(bpName, defaultContractScope)
+    const bpStat = await getBpStats(bpName, generalContractScope)
 
     if (!bpStat.rows.length || !bpStat.rows[0].bp === bpName)
       return 'Did not find ratings for BP: ' + bpName
 
     const stat = bpStat.rows[0]
 
-    return await updateBpStatsDefault(bpName, stat)
-
+    return await updateBpStatsGeneral(bpName, stat)
   } catch (err) {
     console.error(`sync-bp-stats: ${err}`)
   }
-  console.log('END FUNCTION UPDATE BP STATS')
 }
 
-const updateBpStatsDefault = async (bpName, stat) => {
+const updateBpStatsGeneral = async (bpName, stat) => {
   const db = await massiveDB
   const resultRatingsSave = await db.ratings_stats.save(stat)
   const dbResult = resultRatingsSave
     ? resultRatingsSave
     : await db.ratings_stats.insert(stat)
   console.log(
-    `Default save or insert of ${bpName} was ${
+    `General save or insert of ${bpName} was ${
       dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
     }`
   )

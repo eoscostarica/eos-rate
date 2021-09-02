@@ -14,8 +14,8 @@
     "btnVoteBPs": "Vote",
     "clearSelection": "Clear selection",
     "loadMore": "Load more",
-    "view": "View",
-    "remove": "Remove",
+    "view": "More info",
+    "remove": "Remove vote",
     "addToVote": "Add to vote",
     "selected": "Selected",
     "details": "Details",
@@ -26,8 +26,10 @@
     "voteToolToggle": "Vote",
     "compareToolCollapsedSwitch": "Collapse Graphs",
     "voteToolTitle": "Voting Tool",
+    "noBPSelected": "No BPs selected",
+    "noSelectedBP": "No block producers have been selected yet. Click on “Add to vote” and proceed to vote.",
     "voteToolDescription": "Login to your account and vote for the selected block producers.",
-    "selecteds": "Selected",
+    "chosen": "Selected",
     "averageCard": "Average",
     "rateCard": "Ratings",
 
@@ -41,7 +43,7 @@
     "settingsLanguages": "English/Spanish",
     "settingsNotifications": "Notifications",
 
-    "navigationRecents": "Recents",
+    "navigationRecents": "Recent",
     "navigationRate": "Rate",
     "navigationSettings": "Settings",
 
@@ -79,6 +81,7 @@
     "alphabetical": "Alphabetical",
     "ratings": "Number of Ratings",
     "generalRate": "Top Rated General",
+    "edenRate": "Top Rated Eden",
     "infrastructure": "Top Rated Infrastructure",
     "community": "Top Rated Community",
     "trustiness": "Top Rated Trustiness",
@@ -148,7 +151,17 @@
     "core_liquid_balance": "Liquid Balance",
     "inactive": "Inactive",
     "logout": "Logout",
-    "title": "Profile for account"
+    "title": "Profile for account",
+    "yourRating": "Your Rating",
+    "unpublish": "REMOVE RATING",
+    "youRated": "You rated",
+    "infrastructure": "Infrastructure",
+    "transparency": "Transparency",
+    "trustiness": "Trustiness",
+    "community": "Community",
+    "development": "Development",
+    "voteWithoutLogin": "You need to login to execute this action",
+    "success" : "Success!"
   },
 
   "bpRatePage": {
@@ -194,7 +207,7 @@
     "status": "Status",
     "website": "Website",
     "votes": "Votes",
-    "rates": "Rates",
+    "rates": "Ratings",
     "average": "Average",
     "websiteInfo": "From Their Website",
     "buttonRate": "Rate this BP",

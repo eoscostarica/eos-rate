@@ -8,6 +8,7 @@ import _get from 'lodash.get'
 import Switch from '@material-ui/core/Switch'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
+import clsx from 'clsx'
 
 import CompareGraphView from './compare-graph-view'
 import CompareSliderView from './compare-slider-view'
@@ -72,7 +73,9 @@ const CompareTool = ({
   }
 
   return (
-    <div className={[classes.root, className].join(' ')}>
+    <div
+      className={clsx([classes.root, className].join(' '), classes.reliefGrid)}
+    >
       {isCollapsedView ? (
         <CompareGraphView
           removeBP={removeBP}
@@ -118,7 +121,7 @@ const CompareTool = ({
               variant='contained'
               size='large'
             >
-              {t('btnVoteBPs')}
+              {t('voteToolToggle')}
             </Button>
           </>
         )}

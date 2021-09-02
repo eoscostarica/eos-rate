@@ -27,5 +27,13 @@ export default (theme) => ({
   },
   avatar: {
     backgroundColor: theme.palette.surface.main
+  },
+  link: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    display: 'block',
+    width: '100%',
+    color: '#1a73e8'
   }
 })
