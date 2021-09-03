@@ -11,3 +11,18 @@ select_permissions:
     - user
     filter: {}
   role: anonymous
+update_permissions:
+- permission:
+    check: {}
+    columns:
+    - bp
+    - ratings
+    - tx_data
+    - uniq_rating
+    - user
+    filter: {}
+  role: anonymous
+delete_permissions:
+- permission:
+    filter: {}
+  role: anonymous
