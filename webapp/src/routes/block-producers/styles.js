@@ -248,5 +248,15 @@ export default (theme) => ({
     [theme.breakpoints.down('md')]: {
       marginLeft: '11px'
     }
+  },
+  noWrap: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    display: 'block',
+    width: '100%',
+    [theme.breakpoints.down('xs')]: {
+      width: '54%'
+    }
   }
 })

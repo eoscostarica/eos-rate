@@ -197,7 +197,7 @@
 
   "profile": {
     "generalInformation": "General Information",
-    "eosRates": "EOS Rating",
+    "eosRates": "General Rating",
     "edenRates": "Eden Rating",
     "tatolRates": "Total Rating",
     "rankings": "Rankings",
@@ -227,7 +227,9 @@
     "labelTool": "votes for",
     "success" : "Success!",
     "title": "Block Producer Community Ratings for",
-    "proxyProfile": "Reviews on EOS proxy account"
+    "proxyProfile": "Reviews on EOS proxy account",
+    "edenInterview": "Eden Interview:",
+    "scorecardFactors:": "Scorecard Factors:"
   },
 
   "about": {
