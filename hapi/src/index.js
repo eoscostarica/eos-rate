@@ -33,7 +33,7 @@ const init = async () => {
         if (!input) throw new Error('Invalid ratebp Input')
 
         const {
-          ratingInput: { user, producer }
+          ratingInput: { user, producer, transacction }
         } = input
         const isValidAccountName = accountValidation([
           { name: user, type: 'user account' },
@@ -44,7 +44,7 @@ const init = async () => {
           throw new Error(isValidAccountName.message)
 
         const resultEden = await updateBpStats(producer)
-        const result = await updateUserRatings(user, producer)
+        const result = await updateUserRatings(user, producer, transacction)
 
         return { resultEden: resultEden, ...result }
       } catch (error) {

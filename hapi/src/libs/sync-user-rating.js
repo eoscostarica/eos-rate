@@ -24,7 +24,7 @@ const getUserRatings = async () => {
 }
 
 // updates the postgresdb
-const updateUserRatings = async (userAccount, bpAccount) => {
+const updateUserRatings = async (userAccount, bpAccount, transaction) => {
   console.log('==== Updating user ratings ====')
 
   try {
@@ -51,7 +51,8 @@ const updateUserRatings = async (userAccount, bpAccount) => {
       uniq_rating: blockProducer.uniq_rating,
       user: blockProducer.user,
       bp: blockProducer.bp,
-      ratings: ratings
+      ratings: ratings,
+      tx_data: transaction
     })
 
     if (!result) {
@@ -59,7 +60,8 @@ const updateUserRatings = async (userAccount, bpAccount) => {
         uniq_rating: blockProducer.uniq_rating,
         user: blockProducer.user,
         bp: blockProducer.bp,
-        ratings
+        ratings,
+        tx_data: transaction
       })
 
       if (!insertResult)

@@ -21,6 +21,7 @@ const initialState = {
   producer: null,
   userRate: null,
   edenRate: null,
+  transacction: null,
   showSortSelected: false
 }
 
@@ -108,6 +109,9 @@ const Proxies = {
     },
     addEdenRate(state, edenRate) {
       return { ...state, edenRate }
+    },
+    addTransacction(state, transacction) {
+      return { ...state, transacction }
     }
   },
   effects: (dispatch) => ({
@@ -121,6 +125,9 @@ const Proxies = {
         filterObjects.filter(filters, state.blockProducers.list),
         filters
       )
+    },
+    async saveLastTransaction(transacction) {
+      this.addTransacction(transacction)
     },
     async getBlockProducerByOwner(owner, state) {
       try {
@@ -215,7 +222,11 @@ const Proxies = {
           data: { rateProducer }
         } = await apolloClient.mutate({
           variables: {
-            ratingInput: { producer: bp, user }
+            ratingInput: {
+              producer: bp,
+              user,
+              transacction: state.blockProducers.transacction
+            }
           },
           mutation: MUTATION_UPDATE_RATING
         })
