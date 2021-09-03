@@ -513,13 +513,6 @@ const jungleBPinfo = [
       websiteText:
         'Sed maximus neque velit, at pharetra sapien vestibulum ut. Phasellus ac placerat neque, et lobortis ante. Morbi non arcu iaculis ex scelerisque molestie eu a tortor. Donec convallis fermentum dolor. In hac habitasse platea dictumst. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris id sapien rhoncus, placerat turpis eu, dictum neque.'
     }
-  },
-  {
-    owner: 'atticlabjbpn',
-    general_info: {
-      websiteText:
-        'Duis diam orci, vehicula non bibendum non, interdum ac neque. Fusce cursus arcu quis ligula accumsan ultrices. Pellentesque rutrum, libero vitae tincidunt lobortis, dolor sapien pulvinar dui, nec iaculis massa metus quis nunc. Curabitur vitae felis ut quam condimentum fermentum. Cras et laoreet nisl, eget placerat nibh. Etiam molestie velit condimentum nunc fringilla, porta posuere ex consectetur. Fusce et malesuada metus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis nunc blandit, blandit tellus nec, tempor leo. Vestibulum eleifend metus orci. Morbi pretium, ipsum non accumsan lobortis, nisi ex facilisis lorem, at aliquam justo est id velit. Praesent a tempus est, in sagittis turpis. Interdum et malesuada fames ac ante ipsum primis in faucibus.'
-    }
   }
 ]
 
