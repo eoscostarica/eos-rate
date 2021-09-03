@@ -63,7 +63,7 @@
     "drawerLinkHelp": "Ayuda",
     "lockedRating": "Debes votar por al menos 21 productores de bloques o un proxy para desbloquear calificaciones",
     "unlockedRating": "Ha votado por 21 bps o un proxy y ha desbloqueado calificaciones",
-    "success" : "¡Éxito!",
+    "success": "¡Éxito!",
     "appBarSignIn": "Iniciar Sesión",
 
     "connecting": "Conectando",
@@ -161,7 +161,7 @@
     "community": "Comunidad",
     "development": "Desarrollo",
     "voteWithoutLogin": "Necesitas iniciar sesión para ejecutar esta acción",
-    "success" : "¡Éxito!"
+    "success": "¡Éxito!"
   },
 
   "bpRatePage": {
@@ -186,7 +186,7 @@
     "myRate": "Mi Evaluación",
     "rateWithoutLogin": "Necesitas iniciar sesión para evaluar un productor de bloques",
     "noBlockProducer": "No encontramos este PB",
-    "success" : "¡Éxito!",
+    "success": "¡Éxito!",
     "title": "Calificación de Productores de bloques EOS",
     "infoMessage": "Apoye la red votando por sus BP o proxy favoritos, una vez que haya votado por 21 BP puede comenzar a calificar."
   },
@@ -197,7 +197,7 @@
 
   "profile": {
     "generalInformation": "Información General",
-    "eosRates": "Calificación EOS",
+    "eosRates": "Calificación General",
     "edenRates": "Calificación Eden",
     "tatolRates": "Calificación Total",
     "rankings": "Clasificaciones",
@@ -225,9 +225,11 @@
     "voteWithoutLogin": "Necesita iniciar sesión para votar por un proxy",
     "totalVotes": "Total de votos",
     "labelTool": "vota por",
-    "success" : "¡Éxito!",
+    "success": "¡Éxito!",
     "title": "Calificaciones de productor de bloques EOS",
-    "proxyProfile": "Reseñas sobre EOS proxy"
+    "proxyProfile": "Reseñas sobre EOS proxy",
+    "interview": "Entrevista al PB:",
+    "scorecardFactors:": "Datos estadísticos:"
   },
 
   "about": {

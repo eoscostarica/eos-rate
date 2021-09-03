@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid'
 import _get from 'lodash.get'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
+import { useMediaQuery } from '@material-ui/core'
 import formatNumber from 'utils/formatNumber'
 import getAverageValue from 'utils/getAverageValue'
 
@@ -32,11 +33,14 @@ const _getCountryName = (country = null, locationNumber, defaultMessage) => {
 
 const SocialNetworks = ({ classes, producer }) => {
   const { t } = useTranslation('profile')
-  const github = _get(producer, 'org.social.github')
-  const twitter = _get(producer, 'org.social.twitter')
-  const linkedin = _get(producer, 'org.social.linkedin')
-  const telegram = _get(producer, 'org.social.telegram')
-  const instagram = _get(producer, 'org.social.instagram')
+  const github = _get(producer, 'bpjson.org.social.github')
+  const twitter = _get(producer, 'bpjson.org.social.twitter')
+  const linkedin = _get(producer, 'bpjson.org.social.linkedin')
+  const telegram = _get(producer, 'bpjson.org.social.telegram')
+  const instagram = _get(producer, 'bpjson.org.social.instagram')
+  const edenInterview = _get(producer, 'general_info.edenInterview')
+  const scorecardFactors = _get(producer, 'general_info.scorecardFactors')
+  const isDesktop = useMediaQuery('(min-width:767px)')
 
   return (
     <Grid container direction='column' className={classes.category}>
@@ -144,6 +148,65 @@ const SocialNetworks = ({ classes, producer }) => {
             </Typography>
           </Grid>
         )}
+        {edenInterview && (
+          <Grid container direction='row'>
+            <Typography variant='subtitle1' className={classes.subTitle}>
+              {t('interview')}
+            </Typography>
+            <Typography
+              variant='subtitle1'
+              className={classNames(classes.value, classes.subTitle)}
+            >
+              <a
+                href={edenInterview}
+                style={{ width: isDesktop ? '100%' : '72%' }}
+                className={classNames(classes.links, classes.noWrap)}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                {edenInterview}
+              </a>
+            </Typography>
+          </Grid>
+        )}
+        {scorecardFactors && (
+          <Grid container direction='row' style={{ display: 'block' }}>
+            <Typography variant='subtitle1' className={classes.subTitle}>
+              {t('scorecardFactors')}
+            </Typography>
+            {scorecardFactors.alohaEOS && (
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
+              >
+                <a
+                  href={scorecardFactors.alohaEOS}
+                  className={classNames(classes.links, classes.noWrap)}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  - {scorecardFactors.alohaEOS}
+                </a>
+              </Typography>
+            )}
+            {scorecardFactors.eosNation && (
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
+                noWrap
+              >
+                <a
+                  href={scorecardFactors.eosNation}
+                  className={classNames(classes.links, classes.noWrap)}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  - {scorecardFactors.eosNation}
+                </a>
+              </Typography>
+            )}
+          </Grid>
+        )}
       </Box>
     </Grid>
   )
@@ -175,7 +238,7 @@ const WebsiteLegend = ({ classes, webInfo }) => {
 const GeneralInformation = ({ classes, producer = {}, edenRate = {} }) => {
   const { t } = useTranslation('profile')
 
-  const webpageURL = _get(producer, 'system.url')
+  const webpageURL = _get(producer, 'bpjson.org.website')
   const totalVotes = _get(producer, 'system.votesInEos') || 0
   const countryName = _getCountryName(
     _get(producer, 'bpjson.org.location.country', null),
