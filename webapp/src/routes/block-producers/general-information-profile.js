@@ -151,7 +151,7 @@ const SocialNetworks = ({ classes, producer }) => {
         {edenInterview && (
           <Grid container direction='row'>
             <Typography variant='subtitle1' className={classes.subTitle}>
-              {t('edenInterview')}
+              {t('interview')}
             </Typography>
             <Typography
               variant='subtitle1'
