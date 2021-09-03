@@ -39,7 +39,7 @@ const SocialNetworks = ({ classes, producer }) => {
   const telegram = _get(producer, 'bpjson.org.social.telegram')
   const instagram = _get(producer, 'bpjson.org.social.instagram')
   const edenInterview = _get(producer, 'general_info.edenInterview')
-  const scorecardFactors = _get(producer, 'general_info.scorecardFactors')
+  const additionalResources = _get(producer, 'general_info.additionalResources')
   const isDesktop = useMediaQuery('(min-width:767px)')
 
   return (
@@ -169,39 +169,39 @@ const SocialNetworks = ({ classes, producer }) => {
             </Typography>
           </Grid>
         )}
-        {scorecardFactors && (
+        {additionalResources && (
           <Grid container direction='row' style={{ display: 'block' }}>
             <Typography variant='subtitle1' className={classes.subTitle}>
-              {t('scorecardFactors')}
+              {t('additionalResources')}
             </Typography>
-            {scorecardFactors.alohaEOS && (
+            {additionalResources.alohaEOS && (
               <Typography
                 variant='subtitle1'
                 className={classNames(classes.value, classes.subTitle)}
               >
                 <a
-                  href={scorecardFactors.alohaEOS}
+                  href={additionalResources.alohaEOS}
                   className={classNames(classes.links, classes.noWrap)}
                   target='_blank'
                   rel='noopener noreferrer'
                 >
-                  - {scorecardFactors.alohaEOS}
+                  - {additionalResources.alohaEOS}
                 </a>
               </Typography>
             )}
-            {scorecardFactors.eosNation && (
+            {additionalResources.eosNation && (
               <Typography
                 variant='subtitle1'
                 className={classNames(classes.value, classes.subTitle)}
                 noWrap
               >
                 <a
-                  href={scorecardFactors.eosNation}
+                  href={additionalResources.eosNation}
                   className={classNames(classes.links, classes.noWrap)}
                   target='_blank'
                   rel='noopener noreferrer'
                 >
-                  - {scorecardFactors.eosNation}
+                  - {additionalResources.eosNation}
                 </a>
               </Typography>
             )}

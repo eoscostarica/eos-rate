@@ -17,7 +17,7 @@ export default (theme) => ({
   },
   legend: {
     display: 'flex',
-    width: 148,
+    width: 150,
     lineHeight: 1.33,
     fontSize: 8,
     fontWeight: 500,

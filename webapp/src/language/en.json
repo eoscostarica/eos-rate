@@ -187,19 +187,19 @@
     "rateWithoutLogin": "You need to login to rate this block producer",
     "noBlockProducer": "This BP Does Not Exist.",
     "success" : "Success!",
-    "title": "Rate EOS Block Producer Infrastructure and Community Reputation ",
+    "title": "Rate EOS Block Producer Infrastructure and Community Reputation",
     "infoMessage": "Support the network by voting for your favorite BPs or proxy, once you have voted for 21 BPs you can start rating."
   },
 
   "footer": {
-    "legend": "Want to contribute? Come learn with us"
+    "legend": "Want to contribute ? This dApp is open-source"
   },
 
   "profile": {
     "generalInformation": "General Information",
     "eosRates": "General Rating",
     "edenRates": "Eden Rating",
-    "tatolRates": "Total Rating",
+    "totalRates": "Total Rating",
     "rankings": "Rankings",
     "social": "Social",
     "account": "Account",
@@ -229,7 +229,7 @@
     "title": "Block Producer Community Ratings for",
     "proxyProfile": "Reviews on EOS proxy account",
     "interview": "BP interview:",
-    "scorecardFactors": "Scorecard Factors:"
+    "additionalResources:": "Additional Resources:"
   },
 
   "about": {
