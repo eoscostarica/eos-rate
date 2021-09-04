@@ -94,7 +94,7 @@ const MainTopBar = ({
         >
           <MenuIcon />
         </IconButton>
-        <Link to='/' className={classes.link}>
+        <Link to='/block-producers' className={classes.link}>
           <img src='/logo.png' alt='EOS Rate' className={classes.title} />
         </Link>
         <div className={classes.grow} />
