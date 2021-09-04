@@ -18,11 +18,11 @@ export default (theme) => ({
   legend: {
     display: 'flex',
     width: 150,
-    lineHeight: 1.33,
+    lineHeight: 1.4,
     fontSize: 8,
     fontWeight: 500,
     fontStretch: 'normal',
-    letterSpacing: 1,
+    letterSpacing: 1.1,
     textAlign: 'right',
     color: 'rgba(255, 255, 255, 0.6)',
     paddingRight: theme.spacing(2)
