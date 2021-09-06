@@ -454,7 +454,7 @@ namespace eoscostarica {
         auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
         auto existing_rating = uniq_rating_index.find(uniq_rating);
 
-        check( existing_rating != uniq_rating_index.end(), "Rate should exist before to try to remove it" )
+        check( existing_rating != uniq_rating_index.end(), "Rate should exist before to try to remove it" );
 
         //delete rate info
         auto itr = uniq_rating_index.erase(existing_rating);
