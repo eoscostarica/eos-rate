@@ -146,7 +146,7 @@ const BlockProducerProfile = ({ account, ...props }) => {
             <SocialNetworks
               classes={classes}
               overrideClass={classes.showOnlyLg}
-              producer={bpHasInformation && producer.bpjson}
+              producer={bpHasInformation && producer}
             />
           </Grid>
         )}
@@ -198,7 +198,7 @@ const BlockProducerProfile = ({ account, ...props }) => {
             <SocialNetworks
               classes={classes}
               overrideClass={classes.showOnlyLg}
-              producer={bpHasInformation && producer.bpjson}
+              producer={bpHasInformation && producer}
             />
           </Grid>
         )}

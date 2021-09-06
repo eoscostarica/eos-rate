@@ -95,7 +95,7 @@ const MainTopBar = ({
         >
           <MenuIcon />
         </IconButton>
-        <Link to='/' className={classes.link}>
+        <Link to='/block-producers' className={classes.link}>
           <img
             src={stage ? '/logo-mainnet.svg' : '/logo-testnet.svg'}
             alt='EOS Rate'

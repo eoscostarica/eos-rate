@@ -40,7 +40,7 @@ const MainFooter = () => {
           {t('legend')}
         </Typography>
         <IconButton
-          href='https://github.com/eoscostarica'
+          href='https://github.com/eoscostarica/eos-rate'
           target='_blank'
           color='inherit'
         >
