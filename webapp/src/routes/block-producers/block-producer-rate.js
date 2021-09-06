@@ -142,7 +142,9 @@ const BlockProducerRate = ({ account, ual }) => {
   }, [])
 
   useEffect(() => {
-    if (user && (user.hasProxy || user.producersCount >= 21)) {
+    if (user && user.edenMember) {
+      setShowAlert(false)
+    } else if (user && (user.hasProxy || user.producersCount >= 21)) {
       setShowAlert(false)
     } else {
       user && setShowAlert(true)
