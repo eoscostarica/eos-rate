@@ -171,6 +171,7 @@
     "rateText": "Si cree que no tiene suficiente conocimiento sobre una categoría específica, puede deshabilitarla.",
     "helpText": "Publique su calificación iniciando sesión con tu billetera favorita.",
     "publishRatingButton": "Publicar Calificación",
+    "updateRatingButton": "Actualizar calificación",
     "cancelRatingButton": "Cancelar",
     "transparency": "Transparencia",
     "transparencyTooltip": "Cumplimiento de la divulgación de la información.",
