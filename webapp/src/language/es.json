@@ -193,14 +193,14 @@
   },
 
   "footer": {
-    "legend": "¿Quieres contribuir? Ven a aprender con nosotros"
+    "legend": "¿Quieres contribuir? Este dApp es código abierto."
   },
 
   "profile": {
     "generalInformation": "Información General",
     "eosRates": "Calificación General",
     "edenRates": "Calificación Eden",
-    "tatolRates": "Calificación Total",
+    "totalRates": "Calificación Total",
     "rankings": "Clasificaciones",
     "social": "Social",
     "account": "Cuenta",
@@ -230,7 +230,7 @@
     "title": "Calificaciones de productor de bloques EOS",
     "proxyProfile": "Reseñas sobre EOS proxy",
     "interview": "Entrevista al PB:",
-    "scorecardFactors": "Datos estadísticos:"
+    "additionalResources": "Recursos Adicionales:"
   },
 
   "about": {
