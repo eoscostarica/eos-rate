@@ -21,8 +21,9 @@ import Tooltip from '@material-ui/core/Tooltip'
 import Box from '@material-ui/core/Box'
 
 import InputAutocomplete from 'components/input-autocomplete'
-import MobileSearch from 'components/mobile-search'
 import LanguageSelect from 'components/language-select'
+import MobileSearch from 'components/mobile-search'
+import { stage } from '../../config'
 
 import styles from './styles'
 
@@ -95,7 +96,11 @@ const MainTopBar = ({
           <MenuIcon />
         </IconButton>
         <Link to='/' className={classes.link}>
-          <img src='/logo.png' alt='EOS Rate' className={classes.title} />
+          <img
+            src={stage ? '/logo-mainnet.svg' : '/logo-testnet.svg'}
+            alt='EOS Rate'
+            className={classes.title}
+          />
         </Link>
         <div className={classes.grow} />
         <div className={classes.search}>
