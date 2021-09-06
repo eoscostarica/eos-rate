@@ -454,35 +454,23 @@ namespace eoscostarica {
         auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
         auto existing_rating = uniq_rating_index.find(uniq_rating);
 
-        if( existing_rating != uniq_rating_index.end() ) {
-            
-            //delete rate info
-            auto itr = uniq_rating_index.erase(existing_rating);
-            
-            //update bp stats
-            float bp_transparency = 0;
-            float bp_infrastructure = 0;
-            float bp_trustiness = 0;
-            float bp_community = 0;
-            float bp_development = 0;
-            uint32_t  bp_ratings_cntr = 0;
-            float  bp_average = 0;
+        check( existing_rating != uniq_rating_index.end(), "Rate should exist before to try to remove it" )
 
-            //re-calculate stats for the bp 
-            calculate_bp_stats (scope,
-                                bp,
-                                &bp_transparency,
-                                &bp_infrastructure,
-                                &bp_trustiness,
-                                &bp_community,
-                                &bp_development,
-                                &bp_ratings_cntr,
-                                &bp_average);
-                                
-            //save the re-calcualtes stats
-            update_bp_stats (scope,
-                            &user,
-                            &bp,
+        //delete rate info
+        auto itr = uniq_rating_index.erase(existing_rating);
+        
+        //update bp stats
+        float bp_transparency = 0;
+        float bp_infrastructure = 0;
+        float bp_trustiness = 0;
+        float bp_community = 0;
+        float bp_development = 0;
+        uint32_t  bp_ratings_cntr = 0;
+        float  bp_average = 0;
+
+        //re-calculate stats for the bp 
+        calculate_bp_stats (scope,
+                            bp,
                             &bp_transparency,
                             &bp_infrastructure,
                             &bp_trustiness,
@@ -490,8 +478,18 @@ namespace eoscostarica {
                             &bp_development,
                             &bp_ratings_cntr,
                             &bp_average);
-                
-        }
+                            
+        //save the re-calcualtes stats
+        update_bp_stats (scope,
+                        &user,
+                        &bp,
+                        &bp_transparency,
+                        &bp_infrastructure,
+                        &bp_trustiness,
+                        &bp_community,
+                        &bp_development,
+                        &bp_ratings_cntr,
+                        &bp_average);
     }
 
     void rateproducer::loadedens() {
