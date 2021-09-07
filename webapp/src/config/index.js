@@ -1,4 +1,5 @@
 export const appName = 'EOSRate'
+export const stage = process.env.REACT_APP_MAINNET_VERSION
 export const contract = process.env.REACT_APP_RATING_CONTRACT || 'rateproducer'
 export const contractEden =
   process.env.REACT_APP_EDEN_CONTRACT || 'genesis.eden'
