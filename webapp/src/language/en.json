@@ -62,6 +62,7 @@
     "drawerLinkRicardianContract": "Ricardian Contract",
     "drawerLinkHelp": "Help",
     "lockedRating": "You must vote for at least 21 block producers or a proxy to unlock ratings",
+    "edenMemberMessage": "Eden member. Ratings unlocked.",
     "unlockedRating": "You have voted for 21 bps or a proxy and have unlocked ratings",
     "success" : "Success!",
     "appBarSignIn": "Sign In",

@@ -62,6 +62,7 @@
     "drawerLinkRicardianContract": "Contratos Ricardianos",
     "drawerLinkHelp": "Ayuda",
     "lockedRating": "Debes votar por al menos 21 productores de bloques o un proxy para desbloquear calificaciones",
+    "edenMemberMessage": "Miembro de Eden. Calificaciones desbloqueadas.",
     "unlockedRating": "Ha votado por 21 bps o un proxy y ha desbloqueado calificaciones",
     "success": "¡Éxito!",
     "appBarSignIn": "Iniciar Sesión",
