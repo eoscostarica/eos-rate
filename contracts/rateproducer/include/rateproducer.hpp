@@ -171,26 +171,55 @@ namespace eosio {
         in_election = 1
     };
 
-    struct member_v0 {
-        eosio::name account;
-        std::string name;
-        member_status_type status;
-        uint64_t nft_template_id;
+    struct member_v0
+   {
+      eosio::name account;
+      std::string name;
+      member_status_type status;
+      uint64_t nft_template_id;
+      // Only reflected in v1
+      election_participation_status_type election_participation_status = not_in_election;
+      uint8_t election_rank = 0;
+      eosio::name representative{uint64_t(-1)};
+      std::optional<eosio::public_key> encryption_key;
 
-        uint64_t primary_key() const { return account.value; }
+      uint64_t primary_key() const { return account.value; }
+      uint128_t by_representative() const
+      {
+         return (static_cast<uint128_t>(election_rank) << 64) | representative.value;
+      }
     };
     EOSIO_REFLECT(member_v0, account, name, status, nft_template_id)
 
-    using member_variant = std::variant<member_v0>;
+    // - A member can donate at any time after the end of a scheduled election and before
+    //   the start of the next scheduled election.
+    // - A member who does not make a donation before the election starts will be deactivated.
+    //
+    struct member_v1 : member_v0
+    {
+    };
+    EOSIO_REFLECT(member_v1,
+                    base member_v0,
+                    election_participation_status,
+                    election_rank,
+                    representative,
+                    encryption_key);
 
-    struct member {
+    using member_variant = std::variant<member_v0, member_v1>;
+
+    struct member
+    {
         member_variant value;
         EDEN_FORWARD_MEMBERS(value,
                             account,
                             name,
                             status,
-                            nft_template_id);
-        EDEN_FORWARD_FUNCTIONS(value, primary_key);
+                            nft_template_id,
+                            election_participation_status,
+                            election_rank,
+                            representative,
+                            encryption_key);
+        EDEN_FORWARD_FUNCTIONS(value, primary_key, by_representative)
     };
     EOSIO_REFLECT(member, value)
     using member_table_type = eosio::multi_index<"member"_n, member>;
