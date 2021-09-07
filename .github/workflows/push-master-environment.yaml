@@ -71,11 +71,8 @@ jobs:
           INGRESS_GRAPHQL_HOST: graphql.eosrate.io
           # webapp
           REACT_APP_RATING_CONTRACT: rateproducer
-<<<<<<< HEAD
           REACT_APP_MAINNET_VERSION: true
-=======
-          REACT_APP_EDEN_CONTRACT: ${{ secrets.REACT_APP_EDEN_CONTRACT }}
->>>>>>> dc2d77b50c2dade30769a353e4c306dae72fda7a
+          REACT_APP_EDEN_CONTRACT: genesis.eden
           REACT_APP_GRAPHQL_HTTP_URL: https://graphql.eosrate.io/v1/graphql
           REACT_APP_GRAPHQL_WS_URL: wss://graphql.eosrate.io/v1/graphql
           REACT_APP_EOS_API_URL: https://api.main.alohaeos.com
