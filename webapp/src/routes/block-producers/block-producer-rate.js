@@ -53,6 +53,7 @@ const INIT_RATING_STATE_DATA = {
 
 const BlockProducerRate = ({ account, ual }) => {
   const [ratingState, setRatingState] = useState(INIT_RATING_STATE_DATA)
+  const [isNewRate, setIsNewRate] = useState(true)
   const [showMessage, setShowMessage] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
   const { t } = useTranslation('bpRatePage')
@@ -126,6 +127,7 @@ const BlockProducerRate = ({ account, ual }) => {
   }, [accountName, account, ual, setShowMessage])
 
   useEffect(() => {
+    console.log(userRate)
     if (userRate) {
       setRatingState({
         ...ratingState,
@@ -135,6 +137,7 @@ const BlockProducerRate = ({ account, ual }) => {
         transparency: accountName ? userRate.transparency : 1,
         trustiness: accountName ? userRate.trustiness : 1
       })
+      setIsNewRate(false)
     } else {
       setRatingState(INIT_RATING_STATE_DATA)
     }
@@ -428,7 +431,9 @@ const BlockProducerRate = ({ account, ual }) => {
                   style={{ margin: '0 10px' }}
                   variant='contained'
                 >
-                  {t('publishRatingButton')}
+                  {isNewRate
+                    ? t('publishRatingButton')
+                    : t('updateRatingButton')}
                 </Button>
               </Grid>
             </Grid>
@@ -511,7 +516,9 @@ const BlockProducerRate = ({ account, ual }) => {
                     style={{ margin: '0 10px' }}
                     variant='contained'
                   >
-                    {t('publishRatingButton')}
+                    {isNewRate
+                      ? t('publishRatingButton')
+                      : t('updateRatingButton')}
                   </Button>
                 </Grid>
               </Grid>

@@ -172,6 +172,7 @@
     "rateText": "If you feel that you do not have enough knowledge about a specific category you can disable it.",
     "helpText": "Publish your BP rating by signing in with your favorite wallet.",
     "publishRatingButton": "Publish Rating",
+    "updateRatingButton": "Update Rating",
     "cancelRatingButton": "Cancel",
     "transparency": "Transparency",
     "transparencyTooltip": "Compliance with disclosure of ownership.",
