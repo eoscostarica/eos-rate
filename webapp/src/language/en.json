@@ -62,6 +62,7 @@
     "drawerLinkRicardianContract": "Ricardian Contract",
     "drawerLinkHelp": "Help",
     "lockedRating": "You must vote for at least 21 block producers or a proxy to unlock ratings",
+    "edenMemberMessage": "Eden member. Ratings unlocked.",
     "unlockedRating": "You have voted for 21 bps or a proxy and have unlocked ratings",
     "success" : "Success!",
     "appBarSignIn": "Sign In",
@@ -151,7 +152,17 @@
     "core_liquid_balance": "Liquid Balance",
     "inactive": "Inactive",
     "logout": "Logout",
-    "title": "Profile for account"
+    "title": "Profile for account",
+    "yourRating": "Your Rating",
+    "unpublish": "REMOVE RATING",
+    "youRated": "You rated",
+    "infrastructure": "Infrastructure",
+    "transparency": "Transparency",
+    "trustiness": "Trustiness",
+    "community": "Community",
+    "development": "Development",
+    "voteWithoutLogin": "You need to login to execute this action",
+    "success" : "Success!"
   },
 
   "bpRatePage": {
@@ -177,19 +188,19 @@
     "rateWithoutLogin": "You need to login to rate this block producer",
     "noBlockProducer": "This BP Does Not Exist.",
     "success" : "Success!",
-    "title": "Rate EOS Block Producer Infrastructure and Community Reputation ",
+    "title": "Rate EOS Block Producer Infrastructure and Community Reputation",
     "infoMessage": "Support the network by voting for your favorite BPs or proxy, once you have voted for 21 BPs you can start rating."
   },
 
   "footer": {
-    "legend": "Want to contribute? Come learn with us"
+    "legend": "Want to contribute ? This dApp is open-source"
   },
 
   "profile": {
     "generalInformation": "General Information",
-    "eosRates": "EOS Rating",
+    "eosRates": "General Rating",
     "edenRates": "Eden Rating",
-    "tatolRates": "Total Rating",
+    "totalRates": "Total Rating",
     "rankings": "Rankings",
     "social": "Social",
     "account": "Account",
@@ -217,7 +228,9 @@
     "labelTool": "votes for",
     "success" : "Success!",
     "title": "Block Producer Community Ratings for",
-    "proxyProfile": "Reviews on EOS proxy account"
+    "proxyProfile": "Reviews on EOS proxy account",
+    "interview": "BP interview:",
+    "additionalResources": "Additional Resources:"
   },
 
   "about": {

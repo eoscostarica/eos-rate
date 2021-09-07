@@ -31,18 +31,20 @@ namespace eoscostarica {
         check( (MINVAL<= development &&  development <=MAXVAL ), "Error development value out of range" );
         check( (MINVAL<= community &&  community<=MAXVAL ), "Error community value out of range" );
 
-        //checks if the bp is active 
+        bool isEden = is_eden(user);
+
+        // checks if the bp is active 
         check( is_blockproducer(bp), "votes are allowed only for registered block producers" );
 
         eosio::name proxy_name = get_proxy(user);
         if(proxy_name.length()) {
-            //active proxy??
+            // active proxy??
             check(is_active_proxy(proxy_name), "votes are allowed only for active proxies" );
-            //account votes through a proxy
-            check(!(MIN_VOTERS > get_voters(proxy_name)), "delegated proxy does not have enough voters" );
+            // account votes through a proxy
+            if(!isEden) check( MIN_VOTERS <= get_voters(proxy_name), "delegated proxy does not have enough voters" );
         } else {
             // acount must vote for at least 21 bp
-            check(!(MIN_VOTERS > get_voters(user)), "account does not have enough voters" );
+            if(!isEden) check( MIN_VOTERS <= get_voters(user), "account does not have enough voters" );
         }
 
         // upsert bp rating
@@ -115,7 +117,7 @@ namespace eoscostarica {
                             &bp_average);
         }
     }
-        
+
     void rateproducer::save_bp_stats (
         name scope,
         name user,
@@ -452,35 +454,23 @@ namespace eoscostarica {
         auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
         auto existing_rating = uniq_rating_index.find(uniq_rating);
 
-        if( existing_rating != uniq_rating_index.end() ) {
-            
-            //delete rate info
-            auto itr = uniq_rating_index.erase(existing_rating);
-            
-            //update bp stats
-            float bp_transparency = 0;
-            float bp_infrastructure = 0;
-            float bp_trustiness = 0;
-            float bp_community = 0;
-            float bp_development = 0;
-            uint32_t  bp_ratings_cntr = 0;
-            float  bp_average = 0;
+        check( existing_rating != uniq_rating_index.end(), "Rating does not exist" );
 
-            //re-calculate stats for the bp 
-            calculate_bp_stats (scope,
-                                bp,
-                                &bp_transparency,
-                                &bp_infrastructure,
-                                &bp_trustiness,
-                                &bp_community,
-                                &bp_development,
-                                &bp_ratings_cntr,
-                                &bp_average);
-                                
-            //save the re-calcualtes stats
-            update_bp_stats (scope,
-                            &user,
-                            &bp,
+        //delete rate info
+        auto itr = uniq_rating_index.erase(existing_rating);
+        
+        //update bp stats
+        float bp_transparency = 0;
+        float bp_infrastructure = 0;
+        float bp_trustiness = 0;
+        float bp_community = 0;
+        float bp_development = 0;
+        uint32_t  bp_ratings_cntr = 0;
+        float  bp_average = 0;
+
+        //re-calculate stats for the bp 
+        calculate_bp_stats (scope,
+                            bp,
                             &bp_transparency,
                             &bp_infrastructure,
                             &bp_trustiness,
@@ -488,8 +478,18 @@ namespace eoscostarica {
                             &bp_development,
                             &bp_ratings_cntr,
                             &bp_average);
-                
-        }
+                            
+        //save the re-calcualtes stats
+        update_bp_stats (scope,
+                        &user,
+                        &bp,
+                        &bp_transparency,
+                        &bp_infrastructure,
+                        &bp_trustiness,
+                        &bp_community,
+                        &bp_development,
+                        &bp_ratings_cntr,
+                        &bp_average);
     }
 
     void rateproducer::loadedens() {

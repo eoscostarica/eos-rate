@@ -142,7 +142,9 @@ const BlockProducerRate = ({ account, ual }) => {
   }, [])
 
   useEffect(() => {
-    if (user && (user.hasProxy || user.producersCount >= 21)) {
+    if (user && user.edenMember) {
+      setShowAlert(false)
+    } else if (user && (user.hasProxy || user.producersCount >= 21)) {
       setShowAlert(false)
     } else {
       user && setShowAlert(true)
@@ -231,6 +233,12 @@ const BlockProducerRate = ({ account, ual }) => {
         broadcast: true
       })
 
+      await dispatch.blockProducers.saveLastTransaction({
+        transacction: {
+          transacctionId: result.transaction.transaction_id,
+          transacctionDate: result.transaction.processed.block_time
+        }
+      })
       setLastTransactionId(result.transactionId)
 
       await dispatch.blockProducers.mutationInsertUserRating({
