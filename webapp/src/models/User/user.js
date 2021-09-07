@@ -3,6 +3,7 @@ import _get from 'lodash.get'
 import apolloClient from 'services/graphql'
 import { getRpc, getAccountName } from 'utils/eosjsUtils'
 
+import { contractEden } from '../../config'
 import QUERY_GET_RATES from './query_get_rates'
 import MUTATION_DELETE_USER_RATE from './mutation_delete_user_rate'
 
@@ -36,9 +37,26 @@ const user = {
 
         let account = null
         let userRates = []
+        let edenMember = false
         const rpc = getRpc(ual)
         if (accountName.length) {
           account = await rpc.get_account(accountName)
+
+          const { rows: edenMenbers } = await rpc.get_table_rows({
+            json: true,
+            code: contractEden,
+            scope: 0,
+            table: 'member',
+            reverse: false,
+            show_payer: false
+          })
+
+          for (const member of edenMenbers) {
+            if (accountName === member[1].account) {
+              edenMember = true
+              break
+            }
+          }
         }
 
         const {
@@ -67,7 +85,8 @@ const user = {
               ...account,
               hasProxy: Boolean(proxy.length),
               producersCount: producers.length,
-              userRates
+              userRates,
+              edenMember
             })
           : this.setUser(null)
 
