@@ -77,8 +77,9 @@ const MainTopBar = ({
   useEffect(async () => {
     if (!user) setMayVote(false)
     else if (
-      user.voter_info.producers.length > 20 ||
-      user.voter_info.proxy.length > 0
+      user.voter_info &&
+      (user.voter_info.producers.length > 20 ||
+        user.voter_info.proxy.length > 0)
     )
       setMayVote(true)
   }, [user])
@@ -111,15 +112,32 @@ const MainTopBar = ({
           <SearchIcon />
         </IconButton>
         <Box style={{ marginRight: '10px', marginTop: '5px' }}>
-          {mayVote && (
-            <SpecialTooltip title={t('unlockedRating')}>
-              <LockOpenOutlinedIcon />
-            </SpecialTooltip>
-          )}
-          {!mayVote && (
-            <SpecialTooltip title={t('lockedRating')}>
-              <LockOutlinedIcon />
-            </SpecialTooltip>
+          {user && (
+            <>
+              {!user.edenMember && (
+                <>
+                  {mayVote && (
+                    <SpecialTooltip title={t('unlockedRating')}>
+                      <LockOpenOutlinedIcon />
+                    </SpecialTooltip>
+                  )}
+                  {!mayVote && (
+                    <SpecialTooltip title={t('lockedRating')}>
+                      <LockOutlinedIcon />
+                    </SpecialTooltip>
+                  )}
+                </>
+              )}
+              {user.edenMember && (
+                <SpecialTooltip title={t('edenMemberMessage')}>
+                  <img
+                    src='/edenos.svg'
+                    alt='eden icon'
+                    style={{ width: '28px' }}
+                  />
+                </SpecialTooltip>
+              )}
+            </>
           )}
         </Box>
         <LanguageSelect />
