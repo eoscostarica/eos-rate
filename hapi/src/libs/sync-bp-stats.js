@@ -97,7 +97,17 @@ const updateBpStatsEden = async (bpName, stat) => {
         dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
       }`
     )
-    return { bp: dbResult.bp, average: dbResult.average, ratings_cntr: dbResult.ratings_cntr }
+
+    return {
+      bp: dbResult.bp,
+      average: dbResult.average,
+      ratings_cntr: dbResult.ratings_cntr,
+      transparency: dbResult.transparency,
+      infrastructure: dbResult.infrastructure,
+      trustiness: dbResult.trustiness,
+      community: dbResult.community,
+      development: dbResult.development
+    }
   } catch (error) {
     console.log('Error:', error)
   }
