@@ -16,6 +16,7 @@ import Error from '@material-ui/icons/Error'
 import Tooltip from '@material-ui/core/Tooltip'
 import Grid from '@material-ui/core/Grid'
 import { Link } from '@reach/router'
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight'
 
 import Radar from 'components/radar'
 
@@ -102,6 +103,12 @@ const CardData = ({
           subheader={
             <div className={classes.warningBox}>
               <span>{owner}</span>
+              <Box style={{ display: 'flex', float: 'right' }}>
+                <Typography style={{ margin: 'auto' }} variant='subtitle2'>
+                  {t('view')}
+                </Typography>
+                <KeyboardArrowRightIcon />
+              </Box>
             </div>
           }
         />
@@ -160,6 +167,7 @@ const CardData = ({
             <Button
               aria-label='Add to comparison'
               onClick={toggleSelection(!isSelected, owner)}
+              variant={!isSelected ? 'outlined' : 'none'}
             >
               {isSelected ? t('remove') : buttonLabel}
             </Button>
@@ -170,13 +178,13 @@ const CardData = ({
                   {...props}
                   ref={ref}
                   state={{ owner: owner }}
-                  to={`/${pathLink}/${owner}`}
+                  to={`/${pathLink}/${owner}/rate`}
                 />
               ))}
               className={classes.btnRate}
               size='small'
             >
-              {t('view')}
+              {t('rate')}
             </Button>
           </>
         )}
@@ -185,24 +193,10 @@ const CardData = ({
             <Button
               aria-label='Add to comparison'
               disabled={isSelected}
+              variant={!isSelected ? 'outlined' : 'none'}
               onClick={() => toggleSelection(!isSelected, owner, true)}
             >
               {isSelected ? t('selected') : t('addToVote')}
-            </Button>
-            <Button
-              // eslint-disable-next-line react/display-name
-              component={forwardRef((props, ref) => (
-                <Link
-                  {...props}
-                  ref={ref}
-                  state={{ owner: owner }}
-                  to={`/${pathLink}/${owner}`}
-                />
-              ))}
-              className={classes.btnRate}
-              size='small'
-            >
-              {t('view')}
             </Button>
           </>
         )}

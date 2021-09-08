@@ -420,67 +420,6 @@ const BlockProducerRate = ({ account, ual }) => {
                   variant='contained'
                   size='small'
                 >
-<<<<<<< HEAD
-                  <Grid
-                    alignItems='center'
-                    container
-                    justifyContent='flex-end'
-                    style={{ marginTop: 10 }}
-                  >
-                    <Snackbar
-                      open={showMessage}
-                      autoHideDuration={4000}
-                      onClose={handleClose}
-                    >
-                      <Alert onClose={handleClose} severity='warning'>
-                        {t('rateWithoutLogin')}
-                      </Alert>
-                    </Snackbar>
-                    <Snackbar
-                      open={ratingState.txError}
-                      autoHideDuration={4000}
-                      onClose={handleClose}
-                    >
-                      <Alert onClose={handleClose} severity='error'>
-                        {ratingState.txError}
-                      </Alert>
-                    </Snackbar>
-                    <Button
-                      disabled={!producer}
-                      component={forwardRef((props, ref) => (
-                        <Link
-                          {...props}
-                          ref={ref}
-                          to={`/block-producers/${_get(
-                            producer,
-                            'owner',
-                            null
-                          )}`}
-                        />
-                      ))}
-                      variant='contained'
-                      size='small'
-                    >
-                      {t('cancelRatingButton')}
-                    </Button>
-                    <Button
-                      className='textPrimary'
-                      disabled={
-                        showAlert || !producer || ratingState.processing
-                      }
-                      color='secondary'
-                      onClick={transact}
-                      size='small'
-                      style={{ margin: '0 10px' }}
-                      variant='contained'
-                    >
-                      {isNewRate
-                        ? t('publishRatingButton')
-                        : t('updateRatingButton')}
-                    </Button>
-                  </Grid>
-                </Grid>
-=======
                   {t('cancelRatingButton')}
                 </Button>
                 <Button
@@ -496,7 +435,6 @@ const BlockProducerRate = ({ account, ual }) => {
                     ? t('publishRatingButton')
                     : t('updateRatingButton')}
                 </Button>
->>>>>>> 1921f436788b2d46943c3b8bbe79a786837495a4
               </Grid>
             </Grid>
           </Grid>
@@ -567,70 +505,6 @@ const BlockProducerRate = ({ account, ual }) => {
                     variant='contained'
                     size='small'
                   >
-<<<<<<< HEAD
-                    <Grid
-                      alignItems='center'
-                      container
-                      justifyContent='center'
-                      style={{ marginTop: 10 }}
-                    >
-                      <Snackbar
-                        open={showMessage}
-                        autoHideDuration={4000}
-                        onClose={handleClose}
-                      >
-                        <Alert onClose={handleClose} severity='warning'>
-                          {t('rateWithoutLogin')}
-                        </Alert>
-                      </Snackbar>
-                      <Snackbar
-                        open={ratingState.txError}
-                        autoHideDuration={4000}
-                        onClose={handleClose}
-                      >
-                        <Alert onClose={handleClose} severity='error'>
-                          {ratingState.txError}
-                        </Alert>
-                      </Snackbar>
-                      {ratingState.processing && (
-                        <CircularProgress color='secondary' size={20} />
-                      )}
-                      <Button
-                        disabled={!producer}
-                        component={forwardRef((props, ref) => (
-                          <Link
-                            {...props}
-                            ref={ref}
-                            to={`/block-producers/${_get(
-                              producer,
-                              'owner',
-                              null
-                            )}`}
-                          />
-                        ))}
-                        variant='contained'
-                        size='small'
-                      >
-                        {t('cancelRatingButton')}
-                      </Button>
-                      <Button
-                        className='textPrimary'
-                        disabled={
-                          showAlert || !producer || ratingState.processing
-                        }
-                        color='secondary'
-                        onClick={transact}
-                        size='small'
-                        style={{ margin: '0 10px' }}
-                        variant='contained'
-                      >
-                        {isNewRate
-                          ? t('publishRatingButton')
-                          : t('updateRatingButton')}
-                      </Button>
-                    </Grid>
-                  </Grid>
-=======
                     {t('cancelRatingButton')}
                   </Button>
                   <Button
@@ -646,7 +520,6 @@ const BlockProducerRate = ({ account, ual }) => {
                       ? t('publishRatingButton')
                       : t('updateRatingButton')}
                   </Button>
->>>>>>> 1921f436788b2d46943c3b8bbe79a786837495a4
                 </Grid>
               </Grid>
             </Grid>

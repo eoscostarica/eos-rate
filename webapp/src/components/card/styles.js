@@ -32,7 +32,7 @@ export default (theme) => ({
     height: '90%'
   },
   btnRate: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.submenu,
     color: 'white',
     '&:hover': {
       backgroundColor: theme.palette.secondary.dark
