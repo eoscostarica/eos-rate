@@ -6,6 +6,11 @@ const QUERY_EDEN_RATING = gql`
       bp
       average
       ratings_cntr
+      infrastructure
+      transparency
+      trustiness
+      development
+      community
     }
   }
 `
