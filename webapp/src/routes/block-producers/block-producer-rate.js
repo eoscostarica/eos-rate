@@ -10,7 +10,6 @@ import {
   Button,
   IconButton,
   Grid,
-  Paper,
   CircularProgress,
   Typography,
   Link as MLink
@@ -24,6 +23,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import { makeStyles } from '@material-ui/core/styles'
 import formatNumber from 'utils/formatNumber'
+import Box from '@material-ui/core/Box'
 
 import TitlePage from 'components/title-page'
 import Radar from 'components/radar'
@@ -58,13 +58,16 @@ const BlockProducerRate = ({ account, ual }) => {
   const [showAlert, setShowAlert] = useState(false)
   const { t } = useTranslation('bpRatePage')
   const dispatch = useDispatch()
-  const { producer, userRate } = useSelector((state) => state.blockProducers)
+  const { producer, userRate, edenRate } = useSelector(
+    (state) => state.blockProducers
+  )
   const { data: user } = useSelector((state) => state.user)
   const classes = useStyles()
   const accountName = _get(ual, 'activeUser.accountName', null)
   const bpData = _get(producer, 'data', {})
   const [lastTransactionId, setLastTransactionId] = useState(undefined)
-  const isDesktop = useMediaQuery('(min-width:767px)')
+  const isDesktop = useMediaQuery('(min-width:769px)')
+  const isMobile = useMediaQuery('(max-width:767px)')
   const [sizes, setSizes] = useState()
 
   const handleStateChange = (parameter) => (event, value) => {
@@ -74,7 +77,7 @@ const BlockProducerRate = ({ account, ual }) => {
   const bPLogo = _get(producer, 'bpjson.org.branding.logo_256', null)
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : '100%')
+    setSizes(isDesktop ? 425 : '100%')
   }, [isDesktop])
 
   function Alert(props) {
@@ -124,6 +127,7 @@ const BlockProducerRate = ({ account, ual }) => {
   }, [accountName, account, ual, setShowMessage])
 
   useEffect(() => {
+    console.log(userRate)
     if (userRate) {
       setRatingState({
         ...ratingState,
@@ -198,6 +202,30 @@ const BlockProducerRate = ({ account, ual }) => {
   const userDataSet = getBPRadarData({
     name: t('myRate'),
     parameters: getRatingData()
+  })
+
+  const getEdenRatingData = () => {
+    if (edenRate) {
+      return {
+        community: edenRate.community,
+        development: edenRate.development,
+        infrastructure: edenRate.development,
+        transparency: edenRate.transparency,
+        trustiness: edenRate.trustiness
+      }
+    }
+    return {
+      community: 0,
+      development: 0,
+      infrastructure: 0,
+      transparency: 0,
+      trustiness: 0
+    }
+  }
+
+  const edenDataSet = getBPRadarData({
+    name: t('edenRates'),
+    parameters: getEdenRatingData()
   })
 
   const transact = async () => {
@@ -281,6 +309,7 @@ const BlockProducerRate = ({ account, ual }) => {
           className={classes.breadcrumbText}
         >
           <Button
+            className={classes.backButtonStyle}
             component={forwardRef((props, ref) => (
               <Link {...props} ref={ref} to='/block-producers' />
             ))}
@@ -289,6 +318,7 @@ const BlockProducerRate = ({ account, ual }) => {
             {t('allBPs')}
           </Button>
           <Button
+            className={classes.backButtonStyle}
             component={forwardRef((props, ref) => (
               <Link
                 {...props}
@@ -302,72 +332,95 @@ const BlockProducerRate = ({ account, ual }) => {
           </Button>
         </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Paper>
-          <Grid
-            container
-            direction='row'
-            alignItems='center'
-            className={classes.box}
-          >
-            <Grid container direction='row' alignItems='center'>
-              <Grid item xs={12}>
-                <Grid container direction='row' alignItems='center'>
-                  {bPLogo ? (
-                    <Avatar
-                      aria-label='Block Producer'
-                      className={classes.avatar}
-                    >
-                      <img src={bPLogo} alt='' width='100%' />
-                    </Avatar>
-                  ) : (
-                    <AccountCircle className={classes.accountCircle} />
-                  )}
-                  <Typography variant='h6' className={classes.bpName}>
-                    {_get(producer, 'bpjson.org.candidate_name') ||
-                      _get(producer, 'system.owner', t('noBlockProducer'))}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid container direction='row' style={{ marginTop: 10 }}>
-              <Grid item xs={12} sm={5}>
-                <Typography variant='subtitle1' className={classes.title}>
-                  {t('subTitle')}
-                </Typography>
-                <Typography paragraph> {t('subText')} </Typography>
-                <Typography paragraph> {t('helpText')} </Typography>
-                <Typography paragraph> {t('rateText')} </Typography>
-                {!isDesktop && (
-                  <Grid style={{ paddingTop: 20 }} item xs={12}>
-                    <Radar
-                      height={sizes}
-                      width={sizes}
-                      showLabel
-                      bpData={{
-                        datasets: [
-                          { ...bpData, label: t('globalRate') },
-                          userDataSet
-                        ]
-                      }}
-                    />
-                  </Grid>
-                )}
-                <SliderRatingSection
-                  t={t}
-                  handleStateChange={handleStateChange}
-                  ratingState={ratingState}
-                  producer={producer}
+      <Grid container className={classes.reliefGrid}>
+        <Grid item md={12} xs={12}>
+          <Box style={{ display: 'flex' }}>
+            {bPLogo ? (
+              <Avatar aria-label='Block Producer' className={classes.avatar}>
+                <img src={bPLogo} alt='' width='100%' />
+              </Avatar>
+            ) : (
+              <AccountCircle className={classes.accountCircle} />
+            )}
+            <Typography variant='h6' className={classes.bpName}>
+              {_get(producer, 'bpjson.org.candidate_name') ||
+                _get(producer, 'system.owner', t('noBlockProducer'))}
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid container direction='row' style={{ marginTop: 10 }}>
+          <Grid item xs={12} sm={5}>
+            <Typography variant='subtitle1' className={classes.title}>
+              {t('subTitle')}
+            </Typography>
+            <Typography paragraph> {t('subText')} </Typography>
+            <Typography paragraph> {t('helpText')} </Typography>
+            <Typography paragraph> {t('rateText')} </Typography>
+            {isMobile && (
+              <Grid style={{ paddingTop: 20 }} item xs={12}>
+                <Radar
+                  height={sizes}
+                  width={sizes}
+                  showLabel
+                  bpData={{
+                    datasets: [
+                      { ...bpData, label: t('globalRate') },
+                      edenDataSet,
+                      userDataSet
+                    ]
+                  }}
                 />
-                <Grid
-                  className={classNames(
-                    classes.ctasWrapper,
-                    classes.showOnlyLg
-                  )}
-                  style={{ margin: '10px 0 10px 0' }}
-                  item
-                  xs={12}
+              </Grid>
+            )}
+            <SliderRatingSection
+              t={t}
+              handleStateChange={handleStateChange}
+              ratingState={ratingState}
+              producer={producer}
+            />
+            <Grid
+              className={classNames(classes.ctasWrapper, classes.showOnlyLg)}
+              style={{ margin: '10px 0 10px 0' }}
+              item
+              xs={12}
+            >
+              <Grid
+                alignItems='center'
+                container
+                justifyContent='flex-end'
+                style={{ marginTop: 10 }}
+              >
+                <Snackbar
+                  open={showMessage}
+                  autoHideDuration={4000}
+                  onClose={handleClose}
                 >
+                  <Alert onClose={handleClose} severity='warning'>
+                    {t('rateWithoutLogin')}
+                  </Alert>
+                </Snackbar>
+                <Snackbar
+                  open={ratingState.txError}
+                  autoHideDuration={4000}
+                  onClose={handleClose}
+                >
+                  <Alert onClose={handleClose} severity='error'>
+                    {ratingState.txError}
+                  </Alert>
+                </Snackbar>
+                <Button
+                  disabled={!producer}
+                  component={forwardRef((props, ref) => (
+                    <Link
+                      {...props}
+                      ref={ref}
+                      to={`/block-producers/${_get(producer, 'owner', null)}`}
+                    />
+                  ))}
+                  variant='contained'
+                  size='small'
+                >
+<<<<<<< HEAD
                   <Grid
                     alignItems='center'
                     container
@@ -427,37 +480,94 @@ const BlockProducerRate = ({ account, ual }) => {
                     </Button>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item xs={12} sm={7}>
-                <Grid
-                  container
-                  direction='column'
-                  className={classes.radarActionsWrapper}
+=======
+                  {t('cancelRatingButton')}
+                </Button>
+                <Button
+                  className='textPrimary'
+                  disabled={showAlert || !producer || ratingState.processing}
+                  color='secondary'
+                  onClick={transact}
+                  size='small'
+                  style={{ margin: '0 10px' }}
+                  variant='contained'
                 >
-                  {isDesktop && (
-                    <Grid className={classes.radarWrapper} item xs={12}>
-                      <Radar
-                        height={sizes}
-                        width={sizes}
-                        showLabel
-                        bpData={{
-                          datasets: [
-                            { ...bpData, label: t('globalRate') },
-                            userDataSet
-                          ]
-                        }}
-                      />
-                    </Grid>
-                  )}
-                  <Grid
-                    className={classNames(
-                      classes.ctasWrapper,
-                      classes.showOnlySm
-                    )}
-                    item
-                    style={{ margin: '10px 0 15px 0' }}
-                    xs={12}
+                  {isNewRate
+                    ? t('publishRatingButton')
+                    : t('updateRatingButton')}
+                </Button>
+>>>>>>> 1921f436788b2d46943c3b8bbe79a786837495a4
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sm={7}>
+            <Grid
+              container
+              direction='column'
+              className={classes.radarActionsWrapper}
+            >
+              {!isMobile && (
+                <Grid className={classes.radarWrapper} item xs={12}>
+                  <Radar
+                    height={sizes}
+                    width={sizes}
+                    showLabel
+                    bpData={{
+                      datasets: [
+                        { ...bpData, label: t('globalRate') },
+                        edenDataSet,
+                        userDataSet
+                      ]
+                    }}
+                  />
+                </Grid>
+              )}
+              <Grid
+                className={classNames(classes.ctasWrapper, classes.showOnlySm)}
+                item
+                style={{ margin: '10px 0 15px 0' }}
+                xs={12}
+              >
+                <Grid
+                  alignItems='center'
+                  container
+                  justifyContent='center'
+                  style={{ marginTop: 10 }}
+                >
+                  <Snackbar
+                    open={showMessage}
+                    autoHideDuration={4000}
+                    onClose={handleClose}
                   >
+                    <Alert onClose={handleClose} severity='warning'>
+                      {t('rateWithoutLogin')}
+                    </Alert>
+                  </Snackbar>
+                  <Snackbar
+                    open={ratingState.txError}
+                    autoHideDuration={4000}
+                    onClose={handleClose}
+                  >
+                    <Alert onClose={handleClose} severity='error'>
+                      {ratingState.txError}
+                    </Alert>
+                  </Snackbar>
+                  {ratingState.processing && (
+                    <CircularProgress color='secondary' size={20} />
+                  )}
+                  <Button
+                    disabled={!producer}
+                    component={forwardRef((props, ref) => (
+                      <Link
+                        {...props}
+                        ref={ref}
+                        to={`/block-producers/${_get(producer, 'owner', null)}`}
+                      />
+                    ))}
+                    variant='contained'
+                    size='small'
+                  >
+<<<<<<< HEAD
                     <Grid
                       alignItems='center'
                       container
@@ -520,58 +630,75 @@ const BlockProducerRate = ({ account, ual }) => {
                       </Button>
                     </Grid>
                   </Grid>
+=======
+                    {t('cancelRatingButton')}
+                  </Button>
+                  <Button
+                    className='textPrimary'
+                    disabled={showAlert || !producer || ratingState.processing}
+                    color='secondary'
+                    onClick={transact}
+                    size='small'
+                    style={{ margin: '0 10px' }}
+                    variant='contained'
+                  >
+                    {isNewRate
+                      ? t('publishRatingButton')
+                      : t('updateRatingButton')}
+                  </Button>
+>>>>>>> 1921f436788b2d46943c3b8bbe79a786837495a4
                 </Grid>
               </Grid>
             </Grid>
-            {lastTransactionId && (
-              <Grid item md={4} xs={12} lg={2} style={{ margin: 'auto' }}>
-                <Alert show className={classes.alert} severity='success'>
-                  <Grid
-                    container
-                    className={classes.alertBody}
-                    justifyContent='space-between'
-                  >
-                    <Typography>{t('success')}</Typography>
-                    <Grid
-                      className={classes.alertActionsContainer}
-                      container
-                      justifyContent='space-evenly'
-                    >
-                      <Button
-                        variant='contained'
-                        disableElevation
-                        className={classes.detailsIconButton}
-                        color='primary'
-                      >
-                        <MLink
-                          rel='noopener'
-                          target='_blank'
-                          style={{ color: 'white' }}
-                          href={`${blockExplorer}/transaction/${lastTransactionId}`}
-                        >
-                          {t('details')}
-                        </MLink>
-                      </Button>
-                      <IconButton
-                        className={classes.closeIconButton}
-                        onClick={() => handleSetLastTransactionId()}
-                      >
-                        <Close />
-                      </IconButton>
-                    </Grid>
-                  </Grid>
-                </Alert>
-              </Grid>
-            )}
-            {showAlert && (
-              <Grid container>
-                <Alert className={classes.alert} severity='warning'>
-                  {t('infoMessage')}
-                </Alert>
-              </Grid>
-            )}
           </Grid>
-        </Paper>
+        </Grid>
+        {lastTransactionId && (
+          <Grid item md={4} xs={12} lg={2} style={{ margin: 'auto' }}>
+            <Alert show className={classes.alert} severity='success'>
+              <Grid
+                container
+                className={classes.alertBody}
+                justifyContent='space-between'
+              >
+                <Typography>{t('success')}</Typography>
+                <Grid
+                  className={classes.alertActionsContainer}
+                  container
+                  justifyContent='space-evenly'
+                >
+                  <Button
+                    variant='contained'
+                    disableElevation
+                    className={classes.detailsIconButton}
+                    color='primary'
+                  >
+                    <MLink
+                      rel='noopener'
+                      target='_blank'
+                      style={{ color: 'white' }}
+                      href={`${blockExplorer}/transaction/${lastTransactionId}`}
+                    >
+                      {t('details')}
+                    </MLink>
+                  </Button>
+                  <IconButton
+                    className={classes.closeIconButton}
+                    onClick={() => handleSetLastTransactionId()}
+                  >
+                    <Close />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </Alert>
+          </Grid>
+        )}
+        {showAlert && (
+          <Grid container>
+            <Alert className={classes.alert} severity='warning'>
+              {t('infoMessage')}
+            </Alert>
+          </Grid>
+        )}
       </Grid>
     </Grid>
   )

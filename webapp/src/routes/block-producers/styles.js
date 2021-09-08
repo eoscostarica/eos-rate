@@ -235,7 +235,7 @@ export default (theme) => ({
     overflowY: 'initial'
   },
   reliefGrid: {
-    margin: '20px 16px 30px 16px',
+    margin: '10px 16px 30px 16px',
     padding: '20px',
     border: '1px solid #f8f8f',
     borderRadius: '6px',
@@ -258,5 +258,9 @@ export default (theme) => ({
     [theme.breakpoints.down('xs')]: {
       width: '54%'
     }
+  },
+  backButtonStyle: {
+    marginLeft: '16px !important',
+    padding: '6px 16px !important'
   }
 })
