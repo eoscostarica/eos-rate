@@ -62,8 +62,9 @@
     "drawerLinkRicardianContract": "Contratos Ricardianos",
     "drawerLinkHelp": "Ayuda",
     "lockedRating": "Debes votar por al menos 21 productores de bloques o un proxy para desbloquear calificaciones",
+    "edenMemberMessage": "Miembro de Eden. Calificaciones desbloqueadas.",
     "unlockedRating": "Ha votado por 21 bps o un proxy y ha desbloqueado calificaciones",
-    "success" : "¡Éxito!",
+    "success": "¡Éxito!",
     "appBarSignIn": "Iniciar Sesión",
 
     "connecting": "Conectando",
@@ -161,7 +162,7 @@
     "community": "Comunidad",
     "development": "Desarrollo",
     "voteWithoutLogin": "Necesitas iniciar sesión para ejecutar esta acción",
-    "success" : "¡Éxito!"
+    "success": "¡Éxito!"
   },
 
   "bpRatePage": {
@@ -171,6 +172,7 @@
     "rateText": "Si cree que no tiene suficiente conocimiento sobre una categoría específica, puede deshabilitarla.",
     "helpText": "Publique su calificación iniciando sesión con tu billetera favorita.",
     "publishRatingButton": "Publicar Calificación",
+    "updateRatingButton": "Actualizar calificación",
     "cancelRatingButton": "Cancelar",
     "transparency": "Transparencia",
     "transparencyTooltip": "Cumplimiento de la divulgación de la información.",
@@ -182,24 +184,24 @@
     "communityTooltip": "Creación de valor comunitario a través de la educación, eventos y/o otros contenidos útiles.",
     "development": "Desarrollo",
     "developmentTooltip": "Conocimientos técnicos y uso de software de código abierto, scripts, marcos, billeteras, portales de votación, métricas, etc.",
-    "globalRate": "Evaluación Promedio",
+    "globalRate": "Evaluación General",
     "myRate": "Mi Evaluación",
+    "edenRates": "Evaluación Eden",
     "rateWithoutLogin": "Necesitas iniciar sesión para evaluar un productor de bloques",
     "noBlockProducer": "No encontramos este PB",
-    "success" : "¡Éxito!",
+    "success": "¡Éxito!",
     "title": "Calificación de Productores de bloques EOS",
     "infoMessage": "Apoye la red votando por sus BP o proxy favoritos, una vez que haya votado por 21 BP puede comenzar a calificar."
   },
 
   "footer": {
-    "legend": "¿Quieres contribuir? Ven a aprender con nosotros"
+    "legend": "¿Quieres contribuir? Este dApp es código abierto."
   },
 
   "profile": {
     "generalInformation": "Información General",
-    "eosRates": "Calificación EOS",
+    "eosRates": "Calificación General",
     "edenRates": "Calificación Eden",
-    "tatolRates": "Calificación Total",
     "rankings": "Clasificaciones",
     "social": "Social",
     "account": "Cuenta",
@@ -225,9 +227,11 @@
     "voteWithoutLogin": "Necesita iniciar sesión para votar por un proxy",
     "totalVotes": "Total de votos",
     "labelTool": "vota por",
-    "success" : "¡Éxito!",
+    "success": "¡Éxito!",
     "title": "Calificaciones de productor de bloques EOS",
-    "proxyProfile": "Reseñas sobre EOS proxy"
+    "proxyProfile": "Reseñas sobre EOS proxy",
+    "interview": "Entrevista al PB:",
+    "additionalResources": "Recursos Adicionales:"
   },
 
   "about": {

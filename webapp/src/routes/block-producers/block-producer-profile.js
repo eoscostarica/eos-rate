@@ -13,6 +13,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import { Box, useMediaQuery } from '@material-ui/core'
 import _get from 'lodash.get'
 
+import getBPRadarData from 'utils/getBPRadarData'
 import TitlePage from 'components/title-page'
 import Radar from 'components/radar'
 
@@ -73,12 +74,38 @@ const BlockProducerProfile = ({ account, ...props }) => {
   )
   const bPLogo =
     bpHasInformation && _get(producer, 'bpjson.org.branding.logo_256', null)
+
   const BlockProducerTitle = _get(
     producer,
     'bpjson.org.candidate_name',
     _get(producer, 'system.owner', 'No Data')
   )
+
   const webInfo = _get(producer, 'general_info', null)
+
+  const getRatingData = () => {
+    if (edenRate) {
+      return {
+        community: edenRate.community,
+        development: edenRate.development,
+        infrastructure: edenRate.development,
+        transparency: edenRate.transparency,
+        trustiness: edenRate.trustiness
+      }
+    }
+    return {
+      community: 0,
+      development: 0,
+      infrastructure: 0,
+      transparency: 0,
+      trustiness: 0
+    }
+  }
+
+  const userDataSet = getBPRadarData({
+    name: t('edenRates'),
+    parameters: getRatingData()
+  })
 
   useEffect(() => {
     setSizes(isDesktop ? 400 : '100%')
@@ -104,8 +131,14 @@ const BlockProducerProfile = ({ account, ...props }) => {
     <Grid container justify='center' className={classes.container}>
       <TitlePage title={`${t('title')} ${BlockProducerTitle} - EOS Rate`} />
       <Grid item md={12} xs={12}>
-        <Grid container direction='row' alignItems='center'>
+        <Grid
+          container
+          direction='row'
+          alignItems='center'
+          className={classes.breadcrumbText}
+        >
           <Button
+            className={classes.backButtonStyle}
             // eslint-disable-next-line react/display-name
             component={forwardRef((props, ref) => (
               <Link {...props} ref={ref} to='/block-producers' />
@@ -146,7 +179,7 @@ const BlockProducerProfile = ({ account, ...props }) => {
             <SocialNetworks
               classes={classes}
               overrideClass={classes.showOnlyLg}
-              producer={bpHasInformation && producer.bpjson}
+              producer={bpHasInformation && producer}
             />
           </Grid>
         )}
@@ -155,8 +188,11 @@ const BlockProducerProfile = ({ account, ...props }) => {
             <Radar
               height={sizes}
               width={sizes}
+              showLabel
               bpData={{
-                datasets: producer ? [{ ...producer.data }] : []
+                datasets: producer
+                  ? [{ ...producer.data, label: t('eosRates') }, userDataSet]
+                  : []
               }}
             />
           </Grid>
@@ -198,7 +234,7 @@ const BlockProducerProfile = ({ account, ...props }) => {
             <SocialNetworks
               classes={classes}
               overrideClass={classes.showOnlyLg}
-              producer={bpHasInformation && producer.bpjson}
+              producer={bpHasInformation && producer}
             />
           </Grid>
         )}

@@ -62,6 +62,7 @@
     "drawerLinkRicardianContract": "Ricardian Contract",
     "drawerLinkHelp": "Help",
     "lockedRating": "You must vote for at least 21 block producers or a proxy to unlock ratings",
+    "edenMemberMessage": "Eden member. Ratings unlocked.",
     "unlockedRating": "You have voted for 21 bps or a proxy and have unlocked ratings",
     "success" : "Success!",
     "appBarSignIn": "Sign In",
@@ -171,6 +172,7 @@
     "rateText": "If you feel that you do not have enough knowledge about a specific category you can disable it.",
     "helpText": "Publish your BP rating by signing in with your favorite wallet.",
     "publishRatingButton": "Publish Rating",
+    "updateRatingButton": "Update Rating",
     "cancelRatingButton": "Cancel",
     "transparency": "Transparency",
     "transparencyTooltip": "Compliance with disclosure of ownership.",
@@ -182,24 +184,24 @@
     "communityTooltip": "Community value creation through education, events, and other useful content.",
     "development": "Development",
     "developmentTooltip": "Technical know-how and usage of open-source software, scripts, frameworks, wallets, voting portals, metrics, etc.",
-    "globalRate": "Average Rating",
+    "globalRate": "General Rating",
     "myRate": "My Rating",
+    "edenRates": "Eden Rating",
     "rateWithoutLogin": "You need to login to rate this block producer",
     "noBlockProducer": "This BP Does Not Exist.",
     "success" : "Success!",
-    "title": "Rate EOS Block Producer Infrastructure and Community Reputation ",
+    "title": "Rate EOS Block Producer Infrastructure and Community Reputation",
     "infoMessage": "Support the network by voting for your favorite BPs or proxy, once you have voted for 21 BPs you can start rating."
   },
 
   "footer": {
-    "legend": "Want to contribute? Come learn with us"
+    "legend": "Want to contribute ? This dApp is open-source"
   },
 
   "profile": {
     "generalInformation": "General Information",
-    "eosRates": "EOS Rating",
+    "eosRates": "General Rating",
     "edenRates": "Eden Rating",
-    "tatolRates": "Total Rating",
     "rankings": "Rankings",
     "social": "Social",
     "account": "Account",
@@ -227,7 +229,9 @@
     "labelTool": "votes for",
     "success" : "Success!",
     "title": "Block Producer Community Ratings for",
-    "proxyProfile": "Reviews on EOS proxy account"
+    "proxyProfile": "Reviews on EOS proxy account",
+    "interview": "BP interview:",
+    "additionalResources": "Additional Resources:"
   },
 
   "about": {
