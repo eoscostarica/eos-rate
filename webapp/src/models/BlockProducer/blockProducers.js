@@ -110,7 +110,7 @@ const Proxies = {
     addEdenRate(state, edenRate) {
       return { ...state, edenRate }
     },
-    addTransacction(state, transaction) {
+    addTransaction(state, transaction) {
       return { ...state, transaction }
     }
   },
@@ -127,7 +127,7 @@ const Proxies = {
       )
     },
     async saveLastTransaction(transaction) {
-      this.addTransacction(transaction)
+      this.addTransaction(transaction)
     },
     async getBlockProducerByOwner(owner, state) {
       try {
