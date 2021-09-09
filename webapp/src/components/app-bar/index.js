@@ -100,7 +100,7 @@ const MainTopBar = ({
           <img
             src={stage === 'true' ? '/logo-mainnet.svg' : '/logo-testnet.svg'}
             alt='EOS Rate'
-            className={classes.title}
+            className={classes.logoStyle}
           />
         </Link>
         <div className={classes.grow} />

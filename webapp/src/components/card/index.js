@@ -167,7 +167,7 @@ const CardData = ({
             <Button
               aria-label='Add to comparison'
               onClick={toggleSelection(!isSelected, owner)}
-              variant={!isSelected ? 'outlined' : 'none'}
+              className={!isSelected ? classes.secondaryBtn : ''}
             >
               {isSelected ? t('remove') : buttonLabel}
             </Button>
@@ -182,6 +182,7 @@ const CardData = ({
                 />
               ))}
               className={classes.btnRate}
+              variant='contained'
               size='small'
             >
               {t('rate')}
@@ -193,7 +194,7 @@ const CardData = ({
             <Button
               aria-label='Add to comparison'
               disabled={isSelected}
-              variant={!isSelected ? 'outlined' : 'none'}
+              className={!isSelected ? classes.secondaryBtn : ''}
               onClick={() => toggleSelection(!isSelected, owner, true)}
             >
               {isSelected ? t('selected') : t('addToVote')}

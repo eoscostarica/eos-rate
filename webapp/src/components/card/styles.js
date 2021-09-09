@@ -6,7 +6,7 @@ export default (theme) => ({
   title: {
     textDecoration: 'none',
     color: theme.palette.primary.main,
-    padding: theme.spacing(2, 2, 1, 2)
+    padding: theme.spacing(1, 2, 1, 2)
   },
   unsafeChip: {
     marginLeft: theme.spacing(2),
@@ -19,7 +19,8 @@ export default (theme) => ({
   },
   actions: {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    padding: 16
   },
   radar: {
     background: theme.palette.surface.light
@@ -34,9 +35,17 @@ export default (theme) => ({
   btnRate: {
     backgroundColor: theme.palette.primary.submenu,
     color: 'white',
+    paddingLeft: 24,
+    paddingRight: 24,
+    boxShadow: `0px 3px 1px -2px ${theme.palette.secondary.main}, 0px 2px 2px 0px ${theme.palette.secondary.main}, 0px 1px 5px 0px ${theme.palette.secondary.main}`,
     '&:hover': {
       backgroundColor: theme.palette.secondary.dark
     }
+  },
+  secondaryBtn: {
+    border: `1px solid ${theme.palette.primary.main}`,
+    paddingLeft: 16,
+    paddingRight: 16
   },
   warningBox: {
     display: 'flex',
@@ -47,7 +56,8 @@ export default (theme) => ({
     color: 'rgb(255, 152, 0)'
   },
   marginRightElem: {
-    marginRight: 5
+    marginRight: 5,
+    color: theme.palette.primary.main
   },
   blockIcons: {
     display: 'flex',
@@ -92,7 +102,7 @@ export default (theme) => ({
   },
   boxValueRates: {
     display: 'flex',
-    marginBottom: '15px',
+    marginBottom: '20px',
     justifyContent: 'center'
   }
 })
