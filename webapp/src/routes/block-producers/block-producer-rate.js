@@ -264,9 +264,9 @@ const BlockProducerRate = ({ account, ual }) => {
       })
 
       await dispatch.blockProducers.saveLastTransaction({
-        transacction: {
-          transacctionId: result.transaction.transaction_id,
-          transacctionDate: result.transaction.processed.block_time
+        transaction: {
+          transactionId: result.transaction.transaction_id,
+          transactionDate: result.transaction.processed.block_time
         }
       })
       setLastTransactionId(result.transactionId)

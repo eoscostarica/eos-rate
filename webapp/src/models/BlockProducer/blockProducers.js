@@ -21,7 +21,7 @@ const initialState = {
   producer: null,
   userRate: null,
   edenRate: null,
-  transacction: null,
+  transaction: null,
   showSortSelected: false
 }
 
@@ -110,8 +110,8 @@ const Proxies = {
     addEdenRate(state, edenRate) {
       return { ...state, edenRate }
     },
-    addTransacction(state, transacction) {
-      return { ...state, transacction }
+    addTransacction(state, transaction) {
+      return { ...state, transaction }
     }
   },
   effects: (dispatch) => ({
@@ -126,8 +126,8 @@ const Proxies = {
         filters
       )
     },
-    async saveLastTransaction(transacction) {
-      this.addTransacction(transacction)
+    async saveLastTransaction(transaction) {
+      this.addTransacction(transaction)
     },
     async getBlockProducerByOwner(owner, state) {
       try {
@@ -225,7 +225,7 @@ const Proxies = {
             ratingInput: {
               producer: bp,
               user,
-              transacction: state.blockProducers.transacction
+              transaction: state.blockProducers.transaction
             }
           },
           mutation: MUTATION_UPDATE_RATING
