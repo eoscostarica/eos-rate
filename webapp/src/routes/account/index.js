@@ -146,7 +146,7 @@ const Account = ({ ual }) => {
                 const BPName = _get(rate, 'bpjson.org.candidate_name', rate.bp)
                 const date = _get(
                   rate,
-                  'tx_data.transacction.transacctionDate',
+                  'tx_data.transaction.transactionDate',
                   ''
                 ).substring(0, 10)
 
@@ -235,9 +235,9 @@ const Account = ({ ual }) => {
                               rel='noopener'
                               target='_blank'
                               className={classes.link}
-                              href={`${blockExplorer}/transaction/${rate.tx_data.transacction.transacctionId}`}
+                              href={`${blockExplorer}/transaction/${rate.tx_data.transaction.transactionId}`}
                             >
-                              {rate.tx_data.transacction.transacctionId}
+                              {rate.tx_data.transaction.transactionId}
                             </Link>
                           )}
                         </Grid>

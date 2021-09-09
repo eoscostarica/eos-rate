@@ -1,7 +1,6 @@
 -include .env
 
 VERSION ?= $(shell git rev-parse --short HEAD)
-CURRENT_BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD)
 
 IMAGE_NAME_WEBAPP=eosrate-webapp
 IMAGE_NAME_HAPI=eosrate-hapi

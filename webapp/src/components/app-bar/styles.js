@@ -25,7 +25,7 @@ export default (theme, alpha) => ({
   menuButton: {
     marginLeft: -18,
     [theme.breakpoints.up('sm')]: {
-      marginRight: 10
+      marginRight: 15
     }
   },
   search: {
@@ -70,6 +70,13 @@ export default (theme, alpha) => ({
     display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'inline'
+    }
+  },
+  logoStyle: {
+    width: 110,
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+      width: 180
     }
   }
 })
