@@ -127,7 +127,9 @@ const BlockProducerRate = ({ account, ual }) => {
   }, [accountName, account, ual, setShowMessage])
 
   useEffect(() => {
+    console.log('userRate: ', userRate)
     if (userRate) {
+      console.log('ENTRA')
       setRatingState({
         ...ratingState,
         community: accountName ? userRate.community : 1,
@@ -139,6 +141,7 @@ const BlockProducerRate = ({ account, ual }) => {
       setIsNewRate(false)
     } else {
       setRatingState(INIT_RATING_STATE_DATA)
+      setIsNewRate(true)
     }
   }, [userRate, accountName, setRatingState])
 
