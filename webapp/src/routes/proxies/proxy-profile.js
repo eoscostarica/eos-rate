@@ -37,6 +37,7 @@ const ProxyProfile = ({ account, ual, ...props }) => {
   const [showMessage, setShowMessage] = useState(false)
   const isDesktop = useMediaQuery('(min-width:767px)')
   const isMobile = useMediaQuery('(max-width:768px)')
+  const [openDesktopVotingTool, setOpenDesktopVotingTool] = useState(isDesktop)
   const [sizes, setSizes] = useState()
   const [ratingState, setRatingState] = useState({
     processing: false,
@@ -130,6 +131,10 @@ const ProxyProfile = ({ account, ual, ...props }) => {
     })
   }
 
+  const handleOnClose = () => {
+    setOpenDesktopVotingTool(false)
+  }
+
   useEffect(() => {
     const getData = async () => {
       await dispatch.proxies.getProxies()
@@ -142,7 +147,7 @@ const ProxyProfile = ({ account, ual, ...props }) => {
   }, [account, accountName, setShowMessage])
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : 240)
+    setSizes(isDesktop ? 400 : '95%')
   }, [isDesktop])
 
   return (
@@ -258,7 +263,7 @@ const ProxyProfile = ({ account, ual, ...props }) => {
         </Grid>
         {!isMobile && (
           <Grid container justify='center' md={5}>
-            <Grid style={{ height: '200px' }} item md={12}>
+            <Grid style={{ height: '350px', marginTop: '-30px' }} item md={12}>
               <Radar
                 height={sizes}
                 width={sizes}
@@ -279,7 +284,7 @@ const ProxyProfile = ({ account, ual, ...props }) => {
           </Grid>
         )}
         <Grid item md={12} xs={12}>
-          {proxy && Boolean(producers.length) && (
+          {proxy && openDesktopVotingTool && Boolean(producers.length) && (
             <CompareTool
               removeBP={() => console.log('remove')}
               className={classes.compareTool}
@@ -288,6 +293,7 @@ const ProxyProfile = ({ account, ual, ...props }) => {
               isProxy
               useOnlySliderView
               optionalLabel={`${ProxyTitle} ${t('labelTool')}:`}
+              handleOnClose={handleOnClose}
             />
           )}
         </Grid>

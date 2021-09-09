@@ -11,12 +11,14 @@
     "availableToRate": "Usted puede Calificar a los Productores de Bloques",
     "notAvailableToRate": "Usted debe votar por un proxy o al menos por 21 producers",
     "voteWithoutLogin": "Necesitas iniciar sesión para votar",
-    "btnVoteBPs": "Vote por estos BPs",
+    "btnVoteBPs": "Votar",
     "clearSelection": "Borrar selección",
     "loadMore": "Cargar más",
-    "view": "Ver",
+    "view": "MÁS",
+    "rate": "CALIFICAR",
     "remove": "Remover",
-    "addToVote": "Add to vote",
+    "addToVote": "Agregar para votar",
+    "selected": "Seleccionado",
     "details": "Details",
     "voting": "votando",
 
@@ -25,8 +27,10 @@
     "voteToolToggle": "Votar",
     "compareToolCollapsedSwitch": "Colapsar Gráficos",
     "voteToolTitle": "Herramienta de votación",
+    "noBPSelected": "No PBs seleccionados",
+    "noSelectedBP": "Aún no se ha seleccionado ningún productor de bloques. Haga clic en “Agregar para votar” y proceda a votar.",
     "voteToolDescription": "Inicie sesión en su cuenta y vote por los productores de bloques seleccionados.",
-    "selected": "Seleccionados",
+    "chosen": "Seleccionados",
     "averageCard": "Promedio",
     "rateCard": "Evaluaciones",
 
@@ -59,8 +63,9 @@
     "drawerLinkRicardianContract": "Contratos Ricardianos",
     "drawerLinkHelp": "Ayuda",
     "lockedRating": "Debes votar por al menos 21 productores de bloques o un proxy para desbloquear calificaciones",
+    "edenMemberMessage": "Miembro de Eden. Calificaciones desbloqueadas.",
     "unlockedRating": "Ha votado por 21 bps o un proxy y ha desbloqueado calificaciones",
-    "success" : "¡Éxito!",
+    "success": "¡Éxito!",
     "appBarSignIn": "Iniciar Sesión",
 
     "connecting": "Conectando",
@@ -78,6 +83,7 @@
     "alphabetical": "Alfabético",
     "ratings": "Número de Evaluaciones",
     "generalRate": "Mayor Calificación General",
+    "edenRate": "Mayor Calificación Eden",
     "infrastructure": "Mayor Calificación Infraestructura",
     "community": "Mayor Calificación Comunidad",
     "trustiness": "Mayor Calificación Confianza",
@@ -147,7 +153,17 @@
     "core_liquid_balance": "Balance Líquido",
     "inactive": "Inactiva",
     "logout": "Cerrar Sesión",
-    "title": "Perfil para cuenta"
+    "title": "Perfil para cuenta",
+    "yourRating": "Su calificación",
+    "unpublish": "ANULAR CALIFICACIÓN",
+    "youRated": "Tu calificaste",
+    "infrastructure": "Infraestructura",
+    "transparency": "Transparencia",
+    "trustiness": "Lealtad",
+    "community": "Comunidad",
+    "development": "Desarrollo",
+    "voteWithoutLogin": "Necesitas iniciar sesión para ejecutar esta acción",
+    "success": "¡Éxito!"
   },
 
   "bpRatePage": {
@@ -157,9 +173,10 @@
     "rateText": "Si cree que no tiene suficiente conocimiento sobre una categoría específica, puede deshabilitarla.",
     "helpText": "Publique su calificación iniciando sesión con tu billetera favorita.",
     "publishRatingButton": "Publicar Calificación",
+    "updateRatingButton": "Actualizar calificación",
     "cancelRatingButton": "Cancelar",
     "transparency": "Transparencia",
-    "transparencyTooltip": "Cumplimiento de la divulgación de la informacion.",
+    "transparencyTooltip": "Cumplimiento de la divulgación de la información.",
     "infrastructure": "Infraestructura",
     "infrastructureTooltip": "Estabilidad y confiabilidad de la infraestructura EOS.",
     "trustiness": "Lealtad",
@@ -168,24 +185,24 @@
     "communityTooltip": "Creación de valor comunitario a través de la educación, eventos y/o otros contenidos útiles.",
     "development": "Desarrollo",
     "developmentTooltip": "Conocimientos técnicos y uso de software de código abierto, scripts, marcos, billeteras, portales de votación, métricas, etc.",
-    "globalRate": "Evalucación Promedio",
+    "globalRate": "Evaluación General",
     "myRate": "Mi Evaluación",
+    "edenRates": "Evaluación Eden",
     "rateWithoutLogin": "Necesitas iniciar sesión para evaluar un productor de bloques",
     "noBlockProducer": "No encontramos este PB",
-    "success" : "¡Éxito!",
+    "success": "¡Éxito!",
     "title": "Calificación de Productores de bloques EOS",
     "infoMessage": "Apoye la red votando por sus BP o proxy favoritos, una vez que haya votado por 21 BP puede comenzar a calificar."
   },
 
   "footer": {
-    "legend": "¿Quieres contribuir? Ven a aprender con nosotros"
+    "legend": "¿Quieres contribuir? Este dApp es código abierto."
   },
 
   "profile": {
     "generalInformation": "Información General",
-    "eosRates": "Calificación EOS",
+    "eosRates": "Calificación General",
     "edenRates": "Calificación Eden",
-    "tatolRates": "Calificación Total",
     "rankings": "Clasificaciones",
     "social": "Social",
     "account": "Cuenta",
@@ -193,7 +210,7 @@
     "status": "Estado",
     "website": "Sitio web",
     "votes": "Votos",
-    "rates": "Valuación",
+    "rates": "Calificación",
     "average": "Promedio",
     "websiteInfo": "De su sitio web",
     "buttonRate": "Evalúa este PB",
@@ -203,17 +220,19 @@
     "noBpJson": "No pudimos encontrar un archivo bp.json para este productor de bloques.",
     "noCountryName": "No se proporcionó ubicación.",
     "noBlockProducer": "No encontramos este PB",
-    "noWebSiteInfo": "No hay informacion de su sitio web",
+    "noWebSiteInfo": "No hay información de su sitio web",
     "proxyVotes": "Votos del Proxy",
     "philosophy": "Filosofía",
     "slogan": "Eslogan",
     "background": "Historial",
-    "voteWithoutLogin": "Necesitas iniciar sesión para votar por un proxy",
+    "voteWithoutLogin": "Necesita iniciar sesión para votar por un proxy",
     "totalVotes": "Total de votos",
     "labelTool": "vota por",
-    "success" : "Success!",
+    "success": "¡Éxito!",
     "title": "Calificaciones de productor de bloques EOS",
-    "proxyProfile": "Reseñas sobre EOS proxy"
+    "proxyProfile": "Reseñas sobre EOS proxy",
+    "interview": "Entrevista al PB:",
+    "additionalResources": "Recursos Adicionales:"
   },
 
   "about": {
@@ -264,7 +283,7 @@
   },
 
   "help": {
-    "tabTitle": "Ayuda para herramientas de codigo abierto - EOS Rate",
+    "tabTitle": "Ayuda para herramientas de código abierto - EOS Rate",
     "title": "¡Gracias por usar EOS Rate!",
     "paragraph": "EOS Rate aún está en progreso. Si tiene algún problema, contáctenos utilizando los siguientes enlaces:",
     "githubEOSCR": "Github de EOS Costa Rica",

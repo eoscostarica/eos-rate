@@ -3,15 +3,15 @@ const EosApi = require('eosjs-api')
 const request = require('request-promise')
 const { massiveDB } = require('../config')
 
-const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle3.cryptolions.io'
-
+const HAPI_EOS_API_ENDPOINT =
+  process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle3.cryptolions.io'
 
 const getBlockProducersData = async () => {
   const eos = EosApi({
     httpEndpoint: HAPI_EOS_API_ENDPOINT,
     verbose: false
   })
-  
+
   let producers
 
   try {
@@ -21,18 +21,26 @@ const getBlockProducersData = async () => {
     })
 
     producers = tempProducers
-  } catch (err) { 
+  } catch (err) {
     console.log(`Database connection error ${err}`)
     return []
   }
 
   const allProducers = producers.reduce((result, producer) => {
-    if (!producer.is_active || !parseInt(producer.total_votes) || !producer.url) return result
+    if (!producer.is_active || !parseInt(producer.total_votes) || !producer.url)
+      return result
 
-    if (!producer.url.startsWith('https://') && !producer.url.startsWith('http://')) producer.url = `http://${producer.url}`
-    if (!producer.url.endsWith('.json')) producer.url = `${producer.url}/bp.json`
+    if (
+      !producer.url.startsWith('https://') &&
+      !producer.url.startsWith('http://')
+    )
+      producer.url = `http://${producer.url}`
+    if (!producer.url.endsWith('.json'))
+      producer.url = `${producer.url}/bp.json`
 
-    console.log(`${producer.owner}   TOTAL VOTES: ----> ${producer.total_votes}`)
+    console.log(
+      `${producer.owner}   TOTAL VOTES: ----> ${producer.total_votes}`
+    )
 
     return [
       ...result,
@@ -77,12 +85,20 @@ const updateBlockProducersData = async () => {
   producersData.forEach(async (bp) => {
     const { owner, system, bpJson: bpjson } = bp
     const bpData = { owner, system, bpjson }
-    
+
     try {
       const saveBPResult = await (await massiveDB).producers.save(bpData)
-      const dbResult = saveBPResult ? saveBPResult : await (await massiveDB).producers.insert(bpData)
-      console.log(`Save or insert of ${owner} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
-    } catch (err) { console.log(`Error: ${err}`) }
+      const dbResult = saveBPResult
+        ? saveBPResult
+        : await (await massiveDB).producers.insert(bpData)
+      console.log(
+        `Save or insert of ${owner} was ${
+          dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
+        }`
+      )
+    } catch (err) {
+      console.log(`Error: ${err}`)
+    }
   })
 }
 

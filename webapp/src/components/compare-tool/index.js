@@ -8,6 +8,7 @@ import _get from 'lodash.get'
 import Switch from '@material-ui/core/Switch'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
+import clsx from 'clsx'
 
 import CompareGraphView from './compare-graph-view'
 import CompareSliderView from './compare-slider-view'
@@ -26,6 +27,7 @@ const CompareTool = ({
   onHandleVote,
   userInfo,
   message,
+  handleOnClear,
   setMessage,
   handleOnClose
 }) => {
@@ -71,13 +73,16 @@ const CompareTool = ({
   }
 
   return (
-    <div className={[classes.root, className].join(' ')}>
+    <div
+      className={clsx([classes.root, className].join(' '), classes.reliefGrid)}
+    >
       {isCollapsedView ? (
         <CompareGraphView
           removeBP={removeBP}
           selected={selectedData}
           isProxy={isProxy}
           userInfo={{ proxy, producers, isUser: Boolean(userInfo) }}
+          handleOnClear={handleOnClear}
           handleOnClose={handleOnClose}
           onHandleVote={onHandleVote}
           isCollapsedView={isCollapsedView}
@@ -102,7 +107,7 @@ const CompareTool = ({
             />
 
             <Button
-              onClick={handleOnClose}
+              onClick={handleOnClear}
               aria-label='Clear selection'
               size='large'
             >
@@ -116,7 +121,7 @@ const CompareTool = ({
               variant='contained'
               size='large'
             >
-              {t('btnVoteBPs')}
+              {t('voteToolToggle')}
             </Button>
           </>
         )}
@@ -154,6 +159,7 @@ CompareTool.propTypes = {
   onHandleVote: PropTypes.func,
   userInfo: PropTypes.object,
   message: PropTypes.object,
+  handleOnClear: PropTypes.func,
   setMessage: PropTypes.func,
   handleOnClose: PropTypes.func
 }
@@ -165,6 +171,7 @@ CompareTool.defaultProps = {
   onHandleVote: () => {},
   userInfo: null,
   message: { showChipMessage: false, txError: null, txSuccess: false },
+  handleOnClear: () => {},
   handleOnClose: () => {}
 }
 

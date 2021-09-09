@@ -79,7 +79,7 @@ services:
 
   hasura:
     container_name: eosrate_hasura
-    image: hasura/graphql-engine:v2.0.4.cli-migrations-v3
+    image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
     ports:
     - "8080:8080"
     depends_on:
@@ -87,6 +87,8 @@ services:
     restart: always
     environment:
       REACT_APP_RATING_CONTRACT: "${REACT_APP_RATING_CONTRACT}"
+      REACT_APP_MAINNET_VERSION: "${REACT_APP_MAINNET_VERSION}"
+      REACT_APP_EDEN_CONTRACT: "${REACT_APP_EDEN_CONTRACT}"
       HASURA_GRAPHQL_DATABASE_URL: "${HASURA_GRAPHQL_DATABASE_URL}"
       HASURA_GRAPHQL_MIGRATIONS_DIR: /migrations
       HASURA_GRAPHQL_METADATA_DIR: /metadata

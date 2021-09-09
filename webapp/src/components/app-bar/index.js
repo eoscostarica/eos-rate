@@ -21,8 +21,9 @@ import Tooltip from '@material-ui/core/Tooltip'
 import Box from '@material-ui/core/Box'
 
 import InputAutocomplete from 'components/input-autocomplete'
-import MobileSearch from 'components/mobile-search'
 import LanguageSelect from 'components/language-select'
+import MobileSearch from 'components/mobile-search'
+import { stage } from '../../config'
 
 import styles from './styles'
 
@@ -77,8 +78,9 @@ const MainTopBar = ({
   useEffect(async () => {
     if (!user) setMayVote(false)
     else if (
-      user.voter_info.producers.length > 20 ||
-      user.voter_info.proxy.length > 0
+      user.voter_info &&
+      (user.voter_info.producers.length > 20 ||
+        user.voter_info.proxy.length > 0)
     )
       setMayVote(true)
   }, [user])
@@ -94,8 +96,12 @@ const MainTopBar = ({
         >
           <MenuIcon />
         </IconButton>
-        <Link to='/' className={classes.link}>
-          <img src='/logo.png' alt='EOS Rate' className={classes.title} />
+        <Link to='/block-producers' className={classes.link}>
+          <img
+            src={stage === 'true' ? '/logo-mainnet.svg' : '/logo-testnet.svg'}
+            alt='EOS Rate'
+            className={classes.logoStyle}
+          />
         </Link>
         <div className={classes.grow} />
         <div className={classes.search}>
@@ -111,15 +117,32 @@ const MainTopBar = ({
           <SearchIcon />
         </IconButton>
         <Box style={{ marginRight: '10px', marginTop: '5px' }}>
-          {mayVote && (
-            <SpecialTooltip title={t('unlockedRating')}>
-              <LockOpenOutlinedIcon />
-            </SpecialTooltip>
-          )}
-          {!mayVote && (
-            <SpecialTooltip title={t('lockedRating')}>
-              <LockOutlinedIcon />
-            </SpecialTooltip>
+          {user && (
+            <>
+              {!user.edenMember && (
+                <>
+                  {mayVote && (
+                    <SpecialTooltip title={t('unlockedRating')}>
+                      <LockOpenOutlinedIcon />
+                    </SpecialTooltip>
+                  )}
+                  {!mayVote && (
+                    <SpecialTooltip title={t('lockedRating')}>
+                      <LockOutlinedIcon />
+                    </SpecialTooltip>
+                  )}
+                </>
+              )}
+              {user.edenMember && (
+                <SpecialTooltip title={t('edenMemberMessage')}>
+                  <img
+                    src='/edenos.svg'
+                    alt='eden icon'
+                    style={{ width: '28px' }}
+                  />
+                </SpecialTooltip>
+              )}
+            </>
           )}
         </Box>
         <LanguageSelect />

@@ -58,7 +58,12 @@ export default (theme) => ({
     display: 'flex',
     alignItems: 'center'
   },
-  sliderBoxContent: { marginTop: 30 },
+  sliderBoxContent: {
+    marginTop: 30,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 10
+    }
+  },
   marginOff: { margin: 0 },
   parameterTitleDisabled: {
     color: '#bdbdbd'
@@ -230,7 +235,7 @@ export default (theme) => ({
     overflowY: 'initial'
   },
   reliefGrid: {
-    margin: '0 30px 30px 30px',
+    margin: '10px 16px 30px 16px',
     padding: '20px',
     border: '1px solid #f8f8f',
     borderRadius: '6px',
@@ -243,5 +248,19 @@ export default (theme) => ({
     [theme.breakpoints.down('md')]: {
       marginLeft: '11px'
     }
+  },
+  noWrap: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    display: 'block',
+    width: '100%',
+    [theme.breakpoints.down('xs')]: {
+      width: '54%'
+    }
+  },
+  backButtonStyle: {
+    marginLeft: '16px !important',
+    padding: '6px 16px !important'
   }
 })

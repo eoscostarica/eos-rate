@@ -15,6 +15,7 @@
  */
 
 #include <eosio/eosio.hpp>
+#include <eosio/singleton.hpp>
 #include <eosio/print.hpp>
 #include <eosio/asset.hpp>
 #include <eosio/multi_index.hpp>
@@ -27,7 +28,7 @@
 
 #define MINVAL 0
 #define MAXVAL 10
-#define MIN_VOTERS 21 
+#define MIN_VOTERS 21
 
 using namespace std;
 using namespace eosio;
@@ -170,26 +171,55 @@ namespace eosio {
         in_election = 1
     };
 
-    struct member_v0 {
-        eosio::name account;
-        std::string name;
-        member_status_type status;
-        uint64_t nft_template_id;
+    struct member_v0
+   {
+      eosio::name account;
+      std::string name;
+      member_status_type status;
+      uint64_t nft_template_id;
+      // Only reflected in v1
+      election_participation_status_type election_participation_status = not_in_election;
+      uint8_t election_rank = 0;
+      eosio::name representative{uint64_t(-1)};
+      std::optional<eosio::public_key> encryption_key;
 
-        uint64_t primary_key() const { return account.value; }
+      uint64_t primary_key() const { return account.value; }
+      uint128_t by_representative() const
+      {
+         return (static_cast<uint128_t>(election_rank) << 64) | representative.value;
+      }
     };
     EOSIO_REFLECT(member_v0, account, name, status, nft_template_id)
 
-    using member_variant = std::variant<member_v0>;
+    // - A member can donate at any time after the end of a scheduled election and before
+    //   the start of the next scheduled election.
+    // - A member who does not make a donation before the election starts will be deactivated.
+    //
+    struct member_v1 : member_v0
+    {
+    };
+    EOSIO_REFLECT(member_v1,
+                    base member_v0,
+                    election_participation_status,
+                    election_rank,
+                    representative,
+                    encryption_key);
 
-    struct member {
+    using member_variant = std::variant<member_v0, member_v1>;
+
+    struct member
+    {
         member_variant value;
         EDEN_FORWARD_MEMBERS(value,
                             account,
                             name,
                             status,
-                            nft_template_id);
-        EDEN_FORWARD_FUNCTIONS(value, primary_key);
+                            nft_template_id,
+                            election_participation_status,
+                            election_rank,
+                            representative,
+                            encryption_key);
+        EDEN_FORWARD_FUNCTIONS(value, primary_key, by_representative)
     };
     EOSIO_REFLECT(member, value)
     using member_table_type = eosio::multi_index<"member"_n, member>;
@@ -278,10 +308,28 @@ namespace eoscostarica {
         indexed_by<"bp"_n, const_mem_fun<ratings, uint64_t, &ratings::by_bp>>
     > ratings_table;
 
+    /*
+    *   Stores contract config for migration versioning
+    */
+    struct config {
+        name owner;
+        uint32_t version;
+    };
+    EOSIO_REFLECT(
+        config,
+        owner,
+        version
+    )
+    typedef eosio::singleton<"globalconfig"_n, config> config_table;
+
     struct rateproducer  : public eosio::contract {
         // Use the base class constructors
         using eosio::contract::contract;
 
+        rateproducer(name receiver, name code, datastream<const char *> ds) :
+            contract(receiver, code, ds), cfg(receiver, receiver.value) {}
+
+        config_table cfg;
         
         /**
         *
@@ -516,8 +564,15 @@ namespace eoscostarica {
         * @param user - Voter account name,
         * @param bp -  Block Producer account name
         * 
-        */ 
+        */
         void rmrate_aux(name scope, name user, name bp);
+
+        /**
+        *
+        *  Load existing eden member rates into rateproducer scope
+        * 
+        */ 
+        void loadedens();
     };
 
     EOSIO_ACTIONS(rateproducer,
@@ -526,6 +581,7 @@ namespace eoscostarica {
                  action(erase, bp_name),
                  action(wipe),
                  action(rminactive),
-                 action(rmrate, user, bp))
+                 action(rmrate, user, bp),
+                 action(loadedens))
                  
 } // namespace eoscostarica

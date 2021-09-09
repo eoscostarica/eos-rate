@@ -16,6 +16,7 @@ import Error from '@material-ui/icons/Error'
 import Tooltip from '@material-ui/core/Tooltip'
 import Grid from '@material-ui/core/Grid'
 import { Link } from '@reach/router'
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight'
 
 import Radar from 'components/radar'
 
@@ -68,7 +69,7 @@ const CardData = ({
   }
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : 240)
+    setSizes(isDesktop ? 400 : '95%')
   }, [isDesktop])
 
   return (
@@ -102,6 +103,12 @@ const CardData = ({
           subheader={
             <div className={classes.warningBox}>
               <span>{owner}</span>
+              <Box style={{ display: 'flex', float: 'right' }}>
+                <Typography style={{ margin: 'auto' }} variant='subtitle2'>
+                  {t('view')}
+                </Typography>
+                <KeyboardArrowRightIcon />
+              </Box>
             </div>
           }
         />
@@ -155,28 +162,44 @@ const CardData = ({
         )}
       </div>
       <CardActions className={classes.actions}>
-        <Button
-          aria-label='Add to comparison'
-          onClick={toggleSelection(!isSelected, owner)}
-        >
-          {isSelected ? t('remove') : buttonLabel}
-        </Button>
         {useRateButton && (
-          <Button
-            // eslint-disable-next-line react/display-name
-            component={forwardRef((props, ref) => (
-              <Link
-                {...props}
-                ref={ref}
-                state={{ owner: owner }}
-                to={`/block-producers/${owner}/rate`}
-              />
-            ))}
-            className={classes.btnRate}
-            size='small'
-          >
-            {t('view')}
-          </Button>
+          <>
+            <Button
+              aria-label='Add to comparison'
+              onClick={toggleSelection(!isSelected, owner)}
+              className={!isSelected ? classes.secondaryBtn : ''}
+            >
+              {isSelected ? t('remove') : buttonLabel}
+            </Button>
+            <Button
+              // eslint-disable-next-line react/display-name
+              component={forwardRef((props, ref) => (
+                <Link
+                  {...props}
+                  ref={ref}
+                  state={{ owner: owner }}
+                  to={`/${pathLink}/${owner}/rate`}
+                />
+              ))}
+              className={classes.btnRate}
+              variant='contained'
+              size='small'
+            >
+              {t('rate')}
+            </Button>
+          </>
+        )}
+        {!useRateButton && (
+          <>
+            <Button
+              aria-label='Add to comparison'
+              disabled={isSelected}
+              className={!isSelected ? classes.secondaryBtn : ''}
+              onClick={() => toggleSelection(!isSelected, owner, true)}
+            >
+              {isSelected ? t('selected') : t('addToVote')}
+            </Button>
+          </>
         )}
       </CardActions>
     </Card>

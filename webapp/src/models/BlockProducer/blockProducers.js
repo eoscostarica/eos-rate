@@ -21,6 +21,7 @@ const initialState = {
   producer: null,
   userRate: null,
   edenRate: null,
+  transaction: null,
   showSortSelected: false
 }
 
@@ -108,6 +109,9 @@ const Proxies = {
     },
     addEdenRate(state, edenRate) {
       return { ...state, edenRate }
+    },
+    addTransaction(state, transaction) {
+      return { ...state, transaction }
     }
   },
   effects: (dispatch) => ({
@@ -121,6 +125,9 @@ const Proxies = {
         filterObjects.filter(filters, state.blockProducers.list),
         filters
       )
+    },
+    async saveLastTransaction(transaction) {
+      this.addTransaction(transaction)
     },
     async getBlockProducerByOwner(owner, state) {
       try {
@@ -196,7 +203,7 @@ const Proxies = {
           fetchPolicy: 'network-only'
         })
 
-        if (edenRatings.length > 0) this.addEdenRate(edenRatings[0])
+        this.addEdenRate(edenRatings.length > 0 ? edenRatings[0] : null)
 
         dispatch.isLoading.storeIsContentLoading(false)
       } catch (error) {
@@ -215,7 +222,11 @@ const Proxies = {
           data: { rateProducer }
         } = await apolloClient.mutate({
           variables: {
-            ratingInput: { producer: bp, user }
+            ratingInput: {
+              producer: bp,
+              user,
+              transaction: state.blockProducers.transaction
+            }
           },
           mutation: MUTATION_UPDATE_RATING
         })

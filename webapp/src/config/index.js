@@ -1,5 +1,8 @@
 export const appName = 'EOSRate'
+export const stage = process.env.REACT_APP_MAINNET_VERSION
 export const contract = process.env.REACT_APP_RATING_CONTRACT || 'rateproducer'
+export const contractEden =
+  process.env.REACT_APP_EDEN_CONTRACT || 'genesis.eden'
 export const eosApiHost = process.env.REACT_APP_EOS_API_HOST
 export const eosApiPort = process.env.REACT_APP_EOS_API_PORT
 export const eosApiProtocol = process.env.REACT_APP_EOS_API_PROTOCOL

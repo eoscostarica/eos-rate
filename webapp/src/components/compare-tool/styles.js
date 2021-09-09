@@ -147,5 +147,28 @@ export default (theme) => ({
       position: 'absolute',
       left: 0
     }
+  },
+  boxCloseIcon: {
+    justifyContent: 'flex-end',
+    display: 'flex',
+    alignItems: 'center',
+    height: '100%'
+  },
+  btnRateProxies: {
+    backgroundColor: theme.palette.secondary.main,
+    color: '#ffffff',
+    width: '100px',
+    padding: '5px 20px 5px 20px',
+    [theme.breakpoints.up('sm')]: {
+      '&:hover': {
+        backgroundColor: theme.palette.secondary.dark
+      }
+    }
+  },
+  reliefGrid: {
+    border: '1px solid #f8f8f8',
+    boxShadow:
+      'inset 2px 2px 2px #fff, inset -1px 0 2px rgba(0,0,0,.1), 1px 3px 3px rgba(0,0,0,.1)',
+    backgroundColor: '#fff'
   }
 })

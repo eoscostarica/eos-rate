@@ -8,7 +8,7 @@ import getRadarLabelName from 'utils/getRadarLabelName'
 const RadarData = ({ bpData, height, showLabel, width, ...props }) => {
   const { t } = useTranslation('translations')
   const labels = getRadarLabelName(t)
-  const [sizes, setSizes] = useState({ width: 240, height: 240 })
+  const [sizes, setSizes] = useState({ width: '100%', height: '100%' })
   const bpValidData =
     bpData.datasets && bpData.datasets.length
       ? { ...bpData, labels }
@@ -23,13 +23,24 @@ const RadarData = ({ bpData, height, showLabel, width, ...props }) => {
   return (
     <Radar
       data={bpValidData}
-      style={{ margin: 'auto', width: sizes.width, height: sizes.height }}
+      style={{
+        margin: 'auto',
+        width: sizes.width,
+        height: sizes.height
+      }}
       options={{
         animation: {
           duration: false
         },
         plugins: {
-          legend: showLabel
+          legend: {
+            display: showLabel,
+            labels: {
+              font: {
+                size: 14
+              }
+            }
+          }
         },
         scales: {
           r: {
@@ -46,7 +57,12 @@ const RadarData = ({ bpData, height, showLabel, width, ...props }) => {
             suggestedMin: 1,
             suggestedMax: 10,
             angleLines: { color: '#e5e5e5', lineWidth: 4 },
-            pointLabels: { fontColor: '#443F5B', fontSize: 20 }
+            pointLabels: {
+              fontColor: '#443F5B',
+              font: {
+                size: 12
+              }
+            }
           }
         },
         layout: {

@@ -43,16 +43,17 @@ jobs:
           NAMESPACE: mainnet-eosrate
           # webapp
           REACT_APP_RATING_CONTRACT: rateproducer
-          REACT_APP_PROXY_CONTRACT: regproxyinfo
+          REACT_APP_MAINNET_VERSION: true
+          REACT_APP_EDEN_CONTRACT: genesis.eden
           REACT_APP_GRAPHQL_HTTP_URL: https://graphql.eosrate.io/v1/graphql
           REACT_APP_GRAPHQL_WS_URL: wss://graphql.eosrate.io/v1/graphql
-          REACT_APP_EOS_API_URL: https://api.eosio.cr
-          REACT_APP_EOS_API_HOST: api.eosio.cr
+          REACT_APP_EOS_API_URL: https://api.main.alohaeos.com
+          REACT_APP_EOS_API_HOST: api.main.alohaeos.com
           REACT_APP_EOS_API_PORT: 443
           REACT_APP_EOS_API_PROTOCOL: https
           REACT_APP_EOS_CHAIN_ID: aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906
           REACT_APP_BLOCK_EXPLORER: https://bloks.io
-          REACT_APP_NETWORK_MONITOR_URL: https://jungle.eosio.online/
+          REACT_APP_NETWORK_MONITOR_URL: https://mainnet.eosio.online/
 
       - name: Build kubernetes files
         id: build_kubernetes_files
@@ -67,17 +68,6 @@ jobs:
           NAMESPACE: mainnet-eosrate
           INGRESS_HOST: eosrate.io
           INGRESS_GRAPHQL_HOST: graphql.eosrate.io
-          # webapp
-          REACT_APP_RATING_CONTRACT: rateproducer
-          REACT_APP_GRAPHQL_HTTP_URL: https://graphql.eosrate.io/v1/graphql
-          REACT_APP_GRAPHQL_WS_URL: wss://graphql.eosrate.io/v1/graphql
-          REACT_APP_EOS_API_URL: https://api.eosio.cr
-          REACT_APP_EOS_API_HOST: api.eosio.cr
-          REACT_APP_EOS_API_PORT: 443
-          REACT_APP_EOS_API_PROTOCOL: https
-          REACT_APP_EOS_CHAIN_ID: aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906
-          REACT_APP_BLOCK_EXPLORER: https://bloks.io
-          REACT_APP_NETWORK_MONITOR_URL: https://jungle.eosio.online/
           # postgres
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
@@ -93,7 +83,7 @@ jobs:
           HAPI_POSTGRES_HOST: postgres
           HAPI_POSTGRES_PORT: 5432
           HAPI_POSTGRES_SCHEMA: public
-          HAPI_EOS_API_ENDPOINT: https://jungle3.cryptolions.io
+          HAPI_EOS_API_ENDPOINT: https://api.main.alohaeos.com
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
