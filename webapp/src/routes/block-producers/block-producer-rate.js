@@ -139,6 +139,7 @@ const BlockProducerRate = ({ account, ual }) => {
       setIsNewRate(false)
     } else {
       setRatingState(INIT_RATING_STATE_DATA)
+      setIsNewRate(true)
     }
   }, [userRate, accountName, setRatingState])
 
