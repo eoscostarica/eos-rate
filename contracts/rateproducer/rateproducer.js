@@ -17,8 +17,6 @@ let rate = {
 
 rate = JSON.stringify(JSON.stringify(rate));
 
-console.log(rate);
-
 const fs = require("fs");
 fs.writeFile("./contracts/rateproducer/rateproducer.json", rate, function(err) {
   if (err) {
