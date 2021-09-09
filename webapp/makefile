@@ -36,7 +36,6 @@ build-docker: ./Dockerfile
 		--build-arg REACT_APP_EOS_CHAIN_ID="$(REACT_APP_EOS_CHAIN_ID)" \
 		--build-arg REACT_APP_BLOCK_EXPLORER="$(REACT_APP_BLOCK_EXPLORER)" \
 		--build-arg REACT_APP_NETWORK_MONITOR_URL="$(REACT_APP_NETWORK_MONITOR_URL)" \
-		--build-arg branch="$(BRANCH)" \
 		.
 
 pull-image: ##@devops Pull the latest image from registry for caching
