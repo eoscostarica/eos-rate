@@ -127,9 +127,7 @@ const BlockProducerRate = ({ account, ual }) => {
   }, [accountName, account, ual, setShowMessage])
 
   useEffect(() => {
-    console.log('userRate: ', userRate)
     if (userRate) {
-      console.log('ENTRA')
       setRatingState({
         ...ratingState,
         community: accountName ? userRate.community : 1,
