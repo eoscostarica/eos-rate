@@ -284,6 +284,8 @@ const BlockProducerRate = ({ account, ual }) => {
         processing: false,
         txSuccess: true
       })
+
+      setTimeout(handleSetLastTransactionId, 4000)
     } catch (err) {
       setRatingState({
         ...ratingState,
