@@ -318,7 +318,7 @@ const BlockProducerRate = ({ account, ual }) => {
             {t('allBPs')}
           </Button>
           <Button
-            className={classes.backButtonStyle}
+            style={{ marginLeft: !isDesktop ? 16 : 0, padding: '6px 16px' }}
             component={forwardRef((props, ref) => (
               <Link
                 {...props}
