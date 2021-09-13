@@ -27,12 +27,11 @@ const Settings = ({ i18n }) => {
 
   const handleToggle = (value, currentValue) => () => {
     if (value === 'language') {
-      if (currentValue === 'en')
+      if (currentValue === 'en' || 'ko' )
         const lang = 'es'
-      else if (currentValue === 'es')
+      else if (currentValue === 'es' || 'ko')
         const lang = 'en'
-      else
-        const lang = 'en'
+        
       i18n.changeLanguage(lang)
       dispatch.settings.setSettings({ key: value, value: lang })
     } else if (value === 'notifications')
