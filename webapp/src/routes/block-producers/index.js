@@ -93,6 +93,17 @@ const AllBps = ({ ual }) => {
     })
   }
 
+  const handleSetIsNewRate = (owner) => {
+    if (user) {
+      for (const userRate of user.userRates) {
+        if (userRate.owner === owner) {
+          return true
+        }
+      }
+      return false
+    }
+  }
+
   const sendVoteBps = async (BPs) => {
     if (!accountName) return
 
@@ -231,6 +242,7 @@ const AllBps = ({ ual }) => {
               pathLink='block-producers'
               average={getAverageValue(_get(blockProducer, 'average', 0))}
               rate={_get(blockProducer, 'ratings_cntr', 0)}
+              isNewRate={handleSetIsNewRate(blockProducer.owner)}
             />
           </Grid>
         ))}
