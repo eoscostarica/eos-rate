@@ -34,6 +34,10 @@ const LanguageSelect = ({ style, alt }) => {
     {
       value: 'es',
       label: 'Español'
+    },
+    {
+      value: 'ko',
+      label: '한국인'
     }
   ]
 

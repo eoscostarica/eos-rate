@@ -30,9 +30,11 @@ const HomeCover = ({ blockProducer }) => {
 
   return (
     <Grid item container xs={12} md={12} className={classes.coverContainer}>
-      <Typography variant='h4' className={classes.coverTitle}>
-        {t('cover.title')}
-      </Typography>
+      <Grid item xs={12} md={12}>
+        <Typography variant='h4' className={classes.coverTitle}>
+          {t('cover.title')}
+        </Typography>
+      </Grid>
       {!isDesktop && (
         <Grid
           style={{ margin: '-10px 0 25px 0' }}
