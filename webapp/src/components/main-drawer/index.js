@@ -12,7 +12,9 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Link from '@material-ui/core/Link'
 import { useTranslation } from 'react-i18next'
+import { appVersion } from '../../config'
 import classnames from 'classnames'
+import LaunchIcon from '@material-ui/icons/Launch'
 
 import routes from 'routes'
 
@@ -33,7 +35,9 @@ const Menu = ({ onClick, currentPathname, links, sortBy, setSortBy }) => {
 
           return (
             <Fragment key={`link-${to}`}>
-              {label === 'About' && <Divider className={classes.divider} />}
+              {(label === 'About' || label.includes('Versi')) && (
+                <Divider className={classes.divider} />
+              )}
               <Link
                 href={to}
                 className={classes.link}
@@ -49,7 +53,16 @@ const Menu = ({ onClick, currentPathname, links, sortBy, setSortBy }) => {
                   selected={isSelected}
                   className={classnames({ [classes.linkSelected]: isSelected })}
                 >
-                  <ListItemText primary={label} />
+                  {!label.includes('Versi') && <ListItemText primary={label} />}
+                  {label.includes('Versi') && (
+                    <>
+                      <ListItemText
+                        primary={label}
+                        style={{ display: 'contents' }}
+                      />
+                      <LaunchIcon className={classes.iconLink} />
+                    </>
+                  )}
                 </ListItem>
               </Link>
               {collapsedItems && !!collapsedItems.length && (
@@ -119,7 +132,10 @@ const MainDrawer = ({
             currentPathname={currentPathname}
             links={routes.map((route) => ({
               to: route.path,
-              label: t(route.drawerLabel),
+              label:
+                route.drawerLabel !== 'version'
+                  ? t(route.drawerLabel)
+                  : `${t(route.drawerLabel)} ${appVersion}`,
               collapsedItems: route.drawerComponents,
               target: route.target
             }))}
@@ -140,7 +156,10 @@ const MainDrawer = ({
             currentPathname={currentPathname}
             links={routes.map((route) => ({
               to: route.path,
-              label: t(route.drawerLabel),
+              label:
+                route.drawerLabel !== 'version'
+                  ? t(route.drawerLabel)
+                  : `${t(route.drawerLabel)} ${appVersion}`,
               collapsedItems: route.drawerComponents,
               target: route.target
             }))}

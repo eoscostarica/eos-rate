@@ -42,6 +42,7 @@ jobs:
           BRANCH: staging
           NAMESPACE: jungle-eosrate
           # webapp
+          REACT_APP_VERSION: ${{ github.ref }}
           REACT_APP_RATING_CONTRACT: rateproducer
           REACT_APP_MAINNET_VERSION: false
           REACT_APP_EDEN_CONTRACT: genesisdeden

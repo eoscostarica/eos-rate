@@ -73,5 +73,10 @@ export default [
     Component: Help,
     drawerLabel: 'drawerLinkHelp',
     target: '_self'
+  },
+  {
+    path: 'https://github.com/eoscostarica/eos-rate/releases',
+    drawerLabel: 'version',
+    target: '_blank'
   }
 ]
