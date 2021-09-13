@@ -53,6 +53,7 @@ const CardData = ({
   average,
   rate,
   showOptions,
+  isNewRate,
   ...props
 }) => {
   const { t } = useTranslation('translations')
@@ -185,7 +186,7 @@ const CardData = ({
               variant='contained'
               size='small'
             >
-              {t('rate')}
+              {isNewRate ? t('updateRatingButton') : t('rate')}
             </Button>
           </>
         )}
@@ -218,7 +219,8 @@ CardData.propTypes = {
   pathLink: PropTypes.string,
   average: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   rate: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  showOptions: PropTypes.bool
+  showOptions: PropTypes.bool,
+  isNewRate: PropTypes.bool
 }
 
 CardData.defaultProps = {
