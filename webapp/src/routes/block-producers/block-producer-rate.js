@@ -127,7 +127,6 @@ const BlockProducerRate = ({ account, ual }) => {
   }, [accountName, account, ual, setShowMessage])
 
   useEffect(() => {
-    console.log(userRate)
     if (userRate) {
       setRatingState({
         ...ratingState,
@@ -140,6 +139,7 @@ const BlockProducerRate = ({ account, ual }) => {
       setIsNewRate(false)
     } else {
       setRatingState(INIT_RATING_STATE_DATA)
+      setIsNewRate(true)
     }
   }, [userRate, accountName, setRatingState])
 
@@ -264,9 +264,9 @@ const BlockProducerRate = ({ account, ual }) => {
       })
 
       await dispatch.blockProducers.saveLastTransaction({
-        transacction: {
-          transacctionId: result.transaction.transaction_id,
-          transacctionDate: result.transaction.processed.block_time
+        transaction: {
+          transactionId: result.transaction.transaction_id,
+          transactionDate: result.transaction.processed.block_time
         }
       })
       setLastTransactionId(result.transactionId)
@@ -284,6 +284,8 @@ const BlockProducerRate = ({ account, ual }) => {
         processing: false,
         txSuccess: true
       })
+
+      setTimeout(handleSetLastTransactionId, 4000)
     } catch (err) {
       setRatingState({
         ...ratingState,
@@ -318,7 +320,7 @@ const BlockProducerRate = ({ account, ual }) => {
             {t('allBPs')}
           </Button>
           <Button
-            className={classes.backButtonStyle}
+            style={{ marginLeft: !isDesktop ? 16 : 0, padding: '6px 16px' }}
             component={forwardRef((props, ref) => (
               <Link
                 {...props}

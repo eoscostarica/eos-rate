@@ -39,23 +39,23 @@ const user = {
         let userRates = []
         let edenMember = false
         const rpc = getRpc(ual)
+
         if (accountName.length) {
           account = await rpc.get_account(accountName)
 
-          const { rows: edenMenbers } = await rpc.get_table_rows({
+          const { rows: edenMembers } = await rpc.get_table_rows({
             json: true,
             code: contractEden,
             scope: 0,
             table: 'member',
+            lower_bound: accountName,
+            limit: 1,
             reverse: false,
             show_payer: false
           })
 
-          for (const member of edenMenbers) {
-            if (accountName === member[1].account) {
-              edenMember = true
-              break
-            }
+          if (edenMembers[0][1].account === accountName) {
+            edenMember = true
           }
         }
 

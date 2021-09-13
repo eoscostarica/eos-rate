@@ -98,9 +98,9 @@ const MainTopBar = ({
         </IconButton>
         <Link to='/block-producers' className={classes.link}>
           <img
-            src={stage ? '/logo-mainnet.svg' : '/logo-testnet.svg'}
+            src={stage === 'true' ? '/logo-mainnet.svg' : '/logo-testnet.svg'}
             alt='EOS Rate'
-            className={classes.title}
+            className={classes.logoStyle}
           />
         </Link>
         <div className={classes.grow} />

@@ -56,17 +56,20 @@ const ProfileTitle = ({
   )
 }
 
-const BlockProducerProfile = ({ account, ...props }) => {
+const BlockProducerProfile = ({ account, ual, ...props }) => {
   const { t } = useTranslation('profile')
   const classes = useStyles()
   const dispatch = useDispatch()
   const isDesktop = useMediaQuery('(min-width:767px)')
   const isMobile = useMediaQuery('(max-width:768px)')
+  const accountName = _get(ual, 'activeUser.accountName', null)
   const [sizes, setSizes] = useState()
+  const [isNewRate, setIsNewRate] = useState(true)
   const {
     list: blockProducers,
     producer,
-    edenRate
+    edenRate,
+    userRate
   } = useSelector((state) => state.blockProducers)
   const { isContentLoading } = useSelector((state) => state.isLoading)
   const bpHasInformation = Boolean(
@@ -118,6 +121,10 @@ const BlockProducerProfile = ({ account, ...props }) => {
       dispatch.blockProducers.getBlockProducerEdenRating({
         bp: account
       })
+      dispatch.blockProducers.getBlockProducerRatingByOwner({
+        bp: account,
+        userAccount: accountName
+      })
     }
 
     getData()
@@ -126,6 +133,11 @@ const BlockProducerProfile = ({ account, ...props }) => {
   useEffect(() => {
     dispatch.blockProducers.setShowSortSelected(false)
   }, [])
+
+  useEffect(() => {
+    if (userRate) setIsNewRate(false)
+    else setIsNewRate(true)
+  }, [userRate])
 
   return (
     <Grid container justify='center' className={classes.container}>
@@ -213,7 +225,7 @@ const BlockProducerProfile = ({ account, ...props }) => {
               ))}
               className={classes.btnBP}
             >
-              {t('buttonRate')}
+              {isNewRate ? t('buttonRate') : t('updateRatingButton')}
             </Button>
           </Grid>
         </Grid>
@@ -244,7 +256,8 @@ const BlockProducerProfile = ({ account, ...props }) => {
 }
 
 BlockProducerProfile.propTypes = {
-  account: PropTypes.string
+  account: PropTypes.string,
+  ual: PropTypes.object
 }
 
 ProfileTitle.propTypes = {

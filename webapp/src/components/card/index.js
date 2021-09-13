@@ -16,6 +16,7 @@ import Error from '@material-ui/icons/Error'
 import Tooltip from '@material-ui/core/Tooltip'
 import Grid from '@material-ui/core/Grid'
 import { Link } from '@reach/router'
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight'
 
 import Radar from 'components/radar'
 
@@ -52,6 +53,7 @@ const CardData = ({
   average,
   rate,
   showOptions,
+  isNewRate,
   ...props
 }) => {
   const { t } = useTranslation('translations')
@@ -102,6 +104,12 @@ const CardData = ({
           subheader={
             <div className={classes.warningBox}>
               <span>{owner}</span>
+              <Box style={{ display: 'flex', float: 'right' }}>
+                <Typography style={{ margin: 'auto' }} variant='subtitle2'>
+                  {t('view')}
+                </Typography>
+                <KeyboardArrowRightIcon />
+              </Box>
             </div>
           }
         />
@@ -160,6 +168,7 @@ const CardData = ({
             <Button
               aria-label='Add to comparison'
               onClick={toggleSelection(!isSelected, owner)}
+              className={!isSelected ? classes.secondaryBtn : ''}
             >
               {isSelected ? t('remove') : buttonLabel}
             </Button>
@@ -170,13 +179,14 @@ const CardData = ({
                   {...props}
                   ref={ref}
                   state={{ owner: owner }}
-                  to={`/${pathLink}/${owner}`}
+                  to={`/${pathLink}/${owner}/rate`}
                 />
               ))}
               className={classes.btnRate}
+              variant='contained'
               size='small'
             >
-              {t('view')}
+              {isNewRate ? t('updateRatingButton') : t('rate')}
             </Button>
           </>
         )}
@@ -185,24 +195,10 @@ const CardData = ({
             <Button
               aria-label='Add to comparison'
               disabled={isSelected}
+              className={!isSelected ? classes.secondaryBtn : ''}
               onClick={() => toggleSelection(!isSelected, owner, true)}
             >
               {isSelected ? t('selected') : t('addToVote')}
-            </Button>
-            <Button
-              // eslint-disable-next-line react/display-name
-              component={forwardRef((props, ref) => (
-                <Link
-                  {...props}
-                  ref={ref}
-                  state={{ owner: owner }}
-                  to={`/${pathLink}/${owner}`}
-                />
-              ))}
-              className={classes.btnRate}
-              size='small'
-            >
-              {t('view')}
             </Button>
           </>
         )}
@@ -223,7 +219,8 @@ CardData.propTypes = {
   pathLink: PropTypes.string,
   average: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   rate: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  showOptions: PropTypes.bool
+  showOptions: PropTypes.bool,
+  isNewRate: PropTypes.bool
 }
 
 CardData.defaultProps = {
