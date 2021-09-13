@@ -5,7 +5,6 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { useTranslation } from 'react-i18next'
 import IconButton from '@material-ui/core/IconButton'
-import { Octokit } from '@octokit/core'
 
 import TelegramIcon from 'components/telegram-icon'
 import GithubIcon from 'components/github-icon'
@@ -17,19 +16,6 @@ const useStyles = makeStyles(styles)
 const MainFooter = () => {
   const { t } = useTranslation('footer')
   const classes = useStyles()
-
-  const GetLatestReleaseInfo = async () => {
-    const octokit = new Octokit()
-
-    const response = await octokit.request(
-      'GET /repos/{owner}/{repo}/releases/latest',
-      {
-        owner: 'eoscostarica',
-        repo: 'eos-rate'
-      }
-    )
-    console.log({ response })
-  }
 
   return (
     <AppBar className={classes.root}>

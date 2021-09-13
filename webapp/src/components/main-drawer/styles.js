@@ -38,5 +38,9 @@ export default (theme) => ({
   },
   divider: {
     marginBottom: theme.spacing(2)
+  },
+  iconLink: {
+    marginLeft: '10px',
+    color: theme.palette.secondary.main
   }
 })

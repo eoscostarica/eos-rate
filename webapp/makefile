@@ -24,6 +24,7 @@ build-docker: ./Dockerfile
 	@docker build \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_WEBAPP):$(VERSION) --target server \
 		-t $(DOCKER_REGISTRY)/$(IMAGE_NAME_WEBAPP):$(LATEST_TAG) --target server \
+		--build-arg REACT_APP_VERSION="$(REACT_APP_VERSION)" \
 		--build-arg REACT_APP_RATING_CONTRACT="$(REACT_APP_RATING_CONTRACT)" \
 		--build-arg REACT_APP_MAINNET_VERSION="$(REACT_APP_MAINNET_VERSION)" \
 		--build-arg REACT_APP_EDEN_CONTRACT="$(REACT_APP_EDEN_CONTRACT)" \

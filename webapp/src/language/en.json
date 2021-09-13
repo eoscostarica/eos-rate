@@ -76,7 +76,8 @@
 
     "hideComparisonTool": "Hide comparison tool",
     "showComparisonTool": "Show comparison tool",
-    "language": "language"
+    "language": "language",
+    "version": "Version"
   },
 
   "sortInput": {
