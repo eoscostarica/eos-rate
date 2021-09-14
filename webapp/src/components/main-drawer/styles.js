@@ -41,6 +41,7 @@ export default (theme) => ({
   },
   iconLink: {
     marginLeft: '10px',
+    width: '20px',
     color: theme.palette.secondary.main
   }
 })
