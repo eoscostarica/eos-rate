@@ -13,6 +13,7 @@ import getAverageValue from 'utils/getAverageValue'
 
 countries.registerLocale(require('i18n-iso-countries/langs/en.json'))
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'))
+countries.registerLocale(require('i18n-iso-countries/langs/ko.json'))
 
 const _getCountryName = (country = null, locationNumber, defaultMessage) => {
   const { i18n } = useTranslation()
