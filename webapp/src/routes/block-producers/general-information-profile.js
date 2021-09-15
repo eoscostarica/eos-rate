@@ -7,9 +7,7 @@ import Grid from '@material-ui/core/Grid'
 import _get from 'lodash.get'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
-import { useMediaQuery } from '@material-ui/core'
 import formatNumber from 'utils/formatNumber'
-import getAverageValue from 'utils/getAverageValue'
 
 countries.registerLocale(require('i18n-iso-countries/langs/en.json'))
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'))
@@ -39,9 +37,6 @@ const SocialNetworks = ({ classes, producer }) => {
   const linkedin = _get(producer, 'bpjson.org.social.linkedin')
   const telegram = _get(producer, 'bpjson.org.social.telegram')
   const instagram = _get(producer, 'bpjson.org.social.instagram')
-  const edenInterview = _get(producer, 'general_info.edenInterview')
-  const additionalResources = _get(producer, 'general_info.additionalResources')
-  const isDesktop = useMediaQuery('(min-width:767px)')
 
   return (
     <Grid container direction='column' className={classes.category}>
@@ -149,33 +144,28 @@ const SocialNetworks = ({ classes, producer }) => {
             </Typography>
           </Grid>
         )}
-        {edenInterview && (
-          <Grid container direction='row'>
-            <Typography variant='subtitle1' className={classes.subTitle}>
-              {t('interview')}
-            </Typography>
-            <Typography
-              variant='subtitle1'
-              className={classNames(classes.value, classes.subTitle)}
-            >
-              <a
-                href={edenInterview}
-                style={{ width: isDesktop ? '100%' : '72%' }}
-                className={classNames(classes.links, classes.noWrap)}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                {edenInterview}
-              </a>
-            </Typography>
-          </Grid>
-        )}
-        {additionalResources && (
-          <Grid container direction='row' style={{ display: 'block' }}>
-            <Typography variant='subtitle1' className={classes.subTitle}>
-              {t('additionalResources')}
-            </Typography>
-            {additionalResources.alohaEOS && (
+      </Box>
+    </Grid>
+  )
+}
+
+const AdditionalResources = ({ classes, producer }) => {
+  const { t } = useTranslation('profile')
+  const edenInterview = _get(producer, 'general_info.edenInterview')
+  const additionalResources = _get(producer, 'general_info.additionalResources')
+
+  if (edenInterview || additionalResources) {
+    return (
+      <Grid container direction='column' className={classes.category}>
+        <Typography variant='h6' className={classes.title}>
+          {t('aditionalResource')}
+        </Typography>
+        <Box className={classes.marginLeftBox}>
+          {additionalResources && additionalResources.alohaEOS && (
+            <Grid container direction='row'>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                Aloha EOS:
+              </Typography>
               <Typography
                 variant='subtitle1'
                 className={classNames(classes.value, classes.subTitle)}
@@ -186,11 +176,16 @@ const SocialNetworks = ({ classes, producer }) => {
                   target='_blank'
                   rel='noopener noreferrer'
                 >
-                  - {additionalResources.alohaEOS}
+                  {t('researchPortal')}
                 </a>
               </Typography>
-            )}
-            {additionalResources.eosNation && (
+            </Grid>
+          )}
+          {additionalResources && additionalResources.eosNation && (
+            <Grid container direction='row'>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                EOS Nation:
+              </Typography>
               <Typography
                 variant='subtitle1'
                 className={classNames(classes.value, classes.subTitle)}
@@ -202,15 +197,37 @@ const SocialNetworks = ({ classes, producer }) => {
                   target='_blank'
                   rel='noopener noreferrer'
                 >
-                  - {additionalResources.eosNation}
+                  {t('bpValidator')}
                 </a>
               </Typography>
-            )}
-          </Grid>
-        )}
-      </Box>
-    </Grid>
-  )
+            </Grid>
+          )}
+          {edenInterview && (
+            <Grid container direction='row'>
+              <Typography variant='subtitle1' className={classes.subTitle}>
+                YouTube:
+              </Typography>
+              <Typography
+                variant='subtitle1'
+                className={classNames(classes.value, classes.subTitle)}
+                noWrap
+              >
+                <a
+                  href={{ edenInterview }}
+                  className={classNames(classes.links, classes.noWrap)}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  {t('bpInterviews')}
+                </a>
+              </Typography>
+            </Grid>
+          )}
+        </Box>
+      </Grid>
+    )
+  }
+  return <Grid item xs={12} />
 }
 
 const WebsiteLegend = ({ classes, webInfo }) => {
@@ -236,7 +253,7 @@ const WebsiteLegend = ({ classes, webInfo }) => {
   )
 }
 
-const GeneralInformation = ({ classes, producer = {}, edenRate = {} }) => {
+const GeneralInformation = ({ classes, producer = {} }) => {
   const { t } = useTranslation('profile')
 
   const webpageURL = _get(producer, 'bpjson.org.website')
@@ -311,74 +328,6 @@ const GeneralInformation = ({ classes, producer = {}, edenRate = {} }) => {
           </Grid>
         </Box>
       </Grid>
-      <Grid container className={classes.category}>
-        <Grid container justify='center' md={4} xs={12}>
-          <Grid item md={12} xs={12}>
-            <Typography variant='h6' className={classes.title}>
-              {t('eosRates')}
-            </Typography>
-          </Grid>
-          <Grid item md={11} xs={6}>
-            <Box style={{ display: 'flex' }}>
-              <Typography variant='subtitle1' className={classes.subTitle}>
-                {t('rates')}:
-              </Typography>
-              <Typography
-                variant='subtitle1'
-                className={classNames(classes.value, classes.subTitle)}
-              >
-                {_get(producer, 'ratings_cntr', null) || 0}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item md={11} xs={5}>
-            <Box style={{ display: 'flex' }}>
-              <Typography variant='subtitle1' className={classes.subTitle}>
-                {t('average')}:
-              </Typography>
-              <Typography
-                variant='subtitle1'
-                className={classNames(classes.value, classes.subTitle)}
-              >
-                {getAverageValue(_get(producer, 'average', 0))}
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-        <Grid container justify='center' md={4} xs={12}>
-          <Grid item md={12} xs={12}>
-            <Typography variant='h6' className={classes.title}>
-              {t('edenRates')}
-            </Typography>
-          </Grid>
-          <Grid item md={11} xs={6}>
-            <Box style={{ display: 'flex' }}>
-              <Typography variant='subtitle1' className={classes.subTitle}>
-                {t('rates')}:
-              </Typography>
-              <Typography
-                variant='subtitle1'
-                className={classNames(classes.value, classes.subTitle)}
-              >
-                {_get(edenRate, 'ratings_cntr', null) || 0}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item md={11} xs={5}>
-            <Box style={{ display: 'flex' }}>
-              <Typography variant='subtitle1' className={classes.subTitle}>
-                {t('average')}:
-              </Typography>
-              <Typography
-                variant='subtitle1'
-                className={classNames(classes.value, classes.subTitle)}
-              >
-                {getAverageValue(_get(edenRate, 'average', 0))}
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-      </Grid>
     </>
   )
 }
@@ -388,10 +337,14 @@ SocialNetworks.propTypes = {
   producer: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
 }
 
+AdditionalResources.propTypes = {
+  classes: PropTypes.object,
+  producer: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
+}
+
 GeneralInformation.propTypes = {
   classes: PropTypes.object,
-  producer: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  edenRate: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
+  producer: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
 }
 
 WebsiteLegend.propTypes = {
@@ -399,4 +352,9 @@ WebsiteLegend.propTypes = {
   webInfo: PropTypes.object
 }
 
-export { SocialNetworks, GeneralInformation, WebsiteLegend }
+export {
+  SocialNetworks,
+  GeneralInformation,
+  WebsiteLegend,
+  AdditionalResources
+}
