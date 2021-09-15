@@ -33,6 +33,7 @@ const Settings = ({ i18n }) => {
         const lang = 'en'
         
       i18n.changeLanguage(lang)
+      localStorage.setItem('LANGUAGE', lang)
       dispatch.settings.setSettings({ key: value, value: lang })
     } else if (value === 'notifications')
       dispatch.settings.setSettings({ key: value, value: !currentValue })

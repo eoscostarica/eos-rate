@@ -9,6 +9,8 @@ i18n
   .init({
     resources,
     fallbackLng: 'en',
+    lng: localStorage.getItem('LANGUAGE') || 'en',
+    caches: ['localStorage', 'cookie'],
     interpolation: {
       escapeValue: false
     }

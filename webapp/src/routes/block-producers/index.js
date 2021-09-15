@@ -240,6 +240,7 @@ const AllBps = ({ ual }) => {
               owner={_get(blockProducer, 'owner')}
               title={_get(blockProducer, 'bpjson.org.candidate_name')}
               pathLink='block-producers'
+              buttonLabel={t('addToVote')}
               average={getAverageValue(_get(blockProducer, 'average', 0))}
               rate={_get(blockProducer, 'ratings_cntr', 0)}
               isNewRate={handleSetIsNewRate(blockProducer.owner)}
