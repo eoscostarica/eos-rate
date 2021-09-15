@@ -225,7 +225,6 @@ CardData.propTypes = {
 
 CardData.defaultProps = {
   useRateButton: true,
-  buttonLabel: 'ADD TO VOTE',
   average: '0',
   rate: '0',
   showOptions: true

@@ -23,7 +23,10 @@ const LanguageSelect = ({ style, alt }) => {
 
   const handleClose = (item) => {
     setAnchorEl(null)
-    if (typeof item === 'string') i18n.changeLanguage(item)
+    if (typeof item === 'string') {
+      localStorage.setItem('LANGUAGE', item)
+      i18n.changeLanguage(item)
+    }
   }
 
   const languages = [
