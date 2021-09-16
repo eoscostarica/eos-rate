@@ -28,7 +28,7 @@ const BasicTable = ({ rows, heads }) => {
           {rows.map((row) => (
             <TableRow key={row.rater}>
               <TableCell align='center'>{row.rater}</TableCell>
-              <TableCell align='center'>{row.ammount}</TableCell>
+              <TableCell align='center'>{row.amount}</TableCell>
               <TableCell align='center'>{row.average}</TableCell>
             </TableRow>
           ))}

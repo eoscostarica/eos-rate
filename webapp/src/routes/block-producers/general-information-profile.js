@@ -158,7 +158,7 @@ const AdditionalResources = ({ classes, producer }) => {
     return (
       <Grid container direction='column' className={classes.category}>
         <Typography variant='h6' className={classes.title}>
-          {t('aditionalResource')}
+          {t('additionalResource')}
         </Typography>
         <Box className={classes.marginLeftBox}>
           {additionalResources && additionalResources.alohaEOS && (

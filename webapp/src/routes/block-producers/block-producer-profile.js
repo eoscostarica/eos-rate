@@ -271,16 +271,16 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
               rows={[
                 {
                   rater: t('eosRates'),
-                  ammount: _get(producer, 'ratings_cntr', null) || 0,
+                  amount: _get(producer, 'ratings_cntr', null) || 0,
                   average: getAverageValue(_get(producer, 'average', 0))
                 },
                 {
                   rater: t('edenRates'),
-                  ammount: _get(edenRate, 'ratings_cntr', null) || 0,
+                  amount: _get(edenRate, 'ratings_cntr', null) || 0,
                   average: getAverageValue(_get(edenRate, 'average', 0))
                 }
               ]}
-              heads={[t('raters'), t('ammount'), t('average')]}
+              heads={[t('raters'), t('amount'), t('average')]}
             />
           </Grid>
         </Grid>
