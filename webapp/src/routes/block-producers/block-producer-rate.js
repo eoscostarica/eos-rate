@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { useState, useEffect, forwardRef } from 'react'
+import React, { useState, useEffect, forwardRef, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,14 +8,11 @@ import {
   useMediaQuery,
   Avatar,
   Button,
-  IconButton,
   Grid,
   CircularProgress,
-  Typography,
-  Link as MLink
+  Typography
 } from '@material-ui/core'
 import AccountCircle from '@material-ui/icons/AccountCircle'
-import Close from '@material-ui/icons/Close'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import _get from 'lodash.get'
 import classNames from 'classnames'
@@ -27,7 +24,7 @@ import Box from '@material-ui/core/Box'
 
 import TitlePage from 'components/title-page'
 import Radar from 'components/radar'
-import { contract, blockExplorer } from '../../config'
+import { contract } from '../../config'
 import getBPRadarData from 'utils/getBPRadarData'
 
 import SliderRatingSection from './slider-rating-section'
@@ -56,6 +53,7 @@ const BlockProducerRate = ({ account, ual }) => {
   const [isNewRate, setIsNewRate] = useState(true)
   const [showMessage, setShowMessage] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
+  const linkBack = useRef(null)
   const { t } = useTranslation('bpRatePage')
   const dispatch = useDispatch()
   const { producer, userRate, edenRate } = useSelector(
@@ -99,11 +97,12 @@ const BlockProducerRate = ({ account, ual }) => {
   }
 
   const handleSetLastTransactionId = (event, reason) => {
+    linkComponent()
     setLastTransactionId(undefined)
-    window.open(
-      window.location.href.substring(0, window.location.href.length - 5),
-      '_self'
-    )
+  }
+
+  const linkComponent = () => {
+    linkBack.current.click()
   }
 
   useEffect(() => {
@@ -285,7 +284,7 @@ const BlockProducerRate = ({ account, ual }) => {
         txSuccess: true
       })
 
-      setTimeout(handleSetLastTransactionId, 4000)
+      handleSetLastTransactionId()
     } catch (err) {
       setRatingState({
         ...ratingState,
@@ -410,20 +409,15 @@ const BlockProducerRate = ({ account, ual }) => {
                     {ratingState.txError}
                   </Alert>
                 </Snackbar>
-                <Button
-                  disabled={!producer}
-                  component={forwardRef((props, ref) => (
-                    <Link
-                      {...props}
-                      ref={ref}
-                      to={`/block-producers/${_get(producer, 'owner', null)}`}
-                    />
-                  ))}
-                  variant='contained'
-                  size='small'
-                >
+                <Button disabled={!producer} variant='contained' size='small'>
                   {t('cancelRatingButton')}
                 </Button>
+                <Link
+                  ref={linkBack}
+                  style={{ display: 'none' }}
+                  to={`/block-producers/${_get(producer, 'owner', null)}`}
+                  state={{ transactionId: lastTransactionId }}
+                />
                 <Button
                   className='textPrimary'
                   disabled={showAlert || !producer || ratingState.processing}
@@ -527,46 +521,6 @@ const BlockProducerRate = ({ account, ual }) => {
             </Grid>
           </Grid>
         </Grid>
-        {lastTransactionId && (
-          <Grid item md={4} xs={12} lg={2} style={{ margin: 'auto' }}>
-            <Alert show className={classes.alert} severity='success'>
-              <Grid
-                container
-                className={classes.alertBody}
-                justifyContent='space-between'
-              >
-                <Typography>{t('success')}</Typography>
-                <Grid
-                  className={classes.alertActionsContainer}
-                  container
-                  justifyContent='space-evenly'
-                >
-                  <Button
-                    variant='contained'
-                    disableElevation
-                    className={classes.detailsIconButton}
-                    color='primary'
-                  >
-                    <MLink
-                      rel='noopener'
-                      target='_blank'
-                      style={{ color: 'white' }}
-                      href={`${blockExplorer}/transaction/${lastTransactionId}`}
-                    >
-                      {t('details')}
-                    </MLink>
-                  </Button>
-                  <IconButton
-                    className={classes.closeIconButton}
-                    onClick={() => handleSetLastTransactionId()}
-                  >
-                    <Close />
-                  </IconButton>
-                </Grid>
-              </Grid>
-            </Alert>
-          </Grid>
-        )}
         {showAlert && (
           <Grid container>
             <Alert className={classes.alert} severity='warning'>

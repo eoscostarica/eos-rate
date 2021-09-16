@@ -262,5 +262,16 @@ export default (theme) => ({
   backButtonStyle: {
     marginLeft: '16px !important',
     padding: '6px 16px !important'
+  },
+  snackbar: {
+    '& .MuiSnackbarContent-root': {
+      padding: 0
+    },
+    '& .MuiSnackbarContent-action': {
+      padding: 0
+    },
+    '& .MuiAlert-icon': {
+      alignItems: 'center'
+    }
   }
 })
