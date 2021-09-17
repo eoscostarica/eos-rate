@@ -21,7 +21,7 @@
     }
   },
   "dependencies": {
-    "@eoscostarica/eoscr-components": "^3.1.4",
+    "@eoscostarica/eoscr-components": "^3.5.4",
     "@material-ui/core": "^4.12.1",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.60",
