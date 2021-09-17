@@ -280,7 +280,7 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
                   average: getAverageValue(_get(edenRate, 'average', 0))
                 }
               ]}
-              heads={[t('raters'), t('amount'), t('average')]}
+              heads={['', t('amount'), t('average')]}
             />
           </Grid>
         </Grid>
