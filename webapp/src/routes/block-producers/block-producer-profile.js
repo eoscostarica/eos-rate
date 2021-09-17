@@ -1,27 +1,38 @@
-import React, { useState, useEffect, forwardRef } from 'react'
+import React, { useState, useEffect, forwardRef, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Link } from '@reach/router'
+import { Link, useLocation } from '@reach/router'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
+import Snackbar from '@material-ui/core/Snackbar'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
+import MuiAlert from '@material-ui/lab/Alert'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import AccountCircle from '@material-ui/icons/AccountCircle'
-import { Box, useMediaQuery } from '@material-ui/core'
+import CloseIcon from '@material-ui/icons/Close'
 import _get from 'lodash.get'
+import {
+  Box,
+  useMediaQuery,
+  IconButton,
+  Link as MLink
+} from '@material-ui/core'
 
+import { blockExplorer } from '../../config'
 import getBPRadarData from 'utils/getBPRadarData'
 import TitlePage from 'components/title-page'
 import Radar from 'components/radar'
-
+import Table from 'components/table'
 import {
   SocialNetworks,
   GeneralInformation,
-  WebsiteLegend
+  WebsiteLegend,
+  AdditionalResources
 } from './general-information-profile'
+import getAverageValue from 'utils/getAverageValue'
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
@@ -63,8 +74,10 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
   const isDesktop = useMediaQuery('(min-width:767px)')
   const isMobile = useMediaQuery('(max-width:768px)')
   const accountName = _get(ual, 'activeUser.accountName', null)
+  const location = useLocation()
   const [sizes, setSizes] = useState()
   const [isNewRate, setIsNewRate] = useState(true)
+  const [open, setOpen] = useState(false)
   const {
     list: blockProducers,
     producer,
@@ -110,6 +123,17 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
     parameters: getRatingData()
   })
 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setOpen(false)
+  }
+
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant='filled' {...props} />
+  }
+
   useEffect(() => {
     setSizes(isDesktop ? 400 : '100%')
   }, [isDesktop])
@@ -138,6 +162,11 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
     if (userRate) setIsNewRate(false)
     else setIsNewRate(true)
   }, [userRate])
+
+  useEffect(() => {
+    if (location.state.transactionId) setOpen(true)
+    else setOpen(false)
+  }, [])
 
   return (
     <Grid container justify='center' className={classes.container}>
@@ -182,21 +211,30 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
           </Box>
         </Grid>
         {!isMobile && (
-          <Grid item xs={12} md={7}>
-            <GeneralInformation
-              classes={classes}
-              producer={producer}
-              edenRate={edenRate}
-            />
+          <Grid
+            style={{ borderRight: 'solid 1px rgba(0, 0, 0, 0.38)' }}
+            item
+            xs={12}
+            md={6}
+          >
+            <Grid item md={10} xs={12}>
+              <WebsiteLegend classes={classes} webInfo={webInfo} />
+            </Grid>
+            <GeneralInformation classes={classes} producer={producer} />
             <SocialNetworks
+              classes={classes}
+              overrideClass={classes.showOnlyLg}
+              producer={bpHasInformation && producer}
+            />
+            <AdditionalResources
               classes={classes}
               overrideClass={classes.showOnlyLg}
               producer={bpHasInformation && producer}
             />
           </Grid>
         )}
-        <Grid container justify='center' md={5}>
-          <Grid item md={12} xs={12}>
+        <Grid container justify='center' md={6}>
+          <Grid item md={12} style={{ marginTop: 20 }} xs={12}>
             <Radar
               height={sizes}
               width={sizes}
@@ -228,9 +266,27 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
               {isNewRate ? t('buttonRate') : t('updateRatingButton')}
             </Button>
           </Grid>
+          <Grid style={{ paddingTop: 40 }} item md={11} xs={12}>
+            <Table
+              rows={[
+                {
+                  rater: t('eosRates'),
+                  amount: _get(producer, 'ratings_cntr', null) || 0,
+                  average: getAverageValue(_get(producer, 'average', 0))
+                },
+                {
+                  rater: t('edenRates'),
+                  amount: _get(edenRate, 'ratings_cntr', null) || 0,
+                  average: getAverageValue(_get(edenRate, 'average', 0))
+                }
+              ]}
+              heads={['', t('amount'), t('average')]}
+            />
+          </Grid>
         </Grid>
         {isMobile && (
           <Grid item xs={12}>
+            <WebsiteLegend classes={classes} webInfo={webInfo} />
             <GeneralInformation
               classes={classes}
               producer={producer}
@@ -238,9 +294,6 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
             />
           </Grid>
         )}
-        <Grid item md={12} xs={12}>
-          <WebsiteLegend classes={classes} webInfo={webInfo} />
-        </Grid>
         {isMobile && (
           <Grid style={{ marginTop: '-20px' }} item xs={12}>
             <SocialNetworks
@@ -248,9 +301,48 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
               overrideClass={classes.showOnlyLg}
               producer={bpHasInformation && producer}
             />
+            <AdditionalResources
+              classes={classes}
+              overrideClass={classes.showOnlyLg}
+              producer={bpHasInformation && producer}
+            />
           </Grid>
         )}
       </Grid>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+        className={classes.snackbar}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        action={
+          <Alert severity='success'>
+            <Fragment>
+              <Button color='secondary' size='small'>
+                <MLink
+                  rel='noopener'
+                  target='_blank'
+                  style={{ color: 'white' }}
+                  href={`${blockExplorer}/transaction/${location.state.transactionId}`}
+                >
+                  {location.state.transactionId}
+                </MLink>
+              </Button>
+              <IconButton
+                aria-label='close'
+                color='inherit'
+                className={classes.close}
+                onClick={handleClose}
+              >
+                <CloseIcon />
+              </IconButton>
+            </Fragment>
+          </Alert>
+        }
+      />
     </Grid>
   )
 }
