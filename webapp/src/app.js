@@ -1,33 +1,52 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
-import { Router } from '@reach/router'
+import React, { Suspense, useMemo } from 'react'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import DateFnsUtils from '@date-io/date-fns'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import { ThemeProvider } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
-import Spinner from 'components/spinner'
-import Layout from 'components/layout'
-import NotFound from 'routes/not-found'
-import routes from 'routes'
+import routes from './routes'
+import Loader from './components/Loader'
+import DashboardLayout from './layouts/Dashboard'
+import { useSharedState } from './context/state.context'
+import getTheme from './theme'
+import './i18n'
 
-const App = ({ ual }) => {
-  const { isContentLoading } = useSelector((state) => state.isLoading)
+const App = () => {
+  const [state] = useSharedState()
+
+  const renderRoute = ({ component: Component, ...route }, index) => (
+    <Route
+      key={`path-${route.path}-${index}`}
+      path={route.path}
+      exact={route.exact}
+    >
+      <Component />
+    </Route>
+  )
+
+  const userRoutes = useMemo(
+    () => routes(state.user?.role || 'guest'),
+
+    [state.user]
+  )
+
+  const theme = useMemo(() => getTheme(state.useDarkMode), [state.useDarkMode])
 
   return (
-    <>
-      <Spinner isLoading={isContentLoading} />
-      <Layout ual={ual}>
-        <Router>
-          {(routes || []).map(({ path, Component }) => (
-            <Component key={`path-${path}`} path={path} ual={ual} />
-          ))}
-          <NotFound default />
-        </Router>
-      </Layout>
-    </>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <DashboardLayout routes={userRoutes.sidebar}>
+            <Suspense fallback={<Loader />}>
+              <Switch>{userRoutes.browser.map(renderRoute)}</Switch>
+            </Suspense>
+          </DashboardLayout>
+        </MuiPickersUtilsProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   )
-}
-
-App.propTypes = {
-  ual: PropTypes.object
 }
 
 export default App

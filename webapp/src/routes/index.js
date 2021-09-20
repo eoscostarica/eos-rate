@@ -1,82 +1,82 @@
-import Home from './home'
-import Account from './account'
-import BlockProducerProfile from './block-producers/block-producer-profile'
-import BlockProducerRate from './block-producers/block-producer-rate'
-import AllBps, { blockProducersDrawer } from './block-producers'
-import AllProxies, { proxiesDrawer } from './proxies'
-import ProxyProfile from './proxies/proxy-profile'
-import Help from './help'
-import TermsOfUse from './termsOfUse'
-import About from './about'
-import { networkMonitor } from '../config'
+import React, { lazy } from 'react'
 
-export default [
+import {
+  Grid as GridIcon,
+  Info as InfoIcon,
+  HelpCircle as HelpIcon,
+  GitMerge as GitMergeIcon,
+  GitHub as GitHubIcon,
+  Send as TelegramIcon
+} from 'react-feather'
+
+import { mainConfig } from '../config'
+
+const Home = lazy(() => import('./Home'))
+const About = lazy(() => import('./About'))
+const Help = lazy(() => import('./Help'))
+const Page404 = lazy(() => import('./Route404'))
+
+const routes = [
   {
+    name: 'home',
+    icon: <GridIcon />,
+    component: Home,
     path: '/',
-    Component: Home,
-    drawerLabel: 'drawerLinkHome',
-    target: '_self'
+    exact: true
   },
   {
-    path: '/block-producers',
-    Component: AllBps,
-    drawerLabel: 'drawerLinkAllBPs',
-    drawerComponents: blockProducersDrawer,
-    target: '_self'
-  },
-  {
-    path: 'block-producers/:account',
-    Component: BlockProducerProfile,
-    target: '_self'
-  },
-  {
-    path: 'block-producers/:account/rate',
-    Component: BlockProducerRate,
-    target: '_self'
-  },
-  {
-    path: '/proxies',
-    Component: AllProxies,
-    drawerLabel: 'drawerLinkAllProxies',
-    drawerComponents: proxiesDrawer,
-    target: '_self'
-  },
-  {
-    path: 'proxies/:account',
-    Component: ProxyProfile,
-    target: '_self'
-  },
-  {
-    path: '/account',
-    Component: Account,
-    target: '_self'
-  },
-  {
-    path: networkMonitor,
-    drawerLabel: 'drawerLinkNetworkMonitor',
-    target: '_blank'
-  },
-  {
+    header: 'docs',
+    name: 'about',
+    icon: <InfoIcon />,
+    component: About,
     path: '/about',
-    Component: About,
-    drawerLabel: 'drawerLinkAbout',
-    target: '_self'
+    exact: true
   },
   {
-    path: '/ricardian-contract',
-    Component: TermsOfUse,
-    drawerLabel: 'drawerLinkRicardianContract',
-    target: '_self'
-  },
-  {
+    name: 'help',
+    icon: <HelpIcon />,
+    component: Help,
     path: '/help',
-    Component: Help,
-    drawerLabel: 'drawerLinkHelp',
-    target: '_self'
+    exact: true
   },
   {
-    path: 'https://github.com/eoscostarica/eos-rate/releases',
-    drawerLabel: 'version',
-    target: '_blank'
+    name: 'changelog',
+    badge: mainConfig.appVersion,
+    path: 'https://github.com/eoscostarica/full-stack-boilerplate/tags',
+    icon: <GitMergeIcon />,
+    exact: true
+  },
+  {
+    header: 'community',
+    name: 'github',
+    path: 'https://github.com/eoscostarica/full-stack-boilerplate',
+    icon: <GitHubIcon />
+  },
+  {
+    name: 'telegram',
+    path: 'https://t.me/blockchaincostarica',
+    icon: <TelegramIcon />
+  },
+  {
+    component: Page404
   }
 ]
+
+export default role => {
+  const routesForRole = routes.filter(
+    route => !route.roles || route.roles.includes(role)
+  )
+
+  return {
+    sidebar: routesForRole.filter(route => !!route.name),
+    browser: routesForRole
+      .reduce(
+        (routes, route) => [
+          ...routes,
+          ...(route.childrens ? route.childrens : [route])
+        ],
+        []
+      )
+      .filter(route => !!route.component)
+  }
+}

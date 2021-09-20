@@ -5,6 +5,7 @@ select_permissions:
 - permission:
     columns:
     - background
+    - filter_name
     - logo_256
     - name
     - owner
