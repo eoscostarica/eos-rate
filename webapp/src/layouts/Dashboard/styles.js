@@ -12,10 +12,12 @@ export default (theme, drawerWidth) => ({
     height: '100vh'
   },
   childContent: {
-    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     height: '100%',
-    padding: theme.spacing(2),
-    marginBottom: theme.spacing(1),
+    border: '3px solid red',
+    paddingTop: theme.spacing(2),
     overflow: 'scroll'
   }
 })

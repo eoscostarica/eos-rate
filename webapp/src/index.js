@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { UALProvider, withUAL } from '@eoscostarica/ual-reactjs-renderer'
 import { ApolloProvider } from '@apollo/client'
 
-import App from './App'
+import App from './app'
 import { client } from './graphql'
 import * as serviceWorker from './serviceWorker'
 import { ualConfig } from './config'

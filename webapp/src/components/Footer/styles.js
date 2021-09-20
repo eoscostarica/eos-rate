@@ -1,6 +1,7 @@
 export default theme => ({
   root: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
+    backgroundColor: theme.palette.primary.main,
     border: '1px solid green'
   },
   listItem: {

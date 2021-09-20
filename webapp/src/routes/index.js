@@ -1,7 +1,6 @@
 import React, { lazy } from 'react'
 
 import {
-  Grid as GridIcon,
   Info as InfoIcon,
   HelpCircle as HelpIcon,
   GitMerge as GitMergeIcon,
@@ -19,7 +18,6 @@ const Page404 = lazy(() => import('./Route404'))
 const routes = [
   {
     name: 'home',
-    icon: <GridIcon />,
     component: Home,
     path: '/',
     exact: true
@@ -47,7 +45,7 @@ const routes = [
     exact: true
   },
   {
-    header: 'community',
+    // header: 'community',
     name: 'github',
     path: 'https://github.com/eoscostarica/full-stack-boilerplate',
     icon: <GitHubIcon />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import Helmet from 'react-helmet'
 import PropTypes from 'prop-types'
 
@@ -18,4 +18,4 @@ PageTitle.defaultProps = {
   title: mainConfig.title
 }
 
-export default PageTitle
+export default memo(PageTitle)

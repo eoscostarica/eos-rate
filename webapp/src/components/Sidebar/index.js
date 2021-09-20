@@ -53,7 +53,7 @@ ExternalLink.propTypes = {
 }
 
 const ListItemLink = ({ name, path, icon, badge, ...props }) => {
-  const { t } = useTranslation('routes')
+  const { t } = useTranslation('translations')
   const classes = useStyles()
   const primaryText = path.includes('http')
     ? t(name, name)
@@ -85,7 +85,7 @@ ListItemLink.propTypes = {
 
 const ListItemGroup = ({ name, icon, path, childrens, ...props }) => {
   const [open, setOpen] = useState(true)
-  const { t } = useTranslation('routes')
+  const { t } = useTranslation('translations')
 
   return (
     <>
@@ -119,7 +119,7 @@ ListItemGroup.propTypes = {
 }
 
 const ListItem = ({ header, childrens, ...props }) => {
-  const { t } = useTranslation('routes')
+  const { t } = useTranslation('translations')
   const classes = useStyles()
 
   return (
