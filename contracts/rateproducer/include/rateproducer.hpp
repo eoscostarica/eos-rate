@@ -43,7 +43,7 @@ using eosio::public_key;
 */
 namespace eosio {
     constexpr name system_account{"eosio"_n};
-    constexpr name eden_account{"genesis.eden"_n};
+    constexpr name eden_account{"genesisdeden"_n};
     constexpr name eden_scope{"eden"_n};
 
     /*
@@ -283,7 +283,7 @@ namespace eoscostarica {
         float transparency;
         float infrastructure;
         float trustiness;
-        float development;  
+        float development;
         float community;
         uint64_t primary_key() const { return id; }
         uint128_t by_uniq_rating() const { return uniq_rating; }
@@ -307,6 +307,42 @@ namespace eoscostarica {
         indexed_by<"user"_n, const_mem_fun<ratings, uint64_t, &ratings::by_user>>,
         indexed_by<"bp"_n, const_mem_fun<ratings, uint64_t, &ratings::by_bp>>
     > ratings_table;
+
+    /*
+    *   Stores the rate vote for a block producer
+    */
+    struct ratings2 {
+        uint64_t id;
+        uint128_t uniq_rating;
+        name user;
+        name bp;
+        uint8_t transparency;
+        uint8_t infrastructure;
+        uint8_t trustiness;
+        uint8_t development;
+        uint8_t community;
+        uint64_t primary_key() const { return id; }
+        uint128_t by_uniq_rating() const { return uniq_rating; }
+        uint64_t by_user() const { return user.value; }
+        uint64_t by_bp() const { return bp.value; }
+    };
+    EOSIO_REFLECT(
+        ratings2,
+        id,
+        uniq_rating,
+        user,
+        bp,
+        transparency,
+        infrastructure,
+        trustiness,
+        development,
+        community
+    )
+    typedef eosio::multi_index<"ratings"_n, ratings2,
+        indexed_by<"uniqrating"_n, const_mem_fun<ratings2, uint128_t, &ratings2::by_uniq_rating>>,
+        indexed_by<"user"_n, const_mem_fun<ratings2, uint64_t, &ratings2::by_user>>,
+        indexed_by<"bp"_n, const_mem_fun<ratings2, uint64_t, &ratings2::by_bp>>
+    > ratings_table2;
 
     /*
     *   Stores contract config for migration versioning
@@ -353,12 +389,11 @@ namespace eoscostarica {
         void rate(
             name user, 
             name bp, 
-            int8_t transparency,
-            int8_t infrastructure,
-            int8_t trustiness,
-            int8_t community,
-            int8_t development);
-
+            uint8_t transparency,
+            uint8_t infrastructure,
+            uint8_t trustiness,
+            uint8_t community,
+            uint8_t development);
 
         /**
         *
@@ -384,11 +419,11 @@ namespace eoscostarica {
             name scope,
             name user,
             name bp, 
-            int8_t transparency,
-            int8_t infrastructure,
-            int8_t trustiness,
-            int8_t community,
-            int8_t development);
+            uint8_t transparency,
+            uint8_t infrastructure,
+            uint8_t trustiness,
+            uint8_t community,
+            uint8_t development);
         
         /**
         *

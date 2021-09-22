@@ -5,11 +5,11 @@ namespace eoscostarica {
     void rateproducer::rate(
         name user,
         name bp, 
-        int8_t transparency,
-        int8_t infrastructure,
-        int8_t trustiness,
-        int8_t community,
-        int8_t development) {
+        uint8_t transparency,
+        uint8_t infrastructure,
+        uint8_t trustiness,
+        uint8_t community,
+        uint8_t development) {
         
         rate_aux(_self, user, bp, transparency, infrastructure, trustiness, community, development);
         if(is_eden(user)) rate_aux(eden_scope, user, bp, transparency, infrastructure, trustiness, community, development);
@@ -19,11 +19,11 @@ namespace eoscostarica {
         name scope,
         name user, 
         name bp, 
-        int8_t transparency,
-        int8_t infrastructure,
-        int8_t trustiness,
-        int8_t community,
-        int8_t development) {
+        uint8_t transparency,
+        uint8_t infrastructure,
+        uint8_t trustiness,
+        uint8_t community,
+        uint8_t development) {
         check( (transparency+infrastructure+trustiness+community+development), "Error vote must have value for at least one category");  
         check( (MINVAL<= transparency &&  transparency<=MAXVAL ), "Error transparency value out of range");
         check( (MINVAL<= infrastructure &&  infrastructure<=MAXVAL ), "Error infrastructure value out of range" );
@@ -48,7 +48,7 @@ namespace eoscostarica {
         }
 
         // upsert bp rating
-        ratings_table _ratings(_self, scope.value);
+        ratings_table2 _ratings(_self, scope.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
         auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
@@ -253,7 +253,7 @@ namespace eoscostarica {
         float development_cntr = 0;
         uint32_t voters_cntr = 0;
 
-        ratings_table _ratings(_self, scope.value);
+        ratings_table2 _ratings(_self, scope.value);
         auto bps_index = _ratings.get_index<name("bp")>();
         auto bps_it = bps_index.find(bp_name.value); 
         
@@ -345,7 +345,7 @@ namespace eoscostarica {
                     row.trustiness = *trustiness;
                     row.development = *development;
                     row.community = *community;      
-                    row.ratings_cntr= *ratings_cntr;
+                    row.ratings_cntr = *ratings_cntr;
                     row.average = *average;
                     });
             } else {
@@ -363,7 +363,7 @@ namespace eoscostarica {
         
         require_auth(_self);
 
-        ratings_table _ratings(_self, scope.value);
+        ratings_table2 _ratings(_self, scope.value);
         auto itr = _ratings.begin();
         while (itr != _ratings.end()) {
             if(itr->bp == bp_name) {
@@ -386,7 +386,7 @@ namespace eoscostarica {
 
     void rateproducer::wipe_aux(name scope) {
         require_auth(_self);
-        ratings_table _ratings(_self, scope.value);
+        ratings_table2 _ratings(_self, scope.value);
         auto itr = _ratings.begin();
         while (itr != _ratings.end()) {
             itr = _ratings.erase(itr);
@@ -400,7 +400,7 @@ namespace eoscostarica {
     }
 
     void rateproducer::erase_bp_info(name scope, std::set<eosio::name> * bps_to_clean) {
-        ratings_table _ratings(_self, scope.value);
+        ratings_table2 _ratings(_self, scope.value);
         stats_table _stats(_self, scope.value);
         
         std::set<eosio::name>::iterator it;
@@ -448,7 +448,7 @@ namespace eoscostarica {
     void rateproducer::rmrate_aux(name scope, name user, name bp) {
         require_auth(user);
         
-        ratings_table _ratings(_self, scope.value);
+        ratings_table2 _ratings(_self, scope.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
         auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
@@ -500,8 +500,8 @@ namespace eoscostarica {
         // the comparison value needs to be hard-coded with each new migration
         eosio::check(c.version < 1, "Migration already ran");
 
-        ratings_table _ratings_self(_self, _self.value);
-        ratings_table _ratings_eden(_self, eden_scope.value);
+        ratings_table2 _ratings_self(_self, _self.value);
+        ratings_table2 _ratings_eden(_self, eden_scope.value);
 
         for(auto itr = _ratings_self.begin(); itr != _ratings_self.end(); itr++) {
             if(is_eden(itr->user)) {
@@ -537,5 +537,5 @@ namespace eoscostarica {
 EOSIO_ACTION_DISPATCHER(eoscostarica::actions)
 
 EOSIO_ABIGEN(actions(eoscostarica::actions),
-            table("ratings"_n, eoscostarica::ratings),
+            table("ratings"_n, eoscostarica::ratings2),
             table("stats"_n, eoscostarica::stats))
