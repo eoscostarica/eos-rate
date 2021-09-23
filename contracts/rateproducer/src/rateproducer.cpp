@@ -10,7 +10,7 @@ namespace eoscostarica {
         uint8_t trustiness,
         uint8_t community,
         uint8_t development) {
-        
+        require_auth(user);
         rate_aux(_self, user, bp, transparency, infrastructure, trustiness, community, development);
         if(is_eden(user)) rate_aux(eden_scope, user, bp, transparency, infrastructure, trustiness, community, development);
     }
@@ -75,7 +75,6 @@ namespace eoscostarica {
                         trustiness,
                         community,
                         development);
-        
 
         } else {
             //the voter update its vote
@@ -537,5 +536,5 @@ namespace eoscostarica {
 EOSIO_ACTION_DISPATCHER(eoscostarica::actions)
 
 EOSIO_ABIGEN(actions(eoscostarica::actions),
-            table("ratings"_n, eoscostarica::ratings2),
+            table("rating"_n, eoscostarica::ratings2),
             table("stats"_n, eoscostarica::stats))

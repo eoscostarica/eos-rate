@@ -338,7 +338,7 @@ namespace eoscostarica {
         development,
         community
     )
-    typedef eosio::multi_index<"ratings"_n, ratings2,
+    typedef eosio::multi_index<"rating"_n, ratings2,
         indexed_by<"uniqrating"_n, const_mem_fun<ratings2, uint128_t, &ratings2::by_uniq_rating>>,
         indexed_by<"user"_n, const_mem_fun<ratings2, uint64_t, &ratings2::by_user>>,
         indexed_by<"bp"_n, const_mem_fun<ratings2, uint64_t, &ratings2::by_bp>>
