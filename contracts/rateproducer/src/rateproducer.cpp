@@ -10,7 +10,7 @@ namespace eoscostarica {
         int8_t trustiness,
         int8_t community,
         int8_t development) {
-        
+        require_auth(user);
         rate_aux(_self, user, bp, transparency, infrastructure, trustiness, community, development);
         if(is_eden(user)) rate_aux(eden_scope, user, bp, transparency, infrastructure, trustiness, community, development);
     }
