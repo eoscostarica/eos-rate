@@ -189,7 +189,18 @@
         }
     ],
     "tables": [
-	@@ -204,28 +204,7 @@
+        {
+            "name": "ratings",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": [],
+            "type": "ratings"
+        },
+        {
+            "name": "stats",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": [],
             "type": "stats"
         }
     ],
