@@ -1,8 +1,9 @@
 import React, { useState, useEffect, forwardRef, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux'
+import { useLazyQuery } from '@apollo/client'
+// import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { Link, useLocation } from '@reach/router'
+import { Link, useParams } from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
@@ -14,25 +15,26 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import CloseIcon from '@material-ui/icons/Close'
 import _get from 'lodash.get'
-import {
-  Box,
-  useMediaQuery,
-  IconButton,
-  Link as MLink
-} from '@material-ui/core'
+import Box from '@material-ui/core/Box'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import IconButton from '@material-ui/core/IconButton'
+import { Link as MLink } from '@material-ui/core'
 
-import { blockExplorer } from '../../config'
-import getBPRadarData from 'utils/getBPRadarData'
-import TitlePage from 'components/title-page'
-import Radar from 'components/radar'
-import Table from 'components/table'
+import { mainConfig } from '../../config'
+import { GET_PRODUCER_BY_OWNER } from '../../gql'
+import getBPRadarData from '../../utils/get-bp-radar-data'
+import TitlePage from '../../components/PageTitle'
+import Radar from '../../components/Radar'
+import Table from '../../components/Table'
+import getAverageValue from '../../utils/get-average-value'
+import { useSharedState } from '../../context/state.context'
+
 import {
   SocialNetworks,
   GeneralInformation,
   WebsiteLegend,
   AdditionalResources
-} from './general-information-profile'
-import getAverageValue from 'utils/getAverageValue'
+} from './GeneralInformationProfile'
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
@@ -67,37 +69,42 @@ const ProfileTitle = ({
   )
 }
 
-const BlockProducerProfile = ({ account, ual, ...props }) => {
+const BlockProducerProfile = ({ ual }) => {
   const { t } = useTranslation('profile')
+  const { account } = useParams()
   const classes = useStyles()
-  const dispatch = useDispatch()
+  const [state, { setProducer }] = useSharedState()
+  // const dispatch = useDispatch()
   const isDesktop = useMediaQuery('(min-width:767px)')
   const isMobile = useMediaQuery('(max-width:768px)')
-  const accountName = _get(ual, 'activeUser.accountName', null)
-  const location = useLocation()
+  // const accountName = _get(ual, 'activeUser.accountName', null)
+  // const history = useHistory()
   const [sizes, setSizes] = useState()
   const [isNewRate, setIsNewRate] = useState(true)
+  const [bpHasInformation, setBpHasInformation] = useState(false)
+  const [blockProducerLogo, setBlockProducerLogo] = useState(null)
+  const [webInfo, setWebInfo] = useState(null)
+  const [blockProducerTitle, setBlockProducerTitle] = useState('No Title')
   const [open, setOpen] = useState(false)
-  const {
-    list: blockProducers,
-    producer,
-    edenRate,
-    userRate
-  } = useSelector(state => state.blockProducers)
-  const { isContentLoading } = useSelector(state => state.isLoading)
-  const bpHasInformation = Boolean(
-    producer && Object.values(producer.bpjson).length
-  )
-  const bPLogo =
-    bpHasInformation && _get(producer, 'bpjson.org.branding.logo_256', null)
+  const [getBlockProducerByOwner, { loading, data: { producer: bp } = {} }] =
+    useLazyQuery(GET_PRODUCER_BY_OWNER, { fetchPolicy: 'network-only' })
 
-  const BlockProducerTitle = _get(
-    producer,
-    'bpjson.org.candidate_name',
-    _get(producer, 'system.owner', 'No Data')
-  )
+  // delete this
+  // const blockProducers = []
+  // const producer = {}
+  const edenRate = {}
+  const userRate = {}
+  const isContentLoading = false
+  const location = { state: { transactionId: 12 } }
+  // const {
+  //   list: blockProducers,
+  //   producer,
+  //   edenRate,
+  //   userRate
+  // } = useSelector(state => state.blockProducers)
+  // const { isContentLoading } = useSelector(state => state.isLoading)
 
-  const webInfo = _get(producer, 'general_info', null)
+  console.log({ state })
 
   const getRatingData = () => {
     if (edenRate) {
@@ -139,23 +146,48 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
   }, [isDesktop])
 
   useEffect(() => {
-    const getData = async () => {
-      !blockProducers.length && (await dispatch.blockProducers.getBPs())
-      dispatch.blockProducers.getBlockProducerByOwner(account)
-      dispatch.blockProducers.getBlockProducerEdenRating({
-        bp: account
-      })
-      dispatch.blockProducers.getBlockProducerRatingByOwner({
-        bp: account,
-        userAccount: accountName
+    const getBpData = async () => {
+      if (state.blockProducers.length) {
+        // TODO: do a double check if this is necessary
+        const bp = state.blockProducers.find(({ owner }) => owner === account)
+
+        setProducer(bp, false)
+
+        return
+      }
+
+      await getBlockProducerByOwner({
+        variables: {
+          account
+        }
       })
     }
 
-    getData()
-  }, [account, blockProducers.length])
+    getBpData()
+  }, [account])
 
   useEffect(() => {
-    dispatch.blockProducers.setShowSortSelected(false)
+    if (loading || !bp) {
+      return
+    }
+
+    const [bpData] = bp
+
+    setProducer(bpData)
+    setBpHasInformation(Boolean(Object.values(bpData.bpjson).length))
+    setBlockProducerLogo(_get(bpData, 'bpjson.org.branding.logo_256', null))
+    setBlockProducerTitle(
+      _get(
+        bpData,
+        'bpjson.org.candidate_name',
+        _get(bpData, 'system.owner', 'No Data')
+      )
+    )
+    setWebInfo(_get(bpData, 'general_info', null))
+  }, [loading, bp])
+
+  useEffect(() => {
+    // dispatch.blockProducers.setShowSortSelected(false)
   }, [])
 
   useEffect(() => {
@@ -163,14 +195,14 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
     else setIsNewRate(true)
   }, [userRate])
 
-  useEffect(() => {
-    if (location.state.transactionId) setOpen(true)
-    else setOpen(false)
-  }, [])
+  // useEffect(() => {
+  //   if (location.state.transactionId) setOpen(true)
+  //   else setOpen(false)
+  // }, [])
 
   return (
-    <Grid container justify='center' className={classes.container}>
-      <TitlePage title={`${t('title')} ${BlockProducerTitle} - EOS Rate`} />
+    <Grid container justifyContent='center' className={classes.container}>
+      <TitlePage title={`${t('title')} ${blockProducerTitle} - EOS Rate`} />
       <Grid item md={12} xs={12}>
         <Grid
           container
@@ -193,9 +225,9 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
       <Grid container className={classes.reliefGrid}>
         <Grid item md={12} xs={12}>
           <Box style={{ display: 'flex' }}>
-            {bPLogo ? (
+            {blockProducerLogo ? (
               <Avatar aria-label='Block Producer' className={classes.avatar}>
-                <img src={bPLogo} alt='' width='100%' />
+                <img src={blockProducerLogo} alt='' width='100%' />
               </Avatar>
             ) : (
               <AccountCircle className={classes.accountCircle} />
@@ -203,9 +235,9 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
             <ProfileTitle
               classes={classes}
               hasInformation={bpHasInformation}
-              producer={producer}
+              producer={state.blockProducer}
               t={t}
-              bpTitle={BlockProducerTitle}
+              bpTitle={blockProducerTitle}
               isContentLoading={isContentLoading}
             />
           </Box>
@@ -220,42 +252,48 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
             <Grid item md={10} xs={12}>
               <WebsiteLegend classes={classes} webInfo={webInfo} />
             </Grid>
-            <GeneralInformation classes={classes} producer={producer} />
+            <GeneralInformation
+              classes={classes}
+              producer={state.blockProducer}
+            />
             <SocialNetworks
               classes={classes}
               overrideClass={classes.showOnlyLg}
-              producer={bpHasInformation && producer}
+              producer={bpHasInformation && state.blockProducer}
             />
             <AdditionalResources
               classes={classes}
               overrideClass={classes.showOnlyLg}
-              producer={bpHasInformation && producer}
+              producer={bpHasInformation && state.blockProducer}
             />
           </Grid>
         )}
-        <Grid container justify='center' md={6}>
+        <Grid container justifyContent='center' md={6}>
           <Grid item md={12} style={{ marginTop: 20 }} xs={12}>
             <Radar
               height={sizes}
               width={sizes}
               showLabel
               bpData={{
-                datasets: producer
-                  ? [{ ...producer.data, label: t('eosRates') }, userDataSet]
+                datasets: state.blockProducer
+                  ? [
+                      { ...state.blockProducer.data, label: t('eosRates') },
+                      userDataSet
+                    ]
                   : []
               }}
             />
           </Grid>
           <Grid item md={4} xs={7}>
             <Button
-              disabled={!producer}
+              disabled={!state.blockProducer}
               // eslint-disable-next-line react/display-name
               component={forwardRef((props, ref) => (
                 <Link
                   {...props}
                   ref={ref}
                   to={`/block-producers/${_get(
-                    producer,
+                    state.blockProducer,
                     'owner',
                     'noBlockProducerName'
                   )}/rate`}
@@ -271,8 +309,10 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
               rows={[
                 {
                   rater: t('eosRates'),
-                  amount: _get(producer, 'ratings_cntr', null) || 0,
-                  average: getAverageValue(_get(producer, 'average', 0))
+                  amount: _get(state.blockProducer, 'ratings_cntr', null) || 0,
+                  average: getAverageValue(
+                    _get(state.blockProducer, 'average', 0)
+                  )
                 },
                 {
                   rater: t('edenRates'),
@@ -285,28 +325,28 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
           </Grid>
         </Grid>
         {isMobile && (
-          <Grid item xs={12}>
-            <WebsiteLegend classes={classes} webInfo={webInfo} />
-            <GeneralInformation
-              classes={classes}
-              producer={producer}
-              edenRate={edenRate}
-            />
-          </Grid>
-        )}
-        {isMobile && (
-          <Grid style={{ marginTop: '-20px' }} item xs={12}>
-            <SocialNetworks
-              classes={classes}
-              overrideClass={classes.showOnlyLg}
-              producer={bpHasInformation && producer}
-            />
-            <AdditionalResources
-              classes={classes}
-              overrideClass={classes.showOnlyLg}
-              producer={bpHasInformation && producer}
-            />
-          </Grid>
+          <>
+            <Grid item xs={12}>
+              <WebsiteLegend classes={classes} webInfo={webInfo} />
+              <GeneralInformation
+                classes={classes}
+                producer={state.blockProducer}
+                edenRate={edenRate}
+              />
+            </Grid>
+            <Grid style={{ marginTop: '-20px' }} item xs={12}>
+              <SocialNetworks
+                classes={classes}
+                overrideClass={classes.showOnlyLg}
+                producer={bpHasInformation && state.blockProducer}
+              />
+              <AdditionalResources
+                classes={classes}
+                overrideClass={classes.showOnlyLg}
+                producer={bpHasInformation && state.blockProducer}
+              />
+            </Grid>
+          </>
         )}
       </Grid>
       <Snackbar
@@ -326,7 +366,7 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
                   rel='noopener'
                   target='_blank'
                   style={{ color: 'white' }}
-                  href={`${blockExplorer}/transaction/${location.state.transactionId}`}
+                  href={`${mainConfig.AdditionalResourcesblockExplorer}/transaction/${location.state.transactionId}`}
                 >
                   {location.state.transactionId}
                 </MLink>
@@ -348,7 +388,7 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
 }
 
 BlockProducerProfile.propTypes = {
-  account: PropTypes.string,
+  // account: PropTypes.string,
   ual: PropTypes.object
 }
 

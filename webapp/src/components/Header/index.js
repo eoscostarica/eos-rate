@@ -12,7 +12,7 @@ import Box from '@material-ui/core/Box'
 import Toolbar from '@material-ui/core/Toolbar'
 import MenuIcon from '@material-ui/icons/Menu'
 import FingerprintIcon from '@material-ui/icons/Fingerprint'
-import AccountIcon from '@material-ui/icons/AccountCircle'
+// import AccountIcon from '@material-ui/icons/AccountCircle'
 import ExitIcon from '@material-ui/icons/ExitToApp'
 import MoreIcon from '@material-ui/icons/MoreVert'
 
@@ -24,15 +24,15 @@ import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const UserButton = memo(({ user }) => (
-  <>{user && <Button startIcon={<AccountIcon />}>{user.accountName}</Button>}</>
-))
+// const UserButton = memo(({ user }) => (
+//   <>{user && <Button startIcon={<AccountIcon />}>{user.accountName}</Button>}</>
+// ))
 
-UserButton.displayName = 'UserButton'
+// UserButton.displayName = 'UserButton'
 
-UserButton.propTypes = {
-  user: PropTypes.any
-}
+// UserButton.propTypes = {
+//   user: PropTypes.any
+// }
 
 const AuthButton = memo(({ user, onLogin, onSignOut }) => {
   const { t } = useTranslation('translations')
@@ -104,7 +104,7 @@ const Header = memo(({ onDrawerToggle }) => {
         <InputAutocomplete />
         <Box className={classes.desktopSection}>
           <LanguageSelector />
-          <UserButton user={state.user} />
+          {/* <UserButton user={state.user} /> */}
           <AuthButton
             user={state.user}
             onLogin={handleLogin}
@@ -129,11 +129,11 @@ const Header = memo(({ onDrawerToggle }) => {
         <MenuItem>
           <LanguageSelector />
         </MenuItem>
-        {state.user && (
+        {/* {state.user && (
           <MenuItem>
             <UserButton user={state.user} />
           </MenuItem>
-        )}
+        )} */}
         <MenuItem>
           <AuthButton
             user={state.user}

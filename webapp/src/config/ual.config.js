@@ -5,20 +5,20 @@ import { Ledger } from 'ual-ledger'
 import { Lynx } from 'ual-lynx'
 import { MeetOne } from 'ual-meetone'
 
-export const endpoint = `${process.env.REACT_APP_UAL_API_PROTOCOL}://${
-  process.env.REACT_APP_UAL_API_HOST
-}${process.env.REACT_APP_UAL_API_PORT ? ':' : ''}${
-  process.env.REACT_APP_UAL_API_PORT
+export const endpoint = `${process.env.REACT_APP_EOS_API_PROTOCOL}://${
+  process.env.REACT_APP_EOS_API_HOST
+}${process.env.REACT_APP_EOS_API_PORT ? ':' : ''}${
+  process.env.REACT_APP_EOS_API_PORT
 }`
 export const appName = process.env.REACT_APP_UAL_APP_NAME || 'app'
 export const network = {
-  chainId: process.env.REACT_APP_UAL_CHAIN_ID || '',
+  chainId: process.env.REACT_APP_EOS_CHAIN_ID || '',
   rpcEndpoints: [
     {
       blockchain: 'eos',
-      protocol: process.env.REACT_APP_UAL_API_PROTOCOL,
-      host: process.env.REACT_APP_UAL_API_HOST,
-      port: parseInt(process.env.REACT_APP_UAL_API_PORT)
+      protocol: process.env.REACT_APP_EOS_API_PROTOCOL,
+      host: process.env.REACT_APP_EOS_API_HOST,
+      port: parseInt(process.env.REACT_APP_EOS_API_PORT)
     }
   ]
 }

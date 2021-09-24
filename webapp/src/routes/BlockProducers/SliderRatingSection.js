@@ -5,7 +5,7 @@ import { Grid, Switch, Tooltip, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import HelpOutline from '@material-ui/icons/HelpOutline'
 
-import RateSlider from 'components/rate-slider'
+import RateSlider from '../../components/RateSlider'
 
 import styles from './styles'
 

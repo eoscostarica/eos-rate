@@ -5,3 +5,8 @@ export const logo = process.env.REACT_APP_LOGO
 export const footerLinks = JSON.parse(
   process.env.REACT_APP_FOOTER_LINKS || '[]'
 )
+export const blockExplorer = process.env.REACT_APP_BLOCK_EXPLORER
+export const contract = process.env.REACT_APP_RATING_CONTRACT || 'rateproducer'
+export const contractEden =
+  process.env.REACT_APP_EDEN_CONTRACT || 'genesis.eden'
+export const networkMonitor = process.env.REACT_APP_NETWORK_MONITOR_URL

@@ -3,7 +3,8 @@ export default theme => ({
   root: {
     position: 'relative',
     maxWidth: '100%',
-    margin: 'auto'
+    margin: 'auto',
+    border: '2px solid orange'
   },
   compareToggleButton: {
     position: 'fixed',
@@ -27,7 +28,7 @@ export default theme => ({
     transform: 'scaleY(1)',
     transformOrigin: 'top',
     opacity: 1,
-    height: '100%',
+    height: 630,
     transition: [
       'opacity 0.25s ease',
       'height 0.25s ease',

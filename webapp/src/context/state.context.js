@@ -1,13 +1,23 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-// import { client } from '../graphql'
+import getBpDataModeled from '../utils/modeled-bp-data'
+import getProxyDataModeled from '../utils/modeled-proxy-data'
+
+import { getProxies } from './models'
 
 const SharedStateContext = React.createContext()
 
 const initialValue = {
   useDarkMode: false,
-  user: null
+  user: null,
+  blockProducers: [],
+  selectedProducers: [],
+  blockProducer: null,
+  compareBPToolVisible: false,
+  sortBlockProducersBy: null,
+  proxies: [],
+  proxy: null
 }
 
 const sharedStateReducer = (state, action) => {
@@ -53,6 +63,48 @@ const sharedStateReducer = (state, action) => {
 
       return state
 
+    case 'setProducers':
+      return {
+        ...state,
+        blockProducers: action.blockProducers
+      }
+
+    case 'setProducer':
+      return {
+        ...state,
+        blockProducer: action.blockProducer
+      }
+
+    case 'setSortProducersBy':
+      return {
+        ...state,
+        sortBlockProducersBy: action.sortBy
+      }
+
+    case 'setCompareBPTool':
+      return {
+        ...state,
+        compareBPToolVisible: action.isVisible
+      }
+
+    case 'setSelectedProducers':
+      return {
+        ...state,
+        selectedProducers: action.selectedProducers
+      }
+
+    case 'setProxies':
+      return {
+        ...state,
+        proxies: action.proxies
+      }
+
+    case 'setProxy':
+      return {
+        ...state,
+        proxy: action.proxy
+      }
+
     default: {
       throw new Error(`Unsupported action type: ${action.type}`)
     }
@@ -68,6 +120,7 @@ export const SharedStateProvider = ({ children, ual, ...props }) => {
 
   useEffect(() => {
     const load = async () => {
+      // ual.activeUser && (await getUserDataModeled(ual))
       dispatch({ type: 'userChange', user: ual.activeUser })
       dispatch({ type: 'ual', ual })
     }
@@ -100,10 +153,68 @@ export const useSharedState = () => {
   const hideMessage = () => dispatch({ type: 'hideMessage' })
   const login = () => dispatch({ type: 'login' })
   const logout = () => dispatch({ type: 'logout' })
-
-  const test = async () => {
-    // console.log('tetoooo')
+  const setSortBy = (sortBy, page) => {
+    if (page === 'blockProducers') {
+      dispatch({ type: 'setSortProducersBy', sortBy })
+    } else {
+      // dispatch({ type: 'setSortProducersBy', sortBy })
+    }
   }
 
-  return [state, { setState, showMessage, hideMessage, login, logout, test }]
+  // Block Producers Action
+  const setProducers = producers => {
+    const blockProducers = producers.map(getBpDataModeled)
+
+    dispatch({ type: 'setProducers', blockProducers })
+  }
+  const setProducer = (producer, isDataModeled = true) => {
+    let blockProducer = producer
+
+    if (!isDataModeled) {
+      blockProducer = getBpDataModeled(producer)
+    }
+
+    dispatch({ type: 'setProducer', blockProducer })
+  }
+  const setCompareBPTool = isVisible => {
+    console.log({ isVisible })
+    dispatch({ type: 'setCompareBPTool', isVisible })
+  }
+
+  const setSelectedProducers = selectedProducers =>
+    dispatch({ type: 'setSelectedProducers', selectedProducers })
+
+  // Proxies Actions
+  const setProxies = async () => {
+    const proxies = await getProxies()
+
+    dispatch({ type: 'setProxies', proxies })
+  }
+  const setProxy = (data, isDataModeled = true) => {
+    let proxy = data
+
+    if (!isDataModeled) {
+      proxy = getProxyDataModeled(proxy)
+    }
+
+    dispatch({ type: 'setProxy', proxy })
+  }
+
+  return [
+    state,
+    {
+      setState,
+      showMessage,
+      hideMessage,
+      login,
+      logout,
+      setProducers,
+      setProducer,
+      setCompareBPTool,
+      setSelectedProducers,
+      setSortBy,
+      setProxies,
+      setProxy
+    }
+  ]
 }

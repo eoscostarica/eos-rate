@@ -9,9 +9,9 @@ import mockedBPs from '../../mock/bps'
 import getBPRadarData from '../../utils/get-bp-radar-data'
 
 import styles from './styles'
-import Cover from './cover'
-import SubTopic from './subTopic'
-import RateCategory from './rateCategory'
+import Cover from './Cover'
+import SubTopic from './SubTopic'
+import RateCategory from './RateCategory'
 
 const useStyles = makeStyles(styles)
 
@@ -21,8 +21,6 @@ const Home = () => {
   const [blockProducer, setBlockProducer] = useState(null)
 
   useEffect(() => {
-    // const blockProducer = await findBPById(0)
-
     setBlockProducer({
       ...mockedBPs[0],
       data: getBPRadarData({
@@ -30,10 +28,7 @@ const Home = () => {
         parameters: mockedBPs[0].parameters
       })
     })
-    // setBlockProducer(getBPRadarData(mockedBPs[0]))
   }, [])
-
-  console.log({ blockProducer })
 
   return (
     <>

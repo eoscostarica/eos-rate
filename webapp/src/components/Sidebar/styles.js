@@ -3,10 +3,11 @@ export default theme => ({
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
     justifyContent: 'center',
-    padding: theme.spacing(3),
+    flexDirection: 'column',
+    height: 169,
     '& img': {
-      width: 'auto',
-      height: '125px'
+      height: 'fit-content',
+      width: '95%'
     },
     '& img:hover': {
       cursor: 'pointer'
@@ -47,7 +48,51 @@ export default theme => ({
       fontSize: theme.typography.subtitle2.fontSize
     },
     '& .active': {
-      backgroundColor: theme.palette.action.selected
+      backgroundColor: theme.palette.action.selected,
+      borderRadius: 4
+    },
+    '& .MuiListItem-button:hover': {
+      borderRadius: 4
     }
+  },
+  linkSidebar: {
+    padding: theme.spacing(2, 1),
+    '& > svg': {
+      display: 'none'
+    }
+  },
+  navBox: {
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1)
+  },
+  subMenu: {
+    borderRadius: 4
+  },
+  subMenuWrapper: {
+    backgroundColor: theme.palette.surface.dark
+  },
+  welcome: {
+    fontStyle: 'normal',
+    fontWeight: '500',
+    fontSize: 20,
+    lineHeight: '23px',
+    letterSpacing: '0.15px',
+    color: 'rgba(0, 0, 0, 0.87)',
+    marginBottom: theme.spacing(1),
+    marginLeft: theme.spacing(2)
+  },
+  userName: {
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: 14,
+    lineHeight: '20px',
+    letterSpacing: '0.25px',
+    color: 'rgba(0, 0, 0, 0.6)',
+    marginLeft: theme.spacing(2)
+  },
+  icon: {
+    fontSize: 48,
+    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(2)
   }
 })

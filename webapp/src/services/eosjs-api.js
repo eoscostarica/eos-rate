@@ -11,4 +11,4 @@ const api = new Api({
   signatureProvider
 })
 
-export default { api, rpc }
+export { api, rpc }

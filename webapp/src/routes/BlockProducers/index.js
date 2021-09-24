@@ -1,87 +1,103 @@
 import React, { useEffect, useState, useRef } from 'react'
-import PropTypes from 'prop-types'
-import { useDispatch, useSelector } from 'react-redux'
+import { makeStyles } from '@material-ui/core/styles'
+import { useTranslation } from 'react-i18next'
+import { useLazyQuery } from '@apollo/client'
+// import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
-import { makeStyles } from '@material-ui/core/styles'
-import { useTranslation } from 'react-i18next'
 import classNames from 'classnames'
 import _get from 'lodash.get'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
-import TitlePage from 'components/title-page'
-import CompareTool from 'components/compare-tool'
-import getAverageValue from 'utils/getAverageValue'
-import { useMediaQuery } from '@material-ui/core'
-import applySortBy from 'utils/sortedBy'
-import Card from 'components/card'
+import TitlePage from '../../components/PageTitle'
+import CompareTool from '../../components/CompareTool'
+import Card from '../../components/Card'
+import getAverageValue from '../../utils/get-average-value'
+import { useSharedState } from '../../context/state.context'
+import { GET_BLOCK_PRODUCERS } from '../../gql'
+
+// import applySortBy from '../../utils/sorted-by'
 
 import styles from './styles'
-import SelectedBpsBottomSheet from './bottom-sheet-selected-bps'
+import SelectedBpsBottomSheet from './BottomSheetSelectedBps'
 
 const useStyles = makeStyles(styles)
 
-const AllBps = ({ ual }) => {
+const AllBps = () => {
   const { t } = useTranslation('translations')
-  const dispatch = useDispatch()
+  const [state, { setProducers, setCompareBPTool, setSelectedProducers }] =
+    useSharedState()
   const classes = useStyles()
   const myRef = useRef(null)
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
   const [openVoteDrawer, setOpenVoteDrawer] = useState(false)
-  const { data: user } = useSelector(state => state.user)
+  const [loadBPs, { loading = true, data: { list, info } = {} }] = useLazyQuery(
+    GET_BLOCK_PRODUCERS,
+    { fetchPolicy: 'network-only' }
+  )
   const isDesktop = useMediaQuery('(min-width:600px)', {
     defaultMatches: false
   })
   const isTablet = useMediaQuery('(max-width:1024px)', {
     defaultMatches: false
   })
-  const [openDesktopVotingTool, setOpenDesktopVotingTool] = useState(isDesktop)
-  const {
-    list: blockProducers,
-    selected: selectedBPs,
-    compareTool: compareToolVisible,
-    sortBy
-  } = useSelector(state => state.blockProducers)
+  // const [openDesktopVotingTool, setOpenDesktopVotingTool] = useState(isDesktop)
+
+  // delete this
+  const hasMore = false
+  const ual = { activeUser: null }
+  // end to delete this
 
   const [ratingState, setRatingState] = useState({
     txError: null,
     txSuccess: false,
     showChipMessage: false
   })
-  const sortedBPs = applySortBy(sortBy, blockProducers)
-  const shownList = sortedBPs && sortedBPs.slice(0, currentlyVisible)
-  const hasMore = blockProducers && currentlyVisible < blockProducers.length
+  // const sortedBPs = applySortBy(sortBy, blockProducers)
+  // const shownList = sortedBPs && sortedBPs.slice(0, currentlyVisible)
+  // const hasMore = blockProducers && currentlyVisible < blockProducers.length
   const accountName = _get(ual, 'activeUser.accountName', null)
 
   const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
-  const goToTop = () => document.getElementById('mainContent').scrollTo(0, 0)
+  // const goToTop = () => document.getElementById('mainContent').scrollTo(0, 0)
 
   const handleToggleCompareTool = () => {
-    dispatch.blockProducers.toggleCompareTool()
+    console.log('handleToggleCompareTool')
+    setCompareBPTool(!state.compareBPToolVisible)
   }
 
   const handleToggleSelected = (item, isAddItem = false) => {
     if (isAddItem) {
-      dispatch.blockProducers.addToSelected(item)
+      setSelectedProducers([...state.selectedProducers, item])
     } else {
-      dispatch.blockProducers.removeSelected(item)
+      const removeSelected = state.selectedProducers.filter(
+        bpName => bpName !== item
+      )
+
+      setSelectedProducers(removeSelected)
     }
   }
 
   const handleOpenDesktopVotingTool = value => {
-    goToTop()
-    setOpenDesktopVotingTool(value)
+    console.log('handleOpenDesktopVotingTool')
+
+    // goToTop()
+    setCompareBPTool(!state.compareBPToolVisible)
   }
 
   const handleOnClear = () => {
-    handleToggleCompareTool()
-    dispatch.blockProducers.clearSelected()
-    setOpenDesktopVotingTool(false)
+    // handleToggleCompareTool()
+    // dispatch.blockProducers.clearSelected()
+    setSelectedProducers([])
+    // setOpenDesktopVotingTool(false)
+    setCompareBPTool(false)
   }
 
   const handleOnClose = () => {
-    setOpenDesktopVotingTool(false)
+    // setOpenDesktopVotingTool(false)
+    setCompareBPTool(false)
   }
 
   const handleSetRatingState = () => {
@@ -94,14 +110,14 @@ const AllBps = ({ ual }) => {
   }
 
   const handleSetIsNewRate = owner => {
-    if (user) {
-      for (const userRate of user.userRates) {
-        if (userRate.owner === owner) {
-          return true
-        }
-      }
-      return false
-    }
+    // if (user) {
+    //   for (const userRate of user.userRates) {
+    //     if (userRate.owner === owner) {
+    //       return true
+    //     }
+    //   }
+    //   return false
+    // }
   }
 
   const sendVoteBps = async BPs => {
@@ -128,7 +144,7 @@ const AllBps = ({ ual }) => {
     }
 
     try {
-      dispatch.isLoading.storeIsContentLoading(true)
+      // dispatch.isLoading.storeIsContentLoading(true)
 
       await ual.activeUser.signTransaction(transaction, {
         broadcast: true
@@ -140,7 +156,7 @@ const AllBps = ({ ual }) => {
         showChipMessage: true
       })
 
-      dispatch.isLoading.storeIsContentLoading(false)
+      // dispatch.isLoading.storeIsContentLoading(false)
 
       setTimeout(() => {
         setRatingState({
@@ -158,57 +174,59 @@ const AllBps = ({ ual }) => {
         txError: error && error.cause ? error.cause.message : error,
         showChipMessage: true
       })
-      dispatch.isLoading.storeIsContentLoading(false)
+      // dispatch.isLoading.storeIsContentLoading(false)
     }
   }
 
-  const cmprTool = () => (
-    <CompareTool
-      removeBP={handleToggleSelected}
-      className={classNames(classes.compareTool, {
-        [classes.hidden]: !compareToolVisible
-      })}
-      list={blockProducers}
-      selected={selectedBPs || []}
-      onHandleVote={() => sendVoteBps(selectedBPs || [])}
-      userInfo={user}
-      message={ratingState}
-      setMessage={handleSetRatingState}
-      handleOnClose={handleOnClose}
-      handleOnClear={handleOnClear}
-    />
-  )
-
   useEffect(() => {
     const getData = async () => {
-      !blockProducers.length && (await dispatch.blockProducers.getBPs())
+      !state.blockProducers.length && (await loadBPs())
+      // {
+      //   variables: {
+      //     limit: 10
+      //   }
+      // }))
     }
 
     getData()
-  }, [blockProducers.length])
+  }, [])
 
   useEffect(() => {
-    const getUserData = async () => {
-      if (ual.activeUser && !user) {
-        await dispatch.user.getUserChainData({ ual })
-      }
+    if (loading || !list) {
+      return
     }
 
-    dispatch.blockProducers.setShowSortSelected(true)
-    getUserData()
-  }, [user, ual.activeUser, ual])
+    setProducers(list)
+  }, [list, loading, info])
+
+  console.log({ state })
 
   return (
     <div className={classes.root} ref={myRef}>
       <TitlePage title={t('bpsTitle')} />
-      {isDesktop && openDesktopVotingTool && cmprTool()}
+      {isDesktop && (
+        <CompareTool
+          removeBP={handleToggleSelected}
+          className={classNames(classes.compareTool, {
+            [classes.hidden]: !state.compareBPToolVisible
+          })}
+          list={state.blockProducers}
+          selected={state.selectedProducers || []}
+          onHandleVote={() => sendVoteBps(state.selectedProducers || [])}
+          userInfo={state.user}
+          message={ratingState}
+          setMessage={handleSetRatingState}
+          handleOnClose={handleOnClose}
+          handleOnClear={handleOnClear}
+        />
+      )}
       <Grid
         className={classes.wrapper}
         container
-        justify='center'
+        justifyContent='center'
         spacing={isDesktop ? 4 : 1}
       >
-        {(shownList || []).map(blockProducer => (
+        {(state.blockProducers || []).map(blockProducer => (
           <Grid
             item
             xs={12}
@@ -217,18 +235,22 @@ const AllBps = ({ ual }) => {
             key={`${blockProducer.owner}-main-block-card`}
           >
             <Card
-              isSelected={
-                selectedBPs && selectedBPs.includes(blockProducer.owner)
-              }
+              isSelected={state.selectedProducers.includes(blockProducer.owner)}
               toggleSelection={(isAdding, producerAccountName) => () => {
                 if (isAdding) {
-                  if (!(selectedBPs || []).length && !compareToolVisible) {
+                  if (
+                    !state.selectedProducers.length &&
+                    !state.compareBPToolVisible
+                  ) {
                     handleToggleCompareTool()
                   }
 
                   handleToggleSelected(producerAccountName, isAdding)
                 } else {
-                  if ((selectedBPs || []).length === 1 && compareToolVisible) {
+                  if (
+                    state.selectedProducers.length === 1 &&
+                    state.compareBPToolVisible
+                  ) {
                     handleToggleCompareTool()
                   }
 
@@ -248,7 +270,7 @@ const AllBps = ({ ual }) => {
           </Grid>
         ))}
       </Grid>
-      {selectedBPs && selectedBPs.length > 0 && (
+      {state.selectedProducers.length > 0 && (
         <Grid container justifyContent='flex-end'>
           <Grid item md={12} className={classes.openBottomSheetContainer}>
             <Button
@@ -261,14 +283,27 @@ const AllBps = ({ ual }) => {
             >
               <ThumbUpAltIcon />
               <Typography>
-                {t('btnVoteBPs')} ({selectedBPs.length})
+                {t('btnVoteBPs')} ({state.selectedProducers.length})
               </Typography>
             </Button>
           </Grid>
         </Grid>
       )}
       <SelectedBpsBottomSheet open={openVoteDrawer} setOpen={setOpenVoteDrawer}>
-        {cmprTool()}
+        <CompareTool
+          removeBP={handleToggleSelected}
+          className={classNames(classes.compareTool, {
+            [classes.hidden]: !state.compareBPToolVisible
+          })}
+          list={state.blockProducers}
+          selected={state.selectedProducers || []}
+          onHandleVote={() => sendVoteBps(state.selectedProducers || [])}
+          userInfo={state.user}
+          message={ratingState}
+          setMessage={handleSetRatingState}
+          handleOnClose={handleOnClose}
+          handleOnClear={handleOnClear}
+        />
       </SelectedBpsBottomSheet>
       <Button
         className={classes.loadMoreButton}
@@ -280,21 +315,6 @@ const AllBps = ({ ual }) => {
   )
 }
 
-AllBps.propTypes = {
-  ual: PropTypes.object
-}
+AllBps.propTypes = {}
 
 export default AllBps
-
-export const blockProducersDrawer = [
-  { value: 'alphabetical' },
-  { value: 'generalRate' },
-  { value: 'edenRate' },
-  { value: 'infrastructure' },
-  { value: 'community' },
-  { value: 'trustiness' },
-  { value: 'development' },
-  { value: 'transparency' },
-  { value: 'vote' },
-  { value: 'ratings' }
-]

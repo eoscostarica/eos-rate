@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-// import Hidden from '@material-ui/core/Hidden'
 import Box from '@material-ui/core/Box'
 import { makeStyles } from '@material-ui/styles'
 
@@ -15,8 +14,8 @@ const drawerWidth = 260
 const useStyles = makeStyles(theme => styles(theme, drawerWidth))
 
 const Dashboard = ({ children, routes }) => {
-  const [mobileOpen, setMobileOpen] = useState(false)
   const classes = useStyles()
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)

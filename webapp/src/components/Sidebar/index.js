@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink as RouterNavLink, useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -10,17 +10,14 @@ import List from '@material-ui/core/List'
 import MuiListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import Typography from '@material-ui/core/Typography'
 import Collapse from '@material-ui/core/Collapse'
+import Typography from '@material-ui/core/Typography'
+import AccountIcon from '@material-ui/icons/AccountCircle'
 import { makeStyles } from '@material-ui/styles'
-import {
-  ChevronDown as ChevronDownIcon,
-  ChevronUp as ChevronUpIcon
-} from 'react-feather'
 import Scrollbar from 'react-perfect-scrollbar'
 import 'react-perfect-scrollbar/dist/css/styles.css'
 
-import { mainConfig } from '../../config'
+import { useSharedState } from '../../context/state.context'
 
 import styles from './styles'
 
@@ -52,115 +49,131 @@ ExternalLink.propTypes = {
   className: PropTypes.string
 }
 
-const ListItemLink = ({ name, path, icon, badge, ...props }) => {
-  const { t } = useTranslation('translations')
+const ListItem = ({
+  childrens,
+  name,
+  path,
+  icon,
+  badge,
+  handleOnClick,
+  openMenu,
+  isUserLogged,
+  handleSortBy,
+  ...props
+}) => {
   const classes = useStyles()
-  const primaryText = path.includes('http')
-    ? t(name, name)
-    : t(`${path}>sidebar`, path)
-
-  return (
-    <MuiListItem
-      button
-      component={path.includes('http') ? ExternalLink : NavLink}
-      exact
-      to={path}
-      activeClassName='active'
-      href={path}
-      {...props}
-    >
-      {icon && <ListItemIcon>{icon}</ListItemIcon>}
-      <ListItemText primary={primaryText} />
-      {badge && <Chip className={classes.badge} label={badge} />}
-    </MuiListItem>
-  )
-}
-
-ListItemLink.propTypes = {
-  name: PropTypes.string,
-  path: PropTypes.string,
-  icon: PropTypes.node,
-  badge: PropTypes.string
-}
-
-const ListItemGroup = ({ name, icon, path, childrens, ...props }) => {
-  const [open, setOpen] = useState(true)
+  const { t: tSort } = useTranslation('sortInput')
   const { t } = useTranslation('translations')
 
-  return (
-    <>
-      <MuiListItem button onClick={() => setOpen(() => !open)} {...props}>
-        {icon && <ListItemIcon>{icon}</ListItemIcon>}
-        <ListItemText primary={t(name)} />
-        {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
-      </MuiListItem>
-      {childrens && (
-        <Collapse in={open} timeout='auto' unmountOnExit>
-          {childrens.map((route, index) => (
-            <ListItem
-              header={route.header}
-              path={route.path}
-              icon={route.icon}
-              text={route.text}
-              key={`${route.name}${index}`}
-            />
-          ))}
-        </Collapse>
-      )}
-    </>
-  )
-}
+  const sortBy = 'generalRate' // get this value form context
 
-ListItemGroup.propTypes = {
-  name: PropTypes.string,
-  path: PropTypes.string,
-  icon: PropTypes.node,
-  childrens: PropTypes.array
-}
+  if (name === 'myAccount' && !isUserLogged) return <></>
 
-const ListItem = ({ header, childrens, ...props }) => {
-  const { t } = useTranslation('translations')
-  const classes = useStyles()
+  console.log({ props })
 
   return (
     <Box className={classes.listItem}>
-      {header && <Typography>{t(header)}</Typography>}
-      {childrens && <ListItemGroup childrens={childrens} {...props} />}
-      {!childrens && <ListItemLink {...props} />}
+      <MuiListItem
+        button
+        component={path.includes('http') ? ExternalLink : NavLink}
+        exact
+        to={path}
+        activeClassName='active'
+        className={classes.linkSidebar}
+        href={path}
+        onClick={() => handleOnClick(name)}
+        {...props}
+      >
+        {icon && <ListItemIcon>{icon}</ListItemIcon>}
+        <ListItemText primary={t(name)} />
+        {badge && <Chip className={classes.badge} label={badge} />}
+      </MuiListItem>
+      {childrens && (
+        <Collapse
+          in={openMenu}
+          timeout='auto'
+          unmountOnExit
+          className={classes.subMenuWrapper}
+        >
+          {childrens.map(({ value }, index) => (
+            <MuiListItem
+              button
+              key={`${value}-collapsed-item-${index}`}
+              selected={value === sortBy}
+              className={classes.subMenu}
+              onClick={() => handleSortBy(value, name)} // setSortBy(value)}
+            >
+              <ListItemText primary={tSort(value)} />
+            </MuiListItem>
+          ))}
+        </Collapse>
+      )}
     </Box>
   )
 }
 
 ListItem.propTypes = {
   header: PropTypes.string,
-  childrens: PropTypes.array
+  childrens: PropTypes.array,
+  name: PropTypes.string,
+  path: PropTypes.string,
+  icon: PropTypes.node,
+  badge: PropTypes.string,
+  handleOnClick: PropTypes.func,
+  openMenu: PropTypes.bool,
+  isUserLogged: PropTypes.bool,
+  handleSortBy: PropTypes.func
 }
 
 const Sidebar = ({ routes, ...props }) => {
   const history = useHistory()
   const classes = useStyles()
+  const [state, { setSortBy }] = useSharedState()
+  const [openMenu, setOpenMenu] = useState(false)
+
+  const handleOnClick = name => {
+    setOpenMenu(name === 'blockProducers')
+  }
+
+  useEffect(() => {
+    setOpenMenu(history.location.pathname === '/block-producers')
+  }, [])
 
   return (
     <Drawer {...props}>
       <Box className={classes.brand}>
-        <img
-          alt={mainConfig.title}
-          src={mainConfig.logo}
-          onClick={() => history.push('/')}
-        />
+        {state.user ? (
+          <>
+            <AccountIcon className={classes.icon} />
+            <Typography className={classes.welcome}>Welcome</Typography>
+            <Typography className={classes.userName}>
+              {state.user?.accountName || ''}
+            </Typography>
+          </>
+        ) : (
+          <img
+            alt='eos rate'
+            src='https://eosrate.io/images/eosrate-256.png'
+            onClick={() => history.push('/')}
+          />
+        )}
       </Box>
       <Divider />
       <Scrollbar className={classes.scrollbar}>
-        <List component='nav'>
-          {routes.map((category, index) => (
+        <List component='nav' className={classes.navBox}>
+          {routes.map((route, index) => (
             <ListItem
-              key={`${category.name}${index}`}
-              name={category.name}
-              header={category.header}
-              path={category.path}
-              icon={category.icon}
-              badge={category.badge}
-              childrens={category.childrens}
+              key={`${route.name}${index}`}
+              name={route.name}
+              header={route.header}
+              path={route.path}
+              icon={route.icon}
+              badge={route.badge}
+              childrens={route.childrens}
+              handleOnClick={handleOnClick}
+              openMenu={openMenu}
+              isUserLogged={!!state.user}
+              handleSortBy={setSortBy}
             />
           ))}
         </List>

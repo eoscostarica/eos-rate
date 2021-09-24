@@ -25,11 +25,7 @@ const App = () => {
     </Route>
   )
 
-  const userRoutes = useMemo(
-    () => routes(state.user?.role || 'guest'),
-
-    [state.user]
-  )
+  const userRoutes = useMemo(() => routes())
 
   const theme = useMemo(() => getTheme(state.useDarkMode), [state.useDarkMode])
 

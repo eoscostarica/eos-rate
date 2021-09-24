@@ -16,8 +16,6 @@ export default (theme, drawerWidth) => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     height: '100%',
-    border: '3px solid red',
-    paddingTop: theme.spacing(2),
     overflow: 'scroll'
   }
 })

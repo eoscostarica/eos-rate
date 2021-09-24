@@ -7,7 +7,8 @@ import Grid from '@material-ui/core/Grid'
 import _get from 'lodash.get'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
-import formatNumber from 'utils/formatNumber'
+
+import formatNumber from '../../utils/format-number'
 
 countries.registerLocale(require('i18n-iso-countries/langs/en.json'))
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'))
@@ -29,7 +30,7 @@ const _getCountryName = (country = null, locationNumber, defaultMessage) => {
 
   return defaultMessage
 }
-
+// refactor this TODO
 const SocialNetworks = ({ classes, producer }) => {
   const { t } = useTranslation('profile')
   const github = _get(producer, 'bpjson.org.social.github')

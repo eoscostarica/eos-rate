@@ -2,16 +2,15 @@
 import React, { useState, useEffect, forwardRef, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from '@reach/router'
-import {
-  useMediaQuery,
-  Avatar,
-  Button,
-  Grid,
-  CircularProgress,
-  Typography
-} from '@material-ui/core'
+// import { useDispatch, useSelector } from 'react-redux'
+import { useLazyQuery } from '@apollo/client'
+import { Link, useParams } from 'react-router-dom'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import Avatar from '@material-ui/core/Avatar'
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Typography from '@material-ui/core/Typography'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
 import _get from 'lodash.get'
@@ -19,15 +18,17 @@ import classNames from 'classnames'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import { makeStyles } from '@material-ui/core/styles'
-import formatNumber from 'utils/formatNumber'
 import Box from '@material-ui/core/Box'
 
-import TitlePage from 'components/title-page'
-import Radar from 'components/radar'
-import { contract } from '../../config'
-import getBPRadarData from 'utils/getBPRadarData'
+import formatNumber from '../../utils/format-number'
+import TitlePage from '../../components/PageTitle'
+import Radar from '../../components/Radar'
+import getBPRadarData from '../../utils/get-bp-radar-data'
+import { GET_PRODUCER_BY_OWNER } from '../../gql'
+import { useSharedState } from '../../context/state.context'
+import { mainConfig } from '../../config'
 
-import SliderRatingSection from './slider-rating-section'
+import SliderRatingSection from './SliderRatingSection'
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
@@ -48,18 +49,31 @@ const INIT_RATING_STATE_DATA = {
   txSuccess: false
 }
 
-const BlockProducerRate = ({ account, ual }) => {
+const BlockProducerRate = ({ ual }) => {
+  const [state, { setProducer }] = useSharedState()
   const [ratingState, setRatingState] = useState(INIT_RATING_STATE_DATA)
-  const [isNewRate, setIsNewRate] = useState(true)
+  // const [isNewRate, setIsNewRate] = useState(true)
+  const isNewRate = true
+  const [blockProducerLogo, setBlockProducerLogo] = useState(null) // ADD LOGO AS BP OBJECT PROPERTY
+  const [blockProducerTitle, setBlockProducerTitle] = useState('No Title') // SAME HERE
   const [showMessage, setShowMessage] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
   const linkBack = useRef(null)
   const { t } = useTranslation('bpRatePage')
-  const dispatch = useDispatch()
-  const { producer, userRate, edenRate } = useSelector(
-    state => state.blockProducers
-  )
-  const { data: user } = useSelector(state => state.user)
+  const { account } = useParams()
+  const [getBlockProducerByOwner, { loading, data: { producer: bp } = {} }] =
+    useLazyQuery(GET_PRODUCER_BY_OWNER, { fetchPolicy: 'network-only' })
+
+  // delete this
+  const producer = {}
+  // const userRate = {}
+  const edenRate = {}
+  const user = {}
+  // const dispatch = useDispatch()
+  // const { producer, userRate, edenRate } = useSelector(
+  //   state => state.blockProducers
+  // )
+  // const { data: user } = useSelector(state => state.user)
   const classes = useStyles()
   const accountName = _get(ual, 'activeUser.accountName', null)
   const bpData = _get(producer, 'data', {})
@@ -72,7 +86,9 @@ const BlockProducerRate = ({ account, ual }) => {
     setRatingState({ ...ratingState, [parameter]: value })
   }
 
-  const bPLogo = _get(producer, 'bpjson.org.branding.logo_256', null)
+  console.log({ state })
+
+  // const bPLogo = _get(producer, 'bpjson.org.branding.logo_256', null)
 
   useEffect(() => {
     setSizes(isDesktop ? 425 : '100%')
@@ -108,16 +124,16 @@ const BlockProducerRate = ({ account, ual }) => {
   useEffect(() => {
     const getData = async () => {
       if (account) {
-        dispatch.blockProducers.getBlockProducerByOwner(account)
+        // dispatch.blockProducers.getBlockProducerByOwner(account)
       }
 
       if (accountName) {
-        await dispatch.user.getUserChainData({ ual })
+        // await dispatch.user.getUserChainData({ ual })
 
-        dispatch.blockProducers.getBlockProducerRatingByOwner({
-          bp: account,
-          userAccount: accountName
-        })
+        // dispatch.blockProducers.getBlockProducerRatingByOwner({
+        //   bp: account,
+        //   userAccount: accountName
+        // })
         setShowMessage(false)
       }
     }
@@ -125,25 +141,25 @@ const BlockProducerRate = ({ account, ual }) => {
     getData()
   }, [accountName, account, ual, setShowMessage])
 
-  useEffect(() => {
-    if (userRate) {
-      setRatingState({
-        ...ratingState,
-        community: accountName ? userRate.community : 1,
-        development: accountName ? userRate.development : 1,
-        infra: accountName ? userRate.infrastructure : 1,
-        transparency: accountName ? userRate.transparency : 1,
-        trustiness: accountName ? userRate.trustiness : 1
-      })
-      setIsNewRate(false)
-    } else {
-      setRatingState(INIT_RATING_STATE_DATA)
-      setIsNewRate(true)
-    }
-  }, [userRate, accountName, setRatingState])
+  // useEffect(() => {
+  //   if (userRate) {
+  //     setRatingState({
+  //       ...ratingState,
+  //       community: accountName ? userRate.community : 1,
+  //       development: accountName ? userRate.development : 1,
+  //       infra: accountName ? userRate.infrastructure : 1,
+  //       transparency: accountName ? userRate.transparency : 1,
+  //       trustiness: accountName ? userRate.trustiness : 1
+  //     })
+  //     setIsNewRate(false)
+  //   } else {
+  //     setRatingState(INIT_RATING_STATE_DATA)
+  //     setIsNewRate(true)
+  //   }
+  // }, [userRate, accountName, setRatingState])
 
   useEffect(() => {
-    dispatch.blockProducers.setShowSortSelected(false)
+    // dispatch.blockProducers.setShowSortSelected(false)
   }, [])
 
   useEffect(() => {
@@ -244,7 +260,7 @@ const BlockProducerRate = ({ account, ual }) => {
                 permission: 'active'
               }
             ],
-            account: contract,
+            account: mainConfig.contract,
             name: 'rate',
             data: { user: accountName, bp: account, ...getRatingData(true) }
           }
@@ -262,21 +278,21 @@ const BlockProducerRate = ({ account, ual }) => {
         broadcast: true
       })
 
-      await dispatch.blockProducers.saveLastTransaction({
-        transaction: {
-          transactionId: result.transaction.transaction_id,
-          transactionDate: result.transaction.processed.block_time
-        }
-      })
+      // await dispatch.blockProducers.saveLastTransaction({
+      //   transaction: {
+      //     transactionId: result.transaction.transaction_id,
+      //     transactionDate: result.transaction.processed.block_time
+      //   }
+      // })
       setLastTransactionId(result.transactionId)
 
-      await dispatch.blockProducers.mutationInsertUserRating({
-        ual,
-        user: accountName,
-        bp: account,
-        ...getRatingData(false),
-        result
-      })
+      // await dispatch.blockProducers.mutationInsertUserRating({
+      //   ual,
+      //   user: accountName,
+      //   bp: account,
+      //   ...getRatingData(false),
+      //   result
+      // })
 
       setRatingState({
         ...ratingState,
@@ -294,14 +310,59 @@ const BlockProducerRate = ({ account, ual }) => {
     }
   }
 
+  useEffect(() => {
+    if (loading || !bp) {
+      return
+    }
+
+    setProducer(bp[0])
+    setBlockProducerTitle(
+      `${t('title')} ${
+        _get(bp[0], 'bpjson.org.candidate_name') ||
+        _get(bp[0], 'system.owner', t('noBlockProducer'))
+      } - EOS Rate`
+    )
+    setBlockProducerLogo(_get(bp[0], 'bpjson.org.branding.logo_256', null))
+  }, [loading, bp])
+
+  useEffect(() => {
+    const getBpData = async () => {
+      if (state.blockProducer && state.blockProducer.owner === account) {
+        // TODO: do a double check if this is necessary
+
+        setBlockProducerTitle(
+          `${t('title')} ${
+            _get(bp[0], 'bpjson.org.candidate_name') ||
+            _get(bp[0], 'system.owner', t('noBlockProducer'))
+          } - EOS Rate`
+        )
+        setBlockProducerLogo(_get(bp[0], 'bpjson.org.branding.logo_256', null))
+
+        return
+      }
+
+      if (state.blockProducers.length) {
+        // TODO: do a double check if this is necessary
+        const bp = state.blockProducers.find(({ owner }) => owner === account)
+
+        setProducer(bp, false)
+
+        return
+      }
+
+      await getBlockProducerByOwner({
+        variables: {
+          account
+        }
+      })
+    }
+
+    getBpData()
+  }, [account])
+
   return (
     <Grid container justifyContent='center' className={classes.container}>
-      <TitlePage
-        title={`${t('title')} ${
-          _get(producer, 'bpjson.org.candidate_name') ||
-          _get(producer, 'system.owner', t('noBlockProducer'))
-        } - EOS Rate`}
-      />
+      <TitlePage title={blockProducerTitle} />
       <Grid item xs={12}>
         <Grid
           container
@@ -336,9 +397,9 @@ const BlockProducerRate = ({ account, ual }) => {
       <Grid container className={classes.reliefGrid}>
         <Grid item md={12} xs={12}>
           <Box style={{ display: 'flex' }}>
-            {bPLogo ? (
+            {blockProducerLogo ? (
               <Avatar aria-label='Block Producer' className={classes.avatar}>
-                <img src={bPLogo} alt='' width='100%' />
+                <img src={blockProducerLogo} alt='' width='100%' />
               </Avatar>
             ) : (
               <AccountCircle className={classes.accountCircle} />
@@ -534,7 +595,6 @@ const BlockProducerRate = ({ account, ual }) => {
 }
 
 BlockProducerRate.propTypes = {
-  account: PropTypes.string,
   ual: PropTypes.object
 }
 
