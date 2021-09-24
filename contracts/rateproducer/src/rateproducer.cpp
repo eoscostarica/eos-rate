@@ -36,16 +36,16 @@ namespace eoscostarica {
         // checks if the bp is active 
         check( is_blockproducer(bp), "votes are allowed only for registered block producers" );
 
-        eosio::name proxy_name = get_proxy(user);
-        if(proxy_name.length()) {
-            // active proxy??
-            check(is_active_proxy(proxy_name), "votes are allowed only for active proxies" );
-            // account votes through a proxy
-            if(!isEden) check( MIN_VOTERS <= get_voters(proxy_name), "delegated proxy does not have enough voters" );
-        } else {
-            // acount must vote for at least 21 bp
-            if(!isEden) check( MIN_VOTERS <= get_voters(user), "account does not have enough voters" );
-        }
+        // eosio::name proxy_name = get_proxy(user);
+        // if(proxy_name.length()) {
+        //     // active proxy??
+        //     check(is_active_proxy(proxy_name), "votes are allowed only for active proxies" );
+        //     // account votes through a proxy
+        //     if(!isEden) check( MIN_VOTERS <= get_voters(proxy_name), "delegated proxy does not have enough voters" );
+        // } else {
+        //     // acount must vote for at least 21 bp
+        //     if(!isEden) check( MIN_VOTERS <= get_voters(user), "account does not have enough voters" );
+        // }
 
         // upsert bp rating
         ratings_table_v2 _ratings(_self, scope.value);
@@ -125,9 +125,9 @@ namespace eoscostarica {
         float trustiness,
         float community,
         float development) {
-        stats_table _stats(_self, scope.value);
+        stats_table_v2 _stats(_self, scope.value);
         auto itr = _stats.find(bp_name.value);
-        float counter =0;
+        float counter = 0;
         float sum = 0;
         if(itr == _stats.end()) {
         //new entry
@@ -165,8 +165,7 @@ namespace eoscostarica {
                 if(counter) {
                     row.bp = bp_name;
                     row.ratings_cntr = 1;
-                    row.average =sum/counter;
-                    
+                    row.average = (sum / counter);
                 }
             });
         } else {
@@ -175,7 +174,7 @@ namespace eoscostarica {
                 if (transparency) {
                     sum += transparency;
                     if(row.transparency) {
-                        transparency = (transparency + row.transparency)/2;
+                        transparency = ((float)(transparency + row.transparency) / 2);
                     }
                     row.transparency = transparency;
                     counter++;
@@ -184,7 +183,7 @@ namespace eoscostarica {
                 if (infrastructure) {
                     sum += infrastructure;
                     if(row.infrastructure) {
-                        infrastructure = (infrastructure + row.infrastructure)/2;
+                        infrastructure = ((float)(infrastructure + row.infrastructure) / 2);
                     }
                     row.infrastructure = infrastructure;
                     counter++;
@@ -193,7 +192,7 @@ namespace eoscostarica {
                 if (trustiness) {
                     sum += trustiness;
                     if(row.trustiness) {
-                        trustiness = (trustiness + row.trustiness) / 2;
+                        trustiness = ((float)(trustiness + row.trustiness) / 2);
                     }
                     row.trustiness = trustiness;
                     counter++;
@@ -202,7 +201,7 @@ namespace eoscostarica {
                 if (development) {
                     sum += development;
                     if(row.development) {
-                        development  = (development + row.development) / 2;
+                        development = ((float)(development + row.development) / 2);
                     }
                     row.development = development;
                     counter++;
@@ -211,7 +210,7 @@ namespace eoscostarica {
                 if (community) {
                     sum += community;
                     if(row.community) {
-                        community = (community + row.community) / 2;
+                        community = ((float)(community + row.community) / 2);
                     }
                     row.community = community;
                     counter++;
@@ -219,7 +218,7 @@ namespace eoscostarica {
 
                 if(counter) {
                     row.ratings_cntr++;
-                    row.average =( (sum/counter) + row.average ) / 2;
+                    row.average = (((float)(sum / counter) + row.average ) / 2);
                 }
             });
         }
@@ -237,80 +236,73 @@ namespace eoscostarica {
         float  * average) {
         
         float category_counter = 0;
-        
-        float transparency_total  = 0;
-        float infrastructure_total = 0;
-        float trustiness_total = 0;
-        float community_total = 0;
-        float development_total = 0;
-        
-        float transparency_cntr = 0;
-        float infrastructure_cntr = 0;
-        float trustiness_cntr = 0;
-        float community_cntr = 0;
-        float development_cntr = 0;
+        float transparency_total    = 0, transparency_cntr      = 0;
+        float infrastructure_total  = 0, infrastructure_cntr    = 0;
+        float trustiness_total      = 0, trustiness_cntr        = 0;
+        float community_total       = 0, community_cntr         = 0;
+        float development_total     = 0, development_cntr       = 0;
         uint32_t voters_cntr = 0;
 
         ratings_table_v2 _ratings(_self, scope.value);
         auto bps_index = _ratings.get_index<name("bp")>();
-        auto bps_it = bps_index.find(bp_name.value); 
+        auto bps_itr = bps_index.find(bp_name.value); 
         
-        while(bps_it != bps_index.end()) {
-            if(bp_name == bps_it->bp) {
-                if(bps_it->transparency) {
-                    transparency_total+=bps_it->transparency;
+        while(bps_itr != bps_index.end()) {
+            if(bp_name == bps_itr->bp) {
+                if(bps_itr->transparency) {
+                    transparency_total+=bps_itr->transparency;
                     transparency_cntr++;
                 }
 
-                if(bps_it->infrastructure) {
-                    infrastructure_total+=bps_it->infrastructure;
+                if(bps_itr->infrastructure) {
+                    infrastructure_total+=bps_itr->infrastructure;
                     infrastructure_cntr++;
                 }
 
-                if(bps_it->trustiness) {
-                    trustiness_total+=bps_it->trustiness;
+                if(bps_itr->trustiness) {
+                    trustiness_total+=bps_itr->trustiness;
                     trustiness_cntr++;
                 }
 
-                if(bps_it->community) {
-                    community_total+=bps_it->community;
+                if(bps_itr->community) {
+                    community_total+=bps_itr->community;
                     community_cntr++;
                 }
 
-                if(bps_it->development) {
-                    development_total+=bps_it->development;
+                if(bps_itr->development) {
+                    development_total+=bps_itr->development;
                     development_cntr++;
                 }
                 voters_cntr++;
             }
-            bps_it ++;
+            bps_itr ++;
         }
         
         if(transparency_cntr) {
-            *transparency = transparency_total/transparency_cntr;
+            *transparency = transparency_total / transparency_cntr;
             category_counter++;
         }
         
         if(infrastructure_cntr) {
-            *infrastructure =infrastructure_total/infrastructure_cntr;
+            *infrastructure =infrastructure_total / infrastructure_cntr;
             category_counter++;
         }
             
         if(trustiness_cntr) {
-            *trustiness = trustiness_total/trustiness_cntr;
+            *trustiness = trustiness_total / trustiness_cntr;
             category_counter++;
         }
             
         if(community_cntr) {
-            *community = community_total/community_cntr;
+            *community = community_total / community_cntr;
             category_counter++;
         }
             
         if(development_cntr) {
-            *development = development_total/development_cntr;
+            *development = development_total / development_cntr;
             category_counter++;
         } 
-        *average = (*transparency + *infrastructure + *trustiness + *community +*development)/category_counter;
+        *average = (*transparency + *infrastructure + *trustiness + *community +*development) / category_counter;
         *ratings_cntr = voters_cntr;
     }
 
@@ -326,7 +318,7 @@ namespace eoscostarica {
         uint32_t * ratings_cntr,
         float * average) {
         
-        stats_table _stats(_self, scope.value);
+        stats_table_v2 _stats(_self, scope.value);
         auto itr = _stats.find(bp_name->value);
         if(itr != _stats.end()) {
             //if rate categories are more than zero
@@ -345,7 +337,7 @@ namespace eoscostarica {
                     row.community = *community;      
                     row.ratings_cntr = *ratings_cntr;
                     row.average = *average;
-                    });
+                });
             } else {
                 _stats.erase(itr);
             }  
@@ -372,7 +364,7 @@ namespace eoscostarica {
         }
         
         //clean the stats summary
-        stats_table _stats(_self, scope.value);
+        stats_table_v2 _stats(_self, scope.value);
         auto itr_stats = _stats.find(bp_name.value);
         if (itr_stats != _stats.end()) _stats.erase(itr_stats);
     }
@@ -386,7 +378,7 @@ namespace eoscostarica {
         require_auth(_self);
         // ratings_table _ratings(_self, scope.value);
         ratings_table_v2 _ratings_v2(_self, scope.value);
-        stats_table _stats(_self, scope.value);
+        stats_table_v2 _stats(_self, scope.value);
 
         // auto itr = _ratings.begin();
         // while (itr != _ratings.end()) {
@@ -406,7 +398,7 @@ namespace eoscostarica {
 
     void rateproducer::erase_bp_info(name scope, std::set<eosio::name> * bps_to_clean) {
         ratings_table_v2 _ratings(_self, scope.value);
-        stats_table _stats(_self, scope.value);
+        stats_table_v2 _stats(_self, scope.value);
         
         std::set<eosio::name>::iterator it;
         for (it = bps_to_clean->begin(); it != bps_to_clean->end(); ++it) {
@@ -433,7 +425,7 @@ namespace eoscostarica {
     void rateproducer::rminactive_aux(name scope) {
         require_auth(_self);
         std::set<eosio::name> noupdated_bps; 
-        stats_table _stats(_self, scope.value);
+        stats_table_v2 _stats(_self, scope.value);
         auto itr_stats = _stats.begin();
         while (itr_stats != _stats.end()) {
             if (!is_blockproducer(itr_stats->bp)) {
@@ -563,4 +555,4 @@ EOSIO_ACTION_DISPATCHER(eoscostarica::actions)
 
 EOSIO_ABIGEN(actions(eoscostarica::actions),
             table("rating"_n, eoscostarica::ratings2),
-            table("stats"_n, eoscostarica::stats))
+            table("stat"_n, eoscostarica::stats_v2))

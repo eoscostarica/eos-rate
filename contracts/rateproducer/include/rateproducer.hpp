@@ -29,6 +29,8 @@
 #define MINVAL 0
 #define MAXVAL 10
 #define MIN_VOTERS 21
+// Avoid to calculate DECIMALS value with pow function to redux complexity and Ram cost
+#define DECIMALS 1000
 
 using namespace std;
 using namespace eosio;
@@ -245,6 +247,8 @@ namespace eoscostarica {
     extern const char* datadistribution_clause;
     extern const char* datafuture_clause;
 
+    // ------------------ OLD-STRUCT-FORMAT ------------------ //
+
     /*
     *   Stores the rate average stats for a block producer
     */    
@@ -308,7 +312,36 @@ namespace eoscostarica {
         indexed_by<"bp"_n, const_mem_fun<ratings, uint64_t, &ratings::by_bp>>
     > ratings_table;
 
-    // concatenation of ids example
+    // ------------------ END-OLD-STRUCT-FORMAT ------------------ //
+
+    /*
+    *   Stores the rate average stats for a block producer
+    */    
+    struct stats_v2 {
+        name bp;
+        uint32_t ratings_cntr;
+        uint16_t average;
+        uint16_t transparency;
+        uint16_t infrastructure;
+        uint16_t trustiness;
+        uint16_t development;  
+        uint16_t community;
+        uint64_t primary_key() const { return bp.value; }
+    };
+    EOSIO_REFLECT (
+        stats_v2,
+        bp,
+        ratings_cntr,
+        average,
+        transparency,
+        infrastructure,
+        trustiness,
+        development,
+        community
+    )
+    typedef eosio::multi_index<"stat"_n, stats_v2 > stats_table_v2;
+
+    
     uint128_t create_uniq_rating(const uint64_t &user, const uint64_t &bp) {
         return (static_cast<uint128_t>(user) << 64) | bp;
     }
