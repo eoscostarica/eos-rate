@@ -308,12 +308,16 @@ namespace eoscostarica {
         indexed_by<"bp"_n, const_mem_fun<ratings, uint64_t, &ratings::by_bp>>
     > ratings_table;
 
+    // concatenation of ids example
+    uint128_t create_uniq_rating(const uint64_t &user, const uint64_t &bp) {
+        return (static_cast<uint128_t>(user) << 64) | bp;
+    }
+
     /*
     *   Stores the rate vote for a block producer
     */
     struct ratings2 {
         uint64_t id;
-        uint128_t uniq_rating;
         name user;
         name bp;
         uint8_t transparency;
@@ -322,14 +326,13 @@ namespace eoscostarica {
         uint8_t development;
         uint8_t community;
         uint64_t primary_key() const { return id; }
-        uint128_t by_uniq_rating() const { return uniq_rating; }
+        uint128_t by_uniq_rating() const { return create_uniq_rating(user.value, bp.value); }
         uint64_t by_user() const { return user.value; }
         uint64_t by_bp() const { return bp.value; }
     };
     EOSIO_REFLECT(
         ratings2,
         id,
-        uniq_rating,
         user,
         bp,
         transparency,
@@ -342,7 +345,7 @@ namespace eoscostarica {
         indexed_by<"uniqrating"_n, const_mem_fun<ratings2, uint128_t, &ratings2::by_uniq_rating>>,
         indexed_by<"user"_n, const_mem_fun<ratings2, uint64_t, &ratings2::by_user>>,
         indexed_by<"bp"_n, const_mem_fun<ratings2, uint64_t, &ratings2::by_bp>>
-    > ratings_table2;
+    > ratings_table_v2;
 
     /*
     *   Stores contract config for migration versioning
@@ -607,7 +610,7 @@ namespace eoscostarica {
         *  Load existing eden member rates into rateproducer scope
         * 
         */ 
-        void loadedens();
+        void migrate();
     };
 
     EOSIO_ACTIONS(rateproducer,
@@ -617,6 +620,6 @@ namespace eoscostarica {
                  action(wipe),
                  action(rminactive),
                  action(rmrate, user, bp),
-                 action(loadedens))
+                 action(migrate))
                  
 } // namespace eoscostarica

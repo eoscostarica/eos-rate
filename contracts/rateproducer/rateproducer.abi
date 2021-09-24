@@ -71,7 +71,7 @@
             ]
         },
         {
-            "name": "loadedens",
+            "name": "migrate",
             "base": "",
             "fields": []
         },
@@ -82,10 +82,6 @@
                 {
                     "name": "id",
                     "type": "uint64"
-                },
-                {
-                    "name": "uniq_rating",
-                    "type": "uint128"
                 },
                 {
                     "name": "user",
@@ -183,8 +179,8 @@
             "ricardian_contract": ""
         },
         {
-            "name": "loadedens",
-            "type": "loadedens",
+            "name": "migrate",
+            "type": "migrate",
             "ricardian_contract": ""
         }
     ],

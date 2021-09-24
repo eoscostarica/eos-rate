@@ -48,7 +48,7 @@ namespace eoscostarica {
         }
 
         // upsert bp rating
-        ratings_table2 _ratings(_self, scope.value);
+        ratings_table_v2 _ratings(_self, scope.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
         auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
@@ -57,7 +57,6 @@ namespace eoscostarica {
         if( existing_rating == uniq_rating_index.end() ) {
             _ratings.emplace(user, [&]( auto& row ) {
                 row.id = _ratings.available_primary_key();
-                row.uniq_rating = uniq_rating;
                 row.user = user;
                 row.bp = bp;
                 row.transparency = transparency;
@@ -252,7 +251,7 @@ namespace eoscostarica {
         float development_cntr = 0;
         uint32_t voters_cntr = 0;
 
-        ratings_table2 _ratings(_self, scope.value);
+        ratings_table_v2 _ratings(_self, scope.value);
         auto bps_index = _ratings.get_index<name("bp")>();
         auto bps_it = bps_index.find(bp_name.value); 
         
@@ -362,7 +361,7 @@ namespace eoscostarica {
         
         require_auth(_self);
 
-        ratings_table2 _ratings(_self, scope.value);
+        ratings_table_v2 _ratings(_self, scope.value);
         auto itr = _ratings.begin();
         while (itr != _ratings.end()) {
             if(itr->bp == bp_name) {
@@ -385,13 +384,20 @@ namespace eoscostarica {
 
     void rateproducer::wipe_aux(name scope) {
         require_auth(_self);
-        ratings_table2 _ratings(_self, scope.value);
-        auto itr = _ratings.begin();
-        while (itr != _ratings.end()) {
-            itr = _ratings.erase(itr);
+        // ratings_table _ratings(_self, scope.value);
+        ratings_table_v2 _ratings_v2(_self, scope.value);
+        stats_table _stats(_self, scope.value);
+
+        // auto itr = _ratings.begin();
+        // while (itr != _ratings.end()) {
+        //     itr = _ratings.erase(itr);
+        // }
+
+        auto itr_v2 = _ratings_v2.begin();
+        while (itr_v2 != _ratings_v2.end()) {
+            itr_v2 = _ratings_v2.erase(itr_v2);
         }
 
-        stats_table _stats(_self, scope.value);
         auto itr_stats = _stats.begin();
         while (itr_stats != _stats.end()) {
             itr_stats = _stats.erase(itr_stats);
@@ -399,7 +405,7 @@ namespace eoscostarica {
     }
 
     void rateproducer::erase_bp_info(name scope, std::set<eosio::name> * bps_to_clean) {
-        ratings_table2 _ratings(_self, scope.value);
+        ratings_table_v2 _ratings(_self, scope.value);
         stats_table _stats(_self, scope.value);
         
         std::set<eosio::name>::iterator it;
@@ -447,7 +453,7 @@ namespace eoscostarica {
     void rateproducer::rmrate_aux(name scope, name user, name bp) {
         require_auth(user);
         
-        ratings_table2 _ratings(_self, scope.value);
+        ratings_table_v2 _ratings(_self, scope.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
         auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
@@ -491,40 +497,60 @@ namespace eoscostarica {
                         &bp_average);
     }
 
-    void rateproducer::loadedens() {
+    void rateproducer::migrate() {
         config c = cfg.get_or_create(_self, config{.owner = _self, .version = 0});
         require_auth(c.owner);
 
-        // assert we only run once
         // the comparison value needs to be hard-coded with each new migration
         eosio::check(c.version < 1, "Migration already ran");
 
-        ratings_table2 _ratings_self(_self, _self.value);
-        ratings_table2 _ratings_eden(_self, eden_scope.value);
+        ratings_table _ratings_self(_self, _self.value);
+        ratings_table_v2 _ratings_self_v2(_self, _self.value);
+        ratings_table_v2 _ratings_eden_v2(_self, eden_scope.value);
 
         for(auto itr = _ratings_self.begin(); itr != _ratings_self.end(); itr++) {
-            if(is_eden(itr->user)) {
-                _ratings_eden.emplace(_self, [&]( auto& row ) {
-                    row.id = itr->id;
-                    row.uniq_rating = itr->uniq_rating;
-                    row.user = itr->user;
-                    row.bp = itr->bp;
-                    row.transparency = itr->transparency;
-                    row.infrastructure = itr->infrastructure;
-                    row.trustiness = itr->trustiness;
-                    row.community = itr->community;
-                    row.development = itr->development ;   
-                });
-                //save stats
-                save_bp_stats(eden_scope,
-                            _self,
-                            itr->bp,
-                            itr->transparency,
-                            itr->infrastructure,
-                            itr->trustiness,
-                            itr->community,
-                            itr->development);
-            }
+            _ratings_self_v2.emplace(_self, [&]( auto& row ) {
+                row.id = itr->id;
+                row.user = itr->user;
+                row.bp = itr->bp;
+                row.transparency = static_cast<uint8_t>(itr->transparency);
+                row.infrastructure = static_cast<uint8_t>(itr->infrastructure);
+                row.trustiness = static_cast<uint8_t>(itr->trustiness);
+                row.community = static_cast<uint8_t>(itr->community);
+                row.development = static_cast<uint8_t>(itr->development );   
+            });
+            //save stats
+            save_bp_stats(_self,
+                        _self,
+                        itr->bp,
+                        itr->transparency,
+                        itr->infrastructure,
+                        itr->trustiness,
+                        itr->community,
+                        itr->development);
+
+            // If no eden member, continue no next row
+            if(!is_eden(itr->user)) continue;
+
+            _ratings_eden_v2.emplace(_self, [&]( auto& row ) {
+                row.id = itr->id;
+                row.user = itr->user;
+                row.bp = itr->bp;
+                row.transparency = static_cast<uint8_t>(itr->transparency);
+                row.infrastructure = static_cast<uint8_t>(itr->infrastructure);
+                row.trustiness = static_cast<uint8_t>(itr->trustiness);
+                row.community = static_cast<uint8_t>(itr->community);
+                row.development = static_cast<uint8_t>(itr->development );   
+            });
+            //save stats
+            save_bp_stats(eden_scope,
+                        _self,
+                        itr->bp,
+                        itr->transparency,
+                        itr->infrastructure,
+                        itr->trustiness,
+                        itr->community,
+                        itr->development);
         }
 
         c.version++;
