@@ -20,6 +20,12 @@ export default theme => ({
       width: 'calc(50% - 16px)'
     }
   },
+  modalHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(2)
+  },
   switch: {
     [theme.breakpoints.up('sm')]: {
       float: 'right'
@@ -115,7 +121,7 @@ export default theme => ({
   headerVotingCompare: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    flexDirection: 'column'
   },
   marginRightElem: {
     marginRight: 10
@@ -171,5 +177,11 @@ export default theme => ({
     boxShadow:
       'inset 2px 2px 2px #fff, inset -1px 0 2px rgba(0,0,0,.1), 1px 3px 3px rgba(0,0,0,.1)',
     backgroundColor: '#fff'
+  },
+  compareBodyListDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex'
+    }
   }
 })

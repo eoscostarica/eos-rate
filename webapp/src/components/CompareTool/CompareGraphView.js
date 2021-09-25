@@ -9,7 +9,6 @@ import LockIcon from '@mui/icons-material/LockOutlined'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import Box from '@mui/material/Box'
-// import withWidth from '@mui/material/withWidth'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTranslation } from 'react-i18next'
 import Switch from '@mui/material/Switch'
@@ -112,10 +111,8 @@ const TooltipWrapper = ({
 const CompareGraphView = ({
   removeBP,
   selected,
-  className,
   isProxy,
   userInfo,
-  width,
   handleOnClear,
   handleOnClose,
   onHandleVote,
@@ -133,33 +130,25 @@ const CompareGraphView = ({
   }, [isDesktop])
 
   return (
-    <Grid
-      justifyContent='center'
-      style={{ paddingTop: isDesktop ? '20px' : 0 }}
-      container
-      spacing={2}
+    <Box
+      style={{ paddingTop: isDesktop ? '20px' : 0, border: '2px solid green' }}
     >
-      <Grid item md={11} xs={11}>
-        <Box className={classes.headerVotingCompare}>
-          <Box>
-            <Typography variant='h6' className={classes.marginRightElem}>
-              {selected.length > 0
-                ? `${t('voteToolTitle')} (${selected.length} ${t('chosen')})`
-                : `${t('voteToolTitle')} (${t('noBPSelected')})`}
-            </Typography>
-            <Typography variant='body1' style={{ display: 'flex' }}>
-              {t('voteToolDescription')}
-            </Typography>
-          </Box>
-        </Box>
-      </Grid>
-      {isDesktop && (
-        <Grid item md={1} xs={1}>
+      <Box className={classes.headerVotingCompare}>
+        <Box className={classes.modalHeader}>
+          <Typography variant='h6' className={classes.marginRightElem}>
+            {selected.length > 0
+              ? `${t('voteToolTitle')} (${selected.length} ${t('chosen')})`
+              : `${t('voteToolTitle')} (${t('noBPSelected')})`}
+          </Typography>
           <Box className={classes.boxCloseIcon}>
             <CloseIcon style={{ cursor: 'pointer' }} onClick={handleOnClose} />
           </Box>
-        </Grid>
-      )}
+        </Box>
+        <Typography variant='body1' style={{ display: 'flex' }}>
+          {t('voteToolDescription')}
+        </Typography>
+      </Box>
+
       <Grid container justifyContent='center' xs={12} md={5}>
         <Grid
           item
@@ -286,31 +275,29 @@ const CompareGraphView = ({
           </Grid>
         )}
       </Grid>
-      {isDesktop && (
-        <Grid item xs={12} md={7}>
-          {selected.length > 0 ? (
-            <CompareBodyList
-              isProxy={isProxy}
-              selectedData={selected}
-              classes={classes}
-              removeBP={removeBP}
-            />
-          ) : (
-            <Box className={classes.centerBox} style={{ marginTop: '20%' }}>
-              <Typography variant='h6'>{t('noSelectedBP')}</Typography>
-            </Box>
-          )}
-        </Grid>
-      )}
-    </Grid>
+      {/* {isDesktop && ( */}
+      <Box className={classes.compareBodyListDesktop}>
+        {selected.length > 0 ? (
+          <CompareBodyList
+            isProxy={isProxy}
+            selectedData={selected}
+            classes={classes}
+            removeBP={removeBP}
+          />
+        ) : (
+          <Box className={classes.centerBox} style={{ marginTop: '20%' }}>
+            <Typography variant='h6'>{t('noSelectedBP')}</Typography>
+          </Box>
+        )}
+      </Box>
+      {/* )} */}
+    </Box>
   )
 }
 
 CompareGraphView.propTypes = {
-  width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
   removeBP: PropTypes.func.isRequired,
   selected: PropTypes.array.isRequired,
-  className: PropTypes.string,
   isProxy: PropTypes.bool,
   userInfo: PropTypes.object,
   handleOnClear: PropTypes.func,
@@ -321,7 +308,6 @@ CompareGraphView.propTypes = {
 }
 
 CompareGraphView.defaultProps = {
-  className: '',
   isProxy: false,
   userInfo: { proxy: '', producers: [], isUser: false },
   onHandleVote: () => {},
@@ -349,4 +335,3 @@ TooltipWrapper.propTypes = {
 }
 
 export default CompareGraphView
-// export default withWidth()(CompareGraphView)

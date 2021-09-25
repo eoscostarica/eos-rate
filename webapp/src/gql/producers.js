@@ -58,7 +58,7 @@ export const GET_PRODUCER_BY_OWNER = gql`
   }
 `
 
-export const GET_PRODUCER_BY_PROXY = gql`
+export const GET_PRODUCER_BY_PRODUCER_LIST = gql`
   query getProducerList($producerList: [String!]) {
     producerList: producers_list(where: { owner: { _in: $producerList } }) {
       owner

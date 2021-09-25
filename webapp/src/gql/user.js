@@ -14,3 +14,13 @@ export const GET_USER_RATING = gql`
     }
   }
 `
+
+export const DELETE_USER_RATE = gql`
+  mutation deleteUserRate($user: String!, $bpName: String!) {
+    delete_user_ratings(
+      where: { _and: [{ user: { _eq: $user } }, { bp: { _eq: $bpName } }] }
+    ) {
+      affected_rows
+    }
+  }
+`

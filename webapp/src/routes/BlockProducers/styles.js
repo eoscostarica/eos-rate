@@ -2,9 +2,7 @@ export default theme => ({
   // index style
   root: {
     position: 'relative',
-    maxWidth: '100%',
-    margin: 'auto',
-    border: '2px solid orange'
+    maxWidth: '100%'
   },
   compareToggleButton: {
     position: 'fixed',
@@ -19,9 +17,11 @@ export default theme => ({
     color: theme.palette.primary.main
   },
   wrapper: {
-    padding: theme.spacing(1),
-    maxWidth: '100%',
-    margin: 'auto'
+    // padding: theme.spacing(1),
+    maxWidth: '100%'
+  },
+  cardWrapper: {
+    padding: theme.spacing(1)
   },
   compareTool: {
     paddingTop: '0 !important',
@@ -48,11 +48,17 @@ export default theme => ({
       color: 'white'
     }
   },
-  hidden: {
-    opacity: 0,
-    transform: 'scaleY(0)',
-    minHeight: 0,
-    height: 0
+  hiddenMobile: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex'
+    }
+  },
+  hiddenDesktop: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
   },
   // slider rating
   sliderWrapper: {
@@ -233,7 +239,8 @@ export default theme => ({
   },
   paperAnchor: {
     right: '0',
-    overflowY: 'initial'
+    overflowY: 'initial',
+    border: '2px solid red'
   },
   reliefGrid: {
     margin: '10px 16px 30px 16px',

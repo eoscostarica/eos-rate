@@ -20,7 +20,7 @@ export default theme => ({
     maxWidth: '1024px',
     backgroundColor: theme.palette.surface.main
   },
-  coverTitle: {
+  mainTitle: {
     marginBottom: '12.5px !important',
     fontWeight: 'normal',
     fontStretch: 'normal',
@@ -30,7 +30,7 @@ export default theme => ({
     textAlign: 'left',
     color: theme.palette.primary.dark,
     [theme.breakpoints.down('sm')]: {
-      fontSize: '2.03rem',
+      fontSize: '2.03rem !important',
       marginBottom: 0
     }
   },
@@ -44,23 +44,47 @@ export default theme => ({
     alignItems: 'center'
   },
   subtitle: {
-    marginBottom: theme.spacing(1)
+    marginBottom: `${theme.spacing(1)} !important`,
+    fontWeight: '500',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: '23px !important',
+    letterSpacing: '0.15px !important',
+    textAlign: 'left',
+    color: theme.palette.primary.dark,
+    fontSize: 20
   },
   leftCoverBox: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    '& .MuiTypography-body2': {
+      lineHeight: '28px',
+      letterSpacing: '0.44px',
+      fontSize: 16,
+      color: theme.palette.common.black
+    }
   },
   ratingContainer: {
     maxWidth: '1024px'
   },
   ratingTitle: {
-    fontSize: theme.typography.h4.fontSize,
+    fontWeight: '500',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: '23px !important',
+    letterSpacing: '0.15px !important',
+    textAlign: 'left',
+    color: theme.palette.primary.dark,
+    fontSize: 20,
     display: 'flex',
     marginBottom: 12.5
   },
   paragraph: {
-    marginLeft: theme.spacing(4.5)
+    marginLeft: `${theme.spacing(4.5)} !important`,
+    lineHeight: '28px !important',
+    letterSpacing: '0.44px !important',
+    color: theme.palette.common.black
   },
   subTitleContainer: {
     display: 'flex',
@@ -75,16 +99,7 @@ export default theme => ({
   subTopicContainer: {
     maxWidth: '1024px'
   },
-  title: {
-    fontSize: theme.typography.h4.fontSize,
-    color: theme.palette.grey[600],
-    marginBottom: 12.5
-  },
   ratingParagraph: {
-    color: theme.palette.grey[600]
-  },
-  topicSubtitle: {
-    marginBottom: theme.spacing(1),
     color: theme.palette.grey[600]
   },
   gridContent: {

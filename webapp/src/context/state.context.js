@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import getBpDataModeled from '../utils/modeled-bp-data'
 import getProxyDataModeled from '../utils/modeled-proxy-data'
 
-import { getProxies } from './models'
+import { getProxies, getUserDataModeled } from './models'
 
 const SharedStateContext = React.createContext()
 
@@ -120,8 +120,14 @@ export const SharedStateProvider = ({ children, ual, ...props }) => {
 
   useEffect(() => {
     const load = async () => {
-      // ual.activeUser && (await getUserDataModeled(ual))
-      dispatch({ type: 'userChange', user: ual.activeUser })
+      if (ual.activeUser) {
+        const user = await getUserDataModeled(ual)
+
+        dispatch({ type: 'userChange', user })
+      } else {
+        dispatch({ type: 'userChange', user: ual.activeUser })
+      }
+
       dispatch({ type: 'ual', ual })
     }
 
@@ -153,6 +159,11 @@ export const useSharedState = () => {
   const hideMessage = () => dispatch({ type: 'hideMessage' })
   const login = () => dispatch({ type: 'login' })
   const logout = () => dispatch({ type: 'logout' })
+  const setUser = async () => {
+    const user = await getUserDataModeled(state.ual)
+
+    dispatch({ type: 'userChange', user })
+  }
   const setSortBy = (sortBy, page) => {
     if (page === 'blockProducers') {
       dispatch({ type: 'setSortProducersBy', sortBy })
@@ -208,6 +219,7 @@ export const useSharedState = () => {
       hideMessage,
       login,
       logout,
+      setUser,
       setProducers,
       setProducer,
       setCompareBPTool,

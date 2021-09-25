@@ -1,33 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Drawer from '@mui/material/Drawer'
-import Grid from '@mui/material/Grid'
-import IconButton from '@mui/material/IconButton'
+// import Box from '@mui/material/Box'
+// import IconButton from '@mui/material/IconButton'
 import { makeStyles } from '@mui/styles'
-import CloseIcon from '@mui/icons-material/Close'
+// import CloseIcon from '@mui/icons-material/Close'
 
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const SelectedBpsBottomSheet = ({ open, setOpen, children }) => {
-  const classesStyle = useStyles()
+const SelectedBpsBottomSheet = ({ open, children, classesStyle }) => {
+  const classes = useStyles()
 
   return (
     <Drawer
+      className={classesStyle}
       classes={{
-        paperAnchorLeft: classesStyle.paperAnchor
+        paperAnchorLeft: classes.paperAnchor
       }}
       open={open}
     >
-      <Grid container spacing={2}>
-        <Grid item xs={10} />
-        <Grid item md={12} xs={2} style={{ textAlign: 'end' }}>
-          <IconButton onClick={() => setOpen(false)}>
-            <CloseIcon />
-          </IconButton>
-        </Grid>
-      </Grid>
       {children}
     </Drawer>
   )
@@ -35,7 +28,7 @@ const SelectedBpsBottomSheet = ({ open, setOpen, children }) => {
 
 SelectedBpsBottomSheet.propTypes = {
   open: PropTypes.bool,
-  setOpen: PropTypes.func,
+  classesStyle: PropTypes.object,
   children: PropTypes.node
 }
 

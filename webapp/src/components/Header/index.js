@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, Link } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar'
 import IconButton from '@mui/material/IconButton'
-import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import SearchIcon from '@material-ui/icons/Search'
@@ -31,17 +30,18 @@ const AuthButton = memo(({ user, onLogin, onSignOut }) => {
   return (
     <>
       {user && (
-        <Button
+        <IconButton
+          aria-label='sign out'
           className={classes.onSignOut}
-          startIcon={<ExitIcon />}
           onClick={onSignOut}
         >
+          <ExitIcon className={classes.iconLanguage} />
           <Typography className={classes.textBtn}>{t('signOut')}</Typography>
-        </Button>
+        </IconButton>
       )}
       {!user && (
         <IconButton
-          aria-label='Open drawer'
+          aria-label='sign in'
           className={classes.onLogin}
           onClick={onLogin}
         >

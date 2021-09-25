@@ -1,5 +1,5 @@
 import { client } from '../../graphql'
-import { GET_PROXIES, GET_PRODUCER_BY_PROXY } from '../../gql'
+import { GET_PROXIES, GET_PRODUCER_BY_PRODUCER_LIST } from '../../gql'
 
 export const getProxies = async () => {
   const {
@@ -15,7 +15,7 @@ export const getProxies = async () => {
         variables: {
           producerList: voterInfo.producers
         },
-        query: GET_PRODUCER_BY_PROXY
+        query: GET_PRODUCER_BY_PRODUCER_LIST
       })
     })
   )

@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
-import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
 
 import CommunityIcon from '../../components/icon/communityIcon'
 import TransparencyIcon from '../../components/icon/transparencyIcon'
@@ -19,19 +19,17 @@ const RatingCategory = () => {
   const classes = useStyles()
 
   return (
-    <Grid container className={classes.ratingContainer}>
-      <Grid item xs={12} md={12}>
-        <Typography variant='h5' className={classes.ratingTitle}>
-          {t('ratingCategory.title')}
-        </Typography>
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <div className={classes.subTitleContainer}>
+    <Box className={classes.ratingContainer}>
+      <Typography variant='h5' className={classes.mainTitle}>
+        {t('ratingCategory.title')}
+      </Typography>
+      <Box>
+        <Box className={classes.subTitleContainer}>
           <TransparencyIcon />
           <Typography variant='h6' className={classes.ratingSubtitle}>
             {t('ratingCategory.transparency.title')}
           </Typography>
-        </div>
+        </Box>
         <Typography
           variant='body2'
           className={classes.paragraph}
@@ -40,14 +38,14 @@ const RatingCategory = () => {
         >
           {t('ratingCategory.transparency.description')}
         </Typography>
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <div className={classes.subTitleContainer}>
+      </Box>
+      <Box>
+        <Box className={classes.subTitleContainer}>
           <InfrastructureIcon />
           <Typography variant='h6' className={classes.ratingSubtitle}>
             {t('ratingCategory.infrastructure.title')}
           </Typography>
-        </div>
+        </Box>
         <Typography
           variant='body2'
           className={classes.paragraph}
@@ -56,14 +54,14 @@ const RatingCategory = () => {
         >
           {t('ratingCategory.infrastructure.description')}
         </Typography>
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <div className={classes.subTitleContainer}>
+      </Box>
+      <Box>
+        <Box className={classes.subTitleContainer}>
           <TrustinessIcon />
           <Typography variant='h6' className={classes.ratingSubtitle}>
             {t('ratingCategory.trustiness.title')}
           </Typography>
-        </div>
+        </Box>
         <Typography
           variant='body2'
           className={classes.paragraph}
@@ -72,14 +70,14 @@ const RatingCategory = () => {
         >
           {t('ratingCategory.trustiness.description')}
         </Typography>
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <div className={classes.subTitleContainer}>
+      </Box>
+      <Box>
+        <Box className={classes.subTitleContainer}>
           <CommunityIcon />
           <Typography variant='h6' className={classes.ratingSubtitle}>
             {t('ratingCategory.community.title')}
           </Typography>
-        </div>
+        </Box>
         <Typography
           variant='body2'
           className={classes.paragraph}
@@ -88,14 +86,14 @@ const RatingCategory = () => {
         >
           {t('ratingCategory.community.description')}
         </Typography>
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <div className={classes.subTitleContainer}>
+      </Box>
+      <Box>
+        <Box className={classes.subTitleContainer}>
           <DevelopmentIcon />
           <Typography variant='h6' className={classes.ratingSubtitle}>
             {t('ratingCategory.development.title')}
           </Typography>
-        </div>
+        </Box>
         <Typography
           variant='body2'
           className={classes.paragraph}
@@ -104,8 +102,8 @@ const RatingCategory = () => {
         >
           {t('ratingCategory.development.description')}
         </Typography>
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   )
 }
 

@@ -1,5 +1,6 @@
 import React, { useState, forwardRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 import { makeStyles } from '@mui/styles'
 import { useTheme } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
@@ -102,8 +103,10 @@ const CardData = ({
           }
           subheader={
             <Box className={classes.warningBox}>
-              <span>{owner}</span>
-              <Box style={{ display: 'flex', float: 'right' }}>
+              <Typography className={classes.subTitleHeader}>
+                {owner}
+              </Typography>
+              <Box className={classes.moreWrapper}>
                 <Typography style={{ margin: 'auto' }} variant='subtitle2'>
                   {t('view')}
                 </Typography>
@@ -138,24 +141,26 @@ const CardData = ({
               <Box className={classes.boxValueRates}>
                 <Typography
                   variant='subtitle2'
-                  style={{ fontWeight: 600 }}
-                  className={classes.marginRightElem}
+                  className={clsx(classes.avgText, classes.marginRightElem)}
                 >
                   {`${t('rateCard')}:`}
                 </Typography>
-                <Typography variant='body2'>{rate || 0}</Typography>
+                <Typography className={classes.avgValue} variant='body2'>
+                  {rate || 0}
+                </Typography>
               </Box>
             </Grid>
             <Grid item md={4} xs={5}>
               <Box className={classes.boxValueRates}>
                 <Typography
                   variant='subtitle2'
-                  style={{ fontWeight: 600 }}
-                  className={classes.marginRightElem}
+                  className={clsx(classes.avgText, classes.marginRightElem)}
                 >
                   {`${t('averageCard')}:`}
                 </Typography>
-                <Typography variant='body2'>{average}</Typography>
+                <Typography className={classes.avgValue} variant='body2'>
+                  {average}
+                </Typography>
               </Box>
             </Grid>
           </Grid>
@@ -167,23 +172,24 @@ const CardData = ({
             <Button
               aria-label='Add to comparison'
               onClick={toggleSelection(!isSelected, owner)}
-              className={!isSelected ? classes.secondaryBtn : ''}
+              variant='outlined'
+              color={isSelected ? 'secondary' : 'primary'}
             >
               {isSelected ? t('remove') : buttonLabel}
             </Button>
             <Button
-              // eslint-disable-next-line react/display-name
-              component={forwardRef((props, ref) => (
-                <Link
-                  {...props}
-                  ref={ref}
-                  state={{ owner: owner }}
-                  to={`/${pathLink}/${owner}/rate`}
-                />
-              ))}
-              className={classes.btnRate}
+              component={forwardRef(function linkRef(props, ref) {
+                return (
+                  <Link
+                    {...props}
+                    ref={ref}
+                    state={{ owner: owner }}
+                    to={`/${pathLink}/${owner}/rate`}
+                  />
+                )
+              })}
               variant='contained'
-              size='small'
+              color='secondary'
             >
               {isNewRate ? t('updateRatingButton') : t('rate')}
             </Button>
@@ -194,7 +200,6 @@ const CardData = ({
             <Button
               aria-label='Add to comparison'
               disabled={isSelected}
-              className={!isSelected ? classes.secondaryBtn : ''}
               onClick={() => toggleSelection(!isSelected, owner, true)}
             >
               {isSelected ? t('selected') : t('addToVote')}

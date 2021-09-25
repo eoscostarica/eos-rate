@@ -74,24 +74,24 @@ export default theme => ({
   welcome: {
     fontStyle: 'normal',
     fontWeight: '500',
-    fontSize: 20,
+    fontSize: '20px !important',
     lineHeight: '23px',
     letterSpacing: '0.15px',
     color: 'rgba(0, 0, 0, 0.87)',
-    marginBottom: theme.spacing(1),
-    marginLeft: theme.spacing(2)
+    marginBottom: `${theme.spacing(1)} !important`,
+    marginLeft: `${theme.spacing(2)} !important`
   },
   userName: {
     fontStyle: 'normal',
     fontWeight: 'normal',
-    fontSize: 14,
+    fontSize: '14px !important',
     lineHeight: '20px',
     letterSpacing: '0.25px',
     color: 'rgba(0, 0, 0, 0.6)',
-    marginLeft: theme.spacing(2)
+    marginLeft: `${theme.spacing(2)} !important`
   },
   icon: {
-    fontSize: 48,
+    fontSize: '48px !important',
     marginBottom: theme.spacing(2),
     marginLeft: theme.spacing(2)
   }

@@ -28,7 +28,7 @@ const HomeCover = () => {
 
   return (
     <Box container className={classes.coverContainer}>
-      <Typography variant='h4' className={classes.coverTitle}>
+      <Typography variant='h4' className={classes.mainTitle}>
         {t('cover.title')}
       </Typography>
       {!isDesktop && (

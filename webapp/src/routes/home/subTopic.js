@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
-import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
 
 import Video from '../../components/Video'
 
@@ -15,9 +15,9 @@ const SubTopic = () => {
   const classes = useStyles()
 
   return (
-    <Grid container className={classes.subTopicContainer}>
-      <Grid item xs={12} md={6} className={classes.gridContent}>
-        <Typography variant='h5' className={classes.title}>
+    <Box className={classes.subTopicContainer}>
+      <Box className={classes.gridContent}>
+        <Typography variant='h5' className={classes.mainTitle}>
           {t('subTopic.title')}
         </Typography>
 
@@ -38,7 +38,7 @@ const SubTopic = () => {
         >
           {t('subTopic.paragraph2')}
         </Typography>
-        <Typography variant='h6' className={classes.topicSubtitle}>
+        <Typography variant='h6' className={classes.subtitle}>
           {t('subTopic.subtitle')}
         </Typography>
 
@@ -58,11 +58,11 @@ const SubTopic = () => {
             {t('subTopic.telegramGroup')}.
           </a>
         </Typography>
-      </Grid>
-      <Grid item xs={12} md={6}>
+      </Box>
+      <Box>
         <Video src={t('subTopic.videoUrl')} />
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   )
 }
 

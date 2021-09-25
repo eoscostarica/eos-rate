@@ -58,8 +58,7 @@ const ListItem = ({
   handleOnClick,
   openMenu,
   isUserLogged,
-  handleSortBy,
-  ...props
+  handleSortBy
 }) => {
   const classes = useStyles()
   const { t: tSort } = useTranslation('sortInput')
@@ -68,8 +67,6 @@ const ListItem = ({
   const sortBy = 'generalRate' // get this value form context
 
   if (name === 'myAccount' && !isUserLogged) return <></>
-
-  console.log({ props })
 
   return (
     <Box className={classes.listItem}>
@@ -82,7 +79,6 @@ const ListItem = ({
         className={classes.linkSidebar}
         href={path}
         onClick={() => handleOnClick(name)}
-        {...props}
       >
         {icon && <ListItemIcon>{icon}</ListItemIcon>}
         <ListItemText primary={t(name)} />
@@ -113,7 +109,6 @@ const ListItem = ({
 }
 
 ListItem.propTypes = {
-  header: PropTypes.string,
   childrens: PropTypes.array,
   name: PropTypes.string,
   path: PropTypes.string,
@@ -165,7 +160,6 @@ const Sidebar = ({ routes, ...props }) => {
             <ListItem
               key={`${route.name}${index}`}
               name={route.name}
-              header={route.header}
               path={route.path}
               icon={route.icon}
               badge={route.badge}

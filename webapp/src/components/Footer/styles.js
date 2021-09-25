@@ -1,8 +1,7 @@
 export default theme => ({
   root: {
     padding: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
-    border: '1px solid green'
+    backgroundColor: theme.palette.primary.main
   },
   listItem: {
     display: 'inline-block',

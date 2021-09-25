@@ -6,7 +6,7 @@ export default theme => ({
   title: {
     textDecoration: 'none',
     color: theme.palette.primary.main,
-    padding: theme.spacing(1, 2, 1, 2)
+    backgroundColor: '#F8F8F8'
   },
   unsafeChip: {
     marginLeft: theme.spacing(2),
@@ -20,7 +20,8 @@ export default theme => ({
   actions: {
     display: 'flex',
     justifyContent: 'space-between',
-    padding: 16
+    padding: `${theme.spacing(2)} !important`,
+    backgroundColor: '#F8F8F8'
   },
   radar: {
     background: theme.palette.surface.light
@@ -32,21 +33,6 @@ export default theme => ({
     width: '90%',
     height: '90%'
   },
-  btnRate: {
-    backgroundColor: theme.palette.primary.submenu,
-    color: 'white',
-    paddingLeft: 24,
-    paddingRight: 24,
-    boxShadow: `0px 3px 1px -2px ${theme.palette.secondary.main}, 0px 2px 2px 0px ${theme.palette.secondary.main}, 0px 1px 5px 0px ${theme.palette.secondary.main}`,
-    '&:hover': {
-      backgroundColor: theme.palette.secondary.dark
-    }
-  },
-  secondaryBtn: {
-    border: `1px solid ${theme.palette.primary.main}`,
-    paddingLeft: 16,
-    paddingRight: 16
-  },
   warningBox: {
     display: 'flex',
     alignItems: 'center',
@@ -56,8 +42,8 @@ export default theme => ({
     color: 'rgb(255, 152, 0)'
   },
   marginRightElem: {
-    marginRight: 5,
-    color: theme.palette.primary.main
+    marginRight: '5px !important',
+    color: theme.palette.primary.dark
   },
   blockIcons: {
     display: 'flex',
@@ -81,6 +67,11 @@ export default theme => ({
     }
   },
   noWrap: {
+    fontStyle: 'normal',
+    fontSize: '20px !important',
+    lineHeight: '23px !important',
+    letterSpacing: '0.15px',
+    color: theme.palette.primary.dark,
     [theme.breakpoints.up('sm')]: {
       overflow: 'hidden',
       whiteSpace: 'nowrap',
@@ -104,5 +95,47 @@ export default theme => ({
     display: 'flex',
     marginBottom: '20px',
     justifyContent: 'center'
+  },
+  subTitleHeader: {
+    fontStyle: 'normal',
+    fontWeight: 'normal !important',
+    fontSize: '14px !important',
+    lineHeight: '20px !important',
+    letterSpacing: '0.25px !important',
+    color: 'rgba(0, 0, 0, 0.6)'
+  },
+  moreWrapper: {
+    display: 'flex',
+    float: 'right',
+    '& h6': {
+      fontStyle: 'normal',
+      fontWeight: '500',
+      fontSize: '11px',
+      lineHeight: '16px',
+      display: 'flex',
+      alignItems: 'center',
+      textAlign: 'right',
+      letterSpacing: '1px',
+      textTransform: 'uppercase',
+      color: 'rgba(0, 0, 0, 0.38)'
+    },
+    '& svg': {
+      fontSize: '14px !important',
+      color: 'rgba(0, 0, 0, 0.38)'
+    }
+  },
+  avgText: {
+    fontStyle: 'normal',
+    fontWeight: 'bold !important',
+    fontSize: '16px !important',
+    lineHeight: '28px !important',
+    letterSpacing: '0.44px'
+  },
+  avgValue: {
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '16px !important',
+    lineHeight: '28px !important',
+    letterSpacing: '0.44px'
   }
 })
