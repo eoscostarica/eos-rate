@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 import { makeStyles } from '@mui/styles'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
@@ -31,42 +32,34 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
 
     return (
       <>
-        {producers.map(producer => {
-          const imageURL = _get(producer, 'bpjson.org.branding.logo_256', null)
-
-          return (
-            <ProducerChipAvatar
-              data={producer}
-              onHandleRemove={removeBP}
-              classNames={classes}
-              imageURL={imageURL}
-              isProxy={isProxy}
-              key={`data-list-name-${producer.owner}`}
-              defaultName='P'
-            />
-          )
-        })}
+        {producers.map(producer => (
+          <ProducerChipAvatar
+            data={producer}
+            onHandleRemove={removeBP}
+            classNames={classes}
+            imageURL={_get(producer, 'bpjson.org.branding.logo_256', null)}
+            isProxy={isProxy}
+            key={`data-list-name-${producer.owner}`}
+            defaultName='P'
+          />
+        ))}
       </>
     )
   }
 
   return (
-    <div className={classes.containerList}>
-      {selectedData.map(data => {
-        const imageURL = _get(data, 'bpjson.org.branding.logo_256', null)
-
-        return (
-          <ProducerChipAvatar
-            data={data}
-            onHandleRemove={removeBP}
-            classNames={classes}
-            imageURL={imageURL}
-            key={`data-list-name-${data.owner}`}
-            defaultName='BP'
-          />
-        )
-      })}
-    </div>
+    <Box className={classes.containerList}>
+      {selectedData.map(data => (
+        <ProducerChipAvatar
+          data={data}
+          onHandleRemove={removeBP}
+          classNames={classes}
+          imageURL={_get(data, 'bpjson.org.branding.logo_256', null)}
+          key={`data-list-name-${data.owner}`}
+          defaultName='BP'
+        />
+      ))}
+    </Box>
   )
 }
 
@@ -122,17 +115,17 @@ const CompareGraphView = ({
   const { t } = useTranslation('translations')
   const classes = useStyles()
   const isDesktop = useMediaQuery('(min-width:767px)')
-  const mobileMedium = useMediaQuery('(min-height:711px)')
+  // const mobileMedium = useMediaQuery('(min-height:711px)')
   const [sizes, setSizes] = useState()
 
   useEffect(() => {
     setSizes(isDesktop ? 400 : '95%')
   }, [isDesktop])
 
+  console.log({ sizes })
+
   return (
-    <Box
-      style={{ paddingTop: isDesktop ? '20px' : 0, border: '2px solid green' }}
-    >
+    <Box className={classes.compareGraphView}>
       <Box className={classes.headerVotingCompare}>
         <Box className={classes.modalHeader}>
           <Typography variant='h6' className={classes.marginRightElem}>
@@ -149,12 +142,8 @@ const CompareGraphView = ({
         </Typography>
       </Box>
 
-      <Grid container justifyContent='center' xs={12} md={5}>
-        <Grid
-          item
-          md={12}
-          style={{ padding: mobileMedium ? '15px 0 15px 0' : '0' }}
-        >
+      <Box className={classes.bodyModalView}>
+        <Box className={classes.topModalView}>
           <Radar
             height={sizes}
             width={sizes}
@@ -165,60 +154,50 @@ const CompareGraphView = ({
               }))
             }}
           />
-        </Grid>
-        <Grid
-          item
-          md={12}
-          xs={12}
-          style={{
-            textAlign: 'center',
-            height: isProxy ? '90px' : ''
-          }}
-        >
-          <Box className={classes.centerBox}>
-            {isProxy && selected.length > 0 && (
-              <Grid container>
-                <Grid item md={12} xs={12}>
-                  <Typography style={{ fontSize: '20px', fontWeight: 500 }}>
-                    {selected[0].name}
-                  </Typography>
-                </Grid>
-                <Grid style={{ margin: '10px 0 10px 0' }} item md={12} xs={12}>
-                  <Button
-                    disabled={!userInfo.isUser}
-                    aria-label='Add to comparison'
-                    className={classes.btnRateProxies}
-                    variant='contained'
-                    onClick={onHandleVote}
+          <Box className={classes.switchBox}>
+            <Box className={classes.centerBox}>
+              {isProxy && selected.length > 0 && (
+                <Grid container>
+                  <Grid item md={12} xs={12}>
+                    <Typography style={{ fontSize: '20px', fontWeight: 500 }}>
+                      {selected[0].name}
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    style={{ margin: '10px 0 10px 0' }}
+                    item
+                    md={12}
+                    xs={12}
                   >
-                    {t('voteToolToggle')}
-                  </Button>
+                    <Button
+                      disabled={!userInfo.isUser}
+                      aria-label='Add to comparison'
+                      className={classes.btnRateProxies}
+                      variant='contained'
+                      onClick={onHandleVote}
+                    >
+                      {t('voteToolToggle')}
+                    </Button>
+                  </Grid>
                 </Grid>
-              </Grid>
-            )}
-            {!isProxy && (
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={isCollapsedView}
-                    onChange={event => setIsCollapsedView(event.target.checked)}
-                    value='isCollapsedView'
-                  />
-                }
-                label={t('compareToolCollapsedSwitch')}
-              />
-            )}
+              )}
+              {!isProxy && (
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={isCollapsedView}
+                      onChange={event =>
+                        setIsCollapsedView(event.target.checked)
+                      }
+                      value='isCollapsedView'
+                    />
+                  }
+                  label={t('compareToolCollapsedSwitch')}
+                />
+              )}
+            </Box>
           </Box>
-        </Grid>
-        {!isDesktop && (
-          <Grid
-            item
-            xs={12}
-            md={7}
-            style={{
-              height: mobileMedium ? '225px' : '105px'
-            }}
-          >
+          <Box className={classes.compareBodyListMobile}>
             {selected.length > 0 ? (
               <CompareBodyList
                 isProxy={isProxy}
@@ -227,55 +206,35 @@ const CompareGraphView = ({
                 removeBP={removeBP}
               />
             ) : (
-              <Box
-                className={classes.centerBox}
-                style={{ padding: '30px 30px 0 20px', textAlign: 'center' }}
-              >
+              <Box className={clsx(classes.centerBox, classes.noBPSelected)}>
                 <Typography variant='subtitle2'>{t('noSelectedBP')}</Typography>
               </Box>
             )}
-          </Grid>
-        )}
+          </Box>
+        </Box>
         {!isProxy && (
-          <Grid md={12} container xs={12} className={classes.buttonsBox}>
-            <Grid item md={6} xs={7}>
-              <Box className={classes.centerBox}>
-                <Button
-                  style={{
-                    textAlign: 'center',
-                    width: '200px'
-                  }}
-                  aria-label='Clear selection'
-                  onClick={handleOnClear}
-                >
-                  {t('clearSelection')}
-                </Button>
-              </Box>
-            </Grid>
-            <Grid item md={6} xs={5}>
-              <Box
-                className={classes.centerBox}
-                style={{
-                  width: '50%',
-                  justifyContent: 'start',
-                  display: 'flex'
-                }}
-              >
-                <Button
-                  disabled={!userInfo.isUser}
-                  aria-label='Add to comparison'
-                  className={classes.btnRate}
-                  variant='contained'
-                  onClick={onHandleVote}
-                >
-                  {t('voteToolToggle')}
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
+          <Box className={classes.buttonsBox}>
+            <Button
+              className={classes.btnClear}
+              aria-label='Clear selection'
+              onClick={handleOnClear}
+            >
+              {t('clearSelection')}
+            </Button>
+            <Button
+              disabled={!userInfo.isUser}
+              aria-label='Add to comparison'
+              className={classes.btnRate}
+              variant='contained'
+              color='secondary'
+              onClick={onHandleVote}
+            >
+              {t('voteToolToggle')}
+            </Button>
+          </Box>
         )}
-      </Grid>
-      {/* {isDesktop && ( */}
+      </Box>
+
       <Box className={classes.compareBodyListDesktop}>
         {selected.length > 0 ? (
           <CompareBodyList
@@ -290,7 +249,6 @@ const CompareGraphView = ({
           </Box>
         )}
       </Box>
-      {/* )} */}
     </Box>
   )
 }

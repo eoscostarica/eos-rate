@@ -1,9 +1,9 @@
 export default props => ({
   root: {
-    margin: 8,
-    color: 'white',
-    justifyContent: 'space-around',
+    marginBottom: '8px !important',
+    color: 'white !important',
+    justifyContent: 'space-around !important',
     width: 158,
-    backgroundColor: props => props.color
+    backgroundColor: props => `${props.color} !important`
   }
 })

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
@@ -17,6 +17,10 @@ import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
+})
+
 const CompareTool = ({
   removeBP,
   list,
@@ -32,7 +36,6 @@ const CompareTool = ({
   setMessage,
   handleOnClose
 }) => {
-  console.log({ list, selected })
   const { t } = useTranslation('translations')
   const classes = useStyles()
   const [isCollapsedView, setIsCollapsedView] = useState(true)
@@ -44,11 +47,9 @@ const CompareTool = ({
     producers: []
   })
 
-  const Alert = props => {
-    return <MuiAlert elevation={6} variant='filled' {...props} />
-  }
+  console.log({ selected })
 
-  const handleClose = (event, reason) => {
+  const handleClose = (e, reason) => {
     if (reason === 'clickaway') {
       return
     }
@@ -83,7 +84,7 @@ const CompareTool = ({
           removeBP={removeBP}
           selected={selectedData}
           isProxy={isProxy}
-          userInfo={{ proxy, producers, isUser: Boolean(userInfo) }}
+          userInfo={{ proxy, producers, isUser: !!userInfo }}
           handleOnClear={handleOnClear}
           handleOnClose={handleOnClose}
           onHandleVote={onHandleVote}
@@ -91,27 +92,30 @@ const CompareTool = ({
           setIsCollapsedView={setIsCollapsedView}
         />
       ) : (
-        <CompareSliderView removeBP={removeBP} selected={selectedData} />
+        <CompareSliderView
+          removeBP={removeBP}
+          selected={selectedData}
+          handleOnClose={handleOnClose}
+        />
       )}
-      <Box className={classes.footer}>
-        {!isCollapsedView && (
-          <>
-            <FormControlLabel
-              className={classes.switch}
-              control={
-                <Switch
-                  checked={isCollapsedView}
-                  onChange={event => setIsCollapsedView(event.target.checked)}
-                  value='isCollapsedView'
-                />
-              }
-              label={t('compareToolCollapsedSwitch')}
-            />
-
+      {!isCollapsedView && (
+        <Box className={classes.footer}>
+          <FormControlLabel
+            className={classes.switch}
+            control={
+              <Switch
+                checked={isCollapsedView}
+                onChange={event => setIsCollapsedView(event.target.checked)}
+                value='isCollapsedView'
+              />
+            }
+            label={t('compareToolCollapsedSwitch')}
+          />
+          <Box className={classes.btnBox}>
             <Button
               onClick={handleOnClear}
+              className={classes.btnClear}
               aria-label='Clear selection'
-              size='large'
             >
               {t('clearSelection')}
             </Button>
@@ -121,13 +125,13 @@ const CompareTool = ({
               onClick={onHandleVote}
               className={classes.btnRate}
               variant='contained'
-              size='large'
+              color='secondary'
             >
               {t('voteToolToggle')}
             </Button>
-          </>
-        )}
-      </Box>
+          </Box>
+        </Box>
+      )}
       <Snackbar
         open={message.txError}
         autoHideDuration={4000}

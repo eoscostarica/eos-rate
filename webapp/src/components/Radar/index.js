@@ -5,7 +5,7 @@ import { Radar } from 'react-chartjs-2'
 
 import getRadarLabelName from '../../utils/get-radar-label-name'
 
-const RadarData = ({ bpData, height, showLabel, width, ...props }) => {
+const RadarData = ({ bpData, height, showLabel, width }) => {
   const { t } = useTranslation('translations')
   const labels = getRadarLabelName(t)
   const [sizes, setSizes] = useState({ width: '100%', height: '100%' })
@@ -13,6 +13,8 @@ const RadarData = ({ bpData, height, showLabel, width, ...props }) => {
     bpData.datasets && bpData.datasets.length
       ? { ...bpData, labels }
       : { labels, datasets: [{ data: [0, 0, 0, 0, 0] }] }
+
+  console.log({ bpValidData })
 
   useEffect(() => {
     if (!width && !height) return

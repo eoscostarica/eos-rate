@@ -4,15 +4,28 @@ export default theme => ({
     padding: theme.spacing(2),
     background: theme.palette.surface.main,
     width: '100%',
-    position: 'relative',
-    border: '2px solid red'
+    position: 'relative'
+  },
+  compareGraphView: {
+    paddingTop: 0,
+    height: '100%',
+    [theme.breakpoints.up('md')]: {
+      paddingTop: theme.spacing(2)
+    }
+  },
+  btnClear: {
+    textAlign: 'center',
+    width: 200
   },
   footer: {
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    paddingTop: theme.spacing(2),
+    flexDirection: 'column',
     width: '100%',
-    [theme.breakpoints.up('sm')]: {
+    height: '47%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    [theme.breakpoints.up('md')]: {
       flexDirection: 'row',
       justifyContent: 'space-evenly',
       margin: 'auto',
@@ -27,16 +40,17 @@ export default theme => ({
     marginBottom: theme.spacing(2)
   },
   switch: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       float: 'right'
     }
   },
+  switchBox: {
+    textAlign: 'center',
+    height: 60
+  },
   btnRate: {
-    backgroundColor: theme.palette.secondary.main,
-    marginBottom: 5,
-    color: '#ffffff',
-    padding: '5px 20px 5px 20px',
-    [theme.breakpoints.up('sm')]: {
+    width: 100,
+    [theme.breakpoints.up('md')]: {
       float: 'right',
       marginRight: 20,
       '&:hover': {
@@ -52,13 +66,13 @@ export default theme => ({
     }
   },
   errorColor: {
-    backgroundColor: 'red'
+    backgroundColor: theme.palette.error.main
   },
   errorChip: {
-    border: '1px solid red'
+    border: `1px solid ${theme.palette.error.main}`
   },
   labelErrorColor: {
-    color: 'red'
+    color: theme.palette.error.main
   },
   // slider view
   bpName: {
@@ -134,8 +148,13 @@ export default theme => ({
     }
   },
   containerList: {
+    display: 'flex',
+    justifyContent: 'space-between',
     height: '100%',
-    overflow: 'auto',
+    width: '100%',
+    minHeight: 50,
+    // overflow: 'auto',
+    flexWrap: 'wrap',
     [theme.breakpoints.up('sm')]: {
       marginBottom: 38
     }
@@ -149,11 +168,9 @@ export default theme => ({
     }
   },
   buttonsBox: {
-    [theme.breakpoints.down('sm')]: {
-      bottom: 0,
-      position: 'absolute',
-      left: 0
-    }
+    justifyContent: 'space-between',
+    display: 'flex',
+    alignItems: 'center'
   },
   boxCloseIcon: {
     justifyContent: 'flex-end',
@@ -183,5 +200,29 @@ export default theme => ({
     [theme.breakpoints.up('md')]: {
       display: 'flex'
     }
+  },
+  compareBodyListMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
+  },
+  noBPSelected: {
+    padding: theme.spacing(4, 4, 0, 3),
+    textAlign: 'center'
+  },
+  bodyModalView: {
+    height: 'calc(100% - 100px)',
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'column'
+  },
+  topModalView: {
+    marginBottom: theme.spacing(2)
+  },
+  btnBox: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 })

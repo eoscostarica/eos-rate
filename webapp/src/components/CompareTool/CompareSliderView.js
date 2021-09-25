@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@mui/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import CloseIcon from '@mui/icons-material/Close'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 import _get from 'lodash.get'
 
 import Radar from '../Radar'
@@ -17,7 +19,7 @@ const CompareSliderView = ({
   className,
   isProxy,
   optionalLabel,
-  ...props
+  handleOnClose
 }) => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
@@ -29,11 +31,19 @@ const CompareSliderView = ({
   }, [isDesktop])
 
   return (
-    <div className={className}>
-      <Typography variant='h5'>
-        {isProxy ? optionalLabel : t('compareToolTitle')}
-      </Typography>
-      <div className={classes.slider}>
+    <Box className={className}>
+      <Box className={classes.headerVotingCompare}>
+        <Box className={classes.modalHeader}>
+          <Typography variant='h6' className={classes.marginRightElem}>
+            {isProxy ? optionalLabel : t('compareToolTitle')}
+          </Typography>
+          <Box className={classes.boxCloseIcon}>
+            <CloseIcon style={{ cursor: 'pointer' }} onClick={handleOnClose} />
+          </Box>
+        </Box>
+      </Box>
+
+      <Box className={classes.slider}>
         {selected.map(bp => {
           if (!bp) return null
 
@@ -42,7 +52,7 @@ const CompareSliderView = ({
             : _get(bp, 'bpjson.producer_account_name')
 
           return (
-            <div key={`slider-card-${name}`} className={classes.sliderCard}>
+            <Box key={`slider-card-${name}`} className={classes.sliderCard}>
               <Radar
                 height={sizes}
                 width={sizes}
@@ -53,11 +63,11 @@ const CompareSliderView = ({
               <Typography variant='subtitle1' className={classes.bpName}>
                 {name}
               </Typography>
-            </div>
+            </Box>
           )
         })}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 
@@ -65,6 +75,7 @@ CompareSliderView.propTypes = {
   selected: PropTypes.array.isRequired,
   className: PropTypes.string,
   isProxy: PropTypes.bool,
+  handleOnClose: PropTypes.func,
   optionalLabel: PropTypes.string
 }
 
