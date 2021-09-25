@@ -1,13 +1,12 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { useDispatch, useSelector } from 'react-redux'
+import { makeStyles } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import VisibilityIcon from '@material-ui/icons/Visibility'
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
 import styles from './styles'
 
@@ -16,11 +15,13 @@ const useStyles = makeStyles(styles)
 const CompareToolToggle = () => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
-  const { compareTool, selected } = useSelector(state => state.blockProducers)
-  const dispatch = useDispatch()
+  // const { compareTool, selected } = useSelector(state => state.blockProducers)
+  // const dispatch = useDispatch()
+  const compareTool = false
+  const selected = []
 
   const handleToggleCompareTool = () => {
-    dispatch.blockProducers.toggleCompareTool()
+    // dispatch.blockProducers.toggleCompareTool()
   }
 
   return (

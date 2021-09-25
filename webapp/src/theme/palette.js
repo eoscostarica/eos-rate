@@ -5,7 +5,7 @@ export default {
   primary: {
     light: '#787291',
     main: '#443f56',
-    dark: '#221e38',
+    dark: 'rgba(0, 0, 0, 0.87)',
     sectionBackground: '#ffffff',
     submenu: '#597a81'
   },

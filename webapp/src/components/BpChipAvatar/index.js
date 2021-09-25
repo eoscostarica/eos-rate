@@ -1,9 +1,9 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import Chip from '@material-ui/core/Chip'
-import Avatar from '@material-ui/core/Avatar'
+import Chip from '@mui/material/Chip'
+import Avatar from '@mui/material/Avatar'
 import _get from 'lodash.get'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 
 import styles from './styles'
 

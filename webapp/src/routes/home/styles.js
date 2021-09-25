@@ -21,7 +21,14 @@ export default theme => ({
     backgroundColor: theme.palette.surface.main
   },
   coverTitle: {
-    marginBottom: 12.5,
+    marginBottom: '12.5px !important',
+    fontWeight: 'normal',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: '1.17',
+    letterSpacing: 'normal',
+    textAlign: 'left',
+    color: theme.palette.primary.dark,
     [theme.breakpoints.down('sm')]: {
       fontSize: '2.03rem',
       marginBottom: 0

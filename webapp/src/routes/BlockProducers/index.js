@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
 import { useLazyQuery } from '@apollo/client'
 // import PropTypes from 'prop-types'
-import Grid from '@material-ui/core/Grid'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
+import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import Collapse from '@mui/material/Collapse'
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt'
 import classNames from 'classnames'
 import _get from 'lodash.get'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 import TitlePage from '../../components/PageTitle'
 import CompareTool from '../../components/CompareTool'
@@ -55,6 +56,7 @@ const AllBps = () => {
     txSuccess: false,
     showChipMessage: false
   })
+
   // const sortedBPs = applySortBy(sortBy, blockProducers)
   // const shownList = sortedBPs && sortedBPs.slice(0, currentlyVisible)
   // const hasMore = blockProducers && currentlyVisible < blockProducers.length
@@ -80,11 +82,11 @@ const AllBps = () => {
     }
   }
 
-  const handleOpenDesktopVotingTool = value => {
+  const handleOpenDesktopVotingTool = () => {
     console.log('handleOpenDesktopVotingTool')
 
     // goToTop()
-    setCompareBPTool(!state.compareBPToolVisible)
+    !state.compareBPToolVisible && setCompareBPTool(true)
   }
 
   const handleOnClear = () => {
@@ -92,12 +94,12 @@ const AllBps = () => {
     // dispatch.blockProducers.clearSelected()
     setSelectedProducers([])
     // setOpenDesktopVotingTool(false)
-    setCompareBPTool(false)
+    state.compareBPToolVisible && setCompareBPTool(false)
   }
 
   const handleOnClose = () => {
     // setOpenDesktopVotingTool(false)
-    setCompareBPTool(false)
+    state.compareBPToolVisible && setCompareBPTool(false)
   }
 
   const handleSetRatingState = () => {
@@ -205,20 +207,20 @@ const AllBps = () => {
     <div className={classes.root} ref={myRef}>
       <TitlePage title={t('bpsTitle')} />
       {isDesktop && (
-        <CompareTool
-          removeBP={handleToggleSelected}
-          className={classNames(classes.compareTool, {
-            [classes.hidden]: !state.compareBPToolVisible
-          })}
-          list={state.blockProducers}
-          selected={state.selectedProducers || []}
-          onHandleVote={() => sendVoteBps(state.selectedProducers || [])}
-          userInfo={state.user}
-          message={ratingState}
-          setMessage={handleSetRatingState}
-          handleOnClose={handleOnClose}
-          handleOnClear={handleOnClear}
-        />
+        <Collapse in={state.compareBPToolVisible} timeout='auto' unmountOnExit>
+          <CompareTool
+            removeBP={handleToggleSelected}
+            className={classNames(classes.compareTool)}
+            list={state.blockProducers}
+            selected={state.selectedProducers || []}
+            onHandleVote={() => sendVoteBps(state.selectedProducers || [])}
+            userInfo={state.user}
+            message={ratingState}
+            setMessage={handleSetRatingState}
+            handleOnClose={handleOnClose}
+            handleOnClear={handleOnClear}
+          />
+        </Collapse>
       )}
       <Grid
         className={classes.wrapper}
@@ -293,7 +295,7 @@ const AllBps = () => {
         <CompareTool
           removeBP={handleToggleSelected}
           className={classNames(classes.compareTool, {
-            [classes.hidden]: !state.compareBPToolVisible
+            [classes.hidden]: !state.compareBPToolVisible // delete this
           })}
           list={state.blockProducers}
           selected={state.selectedProducers || []}

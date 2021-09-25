@@ -1,9 +1,9 @@
 import React, { memo } from 'react'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/styles'
+import Typography from '@mui/material/Typography'
+import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
-import Grid from '@material-ui/core/Grid'
-import Box from '@material-ui/core/Box'
+import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
 import classNames from 'classnames'
 
 import TitlePage from '../../components/PageTitle'

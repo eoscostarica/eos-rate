@@ -1,10 +1,10 @@
 import React, { memo } from 'react'
-import Grid from '@material-ui/core/Grid'
-import List from '@material-ui/core/List'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItem from '@material-ui/core/ListItem'
-import Box from '@material-ui/core/Box'
-import { makeStyles } from '@material-ui/styles'
+import Grid from '@mui/material/Grid'
+import List from '@mui/material/List'
+import ListItemText from '@mui/material/ListItemText'
+import ListItem from '@mui/material/ListItem'
+import Box from '@mui/material/Box'
+import { makeStyles } from '@mui/styles'
 
 import styles from './styles'
 

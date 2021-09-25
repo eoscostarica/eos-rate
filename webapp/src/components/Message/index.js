@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { makeStyles } from '@material-ui/styles'
-import Snackbar from '@material-ui/core/Snackbar'
-import Alert from '@material-ui/lab/Alert'
+import { makeStyles } from '@mui/styles'
+import Snackbar from '@mui/material/Snackbar'
+import Alert from '@mui/material/Alert'
 
 import { useSharedState } from '../../context/state.context'
 

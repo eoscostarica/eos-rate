@@ -1,9 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { Grid, Switch, Tooltip, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import HelpOutline from '@material-ui/icons/HelpOutline'
+import Grid from '@mui/material/Grid'
+import Switch from '@mui/material/Switch'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import { makeStyles } from '@mui/styles'
+import HelpOutline from '@mui/icons-material/HelpOutline'
 
 import RateSlider from '../../components/RateSlider'
 

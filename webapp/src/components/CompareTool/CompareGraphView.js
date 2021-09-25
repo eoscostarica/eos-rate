@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import LockOpenIcon from '@material-ui/icons/LockOpenOutlined'
-import LockIcon from '@material-ui/icons/LockOutlined'
-import Button from '@material-ui/core/Button'
-import Tooltip from '@material-ui/core/Tooltip'
-import Box from '@material-ui/core/Box'
-import withWidth from '@material-ui/core/withWidth'
-import { useMediaQuery } from '@material-ui/core'
+import { makeStyles } from '@mui/styles'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import LockOpenIcon from '@mui/icons-material/LockOpenOutlined'
+import LockIcon from '@mui/icons-material/LockOutlined'
+import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
+import Box from '@mui/material/Box'
+// import withWidth from '@mui/material/withWidth'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTranslation } from 'react-i18next'
-import Switch from '@material-ui/core/Switch'
-import CloseIcon from '@material-ui/icons/Close'
+import Switch from '@mui/material/Switch'
+import CloseIcon from '@mui/icons-material/Close'
 import _get from 'lodash.get'
 
 import Radar from '../Radar'
@@ -348,4 +348,5 @@ TooltipWrapper.propTypes = {
   isUser: PropTypes.bool.apply
 }
 
-export default withWidth()(CompareGraphView)
+export default CompareGraphView
+// export default withWidth()(CompareGraphView)

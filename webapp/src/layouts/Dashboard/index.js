@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import Box from '@material-ui/core/Box'
-import { makeStyles } from '@material-ui/styles'
+import Box from '@mui/material/Box'
+import { makeStyles } from '@mui/styles'
 
 import Sidebar from '../../components/Sidebar'
 import Header from '../../components/Header'

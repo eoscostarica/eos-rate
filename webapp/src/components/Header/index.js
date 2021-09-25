@@ -1,22 +1,22 @@
 import React, { memo, useState } from 'react'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { useHistory, Link } from 'react-router-dom'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import AppBar from '@material-ui/core/AppBar'
-import IconButton from '@material-ui/core/IconButton'
-import Button from '@material-ui/core/Button'
-import Box from '@material-ui/core/Box'
-import Toolbar from '@material-ui/core/Toolbar'
-import MenuIcon from '@material-ui/icons/Menu'
-import FingerprintIcon from '@material-ui/icons/Fingerprint'
-// import AccountIcon from '@material-ui/icons/AccountCircle'
-import ExitIcon from '@material-ui/icons/ExitToApp'
-import MoreIcon from '@material-ui/icons/MoreVert'
+import AppBar from '@mui/material/AppBar'
+import IconButton from '@mui/material/IconButton'
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import SearchIcon from '@material-ui/icons/Search'
+import Toolbar from '@mui/material/Toolbar'
+import MenuIcon from '@mui/icons-material/Menu'
+import FingerprintIcon from '@mui/icons-material/Fingerprint'
+import ExitIcon from '@mui/icons-material/ExitToApp'
 
 import { useSharedState } from '../../context/state.context'
+import MobileSearch from '../../components/MobileSearch'
+
 import InputAutocomplete from '../InputAutocomplete'
 import LanguageSelector from '../LanguageSelector'
 
@@ -24,30 +24,32 @@ import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-// const UserButton = memo(({ user }) => (
-//   <>{user && <Button startIcon={<AccountIcon />}>{user.accountName}</Button>}</>
-// ))
-
-// UserButton.displayName = 'UserButton'
-
-// UserButton.propTypes = {
-//   user: PropTypes.any
-// }
-
 const AuthButton = memo(({ user, onLogin, onSignOut }) => {
   const { t } = useTranslation('translations')
+  const classes = useStyles()
 
   return (
     <>
       {user && (
-        <Button startIcon={<ExitIcon />} onClick={onSignOut}>
-          {t('signOut')}
+        <Button
+          className={classes.onSignOut}
+          startIcon={<ExitIcon />}
+          onClick={onSignOut}
+        >
+          <Typography className={classes.textBtn}>{t('signOut')}</Typography>
         </Button>
       )}
       {!user && (
-        <Button startIcon={<FingerprintIcon />} onClick={onLogin}>
-          {t('appBarSignIn')}
-        </Button>
+        <IconButton
+          aria-label='Open drawer'
+          className={classes.onLogin}
+          onClick={onLogin}
+        >
+          <FingerprintIcon className={classes.iconLanguage} />
+          <Typography className={classes.textBtn}>
+            {t('appBarSignIn')}
+          </Typography>
+        </IconButton>
       )}
     </>
   )
@@ -65,7 +67,7 @@ const Header = memo(({ onDrawerToggle }) => {
   const classes = useStyles()
   const history = useHistory()
   const [state, { login, logout }] = useSharedState()
-  const [menuAnchorEl, setMenuAnchorEl] = useState()
+  const [isSearchOpen, setIsSearchOpen] = useState()
 
   const stage = 'false' // TODO: add to context
 
@@ -78,12 +80,12 @@ const Header = memo(({ onDrawerToggle }) => {
     history.push('/')
   }
 
-  const handleOpenMenu = event => {
-    setMenuAnchorEl(event.currentTarget)
+  const handleOpenSearch = () => {
+    setIsSearchOpen(true)
   }
 
-  const handleCloseMenu = () => {
-    setMenuAnchorEl(null)
+  const handleCloseSearch = () => {
+    setIsSearchOpen(false)
   }
 
   return (
@@ -101,10 +103,11 @@ const Header = memo(({ onDrawerToggle }) => {
             />
           </Link>
         </Box>
-        <InputAutocomplete />
+        <Box className={classes.boxSearch}>
+          <InputAutocomplete />
+        </Box>
         <Box className={classes.desktopSection}>
           <LanguageSelector />
-          {/* <UserButton user={state.user} /> */}
           <AuthButton
             user={state.user}
             onLogin={handleLogin}
@@ -113,35 +116,21 @@ const Header = memo(({ onDrawerToggle }) => {
         </Box>
         <Box className={classes.mobileSection}>
           <IconButton
-            aria-label='show more'
-            aria-haspopup='true'
-            onClick={handleOpenMenu}
+            className={classes.mobileSearch}
+            disabled={isSearchOpen}
+            onClick={handleOpenSearch}
           >
-            <MoreIcon />
+            <SearchIcon />
           </IconButton>
-        </Box>
-      </Toolbar>
-      <Menu
-        anchorEl={menuAnchorEl}
-        open={!!menuAnchorEl}
-        onClose={handleCloseMenu}
-      >
-        <MenuItem>
           <LanguageSelector />
-        </MenuItem>
-        {/* {state.user && (
-          <MenuItem>
-            <UserButton user={state.user} />
-          </MenuItem>
-        )} */}
-        <MenuItem>
           <AuthButton
             user={state.user}
             onLogin={handleLogin}
             onSignOut={handleSignOut}
           />
-        </MenuItem>
-      </Menu>
+        </Box>
+      </Toolbar>
+      <MobileSearch onClose={handleCloseSearch} isOpen={isSearchOpen} />
     </AppBar>
   )
 })

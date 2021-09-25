@@ -1,12 +1,11 @@
 import React, { forwardRef, useState, useEffect, memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import { useMediaQuery } from '@material-ui/core'
-import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/core/styles'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import Box from '@mui/material/Box'
+import { makeStyles } from '@mui/styles'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import Radar from '../../components/Radar'
 
@@ -17,12 +16,10 @@ const bpLink = forwardRef(refBPLink)
 
 const useStyles = makeStyles(styles)
 
-const HomeCover = ({ blockProducer }) => {
+const HomeCover = () => {
   const { t } = useTranslation('home')
   const classes = useStyles()
   const isDesktop = useMediaQuery('(min-width:769px)')
-  const isTablet = useMediaQuery('(min-width:540px)')
-  const isBigTablet = useMediaQuery('(max-width:1023px)')
   const [sizes, setSizes] = useState()
 
   useEffect(() => {
@@ -30,30 +27,35 @@ const HomeCover = ({ blockProducer }) => {
   }, [isDesktop])
 
   return (
-    <Grid container className={classes.coverContainer}>
-      <Grid item xs={12} md={12}>
-        <Typography variant='h4' className={classes.coverTitle}>
-          {t('cover.title')}
-        </Typography>
-      </Grid>
+    <Box container className={classes.coverContainer}>
+      <Typography variant='h4' className={classes.coverTitle}>
+        {t('cover.title')}
+      </Typography>
       {!isDesktop && (
-        <Grid
-          style={{ margin: '-10px 0 25px 0' }}
-          container
-          // xs={12}
-          // md={isBigTablet ? 12 : 6}
-          justifyContent='center'
-        >
-          <Grid item md={12} xs={isTablet ? 7 : 12}>
+        <Box style={{ margin: '-10px 0 25px 0' }}>
+          <Box>
             <Radar
               height={sizes}
               width={sizes}
               bpData={{
-                datasets: [blockProducer.data]
+                datasets: [
+                  {
+                    label: 'Block Producer',
+                    lineTension: 0.3,
+                    borderJoinStyle: 'round',
+                    backgroundColor: 'rgba(175, 207, 162, .6)',
+                    borderColor: 'rgba(175, 207, 162, .6)',
+                    pointBackgroundColor: 'rgba(175, 207, 162, .6)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(175, 207, 162, 1)',
+                    data: [9, 4, 6, 9, 7]
+                  }
+                ]
               }}
             />
-          </Grid>
-          <Grid item md={12} xs={isTablet ? 6 : 12}>
+          </Box>
+          <Box>
             <Button
               className={classes.btn}
               component={bpLink}
@@ -65,15 +67,10 @@ const HomeCover = ({ blockProducer }) => {
             >
               {t('cover.cta')}
             </Button>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       )}
-      <Grid
-        item
-        xs={12}
-        md={isBigTablet ? 12 : 6}
-        className={classes.leftCoverBox}
-      >
+      <Box className={classes.leftCoverBox}>
         <Typography variant='h6' className={classes.subtitle}>
           {t('cover.paragraph.subtitle1')}
         </Typography>
@@ -93,7 +90,7 @@ const HomeCover = ({ blockProducer }) => {
           {t('cover.paragraph.text4')}
         </Typography>
         {isDesktop && (
-          <div className={classes.ctaContainer}>
+          <Box className={classes.ctaContainer}>
             <Button
               className={classes.btn}
               component={bpLink}
@@ -105,28 +102,35 @@ const HomeCover = ({ blockProducer }) => {
             >
               {t('cover.cta')}
             </Button>
-          </div>
+          </Box>
         )}
-      </Grid>
+      </Box>
       {isDesktop && (
-        <Grid item xs={12} md={6}>
-          <div className={classes.chartContainer}>
-            <Radar
-              height={sizes}
-              width={sizes}
-              bpData={{
-                datasets: [blockProducer.data]
-              }}
-            />
-          </div>
-        </Grid>
+        <Box className={classes.chartContainer}>
+          <Radar
+            height={sizes}
+            width={sizes}
+            bpData={{
+              datasets: [
+                {
+                  label: 'Block Producer',
+                  lineTension: 0.3,
+                  borderJoinStyle: 'round',
+                  backgroundColor: 'rgba(175, 207, 162, .6)',
+                  borderColor: 'rgba(175, 207, 162, .6)',
+                  pointBackgroundColor: 'rgba(175, 207, 162, .6)',
+                  pointBorderColor: '#fff',
+                  pointHoverBackgroundColor: '#fff',
+                  pointHoverBorderColor: 'rgba(175, 207, 162, 1)',
+                  data: [9, 4, 6, 9, 7]
+                }
+              ]
+            }}
+          />
+        </Box>
       )}
-    </Grid>
+    </Box>
   )
-}
-
-HomeCover.propTypes = {
-  blockProducer: PropTypes.object.isRequired
 }
 
 export default memo(HomeCover)

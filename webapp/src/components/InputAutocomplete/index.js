@@ -4,14 +4,15 @@ import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
 import Highlight from 'react-highlighter'
 import Autosuggest from 'react-autosuggest'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
-import SearchIcon from '@material-ui/icons/Search'
-import TextField from '@material-ui/core/TextField'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import Paper from '@material-ui/core/Paper'
+import SearchIcon from '@mui/icons-material/Search'
+import TextField from '@mui/material/TextField'
+import InputAdornment from '@mui/material/InputAdornment'
+import Paper from '@mui/material/Paper'
+import Box from '@mui/material/Box'
 import _get from 'lodash.get'
-import MenuItem from '@material-ui/core/MenuItem'
+import MenuItem from '@mui/material/MenuItem'
 
 import useDebounce from '../../hooks/useDebounce'
 import { GET_ITEM_BY_NAME } from '../../gql'
@@ -26,7 +27,9 @@ const InputAutocomplete = ({ ...props }) => {
   const { t } = useTranslation('translations')
   const [searchText, setSearchText] = useState('')
   const debouncedAccount = useDebounce(searchText, 300)
-  const [getData, { loading, data }] = useLazyQuery(GET_ITEM_BY_NAME)
+  const [getData, { loading, data }] = useLazyQuery(GET_ITEM_BY_NAME, {
+    fetchPolicy: 'network-only'
+  })
   const [suggestions, setSuggestions] = useState([])
 
   useEffect(() => {
@@ -59,7 +62,7 @@ const InputAutocomplete = ({ ...props }) => {
 
   const renderInputComponent = inputProps => {
     const { inputRef = () => {}, ref, classes, ...other } = inputProps
-    const { hideSearchIcon, isFocused } = props
+    const { hideSearchIcon, isFocused = true } = props
 
     return (
       <TextField
@@ -70,16 +73,13 @@ const InputAutocomplete = ({ ...props }) => {
             ref(node)
             inputRef(node)
           },
-          disableUnderline: true,
+          disableunderline: 'true',
           fullWidth: true,
           startAdornment: hideSearchIcon ? null : (
             <InputAdornment className={classes.inputAdornment} position='start'>
               <SearchIcon className={classes.searchIcon} />
             </InputAdornment>
-          ),
-          classes: {
-            input: classes.input
-          }
+          )
         }}
         classes={{
           root: classes.root
@@ -122,7 +122,7 @@ const InputAutocomplete = ({ ...props }) => {
   }
 
   return (
-    <div className={classes.root}>
+    <Box className={classes.root}>
       <Autosuggest
         renderInputComponent={renderInputComponent}
         suggestions={suggestions}
@@ -131,6 +131,7 @@ const InputAutocomplete = ({ ...props }) => {
         onSuggestionsClearRequested={() => handleSuggestionsClearRequested()}
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
+        alwaysRenderSuggestions
         inputProps={{
           classes,
           placeholder: t('searchAutocomplete'),
@@ -149,7 +150,7 @@ const InputAutocomplete = ({ ...props }) => {
           </Paper>
         )}
       />
-    </div>
+    </Box>
   )
 }
 

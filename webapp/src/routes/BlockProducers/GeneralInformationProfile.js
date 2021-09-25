@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import countries from 'i18n-iso-countries'
-import Grid from '@material-ui/core/Grid'
+import Grid from '@mui/material/Grid'
 import _get from 'lodash.get'
-import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 
 import formatNumber from '../../utils/format-number'
 

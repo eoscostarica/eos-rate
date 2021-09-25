@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Drawer from '@material-ui/core/Drawer'
-import Grid from '@material-ui/core/Grid'
-import IconButton from '@material-ui/core/IconButton'
-import { makeStyles } from '@material-ui/core/styles'
-import CloseIcon from '@material-ui/icons/Close'
+import Drawer from '@mui/material/Drawer'
+import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
+import { makeStyles } from '@mui/styles'
+import CloseIcon from '@mui/icons-material/Close'
 
 import styles from './styles'
 

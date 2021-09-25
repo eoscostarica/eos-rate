@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { useMediaQuery } from '@material-ui/core'
+import { makeStyles } from '@mui/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@mui/material/Typography'
 import _get from 'lodash.get'
 
 import Radar from '../Radar'
