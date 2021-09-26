@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useEffect, memo } from 'react'
+import React, { forwardRef, useEffect, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
@@ -7,7 +7,8 @@ import Box from '@mui/material/Box'
 import { makeStyles } from '@mui/styles'
 import { Link } from 'react-router-dom'
 
-import Radar from '../../components/Radar'
+// import Radar from '../../components/Radar'
+import PolarChart from '../../components/PolarChart'
 
 import styles from './styles'
 
@@ -20,10 +21,10 @@ const HomeCover = () => {
   const { t } = useTranslation('home')
   const classes = useStyles()
   const isDesktop = useMediaQuery('(min-width:769px)')
-  const [sizes, setSizes] = useState()
+  // const [sizes, setSizes] = useState()
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : '95%')
+    // setSizes(isDesktop ? 400 : '95%')
   }, [isDesktop])
 
   return (
@@ -34,25 +35,10 @@ const HomeCover = () => {
       {!isDesktop && (
         <Box style={{ margin: '-10px 0 25px 0' }}>
           <Box>
-            <Radar
-              height={sizes}
-              width={sizes}
-              bpData={{
-                datasets: [
-                  {
-                    label: 'Block Producer',
-                    lineTension: 0.3,
-                    borderJoinStyle: 'round',
-                    backgroundColor: 'rgba(175, 207, 162, .6)',
-                    borderColor: 'rgba(175, 207, 162, .6)',
-                    pointBackgroundColor: 'rgba(175, 207, 162, .6)',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: 'rgba(175, 207, 162, 1)',
-                    data: [9, 4, 6, 9, 7]
-                  }
-                ]
-              }}
+            <PolarChart
+              data={[
+                { type: 'area', name: 'Block Producer', data: [9, 4, 6, 9, 7] }
+              ]}
             />
           </Box>
           <Box>
@@ -107,25 +93,10 @@ const HomeCover = () => {
       </Box>
       {isDesktop && (
         <Box className={classes.chartContainer}>
-          <Radar
-            height={sizes}
-            width={sizes}
-            bpData={{
-              datasets: [
-                {
-                  label: 'Block Producer',
-                  lineTension: 0.3,
-                  borderJoinStyle: 'round',
-                  backgroundColor: 'rgba(175, 207, 162, .6)',
-                  borderColor: 'rgba(175, 207, 162, .6)',
-                  pointBackgroundColor: 'rgba(175, 207, 162, .6)',
-                  pointBorderColor: '#fff',
-                  pointHoverBackgroundColor: '#fff',
-                  pointHoverBorderColor: 'rgba(175, 207, 162, 1)',
-                  data: [9, 4, 6, 9, 7]
-                }
-              ]
-            }}
+          <PolarChart
+            data={[
+              { type: 'area', name: 'Block Producer', data: [9, 4, 6, 9, 7] }
+            ]}
           />
         </Box>
       )}

@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import Slide from '@mui/material/Slide'
 
-import InputAutocomplete from '../../components/InputAutocomplete'
+import InputAutocomplete from '../InputAutocomplete'
 
 import styles from './styles'
 

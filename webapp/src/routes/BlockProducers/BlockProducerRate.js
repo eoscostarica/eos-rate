@@ -21,7 +21,7 @@ import Box from '@mui/material/Box'
 
 import formatNumber from '../../utils/format-number'
 import TitlePage from '../../components/PageTitle'
-import Radar from '../../components/Radar'
+import PolarChart from '../../components/PolarChart'
 import getBPRadarData from '../../utils/get-bp-radar-data'
 import { GET_PRODUCER_BY_OWNER } from '../../gql'
 import { useSharedState } from '../../context/state.context'
@@ -75,11 +75,11 @@ const BlockProducerRate = ({ ual }) => {
   // const { data: user } = useSelector(state => state.user)
   const classes = useStyles()
   const accountName = _get(ual, 'activeUser.accountName', null)
-  const bpData = _get(producer, 'data', {})
+  // const bpData = _get(producer, 'data', {})
   const [lastTransactionId, setLastTransactionId] = useState(undefined)
   const isDesktop = useMediaQuery('(min-width:769px)')
   const isMobile = useMediaQuery('(max-width:767px)')
-  const [sizes, setSizes] = useState()
+  // const [sizes, setSizes] = useState()
 
   const handleStateChange = parameter => (event, value) => {
     setRatingState({ ...ratingState, [parameter]: value })
@@ -90,7 +90,7 @@ const BlockProducerRate = ({ ual }) => {
   // const bPLogo = _get(producer, 'bpjson.org.branding.logo_256', null)
 
   useEffect(() => {
-    setSizes(isDesktop ? 425 : '100%')
+    // setSizes(isDesktop ? 425 : '100%')
   }, [isDesktop])
 
   function Alert(props) {
@@ -241,6 +241,8 @@ const BlockProducerRate = ({ ual }) => {
     name: t('edenRates'),
     parameters: getEdenRatingData()
   })
+
+  console.log({ edenDataSet, userDataSet })
 
   const transact = async () => {
     try {
@@ -419,7 +421,7 @@ const BlockProducerRate = ({ ual }) => {
             <Typography paragraph> {t('rateText')} </Typography>
             {isMobile && (
               <Grid style={{ paddingTop: 20 }} item xs={12}>
-                <Radar
+                {/* <Radar
                   height={sizes}
                   width={sizes}
                   showLabel
@@ -430,7 +432,8 @@ const BlockProducerRate = ({ ual }) => {
                       userDataSet
                     ]
                   }}
-                />
+                /> */}
+                <PolarChart />
               </Grid>
             )}
             <SliderRatingSection
@@ -502,7 +505,7 @@ const BlockProducerRate = ({ ual }) => {
             >
               {!isMobile && (
                 <Grid className={classes.radarWrapper} item xs={12}>
-                  <Radar
+                  {/* <Radar
                     height={sizes}
                     width={sizes}
                     showLabel
@@ -513,7 +516,8 @@ const BlockProducerRate = ({ ual }) => {
                         userDataSet
                       ]
                     }}
-                  />
+                  /> */}
+                  <PolarChart />
                 </Grid>
               )}
               <Grid

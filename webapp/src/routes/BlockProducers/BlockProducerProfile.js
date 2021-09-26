@@ -23,7 +23,7 @@ import { mainConfig } from '../../config'
 import { GET_PRODUCER_BY_OWNER } from '../../gql'
 import getBPRadarData from '../../utils/get-bp-radar-data'
 import TitlePage from '../../components/PageTitle'
-import Radar from '../../components/Radar'
+import PolarChart from '../../components/PolarChart'
 import Table from '../../components/Table'
 import getAverageValue from '../../utils/get-average-value'
 import { useSharedState } from '../../context/state.context'
@@ -78,7 +78,7 @@ const BlockProducerProfile = ({ ual }) => {
   const isMobile = useMediaQuery('(max-width:768px)')
   // const accountName = _get(ual, 'activeUser.accountName', null)
   // const history = useHistory()
-  const [sizes, setSizes] = useState()
+  // const [sizes, setSizes] = useState()
   const [isNewRate, setIsNewRate] = useState(true)
   const [bpHasInformation, setBpHasInformation] = useState(false)
   const [blockProducerLogo, setBlockProducerLogo] = useState(null)
@@ -108,11 +108,11 @@ const BlockProducerProfile = ({ ual }) => {
   const getRatingData = () => {
     if (edenRate) {
       return {
-        community: edenRate.community,
-        development: edenRate.development,
-        infrastructure: edenRate.development,
-        transparency: edenRate.transparency,
-        trustiness: edenRate.trustiness
+        community: edenRate.community || 0,
+        development: edenRate.development || 0,
+        infrastructure: edenRate.development || 0,
+        transparency: edenRate.transparency || 0,
+        trustiness: edenRate.trustiness || 0
       }
     }
     return {
@@ -129,6 +129,8 @@ const BlockProducerProfile = ({ ual }) => {
     parameters: getRatingData()
   })
 
+  console.log({ userDataSet })
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
@@ -141,7 +143,7 @@ const BlockProducerProfile = ({ ual }) => {
   }
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : '100%')
+    // setSizes(isDesktop ? 400 : '100%')
   }, [isDesktop])
 
   useEffect(() => {
@@ -269,7 +271,7 @@ const BlockProducerProfile = ({ ual }) => {
         )}
         <Grid container justifyContent='center' md={6}>
           <Grid item md={12} style={{ marginTop: 20 }} xs={12}>
-            <Radar
+            {/* <Radar
               height={sizes}
               width={sizes}
               showLabel
@@ -281,7 +283,8 @@ const BlockProducerProfile = ({ ual }) => {
                     ]
                   : []
               }}
-            />
+            /> */}
+            <PolarChart />
           </Grid>
           <Grid item md={4} xs={7}>
             <Button

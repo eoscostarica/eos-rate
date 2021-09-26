@@ -131,7 +131,6 @@ const InputAutocomplete = ({ ...props }) => {
         onSuggestionsClearRequested={() => handleSuggestionsClearRequested()}
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
-        alwaysRenderSuggestions
         inputProps={{
           classes,
           placeholder: t('searchAutocomplete'),

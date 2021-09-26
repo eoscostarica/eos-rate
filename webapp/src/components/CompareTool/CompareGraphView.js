@@ -16,7 +16,7 @@ import Switch from '@mui/material/Switch'
 import CloseIcon from '@mui/icons-material/Close'
 import _get from 'lodash.get'
 
-import Radar from '../Radar'
+import PolarChart from '../PolarChart'
 import ProducerChipAvatar from '../BpChipAvatar'
 
 import styles from './styles'
@@ -122,7 +122,7 @@ const CompareGraphView = ({
     setSizes(isDesktop ? 400 : '95%')
   }, [isDesktop])
 
-  console.log({ sizes })
+  console.log({ sizes, selected })
 
   return (
     <Box className={classes.compareGraphView}>
@@ -144,16 +144,7 @@ const CompareGraphView = ({
 
       <Box className={classes.bodyModalView}>
         <Box className={classes.topModalView}>
-          <Radar
-            height={sizes}
-            width={sizes}
-            bpData={{
-              datasets: selected.map(({ data }) => ({
-                ...data,
-                backgroundColor: data.backgroundColor.replace('.9', '.2')
-              }))
-            }}
-          />
+          <PolarChart data={selected.map(({ data }) => ({ ...data }))} />
           <Box className={classes.switchBox}>
             <Box className={classes.centerBox}>
               {isProxy && selected.length > 0 && (

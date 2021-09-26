@@ -1,13 +1,13 @@
-import { withStyles } from '@mui/styles'
+import { styled } from '@mui/material/styles'
 import Slider from '@mui/material/Slider'
 
-const RateSlider = withStyles({
-  root: {
-    color: '#597a81',
-    height: 2,
-    padding: '15px 0'
-  },
-  thumb: {
+const RateSlider = styled(Slider)({
+  color: '#597a81',
+  height: 2,
+  padding: '15px 0',
+  '& .MuiSlider-thumb': {
+    width: 15,
+    height: 15,
     backgroundColor: '#597a81',
     boxShadow:
       '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)',
@@ -21,33 +21,33 @@ const RateSlider = withStyles({
       }
     }
   },
-  active: {},
-  valueLabel: {
+  '& .MuiSlider-valueLabel': {
     left: 'auto',
-    top: -15,
+    top: 0,
+    background: 'transparent',
     '& *': {
       background: 'transparent',
       color: '#000'
     }
   },
-  track: {
-    height: 2
+  '& .MuiSlider-track': {
+    height: 0
   },
-  rail: {
+  '& .MuiSlider-rail': {
     height: 2,
     opacity: 0.5,
     backgroundColor: '#010318'
   },
-  mark: {
+  '& .MuiSlider-mark': {
     backgroundColor: '#010318',
     height: 8,
     width: 1,
-    marginTop: -3
+    marginTop: 0
   },
-  markActive: {
+  '& .MuiSlider-markActive': {
     opacity: 1,
     backgroundColor: 'currentColor'
   }
-})(Slider)
+})
 
 export default RateSlider

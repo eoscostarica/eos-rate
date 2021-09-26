@@ -19,7 +19,8 @@ import Grid from '@mui/material/Grid'
 import { Link } from 'react-router-dom'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 
-import Radar from '../Radar'
+// import Radar from '../Radar'
+import PolarChart from '../PolarChart'
 
 import styles from './styles'
 
@@ -71,6 +72,7 @@ const CardData = ({
 
   useEffect(() => {
     setSizes(isDesktop ? 400 : '95%')
+    console.log({ sizes })
   }, [isDesktop])
 
   return (
@@ -128,13 +130,7 @@ const CardData = ({
             />
           )}
         </Box>
-        <Radar
-          height={sizes}
-          width={sizes}
-          bpData={{
-            datasets: [{ ...data.data }]
-          }}
-        />
+        <PolarChart data={[{ ...data.data }]} />
         {showOptions && (
           <Grid container justifyContent='center'>
             <Grid item md={4} xs={4}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { makeStyles } from '@mui/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import CloseIcon from '@mui/icons-material/Close'
@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import _get from 'lodash.get'
 
-import Radar from '../Radar'
+import PolarChart from '../PolarChart'
 
 import styles from './styles'
 
@@ -24,10 +24,10 @@ const CompareSliderView = ({
   const { t } = useTranslation('translations')
   const classes = useStyles()
   const isDesktop = useMediaQuery('(min-width:767px)')
-  const [sizes, setSizes] = useState()
+  // const [sizes, setSizes] = useState()
 
   useEffect(() => {
-    setSizes(isDesktop ? 400 : '95%')
+    // setSizes(isDesktop ? 400 : '95%')
   }, [isDesktop])
 
   return (
@@ -47,19 +47,15 @@ const CompareSliderView = ({
         {selected.map(bp => {
           if (!bp) return null
 
+          console.log({ bp })
+
           const name = isProxy
             ? _get(bp, 'owner')
             : _get(bp, 'bpjson.producer_account_name')
 
           return (
             <Box key={`slider-card-${name}`} className={classes.sliderCard}>
-              <Radar
-                height={sizes}
-                width={sizes}
-                bpData={{
-                  datasets: bp.data ? [{ ...bp.data }] : []
-                }}
-              />
+              <PolarChart bpData={bp.data ? [{ ...bp.data }] : []} />
               <Typography variant='subtitle1' className={classes.bpName}>
                 {name}
               </Typography>
