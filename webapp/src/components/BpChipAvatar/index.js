@@ -17,7 +17,7 @@ const ProducerChipAvatar = ({
   defaultName,
   isProxy
 }) => {
-  const backgroundColor = _get(data, 'data.pointBackgroundColor', '#597a81')
+  const backgroundColor = _get(data, 'data.color', '#597a81')
   const classes = useStyles({ color: backgroundColor })
 
   return (

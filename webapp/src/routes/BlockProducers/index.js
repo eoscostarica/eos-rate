@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
-import { useLazyQuery } from '@apollo/client'
+// import { useLazyQuery } from '@apollo/client'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -17,7 +17,7 @@ import CompareTool from '../../components/CompareTool'
 import Card from '../../components/Card'
 import getAverageValue from '../../utils/get-average-value'
 import { useSharedState } from '../../context/state.context'
-import { GET_BLOCK_PRODUCERS } from '../../gql'
+// import { GET_BLOCK_PRODUCERS } from '../../gql'
 
 // import applySortBy from '../../utils/sorted-by'
 
@@ -33,22 +33,17 @@ const AllBps = () => {
   const classes = useStyles()
   const myRef = useRef(null)
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
-  // const [openVoteDrawer, setOpenVoteDrawer] = useState(false)
-  const [loadBPs, { loading = true, data: { list, info } = {} }] = useLazyQuery(
-    GET_BLOCK_PRODUCERS,
-    { fetchPolicy: 'network-only' }
-  )
+  const [hasMoreRows, setMoreRows] = useState(false)
+  // const [loadBPs, { loading = true, data: { list, info } = {} }] = useLazyQuery(
+  //   GET_BLOCK_PRODUCERS,
+  //   { fetchPolicy: 'network-only' }
+  // )
   // const isDesktop = useMediaQuery('(min-width:600px)', {
   //   defaultMatches: false
   // })
   // const isTablet = useMediaQuery('(max-width:1024px)', {
   //   defaultMatches: false
   // })
-  // const [openDesktopVotingTool, setOpenDesktopVotingTool] = useState(isDesktop)
-
-  // delete this
-  const hasMore = false
-  // end to delete this
 
   const [ratingState, setRatingState] = useState({
     txError: null,
@@ -57,9 +52,6 @@ const AllBps = () => {
   })
 
   // const sortedBPs = applySortBy(sortBy, blockProducers)
-  // const shownList = sortedBPs && sortedBPs.slice(0, currentlyVisible)
-  // const hasMore = blockProducers && currentlyVisible < blockProducers.length
-  // const accountName = _get(ual, 'activeUser.accountName', null)
 
   const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
   // const goToTop = () => document.getElementById('mainContent').scrollTo(0, 0)
@@ -89,15 +81,11 @@ const AllBps = () => {
   }
 
   const handleOnClear = () => {
-    // handleToggleCompareTool()
-    // dispatch.blockProducers.clearSelected()
     setSelectedProducers([])
-    // setOpenDesktopVotingTool(false)
     state.compareBPToolVisible && setCompareBPTool(false)
   }
 
   const handleOnClose = () => {
-    // setOpenDesktopVotingTool(false)
     state.compareBPToolVisible && setCompareBPTool(false)
   }
 
@@ -145,8 +133,6 @@ const AllBps = () => {
     }
 
     try {
-      // dispatch.isLoading.storeIsContentLoading(true)
-
       await state.ual.activeUser.signTransaction(transaction, {
         broadcast: true
       })
@@ -156,8 +142,6 @@ const AllBps = () => {
         txSuccess: true,
         showChipMessage: true
       })
-
-      // dispatch.isLoading.storeIsContentLoading(false)
 
       setTimeout(() => {
         setRatingState({
@@ -175,35 +159,31 @@ const AllBps = () => {
         txError: error && error.cause ? error.cause.message : error,
         showChipMessage: true
       })
-      // dispatch.isLoading.storeIsContentLoading(false)
     }
   }
 
   useEffect(() => {
     const getData = async () => {
-      !state.blockProducers.length && (await loadBPs())
-      // {
-      //   variables: {
-      //     limit: 10
-      //   }
-      // }))
+      !state.blockProducers.data.length &&
+        (await setProducers(currentlyVisible))
     }
 
     getData()
   }, [])
 
   useEffect(() => {
-    if (loading || !list) {
+    if (!state.blockProducers.data.length) {
       return
     }
 
-    setProducers(list)
-  }, [list, loading, info])
+    // setProducers(list)
+    setMoreRows(state.blockProducers.rows > currentlyVisible)
+  }, [state.blockProducers])
 
-  console.log({ state })
+  console.log({ hasMoreRows })
 
   return (
-    <Box className={classes.root} ref={myRef}>
+    <Box className={classes.rootBP} ref={myRef}>
       <TitlePage title={t('bpsTitle')} />
       <Collapse
         in={state.compareBPToolVisible}
@@ -214,7 +194,7 @@ const AllBps = () => {
         <CompareTool
           removeBP={handleToggleSelected}
           className={clsx(classes.compareTool)}
-          list={state.blockProducers}
+          list={state.blockProducers.data}
           selected={state.selectedProducers || []}
           onHandleVote={() => sendVoteBps(state.selectedProducers || [])}
           userInfo={state.user}
@@ -230,7 +210,7 @@ const AllBps = () => {
         // justifyContent='center'
         // spacing={isDesktop ? 4 : 1}
       >
-        {(state.blockProducers || []).map(blockProducer => (
+        {(state.blockProducers.data || []).map(blockProducer => (
           <Box
             // item
             // xs={12}
@@ -294,7 +274,7 @@ const AllBps = () => {
         <CompareTool
           removeBP={handleToggleSelected}
           className={classes.compareTool}
-          list={state.blockProducers}
+          list={state.blockProducers.data}
           selected={state.selectedProducers || []}
           onHandleVote={() => sendVoteBps(state.selectedProducers || [])}
           userInfo={state.user}
@@ -304,12 +284,17 @@ const AllBps = () => {
           handleOnClear={handleOnClear}
         />
       </SelectedBpsBottomSheet>
-      <Button
-        className={classes.loadMoreButton}
-        onClick={() => hasMore && loadMore()}
-      >
-        {t('loadMore')}
-      </Button>
+      <Box className={classes.loadMoreBtnBox}>
+        <Button
+          disabled={!hasMoreRows}
+          className={classes.loadMoreButton}
+          onClick={() => hasMoreRows && loadMore()}
+          variant='outlined'
+          color={'primary'}
+        >
+          {t('loadMore')}
+        </Button>
+      </Box>
     </Box>
   )
 }

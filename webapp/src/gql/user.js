@@ -24,3 +24,15 @@ export const DELETE_USER_RATE = gql`
     }
   }
 `
+export const GET_RATING_BY_BP = gql`
+  query getRating($user: String, $bp: String) {
+    userRatings: user_ratings(
+      where: { _and: [{ user: { _eq: $user } }, { bp: { _eq: $bp } }] }
+    ) {
+      user
+      bp
+      ratings
+      tx_data
+    }
+  }
+`

@@ -114,7 +114,7 @@ const PolarChart = ({
   }
 
   useEffect(() => {
-    console.log('check responsive', data)
+    // console.log('check responsive')
   }, [])
 
   return (

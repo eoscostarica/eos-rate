@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid'
 import Switch from '@mui/material/Switch'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 import { makeStyles } from '@mui/styles'
 import HelpOutline from '@mui/icons-material/HelpOutline'
 
@@ -52,7 +53,7 @@ const SliderRatingSection = ({
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <div className={classes.sliderWrapper}>
+        <Box className={classes.sliderWrapper}>
           <RateSlider
             disabled={!producer || !ratingState.communityEnabled}
             onChange={handleStateChange('community')}
@@ -65,10 +66,11 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
+            color='secondary'
             onChange={handleStateChange('communityEnabled')}
             checked={ratingState.communityEnabled}
           />
-        </div>
+        </Box>
       </Grid>
       <Grid item xs={12}>
         <Typography
@@ -87,7 +89,7 @@ const SliderRatingSection = ({
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <div className={classes.sliderWrapper}>
+        <Box className={classes.sliderWrapper}>
           <RateSlider
             disabled={!producer || !ratingState.developmentEnabled}
             onChange={handleStateChange('development')}
@@ -100,10 +102,11 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
+            color='secondary'
             onChange={handleStateChange('developmentEnabled')}
             checked={ratingState.developmentEnabled}
           />
-        </div>
+        </Box>
       </Grid>
       <Grid item xs={12}>
         <Typography
@@ -120,7 +123,7 @@ const SliderRatingSection = ({
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <div className={classes.sliderWrapper}>
+        <Box className={classes.sliderWrapper}>
           <RateSlider
             disabled={!producer || !ratingState.infraEnabled}
             onChange={handleStateChange('infra')}
@@ -133,10 +136,11 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
+            color='secondary'
             onChange={handleStateChange('infraEnabled')}
             checked={ratingState.infraEnabled}
           />
-        </div>
+        </Box>
       </Grid>
       <Grid item xs={12}>
         <Typography
@@ -155,7 +159,7 @@ const SliderRatingSection = ({
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <div className={classes.sliderWrapper}>
+        <Box className={classes.sliderWrapper}>
           <RateSlider
             disabled={!producer || !ratingState.transparencyEnabled}
             onChange={handleStateChange('transparency')}
@@ -168,10 +172,11 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
+            color='secondary'
             onChange={handleStateChange('transparencyEnabled')}
             checked={ratingState.transparencyEnabled}
           />
-        </div>
+        </Box>
       </Grid>
       <Grid item xs={12}>
         <Typography
@@ -188,7 +193,7 @@ const SliderRatingSection = ({
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <div className={classes.sliderWrapper}>
+        <Box className={classes.sliderWrapper}>
           <RateSlider
             disabled={!producer || !ratingState.trustinessEnabled}
             onChange={handleStateChange('trustiness')}
@@ -201,10 +206,11 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
+            color='secondary'
             onChange={handleStateChange('trustinessEnabled')}
             checked={ratingState.trustinessEnabled}
           />
-        </div>
+        </Box>
       </Grid>
     </Grid>
   )

@@ -137,7 +137,7 @@ const CompareTool = ({
         autoHideDuration={4000}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity='error'>
+        <Alert onClose={handleClose} severity='error' className={classes.alert}>
           {message.txError}
         </Alert>
       </Snackbar>
@@ -146,7 +146,11 @@ const CompareTool = ({
         autoHideDuration={4000}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity='success'>
+        <Alert
+          onClose={handleClose}
+          severity='success'
+          className={classes.alert}
+        >
           {t('success')}
         </Alert>
       </Snackbar>

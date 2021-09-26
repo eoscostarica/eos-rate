@@ -1,7 +1,7 @@
-// import getRgbColorsFromHex from './get-rgb-colors-from-hex'
+import getRgbColorsFromHex from './get-rgb-colors-from-hex'
 
 export default ({ name, parameters }) => {
-  // const { r, g, b } = getRgbColorsFromHex(name)
+  const { r, g, b } = getRgbColorsFromHex(name)
 
   return {
     // label: name,
@@ -11,7 +11,7 @@ export default ({ name, parameters }) => {
     // borderJoinStyle: 'round',
     // backgroundColor: `rgba(${r}, ${g}, ${b}, .6)`,
     // borderColor: `rgba(${r}, ${g}, ${b}, .6)`,
-    // pointBackgroundColor: `rgba(${r}, ${g}, ${b}, .6)`,
+    color: `rgba(${r}, ${g}, ${b}, .6)`,
     // pointBorderColor: '#fff',
     // pointHoverBackgroundColor: '#fff',
     // pointHoverBorderColor: `rgba(${r}, ${g}, ${b}, 1)`,

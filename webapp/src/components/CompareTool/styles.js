@@ -224,5 +224,6 @@ export default theme => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'space-between'
-  }
+  },
+  alert: { width: '100%' }
 })

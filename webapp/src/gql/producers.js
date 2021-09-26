@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_BLOCK_PRODUCERS = gql`
-  query blockProducers {
+  query blockProducers($limit: Int = 15) {
     info: producers_list_aggregate(
       where: { system: { _contains: { is_active: 1 } } }
     ) {
@@ -11,7 +11,7 @@ export const GET_BLOCK_PRODUCERS = gql`
     }
     list: producers_list(
       where: { system: { _contains: { is_active: 1 } } }
-      limit: 15
+      limit: $limit
       order_by: [{ bpjson: desc }, { total_votes: desc }]
     ) {
       owner
@@ -74,6 +74,21 @@ export const GET_PRODUCER_BY_PRODUCER_LIST = gql`
       general_info
       eden_average
       eden_ratings_cntr
+    }
+  }
+`
+
+export const GET_EDEN_RATING = gql`
+  query getEdenRating($bp: String) {
+    edenRatingsStats: eden_ratings_stats(where: { bp: { _eq: $bp } }) {
+      bp
+      average
+      ratings_cntr
+      infrastructure
+      transparency
+      trustiness
+      development
+      community
     }
   }
 `

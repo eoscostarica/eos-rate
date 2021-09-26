@@ -1,6 +1,6 @@
 export default theme => ({
   // index style
-  root: {
+  rootBP: {
     position: 'relative',
     maxWidth: '100%'
   },
@@ -17,7 +17,6 @@ export default theme => ({
     color: theme.palette.primary.main
   },
   wrapper: {
-    // padding: theme.spacing(1),
     maxWidth: '100%'
   },
   cardWrapper: {
@@ -40,8 +39,12 @@ export default theme => ({
   bpCard: {
     backgroundColor: theme.palette.primary.light
   },
+  loadMoreBtnBox: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: theme.spacing(2, 0)
+  },
   loadMoreButton: {
-    color: '#443f56',
     display: 'block',
     margin: `${theme.spacing(2)}px auto`,
     '&:hover': {
@@ -226,7 +229,7 @@ export default theme => ({
     zIndex: 999,
     maxWidth: '100%',
     '& > button': {
-      backgroundColor: 'black',
+      backgroundColor: theme.palette.common.black,
       color: 'white',
       borderRadius: '24px 0 0 0'
     }
@@ -281,5 +284,9 @@ export default theme => ({
     '& .MuiAlert-icon': {
       alignItems: 'center'
     }
+  },
+  linkRate: {
+    marginLeft: `${theme.spacing(2)} !important`, // !isDesktop ? 16 : 0,
+    padding: `${theme.spacing(1, 2)} !important`
   }
 })

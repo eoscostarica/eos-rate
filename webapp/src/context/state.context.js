@@ -1,17 +1,21 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import getBpDataModeled from '../utils/modeled-bp-data'
 import getProxyDataModeled from '../utils/modeled-proxy-data'
 
-import { getProxies, getUserDataModeled } from './models'
+import {
+  getProxies,
+  getUserDataModeled,
+  getProducers,
+  getProducer
+} from './models'
 
 const SharedStateContext = React.createContext()
 
 const initialValue = {
   useDarkMode: false,
   user: null,
-  blockProducers: [],
+  blockProducers: { data: [], rows: 0 },
   selectedProducers: [],
   blockProducer: null,
   compareBPToolVisible: false,
@@ -173,17 +177,17 @@ export const useSharedState = () => {
   }
 
   // Block Producers Action
-  const setProducers = producers => {
-    const blockProducers = producers.map(getBpDataModeled)
+  const setProducers = async limit => {
+    const blockProducers = await getProducers(limit)
+
+    // console.log({ test })
+
+    // const blockProducers = producers.map(getBpDataModeled)
 
     dispatch({ type: 'setProducers', blockProducers })
   }
-  const setProducer = (producer, isDataModeled = true) => {
-    let blockProducer = producer
-
-    if (!isDataModeled) {
-      blockProducer = getBpDataModeled(producer)
-    }
+  const setProducer = async account => {
+    const blockProducer = await getProducer(account)
 
     dispatch({ type: 'setProducer', blockProducer })
   }

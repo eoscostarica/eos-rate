@@ -33,7 +33,8 @@ export const getUserDataModeled = async ual => {
     data: { userRatings }
   } = await client.query({
     variables: { user: accountName },
-    query: GET_USER_RATING
+    query: GET_USER_RATING,
+    fetchPolicy: 'network-only'
   })
 
   const producers = _get(account, 'voter_info.producers', [])
@@ -47,7 +48,8 @@ export const getUserDataModeled = async ual => {
       variables: {
         producerList: listBPAccount
       },
-      query: GET_PRODUCER_BY_PRODUCER_LIST
+      query: GET_PRODUCER_BY_PRODUCER_LIST,
+      fetchPolicy: 'network-only'
     })
 
     userRates = userRatings.map(bpRated => {

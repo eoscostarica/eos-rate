@@ -1,8 +1,6 @@
 /* eslint-disable react/display-name */
 import React, { useState, useEffect, forwardRef, useRef } from 'react'
-import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { useLazyQuery } from '@apollo/client'
 import { Link, useParams } from 'react-router-dom'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Avatar from '@mui/material/Avatar'
@@ -19,11 +17,9 @@ import MuiAlert from '@mui/material/Alert'
 import { makeStyles } from '@mui/styles'
 import Box from '@mui/material/Box'
 
-import formatNumber from '../../utils/format-number'
 import TitlePage from '../../components/PageTitle'
 import PolarChart from '../../components/PolarChart'
 import getBPRadarData from '../../utils/get-bp-radar-data'
-import { GET_PRODUCER_BY_OWNER } from '../../gql'
 import { useSharedState } from '../../context/state.context'
 import { mainConfig } from '../../config'
 
@@ -48,36 +44,26 @@ const INIT_RATING_STATE_DATA = {
   txSuccess: false
 }
 
-const BlockProducerRate = ({ ual }) => {
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
+})
+
+const BlockProducerRate = () => {
+  const classes = useStyles()
+  const { account } = useParams()
+  const { t } = useTranslation('bpRatePage')
   const [state, { setProducer }] = useSharedState()
   const [ratingState, setRatingState] = useState(INIT_RATING_STATE_DATA)
-  // const [isNewRate, setIsNewRate] = useState(true)
-  const isNewRate = true
-  const [blockProducerLogo, setBlockProducerLogo] = useState(null) // ADD LOGO AS BP OBJECT PROPERTY
-  const [blockProducerTitle, setBlockProducerTitle] = useState('No Title') // SAME HERE
+  const [isRated, setIsRated] = useState(true)
+  const [blockProducerLogo, setBlockProducerLogo] = useState(null)
+  const [blockProducerTitle, setBlockProducerTitle] = useState('No Title')
+  const [polarChartData, setPolarChartData] = useState([])
   const [showMessage, setShowMessage] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
   const linkBack = useRef(null)
-  const { t } = useTranslation('bpRatePage')
-  const { account } = useParams()
-  const [getBlockProducerByOwner, { loading, data: { producer: bp } = {} }] =
-    useLazyQuery(GET_PRODUCER_BY_OWNER, { fetchPolicy: 'network-only' })
-
-  // delete this
-  const producer = {}
-  // const userRate = {}
-  const edenRate = {}
-  const user = {}
-  // const dispatch = useDispatch()
-  // const { producer, userRate, edenRate } = useSelector(
-  //   state => state.blockProducers
-  // )
-  // const { data: user } = useSelector(state => state.user)
-  const classes = useStyles()
-  const accountName = _get(ual, 'activeUser.accountName', null)
-  // const bpData = _get(producer, 'data', {})
   const [lastTransactionId, setLastTransactionId] = useState(undefined)
-  const isDesktop = useMediaQuery('(min-width:769px)')
+
+  // const isDesktop = useMediaQuery('(min-width:769px)')
   const isMobile = useMediaQuery('(max-width:767px)')
   // const [sizes, setSizes] = useState()
 
@@ -85,17 +71,9 @@ const BlockProducerRate = ({ ual }) => {
     setRatingState({ ...ratingState, [parameter]: value })
   }
 
-  console.log({ state })
-
-  // const bPLogo = _get(producer, 'bpjson.org.branding.logo_256', null)
-
-  useEffect(() => {
-    // setSizes(isDesktop ? 425 : '100%')
-  }, [isDesktop])
-
-  function Alert(props) {
-    return <MuiAlert elevation={6} variant='filled' {...props} />
-  }
+  // useEffect(() => {
+  //   // setSizes(isDesktop ? 425 : '100%')
+  // }, [isDesktop])
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -121,132 +99,72 @@ const BlockProducerRate = ({ ual }) => {
   }
 
   useEffect(() => {
-    const getData = async () => {
-      if (account) {
-        // dispatch.blockProducers.getBlockProducerByOwner(account)
-      }
-
-      if (accountName) {
-        // await dispatch.user.getUserChainData({ ual })
-
-        // dispatch.blockProducers.getBlockProducerRatingByOwner({
-        //   bp: account,
-        //   userAccount: accountName
-        // })
-        setShowMessage(false)
-      }
-    }
-
-    getData()
-  }, [accountName, account, ual, setShowMessage])
-
-  // useEffect(() => {
-  //   if (userRate) {
-  //     setRatingState({
-  //       ...ratingState,
-  //       community: accountName ? userRate.community : 1,
-  //       development: accountName ? userRate.development : 1,
-  //       infra: accountName ? userRate.infrastructure : 1,
-  //       transparency: accountName ? userRate.transparency : 1,
-  //       trustiness: accountName ? userRate.trustiness : 1
-  //     })
-  //     setIsNewRate(false)
-  //   } else {
-  //     setRatingState(INIT_RATING_STATE_DATA)
-  //     setIsNewRate(true)
-  //   }
-  // }, [userRate, accountName, setRatingState])
-
-  useEffect(() => {
     // dispatch.blockProducers.setShowSortSelected(false)
   }, [])
 
-  useEffect(() => {
-    if (user && user.edenMember) {
-      setShowAlert(false)
-    } else if (user && (user.hasProxy || user.producersCount >= 21)) {
-      setShowAlert(false)
-    } else {
-      user && setShowAlert(true)
-    }
-  }, [user, setShowAlert])
+  // useEffect(() => {
+  //   if (user && user.edenMember) {
+  //     setShowAlert(false)
+  //   } else if (user && (user.hasProxy || user.producersCount >= 21)) {
+  //     setShowAlert(false)
+  //   } else {
+  //     user && setShowAlert(true)
+  //   }
+  // }, [user, setShowAlert])
 
-  const getRatingData = (useString = false) => {
-    const {
-      community,
-      communityEnabled,
-      development,
-      developmentEnabled,
-      infra,
-      infraEnabled,
-      transparency,
-      transparencyEnabled,
-      trustiness,
-      trustinessEnabled
-    } = ratingState
+  // const getRatingData = (useString = false) => {
+  //   const {
+  //     community,
+  //     communityEnabled,
+  //     development,
+  //     developmentEnabled,
+  //     infra,
+  //     infraEnabled,
+  //     transparency,
+  //     transparencyEnabled,
+  //     trustiness,
+  //     trustinessEnabled
+  //   } = ratingState
 
-    if (useString) {
-      return {
-        community: formatNumber(communityEnabled ? community : 0, 0).toString(),
-        development: formatNumber(
-          developmentEnabled ? development : 0,
-          0
-        ).toString(),
-        infrastructure: formatNumber(infraEnabled ? infra : 0, 0).toString(),
-        transparency: formatNumber(
-          transparencyEnabled ? transparency : 0,
-          0
-        ).toString(),
-        trustiness: formatNumber(
-          trustinessEnabled ? trustiness : 0,
-          0
-        ).toString()
-      }
-    }
+  //   if (useString) {
+  //     return {
+  //       community: formatNumber(communityEnabled ? community : 0, 0).toString(),
+  //       development: formatNumber(
+  //         developmentEnabled ? development : 0,
+  //         0
+  //       ).toString(),
+  //       infrastructure: formatNumber(infraEnabled ? infra : 0, 0).toString(),
+  //       transparency: formatNumber(
+  //         transparencyEnabled ? transparency : 0,
+  //         0
+  //       ).toString(),
+  //       trustiness: formatNumber(
+  //         trustinessEnabled ? trustiness : 0,
+  //         0
+  //       ).toString()
+  //     }
+  //   }
 
-    return {
-      community: communityEnabled ? community : 0,
-      development: developmentEnabled ? development : 0,
-      infrastructure: infraEnabled ? infra : 0,
-      transparency: transparencyEnabled ? transparency : 0,
-      trustiness: trustinessEnabled ? trustiness : 0
-    }
-  }
+  //   return {
+  //     community: communityEnabled ? community : 0,
+  //     development: developmentEnabled ? development : 0,
+  //     infrastructure: infraEnabled ? infra : 0,
+  //     transparency: transparencyEnabled ? transparency : 0,
+  //     trustiness: trustinessEnabled ? trustiness : 0
+  //   }
+  // }
 
-  const userDataSet = getBPRadarData({
-    name: t('myRate'),
-    parameters: getRatingData()
+  const getRatingData = rate => ({
+    community: parseFloat(rate.community || 0),
+    development: parseFloat(rate.development || 0),
+    infrastructure: parseFloat(rate.development || 0),
+    transparency: parseFloat(rate.transparency || 0),
+    trustiness: parseFloat(rate.trustiness || 0)
   })
-
-  const getEdenRatingData = () => {
-    if (edenRate) {
-      return {
-        community: edenRate.community,
-        development: edenRate.development,
-        infrastructure: edenRate.development,
-        transparency: edenRate.transparency,
-        trustiness: edenRate.trustiness
-      }
-    }
-    return {
-      community: 0,
-      development: 0,
-      infrastructure: 0,
-      transparency: 0,
-      trustiness: 0
-    }
-  }
-
-  const edenDataSet = getBPRadarData({
-    name: t('edenRates'),
-    parameters: getEdenRatingData()
-  })
-
-  console.log({ edenDataSet, userDataSet })
 
   const transact = async () => {
     try {
-      if (!accountName) {
+      if (!state.user.accountName) {
         setShowMessage(true)
 
         return
@@ -257,13 +175,17 @@ const BlockProducerRate = ({ ual }) => {
           {
             authorization: [
               {
-                actor: accountName,
+                actor: state.user.accountName,
                 permission: 'active'
               }
             ],
             account: mainConfig.contract,
             name: 'rate',
-            data: { user: accountName, bp: account, ...getRatingData(true) }
+            data: {
+              user: state.user.accountName,
+              bp: account,
+              ...getRatingData(true)
+            }
           }
         ]
       }
@@ -275,7 +197,7 @@ const BlockProducerRate = ({ ual }) => {
         txSuccess: false
       })
 
-      const result = await ual.activeUser.signTransaction(transaction, {
+      const result = await state.ual.activeUser.signTransaction(transaction, {
         broadcast: true
       })
 
@@ -311,55 +233,82 @@ const BlockProducerRate = ({ ual }) => {
     }
   }
 
-  useEffect(() => {
-    if (loading || !bp) {
-      return
-    }
+  const setProfileData = (bp, userDataSet) => {
+    const edenDataSet = getBPRadarData({
+      name: t('edenRates'),
+      parameters: getRatingData(bp.edenRate)
+    })
 
-    setProducer(bp[0])
     setBlockProducerTitle(
       `${t('title')} ${
-        _get(bp[0], 'bpjson.org.candidate_name') ||
-        _get(bp[0], 'system.owner', t('noBlockProducer'))
+        _get(bp, 'bpjson.org.candidate_name') ||
+        _get(bp, 'system.owner', t('noBlockProducer'))
       } - EOS Rate`
     )
-    setBlockProducerLogo(_get(bp[0], 'bpjson.org.branding.logo_256', null))
-  }, [loading, bp])
+    setBlockProducerLogo(_get(bp, 'bpjson.org.branding.logo_256', null))
+    setPolarChartData([
+      { ...bp.data, name: t('eosRates') },
+      edenDataSet,
+      userDataSet
+    ])
+  }
 
   useEffect(() => {
     const getBpData = async () => {
-      if (state.blockProducer && state.blockProducer.owner === account) {
+      if (state.blockProducers.data.length) {
         // TODO: do a double check if this is necessary
-
-        setBlockProducerTitle(
-          `${t('title')} ${
-            _get(bp[0], 'bpjson.org.candidate_name') ||
-            _get(bp[0], 'system.owner', t('noBlockProducer'))
-          } - EOS Rate`
+        const bp = state.blockProducers.data.find(
+          ({ owner }) => owner === account
         )
-        setBlockProducerLogo(_get(bp[0], 'bpjson.org.branding.logo_256', null))
+
+        setProfileData(bp, {})
 
         return
       }
 
-      if (state.blockProducers.length) {
-        // TODO: do a double check if this is necessary
-        const bp = state.blockProducers.find(({ owner }) => owner === account)
-
-        setProducer(bp, false)
-
-        return
-      }
-
-      await getBlockProducerByOwner({
-        variables: {
-          account
-        }
-      })
+      await setProducer(account)
     }
 
     getBpData()
   }, [account])
+
+  useEffect(() => {
+    if (state.user && state.blockProducer) {
+      const { userRates = [] } = state.user.userData
+      const bpRated = userRates.find(
+        rate => rate.owner === state.blockProducer.owner
+      )
+      const parameters = getRatingData(bpRated.ratings)
+      const userDataSet = getBPRadarData({
+        name: t('myRate'),
+        parameters: getRatingData(bpRated.ratings)
+      })
+
+      console.log({ parameters })
+
+      if (
+        state.user.userData.edenMember ||
+        state.user.userData.hasProxy ||
+        state.user.userData.producersCount >= 21
+      ) {
+        setShowAlert(false)
+      } else {
+        setShowAlert(true)
+      }
+
+      setProfileData(state.blockProducer, userDataSet)
+      setIsRated(!!bpRated)
+      setRatingState({ ...INIT_RATING_STATE_DATA, ...parameters })
+    }
+  }, [state.user, state.blockProducer])
+
+  // useEffect(() => {
+  //   if (state.blockProducer) {
+  //     setProfileData(state.blockProducer)
+  //   }
+  // }, [state.blockProducer])
+
+  console.log({ state })
 
   return (
     <Grid container justifyContent='center' className={classes.container}>
@@ -381,17 +330,21 @@ const BlockProducerRate = ({ ual }) => {
             {t('allBPs')}
           </Button>
           <Button
-            style={{ marginLeft: !isDesktop ? 16 : 0, padding: '6px 16px' }}
+            className={classes.linkRate}
             component={forwardRef((props, ref) => (
               <Link
                 {...props}
                 ref={ref}
-                to={`/block-producers/${_get(producer, 'owner', account)}`}
+                to={`/block-producers/${_get(
+                  state.blockProducer,
+                  'owner',
+                  account
+                )}`}
               />
             ))}
           >
             <KeyboardArrowLeft />
-            {_get(producer, 'owner', account)}
+            {_get(state.blockProducer, 'owner', account)}
           </Button>
         </Grid>
       </Grid>
@@ -406,8 +359,8 @@ const BlockProducerRate = ({ ual }) => {
               <AccountCircle className={classes.accountCircle} />
             )}
             <Typography variant='h6' className={classes.bpName}>
-              {_get(producer, 'bpjson.org.candidate_name') ||
-                _get(producer, 'system.owner', t('noBlockProducer'))}
+              {_get(state.blockProducer, 'bpjson.org.candidate_name') ||
+                _get(state.blockProducer, 'system.owner', t('noBlockProducer'))}
             </Typography>
           </Box>
         </Grid>
@@ -419,28 +372,18 @@ const BlockProducerRate = ({ ual }) => {
             <Typography paragraph> {t('subText')} </Typography>
             <Typography paragraph> {t('helpText')} </Typography>
             <Typography paragraph> {t('rateText')} </Typography>
+
             {isMobile && (
               <Grid style={{ paddingTop: 20 }} item xs={12}>
-                {/* <Radar
-                  height={sizes}
-                  width={sizes}
-                  showLabel
-                  bpData={{
-                    datasets: [
-                      { ...bpData, label: t('globalRate') },
-                      edenDataSet,
-                      userDataSet
-                    ]
-                  }}
-                /> */}
-                <PolarChart />
+                <PolarChart data={polarChartData} />
               </Grid>
             )}
+
             <SliderRatingSection
               t={t}
               handleStateChange={handleStateChange}
               ratingState={ratingState}
-              producer={producer}
+              producer={state.blockProducer}
             />
             <Grid
               className={classNames(classes.ctasWrapper, classes.showOnlyLg)}
@@ -472,27 +415,35 @@ const BlockProducerRate = ({ ual }) => {
                     {ratingState.txError}
                   </Alert>
                 </Snackbar>
-                <Button disabled={!producer} variant='contained' size='small'>
+                <Button
+                  disabled={!state.blockProducer}
+                  variant='contained'
+                  size='small'
+                >
                   {t('cancelRatingButton')}
                 </Button>
                 <Link
                   ref={linkBack}
                   style={{ display: 'none' }}
-                  to={`/block-producers/${_get(producer, 'owner', null)}`}
+                  to={`/block-producers/${_get(
+                    state.blockProducer,
+                    'owner',
+                    null
+                  )}`}
                   state={{ transactionId: lastTransactionId }}
                 />
                 <Button
                   className='textPrimary'
-                  disabled={showAlert || !producer || ratingState.processing}
+                  disabled={
+                    showAlert || !state.blockProducer || ratingState.processing
+                  }
                   color='secondary'
                   onClick={transact}
                   size='small'
                   style={{ margin: '0 10px' }}
                   variant='contained'
                 >
-                  {isNewRate
-                    ? t('publishRatingButton')
-                    : t('updateRatingButton')}
+                  {isRated ? t('updateRatingButton') : t('publishRatingButton')}
                 </Button>
               </Grid>
             </Grid>
@@ -505,21 +456,10 @@ const BlockProducerRate = ({ ual }) => {
             >
               {!isMobile && (
                 <Grid className={classes.radarWrapper} item xs={12}>
-                  {/* <Radar
-                    height={sizes}
-                    width={sizes}
-                    showLabel
-                    bpData={{
-                      datasets: [
-                        { ...bpData, label: t('globalRate') },
-                        edenDataSet,
-                        userDataSet
-                      ]
-                    }}
-                  /> */}
-                  <PolarChart />
+                  <PolarChart data={polarChartData} />
                 </Grid>
               )}
+
               <Grid
                 className={classNames(classes.ctasWrapper, classes.showOnlySm)}
                 item
@@ -554,12 +494,16 @@ const BlockProducerRate = ({ ual }) => {
                     <CircularProgress color='secondary' size={20} />
                   )}
                   <Button
-                    disabled={!producer}
+                    disabled={!state.blockProducer}
                     component={forwardRef((props, ref) => (
                       <Link
                         {...props}
                         ref={ref}
-                        to={`/block-producers/${_get(producer, 'owner', null)}`}
+                        to={`/block-producers/${_get(
+                          state.blockProducer,
+                          'owner',
+                          null
+                        )}`}
                       />
                     ))}
                     variant='contained'
@@ -569,16 +513,20 @@ const BlockProducerRate = ({ ual }) => {
                   </Button>
                   <Button
                     className='textPrimary'
-                    disabled={showAlert || !producer || ratingState.processing}
+                    disabled={
+                      showAlert ||
+                      !state.blockProducer ||
+                      ratingState.processing
+                    }
                     color='secondary'
                     onClick={transact}
                     size='small'
                     style={{ margin: '0 10px' }}
                     variant='contained'
                   >
-                    {isNewRate
-                      ? t('publishRatingButton')
-                      : t('updateRatingButton')}
+                    {isRated
+                      ? t('updateRatingButton')
+                      : t('publishRatingButton')}
                   </Button>
                 </Grid>
               </Grid>
@@ -595,10 +543,6 @@ const BlockProducerRate = ({ ual }) => {
       </Grid>
     </Grid>
   )
-}
-
-BlockProducerRate.propTypes = {
-  ual: PropTypes.object
 }
 
 export default BlockProducerRate

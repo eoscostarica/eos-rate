@@ -27,7 +27,9 @@ const RateSlider = styled(Slider)({
     background: 'transparent',
     '& *': {
       background: 'transparent',
-      color: '#000'
+      color: '#000',
+      fontSize: 12,
+      fontWeight: '400'
     }
   },
   '& .MuiSlider-track': {

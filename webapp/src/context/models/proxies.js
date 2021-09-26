@@ -6,7 +6,8 @@ export const getProxies = async () => {
     data: { proxies }
   } = await client.query({
     variables: {},
-    query: GET_PROXIES
+    query: GET_PROXIES,
+    fetchPolicy: 'network-only'
   })
 
   const promiseResolved = await Promise.all(
@@ -15,7 +16,8 @@ export const getProxies = async () => {
         variables: {
           producerList: voterInfo.producers
         },
-        query: GET_PRODUCER_BY_PRODUCER_LIST
+        query: GET_PRODUCER_BY_PRODUCER_LIST,
+        fetchPolicy: 'network-only'
       })
     })
   )
