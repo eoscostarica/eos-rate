@@ -47,7 +47,8 @@ const getBlockProducersData = async () => {
       {
         owner: producer.owner,
         system: { ...producer },
-        bpJson: {}
+        bpJson: {},
+        candidateName: null
       }
     ]
   }, [])
@@ -65,6 +66,9 @@ const getBlockProducersData = async () => {
       })
       if (bp['producer_account_name'] && bp['producer_account_name'] !== '') {
         producer['bpJson'] = bp
+        producer['candidateName'] = bp.org
+          ? (bp.org.candidate_name || '').toLowerCase()
+          : null
         producersBPJSON.push(producer)
       }
     } catch (err) {
@@ -83,8 +87,8 @@ const updateBlockProducersData = async () => {
   const producersData = await getBlockProducersData()
 
   producersData.forEach(async (bp) => {
-    const { owner, system, bpJson: bpjson } = bp
-    const bpData = { owner, system, bpjson }
+    const { owner, system, bpJson: bpjson, candidateName } = bp
+    const bpData = { owner, system, bpjson, candidate_name: candidateName }
 
     try {
       const saveBPResult = await (await massiveDB).producers.save(bpData)

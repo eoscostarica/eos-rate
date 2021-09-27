@@ -1,12 +1,10 @@
-import React from 'react'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/styles'
+import React, { memo } from 'react'
+import Typography from '@mui/material/Typography'
+import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
-import Grid from '@material-ui/core/Grid'
-import Box from '@material-ui/core/Box'
-import classNames from 'classnames'
+import Box from '@mui/material/Box'
 
-import TitlePage from 'components/title-page'
+import TitlePage from '../../components/PageTitle'
 
 import styles from './styles'
 
@@ -19,16 +17,9 @@ const About = () => {
   return (
     <Box>
       <TitlePage title={t('tabTitle')} />
-      <Grid container direction='column'>
-        <Grid item xs>
-          <Grid
-            container
-            direction='column'
-            className={classNames(
-              classes.wrapperContainers,
-              classes.firstContainer
-            )}
-          >
+      <Box>
+        <Box className={classes.firstContainer}>
+          <Box className={classes.wrapperContainers}>
             <Typography variant='h5'>{t('title')}</Typography>
             <Typography variant='h6'>{t('subtitle1')}</Typography>
             <Typography variant='body2' align='justify' paragraph>
@@ -40,18 +31,11 @@ const About = () => {
             <Typography variant='body2' align='justify' paragraph>
               {t('body1.paragraph3')}
             </Typography>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
 
-        <Grid item xs>
-          <Grid
-            container
-            direction='column'
-            className={classNames(
-              classes.wrapperContainers,
-              classes.lastContainer
-            )}
-          >
+        <Box className={classes.lastContainer}>
+          <Box className={classes.wrapperContainers}>
             <Typography variant='h6'>{t('subtitle2')}</Typography>
             <Typography variant='body2' align='justify' paragraph>
               {t('body2.paragraph1')}
@@ -62,18 +46,11 @@ const About = () => {
             <Typography variant='body2' align='justify' paragraph>
               {t('body2.paragraph3')}
             </Typography>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
 
-        <Grid item xs>
-          <Grid
-            container
-            direction='column'
-            className={classNames(
-              classes.wrapperContainers,
-              classes.middleContainer
-            )}
-          >
+        <Box className={classes.middleContainer}>
+          <Box className={classes.wrapperContainers}>
             <Typography variant='h6'>{t('subtitle3')}</Typography>
             <Typography variant='body2' align='justify' paragraph>
               {t('body3.paragraph1')}
@@ -126,11 +103,11 @@ const About = () => {
               src='/EOS-Rate-Infographic.jpg'
               alt='EOS block producer ratings'
             />
-          </Grid>
-        </Grid>
-      </Grid>
+          </Box>
+        </Box>
+      </Box>
     </Box>
   )
 }
 
-export default About
+export default memo(About)

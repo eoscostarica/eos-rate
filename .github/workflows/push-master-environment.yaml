@@ -42,8 +42,8 @@ jobs:
           BRANCH: production
           NAMESPACE: mainnet-eosrate
           # webapp
+          REACT_APP_VERSION: ${{ github.ref }}
           REACT_APP_RATING_CONTRACT: rateproducer
-          REACT_APP_PROXY_CONTRACT: regproxyinfo
           REACT_APP_MAINNET_VERSION: true
           REACT_APP_EDEN_CONTRACT: genesis.eden
           REACT_APP_GRAPHQL_HTTP_URL: https://graphql.eosrate.io/v1/graphql

@@ -14,7 +14,9 @@
     "btnVoteBPs": "Vote",
     "clearSelection": "Clear selection",
     "loadMore": "Load more",
-    "view": "More info",
+    "view": "MORE",
+    "rate": "RATE",
+    "updateRatingButton": "UPDATE RATING",
     "remove": "Remove vote",
     "addToVote": "Add to vote",
     "selected": "Selected",
@@ -52,19 +54,20 @@
     "notFound": "Not found",
     "noBpJson": "No BP.json file provided.",
 
-    "drawerLinkHome": "Home",
-    "drawerLinkAllBPs": "Block Producers",
-    "drawerLinkNetworkMonitor": "EOS Network Monitor",
-    "drawerLinkSettings": "Settings",
-    "drawerLinkAccount": "Account",
-    "drawerLinkAllProxies": "Proxies",
-    "drawerLinkAbout": "About",
-    "drawerLinkRicardianContract": "Ricardian Contract",
-    "drawerLinkHelp": "Help",
+    "home": "Home",
+    "myAccount": "My Account",
+    "blockProducers": "Block Producers",
+    "networkMonitor": "EOS Network Monitor",
+    "settings": "Settings",
+    "account": "Account",
+    "proxies": "Proxies",
+    "about": "About",
+    "ricardianContract": "Ricardian Contract",
+    "help": "Help",
     "lockedRating": "You must vote for at least 21 block producers or a proxy to unlock ratings",
     "edenMemberMessage": "Eden member. Ratings unlocked.",
     "unlockedRating": "You have voted for 21 bps or a proxy and have unlocked ratings",
-    "success" : "Success!",
+    "success": "Success!",
     "appBarSignIn": "Sign In",
 
     "connecting": "Connecting",
@@ -74,7 +77,8 @@
 
     "hideComparisonTool": "Hide comparison tool",
     "showComparisonTool": "Show comparison tool",
-    "language": "language"
+    "language": "language",
+    "version": "Version"
   },
 
   "sortInput": {
@@ -162,7 +166,7 @@
     "community": "Community",
     "development": "Development",
     "voteWithoutLogin": "You need to login to execute this action",
-    "success" : "Success!"
+    "success": "Success!"
   },
 
   "bpRatePage": {
@@ -189,7 +193,7 @@
     "edenRates": "Eden Rating",
     "rateWithoutLogin": "You need to login to rate this block producer",
     "noBlockProducer": "This BP Does Not Exist.",
-    "success" : "Success!",
+    "success": "Success!",
     "title": "Rate EOS Block Producer Infrastructure and Community Reputation",
     "infoMessage": "Support the network by voting for your favorite BPs or proxy, once you have voted for 21 BPs you can start rating."
   },
@@ -202,8 +206,14 @@
     "generalInformation": "General Information",
     "eosRates": "General Rating",
     "edenRates": "Eden Rating",
+    "raters": "Raters",
+    "amount": "Ratings",
     "rankings": "Rankings",
     "social": "Social",
+    "additionalResource": "Additional Resources",
+    "researchPortal": "EOS Block Producer Research Portal",
+    "bpValidator": "Block Producer Validator",
+    "bpInterviews": "Block Producer Interviews",
     "account": "Account",
     "location": "Location",
     "status": "Status",
@@ -213,6 +223,7 @@
     "average": "Average",
     "websiteInfo": "From Their Website",
     "buttonRate": "Rate this BP",
+    "updateRatingButton": "Update Rating",
     "buttonVote": "Vote for this Proxy",
     "allBP": "All Block Producers",
     "allP": "All Proxies",
@@ -227,7 +238,7 @@
     "totalVotes": "Total Votes",
     "voteWithoutLogin": "You need to login to vote for this proxy",
     "labelTool": "votes for",
-    "success" : "Success!",
+    "success": "Success!",
     "title": "Block Producer Community Ratings for",
     "proxyProfile": "Reviews on EOS proxy account",
     "interview": "BP interview:",
