@@ -102,16 +102,6 @@ const BlockProducerRate = () => {
     // dispatch.blockProducers.setShowSortSelected(false)
   }, [])
 
-  // useEffect(() => {
-  //   if (user && user.edenMember) {
-  //     setShowAlert(false)
-  //   } else if (user && (user.hasProxy || user.producersCount >= 21)) {
-  //     setShowAlert(false)
-  //   } else {
-  //     user && setShowAlert(true)
-  //   }
-  // }, [user, setShowAlert])
-
   // const getRatingData = (useString = false) => {
   //   const {
   //     community,
@@ -299,12 +289,6 @@ const BlockProducerRate = () => {
       setRatingState({ ...INIT_RATING_STATE_DATA, ...parameters })
     }
   }, [state.user, state.blockProducer])
-
-  // useEffect(() => {
-  //   if (state.blockProducer) {
-  //     setProfileData(state.blockProducer)
-  //   }
-  // }, [state.blockProducer])
 
   return (
     <Grid container justifyContent='center' className={classes.container}>

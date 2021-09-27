@@ -75,13 +75,12 @@ const HomeCover = () => {
           </Typography>
           <Box className={classes.ctaContainer}>
             <Button
-              className={classes.btn}
+              className={classes.btnMobile}
               component={bpLink}
               variant='contained'
               size='medium'
               color='secondary'
               to='/block-producers'
-              fullWidth
             >
               {t('cover.cta')}
             </Button>

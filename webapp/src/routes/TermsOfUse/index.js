@@ -16,11 +16,13 @@ const TermsOfUse = () => {
 
   return (
     <Box className={classes.root}>
-      <TitlePage title={t('tabTitle')} />
-      <RicardianContract
-        contractName={mainConfig.contract}
-        httpEndpoint='https://api.eosio.cr'
-      />
+      <Box className={classes.wrapper}>
+        <TitlePage title={t('tabTitle')} />
+        <RicardianContract
+          contractName={mainConfig.contract}
+          httpEndpoint='https://api.eosio.cr'
+        />
+      </Box>
     </Box>
   )
 }

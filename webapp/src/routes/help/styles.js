@@ -1,15 +1,18 @@
 export default theme => ({
   wrapperContainers: {
     color: '#433F5B',
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
     padding: theme.spacing(6, 2),
     '& h6': {
       marginBottom: theme.spacing(1)
-    },
-    [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing(6, 4)
     }
   },
   firstContainer: {
+    maxWidth: 1024,
+    width: '100%',
+
     '& h5': {
       fontSize: theme.typography.h4.fontSize,
       marginBottom: 12.5

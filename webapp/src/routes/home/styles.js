@@ -54,7 +54,8 @@ export default theme => ({
     textAlign: 'center',
     display: 'none',
     [theme.breakpoints.up('md')]: {
-      display: 'flex'
+      display: 'flex',
+      justifyContent: 'center'
     }
   },
   chartContainer: {

@@ -75,11 +75,8 @@ const BlockProducerProfile = () => {
   const { account } = useParams()
   const classes = useStyles()
   const [state, { setProducer }] = useSharedState()
-  // const isDesktop = useMediaQuery('(min-width:767px)')
   const isMobile = useMediaQuery('(max-width:768px)')
-  // const history = useHistory()
-  // const [sizes, setSizes] = useState()
-  const [isRated, setIsRated] = useState(true)
+  const [isRated, setIsRated] = useState(false)
   const [bpHasInformation, setBpHasInformation] = useState(false)
   const [blockProducerLogo, setBlockProducerLogo] = useState(null)
   const [webInfo, setWebInfo] = useState(null)
@@ -87,7 +84,7 @@ const BlockProducerProfile = () => {
   const [blockProducerTitle, setBlockProducerTitle] = useState('No Title')
   const [open, setOpen] = useState(false)
 
-  const location = { state: { transactionId: 12 } } /// ojo this
+  const location = { state: { transactionId: 12 } } /// Check this logic
 
   const getRatingData = edenRate => ({
     community: edenRate.community || 0,
@@ -118,10 +115,6 @@ const BlockProducerProfile = () => {
     }
     setOpen(false)
   }
-
-  // useEffect(() => {
-  //   // setSizes(isDesktop ? 400 : '100%')
-  // }, [isDesktop])
 
   useEffect(() => {
     const getBpData = async () => {
@@ -208,7 +201,9 @@ const BlockProducerProfile = () => {
         </Grid>
         {!isMobile && (
           <Grid
-            style={{ borderRight: 'solid 1px rgba(0, 0, 0, 0.38)' }}
+            style={{
+              borderRight: 'solid 1px rgba(0, 0, 0, 0.38)'
+            }}
             item
             xs={12}
             md={6}
