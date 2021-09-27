@@ -156,32 +156,32 @@
         {
             "name": "rate",
             "type": "rate",
-            "ricardian_contract": "---\nspec-version: 0.1.0\ntitle: Rate a block producer\nsummary: The intent of the `{{ rate }}` action is to allow the `issuer` account to rate a blockproducer into five categories: Community, Development, Infraestructure, Transparency, Trustiness.\n---"
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Rate a block producer\nsummary: The intent of the `{{ rate }}` action is to allow the `issuer` account to rate a blockproducer into five categories: Community, Development, Infraestructure, Transparency, Trustiness.\n---"
         },
         {
             "name": "erase",
             "type": "erase",
-            "ricardian_contract": "---\nspec-version: 0.1.0\ntitle: Erase Block Producer Stats\nsummary: The intent of the `{{ erase }}` action is to provide a ways to clear all data related with a specific block producer.\n---"
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Erase Block Producer Stats\nsummary: The intent of the `{{ erase }}` action is to provide a ways to clear all data related with a specific block producer.\n---"
         },
         {
             "name": "wipe",
             "type": "wipe",
-            "ricardian_contract": "---\nspec-version: 0.1.0\ntitle: Wipe all contract's tables\nsummary: The intent of the `{{ wipe }}` action is to provide a way to release the stored data within the contract.\n---"
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Wipe all contract's tables\nsummary: The intent of the `{{ wipe }}` action is to provide a way to release the stored data within the contract.\n---"
         },
         {
             "name": "rminactive",
             "type": "rminactive",
-            "ricardian_contract": "---\nspec-version: 0.1.0\ntitle: Erase innactive Block Producer\nsummary: The intent of the `{{ rminactive }}` action is to provide a method to purge stats related with inactive block producers.\n---"
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Erase innactive Block Producer\nsummary: The intent of the `{{ rminactive }}` action is to provide a method to purge stats related with inactive block producers.\n---"
         },
         {
             "name": "rmrate",
             "type": "rmrate",
-            "ricardian_contract": "---\nspec-version: 0.1.0\ntitle: Remove a especific rate\nsummary: The intent of the `{{ rmrate }}` action is remove a rate made from an especific account.\n---"
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Remove a especific rate\nsummary: The intent of the `{{ rmrate }}` action is remove a rate made from an especific account.\n---"
         },
         {
             "name": "migrate",
             "type": "migrate",
-            "ricardian_contract": "---\nspec-version: 0.1.0\ntitle: Update the current logic to newest\nsummary: The intent of the `{{ migrate }}` action is to update the current logic to newest.\n---"
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Update the current logic to newest\nsummary: The intent of the `{{ migrate }}` action is to update the current logic to newest.\n---"
         }
     ],
     "tables": [

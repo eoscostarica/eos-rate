@@ -1,37 +1,37 @@
 namespace eoscostarica {
     // CONTRACTS
     const char* rate_ricardian = R"(---
-spec-version: 0.1.0
+spec_version: 0.1.0
 title: Rate a block producer
 summary: The intent of the `{{ rate }}` action is to allow the `issuer` account to rate a blockproducer into five categories: Community, Development, Infraestructure, Transparency, Trustiness.
 ---)";
 
     const char* erase_ricardian = R"(---
-spec-version: 0.1.0
+spec_version: 0.1.0
 title: Erase Block Producer Stats
 summary: The intent of the `{{ erase }}` action is to provide a ways to clear all data related with a specific block producer.
 ---)";
 
     const char* wipe_ricardian = R"(---
-spec-version: 0.1.0
+spec_version: 0.1.0
 title: Wipe all contract's tables
 summary: The intent of the `{{ wipe }}` action is to provide a way to release the stored data within the contract.
 ---)";
 
     const char* rminactive_ricardian = R"(---
-spec-version: 0.1.0
+spec_version: 0.1.0
 title: Erase innactive Block Producer
 summary: The intent of the `{{ rminactive }}` action is to provide a method to purge stats related with inactive block producers.
 ---)";
 
     const char* rmrate_ricardian = R"(---
-spec-version: 0.1.0
+spec_version: 0.1.0
 title: Remove a especific rate
 summary: The intent of the `{{ rmrate }}` action is remove a rate made from an especific account.
 ---)";
 
 const char* migrate_ricardian = R"(---
-spec-version: 0.1.0
+spec_version: 0.1.0
 title: Update the current logic to newest
 summary: The intent of the `{{ migrate }}` action is to update the current logic to newest.
 ---)";
