@@ -489,7 +489,7 @@ namespace eoscostarica {
                         &bp_average);
     }
 
-    void rateproducer::loadedens() {
+    void rateproducer::migrate() {
         config c = cfg.get_or_create(_self, config{.owner = _self, .version = 0});
         require_auth(c.owner);
 
@@ -532,6 +532,13 @@ namespace eoscostarica {
 
 EOSIO_ACTION_DISPATCHER(eoscostarica::actions)
 
-EOSIO_ABIGEN(actions(eoscostarica::actions),
-            table("ratings"_n, eoscostarica::ratings),
-            table("stats"_n, eoscostarica::stats))
+EOSIO_ABIGEN(
+    actions(eoscostarica::actions),
+    table("ratings"_n, eoscostarica::ratings),
+    table("stats"_n, eoscostarica::stats),
+    ricardian_clause("datastorage", eoscostarica::datastorage_clause),
+    ricardian_clause("datausage", eoscostarica::datausage_clause),
+    ricardian_clause("dataownership", eoscostarica::dataownership_clause),
+    ricardian_clause("datadistribution", eoscostarica::datadistribution_clause),
+    ricardian_clause("datafuture", eoscostarica::datafuture_clause)
+)

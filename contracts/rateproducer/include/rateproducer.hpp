@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <set>
 #include "utils.hpp"
+#include "../ricardian/rateproducer-ricardian.cpp"
 
 #define MINVAL 0
 #define MAXVAL 10
@@ -43,7 +44,7 @@ using eosio::public_key;
 */
 namespace eosio {
     constexpr name system_account{"eosio"_n};
-    constexpr name eden_account{"genesis.eden"_n};
+    constexpr name eden_account{"genesisdeden"_n};
     constexpr name eden_scope{"eden"_n};
 
     /*
@@ -233,17 +234,17 @@ namespace eosio {
 } // namespace eosio
 
 namespace eoscostarica {
-    extern const char* rate_ricardian;
-    extern const char* erase_ricardian;
-    extern const char* wipe_ricardian;
-    extern const char* rminactive_ricardian;
-    extern const char* rmrate_ricardian;
+    // extern const char* rate_ricardian;
+    // extern const char* erase_ricardian;
+    // extern const char* wipe_ricardian;
+    // extern const char* rminactive_ricardian;
+    // extern const char* rmrate_ricardian;
 
-    extern const char* datastorage_clause;
-    extern const char* datausage_clause;
-    extern const char* dataownership_clause;
-    extern const char* datadistribution_clause;
-    extern const char* datafuture_clause;
+    // extern const char* datastorage_clause;
+    // extern const char* datausage_clause;
+    // extern const char* dataownership_clause;
+    // extern const char* datadistribution_clause;
+    // extern const char* datafuture_clause;
 
     /*
     *   Stores the rate average stats for a block producer
@@ -569,19 +570,19 @@ namespace eoscostarica {
 
         /**
         *
-        *  Load existing eden member rates into rateproducer scope
+        *  Update the current logic to newest
         * 
         */ 
-        void loadedens();
+        void migrate();
     };
 
     EOSIO_ACTIONS(rateproducer,
                  "rateproducer"_n,
-                 action(rate, user, bp, transparency, infrastructure, trustiness, community, development),
-                 action(erase, bp_name),
-                 action(wipe),
-                 action(rminactive),
-                 action(rmrate, user, bp),
-                 action(loadedens))
+                 action(rate, user, bp, transparency, infrastructure, trustiness, community, development, ricardian_contract(rate_ricardian)),
+                 action(erase, bp_name, ricardian_contract(erase_ricardian)),
+                 action(wipe, ricardian_contract(wipe_ricardian)),
+                 action(rminactive, ricardian_contract(rminactive_ricardian)),
+                 action(rmrate, user, bp, ricardian_contract(rmrate_ricardian)),
+                 action(migrate, ricardian_contract(migrate_ricardian)))
                  
 } // namespace eoscostarica
