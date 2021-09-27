@@ -120,11 +120,16 @@ namespace eoscostarica {
         name scope,
         name user,
         name bp_name,
-        float transparency,
-        float infrastructure,
-        float trustiness,
-        float community,
-        float development) {
+        uint8_t transparency,
+        uint8_t infrastructure,
+        uint8_t trustiness,
+        uint8_t community,
+        uint8_t development) {
+        // transparency *= DECIMALS;
+        // infrastructure *= DECIMALS;
+        // trustiness *= DECIMALS;
+        // community *= DECIMALS;
+        // development *= DECIMALS;
         stats_table_v2 _stats(_self, scope.value);
         auto itr = _stats.find(bp_name.value);
         float counter = 0;

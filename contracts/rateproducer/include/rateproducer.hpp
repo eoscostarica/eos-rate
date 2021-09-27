@@ -320,12 +320,12 @@ namespace eoscostarica {
     struct stats_v2 {
         name bp;
         uint32_t ratings_cntr;
-        uint16_t average;
-        uint16_t transparency;
-        uint16_t infrastructure;
-        uint16_t trustiness;
-        uint16_t development;  
-        uint16_t community;
+        uint8_t average;
+        uint8_t transparency;
+        uint8_t infrastructure;
+        uint8_t trustiness;
+        uint8_t development;  
+        uint8_t community;
         uint64_t primary_key() const { return bp.value; }
     };
     EOSIO_REFLECT (
@@ -360,7 +360,6 @@ namespace eoscostarica {
         uint8_t community;
         uint64_t primary_key() const { return id; }
         uint128_t by_uniq_rating() const { return create_uniq_rating(user.value, bp.value); }
-        uint64_t by_user() const { return user.value; }
         uint64_t by_bp() const { return bp.value; }
     };
     EOSIO_REFLECT(
@@ -376,7 +375,6 @@ namespace eoscostarica {
     )
     typedef eosio::multi_index<"rating"_n, ratings2,
         indexed_by<"uniqrating"_n, const_mem_fun<ratings2, uint128_t, &ratings2::by_uniq_rating>>,
-        indexed_by<"user"_n, const_mem_fun<ratings2, uint64_t, &ratings2::by_user>>,
         indexed_by<"bp"_n, const_mem_fun<ratings2, uint64_t, &ratings2::by_bp>>
     > ratings_table_v2;
 
@@ -483,11 +481,11 @@ namespace eoscostarica {
             name scope,
             name user,
             name bp_name,
-            float transparency,
-            float infrastructure,
-            float trustiness,
-            float community,
-            float development);
+            uint8_t transparency,
+            uint8_t infrastructure,
+            uint8_t trustiness,
+            uint8_t community,
+            uint8_t development);
         
         /**
         *
