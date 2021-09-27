@@ -27,7 +27,7 @@ summary: The intent of the `{{ rminactive }}` action is to provide a method to p
     const char* rmrate_ricardian = R"(---
 spec_version: 0.1.0
 title: Remove a especific rate
-summary: The intent of the `{{ rmrate }}` action is remove a rate made from an especific account.
+summary: The intent of the `{{ rmrate }}` action is to remove a rate made from an especific account.
 ---)";
 
 const char* migrate_ricardian = R"(---
