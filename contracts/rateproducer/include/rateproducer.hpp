@@ -234,18 +234,6 @@ namespace eosio {
 } // namespace eosio
 
 namespace eoscostarica {
-    // extern const char* rate_ricardian;
-    // extern const char* erase_ricardian;
-    // extern const char* wipe_ricardian;
-    // extern const char* rminactive_ricardian;
-    // extern const char* rmrate_ricardian;
-
-    // extern const char* datastorage_clause;
-    // extern const char* datausage_clause;
-    // extern const char* dataownership_clause;
-    // extern const char* datadistribution_clause;
-    // extern const char* datafuture_clause;
-
     /*
     *   Stores the rate average stats for a block producer
     */    
