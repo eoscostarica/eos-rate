@@ -1,5 +1,5 @@
 export default props => ({
-  root: {
+  rootChip: {
     marginBottom: '8px !important',
     color: 'white !important',
     justifyContent: 'space-around !important',

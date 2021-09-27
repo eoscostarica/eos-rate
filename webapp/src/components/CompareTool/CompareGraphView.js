@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { makeStyles } from '@mui/styles'
-import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import LockOpenIcon from '@mui/icons-material/LockOpenOutlined'
@@ -10,7 +9,6 @@ import LockIcon from '@mui/icons-material/LockOutlined'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import Box from '@mui/material/Box'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTranslation } from 'react-i18next'
 import Switch from '@mui/material/Switch'
 import CloseIcon from '@mui/icons-material/Close'
@@ -31,7 +29,7 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
     const producers = _get(proxy, 'voter_info.producers', [])
 
     return (
-      <>
+      <Box className={classes.containerList}>
         {producers.map(producer => (
           <ProducerChipAvatar
             data={producer}
@@ -43,7 +41,7 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
             defaultName='P'
           />
         ))}
-      </>
+      </Box>
     )
   }
 
@@ -114,15 +112,6 @@ const CompareGraphView = ({
 }) => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
-  const isDesktop = useMediaQuery('(min-width:767px)')
-  // const mobileMedium = useMediaQuery('(min-height:711px)')
-  const [sizes, setSizes] = useState()
-
-  useEffect(() => {
-    setSizes(isDesktop ? 400 : '95%')
-  }, [isDesktop])
-
-  console.log({ sizes, selected })
 
   return (
     <Box className={classes.compareGraphView}>
@@ -141,104 +130,104 @@ const CompareGraphView = ({
           {t('voteToolDescription')}
         </Typography>
       </Box>
-
-      <Box className={classes.bodyModalView}>
-        <Box className={classes.topModalView}>
-          <PolarChart data={selected.map(({ data }) => ({ ...data }))} />
-          <Box className={classes.switchBox}>
-            <Box className={classes.centerBox}>
-              {isProxy && selected.length > 0 && (
-                <Grid container>
-                  <Grid item md={12} xs={12}>
-                    <Typography style={{ fontSize: '20px', fontWeight: 500 }}>
-                      {selected[0].name}
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    style={{ margin: '10px 0 10px 0' }}
-                    item
-                    md={12}
-                    xs={12}
+      <Box className={classes.wrapperDesktop}>
+        <Box className={classes.bodyModalView}>
+          <Box className={classes.topModalView}>
+            <Box className={classes.chartWrapper}>
+              <PolarChart data={selected.map(({ data }) => ({ ...data }))} />
+            </Box>
+            {isProxy && selected.length > 0 && (
+              <Box className={classes.proxyVote}>
+                <Typography style={{ fontSize: '20px', fontWeight: 500 }}>
+                  {selected[0].name}
+                </Typography>
+                <Box style={{ margin: '10px 0 10px 0' }}>
+                  <Button
+                    disabled={!userInfo.isUser}
+                    aria-label='Add to comparison'
+                    className={classes.btnRateProxies}
+                    variant='contained'
+                    onClick={onHandleVote}
                   >
-                    <Button
-                      disabled={!userInfo.isUser}
-                      aria-label='Add to comparison'
-                      className={classes.btnRateProxies}
-                      variant='contained'
-                      onClick={onHandleVote}
-                    >
-                      {t('voteToolToggle')}
-                    </Button>
-                  </Grid>
-                </Grid>
-              )}
-              {!isProxy && (
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={isCollapsedView}
-                      onChange={event =>
-                        setIsCollapsedView(event.target.checked)
-                      }
-                      value='isCollapsedView'
-                    />
-                  }
-                  label={t('compareToolCollapsedSwitch')}
+                    {t('voteToolToggle')}
+                  </Button>
+                </Box>
+              </Box>
+            )}
+            {!isProxy && (
+              <Box className={classes.switchBox}>
+                <Box className={classes.centerBox}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={isCollapsedView}
+                        color='secondary'
+                        onChange={event =>
+                          setIsCollapsedView(event.target.checked)
+                        }
+                        value='isCollapsedView'
+                      />
+                    }
+                    label={t('compareToolCollapsedSwitch')}
+                  />
+                </Box>
+              </Box>
+            )}
+
+            <Box className={classes.compareBodyListMobile}>
+              {selected.length > 0 ? (
+                <CompareBodyList
+                  isProxy={isProxy}
+                  selectedData={selected}
+                  classes={classes}
+                  removeBP={removeBP}
                 />
+              ) : (
+                <Box className={clsx(classes.centerBox, classes.noBPSelected)}>
+                  <Typography variant='subtitle2'>
+                    {t('noSelectedBP')}
+                  </Typography>
+                </Box>
               )}
             </Box>
           </Box>
-          <Box className={classes.compareBodyListMobile}>
-            {selected.length > 0 ? (
-              <CompareBodyList
-                isProxy={isProxy}
-                selectedData={selected}
-                classes={classes}
-                removeBP={removeBP}
-              />
-            ) : (
-              <Box className={clsx(classes.centerBox, classes.noBPSelected)}>
-                <Typography variant='subtitle2'>{t('noSelectedBP')}</Typography>
-              </Box>
-            )}
-          </Box>
+          {!isProxy && (
+            <Box className={classes.buttonsBox}>
+              <Button
+                className={classes.btnClear}
+                aria-label='Clear selection'
+                onClick={handleOnClear}
+              >
+                {t('clearSelection')}
+              </Button>
+              <Button
+                disabled={!userInfo.isUser}
+                aria-label='Add to comparison'
+                className={classes.btnRate}
+                variant='contained'
+                color='secondary'
+                onClick={onHandleVote}
+              >
+                {t('voteToolToggle')}
+              </Button>
+            </Box>
+          )}
         </Box>
-        {!isProxy && (
-          <Box className={classes.buttonsBox}>
-            <Button
-              className={classes.btnClear}
-              aria-label='Clear selection'
-              onClick={handleOnClear}
-            >
-              {t('clearSelection')}
-            </Button>
-            <Button
-              disabled={!userInfo.isUser}
-              aria-label='Add to comparison'
-              className={classes.btnRate}
-              variant='contained'
-              color='secondary'
-              onClick={onHandleVote}
-            >
-              {t('voteToolToggle')}
-            </Button>
-          </Box>
-        )}
-      </Box>
 
-      <Box className={classes.compareBodyListDesktop}>
-        {selected.length > 0 ? (
-          <CompareBodyList
-            isProxy={isProxy}
-            selectedData={selected}
-            classes={classes}
-            removeBP={removeBP}
-          />
-        ) : (
-          <Box className={classes.centerBox} style={{ marginTop: '20%' }}>
-            <Typography variant='h6'>{t('noSelectedBP')}</Typography>
-          </Box>
-        )}
+        <Box className={classes.compareBodyListDesktop}>
+          {selected.length > 0 ? (
+            <CompareBodyList
+              isProxy={isProxy}
+              selectedData={selected}
+              classes={classes}
+              removeBP={removeBP}
+            />
+          ) : (
+            <Box className={classes.centerBox} style={{ marginTop: '20%' }}>
+              <Typography variant='h6'>{t('noSelectedBP')}</Typography>
+            </Box>
+          )}
+        </Box>
       </Box>
     </Box>
   )

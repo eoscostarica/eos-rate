@@ -15,16 +15,38 @@ export default theme => ({
     background: theme.palette.surface.main,
     color: theme.palette.primary.main
   },
-  wrapper: {
-    padding: theme.spacing(1),
+  wrapperGrid: {
     maxWidth: '100%',
-    margin: 'auto'
+    margin: '0 auto'
+  },
+  gridRow: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+    justifyContent: 'center'
+  },
+  gridItem: {
+    flexBasis: '100%',
+    '-ms-flex': 'auto',
+    width: '100%',
+    position: 'relative',
+    padding: 10,
+    boxSizing: 'border-box',
+    [theme.breakpoints.up('sm')]: {
+      flexBasis: '50%'
+    },
+    [theme.breakpoints.up('md')]: {
+      flexBasis: '33.33%'
+    },
+    [theme.breakpoints.up('lg')]: {
+      flexBasis: '20%'
+    }
   },
   compareTool: {
-    minHeight: 340,
+    paddingTop: '0 !important',
     transform: 'scaleY(1)',
     transformOrigin: 'top',
     opacity: 1,
+    height: '100%',
     transition: [
       'opacity 0.25s ease',
       'height 0.25s ease',
@@ -164,12 +186,29 @@ export default theme => ({
     '&:after': { content: 'close-quote' }
   },
   reliefGrid: {
-    margin: '0 30px 30px 30px',
+    // margin: '0 30px 30px 30px',
     padding: '20px',
     border: '1px solid #f8f8f',
     borderRadius: '6px',
     boxShadow:
       'inset 2px 2px 2px #fff, inset -1px 0 2px rgba(0,0,0,.1), 1px 1px 3px rgba(0,0,0,.1)',
     backgroundColor: '#fff'
+  },
+  hiddenDesktop: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
+  },
+  hiddenMobile: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex'
+    }
+  },
+  loadMoreBtnBox: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: theme.spacing(2, 0)
   }
 })

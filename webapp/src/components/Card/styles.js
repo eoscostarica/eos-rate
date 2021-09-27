@@ -137,5 +137,15 @@ export default theme => ({
     fontSize: '16px !important',
     lineHeight: '28px !important',
     letterSpacing: '0.44px'
+  },
+  chartWrapper: {
+    '& .highcharts-container ': {
+      height: '400px !important',
+      width: '350px !important',
+      '& > svg': {
+        height: '400px !important',
+        width: '350px !important'
+      }
+    }
   }
 })

@@ -1,13 +1,13 @@
 import { gql } from '@apollo/client'
 
 export const GET_PROXIES = gql`
-  query proxies {
+  query proxies($limit: Int = 15) {
     info: proxies_aggregate {
-      producers: aggregate {
+      proxies: aggregate {
         count
       }
     }
-    proxies(limit: 15) {
+    proxies(limit: $limit) {
       background
       logo_256
       name

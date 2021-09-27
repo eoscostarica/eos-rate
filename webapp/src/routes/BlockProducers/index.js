@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
-// import { useLazyQuery } from '@apollo/client'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -10,16 +9,12 @@ import Collapse from '@mui/material/Collapse'
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt'
 import clsx from 'clsx'
 import _get from 'lodash.get'
-// import useMediaQuery from '@mui/material/useMediaQuery'
 
 import TitlePage from '../../components/PageTitle'
 import CompareTool from '../../components/CompareTool'
 import Card from '../../components/Card'
 import getAverageValue from '../../utils/get-average-value'
 import { useSharedState } from '../../context/state.context'
-// import { GET_BLOCK_PRODUCERS } from '../../gql'
-
-// import applySortBy from '../../utils/sorted-by'
 
 import styles from './styles'
 import SelectedBpsBottomSheet from './BottomSheetSelectedBps'
@@ -34,16 +29,6 @@ const AllBps = () => {
   const myRef = useRef(null)
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
   const [hasMoreRows, setMoreRows] = useState(false)
-  // const [loadBPs, { loading = true, data: { list, info } = {} }] = useLazyQuery(
-  //   GET_BLOCK_PRODUCERS,
-  //   { fetchPolicy: 'network-only' }
-  // )
-  // const isDesktop = useMediaQuery('(min-width:600px)', {
-  //   defaultMatches: false
-  // })
-  // const isTablet = useMediaQuery('(max-width:1024px)', {
-  //   defaultMatches: false
-  // })
 
   const [ratingState, setRatingState] = useState({
     txError: null,
@@ -57,7 +42,6 @@ const AllBps = () => {
   // const goToTop = () => document.getElementById('mainContent').scrollTo(0, 0)
 
   const handleToggleCompareTool = () => {
-    console.log('handleToggleCompareTool')
     setCompareBPTool(!state.compareBPToolVisible)
   }
 
@@ -96,17 +80,6 @@ const AllBps = () => {
       txSuccess: false,
       showChipMessage: false
     })
-  }
-
-  const handleSetIsNewRate = owner => {
-    // if (user) {
-    //   for (const userRate of user.userRates) {
-    //     if (userRate.owner === owner) {
-    //       return true
-    //     }
-    //   }
-    //   return false
-    // }
   }
 
   const sendVoteBps = async BPs => {
@@ -176,11 +149,15 @@ const AllBps = () => {
       return
     }
 
-    // setProducers(list)
     setMoreRows(state.blockProducers.rows > currentlyVisible)
   }, [state.blockProducers])
 
-  console.log({ hasMoreRows })
+  state.user &&
+    console.log({
+      isRated: state.user.userData.userRates.some(
+        ({ owner }) => owner === 'eoscostarica'
+      )
+    })
 
   return (
     <Box className={classes.rootBP} ref={myRef}>
@@ -204,56 +181,57 @@ const AllBps = () => {
           handleOnClear={handleOnClear}
         />
       </Collapse>
-      <Box
-        className={classes.wrapper}
-        // container
-        // justifyContent='center'
-        // spacing={isDesktop ? 4 : 1}
-      >
-        {(state.blockProducers.data || []).map(blockProducer => (
-          <Box
-            // item
-            // xs={12}
-            // sm={6}
-            // md={isTablet ? 6 : 4}
-            className={classes.cardWrapper}
-            key={`${blockProducer.owner}-main-block-card`}
-          >
-            <Card
-              isSelected={state.selectedProducers.includes(blockProducer.owner)}
-              toggleSelection={(isAdding, producerAccountName) => () => {
-                if (isAdding) {
-                  if (
-                    !state.selectedProducers.length &&
-                    !state.compareBPToolVisible
-                  ) {
-                    handleToggleCompareTool()
-                  }
 
-                  handleToggleSelected(producerAccountName, isAdding)
-                } else {
-                  if (
-                    state.selectedProducers.length === 1 &&
-                    state.compareBPToolVisible
-                  ) {
-                    handleToggleCompareTool()
-                  }
+      <Box className={classes.wrapperGrid}>
+        <Box className={classes.gridRow}>
+          {(state.blockProducers.data || []).map(blockProducer => (
+            <Box
+              className={classes.gridItem}
+              key={`${blockProducer.owner}-main-block-card`}
+            >
+              <Card
+                isSelected={state.selectedProducers.includes(
+                  blockProducer.owner
+                )}
+                toggleSelection={(isAdding, producerAccountName) => () => {
+                  if (isAdding) {
+                    if (
+                      !state.selectedProducers.length &&
+                      !state.compareBPToolVisible
+                    ) {
+                      handleToggleCompareTool()
+                    }
 
-                  handleToggleSelected(producerAccountName, isAdding)
+                    handleToggleSelected(producerAccountName, isAdding)
+                  } else {
+                    if (
+                      state.selectedProducers.length === 1 &&
+                      state.compareBPToolVisible
+                    ) {
+                      handleToggleCompareTool()
+                    }
+
+                    handleToggleSelected(producerAccountName, isAdding)
+                  }
+                }}
+                data={blockProducer}
+                imageURL={_get(blockProducer, 'bpjson.org.branding.logo_256')}
+                owner={_get(blockProducer, 'owner')}
+                title={_get(blockProducer, 'bpjson.org.candidate_name')}
+                pathLink='block-producers'
+                buttonLabel={t('addToVote')}
+                average={getAverageValue(_get(blockProducer, 'average', 0))}
+                rate={_get(blockProducer, 'ratings_cntr', 0)}
+                isNewRate={
+                  state.user &&
+                  state.user.userData.userRates.some(
+                    ({ owner }) => owner === blockProducer.owner
+                  )
                 }
-              }}
-              data={blockProducer}
-              imageURL={_get(blockProducer, 'bpjson.org.branding.logo_256')}
-              owner={_get(blockProducer, 'owner')}
-              title={_get(blockProducer, 'bpjson.org.candidate_name')}
-              pathLink='block-producers'
-              buttonLabel={t('addToVote')}
-              average={getAverageValue(_get(blockProducer, 'average', 0))}
-              rate={_get(blockProducer, 'ratings_cntr', 0)}
-              isNewRate={handleSetIsNewRate(blockProducer.owner)}
-            />
-          </Box>
-        ))}
+              />
+            </Box>
+          ))}
+        </Box>
       </Box>
       {state.selectedProducers.length > 0 && (
         <Grid container justifyContent='flex-end'>

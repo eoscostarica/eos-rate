@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useEffect } from 'react'
+import React, { useState, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { makeStyles } from '@mui/styles'
@@ -62,18 +62,18 @@ const CardData = ({
   const classes = useStyles()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.only('xs'))
-  const isDesktop = useMediaQuery('(min-width:770px)')
-  const [sizes, setSizes] = useState()
+  // const isDesktop = useMediaQuery('(min-width:770px)')
+  // const [sizes, setSizes] = useState()
 
   const handleTooltip = e => {
     setOpen(!open)
     e.preventDefault()
   }
 
-  useEffect(() => {
-    setSizes(isDesktop ? 400 : '95%')
-    console.log({ sizes })
-  }, [isDesktop])
+  // useEffect(() => {
+  //   // setSizes(isDesktop ? 400 : '95%')
+  //   // console.log({ sizes })
+  // }, [isDesktop])
 
   return (
     <Card className={classes.card}>
@@ -130,7 +130,9 @@ const CardData = ({
             />
           )}
         </Box>
-        <PolarChart data={[{ ...data.data }]} />
+        <Box className={classes.chartWrapper}>
+          <PolarChart data={[{ ...data.data }]} />
+        </Box>
         {showOptions && (
           <Grid container justifyContent='center'>
             <Grid item md={4} xs={4}>
@@ -194,7 +196,9 @@ const CardData = ({
         {!useRateButton && (
           <>
             <Button
+              variant='outlined'
               aria-label='Add to comparison'
+              color={isSelected ? 'secondary' : 'primary'}
               disabled={isSelected}
               onClick={() => toggleSelection(!isSelected, owner, true)}
             >

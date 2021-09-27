@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import getProxyDataModeled from '../utils/modeled-proxy-data'
+// import getProxyDataModeled from '../utils/modeled-proxy-data'
 
 import {
   getProxies,
+  getProxy,
   getUserDataModeled,
   getProducers,
   getProducer
@@ -20,8 +21,10 @@ const initialValue = {
   blockProducer: null,
   compareBPToolVisible: false,
   sortBlockProducersBy: null,
-  proxies: [],
-  proxy: null
+  proxies: { data: [], rows: 0 },
+  selectedProxies: [],
+  proxy: null,
+  compareProxyToolVisible: false
 }
 
 const sharedStateReducer = (state, action) => {
@@ -109,6 +112,18 @@ const sharedStateReducer = (state, action) => {
         proxy: action.proxy
       }
 
+    case 'setCompareProxyTool':
+      return {
+        ...state,
+        compareProxyToolVisible: action.isVisible
+      }
+
+    case 'setSelectedProxies':
+      return {
+        ...state,
+        selectedProxies: action.selectedProxies
+      }
+
     default: {
       throw new Error(`Unsupported action type: ${action.type}`)
     }
@@ -180,10 +195,6 @@ export const useSharedState = () => {
   const setProducers = async limit => {
     const blockProducers = await getProducers(limit)
 
-    // console.log({ test })
-
-    // const blockProducers = producers.map(getBpDataModeled)
-
     dispatch({ type: 'setProducers', blockProducers })
   }
   const setProducer = async account => {
@@ -192,7 +203,6 @@ export const useSharedState = () => {
     dispatch({ type: 'setProducer', blockProducer })
   }
   const setCompareBPTool = isVisible => {
-    console.log({ isVisible })
     dispatch({ type: 'setCompareBPTool', isVisible })
   }
 
@@ -200,20 +210,26 @@ export const useSharedState = () => {
     dispatch({ type: 'setSelectedProducers', selectedProducers })
 
   // Proxies Actions
-  const setProxies = async () => {
-    const proxies = await getProxies()
+  const setProxies = async limit => {
+    const proxies = await getProxies(limit)
 
     dispatch({ type: 'setProxies', proxies })
   }
-  const setProxy = (data, isDataModeled = true) => {
+  const setProxy = async (data, saveDirectly = false) => {
     let proxy = data
 
-    if (!isDataModeled) {
-      proxy = getProxyDataModeled(proxy)
+    if (!saveDirectly) {
+      proxy = await getProxy(data)
     }
 
     dispatch({ type: 'setProxy', proxy })
   }
+
+  const setCompareProxyTool = isVisible =>
+    dispatch({ type: 'setCompareProxyTool', isVisible })
+
+  const setSelectedProxies = selectedProxies =>
+    dispatch({ type: 'setSelectedProxies', selectedProxies })
 
   return [
     state,
@@ -230,7 +246,9 @@ export const useSharedState = () => {
       setSelectedProducers,
       setSortBy,
       setProxies,
-      setProxy
+      setProxy,
+      setCompareProxyTool,
+      setSelectedProxies
     }
   ]
 }

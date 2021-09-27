@@ -16,14 +16,33 @@ export default theme => ({
     background: theme.palette.surface.main,
     color: theme.palette.primary.main
   },
-  wrapper: {
-    maxWidth: '100%'
+  wrapperGrid: {
+    maxWidth: '100%',
+    margin: '0 auto'
   },
-  cardWrapper: {
-    padding: theme.spacing(1)
+  gridRow: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+    justifyContent: 'center'
+  },
+  gridItem: {
+    flexBasis: '100%',
+    '-ms-flex': 'auto',
+    width: '100%',
+    position: 'relative',
+    padding: 10,
+    boxSizing: 'border-box',
+    [theme.breakpoints.up('sm')]: {
+      flexBasis: '50%'
+    },
+    [theme.breakpoints.up('md')]: {
+      flexBasis: '33.33%'
+    },
+    [theme.breakpoints.up('lg')]: {
+      flexBasis: '20%'
+    }
   },
   compareTool: {
-    border: '2px solid red',
     paddingTop: '0 !important',
     transform: 'scaleY(1)',
     transformOrigin: 'top',

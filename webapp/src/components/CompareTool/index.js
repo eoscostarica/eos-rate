@@ -47,8 +47,6 @@ const CompareTool = ({
     producers: []
   })
 
-  console.log({ selected })
-
   const handleClose = (e, reason) => {
     if (reason === 'clickaway') {
       return
@@ -107,6 +105,7 @@ const CompareTool = ({
                 checked={isCollapsedView}
                 onChange={event => setIsCollapsedView(event.target.checked)}
                 value='isCollapsedView'
+                color='primary'
               />
             }
             label={t('compareToolCollapsedSwitch')}

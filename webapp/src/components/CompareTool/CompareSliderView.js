@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { makeStyles } from '@mui/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
+// import useMediaQuery from '@mui/material/useMediaQuery'
 import CloseIcon from '@mui/icons-material/Close'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
@@ -23,12 +23,12 @@ const CompareSliderView = ({
 }) => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
-  const isDesktop = useMediaQuery('(min-width:767px)')
+  // const isDesktop = useMediaQuery('(min-width:767px)')
   // const [sizes, setSizes] = useState()
 
-  useEffect(() => {
-    // setSizes(isDesktop ? 400 : '95%')
-  }, [isDesktop])
+  // useEffect(() => {
+  //   // setSizes(isDesktop ? 400 : '95%')
+  // }, [isDesktop])
 
   return (
     <Box className={className}>
@@ -44,18 +44,22 @@ const CompareSliderView = ({
       </Box>
 
       <Box className={classes.slider}>
-        {selected.map(bp => {
+        {selected.map((bp, index) => {
           if (!bp) return null
-
-          console.log({ bp })
 
           const name = isProxy
             ? _get(bp, 'owner')
             : _get(bp, 'bpjson.producer_account_name')
 
           return (
-            <Box key={`slider-card-${name}`} className={classes.sliderCard}>
-              <PolarChart bpData={bp.data ? [{ ...bp.data }] : []} />
+            <Box
+              key={`slider-card-${name}-${index}`}
+              className={classes.sliderCard}
+            >
+              <Box className={classes.chartWrapper}>
+                <PolarChart data={bp.data ? [{ ...bp.data }] : []} />
+              </Box>
+
               <Typography variant='subtitle1' className={classes.bpName}>
                 {name}
               </Typography>

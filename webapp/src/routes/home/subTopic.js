@@ -59,7 +59,7 @@ const SubTopic = () => {
           </a>
         </Typography>
       </Box>
-      <Box>
+      <Box className={classes.videoBox}>
         <Video src={t('subTopic.videoUrl')} />
       </Box>
     </Box>

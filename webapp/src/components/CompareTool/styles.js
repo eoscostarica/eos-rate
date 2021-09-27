@@ -13,6 +13,14 @@ export default theme => ({
       paddingTop: theme.spacing(2)
     }
   },
+  wrapperDesktop: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: 'calc(100% - 75px)',
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row'
+    }
+  },
   btnClear: {
     textAlign: 'center',
     width: 200
@@ -22,7 +30,7 @@ export default theme => ({
     paddingTop: theme.spacing(2),
     flexDirection: 'column',
     width: '100%',
-    height: '47%',
+    height: 'calc(50% - 170px)',
     justifyContent: 'space-between',
     alignItems: 'center',
     [theme.breakpoints.up('md')]: {
@@ -153,10 +161,14 @@ export default theme => ({
     height: '100%',
     width: '100%',
     minHeight: 50,
-    // overflow: 'auto',
     flexWrap: 'wrap',
     [theme.breakpoints.up('sm')]: {
-      marginBottom: 38
+      marginBottom: 38,
+      justifyContent: 'space-around'
+    },
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'space-between',
+      marginBottom: 0
     }
   },
   centerBox: {
@@ -170,7 +182,10 @@ export default theme => ({
   buttonsBox: {
     justifyContent: 'space-between',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'center'
+    }
   },
   boxCloseIcon: {
     justifyContent: 'flex-end',
@@ -190,10 +205,12 @@ export default theme => ({
     }
   },
   reliefGrid: {
-    border: '1px solid #f8f8f8',
-    boxShadow:
-      'inset 2px 2px 2px #fff, inset -1px 0 2px rgba(0,0,0,.1), 1px 3px 3px rgba(0,0,0,.1)',
-    backgroundColor: '#fff'
+    [theme.breakpoints.up('md')]: {
+      border: '1px solid #f8f8f8',
+      boxShadow:
+        'inset 2px 2px 2px #fff, inset -1px 0 2px rgba(0,0,0,.1), 1px 3px 3px rgba(0,0,0,.1)',
+      backgroundColor: '#fff'
+    }
   },
   compareBodyListDesktop: {
     display: 'none',
@@ -225,5 +242,36 @@ export default theme => ({
     display: 'flex',
     justifyContent: 'space-between'
   },
-  alert: { width: '100%' }
+  alert: {
+    width: '100%'
+  },
+  proxyVote: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  chartWrapper: {
+    '& .highcharts-container ': {
+      height: '400px !important',
+      width: '340px !important',
+      '& > svg': {
+        height: '400px !important',
+        width: '340px !important'
+      },
+      [theme.breakpoints.up('sm')]: {
+        height: '400px !important',
+        width: '600px !important',
+        '& > svg': {
+          height: '400px !important',
+          width: '600px !important'
+        }
+      }
+    }
+  },
+  overrideBreakpoint: {
+    [theme.breakpoints.up('md')]: {
+      margin: `${theme.spacing(0, 1, 1, 1)} !important`
+    }
+  }
 })

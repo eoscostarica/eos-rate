@@ -15,6 +15,8 @@ export const getProducers = async limit => {
     fetchPolicy: 'network-only'
   })
 
+  if (!list.length) return []
+
   const promiseResolved = await Promise.all(
     list.map(({ owner }) => {
       return client.query({

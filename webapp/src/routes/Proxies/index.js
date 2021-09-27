@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-// import { useLazyQuery } from '@apollo/client'
-import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
-import useMediaQuery from '@mui/material/useMediaQuery'
+import Box from '@mui/material/Box'
+import Collapse from '@mui/material/Collapse'
 import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
-import classNames from 'classnames'
 import _get from 'lodash.get'
 
 import { useSharedState } from '../../context/state.context'
-// import { GET_PROXIES } from '../../gql'
 import TitlePage from '../../components/PageTitle'
 import Card from '../../components/Card'
 import CompareTool from '../../components/CompareTool'
@@ -23,40 +20,10 @@ const useStyles = makeStyles(styles)
 const AllProxies = ({ ual = {} }) => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
-  // const dispatch = useDispatch()
-  // const { data: user } = useSelector(state => state.user)
-  // const {
-  //   compareTool: compareToolVisible,
-  //   selected: selectedProxies,
-  //   filtered,
-  //   proxies
-  // } = useSelector(state => state.proxies)
-
-  // delete this
-  const compareToolVisible = false
-  const selectedProxies = []
-  const filtered = []
-  // const proxies = []
-  const user = {}
-  // end delete this
-
-  const [state, { setProxies }] = useSharedState()
-  // const [loadProxies, { loading, data: { proxies, info } = {} }] = useLazyQuery(
-  //   GET_PROXIES,
-  //   { fetchPolicy: 'network-only' }
-  // )
-
+  const [state, { setProxies, setCompareProxyTool, setSelectedProxies }] =
+    useSharedState()
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
-  const proxiesList = filtered && filtered.length ? filtered : state.proxies
-  const shownList = proxiesList && proxiesList.slice(0, currentlyVisible)
-  const hasMore = proxiesList && currentlyVisible < proxiesList.length
-  const isDesktop = useMediaQuery('(min-width:600px)')
-  const isTablet = useMediaQuery('(max-width:1024px)', {
-    defaultMatches: false
-  })
-  const accountName = _get(ual, 'activeUser.accountName', null)
-  const [openVoteDrawer, setOpenVoteDrawer] = useState(false)
-  const [openDesktopVotingTool, setOpenDesktopVotingTool] = useState(isDesktop)
+  const [hasMoreRows, setMoreRows] = useState(false)
   const [ratingState, setRatingState] = useState({
     processing: false,
     txError: null,
@@ -64,40 +31,21 @@ const AllProxies = ({ ual = {} }) => {
   })
 
   const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
-  const goToTop = () => document.getElementById('mainContent').scrollTo(0, 0)
+  // const goToTop = () => document.getElementById('mainContent').scrollTo(0, 0)
 
   const handleToggleCompareTool = () => {
-    // dispatch.proxies.toggleCompareTool()
+    setCompareProxyTool(!state.compareProxyToolVisible)
   }
 
-  const handleToggleSelected = (item, isAddItem = false) => {
-    if (isAddItem) {
-      // dispatch.proxies.addToSelected(item)
-    } else {
-      // dispatch.proxies.removeSelected(item)
-    }
+  const handleToggleSelected = () => {
+    setSelectedProxies([])
   }
 
-  const handleOnClose = () => {
-    setOpenDesktopVotingTool(false)
-  }
+  const handleOpenDesktopVotingTool = (isAdding, producerAccountName) => {
+    console.log({ isAdding, producerAccountName })
 
-  const handleOpenDesktopVotingTool = (
-    isAdding,
-    producerAccountName,
-    value
-  ) => {
-    if (isAdding) {
-      if (!(selectedProxies || []).length && !compareToolVisible)
-        handleToggleCompareTool()
-      handleToggleSelected(producerAccountName, isAdding)
-      isDesktop ? setOpenDesktopVotingTool(value) : setOpenVoteDrawer(value)
-      goToTop()
-    } else if (!isAdding) {
-      if ((selectedProxies || []).length === 1 && compareToolVisible)
-        handleToggleCompareTool()
-      handleToggleSelected()
-    }
+    setSelectedProxies([producerAccountName])
+    setCompareProxyTool(true)
   }
 
   const handleSetRatingState = () => {
@@ -110,7 +58,7 @@ const AllProxies = ({ ual = {} }) => {
   }
 
   const sendVoteProxy = async () => {
-    if (!accountName) return
+    if (!state.user.accountName) return
 
     const transaction = {
       actions: [
@@ -119,13 +67,13 @@ const AllProxies = ({ ual = {} }) => {
           name: 'voteproducer',
           authorization: [
             {
-              actor: accountName,
+              actor: state.user.accountName,
               permission: 'active'
             }
           ],
           data: {
-            voter: accountName,
-            proxy: selectedProxies[0],
+            voter: state.user.accountName,
+            proxy: state.proxy,
             producers: []
           }
         }
@@ -167,95 +115,102 @@ const AllProxies = ({ ual = {} }) => {
     }
   }
 
-  const cmprTool = () => (
-    <CompareTool
-      removeBP={handleToggleSelected}
-      className={classNames(classes.compareTool)}
-      list={state.proxies || []}
-      selected={selectedProxies || []}
-      onHandleVote={sendVoteProxy}
-      isProxy
-      message={ratingState}
-      setMessage={handleSetRatingState}
-      userInfo={user}
-      onHandleClose={() => {
-        handleToggleCompareTool()
-        handleToggleSelected()
-      }}
-      handleOnClose={handleOnClose}
-    />
-  )
-
   useEffect(() => {
     const getProxiesData = async () => {
-      await setProxies()
-      // {
-      //   variables: {
-      //     limit: 10
-      //   }
-      // }))
+      !state.proxies.data.length && (await setProxies(currentlyVisible))
     }
 
     getProxiesData()
   }, [])
 
   useEffect(() => {
-    const getUserData = async () => {
-      if (ual.activeUser && !user) {
-        // await dispatch.user.getUserChainData({ ual })
-      }
+    if (!state.proxies.data.length) {
+      return
     }
 
-    // dispatch.blockProducers.setShowSortSelected(false)
-    getUserData()
-  }, [user, ual])
-
-  console.log({ state })
+    setMoreRows(state.proxies.rows > currentlyVisible)
+  }, [state.proxies])
 
   return (
-    <div className={classes.root}>
+    <Box className={classes.root}>
       <TitlePage title={t('proxiesTitle')} />
-      {isDesktop && openDesktopVotingTool && cmprTool()}
-      <Grid
-        className={classes.wrapper}
-        container
-        justifyContent='center'
-        spacing={isDesktop ? 4 : 1}
+      <Collapse
+        in={state.compareProxyToolVisible}
+        timeout='auto'
+        unmountOnExit
+        className={classes.hiddenMobile}
       >
-        {(shownList || []).map(proxy => (
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={isTablet ? 6 : 4}
-            key={`${proxy.owner}-main-block-card`}
-          >
-            <Card
-              isSelected={
-                selectedProxies && selectedProxies.includes(proxy.owner)
-              }
-              toggleSelection={handleOpenDesktopVotingTool}
-              data={proxy}
-              imageURL={_get(proxy, 'logo_256')}
-              owner={_get(proxy, 'owner')}
-              title={_get(proxy, 'name')}
-              useRateButton={false}
-              pathLink='proxies'
-              showOptions={false}
-            />
-          </Grid>
-        ))}
-      </Grid>
-      <SelectedBpsBottomSheet open={openVoteDrawer} setOpen={setOpenVoteDrawer}>
-        {cmprTool()}
+        <CompareTool
+          removeBP={handleToggleSelected}
+          className={classes.compareTool}
+          list={state.proxies.data || []}
+          selected={state.selectedProxies || []}
+          onHandleVote={sendVoteProxy}
+          isProxy
+          message={ratingState}
+          setMessage={handleSetRatingState}
+          userInfo={state.user}
+          handleOnClose={() => {
+            handleToggleCompareTool()
+            handleToggleSelected()
+          }}
+        />
+      </Collapse>
+
+      <Box className={classes.wrapperGrid}>
+        <Box className={classes.gridRow}>
+          {(state.proxies.data || []).map(proxy => (
+            <Box
+              key={`${proxy.owner}-main-block-card`}
+              className={classes.gridItem}
+            >
+              <Card
+                isSelected={state.selectedProxies.includes(proxy.owner)}
+                toggleSelection={handleOpenDesktopVotingTool}
+                data={proxy}
+                imageURL={_get(proxy, 'logo_256')}
+                owner={_get(proxy, 'owner')}
+                title={_get(proxy, 'name')}
+                useRateButton={false}
+                pathLink='proxies'
+                showOptions={false}
+              />
+            </Box>
+          ))}
+        </Box>
+      </Box>
+      <SelectedBpsBottomSheet
+        open={state.compareProxyToolVisible}
+        classesStyle={classes.hiddenDesktop}
+      >
+        <CompareTool
+          removeBP={handleToggleSelected}
+          className={classes.compareTool}
+          list={state.proxies.data || []}
+          selected={state.selectedProxies || []}
+          onHandleVote={sendVoteProxy}
+          isProxy
+          message={ratingState}
+          setMessage={handleSetRatingState}
+          userInfo={state.user}
+          handleOnClose={() => {
+            handleToggleCompareTool()
+            handleToggleSelected()
+          }}
+        />
       </SelectedBpsBottomSheet>
-      <Button
-        className={classes.loadMoreButton}
-        onClick={() => hasMore && loadMore()}
-      >
-        {t('loadMore')}
-      </Button>
-    </div>
+      <Box className={classes.loadMoreBtnBox}>
+        <Button
+          disabled={!hasMoreRows}
+          className={classes.loadMoreButton}
+          onClick={() => hasMoreRows && loadMore()}
+          variant='outlined'
+          color={'primary'}
+        >
+          {t('loadMore')}
+        </Button>
+      </Box>
+    </Box>
   )
 }
 

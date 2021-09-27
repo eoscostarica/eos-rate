@@ -6,13 +6,19 @@ export default theme => ({
     }
   },
   mainCoverContainer: {
-    backgroundColor: theme.palette.surface.main
+    backgroundColor: theme.palette.surface.main,
+    display: 'flex',
+    justifyContent: 'center'
   },
   mainSubTopicContainer: {
-    backgroundColor: theme.palette.surface.main
+    backgroundColor: theme.palette.surface.main,
+    display: 'flex',
+    justifyContent: 'center'
   },
   rateCategoryContainer: {
-    backgroundColor: '#f5f5f5'
+    backgroundColor: '#f5f5f5',
+    display: 'flex',
+    justifyContent: 'center'
   },
   coverContainer: {
     padding: 0,
@@ -34,14 +40,57 @@ export default theme => ({
       marginBottom: 0
     }
   },
+  btnWrapper: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  btnMobile: {
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: 336
+    }
+  },
   ctaContainer: {
-    textAlign: 'center'
+    textAlign: 'center',
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex'
+    }
   },
   chartContainer: {
-    maxWidth: '400px',
     width: '100%',
-    display: 'flex',
-    alignItems: 'center'
+    display: 'none',
+    alignItems: 'center',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+      width: '45%',
+      '& .highcharts-container ': {
+        height: '400px !important',
+        width: '400px !important',
+        '& > svg': {
+          height: '400px !important',
+          width: '400px !important'
+        }
+      }
+    }
+  },
+  chartContainerMobile: {
+    '& .highcharts-container ': {
+      height: '400px !important',
+      width: '350px !important',
+      '& > svg': {
+        height: '400px !important',
+        width: '350px !important'
+      },
+      [theme.breakpoints.up('sm')]: {
+        height: '400px !important',
+        width: '600px !important',
+        '& > svg': {
+          height: '400px !important',
+          width: '600px !important'
+        }
+      }
+    }
   },
   subtitle: {
     marginBottom: `${theme.spacing(1)} !important`,
@@ -63,6 +112,9 @@ export default theme => ({
       letterSpacing: '0.44px',
       fontSize: 16,
       color: theme.palette.common.black
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '55%'
     }
   },
   ratingContainer: {
@@ -97,17 +149,44 @@ export default theme => ({
     color: '#433F5B'
   },
   subTopicContainer: {
-    maxWidth: '1024px'
+    maxWidth: '1024px',
+    display: 'flex',
+    flexDirection: 'column',
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+    }
   },
   ratingParagraph: {
     color: theme.palette.grey[600]
   },
   gridContent: {
-    padding: '2%'
+    padding: '2%',
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '50%'
+    }
+  },
+  videoBox: {
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '50%'
+    }
   },
   link: {
     color: theme.palette.grey[600],
     fontWeight: '500',
     textDecoration: 'none'
+  },
+  mobileView: {
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '-10px 0 25px 0',
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
+  },
+  desktopView: {
+    display: 'flex'
   }
 })

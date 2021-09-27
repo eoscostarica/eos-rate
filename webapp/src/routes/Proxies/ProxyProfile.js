@@ -1,6 +1,4 @@
 import React, { useEffect, forwardRef, useState } from 'react'
-import PropTypes from 'prop-types'
-import { useLazyQuery } from '@apollo/client'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
@@ -19,9 +17,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle'
 import _get from 'lodash.get'
 
 import TitlePage from '../../components/PageTitle'
-import { GET_PROXY_BY_OWNER } from '../../gql'
 import CompareTool from '../../components/CompareTool'
-import Radar from '../../components/Radar'
+import PolarChart from '../../components/PolarChart'
 import { useSharedState } from '../../context/state.context'
 
 import { SocialNetworks, GeneralInformation } from './GeneralInformationProfile'
@@ -29,39 +26,32 @@ import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const ProxyProfile = ({ ual, ...props }) => {
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
+})
+
+const ProxyProfile = () => {
   const { t } = useTranslation('profile')
   const classes = useStyles()
   const { account } = useParams()
   const [state, { setProxy }] = useSharedState()
-
-  // const dispatch = useDispatch()
-  // const { proxy } = useSelector(state => state.proxies)
-
+  const [proxyLogo, setProxyLogo] = useState(null)
+  const [proxySlogan, setProxySlogan] = useState(null)
+  const [polarChartData, setPolarChartData] = useState([])
+  const [producers, setProducers] = useState([])
+  const [proxyTitle, setProxyTitle] = useState('No Title')
   const [showMessage, setShowMessage] = useState(false)
   const isDesktop = useMediaQuery('(min-width:767px)')
   const isMobile = useMediaQuery('(max-width:768px)')
   const [openDesktopVotingTool, setOpenDesktopVotingTool] = useState(isDesktop)
-  const [sizes, setSizes] = useState()
   const [ratingState, setRatingState] = useState({
     processing: false,
     txError: null,
     txSuccess: false
   })
 
-  const [getProxyByOwner, { loading, data: { proxy } = {} }] = useLazyQuery(
-    GET_PROXY_BY_OWNER,
-    { fetchPolicy: 'network-only' }
-  )
-
-  const logo = _get(proxy, 'logo_256', null)
-  const ProxyTitle = _get(proxy, 'name', _get(proxy, 'owner', 'No Data'))
-  const accountName = _get(ual, 'activeUser.accountName', null)
-  const slogan = _get(proxy, 'slogan', null)
-  const producers = _get(proxy, 'voter_info.producers', [])
-
   const sendVoteProxy = async proxy => {
-    if (!accountName) {
+    if (!state.user.accountName) {
       setShowMessage(true)
 
       return
@@ -74,12 +64,12 @@ const ProxyProfile = ({ ual, ...props }) => {
           name: 'voteproducer',
           authorization: [
             {
-              actor: accountName,
+              actor: state.user.accountName,
               permission: 'active'
             }
           ],
           data: {
-            voter: accountName,
+            voter: state.user.accountName,
             proxy,
             producers: []
           }
@@ -95,7 +85,7 @@ const ProxyProfile = ({ ual, ...props }) => {
         txSuccess: false
       })
 
-      await ual.activeUser.signTransaction(transaction, {
+      await state.ual.activeUser.signTransaction(transaction, {
         broadcast: true
       })
 
@@ -123,10 +113,6 @@ const ProxyProfile = ({ ual, ...props }) => {
     }
   }
 
-  function Alert(props) {
-    return <MuiAlert elevation={6} variant='filled' {...props} />
-  }
-
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
@@ -146,56 +132,43 @@ const ProxyProfile = ({ ual, ...props }) => {
   }
 
   useEffect(() => {
-    const getData = async () => {
-      // await dispatch.proxies.getProxies()
-      // await dispatch.proxies.getProxyByOwner(account)
+    if (state.proxy) {
+      setProxyLogo(_get(state.proxy, 'logo_256', null))
+      setProxyTitle(
+        _get(state.proxy, 'name', _get(state.proxy, 'owner', 'No Data'))
+      )
+      setProxySlogan(_get(state.proxy, 'slogan', null))
+      setProducers(_get(state.proxy, 'voter_info.producers', []))
+      setPolarChartData([state.proxy.data])
     }
-
-    if (accountName) setShowMessage(false)
-
-    getData()
-  }, [account, accountName, setShowMessage])
+  }, [state.proxy])
 
   useEffect(() => {
-    const getBpData = async () => {
-      if (state.proxies.length) {
+    const getProxyData = async () => {
+      if (state.proxies.data.length) {
         // TODO: do a double check if this is necessary
-        const proxySelected = state.proxies.find(
+        const proxySelected = state.proxies.data.find(
           ({ owner }) => owner === account
         )
 
-        setProxy(proxySelected, false)
+        setProxy(proxySelected, true)
 
         return
       }
 
-      await getProxyByOwner({
-        variables: {
-          account
-        }
-      })
+      await setProxy(account)
     }
 
-    getBpData()
+    getProxyData()
   }, [account])
 
-  useEffect(() => {
-    if (loading || !proxy) {
-      return
-    }
-
-    proxy.length && setProxy(proxy[0])
-  }, [loading, proxy])
-
-  useEffect(() => {
-    setSizes(isDesktop ? 400 : '95%')
-  }, [isDesktop])
-
-  console.log({ state })
+  // useEffect(() => {
+  //   setSizes(isDesktop ? 400 : '95%')
+  // }, [isDesktop])
 
   return (
     <Grid container justifyContent='center' className={classes.container}>
-      <TitlePage title={`${t('proxyProfile')} ${ProxyTitle} - EOS Rate`} />
+      <TitlePage title={`${t('proxyProfile')} ${proxyTitle} - EOS Rate`} />
       <Grid item xs={12}>
         <Grid container direction='row' alignItems='center'>
           <Button
@@ -212,39 +185,35 @@ const ProxyProfile = ({ ual, ...props }) => {
       <Grid container className={classes.reliefGrid}>
         <Grid item md={12}>
           <Box style={{ display: 'flex' }}>
-            {logo ? (
+            {proxyLogo ? (
               <Avatar aria-label='Block Producer' className={classes.avatar}>
-                <img src={logo} alt='' width='100%' />
+                <img src={proxyLogo} alt='' width='100%' />
               </Avatar>
             ) : (
               <AccountCircle className={classes.accountCircle} />
             )}
             <Typography variant='h6' className={classes.bpName}>
-              {ProxyTitle}
+              {proxyTitle}
             </Typography>
           </Box>
-          {slogan && (
+          {proxySlogan && (
             <Typography variant='subtitle1'>
-              <blockquote className={classes.slogan}>{slogan}</blockquote>
+              <blockquote className={classes.slogan}>{proxySlogan}</blockquote>
             </Typography>
           )}
         </Grid>
         {isMobile && (
           <Grid container justify='center' xs={12}>
             <Grid item md={12} xs={12}>
-              <Radar
-                height={sizes}
-                width={sizes}
-                bpData={{
-                  datasets: proxy ? [{ ...proxy.data }] : []
-                }}
-              />
+              <PolarChart data={polarChartData} />
             </Grid>
             <Grid item md={4} xs={10}>
               <Button
-                disabled={!proxy || ratingState.processing}
+                disabled={!state.proxy || ratingState.processing}
                 className={classes.btnBP}
-                onClick={() => sendVoteProxy(_get(proxy, 'owner'))}
+                variant={'contained'}
+                color={'secondary'}
+                onClick={() => sendVoteProxy(_get(state.proxy, 'owner'))}
               >
                 {t('buttonVote')}
               </Button>
@@ -254,9 +223,9 @@ const ProxyProfile = ({ ual, ...props }) => {
         <Grid item md={7} xs={12}>
           <GeneralInformation
             classes={classes}
-            proxy={proxy}
+            proxy={state.proxy}
             onClick={sendVoteProxy}
-            disabled={!proxy || ratingState.processing}
+            disabled={!state.proxy || ratingState.processing}
           />
           <Box className={classes.wrapperBox}>
             <Snackbar
@@ -301,25 +270,19 @@ const ProxyProfile = ({ ual, ...props }) => {
           <SocialNetworks
             classes={classes}
             overrideClass={classes.showOnlySm}
-            proxy={proxy}
+            proxy={state.proxy}
           />
         </Grid>
         {!isMobile && (
           <Grid container justify='center' md={5}>
             <Grid style={{ height: '350px', marginTop: '-30px' }} item md={12}>
-              <Radar
-                height={sizes}
-                width={sizes}
-                bpData={{
-                  datasets: proxy ? [{ ...proxy.data }] : []
-                }}
-              />
+              <PolarChart data={polarChartData} />
             </Grid>
             <Grid item md={6}>
               <Button
-                disabled={!proxy || ratingState.processing}
+                disabled={!state.proxy || ratingState.processing}
                 className={classes.btnBP}
-                onClick={() => sendVoteProxy(_get(proxy, 'owner'))}
+                onClick={() => sendVoteProxy(_get(state.proxy, 'owner'))}
               >
                 {t('buttonVote')}
               </Button>
@@ -327,26 +290,24 @@ const ProxyProfile = ({ ual, ...props }) => {
           </Grid>
         )}
         <Grid item md={12} xs={12}>
-          {proxy && openDesktopVotingTool && Boolean(producers.length) && (
-            <CompareTool
-              removeBP={() => console.log('remove')}
-              className={classes.compareTool}
-              list={[proxy]}
-              selected={[account]}
-              isProxy
-              useOnlySliderView
-              optionalLabel={`${ProxyTitle} ${t('labelTool')}:`}
-              handleOnClose={handleOnClose}
-            />
-          )}
+          {state.proxy &&
+            openDesktopVotingTool &&
+            Boolean(producers.length) && (
+              <CompareTool
+                removeBP={() => console.log('remove')}
+                className={classes.compareTool}
+                list={[state.proxy]}
+                selected={[account]}
+                isProxy
+                useOnlySliderView
+                optionalLabel={`${proxyTitle} ${t('labelTool')}:`}
+                handleOnClose={handleOnClose}
+              />
+            )}
         </Grid>
       </Grid>
     </Grid>
   )
-}
-
-ProxyProfile.propTypes = {
-  ual: PropTypes.object
 }
 
 export default ProxyProfile

@@ -1,5 +1,6 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 import Chip from '@mui/material/Chip'
 import Avatar from '@mui/material/Avatar'
 import _get from 'lodash.get'
@@ -24,7 +25,7 @@ const ProducerChipAvatar = ({
     <>
       {isProxy && (
         <Chip
-          className={classes.root}
+          className={clsx(classes.rootChip, classNames.overrideBreakpoint)}
           avatar={
             <Avatar aria-label='Block Compare' className={classNames.avatar}>
               {!imageURL ? (
@@ -39,7 +40,7 @@ const ProducerChipAvatar = ({
       )}
       {!isProxy && (
         <Chip
-          className={classes.root}
+          className={clsx(classes.rootChip, classNames.overrideBreakpoint)}
           avatar={
             <Avatar aria-label='Block Compare' className={classNames.avatar}>
               {!imageURL ? (

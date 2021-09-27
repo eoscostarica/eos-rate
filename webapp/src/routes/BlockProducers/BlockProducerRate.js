@@ -284,8 +284,6 @@ const BlockProducerRate = () => {
         parameters: getRatingData(bpRated.ratings)
       })
 
-      console.log({ parameters })
-
       if (
         state.user.userData.edenMember ||
         state.user.userData.hasProxy ||
@@ -307,8 +305,6 @@ const BlockProducerRate = () => {
   //     setProfileData(state.blockProducer)
   //   }
   // }, [state.blockProducer])
-
-  console.log({ state })
 
   return (
     <Grid container justifyContent='center' className={classes.container}>
