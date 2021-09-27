@@ -79,8 +79,6 @@ namespace eoscostarica {
         } else {
             //the voter update its vote
             uniq_rating_index.modify(existing_rating, user, [&]( auto& row ) {
-                // row.user = user;
-                // row.bp = bp;
                 row.transparency = transparency;
                 row.infrastructure = infrastructure;
                 row.trustiness = trustiness;
