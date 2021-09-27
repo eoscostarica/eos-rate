@@ -1,12 +1,12 @@
-import React from 'react'
-import SvgIcon from '@material-ui/core/SvgIcon'
-import { makeStyles } from '@material-ui/core/styles'
+import React, { memo } from 'react'
+import SvgIcon from '@mui/material/SvgIcon'
+import { makeStyles } from '@mui/styles'
 
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const TransparencyIcon = (props) => {
+const TransparencyIcon = props => {
   const classes = useStyles()
 
   return (
@@ -42,4 +42,4 @@ const TransparencyIcon = (props) => {
   )
 }
 
-export default TransparencyIcon
+export default memo(TransparencyIcon)

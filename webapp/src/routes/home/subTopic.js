@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
+import Typography from '@mui/material/Typography'
+import { makeStyles } from '@mui/styles'
+import Box from '@mui/material/Box'
 
-import Video from 'components/video'
+import Video from '../../components/Video'
 
 import styles from './styles'
 
@@ -15,9 +15,9 @@ const SubTopic = () => {
   const classes = useStyles()
 
   return (
-    <Grid item container xs={12} className={classes.subTopicContainer}>
-      <Grid item xs={12} md={6} className={classes.gridContent}>
-        <Typography variant='h5' className={classes.title}>
+    <Box className={classes.subTopicContainer}>
+      <Box className={classes.gridContent}>
+        <Typography variant='h5' className={classes.mainTitle}>
           {t('subTopic.title')}
         </Typography>
 
@@ -38,7 +38,7 @@ const SubTopic = () => {
         >
           {t('subTopic.paragraph2')}
         </Typography>
-        <Typography variant='h6' className={classes.topicSubtitle}>
+        <Typography variant='h6' className={classes.subtitle}>
           {t('subTopic.subtitle')}
         </Typography>
 
@@ -58,12 +58,12 @@ const SubTopic = () => {
             {t('subTopic.telegramGroup')}.
           </a>
         </Typography>
-      </Grid>
-      <Grid item xs={12} md={6}>
+      </Box>
+      <Box className={classes.videoBox}>
         <Video src={t('subTopic.videoUrl')} />
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   )
 }
 
-export default SubTopic
+export default memo(SubTopic)
