@@ -29,8 +29,6 @@
 #define MINVAL 0
 #define MAXVAL 10
 #define MIN_VOTERS 21
-// Avoid to calculate DECIMALS value with pow function to redux complexity and Ram cost
-#define DECIMALS 1000
 
 using namespace std;
 using namespace eosio;
@@ -45,7 +43,7 @@ using eosio::public_key;
 */
 namespace eosio {
     constexpr name system_account{"eosio"_n};
-    constexpr name eden_account{"genesisdeden"_n};
+    constexpr name eden_account{"genesis.eden"_n};
     constexpr name eden_scope{"eden"_n};
 
     /*
@@ -247,8 +245,6 @@ namespace eoscostarica {
     extern const char* datadistribution_clause;
     extern const char* datafuture_clause;
 
-    // ------------------ OLD-STRUCT-FORMAT ------------------ //
-
     /*
     *   Stores the rate average stats for a block producer
     */    
@@ -276,28 +272,29 @@ namespace eoscostarica {
     )
     typedef eosio::multi_index<"stats"_n, stats > stats_table;
 
+    uint128_t create_uniq_rating(const uint64_t &user, const uint64_t &bp) {
+        return (static_cast<uint128_t>(user) << 64) | bp;
+    }
+
     /*
     *   Stores the rate vote for a block producer
     */
     struct ratings {
         uint64_t id;
-        uint128_t uniq_rating;
         name user;
         name bp;
         float transparency;
         float infrastructure;
         float trustiness;
-        float development;
+        float development;  
         float community;
         uint64_t primary_key() const { return id; }
-        uint128_t by_uniq_rating() const { return uniq_rating; }
-        uint64_t by_user() const { return user.value; }
+        uint128_t by_uniq_rating() const { return create_uniq_rating(user.value, bp.value); }
         uint64_t by_bp() const { return bp.value; }
     };
     EOSIO_REFLECT(
         ratings,
         id,
-        uniq_rating,
         user,
         bp,
         transparency,
@@ -308,75 +305,8 @@ namespace eoscostarica {
     )
     typedef eosio::multi_index<"ratings"_n, ratings,
         indexed_by<"uniqrating"_n, const_mem_fun<ratings, uint128_t, &ratings::by_uniq_rating>>,
-        indexed_by<"user"_n, const_mem_fun<ratings, uint64_t, &ratings::by_user>>,
         indexed_by<"bp"_n, const_mem_fun<ratings, uint64_t, &ratings::by_bp>>
     > ratings_table;
-
-    // ------------------ END-OLD-STRUCT-FORMAT ------------------ //
-
-    /*
-    *   Stores the rate average stats for a block producer
-    */    
-    struct stats_v2 {
-        name bp;
-        uint32_t ratings_cntr;
-        uint8_t average;
-        uint8_t transparency;
-        uint8_t infrastructure;
-        uint8_t trustiness;
-        uint8_t development;  
-        uint8_t community;
-        uint64_t primary_key() const { return bp.value; }
-    };
-    EOSIO_REFLECT (
-        stats_v2,
-        bp,
-        ratings_cntr,
-        average,
-        transparency,
-        infrastructure,
-        trustiness,
-        development,
-        community
-    )
-    typedef eosio::multi_index<"stat"_n, stats_v2 > stats_table_v2;
-
-    
-    uint128_t create_uniq_rating(const uint64_t &user, const uint64_t &bp) {
-        return (static_cast<uint128_t>(user) << 64) | bp;
-    }
-
-    /*
-    *   Stores the rate vote for a block producer
-    */
-    struct ratings2 {
-        uint64_t id;
-        name user;
-        name bp;
-        uint8_t transparency;
-        uint8_t infrastructure;
-        uint8_t trustiness;
-        uint8_t development;
-        uint8_t community;
-        uint64_t primary_key() const { return id; }
-        uint128_t by_uniq_rating() const { return create_uniq_rating(user.value, bp.value); }
-        uint64_t by_bp() const { return bp.value; }
-    };
-    EOSIO_REFLECT(
-        ratings2,
-        id,
-        user,
-        bp,
-        transparency,
-        infrastructure,
-        trustiness,
-        development,
-        community
-    )
-    typedef eosio::multi_index<"rating"_n, ratings2,
-        indexed_by<"uniqrating"_n, const_mem_fun<ratings2, uint128_t, &ratings2::by_uniq_rating>>,
-        indexed_by<"bp"_n, const_mem_fun<ratings2, uint64_t, &ratings2::by_bp>>
-    > ratings_table_v2;
 
     /*
     *   Stores contract config for migration versioning
@@ -423,11 +353,12 @@ namespace eoscostarica {
         void rate(
             name user, 
             name bp, 
-            uint8_t transparency,
-            uint8_t infrastructure,
-            uint8_t trustiness,
-            uint8_t community,
-            uint8_t development);
+            int8_t transparency,
+            int8_t infrastructure,
+            int8_t trustiness,
+            int8_t community,
+            int8_t development);
+
 
         /**
         *
@@ -453,11 +384,11 @@ namespace eoscostarica {
             name scope,
             name user,
             name bp, 
-            uint8_t transparency,
-            uint8_t infrastructure,
-            uint8_t trustiness,
-            uint8_t community,
-            uint8_t development);
+            int8_t transparency,
+            int8_t infrastructure,
+            int8_t trustiness,
+            int8_t community,
+            int8_t development);
         
         /**
         *
@@ -481,11 +412,11 @@ namespace eoscostarica {
             name scope,
             name user,
             name bp_name,
-            uint8_t transparency,
-            uint8_t infrastructure,
-            uint8_t trustiness,
-            uint8_t community,
-            uint8_t development);
+            float transparency,
+            float infrastructure,
+            float trustiness,
+            float community,
+            float development);
         
         /**
         *
@@ -641,7 +572,7 @@ namespace eoscostarica {
         *  Load existing eden member rates into rateproducer scope
         * 
         */ 
-        void migrate();
+        void loadedens();
     };
 
     EOSIO_ACTIONS(rateproducer,
@@ -651,6 +582,6 @@ namespace eoscostarica {
                  action(wipe),
                  action(rminactive),
                  action(rmrate, user, bp),
-                 action(migrate))
+                 action(loadedens))
                  
 } // namespace eoscostarica
