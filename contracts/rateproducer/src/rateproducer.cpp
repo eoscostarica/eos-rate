@@ -529,7 +529,7 @@ namespace eoscostarica {
                 row.infrastructure = itr->infrastructure;
                 row.trustiness = itr->trustiness;
                 row.community = itr->community;
-                row.development = itr->development ;   
+                row.development = itr->development;   
             });
             //save stats
             save_bp_stats(eden_scope,
