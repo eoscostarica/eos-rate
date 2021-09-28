@@ -176,7 +176,7 @@
         {
             "name": "rmrate",
             "type": "rmrate",
-            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Remove a especific rate\nsummary: The intent of the `{{ rmrate }}` action is remove a rate made from an especific account.\n---"
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Remove a especific rate\nsummary: The intent of the `{{ rmrate }}` action is to remove a rate made from an especific account.\n---"
         },
         {
             "name": "migrate",
