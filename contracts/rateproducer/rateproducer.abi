@@ -76,7 +76,7 @@
             "fields": []
         },
         {
-            "name": "ratings",
+            "name": "ratings_v2",
             "base": "",
             "fields": [
                 {
@@ -93,23 +93,23 @@
                 },
                 {
                     "name": "transparency",
-                    "type": "float32"
+                    "type": "uint8"
                 },
                 {
                     "name": "infrastructure",
-                    "type": "float32"
+                    "type": "uint8"
                 },
                 {
                     "name": "trustiness",
-                    "type": "float32"
+                    "type": "uint8"
                 },
                 {
                     "name": "development",
-                    "type": "float32"
+                    "type": "uint8"
                 },
                 {
                     "name": "community",
-                    "type": "float32"
+                    "type": "uint8"
                 }
             ]
         },
@@ -186,11 +186,11 @@
     ],
     "tables": [
         {
-            "name": "ratings",
+            "name": "rating",
             "index_type": "i64",
             "key_names": [],
             "key_types": [],
-            "type": "ratings"
+            "type": "ratings_v2"
         },
         {
             "name": "stats",
