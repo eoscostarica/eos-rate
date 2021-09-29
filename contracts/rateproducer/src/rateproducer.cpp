@@ -501,24 +501,15 @@ namespace eoscostarica {
 
         for(auto itr = _ratings_self.begin(); itr != _ratings_self.end(); itr++) {
             _ratings_self_v2.emplace(_self, [&]( auto& row ) {
-                    row.id = itr->id;
-                    row.user = itr->user;
-                    row.bp = itr->bp;
-                    row.transparency = itr->transparency;
-                    row.infrastructure = itr->infrastructure;
-                    row.trustiness = itr->trustiness;
-                    row.community = itr->community;
-                    row.development = itr->development;
-                });
-                //save stats
-                save_bp_stats(_self,
-                            _self,
-                            itr->bp,
-                            itr->transparency,
-                            itr->infrastructure,
-                            itr->trustiness,
-                            itr->community,
-                            itr->development);
+                row.id = itr->id;
+                row.user = itr->user;
+                row.bp = itr->bp;
+                row.transparency = itr->transparency;
+                row.infrastructure = itr->infrastructure;
+                row.trustiness = itr->trustiness;
+                row.community = itr->community;
+                row.development = itr->development;
+            });
             
             if(!is_eden(itr->user)) continue;
             _ratings_eden_v2.emplace(_self, [&]( auto& row ) {
@@ -531,15 +522,6 @@ namespace eoscostarica {
                 row.community = itr->community;
                 row.development = itr->development;   
             });
-            //save stats
-            save_bp_stats(eden_scope,
-                        _self,
-                        itr->bp,
-                        itr->transparency,
-                        itr->infrastructure,
-                        itr->trustiness,
-                        itr->community,
-                        itr->development);
         }
 
         c.version++;
