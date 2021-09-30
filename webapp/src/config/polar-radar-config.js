@@ -1,6 +1,7 @@
 export const options = {
   chart: {
-    polar: true
+    polar: true,
+    width: 350
   },
   credits: {
     enabled: false
@@ -33,7 +34,10 @@ export const options = {
     startOnTick: true,
     tickmarkPlacement: 'on',
     labels: {
-      align: 'center'
+      align: 'center',
+      style: {
+        fontSize: '12px'
+      }
     }
   },
   yAxis: {

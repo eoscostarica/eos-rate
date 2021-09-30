@@ -1,16 +1,14 @@
-import React, { memo, useState, useEffect } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink as RouterNavLink, useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
 import Divider from '@mui/material/Divider'
-import Chip from '@mui/material/Chip'
 import List from '@mui/material/List'
 import MuiListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import Collapse from '@mui/material/Collapse'
 import Typography from '@mui/material/Typography'
 import AccountIcon from '@mui/icons-material/AccountCircle'
 import { makeStyles } from '@mui/styles'
@@ -49,22 +47,9 @@ ExternalLink.propTypes = {
   className: PropTypes.string
 }
 
-const ListItem = ({
-  childrens,
-  name,
-  path,
-  icon,
-  badge,
-  handleOnClick,
-  openMenu,
-  isUserLogged,
-  handleSortBy
-}) => {
+const ListItem = ({ childrens, name, path, icon, isUserLogged }) => {
   const classes = useStyles()
-  const { t: tSort } = useTranslation('sortInput')
   const { t } = useTranslation('translations')
-
-  const sortBy = 'generalRate' // get this value form context
 
   if (name === 'myAccount' && !isUserLogged) return <></>
 
@@ -78,32 +63,10 @@ const ListItem = ({
         activeClassName='active'
         className={classes.linkSidebar}
         href={path}
-        onClick={() => handleOnClick(name)}
       >
         {icon && <ListItemIcon>{icon}</ListItemIcon>}
         <ListItemText primary={t(name)} />
-        {badge && <Chip className={classes.badge} label={badge} />}
       </MuiListItem>
-      {childrens && (
-        <Collapse
-          in={openMenu}
-          timeout='auto'
-          unmountOnExit
-          className={classes.subMenuWrapper}
-        >
-          {childrens.map(({ value }, index) => (
-            <MuiListItem
-              button
-              key={`${value}-collapsed-item-${index}`}
-              selected={value === sortBy}
-              className={classes.subMenu}
-              onClick={() => handleSortBy(value, name)} // setSortBy(value)}
-            >
-              <ListItemText primary={tSort(value)} />
-            </MuiListItem>
-          ))}
-        </Collapse>
-      )}
     </Box>
   )
 }
@@ -113,26 +76,13 @@ ListItem.propTypes = {
   name: PropTypes.string,
   path: PropTypes.string,
   icon: PropTypes.node,
-  badge: PropTypes.string,
-  handleOnClick: PropTypes.func,
-  openMenu: PropTypes.bool,
-  isUserLogged: PropTypes.bool,
-  handleSortBy: PropTypes.func
+  isUserLogged: PropTypes.bool
 }
 
 const Sidebar = ({ routes, ...props }) => {
   const history = useHistory()
   const classes = useStyles()
-  const [state, { setSortBy }] = useSharedState()
-  const [openMenu, setOpenMenu] = useState(false)
-
-  const handleOnClick = name => {
-    setOpenMenu(name === 'blockProducers')
-  }
-
-  useEffect(() => {
-    setOpenMenu(history.location.pathname === '/block-producers')
-  }, [])
+  const [state] = useSharedState()
 
   return (
     <Drawer {...props}>
@@ -163,11 +113,7 @@ const Sidebar = ({ routes, ...props }) => {
               path={route.path}
               icon={route.icon}
               badge={route.badge}
-              childrens={route.childrens}
-              handleOnClick={handleOnClick}
-              openMenu={openMenu}
               isUserLogged={!!state.user}
-              handleSortBy={setSortBy}
             />
           ))}
         </List>
