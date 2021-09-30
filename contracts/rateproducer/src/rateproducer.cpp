@@ -31,6 +31,7 @@ namespace eoscostarica {
         check( (MINVAL <= community && community <= MAXVAL), "Error community value out of range" );
 
         bool isEden = is_eden(user);
+        name stats_ram_payer = isEden ? _self : user;
 
         // checks if the bp is active 
         check( is_blockproducer(bp), "votes are allowed only for registered block producers" );
@@ -66,7 +67,7 @@ namespace eoscostarica {
             });
             //save stats
             save_bp_stats(scope,
-                        user,
+                        stats_ram_payer,
                         bp,
                         transparency,
                         infrastructure,
@@ -89,8 +90,8 @@ namespace eoscostarica {
             float bp_trustiness = 0;
             float bp_community = 0;
             float bp_development = 0;
-            uint32_t  bp_ratings_cntr = 0;
-            float  bp_average = 0;
+            uint32_t bp_ratings_cntr = 0;
+            float bp_average = 0;
             calculate_bp_stats (scope,
                                 bp,
                                 &bp_transparency,
@@ -101,7 +102,7 @@ namespace eoscostarica {
                                 &bp_ratings_cntr,
                                 &bp_average);
             update_bp_stats (scope,
-                            &user,
+                            &stats_ram_payer,
                             &bp,
                             &bp_transparency,
                             &bp_infrastructure,
@@ -115,7 +116,7 @@ namespace eoscostarica {
 
     void rateproducer::save_bp_stats (
         name scope,
-        name user,
+        name ram_payer,
         name bp_name,
         float transparency,
         float infrastructure,
@@ -128,7 +129,7 @@ namespace eoscostarica {
         float sum = 0;
         if(itr == _stats.end()) {
         //new entry
-            _stats.emplace(user, [&]( auto& row ) {
+            _stats.emplace(ram_payer, [&]( auto& row ) {
                 if (transparency) {
                     row.transparency = transparency;
                     counter++;
@@ -168,7 +169,7 @@ namespace eoscostarica {
             });
         } else {
             //update the entry
-            _stats.modify(itr, user, [&]( auto& row ) {
+            _stats.modify(itr, ram_payer, [&]( auto& row ) {
                 if (transparency) {
                     sum += transparency;
                     if(row.transparency) {
@@ -313,7 +314,7 @@ namespace eoscostarica {
 
     void rateproducer::update_bp_stats (
         name scope,
-        name * user,
+        name * ram_payer,
         name * bp_name,
         float * transparency,
         float * infrastructure,
@@ -334,7 +335,7 @@ namespace eoscostarica {
                 *community +
                 *development) {
             
-                _stats.modify(itr,*user, [&]( auto& row ) {
+                _stats.modify(itr,*ram_payer, [&]( auto& row ) {
                     row.transparency = *transparency;
                     row.infrastructure = *infrastructure;
                     row.trustiness = *trustiness;

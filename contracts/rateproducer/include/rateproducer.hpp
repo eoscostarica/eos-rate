@@ -435,7 +435,7 @@ namespace eoscostarica {
         */
         void save_bp_stats (
             name scope,
-            name user,
+            name ram_payer,
             name bp_name,
             float transparency,
             float infrastructure,
@@ -496,7 +496,7 @@ namespace eoscostarica {
         */ 
         void update_bp_stats (
             name scope,
-            name * user,
+            name * ram_payer,
             name * bp_name,
             float * transparency,
             float * infrastructure,
