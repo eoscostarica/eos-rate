@@ -205,9 +205,6 @@ export default theme => ({
     margin: 'auto',
     width: '100%',
     padding: '5px'
-    // [theme.breakpoints.down('sm')]: {
-    //   width: '100%'
-    // }
   },
   buttonsBox: {
     position: 'absolute',
