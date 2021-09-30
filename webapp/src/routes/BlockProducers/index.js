@@ -37,18 +37,12 @@ const AllBps = () => {
     showChipMessage: false
   })
 
-  // const sortedBPs = applySortBy(sortBy, blockProducers)
-
   const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
   // const goToTop = () => document.getElementById('mainContent').scrollTo(0, 0)
 
   const handleOnFliterChange = async filter => {
     await setProducers(currentlyVisible, filter)
   }
-
-  // const handleToggleCompareTool = () => {
-  //   setCompareBPTool(!state.compareBPToolVisible)
-  // }
 
   const handleToggleSelected = (item, isAddItem = false) => {
     if (isAddItem) {
@@ -63,8 +57,6 @@ const AllBps = () => {
   }
 
   const handleOpenDesktopVotingTool = () => {
-    console.log('handleOpenDesktopVotingTool')
-
     // goToTop()
     !state.compareBPToolVisible && setCompareBPTool(true)
   }
