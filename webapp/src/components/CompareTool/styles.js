@@ -4,21 +4,44 @@ export default theme => ({
     padding: theme.spacing(2),
     background: theme.palette.surface.main,
     width: '100%',
-    position: 'relative'
+    position: 'relative',
+    overflow: 'hidden'
+  },
+  compareSliderView: {
+    width: '100%'
+  },
+  boxSliderView: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    overflow: 'hidden'
+  },
+  sliderBody: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   compareGraphView: {
     paddingTop: 0,
-    height: '100%',
-    [theme.breakpoints.up('md')]: {
-      paddingTop: theme.spacing(2)
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    overflow: 'hidden',
+    [theme.breakpoints.up('sm')]: {
+      height: '100%'
     }
   },
   wrapperDesktop: {
+    height: 'calc(100% - 174px)',
     display: 'flex',
     flexDirection: 'column',
-    height: 'calc(100% - 75px)',
-    [theme.breakpoints.up('md')]: {
-      flexDirection: 'row'
+    overflow: 'auto',
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: theme.spacing(1),
+      flexDirection: 'row',
+      overflow: 'hidden'
     }
   },
   btnClear: {
@@ -46,11 +69,6 @@ export default theme => ({
     justifyContent: 'space-between',
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(2)
-  },
-  switch: {
-    [theme.breakpoints.up('md')]: {
-      float: 'right'
-    }
   },
   switchBox: {
     textAlign: 'center',
@@ -84,7 +102,7 @@ export default theme => ({
   },
   // slider view
   bpName: {
-    paddingTop: 10,
+    marginTop: '-40px !important',
     textAlign: 'center'
   },
   slider: {
@@ -99,7 +117,19 @@ export default theme => ({
   sliderCard: {
     flex: '0 0 auto',
     width: 360,
-    paddingRight: 16
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden'
+  },
+  chartWrapperSliderView: {
+    '& .highcharts-container ': {
+      height: '400px !important',
+      width: '340px !important',
+      '& > svg': {
+        height: '400px !important',
+        width: '340px !important'
+      }
+    }
   },
   // graph view
   bpItem: {
@@ -163,8 +193,8 @@ export default theme => ({
     minHeight: 50,
     flexWrap: 'wrap',
     [theme.breakpoints.up('sm')]: {
-      marginBottom: 38,
-      justifyContent: 'space-around'
+      height: 'fit-content',
+      justifyContent: 'space-evenly'
     },
     [theme.breakpoints.up('md')]: {
       justifyContent: 'space-between',
@@ -173,17 +203,24 @@ export default theme => ({
   },
   centerBox: {
     margin: 'auto',
-    width: '45%',
-    padding: '5px',
-    [theme.breakpoints.down('sm')]: {
-      width: '100%'
-    }
+    width: '100%',
+    padding: '5px'
+    // [theme.breakpoints.down('sm')]: {
+    //   width: '100%'
+    // }
   },
   buttonsBox: {
+    position: 'absolute',
+    bottom: 0,
     justifyContent: 'space-between',
     display: 'flex',
     alignItems: 'center',
-    [theme.breakpoints.up('md')]: {
+    width: 'calc(100% - 32px)',
+    backgroundColor: theme.palette.surface.main,
+    padding: theme.spacing(2, 0),
+    [theme.breakpoints.up('sm')]: {
+      width: 300,
+      position: 'initial',
       justifyContent: 'center'
     }
   },
@@ -214,13 +251,13 @@ export default theme => ({
   },
   compareBodyListDesktop: {
     display: 'none',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       display: 'flex'
     }
   },
   compareBodyListMobile: {
     display: 'flex',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       display: 'none'
     }
   },
@@ -229,9 +266,9 @@ export default theme => ({
     textAlign: 'center'
   },
   bodyModalView: {
-    height: 'calc(100% - 100px)',
+    height: '100%',
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     flexDirection: 'column'
   },
   topModalView: {
@@ -240,7 +277,10 @@ export default theme => ({
   btnBox: {
     width: '100%',
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    [theme.breakpoints.up('sm')]: {
+      justifyContent: 'flex-end'
+    }
   },
   alert: {
     width: '100%'
@@ -253,25 +293,30 @@ export default theme => ({
   },
   chartWrapper: {
     '& .highcharts-container ': {
-      height: '400px !important',
+      height: '300px !important',
       width: '340px !important',
       '& > svg': {
+        marginTop: '-60px !important',
         height: '400px !important',
         width: '340px !important'
-      },
-      [theme.breakpoints.up('sm')]: {
-        height: '400px !important',
-        width: '600px !important',
-        '& > svg': {
-          height: '400px !important',
-          width: '600px !important'
-        }
       }
     }
   },
   overrideBreakpoint: {
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       margin: `${theme.spacing(0, 1, 1, 1)} !important`
+    }
+  },
+  hiddenMobile: {
+    display: 'none !important',
+    [theme.breakpoints.up('sm')]: {
+      display: 'flex !important'
+    }
+  },
+  hiddenDesktop: {
+    display: 'flex !important',
+    [theme.breakpoints.up('sm')]: {
+      display: 'none  !important'
     }
   }
 })

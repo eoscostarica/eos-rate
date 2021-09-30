@@ -20,7 +20,7 @@ const initialValue = {
   selectedProducers: [],
   blockProducer: null,
   compareBPToolVisible: false,
-  sortBlockProducersBy: null,
+  sortBlockProducersBy: { sort: 'total_votes', value: 'vote' },
   proxies: { data: [], rows: 0 },
   selectedProxies: [],
   proxy: null,
@@ -184,16 +184,20 @@ export const useSharedState = () => {
     dispatch({ type: 'userChange', user })
   }
   const setSortBy = (sortBy, page) => {
-    if (page === 'blockProducers') {
+    if (page === 'bp') {
       dispatch({ type: 'setSortProducersBy', sortBy })
     } else {
-      // dispatch({ type: 'setSortProducersBy', sortBy })
+      // dispatch({ type: 'setSortProxiesBy', sortBy })
     }
   }
 
   // Block Producers Action
-  const setProducers = async limit => {
-    const blockProducers = await getProducers(limit)
+  const setProducers = async (limit, orderBy = null) => {
+    const filter = orderBy || state.sortBlockProducersBy.sort
+    const blockProducers = await getProducers(limit, [
+      { [filter]: 'desc_nulls_last' },
+      { bpjson: 'desc' }
+    ])
 
     dispatch({ type: 'setProducers', blockProducers })
   }
