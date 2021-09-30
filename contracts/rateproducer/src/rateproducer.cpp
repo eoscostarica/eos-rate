@@ -33,21 +33,16 @@ namespace eoscostarica {
         bool isEden = is_eden(user);
         name stats_ram_payer = isEden ? _self : user;
 
-        // checks if the bp is active 
         check( is_blockproducer(bp), "votes are allowed only for registered block producers" );
 
-        eosio::name proxy_name = get_proxy(user);
+        name proxy_name = get_proxy(user);
         if(proxy_name.length()) {
-            // active proxy??
             check(is_active_proxy(proxy_name), "votes are allowed only for active proxies" );
-            // account votes through a proxy
             if(!isEden) check( MIN_VOTERS <= get_voters(proxy_name), "delegated proxy does not have enough voters" );
         } else {
-            // acount must vote for at least 21 bp
             if(!isEden) check( MIN_VOTERS <= get_voters(user), "account does not have enough voters" );
         }
 
-        // upsert bp rating
         ratings_table_v2 _ratings(_self, scope.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
@@ -65,7 +60,7 @@ namespace eoscostarica {
                 row.community = community;
                 row.development = development;   
             });
-            //save stats
+            
             save_bp_stats(scope,
                         stats_ram_payer,
                         bp,
@@ -76,7 +71,6 @@ namespace eoscostarica {
                         development);
         
         } else {
-            //the voter update its vote
             uniq_rating_index.modify(existing_rating, user, [&]( auto& row ) {
                 row.transparency = transparency;
                 row.infrastructure = infrastructure;
@@ -84,7 +78,7 @@ namespace eoscostarica {
                 row.community = community;
                 row.development = development ;  
             });
-            //update bp stats
+
             float bp_transparency = 0;
             float bp_infrastructure = 0;
             float bp_trustiness = 0;
