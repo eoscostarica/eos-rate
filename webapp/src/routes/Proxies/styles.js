@@ -34,11 +34,8 @@ export default theme => ({
     [theme.breakpoints.up('sm')]: {
       flexBasis: '50%'
     },
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('mdd')]: {
       flexBasis: '33.33%'
-    },
-    [theme.breakpoints.up('lg')]: {
-      flexBasis: '20%'
     }
   },
   compareTool: {

@@ -38,7 +38,10 @@ const AllBps = () => {
   })
 
   const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
-  // const goToTop = () => document.getElementById('mainContent').scrollTo(0, 0)
+
+  const goToTop = () => {
+    document.getElementById('childContent').scrollTo(0, 0)
+  }
 
   const handleOnFliterChange = async filter => {
     await setProducers(currentlyVisible, filter)
@@ -57,7 +60,7 @@ const AllBps = () => {
   }
 
   const handleOpenDesktopVotingTool = () => {
-    // goToTop()
+    goToTop()
     !state.compareBPToolVisible && setCompareBPTool(true)
   }
 
