@@ -74,7 +74,7 @@ const BlockProducerProfile = () => {
   const { t } = useTranslation('profile')
   const { account } = useParams()
   const classes = useStyles()
-  const [state, { setProducer }] = useSharedState()
+  const [state, { setProducer, setLastTransaction }] = useSharedState()
   const isMobile = useMediaQuery('(max-width:768px)')
   const [isRated, setIsRated] = useState(false)
   const [bpHasInformation, setBpHasInformation] = useState(false)
@@ -83,8 +83,6 @@ const BlockProducerProfile = () => {
   const [polarChartData, setPolarChartData] = useState([])
   const [blockProducerTitle, setBlockProducerTitle] = useState('No Title')
   const [open, setOpen] = useState(false)
-
-  const location = { state: { transactionId: 12 } } /// Check this logic
 
   const getRatingData = edenRate => ({
     community: edenRate.community || 0,
@@ -114,6 +112,7 @@ const BlockProducerProfile = () => {
       return
     }
     setOpen(false)
+    setLastTransaction(null)
   }
 
   useEffect(() => {
@@ -123,8 +122,8 @@ const BlockProducerProfile = () => {
         const bp = state.blockProducers.data.find(
           ({ owner }) => owner === account
         )
-
         setProfileData(bp)
+        setProducer(bp, true)
 
         return
       }
@@ -132,7 +131,7 @@ const BlockProducerProfile = () => {
       await setProducer(account)
     }
 
-    getBpData()
+    if (state.blockProducers) getBpData()
   }, [account])
 
   useEffect(() => {
@@ -145,18 +144,17 @@ const BlockProducerProfile = () => {
 
   useEffect(() => {
     if (state.user && state.blockProducer) {
-      const { userRates = [] } = state.user.userData
-
       setIsRated(
-        userRates.some(rate => rate.owner === state.blockProducer.owner)
+        state.user?.userData?.userRates.some(
+          rate => rate.owner === state.blockProducer.owner
+        )
       )
     }
   }, [state.user, state.blockProducer])
 
-  // useEffect(() => {
-  //   if (location.state.transactionId) setOpen(true)
-  //   else setOpen(false)
-  // }, [])
+  useEffect(() => {
+    setOpen(!!state.transaction)
+  }, [])
 
   return (
     <Grid container justifyContent='center' className={classes.container}>
@@ -319,9 +317,9 @@ const BlockProducerProfile = () => {
                   rel='noopener'
                   target='_blank'
                   style={{ color: 'white' }}
-                  href={`${mainConfig.AdditionalResourcesblockExplorer}/transaction/${location.state.transactionId}`}
+                  href={`${mainConfig.AdditionalResourcesblockExplorer}/transaction/${state.transaction?.transactionId}`}
                 >
-                  {location.state.transactionId}
+                  {state.transaction?.transactionId}
                 </MLink>
               </Button>
               <IconButton
