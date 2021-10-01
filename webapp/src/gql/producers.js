@@ -92,3 +92,86 @@ export const GET_EDEN_RATING = gql`
     }
   }
 `
+
+export const MUTATION_INSERT_USER_RATING = gql`
+  mutation saveUserRating($objects: [user_ratings_insert_input!]!) {
+    insert_user_ratings(objects: $objects) {
+      returning {
+        user
+        bp
+        ratings
+      }
+    }
+  }
+`
+
+export const MUTATION_UPDATE_RATING = gql`
+  mutation updateRating($ratingInput: RatingInput!) {
+    rateProducer(ratingInput: $ratingInput) {
+      message
+      resultEden
+      uniq_rating
+      user
+      bp
+      ratings
+    }
+  }
+`
+
+export const MUTATION_UPDATE_USER_RATING = gql`
+  mutation updateUserRating(
+    $userRating: user_ratings_set_input
+    $user: String
+    $bp: String
+  ) {
+    update_user_ratings(
+      _set: $userRating
+      where: { _and: [{ user: { _eq: $user } }, { bp: { _eq: $bp } }] }
+    ) {
+      returning {
+        user
+        bp
+        ratings
+        uniq_rating
+      }
+    }
+  }
+`
+
+export const QUERY_RATING = gql`
+  query getRating($user: String, $bp: String) {
+    user_ratings(
+      where: { _and: [{ user: { _eq: $user } }, { bp: { _eq: $bp } }] }
+    ) {
+      user
+      bp
+      ratings
+      tx_data
+    }
+  }
+`
+
+export const QUERY_EDEN_RATING = gql`
+  query getEdenRating($bp: String) {
+    eden_ratings_stats(where: { bp: { _eq: $bp } }) {
+      bp
+      average
+      ratings_cntr
+      infrastructure
+      transparency
+      trustiness
+      development
+      community
+    }
+  }
+`
+
+export const QUERY_PRODUCER = gql`
+  query getProducer($owner: String) {
+    producers(where: { owner: { _eq: $owner } }) {
+      bpjson
+      owner
+      system
+    }
+  }
+`
