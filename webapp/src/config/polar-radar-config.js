@@ -24,11 +24,11 @@ export const options = {
     gridLineColor: '#e5e5e5',
     lineColor: '#e5e5e5',
     categories: [
-      'community',
-      'development',
-      'infrastructure',
-      'transparency',
-      'trustiness'
+      'Community',
+      'Development',
+      'Infrastructure',
+      'Transparency',
+      'Trustiness'
     ],
     lineWidth: 3,
     startOnTick: true,
@@ -44,7 +44,7 @@ export const options = {
     gridLineWidth: 3,
     gridLineColor: '#e5e5e5',
     min: 0,
-    max: 11,
+    max: 10,
     endOnTick: false,
     tickInterval: 2,
     gridLineInterpolation: 'circle',

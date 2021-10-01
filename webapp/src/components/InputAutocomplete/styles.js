@@ -20,6 +20,7 @@ export default theme => ({
     width: '100%',
     [theme.breakpoints.up('md')]: {
       width: 344,
+      height: 58,
       backgroundColor: 'rgba(0, 0, 0, 0.50)',
       '&:hover': {
         backgroundColor: 'rgba(0, 0, 0, 0.45)'
