@@ -58,8 +58,6 @@ const AllBps = () => {
   }
 
   const handleOpenDesktopVotingTool = () => {
-    console.log('handleOpenDesktopVotingTool')
-
     // goToTop()
     !state.compareBPToolVisible && setCompareBPTool(true)
   }
@@ -151,13 +149,6 @@ const AllBps = () => {
 
     setMoreRows(state.blockProducers.rows > currentlyVisible)
   }, [state.blockProducers])
-
-  state.user &&
-    console.log({
-      isRated: state.user.userData.userRates.some(
-        ({ owner }) => owner === 'eoscostarica'
-      )
-    })
 
   return (
     <Box className={classes.rootBP} ref={myRef}>
