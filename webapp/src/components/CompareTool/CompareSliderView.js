@@ -1,12 +1,12 @@
 import React from 'react'
 import { makeStyles } from '@mui/styles'
-// import useMediaQuery from '@mui/material/useMediaQuery'
 import CloseIcon from '@mui/icons-material/Close'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import _get from 'lodash.get'
+import clsx from 'clsx'
 
 import PolarChart from '../PolarChart'
 
@@ -23,15 +23,9 @@ const CompareSliderView = ({
 }) => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
-  // const isDesktop = useMediaQuery('(min-width:767px)')
-  // const [sizes, setSizes] = useState()
-
-  // useEffect(() => {
-  //   // setSizes(isDesktop ? 400 : '95%')
-  // }, [isDesktop])
 
   return (
-    <Box className={className}>
+    <Box className={clsx(classes.compareSliderView, className)}>
       <Box className={classes.headerVotingCompare}>
         <Box className={classes.modalHeader}>
           <Typography variant='h6' className={classes.marginRightElem}>
@@ -56,10 +50,9 @@ const CompareSliderView = ({
               key={`slider-card-${name}-${index}`}
               className={classes.sliderCard}
             >
-              <Box className={classes.chartWrapper}>
+              <Box className={classes.chartWrapperSliderView}>
                 <PolarChart data={bp.data ? [{ ...bp.data }] : []} />
               </Box>
-
               <Typography variant='subtitle1' className={classes.bpName}>
                 {name}
               </Typography>

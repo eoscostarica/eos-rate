@@ -23,7 +23,7 @@ const initialValue = {
   blockProducer: null,
   transaction: null,
   compareBPToolVisible: false,
-  sortBlockProducersBy: null,
+  sortBlockProducersBy: { sort: 'total_votes', value: 'vote' },
   proxies: { data: [], rows: 0 },
   selectedProxies: [],
   proxy: null,
@@ -197,18 +197,23 @@ export const useSharedState = () => {
     dispatch({ type: 'userChange', user })
   }
   const setSortBy = (sortBy, page) => {
-    if (page === 'blockProducers') {
+    if (page === 'bp') {
       dispatch({ type: 'setSortProducersBy', sortBy })
     } else {
-      // dispatch({ type: 'setSortProducersBy', sortBy })
+      // dispatch({ type: 'setSortProxiesBy', sortBy })
     }
   }
 
   // Block Producers Action
-  const setProducers = async (limit, bpList) => {
+  const setProducers = async (limit, orderBy = null, bpList) => {
+    const filter = orderBy || state.sortBlockProducersBy.sort
     let blockProducers = bpList
 
-    if (!blockProducers) blockProducers = await getProducers(limit)
+    if (!blockProducers)
+      blockProducers = await getProducers(limit, [
+        { [filter]: 'desc_nulls_last' },
+        { bpjson: 'desc' }
+      ])
 
     dispatch({ type: 'setProducers', blockProducers })
   }
@@ -241,7 +246,7 @@ export const useSharedState = () => {
     })
 
     setProducer(ratingData.currentBP, true)
-    setProducers(30, {
+    setProducers(30, null, {
       ...state.blockProducers,
       data: ratingData.producerUpdatedList
     })

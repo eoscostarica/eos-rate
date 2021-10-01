@@ -132,86 +132,61 @@ const CompareGraphView = ({
       </Box>
       <Box className={classes.wrapperDesktop}>
         <Box className={classes.bodyModalView}>
-          <Box className={classes.topModalView}>
-            <Box className={classes.chartWrapper}>
-              <PolarChart data={selected.map(({ data }) => ({ ...data }))} />
-            </Box>
-            {isProxy && selected.length > 0 && (
-              <Box className={classes.proxyVote}>
-                <Typography style={{ fontSize: '20px', fontWeight: 500 }}>
-                  {selected[0].name}
-                </Typography>
-                <Box style={{ margin: '10px 0 10px 0' }}>
-                  <Button
-                    disabled={!userInfo.isUser}
-                    aria-label='Add to comparison'
-                    className={classes.btnRateProxies}
-                    variant='contained'
-                    onClick={onHandleVote}
-                  >
-                    {t('voteToolToggle')}
-                  </Button>
-                </Box>
-              </Box>
-            )}
-            {!isProxy && (
-              <Box className={classes.switchBox}>
-                <Box className={classes.centerBox}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={isCollapsedView}
-                        color='secondary'
-                        onChange={event =>
-                          setIsCollapsedView(event.target.checked)
-                        }
-                        value='isCollapsedView'
-                      />
-                    }
-                    label={t('compareToolCollapsedSwitch')}
-                  />
-                </Box>
-              </Box>
-            )}
-
-            <Box className={classes.compareBodyListMobile}>
-              {selected.length > 0 ? (
-                <CompareBodyList
-                  isProxy={isProxy}
-                  selectedData={selected}
-                  classes={classes}
-                  removeBP={removeBP}
-                />
-              ) : (
-                <Box className={clsx(classes.centerBox, classes.noBPSelected)}>
-                  <Typography variant='subtitle2'>
-                    {t('noSelectedBP')}
-                  </Typography>
-                </Box>
-              )}
-            </Box>
+          <Box className={classes.chartWrapper}>
+            <PolarChart data={selected.map(({ data }) => ({ ...data }))} />
           </Box>
-          {!isProxy && (
-            <Box className={classes.buttonsBox}>
-              <Button
-                className={classes.btnClear}
-                aria-label='Clear selection'
-                onClick={handleOnClear}
-              >
-                {t('clearSelection')}
-              </Button>
-              <Button
-                disabled={!userInfo.isUser}
-                aria-label='Add to comparison'
-                className={classes.btnRate}
-                variant='contained'
-                color='secondary'
-                onClick={onHandleVote}
-              >
-                {t('voteToolToggle')}
-              </Button>
+          {isProxy && selected.length > 0 && (
+            <Box className={classes.proxyVote}>
+              <Typography style={{ fontSize: '20px', fontWeight: 500 }}>
+                {selected[0].name}
+              </Typography>
+              <Box style={{ margin: '10px 0 10px 0' }}>
+                <Button
+                  disabled={!userInfo.isUser}
+                  aria-label='Add to comparison'
+                  className={classes.btnRateProxies}
+                  variant='contained'
+                  onClick={onHandleVote}
+                >
+                  {t('voteToolToggle')}
+                </Button>
+              </Box>
             </Box>
           )}
+          {!isProxy && (
+            <Box className={classes.switchBox}>
+              <Box className={classes.centerBox}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={isCollapsedView}
+                      color='secondary'
+                      onChange={event =>
+                        setIsCollapsedView(event.target.checked)
+                      }
+                      value='isCollapsedView'
+                    />
+                  }
+                  label={t('compareToolCollapsedSwitch')}
+                />
+              </Box>
+            </Box>
+          )}
+
+          <Box className={classes.compareBodyListMobile}>
+            {selected.length > 0 ? (
+              <CompareBodyList
+                isProxy={isProxy}
+                selectedData={selected}
+                classes={classes}
+                removeBP={removeBP}
+              />
+            ) : (
+              <Box className={clsx(classes.centerBox, classes.noBPSelected)}>
+                <Typography variant='subtitle2'>{t('noSelectedBP')}</Typography>
+              </Box>
+            )}
+          </Box>
         </Box>
 
         <Box className={classes.compareBodyListDesktop}>
@@ -229,6 +204,27 @@ const CompareGraphView = ({
           )}
         </Box>
       </Box>
+      {!isProxy && (
+        <Box className={classes.buttonsBox}>
+          <Button
+            className={classes.btnClear}
+            aria-label='Clear selection'
+            onClick={handleOnClear}
+          >
+            {t('clearSelection')}
+          </Button>
+          <Button
+            disabled={!userInfo.isUser}
+            aria-label='Add to comparison'
+            className={classes.btnRate}
+            variant='contained'
+            color='secondary'
+            onClick={onHandleVote}
+          >
+            {t('voteToolToggle')}
+          </Button>
+        </Box>
+      )}
     </Box>
   )
 }

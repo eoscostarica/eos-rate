@@ -35,25 +35,13 @@ export default theme => ({
     [theme.breakpoints.up('sm')]: {
       flexBasis: '50%'
     },
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('mdd')]: {
       flexBasis: '33.33%'
-    },
-    [theme.breakpoints.up('lg')]: {
-      flexBasis: '20%'
     }
   },
   compareTool: {
-    paddingTop: '0 !important',
-    transform: 'scaleY(1)',
-    transformOrigin: 'top',
-    opacity: 1,
     height: '100%',
-    transition: [
-      'opacity 0.25s ease',
-      'height 0.25s ease',
-      'transform 0.25s ease',
-      'min-height 0.25s ease'
-    ]
+    paddingTop: 0
   },
   bpCard: {
     backgroundColor: theme.palette.primary.light
@@ -73,13 +61,15 @@ export default theme => ({
   },
   hiddenMobile: {
     display: 'none',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       display: 'flex'
     }
   },
   hiddenDesktop: {
     display: 'flex',
-    [theme.breakpoints.up('md')]: {
+    overflow: 'hidden',
+    maxHeight: '100vh',
+    [theme.breakpoints.up('sm')]: {
       display: 'none'
     }
   },
@@ -262,7 +252,7 @@ export default theme => ({
   },
   paperAnchor: {
     right: '0',
-    overflowY: 'initial'
+    overflowY: 'hidden'
   },
   reliefGrid: {
     margin: '10px 16px 30px 16px',

@@ -1,6 +1,7 @@
 export const options = {
   chart: {
-    polar: true
+    polar: true,
+    width: 350
   },
   credits: {
     enabled: false
@@ -23,24 +24,27 @@ export const options = {
     gridLineColor: '#e5e5e5',
     lineColor: '#e5e5e5',
     categories: [
-      'community',
-      'development',
-      'infrastructure',
-      'transparency',
-      'trustiness'
+      'Community',
+      'Development',
+      'Infrastructure',
+      'Transparency',
+      'Trustiness'
     ],
     lineWidth: 3,
     startOnTick: true,
     tickmarkPlacement: 'on',
     labels: {
-      align: 'center'
+      align: 'center',
+      style: {
+        fontSize: '12px'
+      }
     }
   },
   yAxis: {
     gridLineWidth: 3,
     gridLineColor: '#e5e5e5',
     min: 0,
-    max: 11,
+    max: 10,
     endOnTick: false,
     tickInterval: 2,
     gridLineInterpolation: 'circle',

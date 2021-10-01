@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Box from '@mui/material/Box'
 import { makeStyles } from '@mui/styles'
@@ -7,6 +7,7 @@ import Sidebar from '../../components/Sidebar'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import Message from '../../components/Message'
+import { InitGA, LogPageView } from '../../config/google-analitycs-module'
 
 import styles from './styles'
 
@@ -21,6 +22,11 @@ const Dashboard = ({ children, routes }) => {
     setMobileOpen(!mobileOpen)
   }
 
+  useEffect(() => {
+    InitGA()
+    LogPageView()
+  }, [])
+
   return (
     <Box className={classes.root}>
       <Box>
@@ -34,7 +40,7 @@ const Dashboard = ({ children, routes }) => {
       </Box>
       <Box className={classes.mainContent}>
         <Header onDrawerToggle={handleDrawerToggle} />
-        <Box className={classes.childContent}>
+        <Box className={classes.childContent} id='childContent'>
           {children}
           <Footer />
         </Box>
