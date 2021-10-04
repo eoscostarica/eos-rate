@@ -271,7 +271,7 @@ const BlockProducerProfile = () => {
                   )
                 }
               ]}
-              heads={['', t('amount'), t('average')]}
+              heads={[t('raters'), t('amount'), t('average')]}
             />
           </Grid>
         </Grid>

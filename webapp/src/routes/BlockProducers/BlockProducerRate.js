@@ -17,6 +17,7 @@ import MuiAlert from '@mui/material/Alert'
 import { makeStyles } from '@mui/styles'
 import Box from '@mui/material/Box'
 
+import Table from '../../components/Table'
 import TitlePage from '../../components/PageTitle'
 import PolarChart from '../../components/PolarChart'
 import getBPRadarData from '../../utils/get-bp-radar-data'
@@ -331,7 +332,7 @@ const BlockProducerRate = () => {
         </Grid>
       </Grid>
       <Grid container className={classes.reliefGrid}>
-        <Grid item md={12} xs={12}>
+        <Grid item md={12} xs={12} style={{ marginBottom: 10 }}>
           <Box style={{ display: 'flex' }}>
             {blockProducerLogo ? (
               <Avatar aria-label='Block Producer' className={classes.avatar}>
@@ -347,13 +348,23 @@ const BlockProducerRate = () => {
           </Box>
         </Grid>
         <Grid container direction='row' style={{ marginTop: 10 }}>
-          <Grid item xs={12} sm={5}>
-            <Typography variant='subtitle1' className={classes.title}>
+          <Grid
+            item
+            xs={12}
+            style={{
+              borderRight: 'solid 1px rgba(0, 0, 0, 0.38)',
+              paddingTop: 18,
+              paddingRight: 50
+            }}
+            md={6}
+          >
+            <Typography variant='h6' className={classes.title}>
               {t('subTitle')}
             </Typography>
-            <Typography paragraph> {t('subText')} </Typography>
-            <Typography paragraph> {t('helpText')} </Typography>
-            <Typography paragraph> {t('rateText')} </Typography>
+            <Typography paragraph style={{ padding: 10 }}>
+              {' '}
+              {t('helpText')}{' '}
+            </Typography>
             {isMobile && (
               <Grid style={{ paddingTop: 20 }} item xs={12}>
                 <PolarChart data={polarChartData} />
@@ -374,7 +385,7 @@ const BlockProducerRate = () => {
               <Grid
                 alignItems='center'
                 container
-                justifyContent='flex-end'
+                justifyContent='center'
                 style={{ marginTop: 10 }}
               >
                 <Snackbar
@@ -395,85 +406,12 @@ const BlockProducerRate = () => {
                     {ratingState.txError}
                   </Alert>
                 </Snackbar>
-                <Button
-                  disabled={!state.blockProducer}
-                  variant='contained'
-                  size='small'
-                  component={forwardRef((props, ref) => (
-                    <Link
-                      {...props}
-                      ref={ref}
-                      to={`/block-producers/${_get(
-                        state.blockProducer,
-                        'owner',
-                        null
-                      )}`}
-                    />
-                  ))}
-                >
-                  {t('cancelRatingButton')}
-                </Button>
-                <Button
-                  className='textPrimary'
-                  disabled={
-                    showAlert || !state.blockProducer || ratingState.processing
-                  }
-                  color='secondary'
-                  onClick={transact}
-                  size='small'
-                  style={{ margin: '0 10px' }}
-                  variant='contained'
-                >
-                  {isRated ? t('updateRatingButton') : t('publishRatingButton')}
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12} sm={7}>
-            <Grid
-              container
-              direction='column'
-              className={classes.radarActionsWrapper}
-            >
-              {!isMobile && (
-                <Grid className={classes.radarWrapper} item xs={12}>
-                  <PolarChart data={polarChartData} />
-                </Grid>
-              )}
-
-              <Grid
-                className={classNames(classes.ctasWrapper, classes.showOnlySm)}
-                item
-                style={{ margin: '10px 0 15px 0' }}
-                xs={12}
-              >
                 <Grid
-                  alignItems='center'
-                  container
-                  justifyContent='center'
-                  style={{ marginTop: 10 }}
+                  item
+                  style={{ display: 'flex', justifyContent: 'center' }}
+                  xs={6}
+                  md={6}
                 >
-                  <Snackbar
-                    open={showMessage}
-                    autoHideDuration={4000}
-                    onClose={handleClose}
-                  >
-                    <Alert onClose={handleClose} severity='warning'>
-                      {t('rateWithoutLogin')}
-                    </Alert>
-                  </Snackbar>
-                  <Snackbar
-                    open={ratingState.txError}
-                    autoHideDuration={4000}
-                    onClose={handleClose}
-                  >
-                    <Alert onClose={handleClose} severity='error'>
-                      {ratingState.txError}
-                    </Alert>
-                  </Snackbar>
-                  {ratingState.processing && (
-                    <CircularProgress color='secondary' size={20} />
-                  )}
                   <Button
                     disabled={!state.blockProducer}
                     component={forwardRef((props, ref) => (
@@ -492,6 +430,114 @@ const BlockProducerRate = () => {
                   >
                     {t('cancelRatingButton')}
                   </Button>
+                </Grid>
+                <Grid
+                  item
+                  style={{ display: 'flex', justifyContent: 'center' }}
+                  xs={6}
+                  md={6}
+                >
+                  <Button
+                    className='textPrimary'
+                    disabled={
+                      showAlert ||
+                      !state.blockProducer ||
+                      ratingState.processing
+                    }
+                    color='secondary'
+                    onClick={transact}
+                    size='small'
+                    variant='contained'
+                  >
+                    {isRated
+                      ? t('updateRatingButton')
+                      : t('publishRatingButton')}
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid container justifyContent='center' md={6}>
+            <Grid item md={12} xs={12}>
+              <PolarChart data={polarChartData} />
+            </Grid>
+            {console.log({ BP: state.blockProducer })}
+            <Grid item md={11} xs={12}>
+              <Table
+                rows={[
+                  {
+                    rater: t('globalRate'),
+                    amount: state.blockProducer?.ratings_cntr || 0,
+                    average:
+                      formatNumber(state.blockProducer?.average, 1) || 0.0
+                  },
+                  {
+                    rater: t('edenRates'),
+                    amount: state.blockProducer?.eden_ratings_cntr || 0,
+                    average:
+                      formatNumber(state.blockProducer?.eden_average, 1) || 0.0
+                  }
+                ]}
+                heads={[t('raters'), t('amount'), t('average')]}
+              />
+            </Grid>
+            <Grid item md={12} />
+            <Grid item md={12} />
+            <Grid item md={12} />
+            <Grid
+              className={classNames(classes.ctasWrapper, classes.showOnlySm)}
+              item
+              style={{ margin: '10px 0 15px 0' }}
+              xs={12}
+            >
+              <Grid
+                alignItems='center'
+                container
+                justifyContent='center'
+                style={{ marginTop: 10 }}
+              >
+                <Snackbar
+                  open={showMessage}
+                  autoHideDuration={4000}
+                  onClose={handleClose}
+                >
+                  <Alert onClose={handleClose} severity='warning'>
+                    {t('rateWithoutLogin')}
+                  </Alert>
+                </Snackbar>
+                <Snackbar
+                  open={ratingState.txError}
+                  autoHideDuration={4000}
+                  onClose={handleClose}
+                >
+                  <Alert onClose={handleClose} severity='error'>
+                    {ratingState.txError}
+                  </Alert>
+                </Snackbar>
+                {ratingState.processing && (
+                  <CircularProgress color='secondary' size={20} />
+                )}
+                <Grid item xs={6} md={6}>
+                  <Button
+                    disabled={!state.blockProducer}
+                    component={forwardRef((props, ref) => (
+                      <Link
+                        {...props}
+                        ref={ref}
+                        to={`/block-producers/${_get(
+                          state.blockProducer,
+                          'owner',
+                          null
+                        )}`}
+                      />
+                    ))}
+                    variant='contained'
+                    size='small'
+                  >
+                    {t('cancelRatingButton')}
+                  </Button>
+                </Grid>
+                <Grid item xs={6} md={6}>
                   <Button
                     className='textPrimary'
                     disabled={

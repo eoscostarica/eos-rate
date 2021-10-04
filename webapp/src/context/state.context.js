@@ -246,10 +246,12 @@ export const useSharedState = () => {
     })
 
     setProducer(ratingData.currentBP, true)
+
     setProducers(30, null, {
       ...state.blockProducers,
       data: ratingData.producerUpdatedList
     })
+
     const userRates = getUserRates({
       userRate: { ...ratingData.rateProducer, ...ratingData.currentBP },
       user: state.user

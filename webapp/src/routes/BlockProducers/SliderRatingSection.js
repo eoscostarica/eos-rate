@@ -3,11 +3,9 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Grid from '@mui/material/Grid'
 import Switch from '@mui/material/Switch'
-import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { makeStyles } from '@mui/styles'
-import HelpOutline from '@mui/icons-material/HelpOutline'
 
 import RateSlider from '../../components/RateSlider'
 
@@ -40,17 +38,15 @@ const SliderRatingSection = ({
     <Grid container className={classes.sliderBoxContent}>
       <Grid item xs={12}>
         <Typography
-          paragraph
+          variant='h6'
           className={classNames(
             ratingState.communityEnabled ? '' : classes.parameterTitleDisabled,
             classes.marginOff
           )}
         >
           {t('community')}{' '}
-          <Tooltip title={t('communityTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
         </Typography>
+        <Typography paragraph> {t('communityTooltip')} </Typography>
       </Grid>
       <Grid item xs={12}>
         <Box className={classes.sliderWrapper}>
@@ -70,11 +66,15 @@ const SliderRatingSection = ({
             onChange={handleStateChange('communityEnabled')}
             checked={ratingState.communityEnabled}
           />
+          <Typography variant='body2'>
+            {' '}
+            {ratingState.communityEnabled ? t('enabled') : t('disabled')}{' '}
+          </Typography>
         </Box>
       </Grid>
       <Grid item xs={12}>
         <Typography
-          paragraph
+          variant='h6'
           className={classNames(
             ratingState.developmentEnabled
               ? ''
@@ -83,10 +83,8 @@ const SliderRatingSection = ({
           )}
         >
           {t('development')}{' '}
-          <Tooltip title={t('developmentTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
         </Typography>
+        <Typography paragraph> {t('developmentTooltip')} </Typography>
       </Grid>
       <Grid item xs={12}>
         <Box className={classes.sliderWrapper}>
@@ -106,21 +104,23 @@ const SliderRatingSection = ({
             onChange={handleStateChange('developmentEnabled')}
             checked={ratingState.developmentEnabled}
           />
+          <Typography variant='body2'>
+            {' '}
+            {ratingState.developmentEnabled ? t('enabled') : t('disabled')}{' '}
+          </Typography>
         </Box>
       </Grid>
       <Grid item xs={12}>
         <Typography
-          paragraph
+          variant='h6'
           className={classNames(
             ratingState.infraEnabled ? '' : classes.parameterTitleDisabled,
             classes.marginOff
           )}
         >
           {t('infrastructure')}{' '}
-          <Tooltip title={t('infrastructureTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
         </Typography>
+        <Typography paragraph> {t('infrastructureTooltip')} </Typography>
       </Grid>
       <Grid item xs={12}>
         <Box className={classes.sliderWrapper}>
@@ -140,11 +140,15 @@ const SliderRatingSection = ({
             onChange={handleStateChange('infraEnabled')}
             checked={ratingState.infraEnabled}
           />
+          <Typography variant='body2'>
+            {' '}
+            {ratingState.infraEnabled ? t('enabled') : t('disabled')}{' '}
+          </Typography>
         </Box>
       </Grid>
       <Grid item xs={12}>
         <Typography
-          paragraph
+          variant='h6'
           className={classNames(
             ratingState.transparencyEnabled
               ? ''
@@ -153,10 +157,8 @@ const SliderRatingSection = ({
           )}
         >
           {t('transparency')}{' '}
-          <Tooltip title={t('transparencyTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
         </Typography>
+        <Typography paragraph> {t('transparencyTooltip')} </Typography>
       </Grid>
       <Grid item xs={12}>
         <Box className={classes.sliderWrapper}>
@@ -176,21 +178,25 @@ const SliderRatingSection = ({
             onChange={handleStateChange('transparencyEnabled')}
             checked={ratingState.transparencyEnabled}
           />
+          <Typography variant='body2'>
+            {' '}
+            {ratingState.transparencyEnabled
+              ? t('enabled')
+              : t('disabled')}{' '}
+          </Typography>
         </Box>
       </Grid>
       <Grid item xs={12}>
         <Typography
-          paragraph
+          variant='h6'
           className={classNames(
             ratingState.trustinessEnabled ? '' : classes.parameterTitleDisabled,
             classes.marginOff
           )}
         >
           {t('trustiness')}{' '}
-          <Tooltip title={t('trustinessTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
         </Typography>
+        <Typography paragraph> {t('trustinessTooltip')} </Typography>
       </Grid>
       <Grid item xs={12}>
         <Box className={classes.sliderWrapper}>
@@ -210,6 +216,10 @@ const SliderRatingSection = ({
             onChange={handleStateChange('trustinessEnabled')}
             checked={ratingState.trustinessEnabled}
           />
+          <Typography variant='body2'>
+            {' '}
+            {ratingState.trustinessEnabled ? t('enabled') : t('disabled')}{' '}
+          </Typography>
         </Box>
       </Grid>
     </Grid>

@@ -171,21 +171,19 @@
 
   "bpRatePage": {
     "allBPs": "All Block Producers",
-    "subTitle": "Rate Block Producer",
-    "subText": "Use the sliders to rate the BP.",
-    "rateText": "If you feel that you do not have enough knowledge about a specific category you can disable it.",
-    "helpText": "Publish your BP rating by signing in with your favorite wallet.",
+    "subTitle": "Rate This Block Producer",
+    "helpText": "Drag the slider to rate each category. 1 means poor performance while 10 means outstanding performance. You can disable any category if you feel you want to do some research before rating it. Once you’re ready, you can publish your rating using your wallet.",
     "publishRatingButton": "Publish Rating",
     "updateRatingButton": "Update Rating",
     "cancelRatingButton": "Cancel",
     "transparency": "Transparency",
-    "transparencyTooltip": "Compliance with disclosure of ownership.",
+    "transparencyTooltip": "Compliance with disclosure of ownership, complete bp.json, use of rewards, and financial stats.",
     "infrastructure": "Infrastructure",
     "infrastructureTooltip": "Stability and reliability of the EOS infrastructure.",
     "trustiness": "Trustiness",
     "trustinessTooltip": "Collaboration and reputation among the EOS community.",
     "community": "Community",
-    "communityTooltip": "Community value creation through education, events, and other useful content.",
+    "communityTooltip": "Community value creation through education and promoting talks, chats, hackathons, conferences, seminars, developer spaces, and other useful content.",
     "development": "Development",
     "developmentTooltip": "Technical know-how and usage of open-source software, scripts, frameworks, wallets, voting portals, metrics, etc.",
     "globalRate": "General Rating",
@@ -195,7 +193,9 @@
     "noBlockProducer": "This BP Does Not Exist.",
     "success": "Success!",
     "title": "Rate EOS Block Producer Infrastructure and Community Reputation",
-    "infoMessage": "Support the network by voting for your favorite BPs or proxy, once you have voted for 21 BPs you can start rating."
+    "infoMessage": "Support the network by voting for your favorite BPs or proxy, once you have voted for 21 BPs you can start rating.",
+    "enabled": "Enabled",
+    "disabled": "Disabled"
   },
 
   "footer": {

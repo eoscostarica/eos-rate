@@ -76,10 +76,13 @@ export default theme => ({
   // slider rating
   sliderWrapper: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 10,
+    width: '80%'
   },
   sliderBoxContent: {
     marginTop: 30,
+    padding: '0 10px 0 10px',
     [theme.breakpoints.down('sm')]: {
       marginTop: 10
     }
