@@ -594,6 +594,7 @@ namespace eoscostarica {
 
         /**
         *
+        *  NOTE: This function should be removed after migration run
         *  Erase a rate made for a specific account 
         *  to a specific block producer
         *
