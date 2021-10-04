@@ -594,6 +594,18 @@ namespace eoscostarica {
 
         /**
         *
+        *  Erase a rate made for a specific account 
+        *  to a specific block producer
+        *
+        * @param scope - Table scope,
+        * @param user - Voter account name,
+        * @param bp -  Block Producer account name
+        * 
+        */
+        void rmrate_migration(name scope, name user, name bp);
+
+        /**
+        *
         *  Update the current logic to newest
         * 
         */ 

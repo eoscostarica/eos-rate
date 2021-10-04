@@ -481,6 +481,48 @@ namespace eoscostarica {
                         &bp_average);
     }
 
+    void rateproducer::rmrate_migration(name scope, name user, name bp) {
+        ratings_table _ratings(_self, scope.value);
+        auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
+
+        auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
+        auto existing_rating = uniq_rating_index.find(uniq_rating);
+
+        check( existing_rating != uniq_rating_index.end(), "Rating does not exist" );
+        
+        //update bp stats
+        float bp_transparency = 0;
+        float bp_infrastructure = 0;
+        float bp_trustiness = 0;
+        float bp_community = 0;
+        float bp_development = 0;
+        uint32_t  bp_ratings_cntr = 0;
+        float  bp_average = 0;
+
+        //re-calculate stats for the bp 
+        calculate_bp_stats (scope,
+                            bp,
+                            &bp_transparency,
+                            &bp_infrastructure,
+                            &bp_trustiness,
+                            &bp_community,
+                            &bp_development,
+                            &bp_ratings_cntr,
+                            &bp_average);
+                            
+        //save the re-calcualtes stats
+        update_bp_stats (scope,
+                        &user,
+                        &bp,
+                        &bp_transparency,
+                        &bp_infrastructure,
+                        &bp_trustiness,
+                        &bp_community,
+                        &bp_development,
+                        &bp_ratings_cntr,
+                        &bp_average);
+    }
+
     void rateproducer::migrate() {
         config c = cfg.get_or_create(_self, config{.owner = _self, .version = 0});
         require_auth(c.owner);
@@ -507,7 +549,7 @@ namespace eoscostarica {
             
             if(is_eden(itr->user)) {
                 _ratings_eden_v2.emplace(_self, modifyLambda);
-                rmrate_aux(eden_scope, itr->user, itr->bp);
+                rmrate_migration(eden_scope, itr->user, itr->bp);
             }
             else _ratings_self_v2.emplace(_self, modifyLambda);
         }
