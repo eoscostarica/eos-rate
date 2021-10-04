@@ -603,7 +603,7 @@ namespace eoscostarica {
         * @param bp -  Block Producer account name
         * 
         */
-        void rmrate_migration(name scope, name user, name bp);
+        void update_stats_migration(name scope, name user, name bp);
 
         /**
         *
