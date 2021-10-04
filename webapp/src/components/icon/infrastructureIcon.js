@@ -1,12 +1,12 @@
-import React from 'react'
-import SvgIcon from '@material-ui/core/SvgIcon'
-import { makeStyles } from '@material-ui/core/styles'
+import React, { memo } from 'react'
+import SvgIcon from '@mui/material/SvgIcon'
+import { makeStyles } from '@mui/styles'
 
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const InfrastructureIcon = (props) => {
+const InfrastructureIcon = props => {
   const classes = useStyles()
 
   return (
@@ -32,4 +32,4 @@ const InfrastructureIcon = (props) => {
   )
 }
 
-export default InfrastructureIcon
+export default memo(InfrastructureIcon)

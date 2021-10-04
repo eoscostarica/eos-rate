@@ -7,10 +7,10 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
+    load: 'unspecific',
     resources,
+    fallbackNS: 'common',
     fallbackLng: 'en',
-    lng: localStorage.getItem('LANGUAGE') || 'en',
-    caches: ['localStorage', 'cookie'],
     interpolation: {
       escapeValue: false
     }

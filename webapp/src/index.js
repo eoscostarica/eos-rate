@@ -1,39 +1,32 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import { getPersistor } from '@rematch/persist'
-import { MuiThemeProvider, CssBaseline } from '@material-ui/core'
-import { UALProvider, withUAL } from 'ual-reactjs-renderer'
-import { PersistGate } from 'redux-persist/lib/integration/react'
+import { render } from 'react-dom'
+import { UALProvider, withUAL } from '@eoscostarica/ual-reactjs-renderer'
+import { ApolloProvider } from '@apollo/client'
 
-import { authenticators, network } from './utils/ualAuthenticators'
-import store from './store'
-import theme from './config/theme'
 import App from './app'
+import { client } from './graphql'
 import * as serviceWorker from './serviceWorker'
+import { ualConfig } from './config'
+import { SharedStateProvider } from './context/state.context'
 
-import './config/radar'
-import './i18n'
+const SharedStateProviderWithUAL = withUAL(SharedStateProvider)
 
-const persistor = getPersistor()
-const AppWithUAL = withUAL(App)
-
-ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate persistor={persistor}>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <UALProvider
-          chains={[network]}
-          authenticators={authenticators}
-          appName='EOSRate'
-        >
-          <AppWithUAL />
-        </UALProvider>
-      </MuiThemeProvider>
-    </PersistGate>
-  </Provider>,
+render(
+  <UALProvider
+    chains={[ualConfig.network]}
+    authenticators={ualConfig.authenticators}
+    appName={ualConfig.appName}
+  >
+    <SharedStateProviderWithUAL>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </SharedStateProviderWithUAL>
+  </UALProvider>,
   document.getElementById('root')
 )
 
-serviceWorker.unregister()
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: http://bit.ly/CRA-PWA
+serviceWorker.register()

@@ -54,19 +54,20 @@
     "notFound": "Not found",
     "noBpJson": "No BP.json file provided.",
 
-    "drawerLinkHome": "Home",
-    "drawerLinkAllBPs": "Block Producers",
-    "drawerLinkNetworkMonitor": "EOS Network Monitor",
-    "drawerLinkSettings": "Settings",
-    "drawerLinkAccount": "Account",
-    "drawerLinkAllProxies": "Proxies",
-    "drawerLinkAbout": "About",
-    "drawerLinkRicardianContract": "Ricardian Contract",
-    "drawerLinkHelp": "Help",
+    "home": "Home",
+    "myAccount": "My Account",
+    "blockProducers": "Block Producers",
+    "networkMonitor": "EOS Network Monitor",
+    "settings": "Settings",
+    "account": "Account",
+    "proxies": "Proxies",
+    "about": "About",
+    "ricardianContract": "Ricardian Contract",
+    "help": "Help",
     "lockedRating": "You must vote for at least 21 block producers or a proxy to unlock ratings",
     "edenMemberMessage": "Eden member. Ratings unlocked.",
     "unlockedRating": "You have voted for 21 bps or a proxy and have unlocked ratings",
-    "success" : "Success!",
+    "success": "Success!",
     "appBarSignIn": "Sign In",
 
     "connecting": "Connecting",
@@ -165,7 +166,7 @@
     "community": "Community",
     "development": "Development",
     "voteWithoutLogin": "You need to login to execute this action",
-    "success" : "Success!"
+    "success": "Success!"
   },
 
   "bpRatePage": {
@@ -192,7 +193,7 @@
     "edenRates": "Eden Rating",
     "rateWithoutLogin": "You need to login to rate this block producer",
     "noBlockProducer": "This BP Does Not Exist.",
-    "success" : "Success!",
+    "success": "Success!",
     "title": "Rate EOS Block Producer Infrastructure and Community Reputation",
     "infoMessage": "Support the network by voting for your favorite BPs or proxy, once you have voted for 21 BPs you can start rating."
   },
@@ -237,7 +238,7 @@
     "totalVotes": "Total Votes",
     "voteWithoutLogin": "You need to login to vote for this proxy",
     "labelTool": "votes for",
-    "success" : "Success!",
+    "success": "Success!",
     "title": "Block Producer Community Ratings for",
     "proxyProfile": "Reviews on EOS proxy account",
     "interview": "BP interview:",
