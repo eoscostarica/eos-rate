@@ -126,8 +126,8 @@ const SliderRatingSection = ({
         <Box className={classes.sliderWrapper}>
           <RateSlider
             disabled={!producer || !ratingState.infraEnabled}
-            onChange={handleStateChange('infra')}
-            value={ratingState.infra}
+            onChange={handleStateChange('infrastructure')}
+            value={ratingState.infrastructure}
             marks={MARKS}
             valueLabelDisplay='on'
             min={1}

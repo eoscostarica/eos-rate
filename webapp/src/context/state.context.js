@@ -8,7 +8,9 @@ import {
   getProxy,
   getUserDataModeled,
   getProducers,
-  getProducer
+  getProducer,
+  mutationInsertUserRating,
+  getUserRates
 } from './models'
 
 const SharedStateContext = React.createContext()
@@ -19,6 +21,7 @@ const initialValue = {
   blockProducers: { data: [], rows: 0 },
   selectedProducers: [],
   blockProducer: null,
+  transaction: null,
   compareBPToolVisible: false,
   sortBlockProducersBy: { sort: 'total_votes', value: 'vote' },
   proxies: { data: [], rows: 0 },
@@ -124,6 +127,12 @@ const sharedStateReducer = (state, action) => {
         selectedProxies: action.selectedProxies
       }
 
+    case 'setLastTransaction':
+      return {
+        ...state,
+        transaction: action.transaction
+      }
+
     default: {
       throw new Error(`Unsupported action type: ${action.type}`)
     }
@@ -178,8 +187,12 @@ export const useSharedState = () => {
   const hideMessage = () => dispatch({ type: 'hideMessage' })
   const login = () => dispatch({ type: 'login' })
   const logout = () => dispatch({ type: 'logout' })
-  const setUser = async () => {
-    const user = await getUserDataModeled(state.ual)
+  const setUser = async tempUser => {
+    let user = tempUser
+
+    if (!user) {
+      user = await getUserDataModeled(state.ual)
+    }
 
     dispatch({ type: 'userChange', user })
   }
@@ -192,26 +205,72 @@ export const useSharedState = () => {
   }
 
   // Block Producers Action
-  const setProducers = async (limit, orderBy = null) => {
+  const setProducers = async (limit, orderBy = null, bpList) => {
     const filter = orderBy || state.sortBlockProducersBy.sort
-    const blockProducers = await getProducers(limit, [
-      { [filter]: 'desc_nulls_last' },
-      { bpjson: 'desc' }
-    ])
+    let blockProducers = bpList
+
+    if (!blockProducers)
+      blockProducers = await getProducers(limit, [
+        { [filter]: 'desc_nulls_last' },
+        { bpjson: 'desc' }
+      ])
 
     dispatch({ type: 'setProducers', blockProducers })
   }
-  const setProducer = async account => {
-    const blockProducer = await getProducer(account)
+
+  const setProducer = async (item, saveDirectly = false) => {
+    let blockProducer = item
+
+    if (!saveDirectly) {
+      blockProducer = await getProducer(item)
+    }
 
     dispatch({ type: 'setProducer', blockProducer })
   }
+
+  const handleMutationInsertUserRating = async ({
+    ual,
+    user,
+    bp,
+    result,
+    ...ratings
+  }) => {
+    const ratingData = await mutationInsertUserRating({
+      ual,
+      user,
+      bp,
+      result,
+      transaction: state.transaction,
+      blockProducers: state.blockProducers,
+      ...ratings
+    })
+
+    setProducer(ratingData.currentBP, true)
+    setProducers(30, null, {
+      ...state.blockProducers,
+      data: ratingData.producerUpdatedList
+    })
+    const userRates = getUserRates({
+      userRate: { ...ratingData.rateProducer, ...ratingData.currentBP },
+      user: state.user
+    })
+
+    setUser({
+      ...state.user,
+      userData: { ...state.user.userData, ...userRates }
+    })
+  }
+
   const setCompareBPTool = isVisible => {
     dispatch({ type: 'setCompareBPTool', isVisible })
   }
 
   const setSelectedProducers = selectedProducers =>
     dispatch({ type: 'setSelectedProducers', selectedProducers })
+
+  const setLastTransaction = transaction => {
+    dispatch({ type: 'setLastTransaction', transaction })
+  }
 
   // Proxies Actions
   const setProxies = async limit => {
@@ -246,8 +305,10 @@ export const useSharedState = () => {
       setUser,
       setProducers,
       setProducer,
+      handleMutationInsertUserRating,
       setCompareBPTool,
       setSelectedProducers,
+      setLastTransaction,
       setSortBy,
       setProxies,
       setProxy,
