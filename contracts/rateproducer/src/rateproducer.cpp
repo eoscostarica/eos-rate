@@ -482,7 +482,7 @@ namespace eoscostarica {
     }
 
     void rateproducer::update_stats_migration(name scope, name user, name bp) {
-        ratings_table _ratings(_self, scope.value);
+        ratings_table_v2 _ratings(_self, scope.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
         auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
@@ -512,7 +512,7 @@ namespace eoscostarica {
                             
         //save the re-calcualtes stats
         update_bp_stats (scope,
-                        &user,
+                        &_self,
                         &bp,
                         &bp_transparency,
                         &bp_infrastructure,
@@ -529,14 +529,14 @@ namespace eoscostarica {
 
         // assert we only run once
         // the comparison value needs to be hard-coded with each new migration
-        eosio::check(c.version < 4, "Migration already ran");
+        eosio::check(c.version < 5, "Migration already ran");
 
         ratings_table _ratings_self(_self, _self.value);
         ratings_table_v2 _ratings_self_v2(_self, _self.value);
         ratings_table_v2 _ratings_eden_v2(_self, eden_scope.value);
 
         for(auto itr = _ratings_self.begin(); itr != _ratings_self.end(); itr++) {
-            auto modifyLambda = [&]( auto& row ) -> auto {
+            auto modify_rating = [&]( auto& row ) -> auto {
                 row.id = itr->id;
                 row.user = itr->user;
                 row.bp = itr->bp;
@@ -547,11 +547,9 @@ namespace eoscostarica {
                 row.development = itr->development;
             };
             
-            if(is_eden(itr->user))_ratings_eden_v2.emplace(_self, modifyLambda);
-            else {
-                _ratings_self_v2.emplace(_self, modifyLambda);
-                update_stats_migration(_self, itr->user, itr->bp);
-            }
+            if(is_eden(itr->user)) _ratings_eden_v2.emplace(_self, modify_rating);
+            else _ratings_self_v2.emplace(_self, modify_rating);
+            update_stats_migration(_self, itr->user, itr->bp);
         }
 
         c.version++;
