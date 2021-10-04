@@ -511,8 +511,9 @@ namespace eoscostarica {
                             &bp_average);
                             
         //save the re-calcualtes stats
+        name ram_payer = _self;
         update_bp_stats (scope,
-                        &_self,
+                        &ram_payer,
                         &bp,
                         &bp_transparency,
                         &bp_infrastructure,
@@ -529,7 +530,7 @@ namespace eoscostarica {
 
         // assert we only run once
         // the comparison value needs to be hard-coded with each new migration
-        eosio::check(c.version < 5, "Migration already ran");
+        eosio::check(c.version < 2, "Migration already ran");
 
         ratings_table _ratings_self(_self, _self.value);
         ratings_table_v2 _ratings_self_v2(_self, _self.value);
@@ -547,9 +548,10 @@ namespace eoscostarica {
                 row.development = itr->development;
             };
             
-            if(is_eden(itr->user)) _ratings_eden_v2.emplace(_self, modify_rating);
+            name tempScope = is_eden(itr->user) ? eden_scope : _self;
+            if(tempScope.value == eden_scope.value) _ratings_eden_v2.emplace(_self, modify_rating);
             else _ratings_self_v2.emplace(_self, modify_rating);
-            update_stats_migration(_self, itr->user, itr->bp);
+            update_stats_migration(tempScope, itr->user, itr->bp);
         }
 
         c.version++;
