@@ -10,8 +10,8 @@ namespace eoscostarica {
         int8_t community,
         int8_t development) {
         require_auth(user);
-        rate_aux(_self, user, bp, transparency, infrastructure, trustiness, community, development);
-        if(is_eden(user)) rate_aux(eden_scope, user, bp, transparency, infrastructure, trustiness, community, development);
+        name scope = is_eden(user) ? eden_scope : _self;
+        rate_aux(scope, user, bp, transparency, infrastructure, trustiness, community, development);
     }
 
     void rateproducer::rate_aux(
@@ -30,7 +30,7 @@ namespace eoscostarica {
         check( (MINVAL <= development && development <= MAXVAL), "Error development value out of range" );
         check( (MINVAL <= community && community <= MAXVAL), "Error community value out of range" );
 
-        bool isEden = is_eden(user);
+        bool isEden = scope.value == eden_scope.value;
         name stats_ram_payer = isEden ? _self : user;
 
         check( is_blockproducer(bp), "votes are allowed only for registered block producers" );
@@ -431,13 +431,12 @@ namespace eoscostarica {
     }
 
     void rateproducer::rmrate(name user, name bp) {
-        rmrate_aux(_self, user, bp);
-        if(is_eden(user)) rmrate_aux(eden_scope, user, bp);
+        require_auth(user);
+        name scope = is_eden(user) ? eden_scope : _self;
+        rmrate_aux(scope, user, bp);
     }
 
     void rateproducer::rmrate_aux(name scope, name user, name bp) {
-        require_auth(user);
-        
         ratings_table_v2 _ratings(_self, scope.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
@@ -495,7 +494,7 @@ namespace eoscostarica {
         ratings_table_v2 _ratings_eden_v2(_self, eden_scope.value);
 
         for(auto itr = _ratings_self.begin(); itr != _ratings_self.end(); itr++) {
-            _ratings_self_v2.emplace(_self, [&]( auto& row ) {
+            auto modifyLambda = [&]( auto& row ) -> auto {
                 row.id = itr->id;
                 row.user = itr->user;
                 row.bp = itr->bp;
@@ -504,19 +503,13 @@ namespace eoscostarica {
                 row.trustiness = itr->trustiness;
                 row.community = itr->community;
                 row.development = itr->development;
-            });
+            };
             
-            if(!is_eden(itr->user)) continue;
-            _ratings_eden_v2.emplace(_self, [&]( auto& row ) {
-                row.id = itr->id;
-                row.user = itr->user;
-                row.bp = itr->bp;
-                row.transparency = itr->transparency;
-                row.infrastructure = itr->infrastructure;
-                row.trustiness = itr->trustiness;
-                row.community = itr->community;
-                row.development = itr->development;   
-            });
+            if(is_eden(itr->user)) {
+                _ratings_eden_v2.emplace(_self, modifyLambda);
+                rmrate_aux(eden_scope, itr->user, itr->bp);
+            }
+            else _ratings_self_v2.emplace(_self, modifyLambda);
         }
 
         c.version++;
