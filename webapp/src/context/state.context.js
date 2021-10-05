@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-// import getProxyDataModeled from '../utils/modeled-proxy-data'
-
 import {
   getProxies,
   getProxy,
@@ -154,6 +152,7 @@ export const SharedStateProvider = ({ children, ual, ...props }) => {
         dispatch({ type: 'userChange', user })
       } else {
         dispatch({ type: 'userChange', user: ual.activeUser })
+        dispatch({ type: 'setSelectedProducers', selectedProducers: [] })
       }
 
       dispatch({ type: 'ual', ual })

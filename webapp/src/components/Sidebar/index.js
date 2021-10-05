@@ -18,6 +18,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 import { useSharedState } from '../../context/state.context'
 
 import styles from './styles'
+import eosrateImg from './eosrate256.png'
 
 const useStyles = makeStyles(styles)
 
@@ -98,8 +99,10 @@ const Sidebar = ({ routes, ...props }) => {
         ) : (
           <img
             alt='eos rate'
-            src='https://eosrate.io/images/eosrate-256.png'
+            src={eosrateImg}
             onClick={() => history.push('/')}
+            width={256}
+            height={75}
           />
         )}
       </Box>
