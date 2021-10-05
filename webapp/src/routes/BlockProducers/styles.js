@@ -216,7 +216,6 @@ export default theme => ({
     marginTop: 10,
     display: 'flex',
     flexDirection: 'column',
-
     [theme.breakpoints.up('sm')]: {
       flexDirection: 'row',
       width: '100%'
@@ -295,7 +294,7 @@ export default theme => ({
     }
   },
   linkRate: {
-    marginLeft: `${theme.spacing(2)} !important`, // !isDesktop ? 16 : 0,
+    marginLeft: `${theme.spacing(2)} !important`,
     padding: `${theme.spacing(1, 2)} !important`
   }
 })

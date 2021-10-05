@@ -6,18 +6,15 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
-import AccountCircle from '@mui/icons-material/AccountCircle'
 import _get from 'lodash.get'
 
 import TitlePage from '../../components/PageTitle'
-import CompareTool from '../../components/CompareTool'
 import PolarChart from '../../components/PolarChart'
 import { useSharedState } from '../../context/state.context'
 
@@ -38,12 +35,8 @@ const ProxyProfile = () => {
   const [proxyLogo, setProxyLogo] = useState(null)
   const [proxySlogan, setProxySlogan] = useState(null)
   const [polarChartData, setPolarChartData] = useState([])
-  const [producers, setProducers] = useState([])
   const [proxyTitle, setProxyTitle] = useState('No Title')
   const [showMessage, setShowMessage] = useState(false)
-  const isDesktop = useMediaQuery('(min-width:767px)')
-  const isMobile = useMediaQuery('(max-width:768px)')
-  const [openDesktopVotingTool, setOpenDesktopVotingTool] = useState(isDesktop)
   const [ratingState, setRatingState] = useState({
     processing: false,
     txError: null,
@@ -51,7 +44,7 @@ const ProxyProfile = () => {
   })
 
   const sendVoteProxy = async proxy => {
-    if (!state.user.accountName) {
+    if (!state?.user?.accountName) {
       setShowMessage(true)
 
       return
@@ -127,10 +120,6 @@ const ProxyProfile = () => {
     })
   }
 
-  const handleOnClose = () => {
-    setOpenDesktopVotingTool(false)
-  }
-
   useEffect(() => {
     if (state.proxy) {
       setProxyLogo(_get(state.proxy, 'logo_256', null))
@@ -138,7 +127,6 @@ const ProxyProfile = () => {
         _get(state.proxy, 'name', _get(state.proxy, 'owner', 'No Data'))
       )
       setProxySlogan(_get(state.proxy, 'slogan', null))
-      setProducers(_get(state.proxy, 'voter_info.producers', []))
       setPolarChartData([state.proxy.data])
     }
   }, [state.proxy])
@@ -162,10 +150,6 @@ const ProxyProfile = () => {
     getProxyData()
   }, [account])
 
-  // useEffect(() => {
-  //   setSizes(isDesktop ? 400 : '95%')
-  // }, [isDesktop])
-
   return (
     <Grid container justifyContent='center' className={classes.container}>
       <TitlePage title={`${t('proxyProfile')} ${proxyTitle} - EOS Rate`} />
@@ -183,44 +167,43 @@ const ProxyProfile = () => {
         </Grid>
       </Grid>
       <Grid container className={classes.reliefGrid}>
-        <Grid item md={12}>
-          <Box style={{ display: 'flex' }}>
-            {proxyLogo ? (
-              <Avatar aria-label='Block Producer' className={classes.avatar}>
-                <img src={proxyLogo} alt='' width='100%' />
-              </Avatar>
-            ) : (
-              <AccountCircle className={classes.accountCircle} />
-            )}
+        <Grid item md={12} className={classes.paddingHorinzontal}>
+          <Box className={classes.avatarTitle}>
+            <Avatar aria-label='Block Producer' className={classes.avatar}>
+              {proxyLogo ? <img src={proxyLogo} alt='' width='100%' /> : ''}
+            </Avatar>
             <Typography variant='h6' className={classes.bpName}>
               {proxyTitle}
             </Typography>
           </Box>
           {proxySlogan && (
-            <Typography variant='subtitle1'>
+            <Typography variant='subtitle1' className={classes.bpSlogan}>
               <blockquote className={classes.slogan}>{proxySlogan}</blockquote>
             </Typography>
           )}
         </Grid>
-        {isMobile && (
-          <Grid container justify='center' xs={12}>
-            <Grid item md={12} xs={12}>
-              <PolarChart data={polarChartData} />
-            </Grid>
-            <Grid item md={4} xs={10}>
-              <Button
-                disabled={!state.proxy || ratingState.processing}
-                className={classes.btnBP}
-                variant={'contained'}
-                color={'secondary'}
-                onClick={() => sendVoteProxy(_get(state.proxy, 'owner'))}
-              >
-                {t('buttonVote')}
-              </Button>
-            </Grid>
+        <Grid
+          container
+          justify='center'
+          xs={12}
+          className={classes.hiddenDesktop}
+        >
+          <Grid className={classes.polarGraphWrapper} item xs={12}>
+            <PolarChart data={polarChartData} />
           </Grid>
-        )}
-        <Grid item md={7} xs={12}>
+          <Grid item md={4} xs={10}>
+            <Button
+              disabled={!state.proxy || ratingState.processing}
+              className={classes.btnBP}
+              variant={'contained'}
+              color={'secondary'}
+              onClick={() => sendVoteProxy(_get(state.proxy, 'owner'))}
+            >
+              {t('buttonVote')}
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid item md={7} xs={12} className={classes.paddingHorinzontal}>
           <GeneralInformation
             classes={classes}
             proxy={state.proxy}
@@ -256,7 +239,7 @@ const ProxyProfile = () => {
               </Alert>
             </Snackbar>
             {ratingState.processing && (
-              <div className={classes.votingTextProgress}>
+              <Box className={classes.votingTextProgress}>
                 <CircularProgress color='secondary' size={20} />
                 <Typography
                   variant='subtitle1'
@@ -264,7 +247,7 @@ const ProxyProfile = () => {
                 >
                   {t('voting')} ...
                 </Typography>
-              </div>
+              </Box>
             )}
           </Box>
           <SocialNetworks
@@ -273,37 +256,23 @@ const ProxyProfile = () => {
             proxy={state.proxy}
           />
         </Grid>
-        {!isMobile && (
-          <Grid container justify='center' md={5}>
-            <Grid style={{ height: '350px', marginTop: '-30px' }} item md={12}>
-              <PolarChart data={polarChartData} />
-            </Grid>
-            <Grid item md={6}>
-              <Button
-                disabled={!state.proxy || ratingState.processing}
-                className={classes.btnBP}
-                onClick={() => sendVoteProxy(_get(state.proxy, 'owner'))}
-              >
-                {t('buttonVote')}
-              </Button>
-            </Grid>
+        <Grid
+          container
+          justify='center'
+          md={5}
+          className={classes.hiddenMobile}
+        >
+          <Grid item md={12}>
+            <PolarChart data={polarChartData} />
           </Grid>
-        )}
-        <Grid item md={12} xs={12}>
-          {state.proxy &&
-            openDesktopVotingTool &&
-            Boolean(producers.length) && (
-              <CompareTool
-                removeBP={() => console.log('remove')}
-                className={classes.compareTool}
-                list={[state.proxy]}
-                selected={[account]}
-                isProxy
-                useOnlySliderView
-                optionalLabel={`${proxyTitle} ${t('labelTool')}:`}
-                handleOnClose={handleOnClose}
-              />
-            )}
+          <Button
+            disabled={!state.proxy || ratingState.processing}
+            className={classes.btnBP}
+            onClick={() => sendVoteProxy(_get(state.proxy, 'owner'))}
+            variant='contained'
+          >
+            {t('buttonVote')}
+          </Button>
         </Grid>
       </Grid>
     </Grid>

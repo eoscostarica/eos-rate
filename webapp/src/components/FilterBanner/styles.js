@@ -2,13 +2,17 @@ export default theme => ({
   filterBanner: {
     display: 'flex',
     justifyContent: 'space-between',
-    padding: theme.spacing(1, 1, 0, 1),
-    alignItems: 'center'
+    padding: theme.spacing(1, 2, 0, 2),
+    alignItems: 'center',
+    fontSize: '1rem !important'
   },
   pageTitle: {
     textTransform: 'uppercase',
     fontWeight: '500 !important',
-    fontSize: '0.875rem !important',
-    lineHeight: '1.75'
+    lineHeight: 'normal',
+    letterSpacing: '0.08px'
+  },
+  visibilityHidden: {
+    visibility: 'hidden !important'
   }
 })
