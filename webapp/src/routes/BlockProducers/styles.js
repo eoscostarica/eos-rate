@@ -223,7 +223,6 @@ export default theme => ({
     marginTop: 10,
     display: 'flex',
     flexDirection: 'column',
-
     [theme.breakpoints.up('sm')]: {
       flexDirection: 'row',
       width: '100%'

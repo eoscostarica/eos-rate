@@ -2,30 +2,21 @@ import React, { forwardRef, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-// import useMediaQuery from '@mui/material/useMediaQuery'
 import Box from '@mui/material/Box'
 import { makeStyles } from '@mui/styles'
 import { Link } from 'react-router-dom'
 
-// import Radar from '../../components/Radar'
 import PolarChart from '../../components/PolarChart'
 
 import styles from './styles'
 
 const refBPLink = (props, ref) => <Link innerRef={ref} {...props} />
 const bpLink = forwardRef(refBPLink)
-
 const useStyles = makeStyles(styles)
 
 const HomeCover = () => {
   const { t } = useTranslation('home')
   const classes = useStyles()
-  // const isDesktop = useMediaQuery('(min-width:769px)')
-  // const [sizes, setSizes] = useState()
-
-  // useEffect(() => {
-  //   // setSizes(isDesktop ? 400 : '95%')
-  // }, [isDesktop])
 
   return (
     <Box container className={classes.coverContainer}>

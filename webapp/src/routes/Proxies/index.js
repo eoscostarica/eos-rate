@@ -9,6 +9,7 @@ import _get from 'lodash.get'
 
 import { useSharedState } from '../../context/state.context'
 import TitlePage from '../../components/PageTitle'
+import FilterBanner from '../../components/FilterBanner'
 import Card from '../../components/Card'
 import CompareTool from '../../components/CompareTool'
 import SelectedBpsBottomSheet from './../BlockProducers/BottomSheetSelectedBps'
@@ -157,7 +158,7 @@ const AllProxies = ({ ual = {} }) => {
           }}
         />
       </Collapse>
-
+      <FilterBanner title={t('proxies')} page='proxy' hideFilter />
       <Box className={classes.wrapperGrid}>
         <Box className={classes.gridRow}>
           {(state.proxies.data || []).map(proxy => (

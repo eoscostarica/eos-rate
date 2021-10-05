@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
 import Button from '@mui/material/Button'
@@ -16,7 +17,7 @@ import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const FilterBanner = ({ title, page, onFilterChange }) => {
+const FilterBanner = ({ title, page, onFilterChange, hideFilter }) => {
   const { t } = useTranslation('sortInput')
   const classes = useStyles()
   const [state, { setSortBy }] = useSharedState()
@@ -46,6 +47,7 @@ const FilterBanner = ({ title, page, onFilterChange }) => {
         aria-expanded={open ? 'true' : undefined}
         startIcon={<FilterListIcon />}
         onClick={handleClick}
+        className={clsx({ [classes.visibilityHidden]: hideFilter })}
       >
         {t(state.sortBlockProducersBy.value)}
       </Button>
@@ -71,7 +73,13 @@ const FilterBanner = ({ title, page, onFilterChange }) => {
 FilterBanner.propTypes = {
   title: PropTypes.string,
   page: PropTypes.string,
-  onFilterChange: PropTypes.func
+  onFilterChange: PropTypes.func,
+  hideFilter: PropTypes.bool
+}
+
+FilterBanner.defaultProps = {
+  onFilterChange: () => {},
+  hideFilter: false
 }
 
 export default FilterBanner

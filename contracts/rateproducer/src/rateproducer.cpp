@@ -1,6 +1,5 @@
 #include "../include/rateproducer.hpp"
 
-
 namespace eoscostarica {
     void rateproducer::rate(
         name user,
@@ -11,8 +10,8 @@ namespace eoscostarica {
         int8_t community,
         int8_t development) {
         require_auth(user);
-        rate_aux(_self, user, bp, transparency, infrastructure, trustiness, community, development);
-        if(is_eden(user)) rate_aux(eden_scope, user, bp, transparency, infrastructure, trustiness, community, development);
+        name scope = is_eden(user) ? eden_scope : _self;
+        rate_aux(scope, user, bp, transparency, infrastructure, trustiness, community, development);
     }
 
     void rateproducer::rate_aux(
@@ -24,31 +23,27 @@ namespace eoscostarica {
         int8_t trustiness,
         int8_t community,
         int8_t development) {
-        check( (transparency+infrastructure+trustiness+community+development), "Error vote must have value for at least one category");  
-        check( (MINVAL<= transparency &&  transparency<=MAXVAL ), "Error transparency value out of range");
-        check( (MINVAL<= infrastructure &&  infrastructure<=MAXVAL ), "Error infrastructure value out of range" );
-        check( (MINVAL<= trustiness &&  trustiness<=MAXVAL ), "Error trustiness value out of range" );
-        check( (MINVAL<= development &&  development <=MAXVAL ), "Error development value out of range" );
-        check( (MINVAL<= community &&  community<=MAXVAL ), "Error community value out of range" );
+        check( (transparency + infrastructure + trustiness + community + development), "Error vote must have value for at least one category" );
+        check( (MINVAL <= transparency && transparency <= MAXVAL), "Error transparency value out of range" );
+        check( (MINVAL <= infrastructure && infrastructure <= MAXVAL), "Error infrastructure value out of range" );
+        check( (MINVAL <= trustiness && trustiness <= MAXVAL), "Error trustiness value out of range" );
+        check( (MINVAL <= development && development <= MAXVAL), "Error development value out of range" );
+        check( (MINVAL <= community && community <= MAXVAL), "Error community value out of range" );
 
-        bool isEden = is_eden(user);
+        bool isEden = scope.value == eden_scope.value;
+        name stats_ram_payer = isEden ? _self : user;
 
-        // checks if the bp is active 
         check( is_blockproducer(bp), "votes are allowed only for registered block producers" );
 
-        eosio::name proxy_name = get_proxy(user);
+        name proxy_name = get_proxy(user);
         if(proxy_name.length()) {
-            // active proxy??
             check(is_active_proxy(proxy_name), "votes are allowed only for active proxies" );
-            // account votes through a proxy
             if(!isEden) check( MIN_VOTERS <= get_voters(proxy_name), "delegated proxy does not have enough voters" );
         } else {
-            // acount must vote for at least 21 bp
             if(!isEden) check( MIN_VOTERS <= get_voters(user), "account does not have enough voters" );
         }
 
-        // upsert bp rating
-        ratings_table _ratings(_self, scope.value);
+        ratings_table_v2 _ratings(_self, scope.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
         auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
@@ -57,18 +52,17 @@ namespace eoscostarica {
         if( existing_rating == uniq_rating_index.end() ) {
             _ratings.emplace(user, [&]( auto& row ) {
                 row.id = _ratings.available_primary_key();
-                row.uniq_rating = uniq_rating;
                 row.user = user;
                 row.bp = bp;
                 row.transparency = transparency;
                 row.infrastructure = infrastructure;
                 row.trustiness = trustiness;
                 row.community = community;
-                row.development = development ;   
+                row.development = development;   
             });
-            //save stats
+            
             save_bp_stats(scope,
-                        user,
+                        stats_ram_payer,
                         bp,
                         transparency,
                         infrastructure,
@@ -76,26 +70,22 @@ namespace eoscostarica {
                         community,
                         development);
         
-
         } else {
-            //the voter update its vote
             uniq_rating_index.modify(existing_rating, user, [&]( auto& row ) {
-                row.user = user;
-                row.bp = bp;
                 row.transparency = transparency;
                 row.infrastructure = infrastructure;
                 row.trustiness = trustiness;
                 row.community = community;
                 row.development = development ;  
             });
-            //update bp stats
+
             float bp_transparency = 0;
             float bp_infrastructure = 0;
             float bp_trustiness = 0;
             float bp_community = 0;
             float bp_development = 0;
-            uint32_t  bp_ratings_cntr = 0;
-            float  bp_average = 0;
+            uint32_t bp_ratings_cntr = 0;
+            float bp_average = 0;
             calculate_bp_stats (scope,
                                 bp,
                                 &bp_transparency,
@@ -106,7 +96,7 @@ namespace eoscostarica {
                                 &bp_ratings_cntr,
                                 &bp_average);
             update_bp_stats (scope,
-                            &user,
+                            &stats_ram_payer,
                             &bp,
                             &bp_transparency,
                             &bp_infrastructure,
@@ -120,7 +110,7 @@ namespace eoscostarica {
 
     void rateproducer::save_bp_stats (
         name scope,
-        name user,
+        name ram_payer,
         name bp_name,
         float transparency,
         float infrastructure,
@@ -133,7 +123,7 @@ namespace eoscostarica {
         float sum = 0;
         if(itr == _stats.end()) {
         //new entry
-            _stats.emplace(user, [&]( auto& row ) {
+            _stats.emplace(ram_payer, [&]( auto& row ) {
                 if (transparency) {
                     row.transparency = transparency;
                     counter++;
@@ -173,7 +163,7 @@ namespace eoscostarica {
             });
         } else {
             //update the entry
-            _stats.modify(itr, user, [&]( auto& row ) {
+            _stats.modify(itr, ram_payer, [&]( auto& row ) {
                 if (transparency) {
                     sum += transparency;
                     if(row.transparency) {
@@ -253,7 +243,7 @@ namespace eoscostarica {
         float development_cntr = 0;
         uint32_t voters_cntr = 0;
 
-        ratings_table _ratings(_self, scope.value);
+        ratings_table_v2 _ratings(_self, scope.value);
         auto bps_index = _ratings.get_index<name("bp")>();
         auto bps_it = bps_index.find(bp_name.value); 
         
@@ -318,7 +308,7 @@ namespace eoscostarica {
 
     void rateproducer::update_bp_stats (
         name scope,
-        name * user,
+        name * ram_payer,
         name * bp_name,
         float * transparency,
         float * infrastructure,
@@ -339,7 +329,7 @@ namespace eoscostarica {
                 *community +
                 *development) {
             
-                _stats.modify(itr,*user, [&]( auto& row ) {
+                _stats.modify(itr,*ram_payer, [&]( auto& row ) {
                     row.transparency = *transparency;
                     row.infrastructure = *infrastructure;
                     row.trustiness = *trustiness;
@@ -363,7 +353,7 @@ namespace eoscostarica {
         
         require_auth(_self);
 
-        ratings_table _ratings(_self, scope.value);
+        ratings_table_v2 _ratings(_self, scope.value);
         auto itr = _ratings.begin();
         while (itr != _ratings.end()) {
             if(itr->bp == bp_name) {
@@ -386,7 +376,7 @@ namespace eoscostarica {
 
     void rateproducer::wipe_aux(name scope) {
         require_auth(_self);
-        ratings_table _ratings(_self, scope.value);
+        ratings_table_v2 _ratings(_self, scope.value);
         auto itr = _ratings.begin();
         while (itr != _ratings.end()) {
             itr = _ratings.erase(itr);
@@ -400,7 +390,7 @@ namespace eoscostarica {
     }
 
     void rateproducer::erase_bp_info(name scope, std::set<eosio::name> * bps_to_clean) {
-        ratings_table _ratings(_self, scope.value);
+        ratings_table_v2 _ratings(_self, scope.value);
         stats_table _stats(_self, scope.value);
         
         std::set<eosio::name>::iterator it;
@@ -441,14 +431,13 @@ namespace eoscostarica {
     }
 
     void rateproducer::rmrate(name user, name bp) {
-        rmrate_aux(_self, user, bp);
-        if(is_eden(user)) rmrate_aux(eden_scope, user, bp);
+        require_auth(user);
+        name scope = is_eden(user) ? eden_scope : _self;
+        rmrate_aux(scope, user, bp);
     }
 
     void rateproducer::rmrate_aux(name scope, name user, name bp) {
-        require_auth(user);
-        
-        ratings_table _ratings(_self, scope.value);
+        ratings_table_v2 _ratings(_self, scope.value);
         auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
 
         auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
@@ -492,40 +481,77 @@ namespace eoscostarica {
                         &bp_average);
     }
 
-    void rateproducer::loadedens() {
+    void rateproducer::update_stats_migration(name scope, name user, name bp) {
+        ratings_table_v2 _ratings(_self, scope.value);
+        auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
+
+        auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
+        auto existing_rating = uniq_rating_index.find(uniq_rating);
+
+        check( existing_rating != uniq_rating_index.end(), "Rating does not exist" );
+        
+        //update bp stats
+        float bp_transparency = 0;
+        float bp_infrastructure = 0;
+        float bp_trustiness = 0;
+        float bp_community = 0;
+        float bp_development = 0;
+        uint32_t  bp_ratings_cntr = 0;
+        float  bp_average = 0;
+
+        //re-calculate stats for the bp 
+        calculate_bp_stats (scope,
+                            bp,
+                            &bp_transparency,
+                            &bp_infrastructure,
+                            &bp_trustiness,
+                            &bp_community,
+                            &bp_development,
+                            &bp_ratings_cntr,
+                            &bp_average);
+                            
+        //save the re-calcualtes stats
+        name ram_payer = _self;
+        update_bp_stats (scope,
+                        &ram_payer,
+                        &bp,
+                        &bp_transparency,
+                        &bp_infrastructure,
+                        &bp_trustiness,
+                        &bp_community,
+                        &bp_development,
+                        &bp_ratings_cntr,
+                        &bp_average);
+    }
+
+    void rateproducer::migrate() {
         config c = cfg.get_or_create(_self, config{.owner = _self, .version = 0});
         require_auth(c.owner);
 
         // assert we only run once
         // the comparison value needs to be hard-coded with each new migration
-        eosio::check(c.version < 1, "Migration already ran");
+        eosio::check(c.version < 2, "Migration already ran");
 
         ratings_table _ratings_self(_self, _self.value);
-        ratings_table _ratings_eden(_self, eden_scope.value);
+        ratings_table_v2 _ratings_self_v2(_self, _self.value);
+        ratings_table_v2 _ratings_eden_v2(_self, eden_scope.value);
 
         for(auto itr = _ratings_self.begin(); itr != _ratings_self.end(); itr++) {
-            if(is_eden(itr->user)) {
-                _ratings_eden.emplace(_self, [&]( auto& row ) {
-                    row.id = itr->id;
-                    row.uniq_rating = itr->uniq_rating;
-                    row.user = itr->user;
-                    row.bp = itr->bp;
-                    row.transparency = itr->transparency;
-                    row.infrastructure = itr->infrastructure;
-                    row.trustiness = itr->trustiness;
-                    row.community = itr->community;
-                    row.development = itr->development ;   
-                });
-                //save stats
-                save_bp_stats(eden_scope,
-                            _self,
-                            itr->bp,
-                            itr->transparency,
-                            itr->infrastructure,
-                            itr->trustiness,
-                            itr->community,
-                            itr->development);
-            }
+            auto modify_rating = [&]( auto& row ) -> auto {
+                row.id = itr->id;
+                row.user = itr->user;
+                row.bp = itr->bp;
+                row.transparency = itr->transparency;
+                row.infrastructure = itr->infrastructure;
+                row.trustiness = itr->trustiness;
+                row.community = itr->community;
+                row.development = itr->development;
+            };
+            
+            name tempScope = is_eden(itr->user) ? eden_scope : _self;
+            if(tempScope.value == eden_scope.value) _ratings_eden_v2.emplace(_self, modify_rating);
+            else _ratings_self_v2.emplace(_self, modify_rating);
+            update_stats_migration(tempScope, itr->user, itr->bp);
         }
 
         c.version++;
@@ -536,6 +562,13 @@ namespace eoscostarica {
 
 EOSIO_ACTION_DISPATCHER(eoscostarica::actions)
 
-EOSIO_ABIGEN(actions(eoscostarica::actions),
-            table("ratings"_n, eoscostarica::ratings),
-            table("stats"_n, eoscostarica::stats))
+EOSIO_ABIGEN(
+    actions(eoscostarica::actions),
+    table("rating"_n, eoscostarica::ratings_v2),
+    table("stats"_n, eoscostarica::stats),
+    ricardian_clause("datastorage", eoscostarica::datastorage_clause),
+    ricardian_clause("datausage", eoscostarica::datausage_clause),
+    ricardian_clause("dataownership", eoscostarica::dataownership_clause),
+    ricardian_clause("datadistribution", eoscostarica::datadistribution_clause),
+    ricardian_clause("datafuture", eoscostarica::datafuture_clause)
+)
