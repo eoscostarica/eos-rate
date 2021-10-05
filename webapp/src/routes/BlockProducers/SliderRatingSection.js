@@ -62,7 +62,6 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
-            color='secondary'
             onChange={handleStateChange('communityEnabled')}
             checked={ratingState.communityEnabled}
           />
@@ -100,7 +99,6 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
-            color='secondary'
             onChange={handleStateChange('developmentEnabled')}
             checked={ratingState.developmentEnabled}
           />
@@ -136,7 +134,6 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
-            color='secondary'
             onChange={handleStateChange('infraEnabled')}
             checked={ratingState.infraEnabled}
           />
@@ -174,7 +171,6 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
-            color='secondary'
             onChange={handleStateChange('transparencyEnabled')}
             checked={ratingState.transparencyEnabled}
           />
@@ -212,7 +208,6 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
-            color='secondary'
             onChange={handleStateChange('trustinessEnabled')}
             checked={ratingState.trustinessEnabled}
           />

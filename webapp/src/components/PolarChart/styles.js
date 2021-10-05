@@ -1,8 +1,16 @@
 export default theme => ({
   highchartsFigure: {
     margin: '1em auto',
+    [theme.breakpoints.down('md')]: {
+      margin: '0 auto',
+      width: '100% !important'
+    },
     '& .highcharts-container ': {
-      margin: '1em auto'
+      margin: '1em auto',
+      [theme.breakpoints.down('md')]: {
+        margin: '0 auto',
+        width: '100% !important'
+      }
 
       // height: '400px !important',
       // width: '350px !important',

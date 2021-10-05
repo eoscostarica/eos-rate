@@ -78,7 +78,10 @@ export default theme => ({
     display: 'flex',
     alignItems: 'center',
     marginBottom: 10,
-    width: '80%'
+    width: '80%',
+    [theme.breakpoints.down('md')]: {
+      width: '100%'
+    }
   },
   sliderBoxContent: {
     marginTop: 30,
@@ -95,7 +98,8 @@ export default theme => ({
     verticalAlign: 'middle'
   },
   switchBox: {
-    marginLeft: 10
+    marginLeft: 10,
+    color: '#443f56 !important'
   },
   // filter box
   nestedPadding: {
@@ -298,7 +302,45 @@ export default theme => ({
     }
   },
   linkRate: {
-    marginLeft: `${theme.spacing(2)} !important`, // !isDesktop ? 16 : 0,
+    marginLeft: `${theme.spacing(2)} !important`,
     padding: `${theme.spacing(1, 2)} !important`
+  },
+  showMobile: {
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
+  },
+  showDesktop: {
+    [theme.breakpoints.down('md')]: {
+      display: 'none'
+    }
+  },
+  infoGridStyle: {
+    borderRight: 'solid 1px rgba(0, 0, 0, 0.38)',
+    paddingTop: 18,
+    paddingRight: 50,
+    [theme.breakpoints.down('md')]: {
+      borderRight: 0,
+      paddingRight: 0
+    }
+  },
+  chartWrapperSliderView: {
+    '& .highcharts-container ': {
+      height: '400px !important',
+      width: '325px !important',
+      '& > svg': {
+        height: '400px !important',
+        width: '325px !important'
+      }
+    }
+  },
+  tableBox: {
+    marginBottom: '70px !important',
+    justifyContent: 'center !important',
+    margin: 'auto !important'
+  },
+  centerContent: {
+    display: 'flex',
+    justifyContent: 'center'
   }
 })
