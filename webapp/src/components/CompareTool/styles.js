@@ -8,17 +8,22 @@ export default theme => ({
     overflow: 'hidden'
   },
   compareSliderView: {
-    width: '100%'
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column'
   },
   boxSliderView: {
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    alignItems: 'center'
   },
   sliderBody: {
     display: 'flex',
+    width: '100%',
     flexDirection: 'column',
     alignItems: 'center'
   },
@@ -29,6 +34,7 @@ export default theme => ({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     overflow: 'hidden',
+    alignItems: 'center',
     [theme.breakpoints.up('sm')]: {
       height: '100%'
     }
@@ -41,7 +47,10 @@ export default theme => ({
     [theme.breakpoints.up('sm')]: {
       paddingTop: theme.spacing(1),
       flexDirection: 'row',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      height: '100%',
+      width: '100%',
+      maxWidth: 1024
     }
   },
   btnClear: {
@@ -66,9 +75,12 @@ export default theme => ({
   },
   modalHeader: {
     display: 'flex',
-    justifyContent: 'space-between',
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(2)
+    flexDirection: 'column',
+    width: '100%',
+    maxWidth: 1024,
+    [theme.breakpoints.up('mdg')]: {
+      marginLeft: 24
+    }
   },
   switchBox: {
     textAlign: 'center',
@@ -106,6 +118,8 @@ export default theme => ({
     textAlign: 'center'
   },
   slider: {
+    width: '100%',
+    maxWidth: 1024,
     display: 'flex',
     flexWrap: 'nowrap',
     overflowX: 'auto',
@@ -173,7 +187,7 @@ export default theme => ({
   headerVotingCompare: {
     display: 'flex',
     justifyContent: 'space-between',
-    flexDirection: 'column'
+    width: '100%'
   },
   marginRightElem: {
     marginRight: 10
@@ -216,16 +230,17 @@ export default theme => ({
     backgroundColor: theme.palette.surface.main,
     padding: theme.spacing(2, 0),
     [theme.breakpoints.up('sm')]: {
-      width: 300,
+      width: '100%',
+      maxWidth: 1024,
       position: 'initial',
-      justifyContent: 'center'
+      justifyContent: 'flex-start'
     }
   },
   boxCloseIcon: {
     justifyContent: 'flex-end',
     display: 'flex',
-    alignItems: 'center',
-    height: '100%'
+    height: '100%',
+    alignItems: 'flex-start'
   },
   btnRateProxies: {
     backgroundColor: theme.palette.secondary.main,
@@ -273,10 +288,12 @@ export default theme => ({
   },
   btnBox: {
     width: '100%',
+    maxWidth: 1024,
     display: 'flex',
     justifyContent: 'space-between',
     [theme.breakpoints.up('sm')]: {
-      justifyContent: 'flex-end'
+      justifyContent: 'flex-end',
+      marginTop: theme.spacing(2)
     }
   },
   alert: {

@@ -27,13 +27,14 @@ const CompareSliderView = ({
   return (
     <Box className={clsx(classes.compareSliderView, className)}>
       <Box className={classes.headerVotingCompare}>
+        <Box />
         <Box className={classes.modalHeader}>
           <Typography variant='h6' className={classes.marginRightElem}>
             {isProxy ? optionalLabel : t('compareToolTitle')}
           </Typography>
-          <Box className={classes.boxCloseIcon}>
-            <CloseIcon style={{ cursor: 'pointer' }} onClick={handleOnClose} />
-          </Box>
+        </Box>
+        <Box className={classes.boxCloseIcon}>
+          <CloseIcon style={{ cursor: 'pointer' }} onClick={handleOnClose} />
         </Box>
       </Box>
 
