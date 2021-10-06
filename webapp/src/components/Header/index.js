@@ -67,28 +67,21 @@ AuthButton.propTypes = {
   onSignOut: PropTypes.func
 }
 
+const SpecialTooltip = props => {
+  const classes = useStyles()
+  return (
+    <Tooltip
+      arrow
+      classes={{ arrow: classes.arrow, tooltip: classes.tooltip }}
+      {...props}
+    />
+  )
+}
+
 const UserInformationByType = memo(({ user }) => {
   const { t } = useTranslation('translations')
+  const classes = useStyles()
   const [mayVote, setMayVote] = useState(false)
-
-  const StyleTooltip = makeStyles(theme => ({
-    arrow: {
-      color: 'rgba(97, 97, 97, 0.9)',
-      marginLeft: 30
-    },
-    tooltip: {
-      boxShadow: theme.shadows[1],
-      width: 140,
-      fontSize: 14,
-      textAlign: 'center'
-    }
-  }))
-
-  function SpecialTooltip(props) {
-    const classes = StyleTooltip()
-
-    return <Tooltip arrow classes={classes} {...props} />
-  }
 
   useEffect(() => {
     if (!user) setMayVote(false)
@@ -100,34 +93,22 @@ const UserInformationByType = memo(({ user }) => {
       setMayVote(true)
   }, [user])
 
+  if (!user) return <></>
+
   return (
     <>
-      {user && (
-        <>
-          {!user.userData.edenMember && (
-            <>
-              {mayVote && (
-                <SpecialTooltip title={t('unlockedRating')}>
-                  <LockOpenOutlinedIcon />
-                </SpecialTooltip>
-              )}
-              {!mayVote && (
-                <SpecialTooltip title={t('lockedRating')}>
-                  <LockOutlinedIcon />
-                </SpecialTooltip>
-              )}
-            </>
-          )}
-          {user.userData.edenMember && (
-            <SpecialTooltip title={t('edenMemberMessage')}>
-              <img
-                src='/edenos.svg'
-                alt='eden icon'
-                style={{ width: '28px' }}
-              />
-            </SpecialTooltip>
-          )}
-        </>
+      {!user.userData.edenMember ? (
+        <SpecialTooltip title={t(mayVote ? 'unlockedRating' : 'lockedRating')}>
+          {mayVote ? <LockOpenOutlinedIcon /> : <LockOutlinedIcon />}
+        </SpecialTooltip>
+      ) : (
+        <SpecialTooltip title={t('edenMemberMessage')}>
+          <img
+            src='/edenos.svg'
+            alt='eden icon'
+            className={classes.logoTypeUSerSize}
+          />
+        </SpecialTooltip>
       )}
     </>
   )
