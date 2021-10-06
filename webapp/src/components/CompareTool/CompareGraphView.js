@@ -116,19 +116,20 @@ const CompareGraphView = ({
   return (
     <Box className={classes.compareGraphView}>
       <Box className={classes.headerVotingCompare}>
+        <Box />
         <Box className={classes.modalHeader}>
           <Typography variant='h6' className={classes.marginRightElem}>
             {selected.length > 0
               ? `${t('voteToolTitle')} (${selected.length} ${t('chosen')})`
               : `${t('voteToolTitle')} (${t('noBPSelected')})`}
           </Typography>
-          <Box className={classes.boxCloseIcon}>
-            <CloseIcon style={{ cursor: 'pointer' }} onClick={handleOnClose} />
-          </Box>
+          <Typography variant='body1' style={{ display: 'flex' }}>
+            {t('voteToolDescription')}
+          </Typography>
         </Box>
-        <Typography variant='body1' style={{ display: 'flex' }}>
-          {t('voteToolDescription')}
-        </Typography>
+        <Box className={classes.boxCloseIcon}>
+          <CloseIcon style={{ cursor: 'pointer' }} onClick={handleOnClose} />
+        </Box>
       </Box>
       <Box className={classes.wrapperDesktop}>
         <Box className={classes.bodyModalView}>
