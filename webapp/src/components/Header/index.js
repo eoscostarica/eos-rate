@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useState, useEffect } from 'react'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
@@ -9,15 +9,19 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import SearchIcon from '@material-ui/icons/Search'
 import Toolbar from '@mui/material/Toolbar'
+import Tooltip from '@material-ui/core/Tooltip'
 import MenuIcon from '@mui/icons-material/Menu'
 import FingerprintIcon from '@mui/icons-material/Fingerprint'
 import ExitIcon from '@mui/icons-material/ExitToApp'
+import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined'
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
 import { useSharedState } from '../../context/state.context'
 import MobileSearch from '../../components/MobileSearch'
 
 import InputAutocomplete from '../InputAutocomplete'
 import LanguageSelector from '../LanguageSelector'
+import { mainConfig } from '../../config'
 
 import styles from './styles'
 
@@ -63,13 +67,83 @@ AuthButton.propTypes = {
   onSignOut: PropTypes.func
 }
 
+const UserInformationByType = memo(({ user }) => {
+  const { t } = useTranslation('translations')
+  const [mayVote, setMayVote] = useState(false)
+
+  const StyleTooltip = makeStyles(theme => ({
+    arrow: {
+      color: 'rgba(97, 97, 97, 0.9)',
+      marginLeft: 30
+    },
+    tooltip: {
+      boxShadow: theme.shadows[1],
+      width: 140,
+      fontSize: 14,
+      textAlign: 'center'
+    }
+  }))
+
+  function SpecialTooltip(props) {
+    const classes = StyleTooltip()
+
+    return <Tooltip arrow classes={classes} {...props} />
+  }
+
+  useEffect(() => {
+    if (!user) setMayVote(false)
+    else if (
+      user.userData.voter_info &&
+      (user.userData.voter_info.producers.length > 20 ||
+        user.userData.voter_info.proxy.length > 0)
+    )
+      setMayVote(true)
+  }, [user])
+
+  return (
+    <>
+      {user && (
+        <>
+          {!user.userData.edenMember && (
+            <>
+              {mayVote && (
+                <SpecialTooltip title={t('unlockedRating')}>
+                  <LockOpenOutlinedIcon />
+                </SpecialTooltip>
+              )}
+              {!mayVote && (
+                <SpecialTooltip title={t('lockedRating')}>
+                  <LockOutlinedIcon />
+                </SpecialTooltip>
+              )}
+            </>
+          )}
+          {user.userData.edenMember && (
+            <SpecialTooltip title={t('edenMemberMessage')}>
+              <img
+                src='/edenos.svg'
+                alt='eden icon'
+                style={{ width: '28px' }}
+              />
+            </SpecialTooltip>
+          )}
+        </>
+      )}
+    </>
+  )
+})
+
+UserInformationByType.displayName = 'UserInformationByType'
+
+UserInformationByType.propTypes = {
+  user: PropTypes.object
+}
+
 const Header = memo(({ onDrawerToggle }) => {
   const classes = useStyles()
   const history = useHistory()
   const [state, { login, logout }] = useSharedState()
   const [isSearchOpen, setIsSearchOpen] = useState()
-
-  const stage = 'false' // TODO: add to context
 
   const handleLogin = () => {
     login()
@@ -97,7 +171,11 @@ const Header = memo(({ onDrawerToggle }) => {
           </IconButton>
           <Link to='/block-producers' className={classes.link}>
             <img
-              src={stage === 'true' ? '/logo-mainnet.svg' : '/logo-testnet.svg'}
+              src={
+                mainConfig.stage === 'true'
+                  ? '/logo-mainnet.svg'
+                  : '/logo-testnet.svg'
+              }
               alt='EOS Rate'
               className={classes.logoStyle}
             />
@@ -107,6 +185,9 @@ const Header = memo(({ onDrawerToggle }) => {
           <InputAutocomplete />
         </Box>
         <Box className={classes.desktopSection}>
+          <Box style={{ marginRight: '10px', marginTop: '5px' }}>
+            <UserInformationByType user={state.user} />
+          </Box>
           <LanguageSelector />
           <AuthButton
             user={state.user}
@@ -122,6 +203,9 @@ const Header = memo(({ onDrawerToggle }) => {
           >
             <SearchIcon />
           </IconButton>
+          <Box style={{ marginTop: 8 }}>
+            <UserInformationByType user={state.user} />
+          </Box>
           <LanguageSelector />
           <AuthButton
             user={state.user}
