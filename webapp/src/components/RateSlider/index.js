@@ -2,13 +2,13 @@ import { styled } from '@mui/material/styles'
 import Slider from '@mui/material/Slider'
 
 const RateSlider = styled(Slider)({
-  color: '#597a81',
+  color: '#443f56',
   height: 2,
   padding: '15px 0',
   '& .MuiSlider-thumb': {
     width: 15,
     height: 15,
-    backgroundColor: '#597a81',
+    backgroundColor: '#443f56',
     boxShadow:
       '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0 1px rgba(0,0,0,0.02)',
     '&:focus,&:hover,&$active': {
@@ -36,14 +36,14 @@ const RateSlider = styled(Slider)({
     height: 0
   },
   '& .MuiSlider-rail': {
-    height: 2,
+    height: 4,
     opacity: 0.5,
-    backgroundColor: '#010318'
+    backgroundColor: '#9e9e9e'
   },
   '& .MuiSlider-mark': {
-    backgroundColor: '#010318',
-    height: 8,
-    width: 1,
+    backgroundColor: '#9e9e9e',
+    height: 16,
+    width: 2,
     marginTop: 0
   },
   '& .MuiSlider-markActive': {

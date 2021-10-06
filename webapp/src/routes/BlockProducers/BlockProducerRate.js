@@ -2,10 +2,10 @@
 import React, { useState, useEffect, forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams, useHistory } from 'react-router-dom'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
+import PropTypes from 'prop-types'
 import CircularProgress from '@mui/material/CircularProgress'
 import Typography from '@mui/material/Typography'
 import AccountCircle from '@mui/icons-material/AccountCircle'
@@ -17,6 +17,7 @@ import MuiAlert from '@mui/material/Alert'
 import { makeStyles } from '@mui/styles'
 import Box from '@mui/material/Box'
 
+import Table from '../../components/Table'
 import TitlePage from '../../components/PageTitle'
 import PolarChart from '../../components/PolarChart'
 import getBPRadarData from '../../utils/get-bp-radar-data'
@@ -49,6 +50,40 @@ const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
 })
 
+const RadarSection = ({ t, state, polarChartData, classes }) => {
+  return (
+    <>
+      <Grid className={classes.chartWrapperSliderView} item md={12} xs={12}>
+        <PolarChart data={polarChartData} />
+      </Grid>
+      <Grid className={classes.tableBox} item md={11} xs={12}>
+        <Table
+          rows={[
+            {
+              rater: t('globalRate'),
+              amount: state.blockProducer?.ratings_cntr || 0,
+              average: formatNumber(state.blockProducer?.average, 1) || 0.0
+            },
+            {
+              rater: t('edenRates'),
+              amount: state.blockProducer?.eden_ratings_cntr || 0,
+              average: formatNumber(state.blockProducer?.eden_average, 1) || 0.0
+            }
+          ]}
+          heads={[t('raters'), t('amount'), t('average')]}
+        />
+      </Grid>
+    </>
+  )
+}
+
+RadarSection.propTypes = {
+  t: PropTypes.object,
+  state: PropTypes.object,
+  polarChartData: PropTypes.object,
+  classes: PropTypes.object
+}
+
 const BlockProducerRate = () => {
   const classes = useStyles()
   const { account } = useParams()
@@ -65,7 +100,6 @@ const BlockProducerRate = () => {
   const [polarChartData, setPolarChartData] = useState([])
   const [showMessage, setShowMessage] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
-  const isMobile = useMediaQuery('(max-width:767px)')
 
   const handleStateChange = parameter => (event, value) => {
     setRatingState({ ...ratingState, [parameter]: value })
@@ -331,7 +365,7 @@ const BlockProducerRate = () => {
         </Grid>
       </Grid>
       <Grid container className={classes.reliefGrid}>
-        <Grid item md={12} xs={12}>
+        <Grid item md={12} xs={12} style={{ marginBottom: 10 }}>
           <Box style={{ display: 'flex' }}>
             {blockProducerLogo ? (
               <Avatar aria-label='Block Producer' className={classes.avatar}>
@@ -347,18 +381,22 @@ const BlockProducerRate = () => {
           </Box>
         </Grid>
         <Grid container direction='row' style={{ marginTop: 10 }}>
-          <Grid item xs={12} sm={5}>
-            <Typography variant='subtitle1' className={classes.title}>
+          <Grid item xs={12} className={classes.infoGridStyle} md={6}>
+            <Typography variant='h6' className={classes.title}>
               {t('subTitle')}
             </Typography>
-            <Typography paragraph> {t('subText')} </Typography>
-            <Typography paragraph> {t('helpText')} </Typography>
-            <Typography paragraph> {t('rateText')} </Typography>
-            {isMobile && (
-              <Grid style={{ paddingTop: 20 }} item xs={12}>
-                <PolarChart data={polarChartData} />
-              </Grid>
-            )}
+            <Typography paragraph style={{ padding: 10 }}>
+              {' '}
+              {t('helpText')}{' '}
+            </Typography>
+            <Grid className={classes.showMobile} item xs={12}>
+              <RadarSection
+                t={t}
+                state={state}
+                polarChartData={polarChartData}
+                classes={classes}
+              />
+            </Grid>
             <SliderRatingSection
               t={t}
               handleStateChange={handleStateChange}
@@ -374,85 +412,10 @@ const BlockProducerRate = () => {
               <Grid
                 alignItems='center'
                 container
-                justifyContent='flex-end'
-                style={{ marginTop: 10 }}
+                justifyContent='center'
+                style={{ marginTop: 30 }}
               >
-                <Snackbar
-                  open={showMessage}
-                  autoHideDuration={4000}
-                  onClose={handleClose}
-                >
-                  <Alert onClose={handleClose} severity='warning'>
-                    {t('rateWithoutLogin')}
-                  </Alert>
-                </Snackbar>
-                <Snackbar
-                  open={ratingState.txError}
-                  autoHideDuration={4000}
-                  onClose={handleClose}
-                >
-                  <Alert onClose={handleClose} severity='error'>
-                    {ratingState.txError}
-                  </Alert>
-                </Snackbar>
-                <Button
-                  disabled={!state.blockProducer}
-                  variant='contained'
-                  size='small'
-                  component={forwardRef((props, ref) => (
-                    <Link
-                      {...props}
-                      ref={ref}
-                      to={`/block-producers/${_get(
-                        state.blockProducer,
-                        'owner',
-                        null
-                      )}`}
-                    />
-                  ))}
-                >
-                  {t('cancelRatingButton')}
-                </Button>
-                <Button
-                  className='textPrimary'
-                  disabled={
-                    showAlert || !state.blockProducer || ratingState.processing
-                  }
-                  color='secondary'
-                  onClick={transact}
-                  size='small'
-                  style={{ margin: '0 10px' }}
-                  variant='contained'
-                >
-                  {isRated ? t('updateRatingButton') : t('publishRatingButton')}
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12} sm={7}>
-            <Grid
-              container
-              direction='column'
-              className={classes.radarActionsWrapper}
-            >
-              {!isMobile && (
-                <Grid className={classes.radarWrapper} item xs={12}>
-                  <PolarChart data={polarChartData} />
-                </Grid>
-              )}
-
-              <Grid
-                className={classNames(classes.ctasWrapper, classes.showOnlySm)}
-                item
-                style={{ margin: '10px 0 15px 0' }}
-                xs={12}
-              >
-                <Grid
-                  alignItems='center'
-                  container
-                  justifyContent='center'
-                  style={{ marginTop: 10 }}
-                >
+                <Grid item xs={12} md={12} className={classes.centerContent}>
                   <Snackbar
                     open={showMessage}
                     autoHideDuration={4000}
@@ -474,6 +437,8 @@ const BlockProducerRate = () => {
                   {ratingState.processing && (
                     <CircularProgress color='secondary' size={20} />
                   )}
+                </Grid>
+                <Grid item className={classes.centerContent} xs={6} md={6}>
                   <Button
                     disabled={!state.blockProducer}
                     component={forwardRef((props, ref) => (
@@ -487,11 +452,12 @@ const BlockProducerRate = () => {
                         )}`}
                       />
                     ))}
-                    variant='contained'
-                    size='small'
+                    variant='outlined'
                   >
                     {t('cancelRatingButton')}
                   </Button>
+                </Grid>
+                <Grid item className={classes.centerContent} xs={6} md={6}>
                   <Button
                     className='textPrimary'
                     disabled={
@@ -502,7 +468,6 @@ const BlockProducerRate = () => {
                     color='secondary'
                     onClick={transact}
                     size='small'
-                    style={{ margin: '0 10px' }}
                     variant='contained'
                   >
                     {isRated
@@ -512,6 +477,22 @@ const BlockProducerRate = () => {
                 </Grid>
               </Grid>
             </Grid>
+          </Grid>
+          <Grid
+            item
+            md={6}
+            className={classes.showDesktop}
+            justifyContent='center'
+          >
+            <RadarSection
+              classes={classes}
+              t={t}
+              state={state}
+              polarChartData={polarChartData}
+            />
+            <Grid item md={12} />
+            <Grid item md={12} />
+            <Grid item md={12} />
           </Grid>
         </Grid>
         {showAlert && (

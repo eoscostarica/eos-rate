@@ -170,21 +170,19 @@
 
   "bpRatePage": {
     "allBPs": "모든 BPs 리스트",
-    "subTitle": "BPs 평가r",
-    "subText": "슬라이드 기능을 사용하여 BPs 평가하기.",
-    "rateText": "특정 카테고리 부분에 대한 정보가 부족할경우 선택을 하지 않고 비활성화 상태로 두셔도 됩니다.",
+    "subTitle": "이 블록 생산자 평가",
     "helpText": "선호하는 월렛으로 로그인하여 BPs 평가를 공개 하세요.",
     "publishRatingButton": "평가내용 공개하기",
     "updateRatingButton": "평가 내용 업데이트하기",
     "cancelRatingButton": "취소",
     "transparency": "투명도",
-    "transparencyTooltip": "오너쉽의 공개로 인한 투명성.",
+    "transparencyTooltip": "소유권 공개, 완전한 bp.json, 보상 사용 및 재무 통계 준수.",
     "infrastructure": "인프라",
     "infrastructureTooltip": "EOS 인프라의 안정성과 신뢰도 .",
     "trustiness": "신뢰도",
     "trustinessTooltip": "EOS 커뮤니티와의 협업으로 형성된 평판.",
     "community": "커뮤니티",
-    "communityTooltip": "커뮤니티는 교육과 이벤트 및 유용한 컨텐츠를 통해서 가치를 올릴 수 있습니다.",
+    "communityTooltip": "교육 및 홍보를 통한 커뮤니티 가치 창출, 대화, 채팅, 해커톤, 컨퍼런스, 세미나, 개발자 공간 및 기타 유용한 콘텐츠.",
     "development": "개발",
     "developmentTooltip": "기술정보 - 오픈소스 기반의 사용정보,스크립트,프레임워크,월렛,투표포탈,메트릭스,등등등.",
     "globalRate": "기본적인 평가",
@@ -194,7 +192,9 @@
     "noBlockProducer": "존재하지 않는 BP.",
     "success": "성공!",
     "title": "BPs의 인프라와 커뮤니티 평판 평가하기",
-    "infoMessage": "여러분이 선호하는 BPs에게 직접 투표 혹은 프록시를 통해서 네트워크를 지지하세요,21BPs에게 투표된 평가를 시작 할 수 있습니다."
+    "infoMessage": "여러분이 선호하는 BPs에게 직접 투표 혹은 프록시를 통해서 네트워크를 지지하세요,21BPs에게 투표된 평가를 시작 할 수 있습니다.",
+    "enabled": "활성화됨",
+    "disabled": "장애가있는"
   },
 
   "footer": {

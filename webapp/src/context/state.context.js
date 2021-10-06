@@ -249,6 +249,7 @@ export const useSharedState = () => {
       ...state.blockProducers,
       data: ratingData.producerUpdatedList
     })
+
     const userRates = getUserRates({
       userRate: { ...ratingData.rateProducer, ...ratingData.currentBP },
       user: state.user
