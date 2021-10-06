@@ -481,26 +481,21 @@ namespace eoscostarica {
                         &bp_average);
     }
 
-    void rateproducer::update_stats_migration(name scope, name user, name bp) {
-        ratings_table_v2 _ratings(_self, scope.value);
-        auto uniq_rating = (static_cast<uint128_t>(user.value) << 64) | bp.value;
+    void rateproducer::update_stats_migration(name bp) {
+        name default_scope = _self;
+        name ram_payer = _self;
 
-        auto uniq_rating_index = _ratings.get_index<name("uniqrating")>();
-        auto existing_rating = uniq_rating_index.find(uniq_rating);
-
-        check( existing_rating != uniq_rating_index.end(), "Rating does not exist" );
-        
         //update bp stats
         float bp_transparency = 0;
         float bp_infrastructure = 0;
         float bp_trustiness = 0;
         float bp_community = 0;
         float bp_development = 0;
-        uint32_t  bp_ratings_cntr = 0;
+        uint32_t bp_ratings_cntr = 0;
         float  bp_average = 0;
 
         //re-calculate stats for the bp 
-        calculate_bp_stats (scope,
+        calculate_bp_stats (default_scope,
                             bp,
                             &bp_transparency,
                             &bp_infrastructure,
@@ -511,8 +506,7 @@ namespace eoscostarica {
                             &bp_average);
                             
         //save the re-calcualtes stats
-        name ram_payer = _self;
-        update_bp_stats (scope,
+        update_bp_stats (default_scope,
                         &ram_payer,
                         &bp,
                         &bp_transparency,
@@ -548,14 +542,35 @@ namespace eoscostarica {
                 row.development = itr->development;
             };
             
-            name tempScope = is_eden(itr->user) ? eden_scope : _self;
-            if(tempScope.value == eden_scope.value) _ratings_eden_v2.emplace(_self, modify_rating);
+            name temp_scope = is_eden(itr->user) ? eden_scope : _self;
+            if(temp_scope.value == eden_scope.value) {
+                _ratings_eden_v2.emplace(_self, modify_rating);
+                update_stats_migration(itr->bp);
+            }
             else _ratings_self_v2.emplace(_self, modify_rating);
-            update_stats_migration(tempScope, itr->user, itr->bp);
         }
 
         c.version++;
         cfg.set(c, c.owner);
+    }
+
+    void rateproducer::freeupram() {
+        config c = cfg.get_or_create(_self, config{.owner = _self, .version = 0});
+        require_auth(_self);
+
+        eosio::check(c.version == 2, "Make sure to run `migrate` action before run this action");
+
+        ratings_table _ratings_general(_self, _self.value);
+        auto general_itr = _ratings_general.begin();
+        while (general_itr != _ratings_general.end()) {
+            general_itr = _ratings_general.erase(general_itr);
+        }
+
+        ratings_table _ratings_eden(_self, eden_scope.value);
+        auto eden_itr = _ratings_eden.begin();
+        while (eden_itr != _ratings_eden.end()) {
+            eden_itr = _ratings_eden.erase(eden_itr);
+        }
     }
 } // namespace eoscostarica
 
