@@ -116,8 +116,12 @@ export default theme => ({
   container: {
     padding: theme.spacing(1)
   },
+  pageTitle: {
+    display: 'flex',
+    alignItems: 'center'
+  },
   bpName: {
-    marginLeft: theme.spacing(1)
+    marginLeft: `${theme.spacing(1)} !important`
   },
   accountCircle: {
     color: theme.palette.surface.main
@@ -341,5 +345,16 @@ export default theme => ({
   centerContent: {
     display: 'flex',
     justifyContent: 'center'
+  },
+  profileChartWrapper: {
+    marginTop: 20,
+    '& .highcharts-container ': {
+      height: '400px !important',
+      width: '100% !important',
+      '& > svg': {
+        height: '400px !important',
+        width: '100% !important'
+      }
+    }
   }
 })

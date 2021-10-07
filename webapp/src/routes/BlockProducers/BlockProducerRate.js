@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import _get from 'lodash.get'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert'
 import { makeStyles } from '@mui/styles'
@@ -404,7 +404,7 @@ const BlockProducerRate = () => {
               producer={state.blockProducer}
             />
             <Grid
-              className={classNames(classes.ctasWrapper, classes.showOnlyLg)}
+              className={clsx(classes.ctasWrapper, classes.showOnlyLg)}
               style={{ margin: '10px 0 10px 0' }}
               item
               xs={12}

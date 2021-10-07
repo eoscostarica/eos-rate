@@ -237,13 +237,13 @@ export default theme => ({
     alignItems: 'center'
   },
   polarGraphWrapper: {
+    width: '100%',
     '& .highcharts-container ': {
-      height: '300px !important',
-      width: '340px !important',
+      height: '400px !important',
+      width: '100% !important',
       '& > svg': {
-        marginTop: '-60px !important',
         height: '400px !important',
-        width: '340px !important'
+        width: '100% !important'
       }
     }
   },

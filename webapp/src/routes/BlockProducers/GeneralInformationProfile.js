@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 import countries from 'i18n-iso-countries'
 import Grid from '@mui/material/Grid'
@@ -52,7 +52,7 @@ const SocialNetworks = ({ classes, producer }) => {
             </Typography>
             <Typography
               variant='subtitle1'
-              className={classNames(classes.value, classes.subTitle)}
+              className={clsx(classes.value, classes.subTitle)}
             >
               <a
                 href={`https://github.com/${github}`}
@@ -72,7 +72,7 @@ const SocialNetworks = ({ classes, producer }) => {
             </Typography>
             <Typography
               variant='subtitle1'
-              className={classNames(classes.value, classes.subTitle)}
+              className={clsx(classes.value, classes.subTitle)}
             >
               <a
                 href={`https://twitter.com/${twitter}`}
@@ -92,7 +92,7 @@ const SocialNetworks = ({ classes, producer }) => {
             </Typography>
             <Typography
               variant='subtitle1'
-              className={classNames(classes.value, classes.subTitle)}
+              className={clsx(classes.value, classes.subTitle)}
             >
               <a
                 href={`https://www.linkedin.com/in/${linkedin}`}
@@ -112,7 +112,7 @@ const SocialNetworks = ({ classes, producer }) => {
             </Typography>
             <Typography
               variant='subtitle1'
-              className={classNames(classes.value, classes.subTitle)}
+              className={clsx(classes.value, classes.subTitle)}
             >
               <a
                 href={`https://web.telegram.org/#/${telegram}`}
@@ -132,7 +132,7 @@ const SocialNetworks = ({ classes, producer }) => {
             </Typography>
             <Typography
               variant='subtitle1'
-              className={classNames(classes.value, classes.subTitle)}
+              className={clsx(classes.value, classes.subTitle)}
             >
               <a
                 href={`https://www.instagram.com/${instagram}`}
@@ -169,11 +169,11 @@ const AdditionalResources = ({ classes, producer }) => {
               </Typography>
               <Typography
                 variant='subtitle1'
-                className={classNames(classes.value, classes.subTitle)}
+                className={clsx(classes.value, classes.subTitle)}
               >
                 <a
                   href={additionalResources.alohaEOS}
-                  className={classNames(classes.links, classes.noWrap)}
+                  className={clsx(classes.links, classes.noWrap)}
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -189,12 +189,12 @@ const AdditionalResources = ({ classes, producer }) => {
               </Typography>
               <Typography
                 variant='subtitle1'
-                className={classNames(classes.value, classes.subTitle)}
+                className={clsx(classes.value, classes.subTitle)}
                 noWrap
               >
                 <a
                   href={additionalResources.eosNation}
-                  className={classNames(classes.links, classes.noWrap)}
+                  className={clsx(classes.links, classes.noWrap)}
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -210,12 +210,12 @@ const AdditionalResources = ({ classes, producer }) => {
               </Typography>
               <Typography
                 variant='subtitle1'
-                className={classNames(classes.value, classes.subTitle)}
+                className={clsx(classes.value, classes.subTitle)}
                 noWrap
               >
                 <a
                   href={{ edenInterview }}
-                  className={classNames(classes.links, classes.noWrap)}
+                  className={clsx(classes.links, classes.noWrap)}
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -278,7 +278,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
             </Typography>
             <Typography
               variant='subtitle1'
-              className={classNames(classes.value, classes.subTitle)}
+              className={clsx(classes.value, classes.subTitle)}
             >
               {_get(producer, 'system.owner', '- -')}
             </Typography>
@@ -289,7 +289,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
             </Typography>
             <Typography
               variant='subtitle1'
-              className={classNames(classes.value, classes.subTitle)}
+              className={clsx(classes.value, classes.subTitle)}
             >
               {countryName}
             </Typography>
@@ -300,7 +300,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
             </Typography>
             <Typography
               variant='subtitle1'
-              className={classNames(classes.value, classes.subTitle)}
+              className={clsx(classes.value, classes.subTitle)}
             >
               {webpageURL ? (
                 <a
@@ -322,7 +322,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
             </Typography>
             <Typography
               variant='subtitle1'
-              className={classNames(classes.value, classes.subTitle)}
+              className={clsx(classes.value, classes.subTitle)}
             >
               {formatNumber(parseFloat(totalVotes), 0)}
             </Typography>

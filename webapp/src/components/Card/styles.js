@@ -139,12 +139,13 @@ export default theme => ({
     letterSpacing: '0.44px'
   },
   chartWrapper: {
+    width: '100%',
     '& .highcharts-container ': {
       height: '400px !important',
-      width: '350px !important',
+      width: '100% !important',
       '& > svg': {
         height: '400px !important',
-        width: '350px !important'
+        width: '100% !important'
       }
     }
   }
