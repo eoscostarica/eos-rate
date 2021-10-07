@@ -180,7 +180,7 @@ const BlockProducerProfile = () => {
       </Grid>
       <Grid container className={classes.reliefGrid}>
         <Grid item md={12} xs={12}>
-          <Box style={{ display: 'flex' }}>
+          <Box className={classes.pageTitle}>
             {blockProducerLogo ? (
               <Avatar aria-label='Block Producer' className={classes.avatar}>
                 <img src={blockProducerLogo} alt='' width='100%' />
@@ -226,8 +226,8 @@ const BlockProducerProfile = () => {
           </Grid>
         )}
         <Grid container justifyContent='center' md={6}>
-          <Grid item md={12} style={{ marginTop: 20 }} xs={12}>
-            <PolarChart data={polarChartData} />
+          <Grid item className={classes.profileChartWrapper} xs={12}>
+            <PolarChart data={polarChartData} showLegend />
           </Grid>
           <Grid item md={4} xs={7}>
             <Button

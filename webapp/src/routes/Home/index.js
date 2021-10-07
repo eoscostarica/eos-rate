@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
 import Box from '@mui/material/Box'
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import TitlePage from '../../components/PageTitle'
 
@@ -21,15 +21,12 @@ const Home = () => {
     <Box>
       <TitlePage title={t('title')} />
       <Box
-        className={classNames(
-          classes.spacingContainers,
-          classes.mainCoverContainer
-        )}
+        className={clsx(classes.spacingContainers, classes.mainCoverContainer)}
       >
         <Cover />
       </Box>
       <Box
-        className={classNames(
+        className={clsx(
           classes.spacingContainers,
           classes.rateCategoryContainer
         )}
@@ -37,7 +34,7 @@ const Home = () => {
         <RateCategory />
       </Box>
       <Box
-        className={classNames(
+        className={clsx(
           classes.spacingContainers,
           classes.mainSubTopicContainer
         )}

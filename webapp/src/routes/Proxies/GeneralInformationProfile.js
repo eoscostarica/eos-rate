@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
@@ -29,7 +29,7 @@ const SocialNetworks = ({ classes, proxy }) => {
           </Typography>
           <Typography
             variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
+            className={clsx(classes.value, classes.subTitle)}
           >
             <a
               href={`https://twitter.com/${twitter}`}
@@ -49,7 +49,7 @@ const SocialNetworks = ({ classes, proxy }) => {
           </Typography>
           <Typography
             variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
+            className={clsx(classes.value, classes.subTitle)}
           >
             <a
               href={`https://steemit.com/${steemit}`}
@@ -69,7 +69,7 @@ const SocialNetworks = ({ classes, proxy }) => {
           </Typography>
           <Typography
             variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
+            className={clsx(classes.value, classes.subTitle)}
           >
             <a
               href={`https://web.telegram.org/#/${telegram}`}
@@ -106,7 +106,7 @@ const GeneralInformation = ({ classes, proxy = {} }) => {
           </Typography>
           <Typography
             variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
+            className={clsx(classes.value, classes.subTitle)}
           >
             {_get(proxy, 'owner', '- -')}
           </Typography>
@@ -117,7 +117,7 @@ const GeneralInformation = ({ classes, proxy = {} }) => {
           </Typography>
           <Typography
             variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
+            className={clsx(classes.value, classes.subTitle)}
           >
             {webpageURL ? (
               <a
@@ -140,7 +140,7 @@ const GeneralInformation = ({ classes, proxy = {} }) => {
             </Typography>
             <Typography
               variant='subtitle1'
-              className={classNames(classes.longValue, classes.subTitle)}
+              className={clsx(classes.longValue, classes.subTitle)}
             >
               {background}
             </Typography>
@@ -153,7 +153,7 @@ const GeneralInformation = ({ classes, proxy = {} }) => {
             </Typography>
             <Typography
               variant='subtitle1'
-              className={classNames(classes.longValue, classes.subTitle)}
+              className={clsx(classes.longValue, classes.subTitle)}
             >
               {philosophy}
             </Typography>
@@ -170,7 +170,7 @@ const GeneralInformation = ({ classes, proxy = {} }) => {
           </Typography>
           <Typography
             variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
+            className={clsx(classes.value, classes.subTitle)}
           >
             {formatNumber(parseFloat(proxyVotes), 0)}
           </Typography>
@@ -181,7 +181,7 @@ const GeneralInformation = ({ classes, proxy = {} }) => {
           </Typography>
           <Typography
             variant='subtitle1'
-            className={classNames(classes.value, classes.subTitle)}
+            className={clsx(classes.value, classes.subTitle)}
           >
             {formatNumber(parseFloat(totalVotes), 0)}
           </Typography>

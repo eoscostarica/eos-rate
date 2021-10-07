@@ -37,7 +37,12 @@ const AllBps = () => {
     showChipMessage: false
   })
 
-  const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
+  const loadMore = async () => {
+    if (!hasMoreRows) return
+
+    await setProducers(currentlyVisible + 12)
+    setCurrentlyVisible(currentlyVisible + 12)
+  }
 
   const goToTop = () => {
     document.getElementById('childContent').scrollTo(0, 0)
@@ -149,7 +154,7 @@ const AllBps = () => {
       return
     }
 
-    setMoreRows(state.blockProducers.rows > currentlyVisible)
+    setMoreRows(state.blockProducers.rows > state.blockProducers.data.length)
   }, [state.blockProducers])
 
   return (
@@ -245,7 +250,7 @@ const AllBps = () => {
         <Button
           disabled={!hasMoreRows}
           className={classes.loadMoreButton}
-          onClick={() => hasMoreRows && loadMore()}
+          onClick={loadMore}
           variant='outlined'
           color={'primary'}
         >
