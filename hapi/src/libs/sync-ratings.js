@@ -14,7 +14,7 @@ const getUserRatings = async () => {
       json: true,
       code: HAPI_RATING_CONTRACT,
       scope: HAPI_RATING_CONTRACT,
-      table: 'ratings',
+      table: 'rating',
       limit: 1000,
       reverse: false,
       show_payer: false
