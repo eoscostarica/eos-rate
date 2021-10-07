@@ -558,7 +558,7 @@ namespace eoscostarica {
         config c = cfg.get_or_create(_self, config{.owner = _self, .version = 0});
         require_auth(_self);
 
-        eosio::check(c.version == 2, "Make sure to run `migrate` action before run this action");
+        eosio::check(c.version < 3, "Make sure to run `migrate` action before run this action");
 
         ratings_table _ratings_general(_self, _self.value);
         auto general_itr = _ratings_general.begin();
@@ -571,6 +571,9 @@ namespace eoscostarica {
         while (eden_itr != _ratings_eden.end()) {
             eden_itr = _ratings_eden.erase(eden_itr);
         }
+        
+        c.version++;
+        cfg.set(c, c.owner);
     }
 } // namespace eoscostarica
 
