@@ -543,11 +543,9 @@ namespace eoscostarica {
             };
             
             name temp_scope = is_eden(itr->user) ? eden_scope : _self;
-            if(temp_scope.value == eden_scope.value) {
-                _ratings_eden_v2.emplace(_self, modify_rating);
-                update_stats_migration(itr->bp);
-            }
+            if(temp_scope.value == eden_scope.value) _ratings_eden_v2.emplace(_self, modify_rating);
             else _ratings_self_v2.emplace(_self, modify_rating);
+            update_stats_migration(itr->bp);
         }
 
         c.version++;
