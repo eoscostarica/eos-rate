@@ -19,8 +19,8 @@ import Grid from '@mui/material/Grid'
 import { Link } from 'react-router-dom'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 
-// import Radar from '../Radar'
 import PolarChart from '../PolarChart'
+import formatNumber from '../../utils/format-number'
 
 import styles from './styles'
 
@@ -62,18 +62,19 @@ const CardData = ({
   const classes = useStyles()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.only('xs'))
-  // const isDesktop = useMediaQuery('(min-width:770px)')
-  // const [sizes, setSizes] = useState()
 
   const handleTooltip = e => {
     setOpen(!open)
     e.preventDefault()
   }
 
-  // useEffect(() => {
-  //   // setSizes(isDesktop ? 400 : '95%')
-  //   // console.log({ sizes })
-  // }, [isDesktop])
+  const formatRadarData = rateData => [
+    parseFloat(formatNumber(rateData?.community || 0, 1)),
+    parseFloat(formatNumber(rateData?.development || 0, 1)),
+    parseFloat(formatNumber(rateData?.development || 0, 1)),
+    parseFloat(formatNumber(rateData?.transparency || 0, 1)),
+    parseFloat(formatNumber(rateData?.trustiness || 0, 1))
+  ]
 
   return (
     <Card className={classes.card}>
@@ -131,7 +132,9 @@ const CardData = ({
           )}
         </Box>
         <Box className={classes.chartWrapper}>
-          <PolarChart data={[{ ...data.data }]} />
+          <PolarChart
+            data={[{ ...data.data, data: formatRadarData(data.totalStats) }]}
+          />
         </Box>
         {showOptions && (
           <Grid container justifyContent='center'>

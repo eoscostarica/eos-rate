@@ -8,7 +8,8 @@ import {
   getProducers,
   getProducer,
   mutationInsertUserRating,
-  getUserRates
+  getUserRates,
+  getTotalStats
 } from './models'
 
 const SharedStateContext = React.createContext()
@@ -214,6 +215,28 @@ export const useSharedState = () => {
         { bpjson: 'desc' }
       ])
 
+    const allBps = []
+
+    blockProducers.data.forEach(bp => {
+      const totalStats = getTotalStats({
+        producerData: {
+          ...bp?.system?.parameters,
+          average: bp?.average,
+          ratings_cntr: bp?.ratings_cntr
+        },
+        edenStats: bp?.edenRate,
+        statsAmount: 5,
+        oneStat: 1
+      })
+      bp = {
+        ...bp,
+        totalStats
+      }
+      allBps.push(bp)
+    })
+
+    blockProducers = { ...blockProducers, data: allBps }
+
     dispatch({ type: 'setProducers', blockProducers })
   }
 
@@ -222,6 +245,22 @@ export const useSharedState = () => {
 
     if (!saveDirectly) {
       blockProducer = await getProducer(item)
+    }
+
+    const totalStats = getTotalStats({
+      producerData: {
+        ...blockProducer?.system?.parameters,
+        average: blockProducer?.average,
+        ratings_cntr: blockProducer?.ratings_cntr
+      },
+      edenStats: blockProducer?.edenRate,
+      statsAmount: 5,
+      oneStat: 1
+    })
+
+    blockProducer = {
+      ...blockProducer,
+      totalStats
     }
 
     dispatch({ type: 'setProducer', blockProducer })

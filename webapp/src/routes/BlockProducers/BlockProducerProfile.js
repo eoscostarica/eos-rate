@@ -32,6 +32,7 @@ import {
   WebsiteLegend,
   AdditionalResources
 } from './GeneralInformationProfile'
+import formatNumber from '../../utils/format-number'
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
@@ -85,11 +86,11 @@ const BlockProducerProfile = () => {
   const [open, setOpen] = useState(false)
 
   const getRatingData = edenRate => ({
-    community: edenRate.community || 0,
-    development: edenRate.development || 0,
-    infrastructure: edenRate.development || 0,
-    transparency: edenRate.transparency || 0,
-    trustiness: edenRate.trustiness || 0
+    community: parseFloat(formatNumber(edenRate?.community || 0, 1)),
+    development: parseFloat(formatNumber(edenRate?.development || 0, 1)),
+    infrastructure: parseFloat(formatNumber(edenRate?.development || 0, 1)),
+    transparency: parseFloat(formatNumber(edenRate?.transparency || 0, 1)),
+    trustiness: parseFloat(formatNumber(edenRate?.trustiness || 0, 1))
   })
 
   const setProfileData = bp => {
@@ -104,7 +105,19 @@ const BlockProducerProfile = () => {
       _get(bp, 'bpjson.org.candidate_name', _get(bp, 'system.owner', 'No Data'))
     )
     setWebInfo(_get(bp, 'general_info', null))
-    setPolarChartData([{ ...bp.data, name: t('eosRates') }, userDataSet])
+
+    if (bp.totalStats) {
+      const totalStatsDataSet = getBPRadarData({
+        name: t('totalRates'),
+        parameters: getRatingData(bp?.totalStats)
+      })
+
+      setPolarChartData([
+        { ...bp.data, name: t('eosRates') },
+        userDataSet,
+        totalStatsDataSet
+      ])
+    }
   }
 
   const handleClose = (e, reason) => {
@@ -122,8 +135,8 @@ const BlockProducerProfile = () => {
         const bp = state.blockProducers.data.find(
           ({ owner }) => owner === account
         )
-        setProfileData(bp)
         setProducer(bp, true)
+        setProfileData(bp)
 
         return
       }
@@ -268,6 +281,18 @@ const BlockProducerProfile = () => {
                     _get(state.blockProducer, 'eden_ratings_cntr', null) || 0,
                   average: getAverageValue(
                     _get(state.blockProducer, 'eden_average', 0)
+                  )
+                },
+                {
+                  rater: t('totalRates'),
+                  amount:
+                    _get(
+                      state.blockProducer,
+                      'totalStats.ratings_cntr',
+                      null
+                    ) || 0,
+                  average: getAverageValue(
+                    _get(state.blockProducer, 'totalStats.average', 0)
                   )
                 }
               ]}

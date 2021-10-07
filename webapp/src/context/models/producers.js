@@ -140,6 +140,85 @@ export const mutationInsertUserRating = async (
   }
 }
 
+const calculateTotalStats = ({
+  firstAverage,
+  secondAverage,
+  fieldsAmount,
+  firstCounter,
+  secondCounter
+}) => {
+  const dividend =
+    firstAverage * (firstCounter * fieldsAmount) +
+    secondAverage * (secondCounter * fieldsAmount)
+  const divider = (firstCounter + secondCounter) * fieldsAmount
+  return dividend / divider
+}
+
+export const getTotalStats = ({
+  producerData,
+  edenStats,
+  statsAmount,
+  oneStat
+}) => {
+  const average = calculateTotalStats({
+    firstAverage: producerData.average,
+    secondAverage: edenStats.average,
+    firstCounter: producerData.ratings_cntr,
+    secondCounter: edenStats.ratings_cntr,
+    fieldsAmount: statsAmount
+  })
+
+  const community = calculateTotalStats({
+    firstAverage: producerData.community,
+    secondAverage: edenStats.community,
+    firstCounter: producerData.ratings_cntr,
+    secondCounter: edenStats.ratings_cntr,
+    fieldsAmount: oneStat
+  })
+
+  const development = calculateTotalStats({
+    firstAverage: producerData.development,
+    secondAverage: edenStats.development,
+    firstCounter: producerData.ratings_cntr,
+    secondCounter: edenStats.ratings_cntr,
+    fieldsAmount: oneStat
+  })
+
+  const infrastructure = calculateTotalStats({
+    firstAverage: producerData.infrastructure,
+    secondAverage: edenStats.infrastructure,
+    firstCounter: producerData.ratings_cntr,
+    secondCounter: edenStats.ratings_cntr,
+    fieldsAmount: oneStat
+  })
+
+  const trustiness = calculateTotalStats({
+    firstAverage: producerData.trustiness,
+    secondAverage: edenStats.trustiness,
+    firstCounter: producerData.ratings_cntr,
+    secondCounter: edenStats.ratings_cntr,
+    fieldsAmount: oneStat
+  })
+
+  const transparency = calculateTotalStats({
+    firstAverage: producerData.trustiness,
+    secondAverage: edenStats.trustiness,
+    firstCounter: producerData.ratings_cntr,
+    secondCounter: edenStats.ratings_cntr,
+    fieldsAmount: oneStat
+  })
+
+  return {
+    average,
+    ratings_cntr: producerData.ratings_cntr + edenStats.ratings_cntr,
+    community,
+    development,
+    infrastructure,
+    trustiness,
+    transparency
+  }
+}
+
 export const getProducer = async owner => {
   const {
     data: { producer }
@@ -161,8 +240,11 @@ export const getProducer = async owner => {
     fetchPolicy: 'network-only'
   })
 
+  const producerData = producer[0]
+  const edenStats = edenRatingsStats[0]
+
   return getBpDataModeled({
-    ...producer[0],
-    edenRate: edenRatingsStats.length ? { ...edenRatingsStats[0] } : {}
+    ...producerData,
+    edenRate: edenStats.length ? { ...edenStats } : {}
   })
 }
