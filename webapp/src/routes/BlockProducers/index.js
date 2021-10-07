@@ -55,6 +55,7 @@ const AllBps = () => {
   const handleToggleSelected = (item, isAddItem = false) => {
     if (isAddItem) {
       setSelectedProducers([...state.selectedProducers, item])
+      console.log({ selectedProducers: state?.selectedProducers })
     } else {
       const removeSelected = state.selectedProducers.filter(
         bpName => bpName !== item
@@ -141,6 +142,16 @@ const AllBps = () => {
   }
 
   useEffect(() => {
+    if (!state.user) return
+
+    console.log('PRUEBA')
+    setSelectedProducers([
+      ...state.selectedProducers,
+      ...state?.user?.userData?.voter_info?.producers
+    ])
+  }, [state.user])
+
+  useEffect(() => {
     const getData = async () => {
       !state.blockProducers.data.length &&
         (await setProducers(currentlyVisible))
@@ -192,7 +203,7 @@ const AllBps = () => {
               key={`${blockProducer.owner}-main-block-card`}
             >
               <Card
-                isSelected={state.selectedProducers.includes(
+                isSelected={state?.selectedProducers?.includes(
                   blockProducer.owner
                 )}
                 toggleSelection={(isAdding, producerAccountName) => () => {

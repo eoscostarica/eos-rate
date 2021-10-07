@@ -77,7 +77,9 @@
 
     "hideComparisonTool": "비교 도구 숨김",
     "showComparisonTool": "비교 도구 표시",
-    "language": "언어"
+    "language": "언어",
+    "version": "버전",
+    "signOut": "로그아웃"
   },
 
   "sortInput": {

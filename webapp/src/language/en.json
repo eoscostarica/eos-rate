@@ -75,10 +75,11 @@
     "connectingErrorTitle": "Error",
     "connectingErrorActionBtn": "Ok",
 
-    "hideComparisonTool": "Hide comparison tool",
-    "showComparisonTool": "Show comparison tool",
-    "language": "language",
-    "version": "Version"
+    "hideComparisonTool": "Hide Comparison Tool",
+    "showComparisonTool": "Show Comparison Tool",
+    "language": "Language",
+    "version": "Version",
+    "signOut": "Sign Out"
   },
 
   "sortInput": {
