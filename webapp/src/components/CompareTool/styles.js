@@ -136,12 +136,13 @@ export default theme => ({
     overflow: 'hidden'
   },
   chartWrapperSliderView: {
+    width: '100%',
     '& .highcharts-container ': {
       height: '400px !important',
-      width: '340px !important',
+      width: '100% !important',
       '& > svg': {
         height: '400px !important',
-        width: '340px !important'
+        width: '100% !important'
       }
     }
   },
@@ -306,13 +307,14 @@ export default theme => ({
     alignItems: 'center'
   },
   chartWrapper: {
+    width: '100%',
     '& .highcharts-container ': {
       height: '300px !important',
-      width: '340px !important',
+      width: '100% !important',
       '& > svg': {
         marginTop: '-60px !important',
         height: '400px !important',
-        width: '340px !important'
+        width: '100% !important'
       }
     }
   },

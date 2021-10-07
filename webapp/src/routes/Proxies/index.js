@@ -31,7 +31,10 @@ const AllProxies = ({ ual = {} }) => {
     txSuccess: false
   })
 
-  const loadMore = () => {
+  const loadMore = async () => {
+    if (!hasMoreRows) return
+
+    await setProxies(currentlyVisible + 12)
     setCurrentlyVisible(currentlyVisible + 12)
   }
 
@@ -130,7 +133,7 @@ const AllProxies = ({ ual = {} }) => {
       return
     }
 
-    setMoreRows(state.proxies.rows > currentlyVisible)
+    setMoreRows(state.proxies.rows > state.proxies.data.length)
   }, [state.proxies])
 
   return (

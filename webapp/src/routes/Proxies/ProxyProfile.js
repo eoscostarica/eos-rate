@@ -1,5 +1,5 @@
 import React, { useEffect, forwardRef, useState } from 'react'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -243,7 +243,7 @@ const ProxyProfile = () => {
                 <CircularProgress color='secondary' size={20} />
                 <Typography
                   variant='subtitle1'
-                  className={classNames(classes.subTitle, classes.bpName)}
+                  className={clsx(classes.subTitle, classes.bpName)}
                 >
                   {t('voting')} ...
                 </Typography>
@@ -262,7 +262,7 @@ const ProxyProfile = () => {
           md={5}
           className={classes.hiddenMobile}
         >
-          <Grid item md={12}>
+          <Grid item md={12} className={classes.polarGraphWrapper}>
             <PolarChart data={polarChartData} />
           </Grid>
           <Button

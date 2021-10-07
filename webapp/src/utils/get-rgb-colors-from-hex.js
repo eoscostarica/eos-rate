@@ -1,36 +1,13 @@
+const stc = require('string-to-color')
+
 const getColorHashByString = (inputString = 'defaultString') => {
-  let inputStringSum = 0
-
-  for (const i in inputString) {
-    inputStringSum += inputString.charCodeAt(i)
-  }
-
-  const r = ~~(
-    ('0.' +
-      Math.sin(inputStringSum + 1)
-        .toString()
-        .substr(6)) *
-    256
-  )
-  const g = ~~(
-    ('0.' +
-      Math.sin(inputStringSum + 2)
-        .toString()
-        .substr(6)) *
-    256
-  )
-  const b = ~~(
-    ('0.' +
-      Math.sin(inputStringSum + 3)
-        .toString()
-        .substr(6)) *
-    256
-  )
-
+  const color = stc(inputString)
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color)
+  const r = parseInt(result[1], 16)
+  const g = parseInt(result[2], 16)
+  const b = parseInt(result[3], 16)
   const rgb = `rgb(${r}, ${g}, ${b})`
-  const hex = `#${r.toString(16)}${g.toString(16)}${b.toString(
-    16
-  )}`.toUpperCase()
+  const hex = `${color}`.toUpperCase()
 
   return { r, g, b, rgb, hex }
 }
