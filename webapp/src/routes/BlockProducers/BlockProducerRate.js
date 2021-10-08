@@ -346,7 +346,6 @@ const BlockProducerRate = () => {
 
   return (
     <Grid container justifyContent='center' className={classes.container}>
-      {console.log({ state })}
       <TitlePage title={blockProducerTitle} />
       <Grid item xs={12}>
         <Grid
