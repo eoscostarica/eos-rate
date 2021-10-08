@@ -78,7 +78,8 @@
     "hideComparisonTool": "Ocultar herramienta de comparación",
     "showComparisonTool": "Mostrar herramienta de comparación",
     "language": "Idioma",
-    "version": "Versión"
+    "version": "Versión",
+    "signOut": "Cerrar Sesión"
   },
 
   "sortInput": {
@@ -189,6 +190,7 @@
     "globalRate": "Evaluación General",
     "myRate": "Mi Evaluación",
     "edenRates": "Evaluación Eden",
+    "totalRates": "Calificación Total",
     "rateWithoutLogin": "Necesitas iniciar sesión para evaluar un productor de bloques",
     "noBlockProducer": "No encontramos este PB",
     "success": "¡Éxito!",
@@ -206,6 +208,7 @@
     "generalInformation": "Información General",
     "eosRates": "Calificación General",
     "edenRates": "Calificación Eden",
+    "totalRates": "Calificación Total",
     "raters": "Calificadores",
     "amount": "Calificaciones",
     "rankings": "Promedio",

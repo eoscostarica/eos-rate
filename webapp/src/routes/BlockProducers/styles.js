@@ -330,10 +330,10 @@ export default theme => ({
   chartWrapperSliderView: {
     '& .highcharts-container ': {
       height: '400px !important',
-      width: '325px !important',
+      width: '100% !important',
       '& > svg': {
         height: '400px !important',
-        width: '325px !important'
+        width: '100% !important'
       }
     }
   },

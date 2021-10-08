@@ -603,7 +603,7 @@ namespace eoscostarica {
         * @param bp -  Block Producer account name
         * 
         */
-        void update_stats_migration(name scope, name user, name bp);
+        void update_stats_migration(name bp);
 
         /**
         *
@@ -611,6 +611,13 @@ namespace eoscostarica {
         * 
         */ 
         void migrate();
+        
+        /**
+        *
+        *  Liberate the ram used on ratings table under rateproducer and eden scope
+        * 
+        */ 
+        void freeupram();
     };
 
     EOSIO_ACTIONS(rateproducer,
@@ -620,6 +627,7 @@ namespace eoscostarica {
                  action(wipe, ricardian_contract(wipe_ricardian)),
                  action(rminactive, ricardian_contract(rminactive_ricardian)),
                  action(rmrate, user, bp, ricardian_contract(rmrate_ricardian)),
-                 action(migrate, ricardian_contract(migrate_ricardian)))
+                 action(migrate, ricardian_contract(migrate_ricardian)),
+                 action(freeupram, ricardian_contract(freeupram_ricardian)))
                  
 } // namespace eoscostarica

@@ -27,6 +27,11 @@ export const GET_BLOCK_PRODUCERS = gql`
       general_info
       eden_average
       eden_ratings_cntr
+      eden_community
+      eden_development
+      eden_infrastructure
+      eden_transparency
+      eden_trustiness
     }
   }
 `
@@ -54,6 +59,11 @@ export const GET_PRODUCER_BY_OWNER = gql`
       general_info
       eden_average
       eden_ratings_cntr
+      eden_community
+      eden_development
+      eden_infrastructure
+      eden_transparency
+      eden_trustiness
     }
   }
 `
@@ -78,21 +88,6 @@ export const GET_PRODUCER_BY_PRODUCER_LIST = gql`
   }
 `
 
-export const GET_EDEN_RATING = gql`
-  query getEdenRating($bp: String) {
-    edenRatingsStats: eden_ratings_stats(where: { bp: { _eq: $bp } }) {
-      bp
-      average
-      ratings_cntr
-      infrastructure
-      transparency
-      trustiness
-      development
-      community
-    }
-  }
-`
-
 export const MUTATION_INSERT_USER_RATING = gql`
   mutation saveUserRating($objects: [user_ratings_insert_input!]!) {
     insert_user_ratings(objects: $objects) {
@@ -110,7 +105,6 @@ export const MUTATION_UPDATE_RATING = gql`
     rateProducer(ratingInput: $ratingInput) {
       message
       resultEden
-      uniq_rating
       user
       bp
       ratings
@@ -132,7 +126,6 @@ export const MUTATION_UPDATE_USER_RATING = gql`
         user
         bp
         ratings
-        uniq_rating
       }
     }
   }
