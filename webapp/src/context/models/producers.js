@@ -24,13 +24,13 @@ export const getProducers = async (limit, orderBy) => {
     return getBpDataModeled({
       ...producer,
       edenRate: {
-        average: producer.eden_average,
-        ratings_cntr: producer.eden_ratings_cntr,
-        community: producer.eden_community,
-        development: producer.eden_development,
-        infrastructure: producer.eden_infrastructure,
-        transparency: producer.eden_transparency,
-        trustiness: producer.eden_trustiness
+        average: producer?.eden_average || 0,
+        ratings_cntr: producer?.eden_ratings_cntr || 0,
+        community: producer?.eden_community || 0,
+        development: producer?.eden_development || 0,
+        infrastructure: producer?.eden_infrastructure || 0,
+        transparency: producer?.eden_transparency || 0,
+        trustiness: producer?.eden_trustiness || 0
       }
     })
   })
@@ -56,10 +56,14 @@ export const getBlockProducerRatingByOwner = async (
   }
 }
 
-export const mutationInsertUserRating = async (
-  { ual, user, bp, result, transaction, blockProducers, ...ratings },
-  state
-) => {
+export const mutationInsertUserRating = async ({
+  ual,
+  user,
+  bp,
+  transaction,
+  blockProducers,
+  isEden
+}) => {
   try {
     const {
       data: { rateProducer }
@@ -67,14 +71,16 @@ export const mutationInsertUserRating = async (
       variables: {
         ratingInput: {
           producer: bp,
-          isEden: state?.user?.userData?.edenMember,
+          isEden,
           user,
-          transaction: transaction
+          transaction
         }
       },
       mutation: MUTATION_UPDATE_RATING
     })
 
+    let producerUpdatedList = []
+    let currentBP
     const rpc = getRpc(ual)
 
     const { rows: rateStat } = await rpc.get_table_rows({
@@ -88,36 +94,41 @@ export const mutationInsertUserRating = async (
       show_payer: false
     })
 
-    const producerUpdatedList = blockProducers.data.map(producer => {
-      if (rateStat.length && producer.owner === rateStat[0].bp) {
-        const parameters = {
-          community: rateStat[0].community,
-          development: rateStat[0].development,
-          infrastructure: rateStat[0].infrastructure,
-          transparency: rateStat[0].transparency,
-          trustiness: rateStat[0].trustiness
-        }
-        const graphData = Object.values(parameters)
+    if (blockProducers.data.length) {
+      producerUpdatedList = blockProducers.data.map(producer => {
+        if (rateStat.length && producer.owner === rateStat[0].bp) {
+          const parameters = {
+            community: rateStat[0].community,
+            development: rateStat[0].development,
+            infrastructure: rateStat[0].infrastructure,
+            transparency: rateStat[0].transparency,
+            trustiness: rateStat[0].trustiness
+          }
+          const graphData = Object.values(parameters)
 
-        return {
-          ...producer,
-          average: rateStat[0].average,
-          ratings_cntr: rateStat[0].ratings_cntr,
-          system: {
-            ...producer.system,
-            parameters
-          },
-          data: {
-            ...producer.data,
-            data: graphData
+          return {
+            ...producer,
+            average: rateStat[0].average,
+            ratings_cntr: rateStat[0].ratings_cntr,
+            system: {
+              ...producer.system,
+              parameters
+            },
+            data: {
+              ...producer.data,
+              data: graphData
+            }
           }
         }
-      }
 
-      return producer
-    })
-    let currentBP = producerUpdatedList.find(producer => producer.owner === bp)
-    currentBP = { ...currentBP, ...rateProducer.resultEden }
+        return producer
+      })
+      currentBP = producerUpdatedList.find(producer => producer.owner === bp)
+      currentBP = { ...currentBP, edenRate: rateProducer.resultEden }
+    } else {
+      currentBP = await getProducer(bp)
+    }
+
     const userRate = await getBlockProducerRatingByOwner({
       bp,
       userAccount: user
@@ -155,56 +166,57 @@ export const getTotalStats = ({
   oneStat
 }) => {
   const average = calculateTotalStats({
-    firstAverage: producerData.average,
-    secondAverage: edenStats.average,
-    firstCounter: producerData.ratings_cntr,
-    secondCounter: edenStats.ratings_cntr,
+    firstAverage: producerData?.average || 0,
+    secondAverage: edenStats?.average || 0,
+    firstCounter: producerData?.ratings_cntr || 0,
+    secondCounter: edenStats?.ratings_cntr || 0,
     fieldsAmount: statsAmount
   })
 
   const community = calculateTotalStats({
-    firstAverage: producerData.community,
-    secondAverage: edenStats.community,
-    firstCounter: producerData.ratings_cntr,
-    secondCounter: edenStats.ratings_cntr,
+    firstAverage: producerData?.community || 0,
+    secondAverage: edenStats?.community || 0,
+    firstCounter: producerData?.ratings_cntr || 0,
+    secondCounter: edenStats?.ratings_cntr || 0,
     fieldsAmount: oneStat
   })
 
   const development = calculateTotalStats({
-    firstAverage: producerData.development,
-    secondAverage: edenStats.development,
-    firstCounter: producerData.ratings_cntr,
-    secondCounter: edenStats.ratings_cntr,
+    firstAverage: producerData?.development || 0,
+    secondAverage: edenStats?.development || 0,
+    firstCounter: producerData?.ratings_cntr || 0,
+    secondCounter: edenStats?.ratings_cntr || 0,
     fieldsAmount: oneStat
   })
 
   const infrastructure = calculateTotalStats({
-    firstAverage: producerData.infrastructure,
-    secondAverage: edenStats.infrastructure,
-    firstCounter: producerData.ratings_cntr,
-    secondCounter: edenStats.ratings_cntr,
+    firstAverage: producerData?.infrastructure || 0,
+    secondAverage: edenStats?.infrastructure || 0,
+    firstCounter: producerData?.ratings_cntr || 0,
+    secondCounter: edenStats?.ratings_cntr || 0,
     fieldsAmount: oneStat
   })
 
   const trustiness = calculateTotalStats({
-    firstAverage: producerData.trustiness,
-    secondAverage: edenStats.trustiness,
-    firstCounter: producerData.ratings_cntr,
-    secondCounter: edenStats.ratings_cntr,
+    firstAverage: producerData?.trustiness || 0,
+    secondAverage: edenStats?.trustiness || 0,
+    firstCounter: producerData?.ratings_cntr || 0,
+    secondCounter: edenStats?.ratings_cntr || 0,
     fieldsAmount: oneStat
   })
 
   const transparency = calculateTotalStats({
-    firstAverage: producerData.trustiness,
-    secondAverage: edenStats.trustiness,
-    firstCounter: producerData.ratings_cntr,
-    secondCounter: edenStats.ratings_cntr,
-    fieldsAmount: oneStat
+    firstAverage: producerData?.trustiness || 0,
+    secondAverage: edenStats?.trustiness || 0,
+    firstCounter: producerData?.ratings_cntr || 0,
+    secondCounter: edenStats?.ratings_cntr || 0,
+    fieldsAmount: oneStat || 0
   })
 
   return {
     average,
-    ratings_cntr: producerData.ratings_cntr + edenStats.ratings_cntr,
+    ratings_cntr:
+      producerData?.ratings_cntr || 0 + edenStats?.ratings_cntr || 0,
     community,
     development,
     infrastructure,
@@ -229,13 +241,13 @@ export const getProducer = async owner => {
   return getBpDataModeled({
     ...producerData,
     edenRate: {
-      average: producerData.eden_average,
-      ratings_cntr: producerData.eden_ratings_cntr,
-      community: producerData.eden_community,
-      development: producerData.eden_development,
-      infrastructure: producerData.eden_infrastructure,
-      transparency: producerData.eden_transparency,
-      trustiness: producerData.eden_trustiness
+      average: producerData?.eden_average || 0,
+      ratings_cntr: producerData?.eden_ratings_cntr || 0,
+      community: producerData?.eden_community || 0,
+      development: producerData?.eden_development || 0,
+      infrastructure: producerData?.eden_infrastructure || 0,
+      transparency: producerData?.eden_transparency || 0,
+      trustiness: producerData?.eden_trustiness || 0
     }
   })
 }
