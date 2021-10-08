@@ -1,20 +1,24 @@
 #!/usr/bin/env node
 const { JsonRpc } = require('eosjs')
 const fetch = require('node-fetch')
-const { massiveDB } = require('../config')
+const {
+  generalContractScope,
+  edenContractScope,
+  massiveDB
+} = require('../config')
 
 const HAPI_EOS_API_ENDPOINT =
   process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
 
-const getUserRatings = async () => {
+const getUserRatings = async (scope) => {
   const eos = new JsonRpc(HAPI_EOS_API_ENDPOINT, { fetch })
 
   try {
     const ratings = await eos.get_table_rows({
       json: true,
       code: HAPI_RATING_CONTRACT,
-      scope: HAPI_RATING_CONTRACT,
+      scope: scope,
       table: 'rating',
       limit: 1000,
       reverse: false,
@@ -28,9 +32,9 @@ const getUserRatings = async () => {
   }
 }
 
-const updateUserRatings = async () => {
-  console.log('==== Updating ratings ====')
-  const userRatings = await getUserRatings()
+const updateUserRatingsAux = async (scope) => {
+  console.log(`==== Updating ratings for ${scope} ====`)
+  const userRatings = await getUserRatings(scope)
 
   userRatings.rows.forEach(async (rating) => {
     const ratingsCore = {
@@ -61,6 +65,11 @@ const updateUserRatings = async () => {
       console.log(`Error: ${err}`)
     }
   })
+}
+
+const updateUserRatings = () => {
+  updateUserRatingsAux(generalContractScope)
+  updateUserRatingsAux(edenContractScope)
 }
 
 updateUserRatings()
