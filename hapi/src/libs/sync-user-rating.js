@@ -15,7 +15,7 @@ const getUserRatings = async (isEden) => {
   let ratings = await eos.get_table_rows({
     json: true,
     code: HAPI_RATING_CONTRACT,
-    scope: 'eden',
+    scope: isEden ? 'eden' : HAPI_RATING_CONTRACT,
     table: 'rating',
     limit: 1000,
     reverse: false,
