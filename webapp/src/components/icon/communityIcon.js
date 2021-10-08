@@ -1,12 +1,12 @@
-import React from 'react'
-import SvgIcon from '@material-ui/core/SvgIcon'
-import { makeStyles } from '@material-ui/core/styles'
+import React, { memo } from 'react'
+import SvgIcon from '@mui/material/SvgIcon'
+import { makeStyles } from '@mui/styles'
 
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const CommunityIcon = (props) => {
+const CommunityIcon = props => {
   const classes = useStyles()
 
   return (
@@ -28,4 +28,4 @@ const CommunityIcon = (props) => {
   )
 }
 
-export default CommunityIcon
+export default memo(CommunityIcon)

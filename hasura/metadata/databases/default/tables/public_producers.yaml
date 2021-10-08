@@ -5,6 +5,7 @@ select_permissions:
 - permission:
     columns:
     - bpjson
+    - candidate_name
     - general_info
     - owner
     - system

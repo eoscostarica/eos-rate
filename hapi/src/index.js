@@ -16,7 +16,7 @@ const init = async () => {
   server.route({
     method: 'GET',
     path: '/',
-    handler: function() {
+    handler: function () {
       return '<h2>EOS Rate HTTP API service</h2>'
     }
   })
@@ -24,7 +24,7 @@ const init = async () => {
   server.route({
     method: 'POST',
     path: '/ratebp',
-    handler: async req => {
+    handler: async (req) => {
       try {
         const {
           payload: { input }
@@ -33,7 +33,7 @@ const init = async () => {
         if (!input) throw new Error('Invalid ratebp Input')
 
         const {
-          ratingInput: { user, producer, transaction }
+          ratingInput: { user, producer, transaction, isEden }
         } = input
         const isValidAccountName = accountValidation([
           { name: user, type: 'user account' },
@@ -44,7 +44,12 @@ const init = async () => {
           throw new Error(isValidAccountName.message)
 
         const resultEden = await updateBpStats(producer)
-        const result = await updateUserRatings(user, producer, transaction)
+        const result = await updateUserRatings(
+          user,
+          producer,
+          transaction,
+          isEden
+        )
 
         return { resultEden: resultEden, ...result }
       } catch (error) {
@@ -57,10 +62,12 @@ const init = async () => {
 
   await server.start()
   console.log(`🚀 Server ready at ${server.info.uri}`)
-  server.table().forEach(route => console.log(`${route.method}\t${route.path}`))
+  server
+    .table()
+    .forEach((route) => console.log(`${route.method}\t${route.path}`))
 }
 
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
   console.log(err)
   process.exit(1)
 })
