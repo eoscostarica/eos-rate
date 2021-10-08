@@ -75,10 +75,11 @@
     "connectingErrorTitle": "Error",
     "connectingErrorActionBtn": "Ok",
 
-    "hideComparisonTool": "Hide comparison tool",
-    "showComparisonTool": "Show comparison tool",
-    "language": "language",
-    "version": "Version"
+    "hideComparisonTool": "Hide Comparison Tool",
+    "showComparisonTool": "Show Comparison Tool",
+    "language": "Language",
+    "version": "Version",
+    "signOut": "Sign Out"
   },
 
   "sortInput": {
@@ -189,6 +190,7 @@
     "globalRate": "General Rating",
     "myRate": "My Rating",
     "edenRates": "Eden Rating",
+    "totalRates": "Total Rating",
     "rateWithoutLogin": "You need to login to rate this block producer",
     "noBlockProducer": "This BP Does Not Exist.",
     "success": "Success!",
@@ -206,6 +208,7 @@
     "generalInformation": "General Information",
     "eosRates": "General Rating",
     "edenRates": "Eden Rating",
+    "totalRates": "Total Rating",
     "raters": "Raters",
     "amount": "Ratings",
     "rankings": "Rankings",

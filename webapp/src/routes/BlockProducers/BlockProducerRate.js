@@ -26,6 +26,7 @@ import formatNumber from '../../utils/format-number'
 import { mainConfig } from '../../config'
 
 import SliderRatingSection from './SliderRatingSection'
+import getAverageValue from '../../utils/get-average-value'
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
@@ -54,7 +55,7 @@ const RadarSection = ({ t, state, polarChartData, classes }) => {
   return (
     <>
       <Grid className={classes.chartWrapperSliderView} item md={12} xs={12}>
-        <PolarChart data={polarChartData} />
+        <PolarChart data={polarChartData} showLegend />
       </Grid>
       <Grid className={classes.tableBox} item md={11} xs={12}>
         <Table
@@ -62,12 +63,22 @@ const RadarSection = ({ t, state, polarChartData, classes }) => {
             {
               rater: t('globalRate'),
               amount: state.blockProducer?.ratings_cntr || 0,
-              average: formatNumber(state.blockProducer?.average, 1) || 0.0
+              average: getAverageValue(_get(state.blockProducer, 'average', 0))
             },
             {
               rater: t('edenRates'),
               amount: state.blockProducer?.eden_ratings_cntr || 0,
-              average: formatNumber(state.blockProducer?.eden_average, 1) || 0.0
+              average: getAverageValue(
+                _get(state.blockProducer, 'eden_average', 0)
+              )
+            },
+            {
+              rater: t('totalRates'),
+              amount: state.blockProducer?.totalStats?.ratings_cntr || 0,
+              average: formatNumber(
+                state.blockProducer?.totalStats?.average || 0.0,
+                1
+              )
             }
           ]}
           heads={[t('raters'), t('amount'), t('average')]}
@@ -171,11 +182,11 @@ const BlockProducerRate = () => {
   }
 
   const getSavedRatingData = rate => ({
-    community: parseFloat(rate?.community || 0),
-    development: parseFloat(rate?.development || 0),
-    infrastructure: parseFloat(rate?.infrastructure || 0),
-    transparency: parseFloat(rate?.transparency || 0),
-    trustiness: parseFloat(rate?.trustiness || 0)
+    community: parseFloat(formatNumber(rate?.community || 0, 1)),
+    development: parseFloat(formatNumber(rate?.development || 0, 1)),
+    infrastructure: parseFloat(formatNumber(rate?.infrastructure || 0, 1)),
+    transparency: parseFloat(formatNumber(rate?.transparency || 0, 1)),
+    trustiness: parseFloat(formatNumber(rate?.trustiness || 0, 1))
   })
 
   const transact = async () => {
@@ -263,11 +274,19 @@ const BlockProducerRate = () => {
       )
       setBlockProducerLogo(_get(bp, 'bpjson.org.branding.logo_256', null))
       const generalRateData = toNumbers(bp.data.data)
-      setPolarChartData([
-        { ...bp.data, name: t('eosRates'), data: generalRateData },
-        edenDataSet,
-        userDataSet
-      ])
+
+      if (bp.totalStats) {
+        const totalStatsDataSet = getBPRadarData({
+          name: t('totalRates'),
+          parameters: getSavedRatingData(bp?.totalStats)
+        })
+        setPolarChartData([
+          { ...bp.data, name: t('globalRate'), data: generalRateData },
+          edenDataSet,
+          userDataSet,
+          totalStatsDataSet
+        ])
+      }
     }
   }
 
@@ -278,8 +297,8 @@ const BlockProducerRate = () => {
         const bp = state.blockProducers.data.find(
           ({ owner }) => owner === account
         )
-        setProfileData(bp, {})
         setProducer(bp, true)
+        setProfileData(bp, {})
 
         return
       }
@@ -292,7 +311,6 @@ const BlockProducerRate = () => {
 
   useEffect(() => {
     if (state.user && state.blockProducer) {
-      // const { userRates = [] } = state.user.userData
       const bpRated = (state.user?.userData?.userRates || []).find(
         rate => rate.owner === state.blockProducer.owner
       )

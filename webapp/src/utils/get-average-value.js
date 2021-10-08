@@ -1,5 +1,5 @@
 const validateNumber = average => {
-  const value = average.toFixed(2)
+  const value = average.toFixed(1)
 
   if (value % 1 === 0) return parseInt(value)
 

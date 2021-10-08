@@ -3,7 +3,8 @@ const { JsonRpc } = require('eosjs')
 const fetch = require('node-fetch')
 const { massiveDB } = require('../config')
 
-const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+const HAPI_EOS_API_ENDPOINT =
+  process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
 
 const getUserRatings = async () => {
@@ -14,14 +15,14 @@ const getUserRatings = async () => {
       json: true,
       code: HAPI_RATING_CONTRACT,
       scope: HAPI_RATING_CONTRACT,
-      table: 'ratings',
+      table: 'rating',
       limit: 1000,
       reverse: false,
       show_payer: false
     })
 
     return ratings
-  } catch (err) { 
+  } catch (err) {
     console.log(`Database connection error ${err}`)
     return []
   }
@@ -33,7 +34,6 @@ const updateUserRatings = async () => {
 
   userRatings.rows.forEach(async (rating) => {
     const ratingsCore = {
-      uniq_rating: rating.uniq_rating,
       user: rating.user,
       bp: rating.bp,
       ratings: {
@@ -46,11 +46,21 @@ const updateUserRatings = async () => {
     }
 
     try {
-      const resultRatingsSave = await (await massiveDB).user_ratings.save(ratingsCore)
-      const dbResult = resultRatingsSave ? resultRatingsSave : await (await massiveDB).user_ratings.insert(ratingsCore)
-      console.log(`Save or insert of ${ratingsCore.uniq_rating} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
-    } catch (err) { console.log(`Error: ${err}`) }
+      const resultRatingsSave = await (
+        await massiveDB
+      ).user_ratings.save(ratingsCore)
+      const dbResult = resultRatingsSave
+        ? resultRatingsSave
+        : await (await massiveDB).user_ratings.insert(ratingsCore)
+      console.log(
+        `Save or insert of ${ratingsCore.user}-${ratingsCore.bp} was ${
+          dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
+        }`
+      )
+    } catch (err) {
+      console.log(`Error: ${err}`)
+    }
   })
-};
+}
 
 updateUserRatings()

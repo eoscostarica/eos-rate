@@ -1,24 +1,3 @@
 table:
   name: producers_list
   schema: public
-select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - owner
-    - bpjson
-    - system
-    - candidate_name
-    - total_votes
-    - eden_average
-    - eden_ratings_cntr
-    - average
-    - transparency
-    - infrastructure
-    - trustiness
-    - community
-    - development
-    - ratings_cntr
-    - general_info
-    filter: {}
-  role: anonymous

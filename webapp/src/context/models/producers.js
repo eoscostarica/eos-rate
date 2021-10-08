@@ -1,7 +1,6 @@
 import { client } from '../../graphql'
 import {
   GET_BLOCK_PRODUCERS,
-  GET_EDEN_RATING,
   GET_PRODUCER_BY_OWNER,
   QUERY_RATING,
   MUTATION_UPDATE_RATING
@@ -21,24 +20,18 @@ export const getProducers = async (limit, orderBy) => {
 
   if (!list.length) return []
 
-  const promiseResolved = await Promise.all(
-    list.map(({ owner }) => {
-      return client.query({
-        variables: {
-          bp: owner
-        },
-        query: GET_EDEN_RATING,
-        fetchPolicy: 'network-only'
-      })
-    })
-  )
-
-  const resultProducers = list.map((producer, index) => {
-    const edenRate = promiseResolved[index].data.edenRatingsStats[0] || {}
-
+  const resultProducers = list.map(producer => {
     return getBpDataModeled({
       ...producer,
-      edenRate
+      edenRate: {
+        average: producer.eden_average,
+        ratings_cntr: producer.eden_ratings_cntr,
+        community: producer.eden_community,
+        development: producer.eden_development,
+        infrastructure: producer.eden_infrastructure,
+        transparency: producer.eden_transparency,
+        trustiness: producer.eden_trustiness
+      }
     })
   })
 
@@ -74,6 +67,7 @@ export const mutationInsertUserRating = async (
       variables: {
         ratingInput: {
           producer: bp,
+          isEden: state?.user?.userData?.edenMember,
           user,
           transaction: transaction
         }
@@ -140,6 +134,85 @@ export const mutationInsertUserRating = async (
   }
 }
 
+const calculateTotalStats = ({
+  firstAverage,
+  secondAverage,
+  fieldsAmount,
+  firstCounter,
+  secondCounter
+}) => {
+  const dividend =
+    firstAverage * (firstCounter * fieldsAmount) +
+    secondAverage * (secondCounter * fieldsAmount)
+  const divider = (firstCounter + secondCounter) * fieldsAmount
+  return dividend / divider
+}
+
+export const getTotalStats = ({
+  producerData,
+  edenStats,
+  statsAmount,
+  oneStat
+}) => {
+  const average = calculateTotalStats({
+    firstAverage: producerData.average,
+    secondAverage: edenStats.average,
+    firstCounter: producerData.ratings_cntr,
+    secondCounter: edenStats.ratings_cntr,
+    fieldsAmount: statsAmount
+  })
+
+  const community = calculateTotalStats({
+    firstAverage: producerData.community,
+    secondAverage: edenStats.community,
+    firstCounter: producerData.ratings_cntr,
+    secondCounter: edenStats.ratings_cntr,
+    fieldsAmount: oneStat
+  })
+
+  const development = calculateTotalStats({
+    firstAverage: producerData.development,
+    secondAverage: edenStats.development,
+    firstCounter: producerData.ratings_cntr,
+    secondCounter: edenStats.ratings_cntr,
+    fieldsAmount: oneStat
+  })
+
+  const infrastructure = calculateTotalStats({
+    firstAverage: producerData.infrastructure,
+    secondAverage: edenStats.infrastructure,
+    firstCounter: producerData.ratings_cntr,
+    secondCounter: edenStats.ratings_cntr,
+    fieldsAmount: oneStat
+  })
+
+  const trustiness = calculateTotalStats({
+    firstAverage: producerData.trustiness,
+    secondAverage: edenStats.trustiness,
+    firstCounter: producerData.ratings_cntr,
+    secondCounter: edenStats.ratings_cntr,
+    fieldsAmount: oneStat
+  })
+
+  const transparency = calculateTotalStats({
+    firstAverage: producerData.trustiness,
+    secondAverage: edenStats.trustiness,
+    firstCounter: producerData.ratings_cntr,
+    secondCounter: edenStats.ratings_cntr,
+    fieldsAmount: oneStat
+  })
+
+  return {
+    average,
+    ratings_cntr: producerData.ratings_cntr + edenStats.ratings_cntr,
+    community,
+    development,
+    infrastructure,
+    trustiness,
+    transparency
+  }
+}
+
 export const getProducer = async owner => {
   const {
     data: { producer }
@@ -151,18 +224,18 @@ export const getProducer = async owner => {
 
   if (!producer.length) return null
 
-  const {
-    data: { edenRatingsStats }
-  } = await client.query({
-    variables: {
-      bp: owner
-    },
-    query: GET_EDEN_RATING,
-    fetchPolicy: 'network-only'
-  })
+  const producerData = producer[0]
 
   return getBpDataModeled({
-    ...producer[0],
-    edenRate: edenRatingsStats.length ? { ...edenRatingsStats[0] } : {}
+    ...producerData,
+    edenRate: {
+      average: producerData.eden_average,
+      ratings_cntr: producerData.eden_ratings_cntr,
+      community: producerData.eden_community,
+      development: producerData.eden_development,
+      infrastructure: producerData.eden_infrastructure,
+      transparency: producerData.eden_transparency,
+      trustiness: producerData.eden_trustiness
+    }
   })
 }

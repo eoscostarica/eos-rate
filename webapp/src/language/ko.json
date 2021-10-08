@@ -77,7 +77,9 @@
 
     "hideComparisonTool": "비교 도구 숨김",
     "showComparisonTool": "비교 도구 표시",
-    "language": "언어"
+    "language": "언어",
+    "version": "버전",
+    "signOut": "로그아웃"
   },
 
   "sortInput": {
@@ -188,6 +190,7 @@
     "globalRate": "기본적인 평가",
     "myRate": "나의 평가내역",
     "edenRates": "Eden 평가내역",
+    "totalRates": "총 평점",
     "rateWithoutLogin": "BPs 평가를 하기 위해서는 로그인이 필요 합니다",
     "noBlockProducer": "존재하지 않는 BP.",
     "success": "성공!",
@@ -205,6 +208,7 @@
     "generalInformation": "기본적인 정보",
     "eosRates": "기본적인 평가",
     "edenRates": "Eden 평가",
+    "totalRates": "총 평점",
     "raters": "평가자",
     "amount": "평가",
     "rankings": "평균",
