@@ -55,7 +55,7 @@ const RadarSection = ({ t, state, polarChartData, classes }) => {
   return (
     <>
       <Grid className={classes.chartWrapperSliderView} item md={12} xs={12}>
-        <PolarChart data={polarChartData} />
+        <PolarChart data={polarChartData} showLegend />
       </Grid>
       <Grid className={classes.tableBox} item md={11} xs={12}>
         <Table
