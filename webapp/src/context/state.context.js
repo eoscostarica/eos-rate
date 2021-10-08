@@ -200,7 +200,7 @@ export const useSharedState = () => {
     if (page === 'bp') {
       dispatch({ type: 'setSortProducersBy', sortBy })
     } else {
-      // dispatch({ type: 'setSortProxiesBy', sortBy })
+      // TODO: add logic to sort proxies
     }
   }
 
