@@ -27,6 +27,11 @@ export const GET_BLOCK_PRODUCERS = gql`
       general_info
       eden_average
       eden_ratings_cntr
+      eden_community
+      eden_development
+      eden_infrastructure
+      eden_transparency
+      eden_trustiness
     }
   }
 `
@@ -54,6 +59,11 @@ export const GET_PRODUCER_BY_OWNER = gql`
       general_info
       eden_average
       eden_ratings_cntr
+      eden_community
+      eden_development
+      eden_infrastructure
+      eden_transparency
+      eden_trustiness
     }
   }
 `
@@ -74,21 +84,6 @@ export const GET_PRODUCER_BY_PRODUCER_LIST = gql`
       general_info
       eden_average
       eden_ratings_cntr
-    }
-  }
-`
-
-export const GET_EDEN_RATING = gql`
-  query getEdenRating($bp: String) {
-    edenRatingsStats: eden_ratings_stats(where: { bp: { _eq: $bp } }) {
-      bp
-      average
-      ratings_cntr
-      infrastructure
-      transparency
-      trustiness
-      development
-      community
     }
   }
 `

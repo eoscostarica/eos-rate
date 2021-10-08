@@ -1,7 +1,6 @@
 import { client } from '../../graphql'
 import {
   GET_BLOCK_PRODUCERS,
-  GET_EDEN_RATING,
   GET_PRODUCER_BY_OWNER,
   QUERY_RATING,
   MUTATION_UPDATE_RATING
@@ -21,24 +20,18 @@ export const getProducers = async (limit, orderBy) => {
 
   if (!list.length) return []
 
-  const promiseResolved = await Promise.all(
-    list.map(({ owner }) => {
-      return client.query({
-        variables: {
-          bp: owner
-        },
-        query: GET_EDEN_RATING,
-        fetchPolicy: 'network-only'
-      })
-    })
-  )
-
-  const resultProducers = list.map((producer, index) => {
-    const edenRate = promiseResolved[index].data.edenRatingsStats[0] || {}
-
+  const resultProducers = list.map(producer => {
     return getBpDataModeled({
       ...producer,
-      edenRate
+      edenRate: {
+        average: producer.eden_average,
+        ratings_cntr: producer.eden_ratings_cntr,
+        community: producer.eden_community,
+        development: producer.eden_development,
+        infrastructure: producer.eden_infrastructure,
+        transparency: producer.eden_transparency,
+        trustiness: producer.eden_trustiness
+      }
     })
   })
 
@@ -231,21 +224,18 @@ export const getProducer = async owner => {
 
   if (!producer.length) return null
 
-  const {
-    data: { edenRatingsStats }
-  } = await client.query({
-    variables: {
-      bp: owner
-    },
-    query: GET_EDEN_RATING,
-    fetchPolicy: 'network-only'
-  })
-
   const producerData = producer[0]
-  const edenStats = edenRatingsStats[0]
 
   return getBpDataModeled({
     ...producerData,
-    edenRate: edenStats.length ? { ...edenStats } : {}
+    edenRate: {
+      average: producerData.eden_average,
+      ratings_cntr: producerData.eden_ratings_cntr,
+      community: producerData.eden_community,
+      development: producerData.eden_development,
+      infrastructure: producerData.eden_infrastructure,
+      transparency: producerData.eden_transparency,
+      trustiness: producerData.eden_trustiness
+    }
   })
 }
