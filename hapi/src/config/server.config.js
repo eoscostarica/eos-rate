@@ -1,4 +1,3 @@
-
 module.exports = {
   host: process.env.HAPI_POSTGRES_HOST || 'postgres',
   port: process.env.HAPI_POSTGRES_PORT || 5432,

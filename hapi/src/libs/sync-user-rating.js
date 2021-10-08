@@ -4,7 +4,8 @@ const fetch = require('node-fetch')
 
 const { massiveDB } = require('../config')
 
-const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+const HAPI_EOS_API_ENDPOINT =
+  process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
 
 // gets data from blockchain
@@ -15,7 +16,7 @@ const getUserRatings = async () => {
     json: true,
     code: HAPI_RATING_CONTRACT,
     scope: HAPI_RATING_CONTRACT,
-    table: 'ratings',
+    table: 'rating',
     limit: 1000,
     reverse: false,
     show_payer: false
@@ -47,8 +48,9 @@ const updateUserRatings = async (userAccount, bpAccount, transaction) => {
       community: blockProducer.community || 0
     }
 
-    const result = await (await massiveDB).user_ratings.save({
-      uniq_rating: blockProducer.uniq_rating,
+    const result = await (
+      await massiveDB
+    ).user_ratings.save({
       user: blockProducer.user,
       bp: blockProducer.bp,
       ratings: ratings,
@@ -56,8 +58,9 @@ const updateUserRatings = async (userAccount, bpAccount, transaction) => {
     })
 
     if (!result) {
-      const insertResult = await (await massiveDB).user_ratings.insert({
-        uniq_rating: blockProducer.uniq_rating,
+      const insertResult = await (
+        await massiveDB
+      ).user_ratings.insert({
         user: blockProducer.user,
         bp: blockProducer.bp,
         ratings,
@@ -65,11 +68,12 @@ const updateUserRatings = async (userAccount, bpAccount, transaction) => {
       })
 
       if (!insertResult)
-        throw new Error(`Could not save or insert ${blockProducer.uniq_rating}`)
+        throw new Error(
+          `Could not save or insert ${blockProducer.user}-${blockProducer.bp}`
+        )
     }
 
     return {
-      uniq_rating: blockProducer.uniq_rating,
       user: blockProducer.user,
       bp: blockProducer.bp,
       ratings,

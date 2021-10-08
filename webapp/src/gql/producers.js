@@ -110,7 +110,6 @@ export const MUTATION_UPDATE_RATING = gql`
     rateProducer(ratingInput: $ratingInput) {
       message
       resultEden
-      uniq_rating
       user
       bp
       ratings
@@ -132,7 +131,6 @@ export const MUTATION_UPDATE_USER_RATING = gql`
         user
         bp
         ratings
-        uniq_rating
       }
     }
   }
