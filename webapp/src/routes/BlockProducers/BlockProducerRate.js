@@ -298,7 +298,13 @@ const BlockProducerRate = () => {
           ({ owner }) => owner === account
         )
         setProducer(bp, true)
-        setProfileData(bp, {})
+        setProfileData(
+          bp,
+          getBPRadarData({
+            name: t('myRate'),
+            parameters: getSavedRatingData({})
+          })
+        )
 
         return
       }

@@ -15,7 +15,7 @@ const getUserRatings = async (isEden) => {
   let ratings = await eos.get_table_rows({
     json: true,
     code: HAPI_RATING_CONTRACT,
-    scope: isEden ? 'eden' : HAPI_RATING_CONTRACT,
+    scope: 'eden',
     table: 'rating',
     limit: 1000,
     reverse: false,
@@ -53,16 +53,29 @@ const updateUserRatings = async (
       community: blockProducer.community || 0
     }
 
-    const result = await (
+    const exist = await (
       await massiveDB
-    ).user_ratings.save({
+    ).user_ratings.findOne({
       user: blockProducer.user,
-      bp: blockProducer.bp,
-      ratings: ratings,
-      tx_data: transaction
+      bp: blockProducer.bp
     })
 
-    if (!result) {
+    if (exist) {
+      const saveResult = await (
+        await massiveDB
+      ).user_ratings.save({
+        id: exist.id,
+        user: blockProducer.user,
+        bp: blockProducer.bp,
+        ratings: ratings,
+        tx_data: transaction
+      })
+
+      if (!saveResult)
+        throw new Error(
+          `Could not save ${blockProducer.user}-${blockProducer.bp}`
+        )
+    } else {
       const insertResult = await (
         await massiveDB
       ).user_ratings.insert({
@@ -74,7 +87,7 @@ const updateUserRatings = async (
 
       if (!insertResult)
         throw new Error(
-          `Could not save or insert ${blockProducer.user}-${blockProducer.bp}`
+          `Could not insert ${blockProducer.user}-${blockProducer.bp}`
         )
     }
 

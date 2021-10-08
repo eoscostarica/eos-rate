@@ -280,6 +280,7 @@ export const useSharedState = () => {
       result,
       transaction: state.transaction,
       blockProducers: state.blockProducers,
+      isEden: state?.user?.userData?.edenMember,
       ...ratings
     })
 
