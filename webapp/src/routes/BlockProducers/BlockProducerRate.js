@@ -26,6 +26,7 @@ import formatNumber from '../../utils/format-number'
 import { mainConfig } from '../../config'
 
 import SliderRatingSection from './SliderRatingSection'
+import getAverageValue from '../../utils/get-average-value'
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
@@ -62,18 +63,22 @@ const RadarSection = ({ t, state, polarChartData, classes }) => {
             {
               rater: t('globalRate'),
               amount: state.blockProducer?.ratings_cntr || 0,
-              average: formatNumber(state.blockProducer?.average, 1) || 0.0
+              average: getAverageValue(_get(state.blockProducer, 'average', 0))
             },
             {
               rater: t('edenRates'),
               amount: state.blockProducer?.eden_ratings_cntr || 0,
-              average: formatNumber(state.blockProducer?.eden_average, 1) || 0.0
+              average: getAverageValue(
+                _get(state.blockProducer, 'eden_average', 0)
+              )
             },
             {
               rater: t('totalRates'),
               amount: state.blockProducer?.totalStats?.ratings_cntr || 0,
-              average:
-                formatNumber(state.blockProducer?.totalStats?.average, 1) || 0.0
+              average: formatNumber(
+                state.blockProducer?.totalStats?.average || 0.0,
+                1
+              )
             }
           ]}
           heads={[t('raters'), t('amount'), t('average')]}
@@ -341,6 +346,7 @@ const BlockProducerRate = () => {
 
   return (
     <Grid container justifyContent='center' className={classes.container}>
+      {console.log({ state })}
       <TitlePage title={blockProducerTitle} />
       <Grid item xs={12}>
         <Grid

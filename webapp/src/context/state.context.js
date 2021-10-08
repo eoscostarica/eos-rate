@@ -250,8 +250,8 @@ export const useSharedState = () => {
     const totalStats = getTotalStats({
       producerData: {
         ...blockProducer?.system?.parameters,
-        average: blockProducer?.average,
-        ratings_cntr: blockProducer?.ratings_cntr
+        average: blockProducer?.average || 0,
+        ratings_cntr: blockProducer?.ratings_cntr || 0
       },
       edenStats: blockProducer?.edenRate,
       statsAmount: 5,

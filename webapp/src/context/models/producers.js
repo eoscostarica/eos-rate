@@ -74,6 +74,7 @@ export const mutationInsertUserRating = async (
       variables: {
         ratingInput: {
           producer: bp,
+          isEden: state?.user?.userData?.edenMember,
           user,
           transaction: transaction
         }

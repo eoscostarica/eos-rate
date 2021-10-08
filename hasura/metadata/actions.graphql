@@ -6,6 +6,7 @@ type Mutation {
 
 input RatingInput {
   user: String!
+  isEden: Boolean!
   producer: String!
   transaction: jsonb!
 }
