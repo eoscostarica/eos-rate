@@ -205,9 +205,9 @@ const Account = () => {
                               rel='noopener'
                               target='_blank'
                               className={classes.link}
-                              href={`${mainConfig.blockExplorer}/transaction/${rate.tx_data.transaction.transactionId}`}
+                              href={`${mainConfig.blockExplorer}/transaction/${rate.tx_data?.transaction?.transactionId}`}
                             >
-                              {rate.tx_data.transaction.transactionId}
+                              {rate.tx_data?.transaction?.transactionId}
                             </Link>
                           )}
                         </Box>

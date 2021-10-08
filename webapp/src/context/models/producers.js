@@ -60,11 +60,9 @@ export const mutationInsertUserRating = async ({
   ual,
   user,
   bp,
-  result,
   transaction,
   blockProducers,
-  isEden,
-  ...ratings
+  isEden
 }) => {
   try {
     const {
@@ -75,7 +73,7 @@ export const mutationInsertUserRating = async ({
           producer: bp,
           isEden,
           user,
-          transaction: transaction
+          transaction
         }
       },
       mutation: MUTATION_UPDATE_RATING

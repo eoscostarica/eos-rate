@@ -271,6 +271,7 @@ export const useSharedState = () => {
     user,
     bp,
     result,
+    transaction,
     ...ratings
   }) => {
     const ratingData = await mutationInsertUserRating({
@@ -278,7 +279,7 @@ export const useSharedState = () => {
       user,
       bp,
       result,
-      transaction: state.transaction,
+      transaction,
       blockProducers: state.blockProducers,
       isEden: state?.user?.userData?.edenMember,
       ...ratings

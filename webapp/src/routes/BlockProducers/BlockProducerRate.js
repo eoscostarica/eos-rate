@@ -237,6 +237,12 @@ const BlockProducerRate = () => {
         ual: state.ual,
         user: state.user.accountName,
         bp: account,
+        transaction: {
+          transaction: {
+            transactionId: result.transaction.transaction_id,
+            transactionDate: result.transaction.processed.block_time
+          }
+        },
         ...getRatingData(false),
         result
       })
