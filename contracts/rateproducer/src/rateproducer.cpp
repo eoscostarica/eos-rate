@@ -369,26 +369,6 @@ namespace eoscostarica {
         if (itr_stats != _stats.end()) _stats.erase(itr_stats);
     }
 
-    void rateproducer::wipe() {
-        wipe_aux(_self);
-        wipe_aux(eden_scope);
-    }
-
-    void rateproducer::wipe_aux(name scope) {
-        require_auth(_self);
-        ratings_table_v2 _ratings(_self, scope.value);
-        auto itr = _ratings.begin();
-        while (itr != _ratings.end()) {
-            itr = _ratings.erase(itr);
-        }
-
-        stats_table _stats(_self, scope.value);
-        auto itr_stats = _stats.begin();
-        while (itr_stats != _stats.end()) {
-            itr_stats = _stats.erase(itr_stats);
-        }
-    }
-
     void rateproducer::erase_bp_info(name scope, std::set<eosio::name> * bps_to_clean) {
         ratings_table_v2 _ratings(_self, scope.value);
         stats_table _stats(_self, scope.value);
