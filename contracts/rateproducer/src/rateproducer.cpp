@@ -481,68 +481,6 @@ namespace eoscostarica {
                         &bp_average);
     }
 
-    void rateproducer::update_stats_migration(name bp) {
-        name default_scope = _self;
-        name ram_payer = _self;
-
-        //update bp stats
-        float bp_transparency = 0;
-        float bp_infrastructure = 0;
-        float bp_trustiness = 0;
-        float bp_community = 0;
-        float bp_development = 0;
-        uint32_t bp_ratings_cntr = 0;
-        float  bp_average = 0;
-
-        //re-calculate stats for the bp 
-        calculate_bp_stats (default_scope,
-                            bp,
-                            &bp_transparency,
-                            &bp_infrastructure,
-                            &bp_trustiness,
-                            &bp_community,
-                            &bp_development,
-                            &bp_ratings_cntr,
-                            &bp_average);
-
-        float totalStats =
-                bp_transparency +
-                bp_infrastructure +
-                bp_trustiness +
-                bp_community +
-                bp_development;
-                            
-        name stats_ram_payer =_self;
-        stats_table _stats(_self, default_scope.value);
-        auto itr = _stats.find(bp.value);
-        if(itr != _stats.end()) {
-            if(totalStats) {
-                _stats.modify(itr, stats_ram_payer, [&]( auto& row ) {
-                    row.transparency = bp_transparency;
-                    row.infrastructure = bp_infrastructure;
-                    row.trustiness = bp_trustiness;
-                    row.development = bp_community;
-                    row.community = bp_development;      
-                    row.ratings_cntr = bp_ratings_cntr;
-                    row.average = bp_average;
-                });
-            } else _stats.erase(itr);
-        } else {
-            if(totalStats) {
-                _stats.emplace(stats_ram_payer, [&]( auto& row ) {
-                    row.bp = bp;
-                    row.transparency = bp_transparency;
-                    row.infrastructure = bp_infrastructure;
-                    row.trustiness = bp_trustiness;
-                    row.development = bp_community;
-                    row.community = bp_development;      
-                    row.ratings_cntr = bp_ratings_cntr;
-                    row.average = bp_average;
-                });
-            }
-        }
-    }
-
     void rateproducer::migrate() {
         config c = cfg.get_or_create(_self, config{.owner = _self, .version = 0});
         require_auth(c.owner);
@@ -567,7 +505,66 @@ namespace eoscostarica {
             name temp_scope = is_eden(itr->user) ? eden_scope : _self;
             if(temp_scope.value == eden_scope.value) _ratings_eden_v2.emplace(_self, emplace_rating);
             else _ratings_self_v2.emplace(_self, emplace_rating);
-            update_stats_migration(itr->bp);
+        }
+
+        c.version++;
+        cfg.set(c, c.owner);
+    }
+
+    void rateproducer::migratestats() {
+        config c = cfg.get_or_create(_self, config{.owner = _self, .version = 0});
+        require_auth(c.owner);
+        // assert we only run once
+        // the comparison value needs to be hard-coded with each new migration
+        eosio::check(c.version < 3, "Migration already ran");
+
+        name default_scope = _self;
+        name stats_ram_payer = _self;
+
+        stats_table _stats(_self, default_scope.value);
+        ratings_table_v2 _ratings_self_v2(_self, _self.value);
+        auto bps_index = _ratings_self_v2.get_index<name("bp")>();
+
+        auto stats_itr = _stats.begin();
+        while(stats_itr != _stats.end()) {
+            name bp = stats_itr->bp;
+
+            auto bps_itr = bps_index.find(bp.value);
+
+            if(bps_itr == bps_index.end()) {
+                stats_itr = _stats.erase(stats_itr);
+                continue;
+            }
+
+            float bp_transparency = 0;
+            float bp_infrastructure = 0;
+            float bp_trustiness = 0;
+            float bp_community = 0;
+            float bp_development = 0;
+            uint32_t bp_ratings_cntr = 0;
+            float bp_average = 0;
+            
+            calculate_bp_stats (default_scope,
+                                bp,
+                                &bp_transparency,
+                                &bp_infrastructure,
+                                &bp_trustiness,
+                                &bp_community,
+                                &bp_development,
+                                &bp_ratings_cntr,
+                                &bp_average);
+
+            _stats.modify(stats_itr, stats_ram_payer, [&]( auto& row ) {
+                row.transparency = bp_transparency;
+                row.infrastructure = bp_infrastructure;
+                row.trustiness = bp_trustiness;
+                row.development = bp_development;
+                row.community = bp_community;      
+                row.ratings_cntr= bp_ratings_cntr;
+                row.average = bp_average;
+            });
+
+            stats_itr++;
         }
 
         c.version++;
@@ -578,7 +575,7 @@ namespace eoscostarica {
         config c = cfg.get_or_create(_self, config{.owner = _self, .version = 0});
         require_auth(_self);
 
-        eosio::check(c.version < 3, "Make sure to run `migrate` action before run this action");
+        eosio::check(c.version > 2, "Make sure to run `migrate` action before run this action");
 
         ratings_table _ratings_general(_self, _self.value);
         auto general_itr = _ratings_general.begin();

@@ -594,23 +594,17 @@ namespace eoscostarica {
 
         /**
         *
-        *  NOTE: This function should be removed after migration run
-        *  Erase a rate made for a specific account 
-        *  to a specific block producer
-        *
-        * @param scope - Table scope,
-        * @param user - Voter account name,
-        * @param bp -  Block Producer account name
-        * 
-        */
-        void update_stats_migration(name bp);
-
-        /**
-        *
         *  Update the current logic to newest
         * 
         */ 
         void migrate();
+
+        /**
+        *
+        *  Update stats under rateproducer scope
+        * 
+        */ 
+        void migratestats();
         
         /**
         *
@@ -628,6 +622,7 @@ namespace eoscostarica {
                  action(rminactive, ricardian_contract(rminactive_ricardian)),
                  action(rmrate, user, bp, ricardian_contract(rmrate_ricardian)),
                  action(migrate, ricardian_contract(migrate_ricardian)),
-                 action(freeupram, ricardian_contract(freeupram_ricardian)))
+                 action(freeupram, ricardian_contract(freeupram_ricardian)),
+                 action(migratestats, ricardian_contract(migratestats_ricardian)))
                  
 } // namespace eoscostarica
