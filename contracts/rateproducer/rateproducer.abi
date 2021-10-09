@@ -76,6 +76,11 @@
             "fields": []
         },
         {
+            "name": "migratestats",
+            "base": "",
+            "fields": []
+        },
+        {
             "name": "ratings_v2",
             "base": "",
             "fields": [
@@ -182,6 +187,11 @@
             "name": "freeupram",
             "type": "freeupram",
             "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Free up RAM\nsummary: The intent of the `{{ freeupram }}` action is to remove all records from old ratings table including the rateproducer and eden scope.\n---"
+        },
+        {
+            "name": "migratestats",
+            "type": "migratestats",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Update rateproducer stats\nsummary: The intent of the `{{ migratestats }}` action is to remove from stats table under rateproducer scope the eden ratings averages.\n---"
         }
     ],
     "tables": [
