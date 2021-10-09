@@ -517,12 +517,24 @@ namespace eoscostarica {
         // assert we only run once
         // the comparison value needs to be hard-coded with each new migration
         eosio::check(c.version < 3, "Migration already ran");
-        
+
         name default_scope = _self;
         name stats_ram_payer = _self;
+
+        stats_table _stats(_self, default_scope.value);
         ratings_table_v2 _ratings_self_v2(_self, _self.value);
-        for(auto itr = _ratings_self_v2.begin(); itr != _ratings_self_v2.end(); itr++) {
-            name bp = itr->bp;
+        auto bps_index = _ratings_self_v2.get_index<name("bp")>();
+
+        auto stats_itr = _stats.begin();
+        while(stats_itr != _stats.end()) {
+            name bp = stats_itr->bp;
+
+            auto bps_itr = bps_index.find(bp.value);
+
+            if(bps_itr == bps_index.end()) {
+                stats_itr = _stats.erase(stats_itr);
+                continue;
+            }
 
             float bp_transparency = 0;
             float bp_infrastructure = 0;
@@ -541,16 +553,18 @@ namespace eoscostarica {
                                 &bp_development,
                                 &bp_ratings_cntr,
                                 &bp_average);
-            update_bp_stats (default_scope,
-                            &stats_ram_payer,
-                            &bp,
-                            &bp_transparency,
-                            &bp_infrastructure,
-                            &bp_trustiness,
-                            &bp_community,
-                            &bp_development,
-                            &bp_ratings_cntr,
-                            &bp_average);
+
+            _stats.modify(stats_itr, stats_ram_payer, [&]( auto& row ) {
+                row.transparency = bp_transparency;
+                row.infrastructure = bp_infrastructure;
+                row.trustiness = bp_trustiness;
+                row.development = bp_development;
+                row.community = bp_community;      
+                row.ratings_cntr= bp_ratings_cntr;
+                row.average = bp_average;
+            });
+
+            stats_itr++;
         }
 
         c.version++;
