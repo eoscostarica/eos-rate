@@ -553,7 +553,7 @@ namespace eoscostarica {
 
     void rateproducer::freeupram() {
         config c = cfg.get_or_create(_self, config{.owner = _self, .version = 0});
-        require_auth(_self);
+        require_auth(c.owner);
 
         eosio::check(c.version > 2, "Make sure to run `migrate` action before run this action");
 

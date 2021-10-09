@@ -525,7 +525,6 @@ namespace eoscostarica {
         */ 
         void erase_aux(name scope, name bp_name);
 
-
         /**
         *
         *  Erase all data related for a set of block producer
