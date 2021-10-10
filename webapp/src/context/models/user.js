@@ -31,7 +31,9 @@ export const getUserDataModeled = async ual => {
   const rpc = getRpc(ual)
 
   const account = await rpc.get_account(accountName)
-  const { rows: edenMembers } = await rpc.get_table_rows({
+  const {
+    rows: [edenMembers]
+  } = await rpc.get_table_rows({
     json: true,
     code: mainConfig.contractEden,
     scope: 0,
@@ -42,10 +44,7 @@ export const getUserDataModeled = async ual => {
     show_payer: false
   })
 
-  if (
-    edenMembers.length > 0 &&
-    edenMembers[0].value[1].account === accountName
-  ) {
+  if (edenMembers?.length > 0 && edenMembers[1].account === accountName) {
     edenMember = true
   }
 
