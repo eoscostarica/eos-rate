@@ -14,18 +14,6 @@ import {
 
 import { mainConfig } from '../config'
 
-const filters = [
-  { value: 'alphabetical' },
-  { value: 'generalRate' },
-  { value: 'edenRate' },
-  { value: 'infrastructure' },
-  { value: 'community' },
-  { value: 'trustiness' },
-  { value: 'development' },
-  { value: 'transparency' },
-  { value: 'vote' },
-  { value: 'ratings' }
-]
 const Home = lazy(() => import('./Home'))
 const BlockProducers = lazy(() => import('./BlockProducers'))
 const BlockProducerProfile = lazy(() =>
@@ -62,7 +50,6 @@ const routes = [
     icon: <GridIcon />,
     component: BlockProducers,
     path: '/block-producers',
-    childrens: filters,
     exact: true
   },
   {

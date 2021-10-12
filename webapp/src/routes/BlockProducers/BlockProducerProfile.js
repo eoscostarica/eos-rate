@@ -32,6 +32,7 @@ import {
   WebsiteLegend,
   AdditionalResources
 } from './GeneralInformationProfile'
+import formatNumber from '../../utils/format-number'
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
@@ -74,7 +75,7 @@ const BlockProducerProfile = () => {
   const { t } = useTranslation('profile')
   const { account } = useParams()
   const classes = useStyles()
-  const [state, { setProducer }] = useSharedState()
+  const [state, { setProducer, setLastTransaction }] = useSharedState()
   const isMobile = useMediaQuery('(max-width:768px)')
   const [isRated, setIsRated] = useState(false)
   const [bpHasInformation, setBpHasInformation] = useState(false)
@@ -84,14 +85,12 @@ const BlockProducerProfile = () => {
   const [blockProducerTitle, setBlockProducerTitle] = useState('No Title')
   const [open, setOpen] = useState(false)
 
-  const location = { state: { transactionId: 12 } } /// Check this logic
-
   const getRatingData = edenRate => ({
-    community: edenRate.community || 0,
-    development: edenRate.development || 0,
-    infrastructure: edenRate.development || 0,
-    transparency: edenRate.transparency || 0,
-    trustiness: edenRate.trustiness || 0
+    community: parseFloat(formatNumber(edenRate?.community || 0, 1)),
+    development: parseFloat(formatNumber(edenRate?.development || 0, 1)),
+    infrastructure: parseFloat(formatNumber(edenRate?.development || 0, 1)),
+    transparency: parseFloat(formatNumber(edenRate?.transparency || 0, 1)),
+    trustiness: parseFloat(formatNumber(edenRate?.trustiness || 0, 1))
   })
 
   const setProfileData = bp => {
@@ -106,7 +105,19 @@ const BlockProducerProfile = () => {
       _get(bp, 'bpjson.org.candidate_name', _get(bp, 'system.owner', 'No Data'))
     )
     setWebInfo(_get(bp, 'general_info', null))
-    setPolarChartData([{ ...bp.data, name: t('eosRates') }, userDataSet])
+
+    if (bp.totalStats) {
+      const totalStatsDataSet = getBPRadarData({
+        name: t('totalRates'),
+        parameters: getRatingData(bp?.totalStats)
+      })
+
+      setPolarChartData([
+        { ...bp.data, name: t('eosRates') },
+        userDataSet,
+        totalStatsDataSet
+      ])
+    }
   }
 
   const handleClose = (e, reason) => {
@@ -114,6 +125,7 @@ const BlockProducerProfile = () => {
       return
     }
     setOpen(false)
+    setLastTransaction(null)
   }
 
   useEffect(() => {
@@ -123,7 +135,7 @@ const BlockProducerProfile = () => {
         const bp = state.blockProducers.data.find(
           ({ owner }) => owner === account
         )
-
+        setProducer(bp, true)
         setProfileData(bp)
 
         return
@@ -132,7 +144,7 @@ const BlockProducerProfile = () => {
       await setProducer(account)
     }
 
-    getBpData()
+    if (state.blockProducers) getBpData()
   }, [account])
 
   useEffect(() => {
@@ -145,18 +157,17 @@ const BlockProducerProfile = () => {
 
   useEffect(() => {
     if (state.user && state.blockProducer) {
-      const { userRates = [] } = state.user.userData
-
       setIsRated(
-        userRates.some(rate => rate.owner === state.blockProducer.owner)
+        state.user?.userData?.userRates.some(
+          rate => rate.owner === state.blockProducer.owner
+        )
       )
     }
   }, [state.user, state.blockProducer])
 
-  // useEffect(() => {
-  //   if (location.state.transactionId) setOpen(true)
-  //   else setOpen(false)
-  // }, [])
+  useEffect(() => {
+    setOpen(!!state.transaction)
+  }, [])
 
   return (
     <Grid container justifyContent='center' className={classes.container}>
@@ -182,7 +193,7 @@ const BlockProducerProfile = () => {
       </Grid>
       <Grid container className={classes.reliefGrid}>
         <Grid item md={12} xs={12}>
-          <Box style={{ display: 'flex' }}>
+          <Box className={classes.pageTitle}>
             {blockProducerLogo ? (
               <Avatar aria-label='Block Producer' className={classes.avatar}>
                 <img src={blockProducerLogo} alt='' width='100%' />
@@ -228,8 +239,8 @@ const BlockProducerProfile = () => {
           </Grid>
         )}
         <Grid container justifyContent='center' md={6}>
-          <Grid item md={12} style={{ marginTop: 20 }} xs={12}>
-            <PolarChart data={polarChartData} />
+          <Grid item className={classes.profileChartWrapper} xs={12}>
+            <PolarChart data={polarChartData} showLegend />
           </Grid>
           <Grid item md={4} xs={7}>
             <Button
@@ -271,9 +282,21 @@ const BlockProducerProfile = () => {
                   average: getAverageValue(
                     _get(state.blockProducer, 'eden_average', 0)
                   )
+                },
+                {
+                  rater: t('totalRates'),
+                  amount:
+                    _get(
+                      state.blockProducer,
+                      'totalStats.ratings_cntr',
+                      null
+                    ) || 0,
+                  average: getAverageValue(
+                    _get(state.blockProducer, 'totalStats.average', 0)
+                  )
                 }
               ]}
-              heads={['', t('amount'), t('average')]}
+              heads={[t('raters'), t('amount'), t('average')]}
             />
           </Grid>
         </Grid>
@@ -319,9 +342,9 @@ const BlockProducerProfile = () => {
                   rel='noopener'
                   target='_blank'
                   style={{ color: 'white' }}
-                  href={`${mainConfig.AdditionalResourcesblockExplorer}/transaction/${location.state.transactionId}`}
+                  href={`${mainConfig.AdditionalResourcesblockExplorer}/transaction/${state.transaction?.transactionId}`}
                 >
-                  {location.state.transactionId}
+                  {state.transaction?.transactionId}
                 </MLink>
               </Button>
               <IconButton

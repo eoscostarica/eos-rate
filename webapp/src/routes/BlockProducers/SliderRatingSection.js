@@ -1,13 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import Grid from '@mui/material/Grid'
 import Switch from '@mui/material/Switch'
-import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { makeStyles } from '@mui/styles'
-import HelpOutline from '@mui/icons-material/HelpOutline'
 
 import RateSlider from '../../components/RateSlider'
 
@@ -40,17 +38,14 @@ const SliderRatingSection = ({
     <Grid container className={classes.sliderBoxContent}>
       <Grid item xs={12}>
         <Typography
-          paragraph
-          className={classNames(
-            ratingState.communityEnabled ? '' : classes.parameterTitleDisabled,
-            classes.marginOff
-          )}
+          variant='h6'
+          className={clsx(classes.marginOff, {
+            [classes.parameterTitleDisabled]: !ratingState.communityEnabled
+          })}
         >
-          {t('community')}{' '}
-          <Tooltip title={t('communityTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
+          {`${t('community')}`}
         </Typography>
+        <Typography paragraph>{t('communityTooltip')}</Typography>
       </Grid>
       <Grid item xs={12}>
         <Box className={classes.sliderWrapper}>
@@ -66,27 +61,24 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
-            color='secondary'
             onChange={handleStateChange('communityEnabled')}
             checked={ratingState.communityEnabled}
           />
+          <Typography variant='body2'>
+            {`${ratingState.communityEnabled ? t('enabled') : t('disabled')}`}
+          </Typography>
         </Box>
       </Grid>
       <Grid item xs={12}>
         <Typography
-          paragraph
-          className={classNames(
-            ratingState.developmentEnabled
-              ? ''
-              : classes.parameterTitleDisabled,
-            classes.marginOff
-          )}
+          variant='h6'
+          className={clsx(classes.marginOff, {
+            [classes.parameterTitleDisabled]: !ratingState.developmentEnabled
+          })}
         >
-          {t('development')}{' '}
-          <Tooltip title={t('developmentTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
+          {t('development')}
         </Typography>
+        <Typography paragraph> {t('developmentTooltip')} </Typography>
       </Grid>
       <Grid item xs={12}>
         <Box className={classes.sliderWrapper}>
@@ -102,32 +94,31 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
-            color='secondary'
             onChange={handleStateChange('developmentEnabled')}
             checked={ratingState.developmentEnabled}
           />
+          <Typography variant='body2'>
+            {`${ratingState.developmentEnabled ? t('enabled') : t('disabled')}`}
+          </Typography>
         </Box>
       </Grid>
       <Grid item xs={12}>
         <Typography
-          paragraph
-          className={classNames(
-            ratingState.infraEnabled ? '' : classes.parameterTitleDisabled,
-            classes.marginOff
-          )}
+          variant='h6'
+          className={clsx(classes.marginOff, {
+            [classes.parameterTitleDisabled]: !ratingState.infraEnabled
+          })}
         >
-          {t('infrastructure')}{' '}
-          <Tooltip title={t('infrastructureTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
+          {t('infrastructure')}
         </Typography>
+        <Typography paragraph>{t('infrastructureTooltip')}</Typography>
       </Grid>
       <Grid item xs={12}>
         <Box className={classes.sliderWrapper}>
           <RateSlider
             disabled={!producer || !ratingState.infraEnabled}
-            onChange={handleStateChange('infra')}
-            value={ratingState.infra}
+            onChange={handleStateChange('infrastructure')}
+            value={ratingState.infrastructure}
             marks={MARKS}
             valueLabelDisplay='on'
             min={1}
@@ -136,27 +127,24 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
-            color='secondary'
             onChange={handleStateChange('infraEnabled')}
             checked={ratingState.infraEnabled}
           />
+          <Typography variant='body2'>
+            {ratingState.infraEnabled ? t('enabled') : t('disabled')}
+          </Typography>
         </Box>
       </Grid>
       <Grid item xs={12}>
         <Typography
-          paragraph
-          className={classNames(
-            ratingState.transparencyEnabled
-              ? ''
-              : classes.parameterTitleDisabled,
-            classes.marginOff
-          )}
+          variant='h6'
+          className={clsx(classes.marginOff, {
+            [classes.parameterTitleDisabled]: !ratingState.transparencyEnabled
+          })}
         >
-          {t('transparency')}{' '}
-          <Tooltip title={t('transparencyTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
+          {t('transparency')}
         </Typography>
+        <Typography paragraph>{t('transparencyTooltip')}</Typography>
       </Grid>
       <Grid item xs={12}>
         <Box className={classes.sliderWrapper}>
@@ -172,25 +160,24 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
-            color='secondary'
             onChange={handleStateChange('transparencyEnabled')}
             checked={ratingState.transparencyEnabled}
           />
+          <Typography variant='body2'>
+            {ratingState.transparencyEnabled ? t('enabled') : t('disabled')}
+          </Typography>
         </Box>
       </Grid>
       <Grid item xs={12}>
         <Typography
-          paragraph
-          className={classNames(
-            ratingState.trustinessEnabled ? '' : classes.parameterTitleDisabled,
-            classes.marginOff
-          )}
+          variant='h6'
+          className={clsx(classes.marginOff, {
+            [classes.parameterTitleDisabled]: !ratingState.trustinessEnabled
+          })}
         >
-          {t('trustiness')}{' '}
-          <Tooltip title={t('trustinessTooltip')} placement='right'>
-            <HelpOutline fontSize='inherit' className={classes.topicIcon} />
-          </Tooltip>
+          {t('trustiness')}
         </Typography>
+        <Typography paragraph>{t('trustinessTooltip')}</Typography>
       </Grid>
       <Grid item xs={12}>
         <Box className={classes.sliderWrapper}>
@@ -206,10 +193,12 @@ const SliderRatingSection = ({
           />
           <Switch
             className={classes.switchBox}
-            color='secondary'
             onChange={handleStateChange('trustinessEnabled')}
             checked={ratingState.trustinessEnabled}
           />
+          <Typography variant='body2'>
+            {ratingState.trustinessEnabled ? t('enabled') : t('disabled')}
+          </Typography>
         </Box>
       </Grid>
     </Grid>

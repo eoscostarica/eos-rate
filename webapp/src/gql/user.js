@@ -8,7 +8,6 @@ export const GET_USER_RATING = gql`
     ) {
       bp
       ratings
-      uniq_rating
       user
       tx_data
     }

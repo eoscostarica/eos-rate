@@ -13,6 +13,7 @@ import _get from 'lodash.get'
 import TitlePage from '../../components/PageTitle'
 import CompareTool from '../../components/CompareTool'
 import Card from '../../components/Card'
+import FilterBanner from '../../components/FilterBanner'
 import getAverageValue from '../../utils/get-average-value'
 import { useSharedState } from '../../context/state.context'
 
@@ -36,18 +37,25 @@ const AllBps = () => {
     showChipMessage: false
   })
 
-  // const sortedBPs = applySortBy(sortBy, blockProducers)
+  const loadMore = async () => {
+    if (!hasMoreRows) return
 
-  const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
-  // const goToTop = () => document.getElementById('mainContent').scrollTo(0, 0)
+    await setProducers(currentlyVisible + 12)
+    setCurrentlyVisible(currentlyVisible + 12)
+  }
 
-  const handleToggleCompareTool = () => {
-    setCompareBPTool(!state.compareBPToolVisible)
+  const goToTop = () => {
+    document.getElementById('childContent').scrollTo(0, 0)
+  }
+
+  const handleOnFliterChange = async filter => {
+    await setProducers(currentlyVisible, filter)
   }
 
   const handleToggleSelected = (item, isAddItem = false) => {
     if (isAddItem) {
       setSelectedProducers([...state.selectedProducers, item])
+      console.log({ selectedProducers: state?.selectedProducers })
     } else {
       const removeSelected = state.selectedProducers.filter(
         bpName => bpName !== item
@@ -58,9 +66,7 @@ const AllBps = () => {
   }
 
   const handleOpenDesktopVotingTool = () => {
-    console.log('handleOpenDesktopVotingTool')
-
-    // goToTop()
+    goToTop()
     !state.compareBPToolVisible && setCompareBPTool(true)
   }
 
@@ -136,6 +142,15 @@ const AllBps = () => {
   }
 
   useEffect(() => {
+    if (!state.user) return
+
+    setSelectedProducers([
+      ...state.selectedProducers,
+      ...state?.user?.userData?.voter_info?.producers
+    ])
+  }, [state.user])
+
+  useEffect(() => {
     const getData = async () => {
       !state.blockProducers.data.length &&
         (await setProducers(currentlyVisible))
@@ -149,15 +164,8 @@ const AllBps = () => {
       return
     }
 
-    setMoreRows(state.blockProducers.rows > currentlyVisible)
+    setMoreRows(state.blockProducers.rows > state.blockProducers.data.length)
   }, [state.blockProducers])
-
-  state.user &&
-    console.log({
-      isRated: state.user.userData.userRates.some(
-        ({ owner }) => owner === 'eoscostarica'
-      )
-    })
 
   return (
     <Box className={classes.rootBP} ref={myRef}>
@@ -181,7 +189,11 @@ const AllBps = () => {
           handleOnClear={handleOnClear}
         />
       </Collapse>
-
+      <FilterBanner
+        title={t('blockProducers')}
+        page='bp'
+        onFilterChange={handleOnFliterChange}
+      />
       <Box className={classes.wrapperGrid}>
         <Box className={classes.gridRow}>
           {(state.blockProducers.data || []).map(blockProducer => (
@@ -190,29 +202,11 @@ const AllBps = () => {
               key={`${blockProducer.owner}-main-block-card`}
             >
               <Card
-                isSelected={state.selectedProducers.includes(
+                isSelected={state?.selectedProducers?.includes(
                   blockProducer.owner
                 )}
                 toggleSelection={(isAdding, producerAccountName) => () => {
-                  if (isAdding) {
-                    if (
-                      !state.selectedProducers.length &&
-                      !state.compareBPToolVisible
-                    ) {
-                      handleToggleCompareTool()
-                    }
-
-                    handleToggleSelected(producerAccountName, isAdding)
-                  } else {
-                    if (
-                      state.selectedProducers.length === 1 &&
-                      state.compareBPToolVisible
-                    ) {
-                      handleToggleCompareTool()
-                    }
-
-                    handleToggleSelected(producerAccountName, isAdding)
-                  }
+                  handleToggleSelected(producerAccountName, isAdding)
                 }}
                 data={blockProducer}
                 imageURL={_get(blockProducer, 'bpjson.org.branding.logo_256')}
@@ -220,8 +214,10 @@ const AllBps = () => {
                 title={_get(blockProducer, 'bpjson.org.candidate_name')}
                 pathLink='block-producers'
                 buttonLabel={t('addToVote')}
-                average={getAverageValue(_get(blockProducer, 'average', 0))}
-                rate={_get(blockProducer, 'ratings_cntr', 0)}
+                average={getAverageValue(
+                  _get(blockProducer, 'totalStats.average', 0)
+                )}
+                rate={_get(blockProducer, 'totalStats.ratings_cntr', 0)}
                 isNewRate={
                   state.user &&
                   state.user.userData.userRates.some(
@@ -266,7 +262,7 @@ const AllBps = () => {
         <Button
           disabled={!hasMoreRows}
           className={classes.loadMoreButton}
-          onClick={() => hasMoreRows && loadMore()}
+          onClick={loadMore}
           variant='outlined'
           color={'primary'}
         >

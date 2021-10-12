@@ -35,25 +35,13 @@ export default theme => ({
     [theme.breakpoints.up('sm')]: {
       flexBasis: '50%'
     },
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('mdd')]: {
       flexBasis: '33.33%'
-    },
-    [theme.breakpoints.up('lg')]: {
-      flexBasis: '20%'
     }
   },
   compareTool: {
-    paddingTop: '0 !important',
-    transform: 'scaleY(1)',
-    transformOrigin: 'top',
-    opacity: 1,
     height: '100%',
-    transition: [
-      'opacity 0.25s ease',
-      'height 0.25s ease',
-      'transform 0.25s ease',
-      'min-height 0.25s ease'
-    ]
+    paddingTop: 0
   },
   bpCard: {
     backgroundColor: theme.palette.primary.light
@@ -73,23 +61,31 @@ export default theme => ({
   },
   hiddenMobile: {
     display: 'none',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       display: 'flex'
     }
   },
   hiddenDesktop: {
     display: 'flex',
-    [theme.breakpoints.up('md')]: {
+    overflow: 'hidden',
+    maxHeight: '100vh',
+    [theme.breakpoints.up('sm')]: {
       display: 'none'
     }
   },
   // slider rating
   sliderWrapper: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 10,
+    width: '80%',
+    [theme.breakpoints.down('md')]: {
+      width: '100%'
+    }
   },
   sliderBoxContent: {
     marginTop: 30,
+    padding: '0 10px 0 10px',
     [theme.breakpoints.down('sm')]: {
       marginTop: 10
     }
@@ -102,7 +98,8 @@ export default theme => ({
     verticalAlign: 'middle'
   },
   switchBox: {
-    marginLeft: 10
+    marginLeft: 10,
+    color: '#443f56 !important'
   },
   // filter box
   nestedPadding: {
@@ -119,8 +116,12 @@ export default theme => ({
   container: {
     padding: theme.spacing(1)
   },
+  pageTitle: {
+    display: 'flex',
+    alignItems: 'center'
+  },
   bpName: {
-    marginLeft: theme.spacing(1)
+    marginLeft: `${theme.spacing(1)} !important`
   },
   accountCircle: {
     color: theme.palette.surface.main
@@ -226,7 +227,6 @@ export default theme => ({
     marginTop: 10,
     display: 'flex',
     flexDirection: 'column',
-
     [theme.breakpoints.up('sm')]: {
       flexDirection: 'row',
       width: '100%'
@@ -262,7 +262,7 @@ export default theme => ({
   },
   paperAnchor: {
     right: '0',
-    overflowY: 'initial'
+    overflowY: 'hidden'
   },
   reliefGrid: {
     margin: '10px 16px 30px 16px',
@@ -305,7 +305,56 @@ export default theme => ({
     }
   },
   linkRate: {
-    marginLeft: `${theme.spacing(2)} !important`, // !isDesktop ? 16 : 0,
+    marginLeft: `${theme.spacing(2)} !important`,
     padding: `${theme.spacing(1, 2)} !important`
+  },
+  showMobile: {
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
+  },
+  showDesktop: {
+    [theme.breakpoints.down('md')]: {
+      display: 'none'
+    }
+  },
+  infoGridStyle: {
+    borderRight: 'solid 1px rgba(0, 0, 0, 0.38)',
+    paddingTop: 18,
+    paddingRight: 50,
+    [theme.breakpoints.down('md')]: {
+      borderRight: 0,
+      paddingRight: 0
+    }
+  },
+  chartWrapperSliderView: {
+    '& .highcharts-container ': {
+      height: '400px !important',
+      width: '100% !important',
+      '& > svg': {
+        height: '400px !important',
+        width: '100% !important'
+      }
+    }
+  },
+  tableBox: {
+    marginBottom: '70px !important',
+    justifyContent: 'center !important',
+    margin: 'auto !important'
+  },
+  centerContent: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  profileChartWrapper: {
+    marginTop: 20,
+    '& .highcharts-container ': {
+      height: '400px !important',
+      width: '100% !important',
+      '& > svg': {
+        height: '400px !important',
+        width: '100% !important'
+      }
+    }
   }
 })

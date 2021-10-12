@@ -1,29 +1,32 @@
 /* eslint-disable react/display-name */
-import React, { useState, useEffect, forwardRef, useRef } from 'react'
+import React, { useState, useEffect, forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useParams } from 'react-router-dom'
-import useMediaQuery from '@mui/material/useMediaQuery'
+import { Link, useParams, useHistory } from 'react-router-dom'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
+import PropTypes from 'prop-types'
 import CircularProgress from '@mui/material/CircularProgress'
 import Typography from '@mui/material/Typography'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import _get from 'lodash.get'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert'
 import { makeStyles } from '@mui/styles'
 import Box from '@mui/material/Box'
 
+import Table from '../../components/Table'
 import TitlePage from '../../components/PageTitle'
 import PolarChart from '../../components/PolarChart'
 import getBPRadarData from '../../utils/get-bp-radar-data'
 import { useSharedState } from '../../context/state.context'
+import formatNumber from '../../utils/format-number'
 import { mainConfig } from '../../config'
 
 import SliderRatingSection from './SliderRatingSection'
+import getAverageValue from '../../utils/get-average-value'
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
@@ -33,7 +36,7 @@ const INIT_RATING_STATE_DATA = {
   communityEnabled: true,
   development: 1,
   developmentEnabled: true,
-  infra: 1,
+  infrastructure: 1,
   infraEnabled: true,
   transparency: 1,
   transparencyEnabled: true,
@@ -48,11 +51,59 @@ const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
 })
 
+const RadarSection = ({ t, state, polarChartData, classes }) => {
+  return (
+    <>
+      <Grid className={classes.chartWrapperSliderView} item md={12} xs={12}>
+        <PolarChart data={polarChartData} showLegend />
+      </Grid>
+      <Grid className={classes.tableBox} item md={11} xs={12}>
+        <Table
+          rows={[
+            {
+              rater: t('globalRate'),
+              amount: state.blockProducer?.ratings_cntr || 0,
+              average: getAverageValue(_get(state.blockProducer, 'average', 0))
+            },
+            {
+              rater: t('edenRates'),
+              amount: state.blockProducer?.eden_ratings_cntr || 0,
+              average: getAverageValue(
+                _get(state.blockProducer, 'eden_average', 0)
+              )
+            },
+            {
+              rater: t('totalRates'),
+              amount: state.blockProducer?.totalStats?.ratings_cntr || 0,
+              average: formatNumber(
+                state.blockProducer?.totalStats?.average || 0.0,
+                1
+              )
+            }
+          ]}
+          heads={[t('raters'), t('amount'), t('average')]}
+        />
+      </Grid>
+    </>
+  )
+}
+
+RadarSection.propTypes = {
+  t: PropTypes.object,
+  state: PropTypes.object,
+  polarChartData: PropTypes.object,
+  classes: PropTypes.object
+}
+
 const BlockProducerRate = () => {
   const classes = useStyles()
   const { account } = useParams()
+  const history = useHistory()
   const { t } = useTranslation('bpRatePage')
-  const [state, { setProducer }] = useSharedState()
+  const [
+    state,
+    { setProducer, setLastTransaction, handleMutationInsertUserRating }
+  ] = useSharedState()
   const [ratingState, setRatingState] = useState(INIT_RATING_STATE_DATA)
   const [isRated, setIsRated] = useState(true)
   const [blockProducerLogo, setBlockProducerLogo] = useState(null)
@@ -60,20 +111,10 @@ const BlockProducerRate = () => {
   const [polarChartData, setPolarChartData] = useState([])
   const [showMessage, setShowMessage] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
-  const linkBack = useRef(null)
-  const [lastTransactionId, setLastTransactionId] = useState(undefined)
-
-  // const isDesktop = useMediaQuery('(min-width:769px)')
-  const isMobile = useMediaQuery('(max-width:767px)')
-  // const [sizes, setSizes] = useState()
 
   const handleStateChange = parameter => (event, value) => {
     setRatingState({ ...ratingState, [parameter]: value })
   }
-
-  // useEffect(() => {
-  //   // setSizes(isDesktop ? 425 : '100%')
-  // }, [isDesktop])
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -90,66 +131,62 @@ const BlockProducerRate = () => {
   }
 
   const handleSetLastTransactionId = (event, reason) => {
-    linkComponent()
-    setLastTransactionId(undefined)
+    history.push({
+      pathname: `/block-producers/${account}`
+    })
   }
 
-  const linkComponent = () => {
-    linkBack.current.click()
+  const getRatingData = (useString = false) => {
+    const {
+      community,
+      communityEnabled,
+      development,
+      developmentEnabled,
+      infrastructure,
+      infraEnabled,
+      transparency,
+      transparencyEnabled,
+      trustiness,
+      trustinessEnabled
+    } = ratingState
+
+    if (useString) {
+      return {
+        community: formatNumber(communityEnabled ? community : 0, 0).toString(),
+        development: formatNumber(
+          developmentEnabled ? development : 0,
+          0
+        ).toString(),
+        infrastructure: formatNumber(
+          infraEnabled ? infrastructure : 0,
+          0
+        ).toString(),
+        transparency: formatNumber(
+          transparencyEnabled ? transparency : 0,
+          0
+        ).toString(),
+        trustiness: formatNumber(
+          trustinessEnabled ? trustiness : 0,
+          0
+        ).toString()
+      }
+    }
+
+    return {
+      community: communityEnabled ? community : 0,
+      development: developmentEnabled ? development : 0,
+      infrastructure: infraEnabled ? infrastructure : 0,
+      transparency: transparencyEnabled ? transparency : 0,
+      trustiness: trustinessEnabled ? trustiness : 0
+    }
   }
 
-  useEffect(() => {
-    // dispatch.blockProducers.setShowSortSelected(false)
-  }, [])
-
-  // const getRatingData = (useString = false) => {
-  //   const {
-  //     community,
-  //     communityEnabled,
-  //     development,
-  //     developmentEnabled,
-  //     infra,
-  //     infraEnabled,
-  //     transparency,
-  //     transparencyEnabled,
-  //     trustiness,
-  //     trustinessEnabled
-  //   } = ratingState
-
-  //   if (useString) {
-  //     return {
-  //       community: formatNumber(communityEnabled ? community : 0, 0).toString(),
-  //       development: formatNumber(
-  //         developmentEnabled ? development : 0,
-  //         0
-  //       ).toString(),
-  //       infrastructure: formatNumber(infraEnabled ? infra : 0, 0).toString(),
-  //       transparency: formatNumber(
-  //         transparencyEnabled ? transparency : 0,
-  //         0
-  //       ).toString(),
-  //       trustiness: formatNumber(
-  //         trustinessEnabled ? trustiness : 0,
-  //         0
-  //       ).toString()
-  //     }
-  //   }
-
-  //   return {
-  //     community: communityEnabled ? community : 0,
-  //     development: developmentEnabled ? development : 0,
-  //     infrastructure: infraEnabled ? infra : 0,
-  //     transparency: transparencyEnabled ? transparency : 0,
-  //     trustiness: trustinessEnabled ? trustiness : 0
-  //   }
-  // }
-
-  const getRatingData = rate => ({
-    community: parseFloat(rate.community || 0),
-    development: parseFloat(rate.development || 0),
-    infrastructure: parseFloat(rate.development || 0),
-    transparency: parseFloat(rate.transparency || 0),
-    trustiness: parseFloat(rate.trustiness || 0)
+  const getSavedRatingData = rate => ({
+    community: parseFloat(formatNumber(rate?.community || 0, 1)),
+    development: parseFloat(formatNumber(rate?.development || 0, 1)),
+    infrastructure: parseFloat(formatNumber(rate?.infrastructure || 0, 1)),
+    transparency: parseFloat(formatNumber(rate?.transparency || 0, 1)),
+    trustiness: parseFloat(formatNumber(rate?.trustiness || 0, 1))
   })
 
   const transact = async () => {
@@ -191,21 +228,24 @@ const BlockProducerRate = () => {
         broadcast: true
       })
 
-      // await dispatch.blockProducers.saveLastTransaction({
-      //   transaction: {
-      //     transactionId: result.transaction.transaction_id,
-      //     transactionDate: result.transaction.processed.block_time
-      //   }
-      // })
-      setLastTransactionId(result.transactionId)
+      await setLastTransaction({
+        transactionId: result.transaction.transaction_id,
+        transactionDate: result.transaction.processed.block_time
+      })
 
-      // await dispatch.blockProducers.mutationInsertUserRating({
-      //   ual,
-      //   user: accountName,
-      //   bp: account,
-      //   ...getRatingData(false),
-      //   result
-      // })
+      await handleMutationInsertUserRating({
+        ual: state.ual,
+        user: state.user.accountName,
+        bp: account,
+        transaction: {
+          transaction: {
+            transactionId: result.transaction.transaction_id,
+            transactionDate: result.transaction.processed.block_time
+          }
+        },
+        ...getRatingData(false),
+        result
+      })
 
       setRatingState({
         ...ratingState,
@@ -223,24 +263,37 @@ const BlockProducerRate = () => {
     }
   }
 
-  const setProfileData = (bp, userDataSet) => {
-    const edenDataSet = getBPRadarData({
-      name: t('edenRates'),
-      parameters: getRatingData(bp.edenRate)
-    })
+  const toNumbers = arr => arr.map(Number)
 
-    setBlockProducerTitle(
-      `${t('title')} ${
-        _get(bp, 'bpjson.org.candidate_name') ||
-        _get(bp, 'system.owner', t('noBlockProducer'))
-      } - EOS Rate`
-    )
-    setBlockProducerLogo(_get(bp, 'bpjson.org.branding.logo_256', null))
-    setPolarChartData([
-      { ...bp.data, name: t('eosRates') },
-      edenDataSet,
-      userDataSet
-    ])
+  const setProfileData = (bp, userDataSet) => {
+    if (bp) {
+      const edenDataSet = getBPRadarData({
+        name: t('edenRates'),
+        parameters: getSavedRatingData(bp.edenRate)
+      })
+
+      setBlockProducerTitle(
+        `${t('title')} ${
+          _get(bp, 'bpjson.org.candidate_name') ||
+          _get(bp, 'system.owner', t('noBlockProducer'))
+        } - EOS Rate`
+      )
+      setBlockProducerLogo(_get(bp, 'bpjson.org.branding.logo_256', null))
+      const generalRateData = toNumbers(bp.data.data)
+
+      if (bp.totalStats) {
+        const totalStatsDataSet = getBPRadarData({
+          name: t('totalRates'),
+          parameters: getSavedRatingData(bp?.totalStats)
+        })
+        setPolarChartData([
+          { ...bp.data, name: t('globalRate'), data: generalRateData },
+          edenDataSet,
+          userDataSet,
+          totalStatsDataSet
+        ])
+      }
+    }
   }
 
   useEffect(() => {
@@ -250,8 +303,14 @@ const BlockProducerRate = () => {
         const bp = state.blockProducers.data.find(
           ({ owner }) => owner === account
         )
-
-        setProfileData(bp, {})
+        setProducer(bp, true)
+        setProfileData(
+          bp,
+          getBPRadarData({
+            name: t('myRate'),
+            parameters: getSavedRatingData({})
+          })
+        )
 
         return
       }
@@ -264,31 +323,38 @@ const BlockProducerRate = () => {
 
   useEffect(() => {
     if (state.user && state.blockProducer) {
-      const { userRates = [] } = state.user.userData
-      const bpRated = userRates.find(
+      const bpRated = (state.user?.userData?.userRates || []).find(
         rate => rate.owner === state.blockProducer.owner
       )
-      const parameters = getRatingData(bpRated.ratings)
-      const userDataSet = getBPRadarData({
-        name: t('myRate'),
-        parameters: getRatingData(bpRated.ratings)
-      })
 
-      if (
-        state.user.userData.edenMember ||
-        state.user.userData.hasProxy ||
-        state.user.userData.producersCount >= 21
-      ) {
-        setShowAlert(false)
+      if (bpRated) {
+        setRatingState({
+          ...ratingState,
+          ...getSavedRatingData(bpRated.ratings)
+        })
+        if (
+          state.user.userData.edenMember ||
+          state.user.userData.hasProxy ||
+          state.user.userData.producersCount >= 21
+        ) {
+          setShowAlert(false)
+        } else {
+          setShowAlert(true)
+        }
       } else {
-        setShowAlert(true)
+        setRatingState(INIT_RATING_STATE_DATA)
       }
-
-      setProfileData(state.blockProducer, userDataSet)
       setIsRated(!!bpRated)
-      setRatingState({ ...INIT_RATING_STATE_DATA, ...parameters })
     }
   }, [state.user, state.blockProducer])
+
+  useEffect(() => {
+    const userDataSet = getBPRadarData({
+      name: t('myRate'),
+      parameters: getRatingData()
+    })
+    setProfileData(state.blockProducer, userDataSet)
+  }, [ratingState])
 
   return (
     <Grid container justifyContent='center' className={classes.container}>
@@ -329,7 +395,7 @@ const BlockProducerRate = () => {
         </Grid>
       </Grid>
       <Grid container className={classes.reliefGrid}>
-        <Grid item md={12} xs={12}>
+        <Grid item md={12} xs={12} style={{ marginBottom: 10 }}>
           <Box style={{ display: 'flex' }}>
             {blockProducerLogo ? (
               <Avatar aria-label='Block Producer' className={classes.avatar}>
@@ -345,20 +411,22 @@ const BlockProducerRate = () => {
           </Box>
         </Grid>
         <Grid container direction='row' style={{ marginTop: 10 }}>
-          <Grid item xs={12} sm={5}>
-            <Typography variant='subtitle1' className={classes.title}>
+          <Grid item xs={12} className={classes.infoGridStyle} md={6}>
+            <Typography variant='h6' className={classes.title}>
               {t('subTitle')}
             </Typography>
-            <Typography paragraph> {t('subText')} </Typography>
-            <Typography paragraph> {t('helpText')} </Typography>
-            <Typography paragraph> {t('rateText')} </Typography>
-
-            {isMobile && (
-              <Grid style={{ paddingTop: 20 }} item xs={12}>
-                <PolarChart data={polarChartData} />
-              </Grid>
-            )}
-
+            <Typography paragraph style={{ padding: 10 }}>
+              {' '}
+              {t('helpText')}{' '}
+            </Typography>
+            <Grid className={classes.showMobile} item xs={12}>
+              <RadarSection
+                t={t}
+                state={state}
+                polarChartData={polarChartData}
+                classes={classes}
+              />
+            </Grid>
             <SliderRatingSection
               t={t}
               handleStateChange={handleStateChange}
@@ -366,7 +434,7 @@ const BlockProducerRate = () => {
               producer={state.blockProducer}
             />
             <Grid
-              className={classNames(classes.ctasWrapper, classes.showOnlyLg)}
+              className={clsx(classes.ctasWrapper, classes.showOnlyLg)}
               style={{ margin: '10px 0 10px 0' }}
               item
               xs={12}
@@ -374,84 +442,10 @@ const BlockProducerRate = () => {
               <Grid
                 alignItems='center'
                 container
-                justifyContent='flex-end'
-                style={{ marginTop: 10 }}
+                justifyContent='center'
+                style={{ marginTop: 30 }}
               >
-                <Snackbar
-                  open={showMessage}
-                  autoHideDuration={4000}
-                  onClose={handleClose}
-                >
-                  <Alert onClose={handleClose} severity='warning'>
-                    {t('rateWithoutLogin')}
-                  </Alert>
-                </Snackbar>
-                <Snackbar
-                  open={ratingState.txError}
-                  autoHideDuration={4000}
-                  onClose={handleClose}
-                >
-                  <Alert onClose={handleClose} severity='error'>
-                    {ratingState.txError}
-                  </Alert>
-                </Snackbar>
-                <Button
-                  disabled={!state.blockProducer}
-                  variant='contained'
-                  size='small'
-                >
-                  {t('cancelRatingButton')}
-                </Button>
-                <Link
-                  ref={linkBack}
-                  style={{ display: 'none' }}
-                  to={`/block-producers/${_get(
-                    state.blockProducer,
-                    'owner',
-                    null
-                  )}`}
-                  state={{ transactionId: lastTransactionId }}
-                />
-                <Button
-                  className='textPrimary'
-                  disabled={
-                    showAlert || !state.blockProducer || ratingState.processing
-                  }
-                  color='secondary'
-                  onClick={transact}
-                  size='small'
-                  style={{ margin: '0 10px' }}
-                  variant='contained'
-                >
-                  {isRated ? t('updateRatingButton') : t('publishRatingButton')}
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12} sm={7}>
-            <Grid
-              container
-              direction='column'
-              className={classes.radarActionsWrapper}
-            >
-              {!isMobile && (
-                <Grid className={classes.radarWrapper} item xs={12}>
-                  <PolarChart data={polarChartData} />
-                </Grid>
-              )}
-
-              <Grid
-                className={classNames(classes.ctasWrapper, classes.showOnlySm)}
-                item
-                style={{ margin: '10px 0 15px 0' }}
-                xs={12}
-              >
-                <Grid
-                  alignItems='center'
-                  container
-                  justifyContent='center'
-                  style={{ marginTop: 10 }}
-                >
+                <Grid item xs={12} md={12} className={classes.centerContent}>
                   <Snackbar
                     open={showMessage}
                     autoHideDuration={4000}
@@ -473,6 +467,8 @@ const BlockProducerRate = () => {
                   {ratingState.processing && (
                     <CircularProgress color='secondary' size={20} />
                   )}
+                </Grid>
+                <Grid item className={classes.centerContent} xs={6} md={6}>
                   <Button
                     disabled={!state.blockProducer}
                     component={forwardRef((props, ref) => (
@@ -486,11 +482,12 @@ const BlockProducerRate = () => {
                         )}`}
                       />
                     ))}
-                    variant='contained'
-                    size='small'
+                    variant='outlined'
                   >
                     {t('cancelRatingButton')}
                   </Button>
+                </Grid>
+                <Grid item className={classes.centerContent} xs={6} md={6}>
                   <Button
                     className='textPrimary'
                     disabled={
@@ -501,7 +498,6 @@ const BlockProducerRate = () => {
                     color='secondary'
                     onClick={transact}
                     size='small'
-                    style={{ margin: '0 10px' }}
                     variant='contained'
                   >
                     {isRated
@@ -511,6 +507,22 @@ const BlockProducerRate = () => {
                 </Grid>
               </Grid>
             </Grid>
+          </Grid>
+          <Grid
+            item
+            md={6}
+            className={classes.showDesktop}
+            justifyContent='center'
+          >
+            <RadarSection
+              classes={classes}
+              t={t}
+              state={state}
+              polarChartData={polarChartData}
+            />
+            <Grid item md={12} />
+            <Grid item md={12} />
+            <Grid item md={12} />
           </Grid>
         </Grid>
         {showAlert && (

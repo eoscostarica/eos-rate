@@ -34,11 +34,8 @@ export default theme => ({
     [theme.breakpoints.up('sm')]: {
       flexBasis: '50%'
     },
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('mdd')]: {
       flexBasis: '33.33%'
-    },
-    [theme.breakpoints.up('lg')]: {
-      flexBasis: '20%'
     }
   },
   compareTool: {
@@ -84,7 +81,14 @@ export default theme => ({
     padding: 10
   },
   bpName: {
-    marginLeft: 6
+    marginLeft: `${theme.spacing(1)} !important`,
+    fontWeight: 'normal',
+    fontStretch: 'normal',
+    fontStyle: 'normal',
+    lineHeight: '1.17',
+    letterSpacing: 'normal',
+    textAlign: 'left',
+    color: theme.palette.common.black
   },
   accountCircle: {
     color: theme.palette.secondary.main
@@ -93,26 +97,44 @@ export default theme => ({
     padding: '3%'
   },
   title: {
-    color: theme.palette.primary.main,
-    fontSize: '1.5rem',
-    marginBottom: 5,
-    marginTop: 5
+    color: theme.palette.common.black,
+    fontSize: '1.5rem !important'
+  },
+  bpSlogan: {
+    marginLeft: `${theme.spacing(2)} !important`,
+    [theme.breakpoints.up('md')]: {
+      marginLeft: `${theme.spacing(3)} !important`
+    }
   },
   subTitle: {
-    fontSize: 14
+    fontSize: '18px !important',
+    fontWeight: '500 !important'
+  },
+  rowBox: {
+    display: 'flex',
+    marginLeft: `${theme.spacing(2)} !important`,
+    [theme.breakpoints.up('md')]: {
+      marginLeft: `${theme.spacing(3)} !important`
+    }
   },
   longSubTitle: {
-    margin: '7px 0',
-    fontSize: 14
+    fontSize: '18px !important',
+    fontWeight: '500 !important',
+    marginLeft: `${theme.spacing(2)} !important`,
+    [theme.breakpoints.up('md')]: {
+      marginLeft: `${theme.spacing(3)} !important`
+    }
   },
   longValue: {
-    marginLeft: 4,
-    marginTop: 7,
-    fontWeight: 500
+    margin: `${theme.spacing(0, 0, 1, 2)} !important`,
+    fontWeight: '400 !important',
+    [theme.breakpoints.up('md')]: {
+      marginLeft: `${theme.spacing(0, 0, 1, 3)} !important`
+    }
   },
   value: {
-    marginLeft: 4,
-    fontWeight: 500
+    marginLeft: '4px !important',
+    fontWeight: '400 !important'
   },
   category: {
     marginTop: 10
@@ -121,12 +143,12 @@ export default theme => ({
     color: theme.palette.surface.main,
     backgroundColor: theme.palette.secondary.main,
     width: '100%',
+    height: 36,
     '&:hover': {
       backgroundColor: theme.palette.secondary.light
     },
-
-    [theme.breakpoints.up('sm')]: {
-      marginRight: 10
+    [theme.breakpoints.up('md')]: {
+      width: '50%'
     }
   },
   wrapperBox: {
@@ -145,14 +167,12 @@ export default theme => ({
   },
   showOnlySm: {
     display: 'flex',
-
     [theme.breakpoints.up('sm')]: {
       display: 'none'
     }
   },
   showOnlyLg: {
     display: 'flex',
-
     [theme.breakpoints.down('sm')]: {
       display: 'none'
     }
@@ -186,8 +206,7 @@ export default theme => ({
     '&:after': { content: 'close-quote' }
   },
   reliefGrid: {
-    // margin: '0 30px 30px 30px',
-    padding: '20px',
+    padding: '20px 0',
     border: '1px solid #f8f8f',
     borderRadius: '6px',
     boxShadow:
@@ -195,20 +214,40 @@ export default theme => ({
     backgroundColor: '#fff'
   },
   hiddenDesktop: {
-    display: 'flex',
+    display: 'flex !important',
+    justifyContent: 'center',
     [theme.breakpoints.up('md')]: {
-      display: 'none'
+      display: 'none !important'
     }
   },
   hiddenMobile: {
-    display: 'none',
+    display: 'none !important',
     [theme.breakpoints.up('md')]: {
-      display: 'flex'
+      display: 'flex !important',
+      justifyContent: 'center'
     }
   },
   loadMoreBtnBox: {
     display: 'flex',
     justifyContent: 'center',
     padding: theme.spacing(2, 0)
+  },
+  avatarTitle: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  polarGraphWrapper: {
+    width: '100%',
+    '& .highcharts-container ': {
+      height: '400px !important',
+      width: '100% !important',
+      '& > svg': {
+        height: '400px !important',
+        width: '100% !important'
+      }
+    }
+  },
+  paddingHorinzontal: {
+    padding: theme.spacing(0, 1)
   }
 })

@@ -66,30 +66,23 @@ export default theme => ({
       display: 'flex',
       width: '45%',
       '& .highcharts-container ': {
-        height: '400px !important',
-        width: '400px !important',
+        height: '500px !important',
+        width: '100% !important',
         '& > svg': {
-          height: '400px !important',
-          width: '400px !important'
+          height: '500px !important',
+          width: '100% !important'
         }
       }
     }
   },
   chartContainerMobile: {
+    width: '100%',
     '& .highcharts-container ': {
       height: '400px !important',
-      width: '350px !important',
+      width: '100% !important',
       '& > svg': {
         height: '400px !important',
-        width: '350px !important'
-      },
-      [theme.breakpoints.up('sm')]: {
-        height: '400px !important',
-        width: '600px !important',
-        '& > svg': {
-          height: '400px !important',
-          width: '600px !important'
-        }
+        width: '100% !important'
       }
     }
   },

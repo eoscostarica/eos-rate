@@ -5,6 +5,23 @@ import { mainConfig } from '../../config'
 import { client } from '../../graphql'
 import { GET_USER_RATING, GET_PRODUCER_BY_PRODUCER_LIST } from '../../gql'
 
+export const getUserRates = ({ userRate, user }) => {
+  try {
+    const { message, ...bpRate } = userRate
+    const userRatesFiltered = user.userData.userRates.filter(
+      ({ owner }) => owner !== bpRate.bp
+    )
+
+    return {
+      ...user.data,
+      userRates: [...userRatesFiltered, bpRate]
+    }
+  } catch (error) {
+    console.error('getUserRates', error)
+    return null
+  }
+}
+
 export const getUserDataModeled = async ual => {
   let userRates = []
   let edenMember = false
@@ -14,7 +31,9 @@ export const getUserDataModeled = async ual => {
   const rpc = getRpc(ual)
 
   const account = await rpc.get_account(accountName)
-  const { rows: edenMembers } = await rpc.get_table_rows({
+  const {
+    rows: [edenMembers]
+  } = await rpc.get_table_rows({
     json: true,
     code: mainConfig.contractEden,
     scope: 0,
@@ -25,7 +44,7 @@ export const getUserDataModeled = async ual => {
     show_payer: false
   })
 
-  if (edenMembers.length && edenMembers[0][1].account === accountName) {
+  if (edenMembers?.length > 0 && edenMembers[1].account === accountName) {
     edenMember = true
   }
 

@@ -9,6 +9,7 @@ import _get from 'lodash.get'
 
 import { useSharedState } from '../../context/state.context'
 import TitlePage from '../../components/PageTitle'
+import FilterBanner from '../../components/FilterBanner'
 import Card from '../../components/Card'
 import CompareTool from '../../components/CompareTool'
 import SelectedBpsBottomSheet from './../BlockProducers/BottomSheetSelectedBps'
@@ -30,8 +31,12 @@ const AllProxies = ({ ual = {} }) => {
     txSuccess: false
   })
 
-  const loadMore = () => setCurrentlyVisible(currentlyVisible + 12)
-  // const goToTop = () => document.getElementById('mainContent').scrollTo(0, 0)
+  const loadMore = async () => {
+    if (!hasMoreRows) return
+
+    await setProxies(currentlyVisible + 12)
+    setCurrentlyVisible(currentlyVisible + 12)
+  }
 
   const handleToggleCompareTool = () => {
     setCompareProxyTool(!state.compareProxyToolVisible)
@@ -128,7 +133,7 @@ const AllProxies = ({ ual = {} }) => {
       return
     }
 
-    setMoreRows(state.proxies.rows > currentlyVisible)
+    setMoreRows(state.proxies.rows > state.proxies.data.length)
   }, [state.proxies])
 
   return (
@@ -156,7 +161,7 @@ const AllProxies = ({ ual = {} }) => {
           }}
         />
       </Collapse>
-
+      <FilterBanner title={t('proxies')} page='proxy' hideFilter />
       <Box className={classes.wrapperGrid}>
         <Box className={classes.gridRow}>
           {(state.proxies.data || []).map(proxy => (

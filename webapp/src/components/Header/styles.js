@@ -88,5 +88,18 @@ export default theme => ({
     '& svg': {
       color: theme.palette.common.white
     }
+  },
+  arrow: {
+    color: 'rgba(97, 97, 97, 0.9)',
+    marginLeft: 30
+  },
+  tooltip: {
+    boxShadow: theme.shadows[1],
+    width: 140,
+    fontSize: 14,
+    textAlign: 'center'
+  },
+  logoTypeUSerSize: {
+    width: 28
   }
 })

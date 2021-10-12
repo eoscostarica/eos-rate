@@ -74,9 +74,7 @@ const CompareTool = ({
   }
 
   return (
-    <Box
-      className={clsx([classes.root, className].join(' '), classes.reliefGrid)}
-    >
+    <Box className={clsx([classes.root, className].join(' '))}>
       {isCollapsedView ? (
         <CompareGraphView
           removeBP={removeBP}
@@ -90,27 +88,39 @@ const CompareTool = ({
           setIsCollapsedView={setIsCollapsedView}
         />
       ) : (
-        <CompareSliderView
-          removeBP={removeBP}
-          selected={selectedData}
-          handleOnClose={handleOnClose}
-        />
-      )}
-      {!isCollapsedView && (
-        <Box className={classes.footer}>
-          <FormControlLabel
-            className={classes.switch}
-            control={
-              <Switch
-                checked={isCollapsedView}
-                onChange={event => setIsCollapsedView(event.target.checked)}
-                value='isCollapsedView'
-                color='primary'
-              />
-            }
-            label={t('compareToolCollapsedSwitch')}
-          />
+        <Box className={classes.boxSliderView}>
+          <Box className={classes.sliderBody}>
+            <CompareSliderView
+              removeBP={removeBP}
+              selected={selectedData}
+              handleOnClose={handleOnClose}
+            />
+            <FormControlLabel
+              className={classes.hiddenDesktop}
+              control={
+                <Switch
+                  checked={isCollapsedView}
+                  onChange={event => setIsCollapsedView(event.target.checked)}
+                  value='isCollapsedView'
+                  color={isCollapsedView ? 'primary' : 'secondary'}
+                />
+              }
+              label={t('compareToolCollapsedSwitch')}
+            />
+          </Box>
           <Box className={classes.btnBox}>
+            <FormControlLabel
+              className={classes.hiddenMobile}
+              control={
+                <Switch
+                  checked={isCollapsedView}
+                  onChange={event => setIsCollapsedView(event.target.checked)}
+                  value='isCollapsedView'
+                  color={isCollapsedView ? 'primary' : 'secondary'}
+                />
+              }
+              label={t('compareToolCollapsedSwitch')}
+            />
             <Button
               onClick={handleOnClear}
               className={classes.btnClear}

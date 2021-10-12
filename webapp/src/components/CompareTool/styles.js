@@ -4,21 +4,53 @@ export default theme => ({
     padding: theme.spacing(2),
     background: theme.palette.surface.main,
     width: '100%',
-    position: 'relative'
+    position: 'relative',
+    overflow: 'hidden'
+  },
+  compareSliderView: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column'
+  },
+  boxSliderView: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    overflow: 'hidden',
+    alignItems: 'center'
+  },
+  sliderBody: {
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   compareGraphView: {
     paddingTop: 0,
-    height: '100%',
-    [theme.breakpoints.up('md')]: {
-      paddingTop: theme.spacing(2)
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    overflow: 'hidden',
+    alignItems: 'center',
+    [theme.breakpoints.up('sm')]: {
+      height: '100%'
     }
   },
   wrapperDesktop: {
+    height: 'calc(100% - 174px)',
     display: 'flex',
     flexDirection: 'column',
-    height: 'calc(100% - 75px)',
-    [theme.breakpoints.up('md')]: {
-      flexDirection: 'row'
+    overflow: 'auto',
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: theme.spacing(1),
+      flexDirection: 'row',
+      overflow: 'hidden',
+      height: '100%',
+      width: '100%',
+      maxWidth: 1024
     }
   },
   btnClear: {
@@ -43,13 +75,11 @@ export default theme => ({
   },
   modalHeader: {
     display: 'flex',
-    justifyContent: 'space-between',
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(2)
-  },
-  switch: {
-    [theme.breakpoints.up('md')]: {
-      float: 'right'
+    flexDirection: 'column',
+    width: '100%',
+    maxWidth: 1024,
+    [theme.breakpoints.up('mdg')]: {
+      marginLeft: 24
     }
   },
   switchBox: {
@@ -84,10 +114,12 @@ export default theme => ({
   },
   // slider view
   bpName: {
-    paddingTop: 10,
+    marginTop: '-40px !important',
     textAlign: 'center'
   },
   slider: {
+    width: '100%',
+    maxWidth: 1024,
     display: 'flex',
     flexWrap: 'nowrap',
     overflowX: 'auto',
@@ -99,7 +131,20 @@ export default theme => ({
   sliderCard: {
     flex: '0 0 auto',
     width: 360,
-    paddingRight: 16
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden'
+  },
+  chartWrapperSliderView: {
+    width: '100%',
+    '& .highcharts-container ': {
+      height: '400px !important',
+      width: '100% !important',
+      '& > svg': {
+        height: '400px !important',
+        width: '100% !important'
+      }
+    }
   },
   // graph view
   bpItem: {
@@ -143,7 +188,7 @@ export default theme => ({
   headerVotingCompare: {
     display: 'flex',
     justifyContent: 'space-between',
-    flexDirection: 'column'
+    width: '100%'
   },
   marginRightElem: {
     marginRight: 10
@@ -163,8 +208,8 @@ export default theme => ({
     minHeight: 50,
     flexWrap: 'wrap',
     [theme.breakpoints.up('sm')]: {
-      marginBottom: 38,
-      justifyContent: 'space-around'
+      height: 'fit-content',
+      justifyContent: 'space-evenly'
     },
     [theme.breakpoints.up('md')]: {
       justifyContent: 'space-between',
@@ -173,25 +218,30 @@ export default theme => ({
   },
   centerBox: {
     margin: 'auto',
-    width: '45%',
-    padding: '5px',
-    [theme.breakpoints.down('sm')]: {
-      width: '100%'
-    }
+    width: '100%',
+    padding: '5px'
   },
   buttonsBox: {
+    position: 'absolute',
+    bottom: 0,
     justifyContent: 'space-between',
     display: 'flex',
     alignItems: 'center',
-    [theme.breakpoints.up('md')]: {
-      justifyContent: 'center'
+    width: 'calc(100% - 32px)',
+    backgroundColor: theme.palette.surface.main,
+    padding: theme.spacing(2, 0),
+    [theme.breakpoints.up('sm')]: {
+      width: '100%',
+      maxWidth: 1024,
+      position: 'initial',
+      justifyContent: 'flex-start'
     }
   },
   boxCloseIcon: {
     justifyContent: 'flex-end',
     display: 'flex',
-    alignItems: 'center',
-    height: '100%'
+    height: '100%',
+    alignItems: 'flex-start'
   },
   btnRateProxies: {
     backgroundColor: theme.palette.secondary.main,
@@ -214,13 +264,13 @@ export default theme => ({
   },
   compareBodyListDesktop: {
     display: 'none',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       display: 'flex'
     }
   },
   compareBodyListMobile: {
     display: 'flex',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       display: 'none'
     }
   },
@@ -229,9 +279,9 @@ export default theme => ({
     textAlign: 'center'
   },
   bodyModalView: {
-    height: 'calc(100% - 100px)',
+    height: '100%',
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     flexDirection: 'column'
   },
   topModalView: {
@@ -239,8 +289,13 @@ export default theme => ({
   },
   btnBox: {
     width: '100%',
+    maxWidth: 1024,
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    [theme.breakpoints.up('sm')]: {
+      justifyContent: 'flex-end',
+      marginTop: theme.spacing(2)
+    }
   },
   alert: {
     width: '100%'
@@ -252,26 +307,32 @@ export default theme => ({
     alignItems: 'center'
   },
   chartWrapper: {
+    width: '100%',
     '& .highcharts-container ': {
-      height: '400px !important',
-      width: '340px !important',
+      height: '300px !important',
+      width: '100% !important',
       '& > svg': {
+        marginTop: '-60px !important',
         height: '400px !important',
-        width: '340px !important'
-      },
-      [theme.breakpoints.up('sm')]: {
-        height: '400px !important',
-        width: '600px !important',
-        '& > svg': {
-          height: '400px !important',
-          width: '600px !important'
-        }
+        width: '100% !important'
       }
     }
   },
   overrideBreakpoint: {
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       margin: `${theme.spacing(0, 1, 1, 1)} !important`
+    }
+  },
+  hiddenMobile: {
+    display: 'none !important',
+    [theme.breakpoints.up('sm')]: {
+      display: 'flex !important'
+    }
+  },
+  hiddenDesktop: {
+    display: 'flex !important',
+    [theme.breakpoints.up('sm')]: {
+      display: 'none  !important'
     }
   }
 })

@@ -78,7 +78,8 @@
     "hideComparisonTool": "Ocultar herramienta de comparación",
     "showComparisonTool": "Mostrar herramienta de comparación",
     "language": "Idioma",
-    "version": "Versión"
+    "version": "Versión",
+    "signOut": "Cerrar Sesión"
   },
 
   "sortInput": {
@@ -171,31 +172,32 @@
 
   "bpRatePage": {
     "allBP": "Lista de Productores de Bloques",
-    "subTitle": "Califique este Productor de bloques EOS",
-    "subText": "Use los controles deslizantes para calificar.",
-    "rateText": "Si cree que no tiene suficiente conocimiento sobre una categoría específica, puede deshabilitarla.",
+    "subTitle": "Califique este productor de bloques",
     "helpText": "Publique su calificación iniciando sesión con tu billetera favorita.",
     "publishRatingButton": "Publicar Calificación",
     "updateRatingButton": "Actualizar Calificación",
     "cancelRatingButton": "Cancelar",
     "transparency": "Transparencia",
-    "transparencyTooltip": "Cumplimiento de la divulgación de la información.",
+    "transparencyTooltip": "Cumplimiento de la divulgación de propiedad, bp.json completo, uso de recompensas y estadísticas financieras.",
     "infrastructure": "Infraestructura",
     "infrastructureTooltip": "Estabilidad y confiabilidad de la infraestructura EOS.",
     "trustiness": "Lealtad",
     "trustinessTooltip": "Colaboración y reputación entre la comunidad EOS.",
     "community": "Comunidad",
-    "communityTooltip": "Creación de valor comunitario a través de la educación, eventos y/o otros contenidos útiles.",
+    "communityTooltip": "Creación de valor comunitario a través de la educación y la promoción de charlas, chats, hackatones, conferencias, seminarios, espacios para desarrolladores y otros contenidos útiles.",
     "development": "Desarrollo",
     "developmentTooltip": "Conocimientos técnicos y uso de software de código abierto, scripts, marcos, billeteras, portales de votación, métricas, etc.",
     "globalRate": "Evaluación General",
     "myRate": "Mi Evaluación",
     "edenRates": "Evaluación Eden",
+    "totalRates": "Calificación Total",
     "rateWithoutLogin": "Necesitas iniciar sesión para evaluar un productor de bloques",
     "noBlockProducer": "No encontramos este PB",
     "success": "¡Éxito!",
     "title": "Calificación de Productores de bloques EOS",
-    "infoMessage": "Apoye la red votando por sus BP o proxy favoritos, una vez que haya votado por 21 BP puede comenzar a calificar."
+    "infoMessage": "Apoye la red votando por sus BP o proxy favoritos, una vez que haya votado por 21 BP puede comenzar a calificar.",
+    "enabled": "Habilitado",
+    "disabled": "Deshabilitado"
   },
 
   "footer": {
@@ -206,6 +208,7 @@
     "generalInformation": "Información General",
     "eosRates": "Calificación General",
     "edenRates": "Calificación Eden",
+    "totalRates": "Calificación Total",
     "raters": "Calificadores",
     "amount": "Calificaciones",
     "rankings": "Promedio",

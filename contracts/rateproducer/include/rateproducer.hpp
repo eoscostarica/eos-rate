@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <set>
 #include "utils.hpp"
+#include "../ricardian/rateproducer-ricardian.cpp"
 
 #define MINVAL 0
 #define MAXVAL 10
@@ -43,7 +44,7 @@ using eosio::public_key;
 */
 namespace eosio {
     constexpr name system_account{"eosio"_n};
-    constexpr name eden_account{"genesis.eden"_n};
+    constexpr name eden_account{"genesisdeden"_n};
     constexpr name eden_scope{"eden"_n};
 
     /*
@@ -233,18 +234,6 @@ namespace eosio {
 } // namespace eosio
 
 namespace eoscostarica {
-    extern const char* rate_ricardian;
-    extern const char* erase_ricardian;
-    extern const char* wipe_ricardian;
-    extern const char* rminactive_ricardian;
-    extern const char* rmrate_ricardian;
-
-    extern const char* datastorage_clause;
-    extern const char* datausage_clause;
-    extern const char* dataownership_clause;
-    extern const char* datadistribution_clause;
-    extern const char* datafuture_clause;
-
     /*
     *   Stores the rate average stats for a block producer
     */    
@@ -271,6 +260,10 @@ namespace eoscostarica {
         community
     )
     typedef eosio::multi_index<"stats"_n, stats > stats_table;
+
+    uint128_t create_uniq_rating(const uint64_t &user, const uint64_t &bp) {
+        return (static_cast<uint128_t>(user) << 64) | bp;
+    }
 
     /*
     *   Stores the rate vote for a block producer
@@ -307,6 +300,38 @@ namespace eoscostarica {
         indexed_by<"user"_n, const_mem_fun<ratings, uint64_t, &ratings::by_user>>,
         indexed_by<"bp"_n, const_mem_fun<ratings, uint64_t, &ratings::by_bp>>
     > ratings_table;
+
+    /*
+    *   Stores the rate vote for a block producer
+    */
+    struct ratings_v2 {
+        uint64_t id;
+        name user;
+        name bp;
+        uint8_t transparency;
+        uint8_t infrastructure;
+        uint8_t trustiness;
+        uint8_t development;  
+        uint8_t community;
+        uint64_t primary_key() const { return id; }
+        uint128_t by_uniq_rating() const { return create_uniq_rating(user.value, bp.value); }
+        uint64_t by_bp() const { return bp.value; }
+    };
+    EOSIO_REFLECT(
+        ratings_v2,
+        id,
+        user,
+        bp,
+        transparency,
+        infrastructure,
+        trustiness,
+        development,
+        community
+    )
+    typedef eosio::multi_index<"rating"_n, ratings_v2,
+        indexed_by<"uniqrating"_n, const_mem_fun<ratings_v2, uint128_t, &ratings_v2::by_uniq_rating>>,
+        indexed_by<"bp"_n, const_mem_fun<ratings_v2, uint64_t, &ratings_v2::by_bp>>
+    > ratings_table_v2;
 
     /*
     *   Stores contract config for migration versioning
@@ -410,7 +435,7 @@ namespace eoscostarica {
         */
         void save_bp_stats (
             name scope,
-            name user,
+            name ram_payer,
             name bp_name,
             float transparency,
             float infrastructure,
@@ -471,7 +496,7 @@ namespace eoscostarica {
         */ 
         void update_bp_stats (
             name scope,
-            name * user,
+            name * ram_payer,
             name * bp_name,
             float * transparency,
             float * infrastructure,
@@ -569,19 +594,35 @@ namespace eoscostarica {
 
         /**
         *
-        *  Load existing eden member rates into rateproducer scope
+        *  Update the current logic to newest
         * 
         */ 
-        void loadedens();
+        void migrate();
+
+        /**
+        *
+        *  Update stats under rateproducer scope
+        * 
+        */ 
+        void migratestats();
+        
+        /**
+        *
+        *  Liberate the ram used on ratings table under rateproducer and eden scope
+        * 
+        */ 
+        void freeupram();
     };
 
     EOSIO_ACTIONS(rateproducer,
                  "rateproducer"_n,
-                 action(rate, user, bp, transparency, infrastructure, trustiness, community, development),
-                 action(erase, bp_name),
-                 action(wipe),
-                 action(rminactive),
-                 action(rmrate, user, bp),
-                 action(loadedens))
+                 action(rate, user, bp, transparency, infrastructure, trustiness, community, development, ricardian_contract(rate_ricardian)),
+                 action(erase, bp_name, ricardian_contract(erase_ricardian)),
+                 action(wipe, ricardian_contract(wipe_ricardian)),
+                 action(rminactive, ricardian_contract(rminactive_ricardian)),
+                 action(rmrate, user, bp, ricardian_contract(rmrate_ricardian)),
+                 action(migrate, ricardian_contract(migrate_ricardian)),
+                 action(freeupram, ricardian_contract(freeupram_ricardian)),
+                 action(migratestats, ricardian_contract(migratestats_ricardian)))
                  
 } // namespace eoscostarica

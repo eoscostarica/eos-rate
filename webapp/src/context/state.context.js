@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-// import getProxyDataModeled from '../utils/modeled-proxy-data'
-
 import {
   getProxies,
   getProxy,
   getUserDataModeled,
   getProducers,
-  getProducer
+  getProducer,
+  mutationInsertUserRating,
+  getUserRates,
+  getTotalStats
 } from './models'
 
 const SharedStateContext = React.createContext()
@@ -19,8 +20,9 @@ const initialValue = {
   blockProducers: { data: [], rows: 0 },
   selectedProducers: [],
   blockProducer: null,
+  transaction: null,
   compareBPToolVisible: false,
-  sortBlockProducersBy: null,
+  sortBlockProducersBy: { sort: 'total_votes', value: 'vote' },
   proxies: { data: [], rows: 0 },
   selectedProxies: [],
   proxy: null,
@@ -124,6 +126,12 @@ const sharedStateReducer = (state, action) => {
         selectedProxies: action.selectedProxies
       }
 
+    case 'setLastTransaction':
+      return {
+        ...state,
+        transaction: action.transaction
+      }
+
     default: {
       throw new Error(`Unsupported action type: ${action.type}`)
     }
@@ -145,6 +153,7 @@ export const SharedStateProvider = ({ children, ual, ...props }) => {
         dispatch({ type: 'userChange', user })
       } else {
         dispatch({ type: 'userChange', user: ual.activeUser })
+        dispatch({ type: 'setSelectedProducers', selectedProducers: [] })
       }
 
       dispatch({ type: 'ual', ual })
@@ -178,36 +187,131 @@ export const useSharedState = () => {
   const hideMessage = () => dispatch({ type: 'hideMessage' })
   const login = () => dispatch({ type: 'login' })
   const logout = () => dispatch({ type: 'logout' })
-  const setUser = async () => {
-    const user = await getUserDataModeled(state.ual)
+  const setUser = async tempUser => {
+    let user = tempUser
+
+    if (!user) {
+      user = await getUserDataModeled(state.ual)
+    }
 
     dispatch({ type: 'userChange', user })
   }
   const setSortBy = (sortBy, page) => {
-    if (page === 'blockProducers') {
+    if (page === 'bp') {
       dispatch({ type: 'setSortProducersBy', sortBy })
     } else {
-      // dispatch({ type: 'setSortProducersBy', sortBy })
+      // TODO: add logic to sort proxies
     }
   }
 
   // Block Producers Action
-  const setProducers = async limit => {
-    const blockProducers = await getProducers(limit)
+  const setProducers = async (limit, orderBy = null, bpList) => {
+    const filter = orderBy || state.sortBlockProducersBy.sort
+    let blockProducers = bpList
+
+    if (!blockProducers)
+      blockProducers = await getProducers(limit, [
+        { [filter]: 'desc_nulls_last' },
+        { bpjson: 'desc' }
+      ])
+
+    const allBps = []
+
+    blockProducers.data.forEach(bp => {
+      const totalStats = getTotalStats({
+        producerData: {
+          ...bp?.system?.parameters,
+          average: bp?.average,
+          ratings_cntr: bp?.ratings_cntr
+        },
+        edenStats: bp?.edenRate,
+        statsAmount: 5,
+        oneStat: 1
+      })
+      bp = {
+        ...bp,
+        totalStats
+      }
+      allBps.push(bp)
+    })
+
+    blockProducers = { ...blockProducers, data: allBps }
 
     dispatch({ type: 'setProducers', blockProducers })
   }
-  const setProducer = async account => {
-    const blockProducer = await getProducer(account)
+
+  const setProducer = async (item, saveDirectly = false) => {
+    let blockProducer = item
+
+    if (!saveDirectly) {
+      blockProducer = await getProducer(item)
+    }
+
+    const totalStats = getTotalStats({
+      producerData: {
+        ...blockProducer?.system?.parameters,
+        average: blockProducer?.average || 0,
+        ratings_cntr: blockProducer?.ratings_cntr || 0
+      },
+      edenStats: blockProducer?.edenRate,
+      statsAmount: 5,
+      oneStat: 1
+    })
+
+    blockProducer = {
+      ...blockProducer,
+      totalStats
+    }
 
     dispatch({ type: 'setProducer', blockProducer })
   }
+
+  const handleMutationInsertUserRating = async ({
+    ual,
+    user,
+    bp,
+    result,
+    transaction,
+    ...ratings
+  }) => {
+    const ratingData = await mutationInsertUserRating({
+      ual,
+      user,
+      bp,
+      result,
+      transaction,
+      blockProducers: state.blockProducers,
+      isEden: state?.user?.userData?.edenMember,
+      ...ratings
+    })
+
+    setProducer(ratingData.currentBP, true)
+    setProducers(30, null, {
+      ...state.blockProducers,
+      data: ratingData.producerUpdatedList
+    })
+
+    const userRates = getUserRates({
+      userRate: { ...ratingData.rateProducer, ...ratingData.currentBP },
+      user: state.user
+    })
+
+    setUser({
+      ...state.user,
+      userData: { ...state.user.userData, ...userRates }
+    })
+  }
+
   const setCompareBPTool = isVisible => {
     dispatch({ type: 'setCompareBPTool', isVisible })
   }
 
   const setSelectedProducers = selectedProducers =>
     dispatch({ type: 'setSelectedProducers', selectedProducers })
+
+  const setLastTransaction = transaction => {
+    dispatch({ type: 'setLastTransaction', transaction })
+  }
 
   // Proxies Actions
   const setProxies = async limit => {
@@ -242,8 +346,10 @@ export const useSharedState = () => {
       setUser,
       setProducers,
       setProducer,
+      handleMutationInsertUserRating,
       setCompareBPTool,
       setSelectedProducers,
+      setLastTransaction,
       setSortBy,
       setProxies,
       setProxy,

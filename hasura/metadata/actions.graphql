@@ -1,28 +1,25 @@
 type Mutation {
-  rateProducer (
+  rateProducer(
     ratingInput: RatingInput!
   ): RatingOutput
 }
 
-
-
-
 input RatingInput {
-  user : String!
-  producer : String!
-  transaction : jsonb!
+  user: String!
+  isEden: Boolean!
+  producer: String!
+  transaction: jsonb!
 }
 
 type RatingOutput {
-  message : String!
-  resultEden : jsonb
-  uniq_rating : String
-  user : String
-  bp : String
-  ratings : jsonb
+  message: String!
+  resultEden: jsonb
+  user: String
+  bp: String
+  ratings: jsonb
 }
 
 type deleteUserRateOutput {
-  message : String!
+  message: String!
 }
 

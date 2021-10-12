@@ -3,6 +3,16 @@ import _get from 'lodash.get'
 import getBPRadarData from './get-bp-radar-data'
 import calculateEosFromVotes from './convert-votes-to-eos-votes'
 
+const formatDecimal = number => {
+  if (!number) return 0
+
+  if (number % 1 !== 0) {
+    return parseFloat(number.toFixed(1))
+  }
+
+  return number
+}
+
 export default ({
   community,
   trustiness,
@@ -12,11 +22,11 @@ export default ({
   ...bp
 }) => {
   const parameters = {
-    community: community || 0,
-    development: development || 0,
-    infrastructure: infrastructure || 0,
-    transparency: transparency || 0,
-    trustiness: trustiness || 0
+    community: formatDecimal(community),
+    trustiness: formatDecimal(trustiness),
+    development: formatDecimal(development),
+    transparency: formatDecimal(transparency),
+    infrastructure: formatDecimal(infrastructure)
   }
   const votesInEos = calculateEosFromVotes(_get(bp, 'system.total_votes', 0))
   return {
