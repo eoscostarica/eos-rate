@@ -96,7 +96,7 @@ const BlockProducerProfile = () => {
   const setProfileData = bp => {
     const userDataSet = getBPRadarData({
       name: t('edenRates'),
-      parameters: getRatingData(bp.edenRate)
+      parameters: getRatingData(bp?.edenRate)
     })
 
     setBpHasInformation(!!Object.values(bp.bpjson).length)
