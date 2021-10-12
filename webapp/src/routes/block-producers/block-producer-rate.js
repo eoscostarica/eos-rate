@@ -206,11 +206,11 @@ const BlockProducerRate = ({ account, ual }) => {
   const getEdenRatingData = () => {
     if (edenRate) {
       return {
-        community: edenRate.community,
-        development: edenRate.development,
-        infrastructure: edenRate.development,
-        transparency: edenRate.transparency,
-        trustiness: edenRate.trustiness
+        community: edenRate?.community,
+        development: edenRate?.development,
+        infrastructure: edenRate?.development,
+        transparency: edenRate?.transparency,
+        trustiness: edenRate?.trustiness
       }
     }
     return {

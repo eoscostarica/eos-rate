@@ -83,8 +83,8 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
     producer,
     edenRate,
     userRate
-  } = useSelector((state) => state.blockProducers)
-  const { isContentLoading } = useSelector((state) => state.isLoading)
+  } = useSelector(state => state.blockProducers)
+  const { isContentLoading } = useSelector(state => state.isLoading)
   const bpHasInformation = Boolean(
     producer && Object.values(producer.bpjson).length
   )
@@ -102,11 +102,11 @@ const BlockProducerProfile = ({ account, ual, ...props }) => {
   const getRatingData = () => {
     if (edenRate) {
       return {
-        community: edenRate.community,
-        development: edenRate.development,
-        infrastructure: edenRate.development,
-        transparency: edenRate.transparency,
-        trustiness: edenRate.trustiness
+        community: edenRate?.community,
+        development: edenRate?.development,
+        infrastructure: edenRate?.development,
+        transparency: edenRate?.transparency,
+        trustiness: edenRate?.trustiness
       }
     }
     return {
