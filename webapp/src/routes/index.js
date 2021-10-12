@@ -1,82 +1,119 @@
-import Home from './home'
-import Account from './account'
-import BlockProducerProfile from './block-producers/block-producer-profile'
-import BlockProducerRate from './block-producers/block-producer-rate'
-import AllBps, { blockProducersDrawer } from './block-producers'
-import AllProxies, { proxiesDrawer } from './proxies'
-import ProxyProfile from './proxies/proxy-profile'
-import Help from './help'
-import TermsOfUse from './termsOfUse'
-import About from './about'
-import { networkMonitor } from '../config'
+// eslint-disable-next-line no-unused-vars
+import React, { lazy } from 'react'
+import {
+  Activity as ActivityIcon,
+  Grid as GridIcon,
+  Home as HomeIcon,
+  Server as ServerIcon,
+  FileText as FileTextIcon,
+  User as UserIcon,
+  Info as InfoIcon,
+  HelpCircle as HelpIcon,
+  GitMerge as GitMergeIcon
+} from 'react-feather'
 
-export default [
+import { mainConfig } from '../config'
+
+const Home = lazy(() => import('./Home'))
+const BlockProducers = lazy(() => import('./BlockProducers'))
+const BlockProducerProfile = lazy(() =>
+  import('./BlockProducers/BlockProducerProfile')
+)
+const BlockProducerRate = lazy(() =>
+  import('./BlockProducers/BlockProducerRate')
+)
+const Proxies = lazy(() => import('./Proxies'))
+const ProxyProfile = lazy(() => import('./Proxies/ProxyProfile'))
+const About = lazy(() => import('./About'))
+const Help = lazy(() => import('./Help'))
+const Page404 = lazy(() => import('./Route404'))
+const TermsOfUse = lazy(() => import('./TermsOfUse'))
+const Account = lazy(() => import('./Account'))
+
+const routes = [
   {
+    name: 'home',
+    icon: <HomeIcon />,
+    component: Home,
     path: '/',
-    Component: Home,
-    drawerLabel: 'drawerLinkHome',
-    target: '_self'
+    exact: true
   },
   {
+    name: 'myAccount',
+    icon: <UserIcon />,
+    path: '/account',
+    component: Account,
+    exact: true
+  },
+  {
+    name: 'blockProducers',
+    icon: <GridIcon />,
+    component: BlockProducers,
     path: '/block-producers',
-    Component: AllBps,
-    drawerLabel: 'drawerLinkAllBPs',
-    drawerComponents: blockProducersDrawer,
-    target: '_self'
+    exact: true
   },
   {
-    path: 'block-producers/:account',
-    Component: BlockProducerProfile,
-    target: '_self'
+    path: '/block-producers/:account',
+    component: BlockProducerProfile,
+    exact: true
   },
   {
-    path: 'block-producers/:account/rate',
-    Component: BlockProducerRate,
-    target: '_self'
+    path: '/block-producers/:account/rate',
+    component: BlockProducerRate,
+    exact: true
   },
   {
     path: '/proxies',
-    Component: AllProxies,
-    drawerLabel: 'drawerLinkAllProxies',
-    drawerComponents: proxiesDrawer,
-    target: '_self'
+    icon: <ServerIcon />,
+    component: Proxies,
+    name: 'proxies',
+    exact: true
   },
   {
-    path: 'proxies/:account',
-    Component: ProxyProfile,
-    target: '_self'
+    path: '/proxies/:account',
+    component: ProxyProfile,
+    exact: true
   },
   {
-    path: '/account',
-    Component: Account,
-    target: '_self'
-  },
-  {
-    path: networkMonitor,
-    drawerLabel: 'drawerLinkNetworkMonitor',
+    path: mainConfig.networkMonitor,
+    icon: <ActivityIcon />,
+    name: 'networkMonitor',
     target: '_blank'
   },
   {
+    name: 'about',
+    icon: <InfoIcon />,
+    component: About,
     path: '/about',
-    Component: About,
-    drawerLabel: 'drawerLinkAbout',
-    target: '_self'
+    exact: true
   },
   {
     path: '/ricardian-contract',
-    Component: TermsOfUse,
-    drawerLabel: 'drawerLinkRicardianContract',
-    target: '_self'
+    component: TermsOfUse,
+    icon: <FileTextIcon />,
+    name: 'ricardianContract',
+    exact: true
   },
   {
+    name: 'help',
+    icon: <HelpIcon />,
+    component: Help,
     path: '/help',
-    Component: Help,
-    drawerLabel: 'drawerLinkHelp',
-    target: '_self'
+    exact: true
   },
   {
-    path: 'https://github.com/eoscostarica/eos-rate/releases',
-    drawerLabel: 'version',
+    name: 'version',
+    badge: mainConfig.appVersion,
+    path: 'https://github.com/eoscostarica/full-stack-boilerplate/tags',
+    icon: <GitMergeIcon />,
     target: '_blank'
+  },
+  {
+    component: Page404
   }
 ]
+
+export default () => ({
+  sidebar: routes.filter(route => !!route.name),
+  browser: routes.filter(route => !!route.component)
+})

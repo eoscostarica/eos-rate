@@ -71,21 +71,27 @@
             ]
         },
         {
-            "name": "loadedens",
+            "name": "migrate",
             "base": "",
             "fields": []
         },
         {
-            "name": "ratings",
+            "name": "freeupram",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "migratestats",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "ratings_v2",
             "base": "",
             "fields": [
                 {
                     "name": "id",
                     "type": "uint64"
-                },
-                {
-                    "name": "uniq_rating",
-                    "type": "uint128"
                 },
                 {
                     "name": "user",
@@ -97,23 +103,23 @@
                 },
                 {
                     "name": "transparency",
-                    "type": "float32"
+                    "type": "uint8"
                 },
                 {
                     "name": "infrastructure",
-                    "type": "float32"
+                    "type": "uint8"
                 },
                 {
                     "name": "trustiness",
-                    "type": "float32"
+                    "type": "uint8"
                 },
                 {
                     "name": "development",
-                    "type": "float32"
+                    "type": "uint8"
                 },
                 {
                     "name": "community",
-                    "type": "float32"
+                    "type": "uint8"
                 }
             ]
         },
@@ -165,7 +171,7 @@
         {
             "name": "erase",
             "type": "erase",
-            "ricardian_contract": "---\spec_version: 0.1.0\ntitle: Erase Block Producer Stats\nsummary: The intent of the `{{ erase }}` action is to provide a ways to clear all data related with a specific block producer.\n---"
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Erase Block Producer Stats\nsummary: The intent of the `{{ erase }}` action is to provide a ways to clear all data related with a specific block producer.\n---"
         },
         {
             "name": "wipe",
@@ -183,18 +189,28 @@
             "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Remove a especific rate\nsummary: The intent of the `{{ rmrate }}` action is to remove a rate made from an especific account.\n---"
         },
         {
-            "name": "loadedens",
-            "type": "loadedens",
-            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Load existing eden members\nsummary: The intent of the `{{ loadedens }}` action is to migrate and load existing rates made by eden members into eden scope.\n---"
+            "name": "migrate",
+            "type": "migrate",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Update the current logic to newest\nsummary: The intent of the `{{ migrate }}` action is to update the current logic to newest.\n---"
+        },
+        {
+            "name": "freeupram",
+            "type": "freeupram",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Free up RAM\nsummary: The intent of the `{{ freeupram }}` action is to remove all records from old ratings table including the rateproducer and eden scope.\n---"
+        },
+        {
+            "name": "migratestats",
+            "type": "migratestats",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Update rateproducer stats\nsummary: The intent of the `{{ migratestats }}` action is to remove from stats table under rateproducer scope the eden ratings averages.\n---"
         }
     ],
     "tables": [
         {
-            "name": "ratings",
+            "name": "rating",
             "index_type": "i64",
             "key_names": [],
             "key_types": [],
-            "type": "ratings"
+            "type": "ratings_v2"
         },
         {
             "name": "stats",
@@ -206,23 +222,23 @@
     ],
     "ricardian_clauses": [
         {
-            "id": "Data Storage",
-            "body": "The affiliate application values the security of personal data. We may process only minimal user data as much as it is necessary to maintain the affiliate application running. We only receive and store any information you knowingly provide to us when you create an account, or fill using the app."
+            "id": "datastorage",
+            "body": "The rateproducer application values the security of personal data. We may process only minimal user data as much as it is necessary to maintain the rateproducer application running. We only receive and store any information you knowingly provide to us when you create an account, or fill using the app."
         },
         {
-            "id": "Data Usage",
-            "body": "This smart contract will process user data to keep the affiliate application running. Any of the information we collect from you may be used for these purposes:\n - Create and manage user accounts.\n - Run and operate the affiliate application."
+            "id": "datausage",
+            "body": "This smart contract will process user data to keep the rateproducer application running. Any of the information we collect from you may be used for these purposes:\n- Create and manage user accounts.\n- Run and operate the rateproducer application."
         },
         {
-            "id": "Data Ownership",
-            "body": "The user of this smart contract verifies that the smart contract owns the data and that it can use the data in accordance with the terms defined in the Ricardian contract.\nYou can delete certain personal information you shared with the affiliate application. When you delete personal information, we may maintain a copy of the unrevised personal information in our records for the duration necessary to comply with our obligations to our affiliates and partners, and for the purposes described below. If you would like to delete your personal information or permanently delete your account, you can do so on your account's profile page in the affiliate application.\nWe will retain and use your personal information for the period necessary to comply with our legal obligations, resolve disputes, and enforce our agreements unless a more extended retention period is required or permitted by law. We may use any aggregated data derived from or incorporating your personal information after you update or delete it, but not in a manner that would identify you personally. Once the retention period expires, personal information shall be deleted."
+            "id": "dataownership",
+            "body": "The user of this smart contract verifies that the smart contract owns the data and that it can use the data in accordance with the terms defined in the Ricardian contract.\nYou can delete certain personal information you shared with the rateproducer application. When you delete personal information, we may maintain a copy of the unrevised personal information in our records for the duration necessary to comply with our obligations to our affiliates and partners, and for the purposes described below. If you would like to delete your personal information or permanently delete your account, you can do so on your account's profile page in the rateproducer application.\nWe will retain and use your personal information for the period necessary to comply with our legal obligations, resolve disputes, and enforce our agreements unless a more extended retention period is required or permitted by law. We may use any aggregated data derived from or incorporating your personal information after you update or delete it, but not in a manner that would identify you personally. Once the retention period expires, personal information shall be deleted."
         },
         {
-            "id": "Data Distribution",
-            "body": "The smart contract promises not actively to share or distribute the address data. The smart contract user understands that data stored in a multi-index table is not private and can be accessed by any user of the blockchain.\nDepending on your location, data transfers may involve transferring and storing your information in a country other than your own. Moreover, to keep affiliate running, we must share necessary personal data such as your name with the authorized blood donation centers and sponsors. We do not store any information regarding your blood type, health conditions, or any other confidential information between you and the donation centers."
+            "id": "datadistribution",
+            "body": "The smart contract promises not actively to share or distribute the address data. The smart contract user understands that data stored in a multi-index table is not private and can be accessed by any user of the blockchain.\nDepending on your location, data transfers may involve transferring and storing your information in a country other than your own. Moreover, to keep rateproducer running, we must share necessary personal data such as your name with the authorized blood donation centers and sponsors. We do not store any information regarding your blood type, health conditions, or any other confidential information between you and the donation centers."
         },
         {
-            "id": "Data Future",
+            "id": "datafuture",
             "body": "The smart contract promises to only use the data following the terms defined in the Ricardian contract, now and at all future dates. You may exercise certain rights regarding your information processed by us. In particular, you have the right to do the following: (i) you have the right to withdraw consent where you have previously given your consent to the processing of your information; (ii) you have the right to object to the processing of your information if the processing is carried out on a legal basis other than consent; (iii) you have the right to learn if information is being processed by us, obtain disclosure regarding certain aspects of the processing and obtain a copy of the information undergoing processing; (iv) you have the right to verify the accuracy of your information and ask for it to be updated or corrected; (v) you have the right, under certain circumstances, to restrict the processing of your information, in which case, we will not process your information for any purpose other than storing it; (vi) you have the right, under certain circumstances, to obtain the erasure of your Personal Information from us; (vii) you have the right to receive your information in a structured, commonly used and machine readable format and, if technically feasible, to have it transmitted to another controller without any hindrance. This provision is applicable provided that your information is processed by automated means and that the processing is based on your consent, on a contract you are part of or on pre-contractual obligations thereof."
         }
     ],

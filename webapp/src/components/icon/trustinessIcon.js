@@ -1,12 +1,12 @@
-import React from 'react'
-import SvgIcon from '@material-ui/core/SvgIcon'
-import { makeStyles } from '@material-ui/core/styles'
+import React, { memo } from 'react'
+import SvgIcon from '@mui/material/SvgIcon'
+import { makeStyles } from '@mui/styles'
 
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const TrustinessIcon = (props) => {
+const TrustinessIcon = props => {
   const classes = useStyles()
 
   return (
@@ -20,4 +20,4 @@ const TrustinessIcon = (props) => {
   )
 }
 
-export default TrustinessIcon
+export default memo(TrustinessIcon)
