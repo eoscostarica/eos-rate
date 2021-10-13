@@ -269,7 +269,7 @@ const BlockProducerRate = () => {
     if (bp) {
       const edenDataSet = getBPRadarData({
         name: t('edenRates'),
-        parameters: getSavedRatingData(bp.edenRate)
+        parameters: getSavedRatingData(bp?.edenRate)
       })
 
       setBlockProducerTitle(
