@@ -47,8 +47,6 @@ const AllProxies = ({ ual = {} }) => {
   }
 
   const handleOpenDesktopVotingTool = (isAdding, producerAccountName) => {
-    console.log({ isAdding, producerAccountName })
-
     setSelectedProxies([producerAccountName])
     setCompareProxyTool(true)
   }
