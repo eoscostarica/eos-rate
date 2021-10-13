@@ -55,7 +55,6 @@ const AllBps = () => {
   const handleToggleSelected = (item, isAddItem = false) => {
     if (isAddItem) {
       setSelectedProducers([...state.selectedProducers, item])
-      console.log({ selectedProducers: state?.selectedProducers })
     } else {
       const removeSelected = state.selectedProducers.filter(
         bpName => bpName !== item
