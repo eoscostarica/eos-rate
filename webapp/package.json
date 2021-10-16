@@ -25,7 +25,7 @@
     "@date-io/date-fns": "^2.11.0",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
-    "@eoscostarica/eoscr-components": "^3.5.4",
+    "@eoscostarica/eoscr-components": "^3.5.6",
     "@eoscostarica/ual-reactjs-renderer": "^0.3.1",
     "@mui/icons-material": "^5.0.1",
     "@mui/lab": "^5.0.0-alpha.48",

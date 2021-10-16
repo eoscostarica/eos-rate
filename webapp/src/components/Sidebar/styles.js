@@ -29,6 +29,7 @@ export default theme => ({
   listItem: {
     display: 'flex',
     flexDirection: 'column',
+    marginTop: '0 !important',
     '& p': {
       fonWeight: theme.typography.fontWeightBold,
       paddingLeft: theme.spacing(2),
