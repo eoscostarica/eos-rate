@@ -37,7 +37,9 @@
 
     "loginUsername": "Username",
     "loginPassword": "Password",
-    "loginSignin": "Sign in",
+    "loginSignin": "Login",
+    "welcome": "Welcome",
+    "loginToStart": "Login to start rating.",
     "loginValidationUsername": "Username is required",
     "loginValidationPassword": "Password is required",
 

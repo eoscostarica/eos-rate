@@ -27,7 +27,7 @@ export default theme => ({
     background: theme.palette.surface.light
   },
   avatar: {
-    backgroundColor: theme.palette.surface.main
+    backgroundColor: `${theme.palette.surface.main} !important`
   },
   helpIcon: {
     width: '90%',
@@ -148,5 +148,8 @@ export default theme => ({
         width: '100% !important'
       }
     }
+  },
+  btn: {
+    height: 36
   }
 })

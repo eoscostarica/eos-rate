@@ -38,6 +38,8 @@
     "loginUsername": "사용자 이름",
     "loginPassword": "비밀번호",
     "loginSignin": "로그인",
+    "welcome": "환영하다",
+    "loginToStart": "평가를 시작하려면 로그인하세요.",
     "loginValidationUsername": "사용자이름이 필요합니다",
     "loginValidationPassword": "비밀번호가 필요합니다",
 

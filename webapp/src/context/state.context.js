@@ -209,11 +209,12 @@ export const useSharedState = () => {
     const filter = orderBy || state.sortBlockProducersBy.sort
     let blockProducers = bpList
 
-    if (!blockProducers)
+    if (!blockProducers) {
       blockProducers = await getProducers(limit, [
         { [filter]: 'desc_nulls_last' },
         { bpjson: 'desc' }
       ])
+    }
 
     const allBps = []
 
@@ -245,6 +246,12 @@ export const useSharedState = () => {
 
     if (!saveDirectly) {
       blockProducer = await getProducer(item)
+    }
+
+    if (!blockProducer) {
+      dispatch({ type: 'setProducer', blockProducer })
+
+      return
     }
 
     const totalStats = getTotalStats({

@@ -1,16 +1,14 @@
 // eslint-disable-next-line no-unused-vars
 import React, { lazy } from 'react'
-import {
-  Activity as ActivityIcon,
-  Grid as GridIcon,
-  Home as HomeIcon,
-  Server as ServerIcon,
-  FileText as FileTextIcon,
-  User as UserIcon,
-  Info as InfoIcon,
-  HelpCircle as HelpIcon,
-  GitMerge as GitMergeIcon
-} from 'react-feather'
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined'
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
+import TrendingUpIcon from '@mui/icons-material/TrendingUp'
+import AppsIcon from '@mui/icons-material/Apps'
+import PersonIcon from '@mui/icons-material/Person'
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined'
+import CallMergeIcon from '@mui/icons-material/CallMerge'
 
 import { mainConfig } from '../config'
 
@@ -33,21 +31,21 @@ const Account = lazy(() => import('./Account'))
 const routes = [
   {
     name: 'home',
-    icon: <HomeIcon />,
+    icon: <HomeOutlinedIcon />,
     component: Home,
     path: '/',
     exact: true
   },
   {
     name: 'myAccount',
-    icon: <UserIcon />,
+    icon: <PersonIcon />,
     path: '/account',
     component: Account,
     exact: true
   },
   {
     name: 'blockProducers',
-    icon: <GridIcon />,
+    icon: <AppsIcon />,
     component: BlockProducers,
     path: '/block-producers',
     exact: true
@@ -64,7 +62,7 @@ const routes = [
   },
   {
     path: '/proxies',
-    icon: <ServerIcon />,
+    icon: <GroupsOutlinedIcon />,
     component: Proxies,
     name: 'proxies',
     exact: true
@@ -76,13 +74,13 @@ const routes = [
   },
   {
     path: mainConfig.networkMonitor,
-    icon: <ActivityIcon />,
+    icon: <TrendingUpIcon />,
     name: 'networkMonitor',
     target: '_blank'
   },
   {
     name: 'about',
-    icon: <InfoIcon />,
+    icon: <InfoOutlinedIcon />,
     component: About,
     path: '/about',
     exact: true
@@ -90,13 +88,13 @@ const routes = [
   {
     path: '/ricardian-contract',
     component: TermsOfUse,
-    icon: <FileTextIcon />,
+    icon: <DescriptionOutlinedIcon />,
     name: 'ricardianContract',
     exact: true
   },
   {
     name: 'help',
-    icon: <HelpIcon />,
+    icon: <HelpOutlineOutlinedIcon />,
     component: Help,
     path: '/help',
     exact: true
@@ -105,7 +103,7 @@ const routes = [
     name: 'version',
     badge: mainConfig.appVersion,
     path: 'https://github.com/eoscostarica/full-stack-boilerplate/tags',
-    icon: <GitMergeIcon />,
+    icon: <CallMergeIcon />,
     target: '_blank'
   },
   {
