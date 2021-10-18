@@ -40,8 +40,7 @@ export default theme => ({
     }
   },
   compareTool: {
-    height: '100%',
-    paddingTop: 0
+    height: '100%'
   },
   bpCard: {
     backgroundColor: theme.palette.primary.light
@@ -113,6 +112,20 @@ export default theme => ({
     display: 'block'
   },
   // bp rate
+  btnOutline: {
+    width: 'auto',
+    height: 36,
+    [theme.breakpoints.up('sm')]: {
+      width: 160
+    }
+  },
+  raisedButton: {
+    width: '100%',
+    height: 36,
+    [theme.breakpoints.up('sm')]: {
+      width: 200
+    }
+  },
   container: {
     padding: theme.spacing(1)
   },
@@ -218,7 +231,7 @@ export default theme => ({
     '&:hover': {
       backgroundColor: theme.palette.secondary.light
     },
-
+    height: 36,
     [theme.breakpoints.up('sm')]: {
       marginRight: 10
     }
@@ -248,7 +261,11 @@ export default theme => ({
     zIndex: 999,
     maxWidth: '100%',
     '& > button': {
-      backgroundColor: theme.palette.common.black,
+      width: 154,
+      height: 43,
+      padding: '11px 14px 8px 18px',
+      boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.24)',
+      backgroundColor: 'rgba(0, 0, 0, 0.87)',
       color: 'white',
       borderRadius: '24px 0 0 0'
     }

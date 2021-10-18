@@ -127,7 +127,7 @@ const AllProxies = ({ ual = {} }) => {
   }, [])
 
   useEffect(() => {
-    if (!state.proxies.data.length) {
+    if (!state.proxies?.data?.length) {
       return
     }
 

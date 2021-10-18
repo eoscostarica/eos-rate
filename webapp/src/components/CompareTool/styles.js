@@ -265,7 +265,8 @@ export default theme => ({
   compareBodyListDesktop: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
-      display: 'flex'
+      display: 'flex',
+      width: '60%'
     }
   },
   compareBodyListMobile: {
@@ -279,10 +280,14 @@ export default theme => ({
     textAlign: 'center'
   },
   bodyModalView: {
+    width: '100%',
     height: '100%',
     display: 'flex',
     justifyContent: 'flex-start',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    [theme.breakpoints.up('sm')]: {
+      width: '40%'
+    }
   },
   topModalView: {
     marginBottom: theme.spacing(2)
@@ -309,10 +314,10 @@ export default theme => ({
   chartWrapper: {
     width: '100%',
     '& .highcharts-container ': {
-      height: '300px !important',
+      height: '350px !important',
       width: '100% !important',
       '& > svg': {
-        marginTop: '-60px !important',
+        marginTop: '-40px !important',
         height: '400px !important',
         width: '100% !important'
       }

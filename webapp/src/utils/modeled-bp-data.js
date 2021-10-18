@@ -29,6 +29,7 @@ export default ({
     infrastructure: formatDecimal(infrastructure)
   }
   const votesInEos = calculateEosFromVotes(_get(bp, 'system.total_votes', 0))
+
   return {
     ...bp,
     system: {
@@ -37,7 +38,9 @@ export default ({
       parameters
     },
     data: getBPRadarData({
-      name: _get(bp, 'bpjson.org.candidate_name', bp.owner),
+      name: `${_get(bp, 'bpjson.org.candidate_name', 'defaultString')}-${
+        bp.owner
+      } ${votesInEos}`,
       parameters
     })
   }
