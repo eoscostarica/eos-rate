@@ -5,13 +5,7 @@ export default theme => ({
     justifyContent: 'center',
     flexDirection: 'column',
     height: 169,
-    '& img': {
-      height: 'fit-content',
-      width: '95%'
-    },
-    '& img:hover': {
-      cursor: 'pointer'
-    }
+    paddingTop: theme.spacing(5)
   },
   scrollbar: {
     backgroundColor: theme.palette.background.paper
@@ -79,7 +73,6 @@ export default theme => ({
     lineHeight: '23px',
     letterSpacing: '0.15px',
     color: 'rgba(0, 0, 0, 0.87)',
-    marginBottom: `${theme.spacing(1)} !important`,
     marginLeft: `${theme.spacing(2)} !important`
   },
   userName: {
@@ -93,6 +86,8 @@ export default theme => ({
   },
   icon: {
     fontSize: '48px !important',
+    width: '48px !important',
+    height: '48px !important',
     marginBottom: theme.spacing(2),
     marginLeft: theme.spacing(2)
   }

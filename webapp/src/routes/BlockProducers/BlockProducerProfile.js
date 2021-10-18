@@ -131,10 +131,10 @@ const BlockProducerProfile = () => {
   useEffect(() => {
     const getBpData = async () => {
       if (state.blockProducers.data.length) {
-        // TODO: do a double check if this is necessary
         const bp = state.blockProducers.data.find(
           ({ owner }) => owner === account
         )
+
         setProducer(bp, true)
         setProfileData(bp)
 
@@ -148,9 +148,7 @@ const BlockProducerProfile = () => {
   }, [account])
 
   useEffect(() => {
-    if (!state.blockProducer) {
-      return
-    }
+    if (!state.blockProducer) return
 
     setProfileData(state.blockProducer)
   }, [state.blockProducer])
@@ -307,7 +305,6 @@ const BlockProducerProfile = () => {
               <GeneralInformation
                 classes={classes}
                 producer={state.blockProducer}
-                // edenRate={edenRate}
               />
             </Grid>
             <Grid style={{ marginTop: '-20px' }} item xs={12}>
@@ -362,6 +359,8 @@ const BlockProducerProfile = () => {
     </Grid>
   )
 }
+
+BlockProducerProfile.whyDidYouRender = true
 
 ProfileTitle.propTypes = {
   classes: PropTypes.object,
