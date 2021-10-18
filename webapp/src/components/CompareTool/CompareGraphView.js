@@ -47,7 +47,6 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
 
   return (
     <Box className={classes.containerList}>
-      {console.log({ SELECTED: selectedData })}
       {selectedData.map(data => (
         <ProducerChipAvatar
           data={data}
