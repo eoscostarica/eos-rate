@@ -38,6 +38,8 @@
     "loginUsername": "Nombre de usuario",
     "loginPassword": "Contraseña",
     "loginSignin": "Ingresar",
+    "welcome": "Bienvenido",
+    "loginToStart": "Inicie sesión para comenzar a calificar.",
     "loginValidationUsername": "El nombre de usuario es requerido",
     "loginValidationPassword": "La contraseña es requerida",
 

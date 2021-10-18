@@ -171,6 +171,7 @@ const CardData = ({
         {useRateButton && (
           <>
             <Button
+              className={classes.btn}
               aria-label='Add to comparison'
               onClick={toggleSelection(!isSelected, owner)}
               variant='outlined'
@@ -179,6 +180,7 @@ const CardData = ({
               {isSelected ? t('remove') : buttonLabel}
             </Button>
             <Button
+              className={classes.btn}
               component={forwardRef(function linkRef(props, ref) {
                 return (
                   <Link
@@ -199,6 +201,7 @@ const CardData = ({
         {!useRateButton && (
           <>
             <Button
+              className={classes.btn}
               variant='outlined'
               aria-label='Add to comparison'
               color={isSelected ? 'secondary' : 'primary'}

@@ -31,7 +31,7 @@ import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const INIT_RATING_STATE_DATA = {
+const ratingStateData = functionName => ({
   community: 1,
   communityEnabled: true,
   development: 1,
@@ -45,57 +45,56 @@ const INIT_RATING_STATE_DATA = {
   processing: false,
   txError: null,
   txSuccess: false
-}
+})
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
 })
 
-const RadarSection = ({ t, state, polarChartData, classes }) => {
-  return (
-    <>
-      <Grid className={classes.chartWrapperSliderView} item md={12} xs={12}>
-        <PolarChart data={polarChartData} showLegend />
-      </Grid>
-      <Grid className={classes.tableBox} item md={11} xs={12}>
-        <Table
-          rows={[
-            {
-              rater: t('globalRate'),
-              amount: state.blockProducer?.ratings_cntr || 0,
-              average: getAverageValue(_get(state.blockProducer, 'average', 0))
-            },
-            {
-              rater: t('edenRates'),
-              amount: state.blockProducer?.eden_ratings_cntr || 0,
-              average: getAverageValue(
-                _get(state.blockProducer, 'eden_average', 0)
-              )
-            },
-            {
-              rater: t('totalRates'),
-              amount: state.blockProducer?.totalStats?.ratings_cntr || 0,
-              average: formatNumber(
-                state.blockProducer?.totalStats?.average || 0.0,
-                1
-              )
-            }
-          ]}
-          heads={[t('raters'), t('amount'), t('average')]}
-        />
-      </Grid>
-    </>
-  )
-}
+const RadarSection = ({ t, state, polarChartData, classes }) => (
+  <>
+    <Grid className={classes.chartWrapperSliderView} item md={12} xs={12}>
+      <PolarChart data={polarChartData} showLegend />
+    </Grid>
+    <Grid className={classes.tableBox} item md={11} xs={12}>
+      <Table
+        rows={[
+          {
+            rater: t('globalRate'),
+            amount: state.blockProducer?.ratings_cntr || 0,
+            average: getAverageValue(_get(state.blockProducer, 'average', 0))
+          },
+          {
+            rater: t('edenRates'),
+            amount: state.blockProducer?.eden_ratings_cntr || 0,
+            average: getAverageValue(
+              _get(state.blockProducer, 'eden_average', 0)
+            )
+          },
+          {
+            rater: t('totalRates'),
+            amount: state.blockProducer?.totalStats?.ratings_cntr || 0,
+            average: formatNumber(
+              state.blockProducer?.totalStats?.average || 0.0,
+              1
+            )
+          }
+        ]}
+        heads={[t('raters'), t('amount'), t('average')]}
+      />
+    </Grid>
+  </>
+)
 
 RadarSection.propTypes = {
-  t: PropTypes.object,
+  t: PropTypes.any,
   state: PropTypes.object,
-  polarChartData: PropTypes.object,
+  polarChartData: PropTypes.array,
   classes: PropTypes.object
 }
 
 const BlockProducerRate = () => {
+  const initialRatingState = () => ratingStateData()
   const classes = useStyles()
   const { account } = useParams()
   const history = useHistory()
@@ -104,7 +103,7 @@ const BlockProducerRate = () => {
     state,
     { setProducer, setLastTransaction, handleMutationInsertUserRating }
   ] = useSharedState()
-  const [ratingState, setRatingState] = useState(INIT_RATING_STATE_DATA)
+  const [ratingState, setRatingState] = useState(initialRatingState)
   const [isRated, setIsRated] = useState(true)
   const [blockProducerLogo, setBlockProducerLogo] = useState(null)
   const [blockProducerTitle, setBlockProducerTitle] = useState('No Title')
@@ -112,8 +111,8 @@ const BlockProducerRate = () => {
   const [showMessage, setShowMessage] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
 
-  const handleStateChange = parameter => (event, value) => {
-    setRatingState({ ...ratingState, [parameter]: value })
+  const handleStateChange = parameter => (e, value) => {
+    setRatingState(prevRating => ({ ...prevRating, [parameter]: value }))
   }
 
   const handleClose = (event, reason) => {
@@ -298,8 +297,7 @@ const BlockProducerRate = () => {
 
   useEffect(() => {
     const getBpData = async () => {
-      if (state.blockProducers.data.length) {
-        // TODO: do a double check if this is necessary
+      if (state.blockProducers?.data?.length) {
         const bp = state.blockProducers.data.find(
           ({ owner }) => owner === account
         )
@@ -322,7 +320,19 @@ const BlockProducerRate = () => {
   }, [account])
 
   useEffect(() => {
-    if (state.user && state.blockProducer) {
+    if (state.blockProducer) {
+      if (!state.user) {
+        setProfileData(
+          state.blockProducer,
+          getBPRadarData({
+            name: t('myRate'),
+            parameters: getSavedRatingData({})
+          })
+        )
+
+        return
+      }
+
       const bpRated = (state.user?.userData?.userRates || []).find(
         rate => rate.owner === state.blockProducer.owner
       )
@@ -342,7 +352,7 @@ const BlockProducerRate = () => {
           setShowAlert(true)
         }
       } else {
-        setRatingState(INIT_RATING_STATE_DATA)
+        setRatingState(ratingState)
       }
       setIsRated(!!bpRated)
     }
@@ -471,6 +481,7 @@ const BlockProducerRate = () => {
                 <Grid item className={classes.centerContent} xs={6} md={6}>
                   <Button
                     disabled={!state.blockProducer}
+                    className={classes.btnOutline}
                     component={forwardRef((props, ref) => (
                       <Link
                         {...props}
@@ -489,7 +500,7 @@ const BlockProducerRate = () => {
                 </Grid>
                 <Grid item className={classes.centerContent} xs={6} md={6}>
                   <Button
-                    className='textPrimary'
+                    className={classes.raisedButton}
                     disabled={
                       showAlert ||
                       !state.blockProducer ||
@@ -536,5 +547,7 @@ const BlockProducerRate = () => {
     </Grid>
   )
 }
+
+BlockProducerRate.whyDidYouRender = true
 
 export default BlockProducerRate

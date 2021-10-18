@@ -18,7 +18,7 @@ export const getProducers = async (limit, orderBy) => {
     fetchPolicy: 'network-only'
   })
 
-  if (!list.length) return []
+  if (!list.length) return { data: [], rows: 0 }
 
   const resultProducers = list.map(producer => {
     return getBpDataModeled({

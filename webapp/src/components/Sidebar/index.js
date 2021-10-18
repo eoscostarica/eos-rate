@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import { NavLink as RouterNavLink, useHistory } from 'react-router-dom'
+import { NavLink as RouterNavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
@@ -10,15 +10,16 @@ import MuiListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
+import Avatar from '@mui/material/Avatar'
 import AccountIcon from '@mui/icons-material/AccountCircle'
 import { makeStyles } from '@mui/styles'
 import Scrollbar from 'react-perfect-scrollbar'
 import 'react-perfect-scrollbar/dist/css/styles.css'
 
 import { useSharedState } from '../../context/state.context'
+import LogIcon from '../../components/icon/logIcon'
 
 import styles from './styles'
-import eosrateImg from './eosrate256.png'
 
 const useStyles = makeStyles(styles)
 
@@ -81,7 +82,7 @@ ListItem.propTypes = {
 }
 
 const Sidebar = ({ routes, ...props }) => {
-  const history = useHistory()
+  const { t } = useTranslation('translations')
   const classes = useStyles()
   const [state] = useSharedState()
 
@@ -89,22 +90,16 @@ const Sidebar = ({ routes, ...props }) => {
     <Drawer {...props}>
       <Box className={classes.brand}>
         {state.user ? (
-          <>
-            <AccountIcon className={classes.icon} />
-            <Typography className={classes.welcome}>Welcome</Typography>
-            <Typography className={classes.userName}>
-              {state.user?.accountName || ''}
-            </Typography>
-          </>
+          <AccountIcon className={classes.icon} />
         ) : (
-          <img
-            alt='eos rate'
-            src={eosrateImg}
-            onClick={() => history.push('/')}
-            width={256}
-            height={75}
-          />
+          <Avatar className={classes.icon}>
+            <LogIcon />
+          </Avatar>
         )}
+        <Typography className={classes.welcome}>{t('welcome')}</Typography>
+        <Typography className={classes.userName}>
+          {state.user?.accountName || t('loginToStart')}
+        </Typography>
       </Box>
       <Divider />
       <Scrollbar className={classes.scrollbar}>
