@@ -134,7 +134,7 @@ const CompareGraphView = ({
       <Box className={classes.wrapperDesktop}>
         <Box className={classes.bodyModalView}>
           <Box className={classes.chartWrapper}>
-            <PolarChart data={selected.map(bp => bp?.data)} />
+            <PolarChart data={selected.map(bp => bp?.data).filter(bp => bp)} />
           </Box>
           {isProxy && selected.length > 0 && (
             <Box className={classes.proxyVote}>

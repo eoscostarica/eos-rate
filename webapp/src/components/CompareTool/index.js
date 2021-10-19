@@ -39,9 +39,11 @@ const CompareTool = ({
   const { t } = useTranslation('translations')
   const classes = useStyles()
   const [isCollapsedView, setIsCollapsedView] = useState(true)
-  const selectedData = selected.map(name =>
-    list.find(({ owner }) => name === owner)
-  )
+  const selectedData = selected.map(name => {
+    const tempBp = list.find(({ owner }) => name === owner)
+
+    return tempBp || { owner: name }
+  })
   const { proxy, producers } = _get(userInfo, 'voter_info', {
     proxy: '',
     producers: []
