@@ -20,18 +20,18 @@ spec:
                   /usr/bin/node /opt/application/src/libs/sync-stats.js;
                   /usr/bin/node /opt/application/src/libs/sync-ratings.js
               env:
-                - name: POSTGRES_HOST
-                  value: "${POSTGRES_HOST}"
-                - name: POSTGRES_DB
-                  value: "${POSTGRES_DB}"
-                - name: POSTGRES_PASSWORD
-                  value: "${POSTGRES_PASSWORD}"
-                - name: POSTGRES_PORT
-                  value: "${POSTGRES_PORT}"
-                - name: POSTGRES_SCHEMA
-                  value: "${POSTGRES_SCHEMA}"
-                - name: POSTGRES_USER
-                  value: "${POSTGRES_USER}"
+                - name: HAPI_POSTGRES_HOST
+                  value: "${HAPI_POSTGRES_HOST}"
+                - name: HAPI_POSTGRES_DB
+                  value: "${HAPI_POSTGRES_DB}"
+                - name: HAPI_POSTGRES_PASSWORD
+                  value: "${HAPI_POSTGRES_PASSWORD}"
+                - name: HAPI_POSTGRES_PORT
+                  value: "${HAPI_POSTGRES_PORT}"
+                - name: HAPI_POSTGRES_SCHEMA
+                  value: "${HAPI_POSTGRES_SCHEMA}"
+                - name: HAPI_POSTGRES_USER
+                  value: "${HAPI_POSTGRES_USER}"
                 - name: HAPI_EOS_API_ENDPOINT
                   value: https://api.eosio.cr
                 - name: HAPI_SERVER_ADDRESS
