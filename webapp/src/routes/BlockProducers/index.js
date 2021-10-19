@@ -142,6 +142,7 @@ const AllBps = () => {
 
   useEffect(() => {
     if (!state.user || state?.selectedProducers?.length > 0) return
+
     setSelectedProducers([
       ...state.selectedProducers,
       ...state?.user?.userData?.voter_info?.producers
