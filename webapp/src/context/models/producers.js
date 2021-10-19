@@ -216,7 +216,7 @@ export const getTotalStats = ({
   return {
     average,
     ratings_cntr:
-      producerData?.ratings_cntr || 0 + edenStats?.ratings_cntr || 0,
+      (producerData?.ratings_cntr || 0) + (edenStats?.ratings_cntr || 0),
     community,
     development,
     infrastructure,
