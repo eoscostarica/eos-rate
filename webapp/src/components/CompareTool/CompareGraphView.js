@@ -53,7 +53,7 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
           onHandleRemove={removeBP}
           classNames={classes}
           imageURL={_get(data, 'bpjson.org.branding.logo_256', null)}
-          key={`data-list-name-${data.owner}`}
+          key={`data-list-name-${data?.owner}`}
           defaultName='BP'
         />
       ))}
@@ -134,7 +134,7 @@ const CompareGraphView = ({
       <Box className={classes.wrapperDesktop}>
         <Box className={classes.bodyModalView}>
           <Box className={classes.chartWrapper}>
-            <PolarChart data={selected.map(({ data }) => ({ ...data }))} />
+            <PolarChart data={selected.map(bp => bp?.data)} />
           </Box>
           {isProxy && selected.length > 0 && (
             <Box className={classes.proxyVote}>

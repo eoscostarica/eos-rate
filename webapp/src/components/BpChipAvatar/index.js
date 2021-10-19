@@ -35,7 +35,7 @@ const ProducerChipAvatar = ({
               )}
             </Avatar>
           }
-          label={data.owner}
+          label={data?.owner}
         />
       )}
       {!isProxy && (
@@ -50,8 +50,8 @@ const ProducerChipAvatar = ({
               )}
             </Avatar>
           }
-          onDelete={() => onHandleRemove(data.owner)}
-          label={data.owner}
+          onDelete={() => onHandleRemove(data?.owner)}
+          label={data?.owner}
         />
       )}
     </>
