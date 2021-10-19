@@ -11,7 +11,7 @@ const HAPI_EOS_API_ENDPOINT =
   process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
 
-const getUserRatings = async (scope) => {
+const getUserRatings = async scope => {
   const eos = new JsonRpc(HAPI_EOS_API_ENDPOINT, { fetch })
 
   try {
@@ -32,30 +32,25 @@ const getUserRatings = async (scope) => {
   }
 }
 
-const updateUserRatingsAux = async (scope) => {
-  console.log(`==== Updating ratings for ${scope} ====`)
-  const userRatings = await getUserRatings(scope)
+const updateUserRatings = async () => {
+  console.log(`==== Updating ratings ====`)
 
-  userRatings.rows.forEach(async (rating) => {
-    const ratingsCore = {
-      user: rating.user,
-      bp: rating.bp,
-      ratings: {
-        transparency: rating.transparency || 0,
-        infrastructure: rating.infrastructure || 0,
-        trustiness: rating.trustiness || 0,
-        development: rating.development || 0,
-        community: rating.community || 0
-      }
-    }
+  const db = await massiveDB
+  if (!db) throw new Error('Missing massive instance')
+
+  const generalRatings = await getUserRatings(generalContractScope)
+  const edenRatings = await getUserRatings(edenContractScope)
+  const allRatings = [...generalRatings.rows, ...edenRatings.rows]
+
+  for (const singleRating of allRatings) {
+    const { user, bp, ...ratings } = singleRating
+    const ratingsCore = { user, bp, ratings }
 
     try {
-      const resultRatingsSave = await (
-        await massiveDB
-      ).user_ratings.save(ratingsCore)
+      const resultRatingsSave = await db.user_ratings.save(ratingsCore)
       const dbResult = resultRatingsSave
         ? resultRatingsSave
-        : await (await massiveDB).user_ratings.insert(ratingsCore)
+        : await db.user_ratings.insert(ratingsCore)
       console.log(
         `Save or insert of ${ratingsCore.user}-${ratingsCore.bp} was ${
           dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
@@ -64,12 +59,7 @@ const updateUserRatingsAux = async (scope) => {
     } catch (err) {
       console.log(`Error: ${err}`)
     }
-  })
-}
-
-const updateUserRatings = () => {
-  updateUserRatingsAux(generalContractScope)
-  updateUserRatingsAux(edenContractScope)
+  }
 }
 
 updateUserRatings()
