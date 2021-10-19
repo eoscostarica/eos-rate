@@ -1,9 +1,11 @@
 'use strict'
 const { HAPI_SERVER_PORT, HAPI_SERVER_ADDRESS } = process.env
 
-const updateBpStats = require('./libs/sync-bp-stats')
-const updateUserRatings = require('./libs/sync-user-rating')
-const accountValidation = require('./libs/valid-account-name')
+const {
+  updateBpStatsUtil,
+  updateUserRatingUtil,
+  validateAccountNameUtil
+} = require('./utils/')
 
 const Hapi = require('@hapi/hapi')
 
@@ -35,7 +37,7 @@ const init = async () => {
         const {
           ratingInput: { user, producer, transaction, isEden }
         } = input
-        const isValidAccountName = accountValidation([
+        const isValidAccountName = validateAccountNameUtil([
           { name: user, type: 'user account' },
           { name: producer, type: 'block producer' }
         ])
@@ -43,8 +45,8 @@ const init = async () => {
         if (!isValidAccountName.isValidAccountName)
           throw new Error(isValidAccountName.message)
 
-        const resultEden = await updateBpStats(producer)
-        const result = await updateUserRatings(
+        const resultEden = await updateBpStatsUtil(producer)
+        const result = await updateUserRatingUtil(
           user,
           producer,
           transaction,
