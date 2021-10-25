@@ -49,7 +49,7 @@ ExternalLink.propTypes = {
   className: PropTypes.string
 }
 
-const ListItem = ({ childrens, name, path, icon, isUserLogged }) => {
+const ListItem = ({ childrens, name, path, icon, isUserLogged, badge }) => {
   const classes = useStyles()
   const { t } = useTranslation('translations')
 
@@ -67,7 +67,13 @@ const ListItem = ({ childrens, name, path, icon, isUserLogged }) => {
         href={path}
       >
         {icon && <ListItemIcon>{icon}</ListItemIcon>}
-        <ListItemText primary={t(name)} />
+        <ListItemText
+          className={{ [classes.versionStyle]: badge }}
+          primary={t(name)}
+        />
+        {badge && (
+          <ListItemText className={classes.versionStyle} primary={badge} />
+        )}
       </MuiListItem>
     </Box>
   )
@@ -77,6 +83,7 @@ ListItem.propTypes = {
   childrens: PropTypes.array,
   name: PropTypes.string,
   path: PropTypes.string,
+  badge: PropTypes.string,
   icon: PropTypes.node,
   isUserLogged: PropTypes.bool
 }
