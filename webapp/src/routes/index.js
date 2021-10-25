@@ -102,7 +102,7 @@ const routes = [
   {
     name: 'version',
     badge: mainConfig.appVersion,
-    path: 'https://github.com/eoscostarica/full-stack-boilerplate/tags',
+    path: 'https://github.com/eoscostarica/eos-rate/releases',
     icon: <CallMergeIcon />,
     target: '_blank'
   },

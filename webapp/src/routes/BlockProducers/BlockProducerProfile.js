@@ -339,7 +339,7 @@ const BlockProducerProfile = () => {
                   rel='noopener'
                   target='_blank'
                   style={{ color: 'white' }}
-                  href={`${mainConfig.AdditionalResourcesblockExplorer}/transaction/${state.transaction?.transactionId}`}
+                  href={`${mainConfig.blockExplorer}/transaction/${state.transaction?.transactionId}`}
                 >
                   {state.transaction?.transactionId}
                 </MLink>

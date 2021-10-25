@@ -55,7 +55,8 @@ const CardData = ({
   average,
   rate,
   showOptions,
-  isNewRate
+  isNewRate,
+  disable
 }) => {
   const { t } = useTranslation('translations')
   const [open, setOpen] = useState(false)
@@ -176,6 +177,7 @@ const CardData = ({
               onClick={toggleSelection(!isSelected, owner)}
               variant='outlined'
               color={isSelected ? 'secondary' : 'primary'}
+              disabled={!isSelected && disable}
             >
               {isSelected ? t('remove') : buttonLabel}
             </Button>
@@ -230,7 +232,8 @@ CardData.propTypes = {
   average: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   rate: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   showOptions: PropTypes.bool,
-  isNewRate: PropTypes.bool
+  isNewRate: PropTypes.bool,
+  disable: PropTypes.bool
 }
 
 CardData.defaultProps = {
