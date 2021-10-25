@@ -223,6 +223,7 @@ const AllBps = () => {
                     ({ owner }) => owner === blockProducer.owner
                   )
                 }
+                disable={state?.selectedProducers?.length > 29}
               />
             </Box>
           ))}
