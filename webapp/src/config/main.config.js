@@ -1,4 +1,5 @@
-export const appVersion = process.env.REACT_APP_VERSION || 'v1.0'
+export const appVersion =
+  process.env.REACT_APP_VERSION.split('/').pop() || 'v1.0'
 export const name = process.env.REACT_APP_NAME
 export const title = process.env.REACT_APP_TITLE
 export const stage = process.env.REACT_APP_MAINNET_VERSION
