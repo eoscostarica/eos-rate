@@ -267,8 +267,10 @@ const BlockProducerRate = () => {
   const setProfileData = (bp, userDataSet) => {
     if (bp) {
       const edenDataSet = getBPRadarData({
+        colorString: 'edenRates',
         name: t('edenRates'),
-        parameters: getSavedRatingData(bp?.edenRate)
+        parameters: getSavedRatingData(bp?.edenRate),
+        visible: false
       })
 
       setBlockProducerTitle(
@@ -282,11 +284,17 @@ const BlockProducerRate = () => {
 
       if (bp.totalStats) {
         const totalStatsDataSet = getBPRadarData({
+          colorString: 'totalRates',
           name: t('totalRates'),
           parameters: getSavedRatingData(bp?.totalStats)
         })
         setPolarChartData([
-          { ...bp.data, name: t('globalRate'), data: generalRateData },
+          {
+            ...bp.data,
+            name: t('globalRate'),
+            data: generalRateData,
+            visible: false
+          },
           edenDataSet,
           userDataSet,
           totalStatsDataSet
@@ -305,6 +313,7 @@ const BlockProducerRate = () => {
         setProfileData(
           bp,
           getBPRadarData({
+            colorString: 'myRate',
             name: t('myRate'),
             parameters: getSavedRatingData({})
           })
@@ -325,6 +334,7 @@ const BlockProducerRate = () => {
         setProfileData(
           state.blockProducer,
           getBPRadarData({
+            colorString: 'myRate',
             name: t('myRate'),
             parameters: getSavedRatingData({})
           })
@@ -360,6 +370,7 @@ const BlockProducerRate = () => {
 
   useEffect(() => {
     const userDataSet = getBPRadarData({
+      colorString: 'myRate',
       name: t('myRate'),
       parameters: getRatingData()
     })
@@ -460,6 +471,7 @@ const BlockProducerRate = () => {
                     open={showMessage}
                     autoHideDuration={4000}
                     onClose={handleClose}
+                    className={classes.snackbarCenter}
                   >
                     <Alert onClose={handleClose} severity='warning'>
                       {t('rateWithoutLogin')}
@@ -467,8 +479,8 @@ const BlockProducerRate = () => {
                   </Snackbar>
                   <Snackbar
                     open={ratingState.txError}
-                    autoHideDuration={4000}
                     onClose={handleClose}
+                    className={classes.snackbarCenter}
                   >
                     <Alert onClose={handleClose} severity='error'>
                       {ratingState.txError}

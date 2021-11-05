@@ -215,6 +215,7 @@ const ProxyProfile = () => {
               open={showMessage}
               autoHideDuration={4000}
               onClose={handleClose}
+              className={classes.snackbarCenter}
             >
               <Alert onClose={handleClose} severity='warning'>
                 {t('voteWithoutLogin')}
@@ -222,7 +223,7 @@ const ProxyProfile = () => {
             </Snackbar>
             <Snackbar
               open={ratingState.txError}
-              autoHideDuration={4000}
+              className={classes.snackbarCenter}
               onClose={handleClose}
             >
               <Alert onClose={handleClose} severity='error'>
@@ -233,6 +234,7 @@ const ProxyProfile = () => {
               open={ratingState.txSuccess}
               autoHideDuration={4000}
               onClose={handleClose}
+              className={classes.snackbarCenter}
             >
               <Alert onClose={handleClose} severity='success'>
                 {t('success')}

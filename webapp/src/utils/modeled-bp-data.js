@@ -38,9 +38,10 @@ export default ({
       parameters
     },
     data: getBPRadarData({
-      name: `${_get(bp, 'bpjson.org.candidate_name', 'defaultString')}-${
+      colorString: `${_get(bp, 'bpjson.org.candidate_name', 'defaultString')}-${
         bp.owner
       } ${votesInEos}`,
+      name: _get(bp, 'bpjson.org.candidate_name', bp.owner),
       parameters
     })
   }

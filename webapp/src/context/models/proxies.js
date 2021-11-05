@@ -71,6 +71,7 @@ const getResultModeled = (proxies, promiseResolved) =>
       },
       averageParams,
       data: getBPRadarData({
+        colorString: proxy.owner,
         name: proxy.owner,
         parameters: averageParams
       }),

@@ -144,11 +144,15 @@ const CompareTool = ({
         </Box>
       )}
       <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
         open={message.txError}
-        autoHideDuration={4000}
         onClose={handleClose}
+        className={classes.snackbarCenter}
       >
-        <Alert onClose={handleClose} severity='error' className={classes.alert}>
+        <Alert onClose={handleClose} severity='error'>
           {message.txError}
         </Alert>
       </Snackbar>
@@ -156,12 +160,9 @@ const CompareTool = ({
         open={message.txSuccess}
         autoHideDuration={4000}
         onClose={handleClose}
+        className={classes.snackbarCenter}
       >
-        <Alert
-          onClose={handleClose}
-          severity='success'
-          className={classes.alert}
-        >
+        <Alert onClose={handleClose} severity='success'>
           {t('success')}
         </Alert>
       </Snackbar>

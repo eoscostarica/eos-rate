@@ -68,6 +68,7 @@ export default proxy => {
     },
     averageParams,
     data: getBPRadarData({
+      colorString: proxy.owner,
       name: proxy.owner,
       parameters: averageParams
     }),

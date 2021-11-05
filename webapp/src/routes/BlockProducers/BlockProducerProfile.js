@@ -94,9 +94,16 @@ const BlockProducerProfile = () => {
   })
 
   const setProfileData = bp => {
-    const userDataSet = getBPRadarData({
+    const edenDataSet = getBPRadarData({
+      colorString: 'edenRates',
       name: t('edenRates'),
-      parameters: getRatingData(bp?.edenRate)
+      parameters: getRatingData(bp?.edenRate),
+      visible: false
+    })
+    const userDataSet = getBPRadarData({
+      colorString: 'myRate',
+      name: t('myRate'),
+      parameters: getRatingData({})
     })
 
     setBpHasInformation(!!Object.values(bp.bpjson).length)
@@ -108,12 +115,14 @@ const BlockProducerProfile = () => {
 
     if (bp.totalStats) {
       const totalStatsDataSet = getBPRadarData({
+        colorString: 'totalRates',
         name: t('totalRates'),
         parameters: getRatingData(bp?.totalStats)
       })
 
       setPolarChartData([
-        { ...bp.data, name: t('eosRates') },
+        { ...bp.data, name: t('eosRates'), visible: false },
+        edenDataSet,
         userDataSet,
         totalStatsDataSet
       ])
@@ -333,26 +342,31 @@ const BlockProducerProfile = () => {
         onClose={handleClose}
         action={
           <Alert severity='success'>
-            <Fragment>
-              <Button color='secondary' size='small'>
-                <MLink
-                  rel='noopener'
-                  target='_blank'
-                  style={{ color: 'white' }}
-                  href={`${mainConfig.blockExplorer}/transaction/${state.transaction?.transactionId}`}
-                >
-                  {state.transaction?.transactionId}
-                </MLink>
-              </Button>
-              <IconButton
-                aria-label='close'
-                color='inherit'
-                className={classes.close}
-                onClick={handleClose}
+            <Button
+              color='secondary'
+              size='small'
+              className={classes.messageBtn}
+            >
+              <Typography className={classes.snackbarMessage}>
+                {`${t('transactionComplete')}:`}
+              </Typography>
+              <MLink
+                rel='noopener'
+                target='_blank'
+                className={classes.linkText}
+                href={`${mainConfig.blockExplorer}/transaction/${state.transaction?.transactionId}`}
               >
-                <CloseIcon />
-              </IconButton>
-            </Fragment>
+                {(state.transaction?.transactionId || '').slice(0, 8)}
+              </MLink>
+            </Button>
+            <IconButton
+              aria-label='close'
+              color='inherit'
+              className={classes.close}
+              onClick={handleClose}
+            >
+              <CloseIcon />
+            </IconButton>
           </Alert>
         }
       />

@@ -232,6 +232,7 @@ const Account = () => {
             open={showMessage}
             autoHideDuration={4000}
             onClose={handleClose}
+            className={classes.snackbarCenter}
           >
             <Alert
               onClose={handleClose}
@@ -243,8 +244,8 @@ const Account = () => {
           </Snackbar>
           <Snackbar
             open={ratingState.txError}
-            autoHideDuration={4000}
             onClose={handleClose}
+            className={classes.snackbarCenter}
           >
             <Alert
               onClose={handleClose}
@@ -258,6 +259,7 @@ const Account = () => {
             open={ratingState.txSuccess}
             autoHideDuration={4000}
             onClose={handleClose}
+            className={classes.snackbarCenter}
           >
             <Alert
               onClose={handleClose}

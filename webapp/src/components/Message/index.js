@@ -32,7 +32,12 @@ const Message = () => {
   }, [message])
 
   return (
-    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+    <Snackbar
+      open={open}
+      autoHideDuration={6000}
+      onClose={handleClose}
+      className={classes.snackbarCenter}
+    >
       <Alert
         severity={message?.type || 'info'}
         variant='filled'

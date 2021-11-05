@@ -49,7 +49,7 @@ const FilterBanner = ({ title, page, onFilterChange, hideFilter }) => {
         onClick={handleClick}
         className={clsx({ [classes.visibilityHidden]: hideFilter })}
       >
-        {t(state.sortBlockProducersBy.value)}
+        {`${t('sortBy')}: ${t(state.sortBlockProducersBy.value)}`}
       </Button>
       <Menu
         id='filter-menu'
