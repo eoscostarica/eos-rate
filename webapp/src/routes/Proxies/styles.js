@@ -249,5 +249,9 @@ export default theme => ({
   },
   paddingHorinzontal: {
     padding: theme.spacing(0, 1)
+  },
+  snackbarCenter: {
+    width: '100%',
+    justifyContent: 'center !important'
   }
 })

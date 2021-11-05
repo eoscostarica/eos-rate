@@ -97,5 +97,9 @@ export default theme => ({
     alignItems: 'center',
     display: 'flex'
   },
-  alert: { width: '100%' }
+  alert: { width: '100%' },
+  snackbarCenter: {
+    width: '100%',
+    justifyContent: 'center !important'
+  }
 })

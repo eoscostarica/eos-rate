@@ -17,6 +17,7 @@ const SharedStateContext = React.createContext()
 const initialValue = {
   useDarkMode: false,
   user: null,
+  loadingLogin: false,
   blockProducers: { data: [], rows: 0 },
   selectedProducers: [],
   blockProducer: null,
@@ -132,6 +133,12 @@ const sharedStateReducer = (state, action) => {
         transaction: action.transaction
       }
 
+    case 'loadingLogin':
+      return {
+        ...state,
+        loadingLogin: action.loading
+      }
+
     default: {
       throw new Error(`Unsupported action type: ${action.type}`)
     }
@@ -147,6 +154,7 @@ export const SharedStateProvider = ({ children, ual, ...props }) => {
 
   useEffect(() => {
     const load = async () => {
+      dispatch({ type: 'loadingLogin', loading: true })
       if (ual.activeUser) {
         const user = await getUserDataModeled(ual)
 
@@ -157,6 +165,7 @@ export const SharedStateProvider = ({ children, ual, ...props }) => {
       }
 
       dispatch({ type: 'ual', ual })
+      dispatch({ type: 'loadingLogin', loading: false })
     }
 
     load()

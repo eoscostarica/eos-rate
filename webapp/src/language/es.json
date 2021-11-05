@@ -94,7 +94,8 @@
     "community": "Mayor Calificación Comunidad",
     "trustiness": "Mayor Calificación Confianza",
     "development": "Mayor Calificación Desarrollo",
-    "transparency": "Mayor Calificación Transparencia"
+    "transparency": "Mayor Calificación Transparencia",
+    "sortBy": "Ordenado Por"
   },
 
   "not-found": {
@@ -189,7 +190,7 @@
     "communityTooltip": "Creación de valor comunitario a través de la educación y la promoción de charlas, chats, hackatones, conferencias, seminarios, espacios para desarrolladores y otros contenidos útiles.",
     "development": "Desarrollo",
     "developmentTooltip": "Conocimientos técnicos y uso de software de código abierto, scripts, marcos, billeteras, portales de votación, métricas, etc.",
-    "globalRate": "Evaluación General",
+    "globalRate": "Evaluación EOS",
     "myRate": "Mi Evaluación",
     "edenRates": "Evaluación Eden",
     "totalRates": "Calificación Total",
@@ -208,9 +209,10 @@
 
   "profile": {
     "generalInformation": "Información General",
-    "eosRates": "Calificación General",
+    "eosRates": "Calificación EOS",
     "edenRates": "Calificación Eden",
     "totalRates": "Calificación Total",
+    "myRate": "Mi Evaluación",
     "raters": "Calificadores",
     "amount": "Calificaciones",
     "rankings": "Promedio",
@@ -247,7 +249,8 @@
     "title": "Calificaciones de productor de bloques EOS",
     "proxyProfile": "Reseñas sobre EOS proxy",
     "interview": "Entrevista al PB:",
-    "additionalResources": "Recursos Adicionales:"
+    "additionalResources": "Recursos Adicionales:",
+    "transactionComplete": "Transacción Completada"
   },
 
   "about": {

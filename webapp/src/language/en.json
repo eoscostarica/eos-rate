@@ -94,7 +94,8 @@
     "community": "Top Rated Community",
     "trustiness": "Top Rated Trustiness",
     "development": "Top Rated Development",
-    "transparency": "Top Rated Transparency"
+    "transparency": "Top Rated Transparency",
+    "sortBy": "Sort By"
   },
 
   "not-found": {
@@ -189,7 +190,7 @@
     "communityTooltip": "Community value creation through education and promoting talks, chats, hackathons, conferences, seminars, developer spaces, and other useful content.",
     "development": "Development",
     "developmentTooltip": "Technical know-how and usage of open-source software, scripts, frameworks, wallets, voting portals, metrics, etc.",
-    "globalRate": "General Rating",
+    "globalRate": "EOS Rating",
     "myRate": "My Rating",
     "edenRates": "Eden Rating",
     "totalRates": "Total Rating",
@@ -208,9 +209,10 @@
 
   "profile": {
     "generalInformation": "General Information",
-    "eosRates": "General Rating",
+    "eosRates": "EOS Rating",
     "edenRates": "Eden Rating",
     "totalRates": "Total Rating",
+    "myRate": "My Rating",
     "raters": "Raters",
     "amount": "Ratings",
     "rankings": "Rankings",
@@ -247,7 +249,8 @@
     "title": "Block Producer Community Ratings for",
     "proxyProfile": "Reviews on EOS proxy account",
     "interview": "BP interview:",
-    "additionalResources": "Additional Resources:"
+    "additionalResources": "Additional Resources:",
+    "transactionComplete": "Transaction Completed"
   },
 
   "about": {

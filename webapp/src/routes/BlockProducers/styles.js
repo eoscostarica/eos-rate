@@ -311,6 +311,8 @@ export default theme => ({
     padding: '6px 16px !important'
   },
   snackbar: {
+    width: '100%',
+    justifyContent: 'center !important',
     '& .MuiSnackbarContent-root': {
       padding: 0
     },
@@ -318,6 +320,10 @@ export default theme => ({
       padding: 0
     },
     '& .MuiAlert-icon': {
+      alignItems: 'center'
+    },
+    '& .MuiAlert-message': {
+      display: 'flex',
       alignItems: 'center'
     }
   },
@@ -373,5 +379,25 @@ export default theme => ({
         width: '100% !important'
       }
     }
+  },
+  snackbarCenter: {
+    width: '100%',
+    justifyContent: 'center !important'
+  },
+  snackbarMessage: {
+    color: theme.palette.common.white,
+    fontWeight: '500 !important',
+    fontSize: '14px !important',
+    marginRight: `${theme.spacing(1)} !important`
+  },
+  messageBtn: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'baseline'
+  },
+  linkText: {
+    color: `${theme.palette.common.white} !important`,
+    textDecoration: 'none !important',
+    paddingTop: 2
   }
 })
