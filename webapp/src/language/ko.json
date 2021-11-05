@@ -190,7 +190,7 @@
     "communityTooltip": "교육 및 홍보를 통한 커뮤니티 가치 창출, 대화, 채팅, 해커톤, 컨퍼런스, 세미나, 개발자 공간 및 기타 유용한 콘텐츠.",
     "development": "개발",
     "developmentTooltip": "기술정보 - 오픈소스 기반의 사용정보,스크립트,프레임워크,월렛,투표포탈,메트릭스,등등등.",
-    "globalRate": "기본적인 평가",
+    "globalRate": "EOS 평가",
     "myRate": "나의 평가내역",
     "edenRates": "Eden 평가내역",
     "totalRates": "총 평점",
@@ -209,9 +209,10 @@
 
   "profile": {
     "generalInformation": "기본적인 정보",
-    "eosRates": "기본적인 평가",
+    "eosRates": "EOS 평가",
     "edenRates": "Eden 평가",
     "totalRates": "총 평점",
+    "myRate": "나의 평가내역",
     "raters": "평가자",
     "amount": "평가",
     "rankings": "평균",

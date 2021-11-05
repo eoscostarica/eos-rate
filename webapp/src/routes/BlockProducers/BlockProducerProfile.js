@@ -100,7 +100,6 @@ const BlockProducerProfile = () => {
       parameters: getRatingData(bp?.edenRate),
       visible: false
     })
-
     const userDataSet = getBPRadarData({
       colorString: 'myRate',
       name: t('myRate'),
