@@ -94,7 +94,8 @@
     "development": "개발지원 참여율",
     "infrastructure": "인프라구축 참여율",
     "transparency": "투명성",
-    "trustiness": "신뢰성"
+    "trustiness": "신뢰성",
+    "sortBy": "정렬 기준"
   },
 
   "not-found": {
@@ -247,7 +248,8 @@
     "title": "BPs 커뮤니티 평가하기",
     "proxyProfile": "EOS 프록시 어카운트 리뷰",
     "interview": "BP 인터뷰:",
-    "additionalResources": "자원지원"
+    "additionalResources": "자원지원",
+    "transactionComplete": "거래 완료"
   },
 
   "about": {

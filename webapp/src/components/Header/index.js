@@ -6,6 +6,7 @@ import { useHistory, Link } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar'
 import IconButton from '@mui/material/IconButton'
 import Box from '@mui/material/Box'
+import CircularProgress from '@mui/material/CircularProgress'
 import Typography from '@mui/material/Typography'
 import SearchIcon from '@material-ui/icons/Search'
 import Toolbar from '@mui/material/Toolbar'
@@ -27,7 +28,7 @@ import styles from './styles'
 
 const useStyles = makeStyles(styles)
 
-const AuthButton = memo(({ user, onLogin, onSignOut }) => {
+const AuthButton = memo(({ user, onLogin, onSignOut, loading }) => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
 
@@ -49,7 +50,11 @@ const AuthButton = memo(({ user, onLogin, onSignOut }) => {
           className={classes.onLogin}
           onClick={onLogin}
         >
-          <FingerprintIcon className={classes.iconLanguage} />
+          {loading ? (
+            <CircularProgress size={20} />
+          ) : (
+            <FingerprintIcon className={classes.iconLanguage} />
+          )}
           <Typography className={classes.textBtn}>
             {t('appBarSignIn')}
           </Typography>
@@ -64,7 +69,8 @@ AuthButton.displayName = 'AuthButton'
 AuthButton.propTypes = {
   user: PropTypes.any,
   onLogin: PropTypes.func,
-  onSignOut: PropTypes.func
+  onSignOut: PropTypes.func,
+  loading: PropTypes.bool
 }
 
 const SpecialTooltip = props => {
@@ -171,6 +177,7 @@ const Header = memo(({ onDrawerToggle }) => {
           </Box>
           <LanguageSelector />
           <AuthButton
+            loading={state.loadingLogin}
             user={state.user}
             onLogin={handleLogin}
             onSignOut={handleSignOut}
@@ -189,6 +196,7 @@ const Header = memo(({ onDrawerToggle }) => {
           </Box>
           <LanguageSelector />
           <AuthButton
+            loading={state.loadingLogin}
             user={state.user}
             onLogin={handleLogin}
             onSignOut={handleSignOut}

@@ -302,9 +302,6 @@ export default theme => ({
       marginTop: theme.spacing(2)
     }
   },
-  alert: {
-    width: '100%'
-  },
   proxyVote: {
     width: '100%',
     display: 'flex',
@@ -339,5 +336,9 @@ export default theme => ({
     [theme.breakpoints.up('sm')]: {
       display: 'none  !important'
     }
+  },
+  snackbarCenter: {
+    width: '100%',
+    justifyContent: 'center !important'
   }
 })

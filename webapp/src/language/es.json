@@ -94,7 +94,8 @@
     "community": "Mayor Calificación Comunidad",
     "trustiness": "Mayor Calificación Confianza",
     "development": "Mayor Calificación Desarrollo",
-    "transparency": "Mayor Calificación Transparencia"
+    "transparency": "Mayor Calificación Transparencia",
+    "sortBy": "Ordenado Por"
   },
 
   "not-found": {
@@ -247,7 +248,8 @@
     "title": "Calificaciones de productor de bloques EOS",
     "proxyProfile": "Reseñas sobre EOS proxy",
     "interview": "Entrevista al PB:",
-    "additionalResources": "Recursos Adicionales:"
+    "additionalResources": "Recursos Adicionales:",
+    "transactionComplete": "Transacción Completada"
   },
 
   "about": {
