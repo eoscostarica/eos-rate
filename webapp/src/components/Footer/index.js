@@ -13,6 +13,8 @@ import TwitterIcon from '@mui/icons-material/Twitter'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import Box from '@mui/material/Box'
 
+import { mainConfig } from '../../config'
+
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
@@ -28,26 +30,26 @@ const Footer = () => {
         <Toolbar className={classes.boxToolbar}>
           <Box className={classes.footerHome}>
             <Box className={classes.linksBox}>
-              <Link className={classes.linkHome} to='/block-producers'>
+              <Link className={classes.linkHome} to='/'>
                 {t('home')}
               </Link>
               <Link className={classes.linkHome} to='/block-producers'>
                 {t('blockProducers')}
               </Link>
-              <Link className={classes.linkHome} to='/block-producers'>
+              <Link className={classes.linkHome} to='/proxies'>
                 {t('proxies')}
               </Link>
-              <Link className={classes.linkHome} to='/block-producers'>
+              <Link className={classes.linkHome} to='/about'>
                 {t('about')}
               </Link>
-              <Link className={classes.linkHome} to='/block-producers'>
+              <Link className={classes.linkHome} to='/ricardian-contract'>
                 {t('ricardianContract')}
               </Link>
-              <Link className={classes.linkHome} to='/block-producers'>
+              <Link className={classes.linkHome} to='/help'>
                 {t('help')}
               </Link>
               <a
-                href='https://eoscostarica.io'
+                href={mainConfig.networkMonitor}
                 target='_blank'
                 rel='noopener noreferrer'
                 className={clsx(classes.linkHome, classes.network)}
@@ -64,28 +66,28 @@ const Footer = () => {
               </Typography>
               <Box className={classes.socialIconBox}>
                 <IconButton
-                  href='https://t.me/eoscr'
+                  href='https://eoscostarica.io/'
                   target='_blank'
                   color='inherit'
                 >
                   <FacebookRoundedIcon htmlColor='#fff' />
                 </IconButton>
                 <IconButton
-                  href='https://t.me/eoscr'
+                  href='https://eoscostarica.io/'
                   target='_blank'
                   color='inherit'
                 >
                   <InstagramIcon htmlColor='#fff' />
                 </IconButton>
                 <IconButton
-                  href='https://t.me/eoscr'
+                  href='https://eoscostarica.io/'
                   target='_blank'
                   color='inherit'
                 >
                   <TwitterIcon htmlColor='#fff' />
                 </IconButton>
                 <IconButton
-                  href='https://t.me/eoscr'
+                  href='https://github.com/eoscostarica/eos-rate'
                   target='_blank'
                   color='inherit'
                 >
