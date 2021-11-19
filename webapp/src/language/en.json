@@ -106,50 +106,17 @@
 
   "home": {
     "title": "EOS block producer ratings and BP voting portal - EOS Rate",
-    "cover": {
-      "title": "Raise Your Voice. Rate Block Producers.",
-      "paragraph": {
-        "subtitle1": "What is EOS Rate?",
-        "text1": "EOS Rate is an open-source dApp that allows EOS token holders to rate Block Producers (BPs) in just a few clicks. Users can access a rating system and voting portal, making it easier for token holders to make an informed decision.",
-        "text2": "EOS Rate gathers ratings to help capture a global collective opinion, or \"wisdom of the crowd\", and measure if voting patterns truly reflect voter sentiment.",
-        "subtitle2": "How Does EOS Rate Work?",
-        "text3": "To submit ratings, the token holders must sign in with their EOS wallet. This means that one account can only represent one rating submission per BP. The ratings are securely stored in the EOS blockchain to guarantee immutability.",
-        "text4": "Access the EOS Rate portal to submit your rating and make your voice count."
-      },
-      "cta": "Start Rating Now"
-    },
-    "subTopic": {
-      "videoUrl": "https://www.youtube.com/embed/saZnZqJsMhk",
-      "title": "Liquid Democracy",
-      "paragraph1": "Find the Block Producer that best represents you.",
-      "paragraph2": "EOS Rate was built by a community that believes in transparency. The tool generates profile pages for each Block Producer.  Using a unique radial component we call “LEAF” (Liquid EOS Attribute Factors) to compare the most relevant qualitative attributes of BPs visually.",
-      "subtitle": "Start Rating Now!",
-      "text": "If you have any questions or observations, please let us know through our",
-      "telegramGroup": "telegram group"
-    },
-    "ratingCategory": {
-      "title": "Rating Categories",
-      "transparency": {
-        "title": "Transparency",
-        "description": "Compliance with disclosure of ownership, complete bp.json, use of rewards, and financial stats."
-      },
-      "infrastructure": {
-        "title": "Infrastructure",
-        "description": "Stability and reliability of the EOS infrastructure."
-      },
-      "trustiness": {
-        "title": "Trustiness",
-        "description": "Collaboration and reputation among the EOS community."
-      },
-      "community": {
-        "title": "Community",
-        "description": "Community value creation through education and promoting talks, chats, hackathons, conferences, seminars, developer spaces, and other useful content."
-      },
-      "development": {
-        "title": "Development",
-        "description": "Technical know-how and usage of open-source software, scripts, frameworks, wallets, voting portals, metrics, etc."
-      }
-    }
+    "videoUrl": "https://www.youtube.com/embed/saZnZqJsMhk",
+    "knowBP": "know your block producers",
+    "welcome": "Welcome to EOS Rate 2.0",
+    "ratinInfo": "Rating and voting the right BPs is critical for the present and future of the EOS Mainnet.",
+    "startRating": "Start rating",
+    "tour": "Watch our Quick Tour",
+    "learnMore": "Learn More",
+    "mostVoted": "Most Voted Block Producers",
+    "bpList": "Go to BP Listings",
+    "mention": "Our Latest Mentions on Twitter",
+    "moreNews": "More News"
   },
 
   "account": {
@@ -204,7 +171,17 @@
   },
 
   "footer": {
-    "legend": "Want to contribute ? This dApp is open-source"
+    "legend": "Want to contribute?",
+    "legend2": "This dApp is open-source",
+    "home": "Home",
+    "blockProducers": "Block Producers",
+    "networkMonitor": "EOS Network Monitor",
+    "proxies": "Proxies",
+    "about": "About EOS Rate",
+    "ricardianContract": "Ricardian Contract",
+    "help": "Help",
+    "madeBy": "Made for the community by EOS Costa Rica",
+    "eosRate": "EOSRate.io 2021"
   },
 
   "profile": {

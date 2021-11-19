@@ -1,186 +1,220 @@
 export default theme => ({
-  spacingContainers: {
-    padding: theme.spacing(8, 2),
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(6, 2)
-    }
-  },
   mainCoverContainer: {
-    backgroundColor: theme.palette.surface.main,
     display: 'flex',
-    justifyContent: 'center'
-  },
-  mainSubTopicContainer: {
-    backgroundColor: theme.palette.surface.main,
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  rateCategoryContainer: {
-    backgroundColor: '#f5f5f5',
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  coverContainer: {
-    padding: 0,
-    color: '#433F5B',
-    maxWidth: '1024px',
-    backgroundColor: theme.palette.surface.main
-  },
-  mainTitle: {
-    marginBottom: '12.5px !important',
-    fontWeight: 'normal',
-    fontStretch: 'normal',
-    fontStyle: 'normal',
-    lineHeight: '1.17',
-    letterSpacing: 'normal',
-    textAlign: 'left',
-    color: theme.palette.primary.dark,
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '2.03rem !important',
-      marginBottom: 0
-    }
-  },
-  btnWrapper: {
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  btnMobile: {
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: 336
-    }
-  },
-  ctaContainer: {
-    textAlign: 'center',
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-      justifyContent: 'center'
-    }
-  },
-  chartContainer: {
-    width: '100%',
-    display: 'none',
+    flexDirection: 'column',
     alignItems: 'center',
+    backgroundColor: theme.palette.surface.main,
+    padding: theme.spacing(10, 1, 0, 1),
+    minHeight: 927
+  },
+  gradientBg: {
+    background:
+      'linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%)',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginBottom: theme.spacing(14)
+  },
+  headerBg: {
+    width: '100%',
+    marginTop: theme.spacing(4),
+    backgroundColor: theme.palette.surface.main,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundImage: 'url("bg.png")',
+    backgroundPosition: 'bottom',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover'
+  },
+  headerTitle: {
+    maxWidth: 893,
+    fontStyle: 'normal',
+    fontWeight: '500 !important',
+    fontSize: '42px !important',
+    display: 'flex',
+    alignItems: 'center',
+    textAlign: 'center',
+    letterSpacing: '1.5px !important',
+    color: theme.palette.primary.main,
+    lineHeight: '1 !important',
+    marginBottom: `${theme.spacing(5)} !important`,
+    textTransform: 'uppercase',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '66px !important',
+      lineHeight: '68px !important'
+    },
     [theme.breakpoints.up('md')]: {
-      display: 'flex',
-      width: '45%',
-      '& .highcharts-container ': {
-        height: '500px !important',
-        width: '100% !important',
-        '& > svg': {
-          height: '500px !important',
-          width: '100% !important'
-        }
+      fontSize: '96px !important',
+      lineHeight: '98px !important'
+    }
+  },
+  headerSubtitle: {
+    maxWidth: 860,
+    color: theme.palette.primary.main,
+    fontWeight: '500 !important',
+    fontSize: '24px !important',
+    lineHeight: '30px !important',
+    display: 'flex',
+    alignItems: 'center',
+    textAlign: 'center',
+    letterSpacing: '0.25px',
+    marginBottom: `${theme.spacing(2)} !important`,
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '34px !important',
+      lineHeight: '40px !important'
+    }
+  },
+  headerInfo: {
+    fontWeight: 'normal !important'
+  },
+  btnStartRate: {
+    width: 277,
+    height: 58,
+    marginTop: `${theme.spacing(8)} !important`
+  },
+  videoBox: {
+    display: 'flex',
+    backgroundColor: 'rgba(0, 0, 0, 0.87)',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  video: {
+    height: 'auto',
+    width: '100%',
+    maxWidth: 1085,
+    [theme.breakpoints.up('sm')]: {
+      height: 500
+    }
+  },
+  videoTitle: {
+    margin: `${theme.spacing(10, 0, 2, 0)} !important`,
+    fontStyle: 'normal',
+    fontWeight: '500 !important',
+    fontSize: '24px !important',
+    lineHeight: '30px !important',
+    display: 'flex',
+    alignItems: 'center',
+    textAlign: 'center',
+    letterSpacing: '0.25px !important',
+    color: theme.palette.common.white,
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '34px !important',
+      lineHeight: '40px !important'
+    }
+  },
+  link: {
+    margin: `${theme.spacing(4, 0, 3, 0)} !important`,
+    color: `${theme.palette.common.white} !important`,
+    textTransform: 'uppercase',
+    fontWeight: '500 !important',
+    fontSize: '12px !important',
+    lineHeight: '12px !important',
+    display: 'flex',
+    alignItems: 'center',
+    textAlign: 'center',
+    letterSpacing: '1px !important',
+    '& svg': {
+      fontSize: '12px !important',
+      marginLeft: theme.spacing(1)
+    },
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '14px !important',
+      lineHeight: '16px !important',
+      '& svg': {
+        fontSize: '14px !important'
       }
     }
   },
-  chartContainerMobile: {
+  wrapperGrid: {
+    paddingBottom: theme.spacing(4),
+    maxWidth: '100%',
+    margin: '0 auto',
+    '& #cardBox1': {
+      display: 'none',
+      [theme.breakpoints.up('sm')]: {
+        display: 'initial'
+      }
+    },
+    '& #cardBox2': {
+      display: 'none',
+      [theme.breakpoints.up('mdd')]: {
+        display: 'initial'
+      }
+    }
+  },
+  gridRow: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+    justifyContent: 'center'
+  },
+  gridItem: {
+    flexBasis: '100%',
+    '-ms-flex': 'auto',
     width: '100%',
-    '& .highcharts-container ': {
-      height: '400px !important',
-      width: '100% !important',
-      '& > svg': {
-        height: '400px !important',
+    position: 'relative',
+    padding: 10,
+    boxSizing: 'border-box',
+    '& iframe': {
+      width: '100% !important'
+    },
+    [theme.breakpoints.up('sm')]: {
+      flexBasis: '50%',
+      '& iframe': {
+        width: '100% !important'
+      }
+    },
+    [theme.breakpoints.up('mdd')]: {
+      flexBasis: '33.33%',
+      '& iframe': {
         width: '100% !important'
       }
     }
   },
-  subtitle: {
-    marginBottom: `${theme.spacing(1)} !important`,
-    fontWeight: '500',
-    fontStretch: 'normal',
-    fontStyle: 'normal',
-    lineHeight: '23px !important',
-    letterSpacing: '0.15px !important',
-    textAlign: 'left',
-    color: theme.palette.primary.dark,
-    fontSize: 20
-  },
-  leftCoverBox: {
+  blockProducers: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    '& .MuiTypography-body2': {
-      lineHeight: '28px',
-      letterSpacing: '0.44px',
-      fontSize: 16,
-      color: theme.palette.common.black
-    },
-    [theme.breakpoints.up('md')]: {
-      width: '55%'
-    }
-  },
-  ratingContainer: {
-    maxWidth: '1024px'
-  },
-  ratingTitle: {
-    fontWeight: '500',
-    fontStretch: 'normal',
-    fontStyle: 'normal',
-    lineHeight: '23px !important',
-    letterSpacing: '0.15px !important',
-    textAlign: 'left',
-    color: theme.palette.primary.dark,
-    fontSize: 20,
-    display: 'flex',
-    marginBottom: 12.5
-  },
-  paragraph: {
-    marginLeft: `${theme.spacing(4.5)} !important`,
-    lineHeight: '28px !important',
-    letterSpacing: '0.44px !important',
-    color: theme.palette.common.black
-  },
-  subTitleContainer: {
-    display: 'flex',
     alignItems: 'center',
-    paddingTop: 6
+    padding: `${theme.spacing(5, 2, 2, 2)} !important`,
+    [theme.breakpoints.up('sm')]: {
+      flexBasis: '50%',
+      flexDirection: 'row'
+    }
   },
-  iconStyle: {
-    marginRight: theme.spacing(2),
-    marginTop: theme.spacing(1),
-    color: '#433F5B'
+  votes: {
+    fontStyle: 'normal !important',
+    fontWeight: '500 !important',
+    fontSize: '28px !important',
+    lineHeight: '40px !important',
+    letterSpacing: '0.25px !important',
+    color: `${theme.palette.primary.main} !important`,
+    textAlign: 'center',
+    marginBottom: `${theme.spacing(2)} !important`,
+    [theme.breakpoints.up('sm')]: {
+      textAlign: 'left',
+      fontSize: '34px !important',
+      marginBottom: '0 !important'
+    }
   },
-  subTopicContainer: {
-    maxWidth: '1024px',
+  bpList: {
+    fontStyle: 'normal !important',
+    fontWeight: '500 !important',
+    fontSize: '14px !important',
+    lineHeight: '16px !important',
+    textAlign: 'center',
+    letterSpacing: '1px',
+    textTransform: 'uppercase',
+    color: 'rgba(0, 0, 0, 0.6) !important',
+    textDecoration: 'none !important',
     display: 'flex',
-    flexDirection: 'column',
-    [theme.breakpoints.up('md')]: {
-      flexDirection: 'row',
-      justifyContent: 'space-between'
+    '& svg': {
+      fontSize: '14px !important',
+      marginLeft: theme.spacing(1)
     }
   },
-  ratingParagraph: {
-    color: theme.palette.grey[600]
-  },
-  gridContent: {
-    padding: '2%',
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '50%'
-    }
-  },
-  videoBox: {
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '50%'
-    }
-  },
-  link: {
-    color: theme.palette.grey[600],
-    fontWeight: '500',
-    textDecoration: 'none'
-  },
-  mobileView: {
-    display: 'flex',
-    flexDirection: 'column',
-    margin: '-10px 0 25px 0',
-    [theme.breakpoints.up('md')]: {
-      display: 'none'
-    }
-  },
-  desktopView: {
-    display: 'flex'
+  twitter: {
+    backgroundColor: theme.palette.common.white
   }
 })
