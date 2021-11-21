@@ -67,27 +67,13 @@ const Home = () => {
         <Box className={classes.video}>
           <Video src={t('videoUrl')} />
         </Box>
-        <Link
-          component='button'
-          variant='body2'
-          className={classes.link}
-          onClick={() => {
-            console.info("I'm a button.")
-          }}
-        >
+        <Link component='button' variant='body2' className={classes.link}>
           {t('learnMore')} <ArrowForwardIosIcon />
         </Link>
       </Box>
       <Box className={classes.blockProducers}>
         <Typography className={classes.votes}>{t('mostVoted')}</Typography>
-        <Link
-          component='button'
-          variant='body2'
-          className={classes.bpList}
-          onClick={() => {
-            console.info("I'm a button.")
-          }}
-        >
+        <Link component='button' variant='body2' className={classes.bpList}>
           {t('bpList')} <ArrowForwardIosIcon />
         </Link>
       </Box>
@@ -124,14 +110,7 @@ const Home = () => {
       </Box>
       <Box className={clsx(classes.blockProducers, classes.twitter)}>
         <Typography className={classes.votes}>{t('mention')}</Typography>
-        <Link
-          component='button'
-          variant='body2'
-          className={classes.bpList}
-          onClick={() => {
-            console.info("I'm a button.")
-          }}
-        >
+        <Link component='button' variant='body2' className={classes.bpList}>
           {t('moreNews')} <ArrowForwardIosIcon />
         </Link>
       </Box>

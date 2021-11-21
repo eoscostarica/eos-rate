@@ -18,6 +18,7 @@ import { mainConfig } from '../../config'
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
+const currentYear = new Date().getFullYear()
 
 const Footer = () => {
   const classes = useStyles()
@@ -108,7 +109,7 @@ const Footer = () => {
               {t('madeBy')}
             </Typography>
             <Typography className={classes.centerFooterText}>
-              {t('eosRate')}
+              {`${t('eosRate')} ${currentYear}`}
             </Typography>
           </Box>
         </Toolbar>

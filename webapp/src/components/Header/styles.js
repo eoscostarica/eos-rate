@@ -128,5 +128,12 @@ export default theme => ({
   },
   logoTypeUSerSize: {
     width: 28
+  },
+  userInfoBox: {
+    marginRight: '10px',
+    marginTop: '5px'
+  },
+  infoBox: {
+    marginTop: theme.spacing(1)
   }
 })

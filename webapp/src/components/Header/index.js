@@ -163,7 +163,7 @@ const Header = memo(({ onDrawerToggle, showMenubar }) => {
             <Typography>Menu</Typography>
           </Box>
           <Box className={clsx(classes.homeSvgs, classes.desktopSection)}>
-            <Box style={{ marginRight: '10px', marginTop: '5px' }}>
+            <Box className={classes.useInfoBox}>
               <UserInformationByType user={state.user} />
             </Box>
             <LanguageSelector />
@@ -175,7 +175,7 @@ const Header = memo(({ onDrawerToggle, showMenubar }) => {
             />
           </Box>
           <Box className={clsx(classes.homeSvgs, classes.mobileSection)}>
-            <Box style={{ marginTop: 8 }}>
+            <Box className={classes.infoBox}>
               <UserInformationByType user={state.user} />
             </Box>
             <LanguageSelector />
@@ -213,7 +213,7 @@ const Header = memo(({ onDrawerToggle, showMenubar }) => {
           <InputAutocomplete />
         </Box>
         <Box className={classes.desktopSection}>
-          <Box style={{ marginRight: '10px', marginTop: '5px' }}>
+          <Box className={classes.useInfoBox}>
             <UserInformationByType user={state.user} />
           </Box>
           <LanguageSelector />
@@ -232,7 +232,7 @@ const Header = memo(({ onDrawerToggle, showMenubar }) => {
           >
             <SearchIcon />
           </IconButton>
-          <Box style={{ marginTop: 8 }}>
+          <Box className={classes.infoBox}>
             <UserInformationByType user={state.user} />
           </Box>
           <LanguageSelector />
