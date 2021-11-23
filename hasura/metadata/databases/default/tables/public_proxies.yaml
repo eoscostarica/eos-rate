@@ -3,8 +3,10 @@ table:
   schema: public
 select_permissions:
 - permission:
+    allow_aggregations: true
     columns:
     - background
+    - filter_name
     - logo_256
     - name
     - owner

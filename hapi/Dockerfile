@@ -1,4 +1,4 @@
-FROM node:12.16.2-alpine
+FROM node:12.22.6-alpine
 
 # Create app directory
 WORKDIR /opt/application

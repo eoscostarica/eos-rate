@@ -4,9 +4,9 @@ const EosApi = require('eosjs-api')
 const fetch = require('node-fetch')
 const { massiveDB } = require('../config')
 
-const HAPI_EOS_API_ENDPOINT = process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+const HAPI_EOS_API_ENDPOINT =
+  process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
 const HAPI_PROXY_CONTRACT = process.env.HAPI_PROXY_CONTRACT || 'proxyaccount'
-
 
 const getProxiesData = async () => {
   console.log('==== Updating proxies ====')
@@ -19,7 +19,7 @@ const getProxiesData = async () => {
   let proxies
 
   try {
-    ({rows: proxies} = await eos.get_table_rows({
+    ;({ rows: proxies } = await eos.get_table_rows({
       json: true,
       code: HAPI_PROXY_CONTRACT,
       scope: HAPI_PROXY_CONTRACT,
@@ -28,7 +28,7 @@ const getProxiesData = async () => {
       reverse: false,
       show_payer: false
     }))
-  } catch (err) { 
+  } catch (err) {
     console.log(`Database connection error ${err}`)
     return []
   }
@@ -38,11 +38,25 @@ const getProxiesData = async () => {
 
     if (account && account.voter_info && account.voter_info.is_proxy) {
       proxy.voter_info = account.voter_info
+
       try {
-        const resultProxySave = await (await massiveDB).proxies.save(proxy)
-        const dbResult = resultProxySave ? resultProxySave : await (await massiveDB).proxies.insert(proxy)
-        console.log(`Save or insert of ${proxy.owner} was ${dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'}`)
-      } catch (err) { console.log(`Error: ${err}`) }
+        const resultProxySave = await (
+          await massiveDB
+        ).proxies.save({
+          ...proxy,
+          filter_name: (proxy.name || null).toLowerCase()
+        })
+        const dbResult = resultProxySave
+          ? resultProxySave
+          : await (await massiveDB).proxies.insert(proxy)
+        console.log(
+          `Save or insert of ${proxy.owner} was ${
+            dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
+          }`
+        )
+      } catch (err) {
+        console.log(`Error: ${err}`)
+      }
     } else console.log(`${proxy.owner} is not a proxy`)
   })
 }

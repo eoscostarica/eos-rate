@@ -21,7 +21,7 @@
     "eosjs-api": "^7.0.4",
     "lint": "^0.7.0",
     "massive": "^6.9.1",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.2",
     "npm-check": "^5.9.2",
     "request": "^2.88",
     "request-promise": "^4.2.6"

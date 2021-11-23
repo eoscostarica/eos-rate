@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(demo)
+project(rateproducer)
 
 
 set(CMAKE_CXX_STANDARD 20)
