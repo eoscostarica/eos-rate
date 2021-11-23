@@ -27,7 +27,8 @@ const initialValue = {
   proxies: { data: [], rows: 0 },
   selectedProxies: [],
   proxy: null,
-  compareProxyToolVisible: false
+  compareProxyToolVisible: false,
+  homeProducers: []
 }
 
 const sharedStateReducer = (state, action) => {
@@ -137,6 +138,12 @@ const sharedStateReducer = (state, action) => {
       return {
         ...state,
         loadingLogin: action.loading
+      }
+
+    case 'setHomeProducers':
+      return {
+        ...state,
+        homeProducers: action.homeProducers
       }
 
     default: {
@@ -282,6 +289,38 @@ export const useSharedState = () => {
     dispatch({ type: 'setProducer', blockProducer })
   }
 
+  const setHomeProducers = async bpList => {
+    let homeProducers = bpList
+
+    if (!homeProducers) {
+      homeProducers = await getProducers(3, [{ total_votes: 'desc' }])
+    }
+
+    const allBps = []
+
+    homeProducers.data.forEach(bp => {
+      const totalStats = getTotalStats({
+        producerData: {
+          ...bp?.system?.parameters,
+          average: bp?.average,
+          ratings_cntr: bp?.ratings_cntr
+        },
+        edenStats: bp?.edenRate,
+        statsAmount: 5,
+        oneStat: 1
+      })
+      bp = {
+        ...bp,
+        totalStats
+      }
+      allBps.push(bp)
+    })
+
+    homeProducers = { ...homeProducers, data: allBps }
+
+    dispatch({ type: 'setHomeProducers', homeProducers })
+  }
+
   const handleMutationInsertUserRating = async ({
     ual,
     user,
@@ -370,7 +409,8 @@ export const useSharedState = () => {
       setProxies,
       setProxy,
       setCompareProxyTool,
-      setSelectedProxies
+      setSelectedProxies,
+      setHomeProducers
     }
   ]
 }

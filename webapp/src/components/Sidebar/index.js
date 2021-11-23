@@ -49,7 +49,7 @@ ExternalLink.propTypes = {
   className: PropTypes.string
 }
 
-const ListItem = ({ childrens, name, path, icon, isUserLogged, badge }) => {
+const ListItem = ({ name, path, icon, isUserLogged, badge }) => {
   const classes = useStyles()
   const { t } = useTranslation('translations')
 
@@ -80,7 +80,6 @@ const ListItem = ({ childrens, name, path, icon, isUserLogged, badge }) => {
 }
 
 ListItem.propTypes = {
-  childrens: PropTypes.array,
   name: PropTypes.string,
   path: PropTypes.string,
   badge: PropTypes.string,

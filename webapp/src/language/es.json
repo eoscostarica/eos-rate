@@ -106,50 +106,17 @@
 
   "home": {
     "title": "Productores de bloques y herramienta para votar por BP EOS",
-    "cover": {
-      "title": "Califique fácilmente a los productores de bloques EOS",
-      "paragraph": {
-        "subtitle1": "¿Qué es EOS Rate?",
-        "text1": "EOS Rate es una aplicación descentralizada (dApp) de código abierto que permite a poseedores de tokens EOS calificar productores de bloques (BPs) en tan solo unos clics. Los usuarios pueden acceder a un sistema de calificaciones y portal de votos, lo que ayuda a los dueños de tokens tomar decisiones informadas.",
-        "text2": "Además, la intención de EOS Rate es recolectar calificaciones globales para capturar la opinión colectiva y medir si los patrones de votación reflejan el sentimiento de los votantes.",
-        "subtitle2": "¿Cómo funciona EOS Rate?",
-        "text3": "Para empezar a calificar, los dueños de tokens deberán iniciar una sesión usando su billetera EOS. Esto significa que una cuenta representará una calificación por cada BP. Las calificaciones quedarán registradas de forma segura en la blockchain EOS para garantizar la inmutabilidad.",
-        "text4": "Ingresa al portal de EOS Rate para empezar a calificar y haz que tu voz cuente."
-      },
-      "cta": "Empieza a calificar ahora"
-    },
-    "subTopic": {
-      "videoUrl": "https://www.youtube.com/embed/saZnZqJsMhk",
-      "title": "Democracia líquida",
-      "paragraph1": "Encuentra el productor de bloques que mejor te represente.",
-      "paragraph2": "EOS Rate fue construido por una comunidad que cree en la transparencia. La herramienta genera páginas de perfil de los productores de bloques. Utiliza un componente radial único que llamamos \"LEAF\" (Factores de atributos de EOS líquidos) para ayudarlo a comparar visualmente los atributos cualitativos más relevantes de los Productores de bloques, lo que facilita a los titulares de fichas hacer un voto informado.",
-      "subtitle": "¡Empieza a calificar ahora!",
-      "text": "Si tienes preguntas u observaciones, déjanos saber a través de nuestro",
-      "telegramGroup": "grupo de telegram"
-    },
-    "ratingCategory": {
-      "title": "Categorías de Calificación",
-      "transparency": {
-        "title": "Transparencia",
-        "description": "Cumplimiento de la divulgación de la propiedad, bp.json completo, uso de recompensas y estadísticas financieras."
-      },
-      "infrastructure": {
-        "title": "Infraestructura",
-        "description": "Estabilidad y confiabilidad de la infraestructura EOS."
-      },
-      "trustiness": {
-        "title": "Lealtad",
-        "description": "Colaboración y reputación entre la comunidad EOS."
-      },
-      "community": {
-        "title": "Comunidad",
-        "description": "Creación de valor comunitario a través de la educación y la promoción de charlas, chats, hackatones, conferencias, seminarios, espacios para desarrolladores y otro contenido útil."
-      },
-      "development": {
-        "title": "Desarrollo",
-        "description": "Conocimientos técnicos y uso de software de código abierto, scripts, marcos, billeteras, portales de votación, métricas, etc."
-      }
-    }
+    "videoUrl": "https://www.youtube.com/embed/saZnZqJsMhk",
+    "knowBP": "conoce a tus productores de bloques",
+    "welcome": "Bienvenido a EOS Rate 2.0",
+    "ratinInfo": "Calificar y votar los BP correctos es fundamental para el presente y el futuro de EOS Mainnet.",
+    "startRating": "Comenzar calificación",
+    "tour": "Mira nuestro recorrido rápido",
+    "learnMore": "Aprende más",
+    "mostVoted": "Productores de bloques más votados",
+    "bpList": "Ir a listados de BP",
+    "mention": "Nuestras últimas menciones en Twitter",
+    "moreNews": "Mas noticias"
   },
 
   "account": {
@@ -204,7 +171,17 @@
   },
 
   "footer": {
-    "legend": "¿Quieres contribuir? Este dApp es código abierto."
+    "legend": "¿Quieres contribuir?",
+    "legend2": "Este dApp es código abierto.",
+    "home": "Página Principal",
+    "blockProducers": "Productores de Bloques",
+    "networkMonitor": "Monitor de Red EOS",
+    "proxies": "Proxies",
+    "about": "Acerca de EOS Rate",
+    "ricardianContract": "Contratos Ricardianos",
+    "help": "Ayuda",
+    "madeBy": "Hecho para la comunidad por EOS Costa Rica",
+    "eosRate": "EOSRate.io"
   },
 
   "profile": {
