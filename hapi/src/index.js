@@ -26,7 +26,7 @@ const init = async () => {
   server.route({
     method: 'POST',
     path: '/ratebp',
-    handler: async (req) => {
+    handler: async req => {
       try {
         const {
           payload: { input }
@@ -64,12 +64,10 @@ const init = async () => {
 
   await server.start()
   console.log(`🚀 Server ready at ${server.info.uri}`)
-  server
-    .table()
-    .forEach((route) => console.log(`${route.method}\t${route.path}`))
+  server.table().forEach(route => console.log(`${route.method}\t${route.path}`))
 }
 
-process.on('unhandledRejection', (err) => {
+process.on('unhandledRejection', err => {
   console.log(err)
   process.exit(1)
 })

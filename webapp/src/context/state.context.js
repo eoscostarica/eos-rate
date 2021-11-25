@@ -234,7 +234,7 @@ export const useSharedState = () => {
 
     const allBps = []
 
-    blockProducers.data.forEach(bp => {
+    blockProducers?.data?.forEach(bp => {
       const totalStats = getTotalStats({
         producerData: {
           ...bp?.system?.parameters,
@@ -335,19 +335,19 @@ export const useSharedState = () => {
       bp,
       result,
       transaction,
-      blockProducers: state.blockProducers,
+      blockProducers: state?.blockProducers,
       isEden: state?.user?.userData?.edenMember,
       ...ratings
     })
 
-    setProducer(ratingData.currentBP, true)
+    setProducer(ratingData?.currentBP, true)
     setProducers(30, null, {
-      ...state.blockProducers,
-      data: ratingData.producerUpdatedList
+      ...state?.blockProducers,
+      data: ratingData?.producerUpdatedList
     })
 
     const userRates = getUserRates({
-      userRate: { ...ratingData.rateProducer, ...ratingData.currentBP },
+      userRate: { ...ratingData?.rateProducer, ...ratingData?.currentBP },
       user: state.user
     })
 

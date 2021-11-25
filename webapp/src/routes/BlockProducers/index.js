@@ -97,12 +97,12 @@ const AllBps = () => {
           name: 'voteproducer',
           authorization: [
             {
-              actor: state.user.accountName,
+              actor: state.user?.accountName,
               permission: 'active'
             }
           ],
           data: {
-            voter: state.user.accountName,
+            voter: state.user?.accountName,
             proxy: '',
             producers: BPs.sort()
           }

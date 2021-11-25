@@ -27,6 +27,7 @@ import { mainConfig } from '../../config'
 
 import SliderRatingSection from './SliderRatingSection'
 import getAverageValue from '../../utils/get-average-value'
+import getMyRatingAverage from '../../utils/get-my-rating-average'
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
@@ -51,7 +52,7 @@ const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
 })
 
-const RadarSection = ({ t, state, polarChartData, classes }) => (
+const RadarSection = ({ t, state, myRating, polarChartData, classes }) => (
   <>
     <Grid className={classes.chartWrapperSliderView} item md={12} xs={12}>
       <PolarChart data={polarChartData} showLegend />
@@ -59,6 +60,11 @@ const RadarSection = ({ t, state, polarChartData, classes }) => (
     <Grid className={classes.tableBox} item md={11} xs={12}>
       <Table
         rows={[
+          {
+            rater: t('myRate'),
+            amount: 1,
+            average: getMyRatingAverage(myRating)
+          },
           {
             rater: t('globalRate'),
             amount: state.blockProducer?.ratings_cntr || 0,
@@ -89,6 +95,7 @@ const RadarSection = ({ t, state, polarChartData, classes }) => (
 RadarSection.propTypes = {
   t: PropTypes.any,
   state: PropTypes.object,
+  myRating: PropTypes.object,
   polarChartData: PropTypes.array,
   classes: PropTypes.object
 }
@@ -110,6 +117,7 @@ const BlockProducerRate = () => {
   const [polarChartData, setPolarChartData] = useState([])
   const [showMessage, setShowMessage] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
+  const [myRating, setMyRating] = useState({})
 
   const handleStateChange = parameter => (e, value) => {
     setRatingState(prevRating => ({ ...prevRating, [parameter]: value }))
@@ -190,7 +198,7 @@ const BlockProducerRate = () => {
 
   const transact = async () => {
     try {
-      if (!state.user.accountName) {
+      if (!state.user?.accountName) {
         setShowMessage(true)
 
         return
@@ -201,14 +209,14 @@ const BlockProducerRate = () => {
           {
             authorization: [
               {
-                actor: state.user.accountName,
+                actor: state.user?.accountName,
                 permission: 'active'
               }
             ],
             account: mainConfig.contract,
             name: 'rate',
             data: {
-              user: state.user.accountName,
+              user: state.user?.accountName,
               bp: account,
               ...getRatingData(true)
             }
@@ -234,7 +242,7 @@ const BlockProducerRate = () => {
 
       await handleMutationInsertUserRating({
         ual: state.ual,
-        user: state.user.accountName,
+        user: state.user?.accountName,
         bp: account,
         transaction: {
           transaction: {
@@ -348,6 +356,7 @@ const BlockProducerRate = () => {
       )
 
       if (bpRated) {
+        setMyRating(bpRated?.ratings)
         setRatingState({
           ...ratingState,
           ...getSavedRatingData(bpRated.ratings)
@@ -444,6 +453,7 @@ const BlockProducerRate = () => {
               <RadarSection
                 t={t}
                 state={state}
+                myRating={myRating}
                 polarChartData={polarChartData}
                 classes={classes}
               />
@@ -540,6 +550,7 @@ const BlockProducerRate = () => {
             <RadarSection
               classes={classes}
               t={t}
+              myRating={myRating}
               state={state}
               polarChartData={polarChartData}
             />

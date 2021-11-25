@@ -30,7 +30,7 @@ const getBpStats = async (bp, scope) => {
   }
 }
 
-const updateBpStats = async (bpName) => {
+const updateBpStats = async bpName => {
   try {
     const edenResult = await getEdenBpStats(bpName)
     await getGeneralBpStats(bpName)
@@ -41,7 +41,7 @@ const updateBpStats = async (bpName) => {
   }
 }
 
-const getEdenBpStats = async (bpName) => {
+const getEdenBpStats = async bpName => {
   try {
     const bpStat = await getBpStats(bpName, edenContractScope)
 
@@ -57,7 +57,7 @@ const getEdenBpStats = async (bpName) => {
   }
 }
 
-const getGeneralBpStats = async (bpName) => {
+const getGeneralBpStats = async bpName => {
   try {
     const bpStat = await getBpStats(bpName, generalContractScope)
 
