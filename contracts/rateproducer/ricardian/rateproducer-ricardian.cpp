@@ -12,6 +12,12 @@ title: Erase Block Producer Stats
 summary: The intent of the `{{ erase }}` action is to provide a ways to clear all data related with a specific block producer.
 ---)";
 
+    const char* wipe_ricardian = R"(---
+spec_version: 0.1.0
+title: Wipe all contract's tables
+summary: The intent of the `{{ wipe }}` action is to provide a way to release the stored data within the contract.
+---)";
+
     const char* rminactive_ricardian = R"(---
 spec_version: 0.1.0
 title: Erase innactive Block Producer
