@@ -106,17 +106,50 @@
 
   "home": {
     "title": "EOS 블록생산자 평가 및 블럭생산자 투표 포털 - EOS Rate",
-    "videoUrl": "https://www.youtube.com/embed/saZnZqJsMhk",
-    "knowBP": "당신의 블록 생산자를 알고",
-    "welcome": "EOS 레이트 2.0에 오신 것을 환영합니다",
-    "ratinInfo": "올바른 BP를 평가하고 투표하는 것은 EOS 메인넷의 현재와 미래에 매우 중요합니다.",
-    "startRating": "평가 시작",
-    "tour": "퀵 투어 보기",
-    "learnMore": "더 알아보기",
-    "mostVoted": "가장 많은 투표를 받은 블록 프로듀서",
-    "bpList": "BP 목록으로 이동",
-    "mention": "트위터의 최신 언급",
-    "moreNews": "더 많은 뉴스"
+    "cover": {
+      "title": "당신의 목소리를 들려주세요. 블럭생산자들을 평가하세요",
+      "paragraph": {
+        "subtitle1": "EOS Rate란? ",
+        "text1": "EOS Rate는 EOS 토큰 보유자가 클릭 몇 번으로 블록 생산자들을 평가할 수 있는 오픈 소스 dApp입니다. 사용자는 평가 시스템 및 투표 포털에 액세스할 수 있으므로 토큰 보유자가 정보에 입각한 결정을 더 쉽게 내릴 수 있습니다.",
+        "text2": "EOS Rate는 평가결과를 수집하여 글로벌 다수의 의견('대중의 지혜')을 포착하고, 투표 패턴이 유권자의 정서를 진정으로 반영하는지 측정합니다.",
+        "subtitle2": "EOS Rate는 어떻게 작동합니까?",
+        "text3": "평가를 제출하려면 토큰 보유자가 EOS 지갑으로 로그인해야 합니다. 이는 하나의 계정이 블럭생산자당 하나의 평가 제출만 나타낼 수 있음을 의미합니다. 평가는 EOS 블록체인에 안전하게 저장되어 불변성을 보장합니다.",
+        "text4": "EOS Rate 포털에 액세스하여 평가를 제출하고 당신의 목소리를 높이십시오."
+      },
+      "cta": "지금 평가 시작"
+    },
+    "subTopic": {
+      "videoUrl": "https://www.youtube.com/embed/saZnZqJsMhk",
+      "title": "진정한 민주주의",
+      "paragraph1": "여러분이 가장 대표성을 가졌다고 생각하는 BPs 찾아 보세요.",
+      "paragraph2": "EOS Rate는 커뮤니티의 투명성을 기반으로 구축 되었습니다.각각의 BPs들의 프로파일을 생성합니다. 원형(LEAF-Liquid EOS Attribute Factors)의 내부에서 EOS 토큰 홀더들이 투표로 선택된 내용들이 시작적으로 보여줌으로서 객관적이고 직관적인 선택을 할 수 있도록 도와 줍니다.",
+      "subtitle": "자 그럼 평가를 시작 하세요!",
+      "text": "사용하는 도중에 질문사항이나 건의 사항이 있다면 우리에게 연락 해 주세요",
+      "telegramGroup": "텔레그램 그룹"
+    },
+    "ratingCategory": {
+      "title": "평가내역 카테고리",
+      "transparency": {
+        "title": "투명도",
+        "description": "오너쉽 기반의 공시의 투명성은 bp.json,리워드 사용공개,재무상대공개로 가능합니다."
+      },
+      "infrastructure": {
+        "title": "인프라",
+        "description": "EOS 인프라의 안정성과 신뢰도 구축 ."
+      },
+      "trustiness": {
+        "title": "신뢰도",
+        "description": "EOS 커뮤니티의 협업과 함께 구축된 평판."
+      },
+      "community": {
+        "title": "커뮤니티",
+        "description": "커뮤니의 가치는 SNS상의 대화,헤커톤,컨프런스,세미나,개발자 전용 공간 제공,유용한 컨텐츠 제공으로 인한 교육과 건전한 토론은 커뮤니티의 새로운 가치를 만들고 성장 할 수 있습니다."
+      },
+      "development": {
+        "title": "개발",
+        "description": "기술정보 - 오픈소스 기반의 사용정보,스크립트,프레임워크,월렛,투표포탈,메트릭스,등등등."
+      }
+    }
   },
 
   "account": {
@@ -171,17 +204,7 @@
   },
 
   "footer": {
-    "legend": "기여하고 싶으신가요?",
-    "legend2": "이 서비스 dapp은 오픈소스 입니다",
-    "home": "홈",
-    "blockProducers": "블럭 생산자",
-    "networkMonitor": "EOS 네트워크 모니터",
-    "proxies": "투표 대리인",
-    "about": "EOS Rate 정보",
-    "ricardianContract": "리카르디안 계약서",
-    "help": "도움말",
-    "madeBy": "EOS Costa Rica가 커뮤니티를 위해 제작했습니다.",
-    "eosRate": "EOSRate.io"
+    "legend": "기여하고 싶으신가요? 이 서비스 dapp은 오픈소스 입니다"
   },
 
   "profile": {

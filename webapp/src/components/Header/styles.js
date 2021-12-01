@@ -7,28 +7,6 @@ export default theme => ({
       borderBottom: 0
     }
   },
-  appBarHome: {
-    backgroundColor: `${theme.palette.common.white} !important`,
-    boxShadow: 'none !important'
-  },
-  boxLogoHome: {
-    display: 'flex',
-    '& svg': {
-      color: theme.palette.primary.main
-    },
-    '& .MuiTypography-body1': {
-      fontStyle: 'normal',
-      fontWeight: '500',
-      fontSize: 14,
-      lineHeight: '16px',
-      letterSpacing: '1px',
-      textTransform: 'uppercase',
-      color: theme.palette.primary.main,
-      display: 'flex',
-      alignItems: 'center',
-      marginLeft: theme.spacing(1)
-    }
-  },
   toolbar: {
     padding: 0,
     justifyContent: 'space-between',
@@ -36,11 +14,6 @@ export default theme => ({
     paddingRight: `${theme.spacing(1)} !important`,
     [theme.breakpoints.up('md')]: {
       padding: theme.spacing(0, 2)
-    }
-  },
-  homeSvgs: {
-    '& svg, & .MuiTypography-root': {
-      color: `${theme.palette.primary.main} !important`
     }
   },
   typography: {
@@ -128,12 +101,5 @@ export default theme => ({
   },
   logoTypeUSerSize: {
     width: 28
-  },
-  userInfoBox: {
-    marginRight: '10px',
-    marginTop: '5px'
-  },
-  infoBox: {
-    marginTop: theme.spacing(1)
   }
 })
