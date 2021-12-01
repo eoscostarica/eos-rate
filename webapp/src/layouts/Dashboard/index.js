@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import Box from '@mui/material/Box'
 import { makeStyles } from '@mui/styles'
@@ -16,11 +16,31 @@ const useStyles = makeStyles(theme => styles(theme, drawerWidth))
 
 const Dashboard = ({ children, routes }) => {
   const classes = useStyles()
+  const ref = useRef()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [scrollTop, setScrollTop] = useState(false)
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
   }
+
+  const handleScroll = useCallback(
+    e => {
+      if (e.target.scrollTop > 927 && !scrollTop) {
+        setScrollTop(true)
+      }
+
+      if (e.target.scrollTop < 927 && scrollTop) {
+        setScrollTop(false)
+      }
+    },
+    [scrollTop]
+  )
+
+  useEffect(() => {
+    const div = ref.current
+    div && div.addEventListener('scroll', handleScroll)
+  }, [handleScroll])
 
   useEffect(() => {
     InitGA()
@@ -39,8 +59,8 @@ const Dashboard = ({ children, routes }) => {
         />
       </Box>
       <Box className={classes.mainContent}>
-        <Header onDrawerToggle={handleDrawerToggle} />
-        <Box className={classes.childContent} id='childContent'>
+        <Header onDrawerToggle={handleDrawerToggle} showMenubar={scrollTop} />
+        <Box className={classes.childContent} id='childContent' ref={ref}>
           {children}
           <Footer />
         </Box>
