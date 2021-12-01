@@ -67,21 +67,21 @@ const Footer = () => {
               </Typography>
               <Box className={classes.socialIconBox}>
                 <IconButton
-                  href='https://www.facebook.com/costaricaeos'
+                  href='https://eoscostarica.io/'
                   target='_blank'
                   color='inherit'
                 >
                   <FacebookRoundedIcon htmlColor='#fff' />
                 </IconButton>
                 <IconButton
-                  href='https://www.instagram.com/eoscostarica/'
+                  href='https://eoscostarica.io/'
                   target='_blank'
                   color='inherit'
                 >
                   <InstagramIcon htmlColor='#fff' />
                 </IconButton>
                 <IconButton
-                  href='https://twitter.com/EOSCostaRica'
+                  href='https://eoscostarica.io/'
                   target='_blank'
                   color='inherit'
                 >

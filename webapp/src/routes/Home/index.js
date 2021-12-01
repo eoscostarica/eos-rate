@@ -55,7 +55,6 @@ const Home = () => {
             <Button
               variant='contained'
               color='secondary'
-              href='/block-producers'
               className={classes.btnStartRate}
             >
               {t('startRating')}
@@ -68,22 +67,13 @@ const Home = () => {
         <Box className={classes.video}>
           <Video src={t('videoUrl')} />
         </Box>
-        <Link
-          variant='body2'
-          href='/about'
-          target='_blank'
-          className={classes.link}
-        >
+        <Link component='button' variant='body2' className={classes.link}>
           {t('learnMore')} <ArrowForwardIosIcon />
         </Link>
       </Box>
       <Box className={classes.blockProducers}>
         <Typography className={classes.votes}>{t('mostVoted')}</Typography>
-        <Link
-          variant='body2'
-          href='/block-producers'
-          className={classes.bpList}
-        >
+        <Link component='button' variant='body2' className={classes.bpList}>
           {t('bpList')} <ArrowForwardIosIcon />
         </Link>
       </Box>
@@ -120,12 +110,7 @@ const Home = () => {
       </Box>
       <Box className={clsx(classes.blockProducers, classes.twitter)}>
         <Typography className={classes.votes}>{t('mention')}</Typography>
-        <Link
-          variant='body2'
-          href='https://twitter.com/EOSCostaRica'
-          target='_blank'
-          className={classes.bpList}
-        >
+        <Link component='button' variant='body2' className={classes.bpList}>
           {t('moreNews')} <ArrowForwardIosIcon />
         </Link>
       </Box>
