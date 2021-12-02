@@ -95,7 +95,7 @@ export const mutationInsertUserRating = async ({
     })
 
     if (blockProducers.data.length) {
-      producerUpdatedList = blockProducers.data.map(producer => {
+      producerUpdatedList = blockProducers?.data?.map(producer => {
         if (rateStat.length && producer.owner === rateStat[0].bp) {
           const parameters = {
             community: rateStat[0].community,
@@ -138,7 +138,7 @@ export const mutationInsertUserRating = async ({
     } else {
       currentBP = await getProducer(bp)
     }
-    console.log({ currentBP })
+
     const userRate = await getBlockProducerRatingByOwner({
       bp,
       userAccount: user

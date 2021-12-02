@@ -52,7 +52,7 @@ const init = async () => {
           transaction,
           isEden
         )
-        console.log({ result })
+
         return { resultEden: edenResult, totalStats, ...result }
       } catch (error) {
         console.error('ratebp', error)

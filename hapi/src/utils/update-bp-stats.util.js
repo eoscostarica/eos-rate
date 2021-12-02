@@ -47,7 +47,7 @@ const updateBpStats = async bpName => {
     })
     await updateBpStatsTotal(bpName, { ...totalStats, bp: bpName })
 
-    return edenResult
+    return { edenResult, totalStats }
   } catch (err) {
     console.error(`sync-bp-stats: ${err}`)
   }

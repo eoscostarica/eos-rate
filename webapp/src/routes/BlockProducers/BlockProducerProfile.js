@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef, Fragment } from 'react'
+import React, { useState, useEffect, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
@@ -33,6 +33,7 @@ import {
   AdditionalResources
 } from './GeneralInformationProfile'
 import formatNumber from '../../utils/format-number'
+import getMyRatingAverage from '../../utils/get-my-rating-average'
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
@@ -84,6 +85,7 @@ const BlockProducerProfile = () => {
   const [polarChartData, setPolarChartData] = useState([])
   const [blockProducerTitle, setBlockProducerTitle] = useState('No Title')
   const [open, setOpen] = useState(false)
+  const [myRating, setMyRating] = useState({})
 
   const getRatingData = edenRate => ({
     community: parseFloat(formatNumber(edenRate?.community || 0, 1)),
@@ -100,13 +102,27 @@ const BlockProducerProfile = () => {
       parameters: getRatingData(bp?.edenRate),
       visible: false
     })
+    let bpRated
+    const userRates = state.user?.userData?.userRates || []
+
+    userRates.forEach(rate => {
+      if (rate?.owner === state?.blockProducer?.owner) {
+        if (!bpRated) bpRated = rate
+        else if (
+          Date.parse(bpRated?.tx_data?.transaction.transactionDate) <
+          Date.parse(rate?.tx_data?.transaction?.transactionDate)
+        )
+          bpRated = rate
+      }
+    })
+    setMyRating(bpRated?.ratings)
     const userDataSet = getBPRadarData({
       colorString: 'myRate',
       name: t('myRate'),
-      parameters: getRatingData({})
+      parameters: getRatingData(bpRated?.ratings)
     })
 
-    setBpHasInformation(!!Object.values(bp.bpjson).length)
+    setBpHasInformation(!!Object.values(bp?.bpjson).length)
     setBlockProducerLogo(_get(bp, 'bpjson.org.branding.logo_256', null))
     setBlockProducerTitle(
       _get(bp, 'bpjson.org.candidate_name', _get(bp, 'system.owner', 'No Data'))
@@ -165,10 +181,10 @@ const BlockProducerProfile = () => {
   }, [account])
 
   useEffect(() => {
-    if (!state.blockProducer) return
+    if (!state.blockProducer || !state.user) return
 
-    setProfileData(state.blockProducer)
-  }, [state.blockProducer])
+    setProfileData(state?.blockProducer)
+  }, [state.blockProducer, state.user])
 
   useEffect(() => {
     if (state.user && state.blockProducer) {
@@ -283,6 +299,11 @@ const BlockProducerProfile = () => {
           <Grid style={{ paddingTop: 40 }} item md={11} xs={12}>
             <Table
               rows={[
+                {
+                  rater: t('myRate'),
+                  amount: 1,
+                  average: getMyRatingAverage(myRating)
+                },
                 {
                   rater: t('eosRates'),
                   amount: _get(state.blockProducer, 'ratings_cntr', null) || 0,
