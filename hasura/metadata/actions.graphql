@@ -17,6 +17,7 @@ type RatingOutput {
   user: String
   bp: String
   ratings: jsonb
+  totalStats: jsonb
 }
 
 type deleteUserRateOutput {

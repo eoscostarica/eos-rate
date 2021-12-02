@@ -113,11 +113,19 @@ const BlockProducerProfile = () => {
     )
     setWebInfo(_get(bp, 'general_info', null))
 
-    if (bp.totalStats) {
+    if (bp.total_ratings_cntr) {
       const totalStatsDataSet = getBPRadarData({
         colorString: 'totalRates',
         name: t('totalRates'),
-        parameters: getRatingData(bp?.totalStats)
+        parameters: getRatingData({
+          average: bp.total_average,
+          community: bp.total_community,
+          development: bp.total_development,
+          infrastructure: bp.total_infrastructure,
+          ratings_cntr: bp.total_ratings_cntr,
+          transparency: bp.total_transparency,
+          trustiness: bp.total_trustiness
+        })
       })
 
       setPolarChartData([
@@ -293,13 +301,9 @@ const BlockProducerProfile = () => {
                 {
                   rater: t('totalRates'),
                   amount:
-                    _get(
-                      state.blockProducer,
-                      'totalStats.ratings_cntr',
-                      null
-                    ) || 0,
+                    _get(state.blockProducer, 'total_ratings_cntr', null) || 0,
                   average: getAverageValue(
-                    _get(state.blockProducer, 'totalStats.average', 0)
+                    _get(state.blockProducer, 'total_average', 0)
                   )
                 }
               ]}

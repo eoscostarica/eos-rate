@@ -47,7 +47,7 @@ export const getUserDataModeled = async ual => {
   if (edenMembers?.length > 0 && edenMembers[1].account === accountName) {
     edenMember = true
   }
-
+  console.log({ accountName })
   const {
     data: { userRatings }
   } = await client.query({
@@ -58,7 +58,7 @@ export const getUserDataModeled = async ual => {
 
   const producers = _get(account, 'voter_info.producers', [])
   const proxy = _get(account, 'voter_info.proxy', '')
-
+  console.log({ userRatings })
   if (userRatings.length) {
     listBPAccount = userRatings.map(({ bp }) => bp)
     const {

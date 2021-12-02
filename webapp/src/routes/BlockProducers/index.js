@@ -214,9 +214,9 @@ const AllBps = () => {
                 pathLink='block-producers'
                 buttonLabel={t('addToVote')}
                 average={getAverageValue(
-                  _get(blockProducer, 'totalStats.average', 0)
+                  _get(blockProducer, 'total_average', 0)
                 )}
-                rate={_get(blockProducer, 'totalStats.ratings_cntr', 0)}
+                rate={_get(blockProducer, 'total_ratings_cntr', 0)}
                 isNewRate={
                   state.user &&
                   state.user.userData.userRates.some(

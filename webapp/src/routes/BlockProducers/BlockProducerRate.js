@@ -73,11 +73,8 @@ const RadarSection = ({ t, state, polarChartData, classes }) => (
           },
           {
             rater: t('totalRates'),
-            amount: state.blockProducer?.totalStats?.ratings_cntr || 0,
-            average: formatNumber(
-              state.blockProducer?.totalStats?.average || 0.0,
-              1
-            )
+            amount: state.blockProducer?.total_ratings_cntr || 0,
+            average: formatNumber(state.blockProducer?.total_average || 0.0, 1)
           }
         ]}
         heads={[t('raters'), t('amount'), t('average')]}
@@ -282,11 +279,19 @@ const BlockProducerRate = () => {
       setBlockProducerLogo(_get(bp, 'bpjson.org.branding.logo_256', null))
       const generalRateData = toNumbers(bp.data.data)
 
-      if (bp.totalStats) {
+      if (bp.total_ratings_cntr) {
         const totalStatsDataSet = getBPRadarData({
           colorString: 'totalRates',
           name: t('totalRates'),
-          parameters: getSavedRatingData(bp?.totalStats)
+          parameters: getSavedRatingData({
+            average: bp.total_average,
+            community: bp.total_community,
+            development: bp.total_development,
+            infrastructure: bp.total_infrastructure,
+            ratings_cntr: bp.total_ratings_cntr,
+            transparency: bp.total_transparency,
+            trustiness: bp.total_trustiness
+          })
         })
         setPolarChartData([
           {
@@ -343,9 +348,17 @@ const BlockProducerRate = () => {
         return
       }
 
-      const bpRated = (state.user?.userData?.userRates || []).find(
-        rate => rate.owner === state.blockProducer.owner
-      )
+      let bpRated
+      const userRates = state.user?.userData?.userRates || []
+
+      userRates.forEach(rate => {
+        if (!bpRated) bpRated = rate
+        else if (
+          Date.parse(bpRated?.tx_data?.transaction.transactionDate) <
+          Date.parse(rate?.tx_data?.transaction?.transactionDate)
+        )
+          bpRated = rate
+      })
 
       if (bpRated) {
         setRatingState({
@@ -448,6 +461,7 @@ const BlockProducerRate = () => {
                 classes={classes}
               />
             </Grid>
+            {console.log({ ratingState })}
             <SliderRatingSection
               t={t}
               handleStateChange={handleStateChange}

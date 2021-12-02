@@ -17,6 +17,13 @@ select_permissions:
     - community
     - development
     - ratings_cntr
+    - total_average
+    - total_transparency
+    - total_infrastructure
+    - total_trustiness
+    - total_community
+    - total_development
+    - total_ratings_cntr
     - eden_average
     - eden_transparency
     - eden_infrastructure

@@ -3,6 +3,7 @@ const {
   generalContractScope,
   edenContractScope
 } = require('../config')
+const getTotalStats = require('./get-total-stats')
 const eosjs = require('eosjs')
 const fetch = require('node-fetch')
 
@@ -30,10 +31,21 @@ const getBpStats = async (bp, scope) => {
   }
 }
 
-const updateBpStats = async (bpName) => {
+const updateBpStats = async bpName => {
   try {
-    const edenResult = await getEdenBpStats(bpName)
-    await getGeneralBpStats(bpName)
+    const edenStats = await getEdenBpStats(bpName)
+    const edenResult = await updateBpStatsEden(bpName, edenStats)
+
+    const generalStats = await getGeneralBpStats(bpName)
+    await updateBpStatsGeneral(bpName, generalStats)
+
+    const totalStats = getTotalStats({
+      producerData: generalStats,
+      edenStats,
+      statsAmount: 5,
+      oneStat: 1
+    })
+    await updateBpStatsTotal(bpName, { ...totalStats, bp: bpName })
 
     return edenResult
   } catch (err) {
@@ -41,7 +53,7 @@ const updateBpStats = async (bpName) => {
   }
 }
 
-const getEdenBpStats = async (bpName) => {
+const getEdenBpStats = async bpName => {
   try {
     const bpStat = await getBpStats(bpName, edenContractScope)
 
@@ -49,15 +61,14 @@ const getEdenBpStats = async (bpName) => {
       return 'Did not find ratings for BP: ' + bpName
 
     const stat = bpStat.rows[0]
-    const edenResult = await updateBpStatsEden(bpName, stat)
 
-    return edenResult
+    return stat
   } catch (err) {
     console.error(`sync-bp-stats: ${err}`)
   }
 }
 
-const getGeneralBpStats = async (bpName) => {
+const getGeneralBpStats = async bpName => {
   try {
     const bpStat = await getBpStats(bpName, generalContractScope)
 
@@ -66,10 +77,23 @@ const getGeneralBpStats = async (bpName) => {
 
     const stat = bpStat.rows[0]
 
-    return await updateBpStatsGeneral(bpName, stat)
+    return stat
   } catch (err) {
     console.error(`sync-bp-stats: ${err}`)
   }
+}
+
+const updateBpStatsTotal = async (bpName, stat) => {
+  const db = await massiveDB
+  const resultRatingsSave = await db.total_ratings_stats.save(stat)
+  const dbResult = resultRatingsSave
+    ? resultRatingsSave
+    : await db.total_ratings_stats.insert(stat)
+  console.log(
+    `Total rating save or insert of ${bpName} was ${
+      dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
+    }`
+  )
 }
 
 const updateBpStatsGeneral = async (bpName, stat) => {
