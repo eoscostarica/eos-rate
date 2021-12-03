@@ -58,10 +58,10 @@ const updateRatingsStats = async () => {
   })
 
   generalRatingsStats.rows.forEach(rating => {
-    let haveTowRating = false
+    let haveTwoRating = false
     for (let index = 0; index < edenRatingsStats.rows.length; index++) {
       if (rating.bp === edenRatingsStats.rows[index].bp) {
-        haveTowRating = true
+        haveTwoRating = true
         totalRatings = [
           ...totalRatings,
           {
@@ -77,7 +77,8 @@ const updateRatingsStats = async () => {
         break
       }
     }
-    if (!haveTowRating) {
+    
+    if (!haveTwoRating) {
       totalRatings = [
         ...totalRatings,
         {
@@ -112,14 +113,15 @@ const updateRatingsStats = async () => {
   })
 
   edenRatingsStats.rows.forEach(rating => {
-    let haveTowRating = false
+    let haveTwoRating = false
     for (let index = 0; index < generalRatingsStats.rows.length; index++) {
       if (rating.bp === generalRatingsStats.rows[index].bp) {
-        haveTowRating = true
+        haveTwoRating = true
         break
       }
     }
-    if (!haveTowRating) {
+
+    if (!haveTwoRating) {
       totalRatings = [
         ...totalRatings,
         {
