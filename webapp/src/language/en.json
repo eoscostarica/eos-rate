@@ -116,7 +116,8 @@
     "mostVoted": "Most Voted Block Producers",
     "bpList": "Go to BP Listings",
     "mention": "Our Latest Mentions on Twitter",
-    "moreNews": "More News"
+    "moreNews": "More News",
+    "addToVote": "Add to vote"
   },
 
   "account": {
