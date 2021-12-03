@@ -301,8 +301,14 @@ const BlockProducerProfile = () => {
               rows={[
                 {
                   rater: t('myRate'),
-                  amount: 1,
-                  average: getMyRatingAverage(myRating)
+                  amount: isRated ? 1 : 0,
+                  average: getMyRatingAverage({
+                    community: myRating?.community,
+                    development: myRating?.development,
+                    infrastructure: myRating?.infrastructure,
+                    transparency: myRating?.transparency,
+                    trustiness: myRating?.trustiness
+                  })
                 },
                 {
                   rater: t('eosRates'),

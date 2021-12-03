@@ -9,11 +9,11 @@ import getBpDataModeled from '../../utils/modeled-bp-data'
 import { mainConfig } from '../../config'
 import { getRpc } from '../../utils/eosjs-utils'
 
-export const getProducers = async (limit, orderBy) => {
+export const getProducers = async orderBy => {
   const {
     data: { list, info }
   } = await client.query({
-    variables: { limit, orderBy },
+    variables: { orderBy },
     query: GET_BLOCK_PRODUCERS,
     fetchPolicy: 'network-only'
   })

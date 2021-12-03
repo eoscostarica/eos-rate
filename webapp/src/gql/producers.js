@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_BLOCK_PRODUCERS = gql`
-  query blockProducers($limit: Int = 15, $orderBy: [producers_list_order_by!]) {
+  query blockProducers($orderBy: [producers_list_order_by!]) {
     info: producers_list_aggregate(
       where: { system: { _contains: { is_active: 1 } } }
     ) {
@@ -11,7 +11,6 @@ export const GET_BLOCK_PRODUCERS = gql`
     }
     list: producers_list(
       where: { system: { _contains: { is_active: 1 } } }
-      limit: $limit
       order_by: $orderBy
     ) {
       owner
