@@ -8,8 +8,7 @@ import {
   getProducers,
   getProducer,
   mutationInsertUserRating,
-  getUserRates,
-  getTotalStats
+  getUserRates
 } from './models'
 
 const SharedStateContext = React.createContext()
@@ -225,28 +224,6 @@ export const useSharedState = () => {
       ])
     }
 
-    const allBps = []
-
-    blockProducers.data.forEach(bp => {
-      const totalStats = getTotalStats({
-        producerData: {
-          ...bp?.system?.parameters,
-          average: bp?.average,
-          ratings_cntr: bp?.ratings_cntr
-        },
-        edenStats: bp?.edenRate,
-        statsAmount: 5,
-        oneStat: 1
-      })
-      bp = {
-        ...bp,
-        totalStats
-      }
-      allBps.push(bp)
-    })
-
-    blockProducers = { ...blockProducers, data: allBps }
-
     dispatch({ type: 'setProducers', blockProducers })
   }
 
@@ -261,22 +238,6 @@ export const useSharedState = () => {
       dispatch({ type: 'setProducer', blockProducer })
 
       return
-    }
-
-    const totalStats = getTotalStats({
-      producerData: {
-        ...blockProducer?.system?.parameters,
-        average: blockProducer?.average || 0,
-        ratings_cntr: blockProducer?.ratings_cntr || 0
-      },
-      edenStats: blockProducer?.edenRate,
-      statsAmount: 5,
-      oneStat: 1
-    })
-
-    blockProducer = {
-      ...blockProducer,
-      totalStats
     }
 
     dispatch({ type: 'setProducer', blockProducer })
@@ -296,19 +257,19 @@ export const useSharedState = () => {
       bp,
       result,
       transaction,
-      blockProducers: state.blockProducers,
+      blockProducers: state?.blockProducers,
       isEden: state?.user?.userData?.edenMember,
       ...ratings
     })
 
-    setProducer(ratingData.currentBP, true)
+    setProducer(ratingData?.currentBP, true)
     setProducers(30, null, {
-      ...state.blockProducers,
-      data: ratingData.producerUpdatedList
+      ...state?.blockProducers,
+      data: ratingData?.producerUpdatedList
     })
 
     const userRates = getUserRates({
-      userRate: { ...ratingData.rateProducer, ...ratingData.currentBP },
+      userRate: { ...ratingData?.rateProducer, ...ratingData?.currentBP },
       user: state.user
     })
 
