@@ -28,7 +28,7 @@ const AllBps = () => {
     useSharedState()
   const classes = useStyles()
   const myRef = useRef(null)
-  const [currentlyVisible, setCurrentlyVisible] = useState(30)
+  const [currentlyVisible, setCurrentlyVisible] = useState(5)
   const [hasMoreRows, setMoreRows] = useState(false)
 
   const [ratingState, setRatingState] = useState({
