@@ -115,7 +115,9 @@ const BlockProducerProfile = () => {
           bpRated = rate
       }
     })
+
     setMyRating(bpRated?.ratings)
+
     const userDataSet = getBPRadarData({
       colorString: 'myRate',
       name: t('myRate'),
@@ -168,6 +170,12 @@ const BlockProducerProfile = () => {
           ({ owner }) => owner === account
         )
 
+        if (!bp) {
+          await setProducer(account)
+
+          return
+        }
+
         setProducer(bp, true)
         setProfileData(bp)
 
@@ -181,7 +189,7 @@ const BlockProducerProfile = () => {
   }, [account])
 
   useEffect(() => {
-    if (!state.blockProducer || !state.user) return
+    if (!state.blockProducer) return
 
     setProfileData(state?.blockProducer)
   }, [state.blockProducer, state.user])
@@ -301,8 +309,14 @@ const BlockProducerProfile = () => {
               rows={[
                 {
                   rater: t('myRate'),
-                  amount: 1,
-                  average: getMyRatingAverage(myRating)
+                  amount: isRated ? 1 : 0,
+                  average: getMyRatingAverage({
+                    community: myRating?.community,
+                    development: myRating?.development,
+                    infrastructure: myRating?.infrastructure,
+                    transparency: myRating?.transparency,
+                    trustiness: myRating?.trustiness
+                  })
                 },
                 {
                   rater: t('eosRates'),
