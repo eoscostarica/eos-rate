@@ -115,8 +115,9 @@ const BlockProducerProfile = () => {
           bpRated = rate
       }
     })
+
     setMyRating(bpRated?.ratings)
-    console.log({ bpRated })
+
     const userDataSet = getBPRadarData({
       colorString: 'myRate',
       name: t('myRate'),
@@ -189,7 +190,7 @@ const BlockProducerProfile = () => {
 
   useEffect(() => {
     if (!state.blockProducer) return
-    console.log({ BP: state?.blockProducer })
+
     setProfileData(state?.blockProducer)
   }, [state.blockProducer, state.user])
 

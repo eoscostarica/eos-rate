@@ -213,12 +213,12 @@ export const useSharedState = () => {
   }
 
   // Block Producers Action
-  const setProducers = async (orderBy = null, bpList) => {
+  const setProducers = async (limit, orderBy = null, bpList) => {
     const filter = orderBy || state.sortBlockProducersBy.sort
     let blockProducers = bpList
 
     if (!blockProducers) {
-      blockProducers = await getProducers([
+      blockProducers = await getProducers(limit, [
         { [filter]: 'desc_nulls_last' },
         { bpjson: 'desc' }
       ])
@@ -263,7 +263,7 @@ export const useSharedState = () => {
     })
 
     setProducer(ratingData?.currentBP, true)
-    setProducers(null, {
+    setProducers(30, null, {
       ...state?.blockProducers,
       data: ratingData?.producerUpdatedList
     })

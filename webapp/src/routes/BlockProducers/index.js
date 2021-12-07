@@ -28,7 +28,7 @@ const AllBps = () => {
     useSharedState()
   const classes = useStyles()
   const myRef = useRef(null)
-  const [currentlyVisible, setCurrentlyVisible] = useState(5)
+  const [currentlyVisible, setCurrentlyVisible] = useState(30)
   const [hasMoreRows, setMoreRows] = useState(false)
 
   const [ratingState, setRatingState] = useState({
@@ -40,6 +40,7 @@ const AllBps = () => {
   const loadMore = async () => {
     if (!hasMoreRows) return
 
+    await setProducers(currentlyVisible + 12)
     setCurrentlyVisible(currentlyVisible + 12)
   }
 
@@ -48,7 +49,7 @@ const AllBps = () => {
   }
 
   const handleOnFliterChange = async filter => {
-    await setProducers(filter)
+    await setProducers(currentlyVisible, filter)
   }
 
   const handleToggleSelected = (item, isAddItem = false) => {
@@ -150,7 +151,8 @@ const AllBps = () => {
 
   useEffect(() => {
     const getData = async () => {
-      !state.blockProducers.data.length && (await setProducers())
+      !state.blockProducers.data.length &&
+        (await setProducers(currentlyVisible))
     }
 
     getData()
@@ -161,7 +163,7 @@ const AllBps = () => {
       return
     }
 
-    setMoreRows(state.blockProducers.rows > currentlyVisible)
+    setMoreRows(state.blockProducers.rows > state.blockProducers.data.length)
   }, [state.blockProducers])
 
   return (
@@ -193,40 +195,38 @@ const AllBps = () => {
       />
       <Box className={classes.wrapperGrid}>
         <Box className={classes.gridRow}>
-          {(state.blockProducers.data.slice(0, currentlyVisible) || []).map(
-            blockProducer => (
-              <Box
-                className={classes.gridItem}
-                key={`${blockProducer.owner}-main-block-card`}
-              >
-                <Card
-                  isSelected={state?.selectedProducers?.includes(
-                    blockProducer.owner
-                  )}
-                  toggleSelection={(isAdding, producerAccountName) => () => {
-                    handleToggleSelected(producerAccountName, isAdding)
-                  }}
-                  data={blockProducer}
-                  imageURL={_get(blockProducer, 'bpjson.org.branding.logo_256')}
-                  owner={_get(blockProducer, 'owner')}
-                  title={_get(blockProducer, 'bpjson.org.candidate_name')}
-                  pathLink='block-producers'
-                  buttonLabel={t('addToVote')}
-                  average={getAverageValue(
-                    _get(blockProducer, 'total_average', 0)
-                  )}
-                  rate={_get(blockProducer, 'total_ratings_cntr', 0)}
-                  isNewRate={
-                    state.user &&
-                    state.user.userData.userRates.some(
-                      ({ owner }) => owner === blockProducer.owner
-                    )
-                  }
-                  disable={state?.selectedProducers?.length > 29}
-                />
-              </Box>
-            )
-          )}
+          {(state.blockProducers.data || []).map(blockProducer => (
+            <Box
+              className={classes.gridItem}
+              key={`${blockProducer.owner}-main-block-card`}
+            >
+              <Card
+                isSelected={state?.selectedProducers?.includes(
+                  blockProducer.owner
+                )}
+                toggleSelection={(isAdding, producerAccountName) => () => {
+                  handleToggleSelected(producerAccountName, isAdding)
+                }}
+                data={blockProducer}
+                imageURL={_get(blockProducer, 'bpjson.org.branding.logo_256')}
+                owner={_get(blockProducer, 'owner')}
+                title={_get(blockProducer, 'bpjson.org.candidate_name')}
+                pathLink='block-producers'
+                buttonLabel={t('addToVote')}
+                average={getAverageValue(
+                  _get(blockProducer, 'total_average', 0)
+                )}
+                rate={_get(blockProducer, 'total_ratings_cntr', 0)}
+                isNewRate={
+                  state.user &&
+                  state.user.userData.userRates.some(
+                    ({ owner }) => owner === blockProducer.owner
+                  )
+                }
+                disable={state?.selectedProducers?.length > 29}
+              />
+            </Box>
+          ))}
         </Box>
       </Box>
       {state.selectedProducers.length > 0 && (
