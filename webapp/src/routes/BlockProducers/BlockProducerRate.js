@@ -486,6 +486,7 @@ const BlockProducerRate = () => {
                 polarChartData={polarChartData}
                 isRated={isRated}
                 classes={classes}
+                isRated={isRated}
               />
             </Grid>
             <SliderRatingSection
