@@ -52,7 +52,14 @@ const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
 })
 
-const RadarSection = ({ t, state, myRating, polarChartData, classes }) => (
+const RadarSection = ({
+  t,
+  state,
+  myRating,
+  polarChartData,
+  classes,
+  isRated
+}) => (
   <>
     <Grid className={classes.chartWrapperSliderView} item md={12} xs={12}>
       <PolarChart data={polarChartData} showLegend />
@@ -62,7 +69,7 @@ const RadarSection = ({ t, state, myRating, polarChartData, classes }) => (
         rows={[
           {
             rater: t('myRate'),
-            amount: 1,
+            amount: isRated ? 1 : 0,
             average: getMyRatingAverage({
               community: myRating.community,
               development: myRating.development,
@@ -100,7 +107,8 @@ RadarSection.propTypes = {
   state: PropTypes.object,
   myRating: PropTypes.object,
   polarChartData: PropTypes.array,
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  isRated: PropTypes.bool
 }
 
 const BlockProducerRate = () => {
@@ -114,7 +122,7 @@ const BlockProducerRate = () => {
     { setProducer, setLastTransaction, handleMutationInsertUserRating }
   ] = useSharedState()
   const [ratingState, setRatingState] = useState(initialRatingState)
-  const [isRated, setIsRated] = useState(true)
+  const [isRated, setIsRated] = useState(false)
   const [blockProducerLogo, setBlockProducerLogo] = useState(null)
   const [blockProducerTitle, setBlockProducerTitle] = useState('No Title')
   const [polarChartData, setPolarChartData] = useState([])
@@ -476,6 +484,7 @@ const BlockProducerRate = () => {
                 state={state}
                 myRating={myRating}
                 polarChartData={polarChartData}
+                isRated={isRated}
                 classes={classes}
               />
             </Grid>
@@ -573,6 +582,7 @@ const BlockProducerRate = () => {
               t={t}
               myRating={myRating}
               state={state}
+              isRated={isRated}
               polarChartData={polarChartData}
             />
             <Grid item md={12} />
