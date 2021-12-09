@@ -24,7 +24,7 @@ spec:
         envFrom:
         - configMapRef:
             name: hasura-config
-        image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HASURA}:${VERSION}
+        image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HASURA}:latest
         imagePullPolicy: "Always"
         name: eosrate-hasura
         ports:

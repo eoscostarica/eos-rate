@@ -17,7 +17,7 @@ spec:
         app: hapi
     spec:
       containers:
-      - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HAPI}:${VERSION}
+      - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_HAPI}:latest
         imagePullPolicy: "Always"
         name: eosrate-hapi
         envFrom:

@@ -15,7 +15,7 @@ spec:
         app: webapp
     spec:
       containers:
-      - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_WEBAPP}:${VERSION}
+      - image: ${DOCKER_REGISTRY}/${IMAGE_NAME_WEBAPP}:latest
         imagePullPolicy: "Always"
         name: eosrate-webapp
         env:
