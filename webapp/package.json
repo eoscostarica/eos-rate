@@ -89,6 +89,7 @@
     "ual-reactjs-renderer": "^0.3.1",
     "ual-scatter": "^0.3.0",
     "ual-token-pocket": "^0.3.0",
+    "ual-wombat": "^0.3.3",
     "yup": "0.32.9"
   },
   "devDependencies": {

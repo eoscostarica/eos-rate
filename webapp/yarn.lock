@@ -2467,7 +2467,7 @@
     isomorphic-ws "^4.0.1"
     ws "^6.1.0"
 
-"@scatterjs/core@^2.7.51":
+"@scatterjs/core@^2.7.51", "@scatterjs/core@^2.7.54":
   version "2.7.54"
   resolved "https://registry.yarnpkg.com/@scatterjs/core/-/core-2.7.54.tgz#c82f539b6f77f96be93817c3e1f6d0799cf53193"
   integrity sha512-BtV44dvEPajDmDfn+jpGE9kHIlPyz70ttd96+LIokdRUR+lf5E33rMpJGH+OEFwxGDhY8tDS6SYlyIU8ohCFHw==
@@ -2485,6 +2485,13 @@
   integrity sha512-yPdMllV2duTHHw21YCcA5Xi8068qGCatmvIC6dv+V1h20AuSpAwnW1FmB3ST4MN7ZTrLrnxzlLkUesZv+aGOVw==
   dependencies:
     "@scatterjs/core" "^2.7.51"
+
+"@scatterjs/eosjs2@^1.5.36":
+  version "1.5.36"
+  resolved "https://registry.yarnpkg.com/@scatterjs/eosjs2/-/eosjs2-1.5.36.tgz#457ed69f181a6a19eb053352662bfb25726d0f74"
+  integrity sha512-osx/shuwiB59ql0XTVCZ/D9T3AZf+RA0lRnUa0Gya9M21GGBt6YHdxO2jxkmJHjEpfxE7FIwV3dRDj9T1swd2g==
+  dependencies:
+    "@scatterjs/core" "^2.7.54"
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
@@ -14086,6 +14093,17 @@ ual-token-pocket@^0.3.0:
     tp-eosjs "1.5.2"
     universal-authenticator-library "0.3.0"
 
+ual-wombat@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/ual-wombat/-/ual-wombat-0.3.3.tgz#18eeb6195f4e380ba9d36b452395b8f79cf2cbaa"
+  integrity sha512-h6JRr9vYFwnWVbmmIDvYjJXuNvw+smirP75PnZF5WRVV/BU5mCpEhrrRg48hV+XUSPUyh+nsm9+Lm2euKdeF7Q==
+  dependencies:
+    "@scatterjs/core" "^2.7.54"
+    "@scatterjs/eosjs2" "^1.5.36"
+    elliptic "^6.5.3"
+    eosjs "^21.0.3"
+    universal-authenticator-library "^0.3.0"
+
 unbox-primitive@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/unbox-primitive/-/unbox-primitive-1.0.1.tgz#085e215625ec3162574dc8859abee78a59b14471"
@@ -14165,7 +14183,7 @@ universal-authenticator-library@0.1.0:
   resolved "https://registry.yarnpkg.com/universal-authenticator-library/-/universal-authenticator-library-0.1.0.tgz#187e6a85f43e75d4d76b66c228c9e4b59770d4af"
   integrity sha512-45nl80BWf+9WA8vTMXunMicZmHPm4wWdxNnSlL65cCP4OjA1ra4IuH+T7+Ko3P6IfXSfS9+VNCuXai3fip+taA==
 
-universal-authenticator-library@0.3.0:
+universal-authenticator-library@0.3.0, universal-authenticator-library@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/universal-authenticator-library/-/universal-authenticator-library-0.3.0.tgz#c9001f1739578fae5b8c32c4d3e754ad681f541a"
   integrity sha512-G/D9S1/b0fwRHPWHi+bPKjqHb/A5BqiOQ3k/R3MYPQQa0yxStn+Gf3oZjKKFnj9ZhELZ6FHOFRTXzcn/ggxXDg==
