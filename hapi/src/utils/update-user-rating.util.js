@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const { JsonRpc } = require('eosjs')
-const fetch = require('node-fetch')
+const fetch = (...args) =>
+  import('node-fetch').then(({ default: fetch }) => fetch(...args))
 
 const { massiveDB } = require('../config')
 
@@ -9,10 +10,10 @@ const HAPI_EOS_API_ENDPOINT =
 const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
 
 // gets data from blockchain
-const getUserRatings = async (isEden) => {
+const getUserRatings = async isEden => {
   const eos = new JsonRpc(HAPI_EOS_API_ENDPOINT, { fetch })
 
-  let ratings = await eos.get_table_rows({
+  const ratings = await eos.get_table_rows({
     json: true,
     code: HAPI_RATING_CONTRACT,
     scope: isEden ? 'eden' : HAPI_RATING_CONTRACT,
