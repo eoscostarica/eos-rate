@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const { JsonRpc } = require('eosjs')
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args))
 
 const { massiveDB } = require('../config')
 
