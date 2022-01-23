@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const { JsonRpc } = require('eosjs')
-const fetch = require('node-fetch')
+const fetch = (...args) =>
+  import('node-fetch').then(({ default: fetch }) => fetch(...args))
 const {
   generalContractScope,
   edenContractScope,
@@ -44,9 +45,9 @@ const updateRatingsStats = async () => {
       const resultRatingStatsSave = await (
         await massiveDB
       ).ratings_stats.save(rating)
-      const dbResult = resultRatingStatsSave
-        ? resultRatingStatsSave
-        : await (await massiveDB).ratings_stats.insert(rating)
+      const dbResult =
+        resultRatingStatsSave ||
+        (await (await massiveDB).ratings_stats.insert(rating))
       console.log(
         `General save or insert of ${rating.bp} was ${
           dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
@@ -77,7 +78,7 @@ const updateRatingsStats = async () => {
         break
       }
     }
-    
+
     if (!haveTwoRating) {
       totalRatings = [
         ...totalRatings,
@@ -99,9 +100,9 @@ const updateRatingsStats = async () => {
       const resultRatingStatsSave = await (
         await massiveDB
       ).eden_ratings_stats.save(rating)
-      const dbResult = resultRatingStatsSave
-        ? resultRatingStatsSave
-        : await (await massiveDB).eden_ratings_stats.insert(rating)
+      const dbResult =
+        resultRatingStatsSave ||
+        (await (await massiveDB).eden_ratings_stats.insert(rating))
       console.log(
         `Eden save or insert of ${rating.bp} was ${
           dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
@@ -142,9 +143,9 @@ const updateRatingsStats = async () => {
       const resultRatingStatsSave = await (
         await massiveDB
       ).total_ratings_stats.save(rating)
-      const dbResult = resultRatingStatsSave
-        ? resultRatingStatsSave
-        : await (await massiveDB).total_ratings_stats.insert(rating)
+      const dbResult =
+        resultRatingStatsSave ||
+        (await (await massiveDB).total_ratings_stats.insert(rating))
       console.log(
         `Total rating save or insert of ${rating.bp} was ${
           dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'

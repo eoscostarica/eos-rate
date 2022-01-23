@@ -5,7 +5,8 @@ const {
 } = require('../config')
 const getTotalStats = require('./get-total-stats')
 const eosjs = require('eosjs')
-const fetch = require('node-fetch')
+const fetch = (...args) =>
+  import('node-fetch').then(({ default: fetch }) => fetch(...args))
 
 const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
 
@@ -86,9 +87,8 @@ const getGeneralBpStats = async bpName => {
 const updateBpStatsTotal = async (bpName, stat) => {
   const db = await massiveDB
   const resultRatingsSave = await db.total_ratings_stats.save(stat)
-  const dbResult = resultRatingsSave
-    ? resultRatingsSave
-    : await db.total_ratings_stats.insert(stat)
+  const dbResult =
+    resultRatingsSave || (await db.total_ratings_stats.insert(stat))
   console.log(
     `Total rating save or insert of ${bpName} was ${
       dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
@@ -99,9 +99,7 @@ const updateBpStatsTotal = async (bpName, stat) => {
 const updateBpStatsGeneral = async (bpName, stat) => {
   const db = await massiveDB
   const resultRatingsSave = await db.ratings_stats.save(stat)
-  const dbResult = resultRatingsSave
-    ? resultRatingsSave
-    : await db.ratings_stats.insert(stat)
+  const dbResult = resultRatingsSave || (await db.ratings_stats.insert(stat))
   console.log(
     `General save or insert of ${bpName} was ${
       dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
@@ -113,9 +111,8 @@ const updateBpStatsEden = async (bpName, stat) => {
   try {
     const db = await massiveDB
     const resultRatingsSave = await db.eden_ratings_stats.save(stat)
-    const dbResult = resultRatingsSave
-      ? resultRatingsSave
-      : await db.eden_ratings_stats.insert(stat)
+    const dbResult =
+      resultRatingsSave || (await db.eden_ratings_stats.insert(stat))
     console.log(
       `Eden save or insert of ${bpName} was ${
         dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
