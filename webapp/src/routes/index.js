@@ -12,7 +12,7 @@ import CallMergeIcon from '@mui/icons-material/CallMerge'
 
 import { mainConfig } from '../config'
 
-const Home = lazy(() => import('./home'))
+const Home = lazy(() => import('./Home'))
 const BlockProducers = lazy(() => import('./BlockProducers'))
 const BlockProducerProfile = lazy(() =>
   import('./BlockProducers/BlockProducerProfile')
@@ -20,13 +20,13 @@ const BlockProducerProfile = lazy(() =>
 const BlockProducerRate = lazy(() =>
   import('./BlockProducers/BlockProducerRate')
 )
-const Proxies = lazy(() => import('./proxies'))
-const ProxyProfile = lazy(() => import('./proxies/ProxyProfile'))
-const About = lazy(() => import('./about'))
-const Help = lazy(() => import('./help'))
+const Proxies = lazy(() => import('./Proxies'))
+const ProxyProfile = lazy(() => import('./Proxies/ProxyProfile'))
+const About = lazy(() => import('./About'))
+const Help = lazy(() => import('./Help'))
 const Page404 = lazy(() => import('./Route404'))
-const TermsOfUse = lazy(() => import('./termsOfUse'))
-const Account = lazy(() => import('./account'))
+const TermsOfUse = lazy(() => import('./TermsOfUse'))
+const Account = lazy(() => import('./Account'))
 
 const routes = [
   {
