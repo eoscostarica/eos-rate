@@ -85,6 +85,7 @@
     "ual-ledger": "^0.3.0",
     "ual-lynx": "^0.4.0",
     "ual-meetone": "^0.1.1",
+    "ual-metamask": "^1.0.2",
     "ual-reactjs-renderer": "^0.3.1",
     "ual-scatter": "^0.3.0",
     "ual-token-pocket": "^0.3.0",

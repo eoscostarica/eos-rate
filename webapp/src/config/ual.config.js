@@ -1,8 +1,8 @@
 import { TokenPocket } from 'ual-token-pocket'
 import { Anchor } from 'ual-anchor'
-import { Scatter } from 'ual-scatter'
 import { Ledger } from 'ual-ledger'
 import { Lynx } from 'ual-lynx'
+import { Metamask } from 'ual-metamask'
 import { MeetOne } from 'ual-meetone'
 
 export const endpoint = `${process.env.REACT_APP_EOS_API_PROTOCOL}://${
@@ -28,5 +28,5 @@ export const authenticators = [
   new Lynx([network]),
   new Ledger([network]),
   new MeetOne([network.chainId]),
-  new Scatter([network], { appName })
+  new Metamask([network])
 ]
