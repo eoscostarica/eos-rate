@@ -31,7 +31,7 @@
 const massive = require('massive')
 const { massiveConfig } = require('../../config')
 const eosjs = require('eosjs')
-const fetch = require('node-fetch')
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const rpc = new eosjs.JsonRpc(process.env.REACT_APP_EOS_API_URL || 'https://jungle.eosio.cr', { fetch })
 const getStats = async bp => {

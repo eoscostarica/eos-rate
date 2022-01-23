@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const { JsonRpc } = require('eosjs')
 const EosApi = require('eosjs-api')
-const fetch = require('node-fetch')
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const { massiveDB } = require('../config')
 
 const HAPI_EOS_API_ENDPOINT =

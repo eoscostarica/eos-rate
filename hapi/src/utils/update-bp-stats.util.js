@@ -5,7 +5,7 @@ const {
 } = require('../config')
 const getTotalStats = require('./get-total-stats')
 const eosjs = require('eosjs')
-const fetch = require('node-fetch')
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
 
