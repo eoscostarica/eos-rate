@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 const { JsonRpc } = require('eosjs')
 const EosApi = require('eosjs-api')
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args))
+const fetch = (...args) =>
+  import('node-fetch').then(({ default: fetch }) => fetch(...args))
 const { massiveDB } = require('../config')
 
 const HAPI_EOS_API_ENDPOINT =
@@ -33,7 +34,7 @@ const getProxiesData = async () => {
     return []
   }
 
-  proxies.forEach(async (proxy) => {
+  proxies.forEach(async proxy => {
     const account = await eosApi.getAccount({ account_name: proxy.owner })
 
     if (account && account.voter_info && account.voter_info.is_proxy) {
@@ -46,9 +47,8 @@ const getProxiesData = async () => {
           ...proxy,
           filter_name: (proxy.name || null).toLowerCase()
         })
-        const dbResult = resultProxySave
-          ? resultProxySave
-          : await (await massiveDB).proxies.insert(proxy)
+        const dbResult =
+          resultProxySave || (await (await massiveDB).proxies.insert(proxy))
         console.log(
           `Save or insert of ${proxy.owner} was ${
             dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'
