@@ -24,6 +24,7 @@ import TitlePage from '../../components/PageTitle'
 import PolarChart from '../../components/PolarChart'
 import Table from '../../components/Table'
 import getAverageValue from '../../utils/get-average-value'
+import formatNumber from '../../utils/format-number'
 import { useSharedState } from '../../context/state.context'
 
 import {
@@ -32,7 +33,6 @@ import {
   WebsiteLegend,
   AdditionalResources
 } from './GeneralInformationProfile'
-import formatNumber from '../../utils/format-number'
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
