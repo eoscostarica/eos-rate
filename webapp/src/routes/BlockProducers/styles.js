@@ -226,7 +226,7 @@ export default theme => ({
   },
   btnBP: {
     color: theme.palette.surface.main,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#443F56 !important',
     width: '100%',
     '&:hover': {
       backgroundColor: theme.palette.secondary.light
