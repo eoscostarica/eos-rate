@@ -11,10 +11,10 @@ jobs:
     environment: master
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.0
 
       - name: Setup Docker
-        uses: docker-practice/actions-setup-docker@0.0.1
+        uses: docker-practice/actions-setup-docker@1.0.8
 
       - name: Log in to docker registry
         run: |
