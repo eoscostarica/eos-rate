@@ -256,29 +256,6 @@ export const useSharedState = () => {
     if (!homeProducers) {
       homeProducers = await getProducers(3, [{ total_votes: 'desc' }])
     }
-
-    const allBps = []
-
-    // homeProducers.data.forEach(bp => {
-    //   const totalStats = getTotalStats({
-    //     producerData: {
-    //       ...bp?.system?.parameters,
-    //       average: bp?.average,
-    //       ratings_cntr: bp?.ratings_cntr
-    //     },
-    //     edenStats: bp?.edenRate,
-    //     statsAmount: 5,
-    //     oneStat: 1
-    //   })
-    //   bp = {
-    //     ...bp,
-    //     totalStats
-    //   }
-    //   allBps.push(bp)
-    // })
-
-    homeProducers = { ...homeProducers, data: allBps }
-
     dispatch({ type: 'setHomeProducers', homeProducers })
   }
 
