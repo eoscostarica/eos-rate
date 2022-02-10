@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const { JsonRpc } = require('eosjs')
-const fetch = require('node-fetch')
+const fetch = (...args) =>
+  import('node-fetch').then(({ default: fetch }) => fetch(...args))
 const {
   generalContractScope,
   edenContractScope,
@@ -48,9 +49,8 @@ const updateUserRatings = async () => {
 
     try {
       const resultRatingsSave = await db.user_ratings.save(ratingsCore)
-      const dbResult = resultRatingsSave
-        ? resultRatingsSave
-        : await db.user_ratings.insert(ratingsCore)
+      const dbResult =
+        resultRatingsSave || (await db.user_ratings.insert(ratingsCore))
       console.log(
         `Save or insert of ${ratingsCore.user}-${ratingsCore.bp} was ${
           dbResult ? 'SUCCESSFULL' : 'UNSUCCESSFULL'

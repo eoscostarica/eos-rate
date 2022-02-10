@@ -226,10 +226,10 @@ export default theme => ({
   },
   btnBP: {
     color: theme.palette.surface.main,
-    backgroundColor: '#443F56 !important',
+    backgroundColor: theme.palette.primary.main,
     width: '100%',
     '&:hover': {
-      backgroundColor: theme.palette.secondary.light
+      backgroundColor: theme.palette.primary.light
     },
     height: 36,
     [theme.breakpoints.up('sm')]: {
