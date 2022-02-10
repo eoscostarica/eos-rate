@@ -23,6 +23,7 @@ import getBPRadarData from '../../utils/get-bp-radar-data'
 import TitlePage from '../../components/PageTitle'
 import PolarChart from '../../components/PolarChart'
 import Table from '../../components/Table'
+import TableBoxColor from '../../components/TableBoxColor'
 import getAverageValue from '../../utils/get-average-value'
 import { useSharedState } from '../../context/state.context'
 
@@ -119,7 +120,6 @@ const BlockProducerProfile = () => {
         name: t('totalRates'),
         parameters: getRatingData(bp?.totalStats)
       })
-
       setPolarChartData([
         { ...bp.data, name: t('eosRates'), visible: false },
         edenDataSet,
@@ -273,38 +273,56 @@ const BlockProducerProfile = () => {
             </Button>
           </Grid>
           <Grid style={{ paddingTop: 40 }} item md={11} xs={12}>
-            <Table
-              rows={[
-                {
-                  rater: t('eosRates'),
-                  amount: _get(state.blockProducer, 'ratings_cntr', null) || 0,
-                  average: getAverageValue(
-                    _get(state.blockProducer, 'average', 0)
-                  )
-                },
-                {
-                  rater: t('edenRates'),
-                  amount:
-                    _get(state.blockProducer, 'eden_ratings_cntr', null) || 0,
-                  average: getAverageValue(
-                    _get(state.blockProducer, 'eden_average', 0)
-                  )
-                },
-                {
-                  rater: t('totalRates'),
-                  amount:
-                    _get(
-                      state.blockProducer,
-                      'totalStats.ratings_cntr',
-                      null
-                    ) || 0,
-                  average: getAverageValue(
-                    _get(state.blockProducer, 'totalStats.average', 0)
-                  )
-                }
-              ]}
-              heads={[t('raters'), t('amount'), t('average')]}
-            />
+            {polarChartData.length > 0 && (
+              <Table
+                rows={[
+                  {
+                    box: (
+                      <TableBoxColor
+                        color={polarChartData[0].color}
+                      ></TableBoxColor>
+                    ),
+                    rater: t('eosRates'),
+                    amount:
+                      _get(state.blockProducer, 'ratings_cntr', null) || 0,
+                    average: getAverageValue(
+                      _get(state.blockProducer, 'average', 0)
+                    )
+                  },
+                  {
+                    box: (
+                      <TableBoxColor
+                        color={polarChartData[1].color}
+                      ></TableBoxColor>
+                    ),
+                    rater: t('edenRates'),
+                    amount:
+                      _get(state.blockProducer, 'eden_ratings_cntr', null) || 0,
+                    average: getAverageValue(
+                      _get(state.blockProducer, 'eden_average', 0)
+                    )
+                  },
+                  {
+                    box: (
+                      <TableBoxColor
+                        color={polarChartData[3].color}
+                      ></TableBoxColor>
+                    ),
+                    rater: t('totalRates'),
+                    amount:
+                      _get(
+                        state.blockProducer,
+                        'totalStats.ratings_cntr',
+                        null
+                      ) || 0,
+                    average: getAverageValue(
+                      _get(state.blockProducer, 'totalStats.average', 0)
+                    )
+                  }
+                ]}
+                heads={['', t('raters'), t('amount'), t('average')]}
+              />
+            )}
           </Grid>
         </Grid>
         {isMobile && (
