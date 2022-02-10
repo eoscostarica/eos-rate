@@ -22,7 +22,7 @@
     "lodash.get": "^4.4.2",
     "massive": "^6.10.0",
     "node-cron": "^3.0.0",
-    "node-fetch": "^3.0.0"
+    "node-fetch": "^2.6.7"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

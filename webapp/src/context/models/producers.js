@@ -95,7 +95,7 @@ export const mutationInsertUserRating = async ({
     })
 
     if (blockProducers.data.length) {
-      producerUpdatedList = blockProducers.data.map(producer => {
+      producerUpdatedList = blockProducers?.data?.map(producer => {
         if (rateStat.length && producer.owner === rateStat[0].bp) {
           const parameters = {
             community: rateStat[0].community,
@@ -124,7 +124,17 @@ export const mutationInsertUserRating = async ({
         return producer
       })
       currentBP = producerUpdatedList.find(producer => producer.owner === bp)
-      currentBP = { ...currentBP, edenRate: rateProducer.resultEden }
+      currentBP = {
+        ...currentBP,
+        edenRate: rateProducer.resultEden,
+        total_average: rateProducer.total_average,
+        total_community: rateProducer.total_community,
+        total_development: rateProducer.total_development,
+        total_infrastructure: rateProducer.total_infrastructure,
+        total_ratings_cntr: rateProducer.total_ratings_cntr,
+        total_transparency: rateProducer.total_transparency,
+        total_trustiness: rateProducer.total_trustiness
+      }
     } else {
       currentBP = await getProducer(bp)
     }
@@ -142,86 +152,6 @@ export const mutationInsertUserRating = async ({
     }
   } catch (error) {
     console.error('mutationInsertUserRating', error)
-  }
-}
-
-const calculateTotalStats = ({
-  firstAverage,
-  secondAverage,
-  fieldsAmount,
-  firstCounter,
-  secondCounter
-}) => {
-  const dividend =
-    firstAverage * (firstCounter * fieldsAmount) +
-    secondAverage * (secondCounter * fieldsAmount)
-  const divider = (firstCounter + secondCounter) * fieldsAmount
-  return dividend / divider
-}
-
-export const getTotalStats = ({
-  producerData,
-  edenStats,
-  statsAmount,
-  oneStat
-}) => {
-  const average = calculateTotalStats({
-    firstAverage: producerData?.average || 0,
-    secondAverage: edenStats?.average || 0,
-    firstCounter: producerData?.ratings_cntr || 0,
-    secondCounter: edenStats?.ratings_cntr || 0,
-    fieldsAmount: statsAmount
-  })
-
-  const community = calculateTotalStats({
-    firstAverage: producerData?.community || 0,
-    secondAverage: edenStats?.community || 0,
-    firstCounter: producerData?.ratings_cntr || 0,
-    secondCounter: edenStats?.ratings_cntr || 0,
-    fieldsAmount: oneStat
-  })
-
-  const development = calculateTotalStats({
-    firstAverage: producerData?.development || 0,
-    secondAverage: edenStats?.development || 0,
-    firstCounter: producerData?.ratings_cntr || 0,
-    secondCounter: edenStats?.ratings_cntr || 0,
-    fieldsAmount: oneStat
-  })
-
-  const infrastructure = calculateTotalStats({
-    firstAverage: producerData?.infrastructure || 0,
-    secondAverage: edenStats?.infrastructure || 0,
-    firstCounter: producerData?.ratings_cntr || 0,
-    secondCounter: edenStats?.ratings_cntr || 0,
-    fieldsAmount: oneStat
-  })
-
-  const trustiness = calculateTotalStats({
-    firstAverage: producerData?.trustiness || 0,
-    secondAverage: edenStats?.trustiness || 0,
-    firstCounter: producerData?.ratings_cntr || 0,
-    secondCounter: edenStats?.ratings_cntr || 0,
-    fieldsAmount: oneStat
-  })
-
-  const transparency = calculateTotalStats({
-    firstAverage: producerData?.trustiness || 0,
-    secondAverage: edenStats?.trustiness || 0,
-    firstCounter: producerData?.ratings_cntr || 0,
-    secondCounter: edenStats?.ratings_cntr || 0,
-    fieldsAmount: oneStat || 0
-  })
-
-  return {
-    average,
-    ratings_cntr:
-      (producerData?.ratings_cntr || 0) + (edenStats?.ratings_cntr || 0),
-    community,
-    development,
-    infrastructure,
-    trustiness,
-    transparency
   }
 }
 

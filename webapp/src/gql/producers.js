@@ -25,6 +25,13 @@ export const GET_BLOCK_PRODUCERS = gql`
       transparency
       ratings_cntr
       general_info
+      total_average
+      total_transparency
+      total_infrastructure
+      total_trustiness
+      total_community
+      total_development
+      total_ratings_cntr
       eden_average
       eden_ratings_cntr
       eden_community
@@ -57,6 +64,13 @@ export const GET_PRODUCER_BY_OWNER = gql`
       transparency
       ratings_cntr
       general_info
+      total_average
+      total_transparency
+      total_infrastructure
+      total_trustiness
+      total_community
+      total_development
+      total_ratings_cntr
       eden_average
       eden_ratings_cntr
       eden_community
