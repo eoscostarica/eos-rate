@@ -70,9 +70,7 @@ const RadarSection = ({
         <Table
           rows={[
             {
-              box: (
-                <TableBoxColor color={polarChartData[2].color}></TableBoxColor>
-              ),
+              box: <TableBoxColor color={polarChartData[2].color} />,
               rater: t('myRate'),
               amount: isRated ? 1 : 0,
               average: getMyRatingAverage({
@@ -84,17 +82,13 @@ const RadarSection = ({
               })
             },
             {
-              box: (
-                <TableBoxColor color={polarChartData[0].color}></TableBoxColor>
-              ),
+              box: <TableBoxColor color={polarChartData[0].color} />,
               rater: t('globalRate'),
               amount: state.blockProducer?.ratings_cntr || 0,
               average: getAverageValue(_get(state.blockProducer, 'average', 0))
             },
             {
-              box: (
-                <TableBoxColor color={polarChartData[1].color}></TableBoxColor>
-              ),
+              box: <TableBoxColor color={polarChartData[1].color} />,
               rater: t('edenRates'),
               amount: state.blockProducer?.eden_ratings_cntr || 0,
               average: getAverageValue(
@@ -102,9 +96,7 @@ const RadarSection = ({
               )
             },
             {
-              box: (
-                <TableBoxColor color={polarChartData[3].color}></TableBoxColor>
-              ),
+              box: <TableBoxColor color={polarChartData[3].color} />,
               rater: t('totalRates'),
               amount: state.blockProducer?.total_ratings_cntr || 0,
               average: formatNumber(

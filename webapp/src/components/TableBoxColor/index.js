@@ -12,7 +12,7 @@ const TableBoxColor = ({ color }) => {
   const classes = useStyles()
   return (
     <Box
-      style={{ borderColor: LightenDarkenColor('#a43bca99', 80) }}
+      borderColor={LightenDarkenColor('#a43bca99', 80)}
       bgcolor={color}
       className={classes.boxColor}
     />
