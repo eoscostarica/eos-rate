@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef, Fragment } from 'react'
+import React, { useState, useEffect, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
@@ -84,6 +84,7 @@ const BlockProducerProfile = () => {
   const [polarChartData, setPolarChartData] = useState([])
   const [blockProducerTitle, setBlockProducerTitle] = useState('No Title')
   const [open, setOpen] = useState(false)
+  const [myRating, setMyRating] = useState({})
 
   const getRatingData = edenRate => ({
     community: parseFloat(formatNumber(edenRate?.community || 0, 1)),
@@ -100,24 +101,48 @@ const BlockProducerProfile = () => {
       parameters: getRatingData(bp?.edenRate),
       visible: false
     })
+    let bpRated
+    const userRates = state.user?.userData?.userRates || []
+
+    userRates.forEach(rate => {
+      if (rate?.owner === state?.blockProducer?.owner) {
+        if (!bpRated) bpRated = rate
+        else if (
+          Date.parse(bpRated?.tx_data?.transaction.transactionDate) <
+          Date.parse(rate?.tx_data?.transaction?.transactionDate)
+        )
+          bpRated = rate
+      }
+    })
+
+    setMyRating(bpRated?.ratings)
+
     const userDataSet = getBPRadarData({
       colorString: 'myRate',
       name: t('myRate'),
-      parameters: getRatingData({})
+      parameters: getRatingData(bpRated?.ratings)
     })
 
-    setBpHasInformation(!!Object.values(bp.bpjson).length)
+    setBpHasInformation(!!Object.values(bp?.bpjson).length)
     setBlockProducerLogo(_get(bp, 'bpjson.org.branding.logo_256', null))
     setBlockProducerTitle(
       _get(bp, 'bpjson.org.candidate_name', _get(bp, 'system.owner', 'No Data'))
     )
     setWebInfo(_get(bp, 'general_info', null))
 
-    if (bp.totalStats) {
+    if (bp.total_ratings_cntr) {
       const totalStatsDataSet = getBPRadarData({
         colorString: 'totalRates',
         name: t('totalRates'),
-        parameters: getRatingData(bp?.totalStats)
+        parameters: getRatingData({
+          average: bp.total_average,
+          community: bp.total_community,
+          development: bp.total_development,
+          infrastructure: bp.total_infrastructure,
+          ratings_cntr: bp.total_ratings_cntr,
+          transparency: bp.total_transparency,
+          trustiness: bp.total_trustiness
+        })
       })
 
       setPolarChartData([
@@ -144,6 +169,12 @@ const BlockProducerProfile = () => {
           ({ owner }) => owner === account
         )
 
+        if (!bp) {
+          await setProducer(account)
+
+          return
+        }
+
         setProducer(bp, true)
         setProfileData(bp)
 
@@ -159,8 +190,8 @@ const BlockProducerProfile = () => {
   useEffect(() => {
     if (!state.blockProducer) return
 
-    setProfileData(state.blockProducer)
-  }, [state.blockProducer])
+    setProfileData(state?.blockProducer)
+  }, [state.blockProducer, state.user])
 
   useEffect(() => {
     if (state.user && state.blockProducer) {
@@ -276,6 +307,17 @@ const BlockProducerProfile = () => {
             <Table
               rows={[
                 {
+                  rater: t('myRate'),
+                  amount: isRated ? 1 : 0,
+                  average: getMyRatingAverage({
+                    community: myRating?.community,
+                    development: myRating?.development,
+                    infrastructure: myRating?.infrastructure,
+                    transparency: myRating?.transparency,
+                    trustiness: myRating?.trustiness
+                  })
+                },
+                {
                   rater: t('eosRates'),
                   amount: _get(state.blockProducer, 'ratings_cntr', null) || 0,
                   average: getAverageValue(
@@ -293,13 +335,9 @@ const BlockProducerProfile = () => {
                 {
                   rater: t('totalRates'),
                   amount:
-                    _get(
-                      state.blockProducer,
-                      'totalStats.ratings_cntr',
-                      null
-                    ) || 0,
+                    _get(state.blockProducer, 'total_ratings_cntr', null) || 0,
                   average: getAverageValue(
-                    _get(state.blockProducer, 'totalStats.average', 0)
+                    _get(state.blockProducer, 'total_average', 0)
                   )
                 }
               ]}

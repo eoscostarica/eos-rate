@@ -134,7 +134,20 @@ const CardData = ({
         </Box>
         <Box className={classes.chartWrapper}>
           <PolarChart
-            data={[{ ...data.data, data: formatRadarData(data.totalStats) }]}
+            data={[
+              {
+                ...data.data,
+                data: formatRadarData({
+                  average: data.total_average,
+                  community: data.total_community,
+                  development: data.total_development,
+                  infrastructure: data.total_infrastructure,
+                  ratings_cntr: data.total_ratings_cntr,
+                  transparency: data.total_transparency,
+                  trustiness: data.total_trustiness
+                })
+              }
+            ]}
           />
         </Box>
         {showOptions && (
