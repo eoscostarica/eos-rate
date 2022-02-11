@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@atlaskit/inline-edit": "^12.1.7"
+  }
+}
