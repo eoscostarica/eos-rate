@@ -44,7 +44,7 @@ using eosio::public_key;
 */
 namespace eosio {
     constexpr name system_account{"eosio"_n};
-    constexpr name eden_account{"genesis.eden"_n};
+    constexpr name eden_account{"genesisdeden"_n};
     constexpr name eden_scope{"eden"_n};
 
     /*
@@ -525,6 +525,7 @@ namespace eoscostarica {
         */ 
         void erase_aux(name scope, name bp_name);
 
+
         /**
         *
         *  Erase all data related for a set of block producer
@@ -534,6 +535,23 @@ namespace eoscostarica {
         * 
         */ 
         void erase_bp_info(name scope, std::set<eosio::name> * bps_to_clean);
+
+
+        /**
+        *
+        *  Clean all data store within the tables
+        * 
+        */ 
+        void wipe();
+
+        /**
+        *
+        *  Clean all data store within the tables
+        * 
+        * @param scope - Table scope
+        * 
+        */ 
+        void wipe_aux(name scope);
         
         /**
         *
@@ -600,6 +618,7 @@ namespace eoscostarica {
                  "rateproducer"_n,
                  action(rate, user, bp, transparency, infrastructure, trustiness, community, development, ricardian_contract(rate_ricardian)),
                  action(erase, bp_name, ricardian_contract(erase_ricardian)),
+                 action(wipe, ricardian_contract(wipe_ricardian)),
                  action(rminactive, ricardian_contract(rminactive_ricardian)),
                  action(rmrate, user, bp, ricardian_contract(rmrate_ricardian)),
                  action(migrate, ricardian_contract(migrate_ricardian)),

@@ -47,6 +47,11 @@
             ]
         },
         {
+            "name": "wipe",
+            "base": "",
+            "fields": []
+        },
+        {
             "name": "rminactive",
             "base": "",
             "fields": []
@@ -167,6 +172,11 @@
             "name": "erase",
             "type": "erase",
             "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Erase Block Producer Stats\nsummary: The intent of the `{{ erase }}` action is to provide a ways to clear all data related with a specific block producer.\n---"
+        },
+        {
+            "name": "wipe",
+            "type": "wipe",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Wipe all contract's tables\nsummary: The intent of the `{{ wipe }}` action is to provide a way to release the stored data within the contract.\n---"
         },
         {
             "name": "rminactive",
