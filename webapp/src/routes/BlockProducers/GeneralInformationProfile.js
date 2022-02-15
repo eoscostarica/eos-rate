@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 
 import formatNumber from '../../utils/format-number'
-import MultilineEdit from '../../components/MultilineEdit'
 
 countries.registerLocale(require('i18n-iso-countries/langs/en.json'))
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'))
@@ -244,7 +243,6 @@ const WebsiteLegend = ({ classes, webInfo }) => {
         <Typography variant='subtitle1' style={{ fontWeight: 500 }}>
           {webInfo.websiteText}
         </Typography>
-        <MultilineEdit text={webInfo.websiteText} />
       </Box>
     </Box>
   ) : null

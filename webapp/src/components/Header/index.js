@@ -17,6 +17,9 @@ import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalance
 import ExitIcon from '@mui/icons-material/ExitToApp'
 import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import AccountIcon from '@mui/icons-material/AccountCircle'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 
 import { useSharedState } from '../../context/state.context'
 import MobileSearch from '../../components/MobileSearch'
@@ -32,18 +35,45 @@ const useStyles = makeStyles(styles)
 const AuthButton = memo(({ user, onLogin, onSignOut, loading }) => {
   const { t } = useTranslation('translations')
   const classes = useStyles()
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const open = Boolean(anchorEl)
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
 
   return (
     <>
       {user && (
-        <IconButton
-          aria-label='sign out'
-          className={classes.onSignOut}
-          onClick={onSignOut}
-        >
-          <ExitIcon className={classes.iconLanguage} />
-          <Typography className={classes.textBtn}>{t('signOut')}</Typography>
-        </IconButton>
+        <>
+          <IconButton
+            onClick={handleClick}
+            aria-controls={open ? 'account-menu' : undefined}
+            aria-haspopup='true'
+            aria-expanded={open ? 'true' : undefined}
+          >
+            <AccountIcon className={classes.icon} />
+            <Typography className={classes.textBtn}>
+              {user.accountName}
+            </Typography>
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            id='account-menu'
+            open={open}
+            onClose={handleClose}
+            onClick={handleClose}
+          >
+            <MenuItem className={classes.onSignOut} onClick={onSignOut}>
+              <ExitIcon className={classes.iconLanguage} />
+              <Typography className={classes.textBtn}>
+                {t('signOut')}
+              </Typography>
+            </MenuItem>
+          </Menu>
+        </>
       )}
       {!user && (
         <IconButton

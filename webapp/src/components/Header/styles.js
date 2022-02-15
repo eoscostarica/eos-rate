@@ -87,7 +87,7 @@ export default theme => ({
   },
   onSignOut: {
     '& svg': {
-      color: theme.palette.common.white
+      color: theme.palette.primary.main
     }
   },
   onLogin: {
@@ -99,7 +99,7 @@ export default theme => ({
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
-      color: theme.palette.common.white,
+      color: theme.palette.primary.main,
       fontFamily: 'Roboto',
       fontStyle: 'normal',
       fontWeight: 'normal',
