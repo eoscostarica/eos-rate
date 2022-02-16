@@ -305,7 +305,6 @@ const BlockProducerProfile = () => {
             </Button>
           </Grid>
           <Grid style={{ paddingTop: 40 }} item md={11} xs={12}>
-            {console.log(polarChartData)}
             {polarChartData.length > 0 && (
               <Table
                 rows={[
