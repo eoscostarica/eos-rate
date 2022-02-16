@@ -226,10 +226,10 @@ export default theme => ({
   },
   btnBP: {
     color: theme.palette.surface.main,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
     width: '100%',
     '&:hover': {
-      backgroundColor: theme.palette.secondary.light
+      backgroundColor: theme.palette.primary.light
     },
     height: 36,
     [theme.breakpoints.up('sm')]: {
@@ -399,5 +399,8 @@ export default theme => ({
     color: `${theme.palette.common.white} !important`,
     textDecoration: 'none !important',
     paddingTop: 2
+  },
+  tblContainer: {
+    paddingTop: 40
   }
 })

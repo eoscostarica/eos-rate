@@ -18,6 +18,7 @@ import { makeStyles } from '@mui/styles'
 import Box from '@mui/material/Box'
 
 import Table from '../../components/Table'
+import TableBoxColor from '../../components/TableBoxColor'
 import TitlePage from '../../components/PageTitle'
 import PolarChart from '../../components/PolarChart'
 import getBPRadarData from '../../utils/get-bp-radar-data'
@@ -65,39 +66,48 @@ const RadarSection = ({
       <PolarChart data={polarChartData} showLegend />
     </Grid>
     <Grid className={classes.tableBox} item md={11} xs={12}>
-      <Table
-        rows={[
-          {
-            rater: t('myRate'),
-            amount: isRated ? 1 : 0,
-            average: getMyRatingAverage({
-              community: myRating.community,
-              development: myRating.development,
-              infrastructure: myRating.infrastructure,
-              transparency: myRating.transparency,
-              trustiness: myRating.trustiness
-            })
-          },
-          {
-            rater: t('globalRate'),
-            amount: state.blockProducer?.ratings_cntr || 0,
-            average: getAverageValue(_get(state.blockProducer, 'average', 0))
-          },
-          {
-            rater: t('edenRates'),
-            amount: state.blockProducer?.eden_ratings_cntr || 0,
-            average: getAverageValue(
-              _get(state.blockProducer, 'eden_average', 0)
-            )
-          },
-          {
-            rater: t('totalRates'),
-            amount: state.blockProducer?.total_ratings_cntr || 0,
-            average: formatNumber(state.blockProducer?.total_average || 0.0, 1)
-          }
-        ]}
-        heads={[t('raters'), t('amount'), t('average')]}
-      />
+      {polarChartData.length > 0 && (
+        <Table
+          rows={[
+            {
+              box: <TableBoxColor color={polarChartData[2].color} />,
+              rater: t('myRate'),
+              amount: isRated ? 1 : 0,
+              average: getMyRatingAverage({
+                community: myRating.community,
+                development: myRating.development,
+                infrastructure: myRating.infrastructure,
+                transparency: myRating.transparency,
+                trustiness: myRating.trustiness
+              })
+            },
+            {
+              box: <TableBoxColor color={polarChartData[0].color} />,
+              rater: t('globalRate'),
+              amount: state.blockProducer?.ratings_cntr || 0,
+              average: getAverageValue(_get(state.blockProducer, 'average', 0))
+            },
+            {
+              box: <TableBoxColor color={polarChartData[1].color} />,
+              rater: t('edenRates'),
+              amount: state.blockProducer?.eden_ratings_cntr || 0,
+              average: getAverageValue(
+                _get(state.blockProducer, 'eden_average', 0)
+              )
+            },
+            {
+              box: <TableBoxColor color={polarChartData[3].color} />,
+              rater: t('totalRates'),
+              amount: state.blockProducer?.total_ratings_cntr || 0,
+              average: formatNumber(
+                state.blockProducer?.total_average || 0.0,
+                1
+              )
+            }
+          ]}
+          heads={[t(''), t('raters'), t('amount'), t('average')]}
+        />
+      )}
     </Grid>
   </>
 )

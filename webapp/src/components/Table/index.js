@@ -6,8 +6,14 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+import { makeStyles } from '@mui/styles'
+
+import styles from './styles'
+
+const useStyles = makeStyles(styles)
 
 const BasicTable = ({ rows, heads }) => {
+  const classes = useStyles()
   return (
     <TableContainer>
       <Table aria-label='simple table'>
@@ -27,7 +33,12 @@ const BasicTable = ({ rows, heads }) => {
         <TableBody>
           {rows.map(row => (
             <TableRow key={row.rater}>
-              <TableCell align='center'>{row.rater}</TableCell>
+              <TableCell className={classes.boxColorCell} align='center'>
+                {row.box}
+              </TableCell>
+              <TableCell className={classes.ratersCell} align='center'>
+                {row.rater}
+              </TableCell>
               <TableCell align='center'>{row.amount}</TableCell>
               <TableCell align='center'>{row.average}</TableCell>
             </TableRow>

@@ -47,9 +47,15 @@ const SocialNetworks = ({ classes, producer }) => {
       <Box className={classes.marginLeftBox}>
         {github && (
           <Grid container direction='row'>
-            <Typography variant='subtitle1' className={classes.subTitle}>
-              GitHub:
-            </Typography>
+            <Box width='70px' mr={3}>
+              <Typography
+                fontWeight='bold'
+                variant='subtitle1'
+                className={classes.subTitle}
+              >
+                GitHub:
+              </Typography>
+            </Box>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -67,9 +73,15 @@ const SocialNetworks = ({ classes, producer }) => {
         )}
         {twitter && (
           <Grid container direction='row'>
-            <Typography variant='subtitle1' className={classes.subTitle}>
-              Twitter:
-            </Typography>
+            <Box width='70px' mr={3}>
+              <Typography
+                fontWeight='bold'
+                variant='subtitle1'
+                className={classes.subTitle}
+              >
+                Twitter:
+              </Typography>
+            </Box>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -87,9 +99,15 @@ const SocialNetworks = ({ classes, producer }) => {
         )}
         {linkedin && (
           <Grid container direction='row'>
-            <Typography variant='subtitle1' className={classes.subTitle}>
-              LinkedIn:
-            </Typography>
+            <Box width='70px' mr={3}>
+              <Typography
+                fontWeight='bold'
+                variant='subtitle1'
+                className={classes.subTitle}
+              >
+                LinkedIn:
+              </Typography>
+            </Box>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -107,9 +125,15 @@ const SocialNetworks = ({ classes, producer }) => {
         )}
         {telegram && (
           <Grid container direction='row'>
-            <Typography variant='subtitle1' className={classes.subTitle}>
-              Telegram:
-            </Typography>
+            <Box width='70px' mr={3}>
+              <Typography
+                fontWeight='bold'
+                variant='subtitle1'
+                className={classes.subTitle}
+              >
+                Telegram:
+              </Typography>
+            </Box>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -127,9 +151,15 @@ const SocialNetworks = ({ classes, producer }) => {
         )}
         {instagram && (
           <Grid container direction='row'>
-            <Typography variant='subtitle1' className={classes.subTitle}>
-              Instagram:
-            </Typography>
+            <Box width='70px' mr={3}>
+              <Typography
+                fontWeight='bold'
+                variant='subtitle1'
+                className={classes.subTitle}
+              >
+                Instagram:
+              </Typography>
+            </Box>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -164,9 +194,15 @@ const AdditionalResources = ({ classes, producer }) => {
         <Box className={classes.marginLeftBox}>
           {additionalResources && additionalResources.alohaEOS && (
             <Grid container direction='row'>
-              <Typography variant='subtitle1' className={classes.subTitle}>
-                Aloha EOS:
-              </Typography>
+              <Box width='70px' mr={3}>
+                <Typography
+                  fontWeight='bold'
+                  variant='subtitle1'
+                  className={classes.subTitle}
+                >
+                  Aloha EOS:
+                </Typography>
+              </Box>
               <Typography
                 variant='subtitle1'
                 className={clsx(classes.value, classes.subTitle)}
@@ -184,9 +220,15 @@ const AdditionalResources = ({ classes, producer }) => {
           )}
           {additionalResources && additionalResources.eosNation && (
             <Grid container direction='row'>
-              <Typography variant='subtitle1' className={classes.subTitle}>
-                EOS Nation:
-              </Typography>
+              <Box width='70px' mr={3}>
+                <Typography
+                  fontWeight='bold'
+                  variant='subtitle1'
+                  className={classes.subTitle}
+                >
+                  EOS Nation:
+                </Typography>
+              </Box>
               <Typography
                 variant='subtitle1'
                 className={clsx(classes.value, classes.subTitle)}
@@ -205,9 +247,15 @@ const AdditionalResources = ({ classes, producer }) => {
           )}
           {edenInterview && (
             <Grid container direction='row'>
-              <Typography variant='subtitle1' className={classes.subTitle}>
-                YouTube:
-              </Typography>
+              <Box width='70px' mr={3}>
+                <Typography
+                  fontWeight='bold'
+                  variant='subtitle1'
+                  className={classes.subTitle}
+                >
+                  YouTube:
+                </Typography>
+              </Box>
               <Typography
                 variant='subtitle1'
                 className={clsx(classes.value, classes.subTitle)}
@@ -240,7 +288,7 @@ const WebsiteLegend = ({ classes, webInfo }) => {
         {t('websiteInfo')}:
       </Typography>
       <Box className={classes.marginLeftBox}>
-        <Typography variant='subtitle1' style={{ fontWeight: 500 }}>
+        <Typography mt='2%' variant='subtitle1'>
           {webInfo.websiteText}
         </Typography>
       </Box>
@@ -273,9 +321,15 @@ const GeneralInformation = ({ classes, producer = {} }) => {
         </Typography>
         <Box className={classes.marginLeftBox}>
           <Grid container direction='row'>
-            <Typography variant='subtitle1' className={classes.subTitle}>
-              {t('account')}:
-            </Typography>
+            <Box width='70px' mr={3}>
+              <Typography
+                fontWeight='bold'
+                variant='subtitle1'
+                className={classes.subTitle}
+              >
+                {t('account')}:
+              </Typography>
+            </Box>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -284,9 +338,15 @@ const GeneralInformation = ({ classes, producer = {} }) => {
             </Typography>
           </Grid>
           <Grid container direction='row'>
-            <Typography variant='subtitle1' className={classes.subTitle}>
-              {t('location')}:
-            </Typography>
+            <Box width='70px' mr={3}>
+              <Typography
+                fontWeight='bold'
+                variant='subtitle1'
+                className={classes.subTitle}
+              >
+                {t('location')}:
+              </Typography>
+            </Box>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -295,9 +355,15 @@ const GeneralInformation = ({ classes, producer = {} }) => {
             </Typography>
           </Grid>
           <Grid container direction='row'>
-            <Typography variant='subtitle1' className={classes.subTitle}>
-              {t('website')}:
-            </Typography>
+            <Box width='70px' mr={3}>
+              <Typography
+                fontWeight='bold'
+                variant='subtitle1'
+                className={classes.subTitle}
+              >
+                {t('website')}:
+              </Typography>
+            </Box>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -317,9 +383,15 @@ const GeneralInformation = ({ classes, producer = {} }) => {
             </Typography>
           </Grid>
           <Grid container direction='row'>
-            <Typography variant='subtitle1' className={classes.subTitle}>
-              {t('votes')}:
-            </Typography>
+            <Box width='70px' mr={3}>
+              <Typography
+                fontWeight='bold'
+                variant='subtitle1'
+                className={classes.subTitle}
+              >
+                {t('votes')}:
+              </Typography>
+            </Box>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
