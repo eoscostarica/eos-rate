@@ -304,7 +304,7 @@ const BlockProducerProfile = () => {
               {isRated ? t('updateRatingButton') : t('buttonRate')}
             </Button>
           </Grid>
-          <Grid style={{ paddingTop: 40 }} item md={11} xs={12}>
+          <Grid className={classes.tblContainer} item md={11} xs={12}>
             {polarChartData.length > 0 && (
               <Table
                 rows={[

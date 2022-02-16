@@ -399,5 +399,8 @@ export default theme => ({
     color: `${theme.palette.common.white} !important`,
     textDecoration: 'none !important',
     paddingTop: 2
+  },
+  tblContainer: {
+    paddingTop: 40
   }
 })
