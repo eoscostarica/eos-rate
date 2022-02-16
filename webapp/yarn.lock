@@ -1836,8 +1836,6 @@
   resolved "https://registry.yarnpkg.com/@ethersproject/wordlists/-/wordlists-5.5.0.tgz#aac74963aa43e643638e5172353d931b347d584f"
   integrity sha512-bL0UTReWDiaQJJYOC9sh/XcRu/9i2jMrzf8VLRmPKx58ckSlOJiohODkECCO50dtLZHcGU6MLXQ4OOrgBwP77Q==
   dependencies:
-<<<<<<< HEAD
-=======
     ajv "^6.12.4"
     debug "^4.1.1"
     espree "^7.3.0"
@@ -2182,7 +2180,6 @@
   resolved "https://registry.yarnpkg.com/@ethersproject/wordlists/-/wordlists-5.5.0.tgz#aac74963aa43e643638e5172353d931b347d584f"
   integrity sha512-bL0UTReWDiaQJJYOC9sh/XcRu/9i2jMrzf8VLRmPKx58ckSlOJiohODkECCO50dtLZHcGU6MLXQ4OOrgBwP77Q==
   dependencies:
->>>>>>> ddb22a51b7061daf66e03f6c9e6ecf04b3e8ba23
     "@ethersproject/bytes" "^5.5.0"
     "@ethersproject/hash" "^5.5.0"
     "@ethersproject/logger" "^5.5.0"
