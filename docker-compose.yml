@@ -44,6 +44,7 @@ services:
       HAPI_POSTGRES_HOST: "${HAPI_POSTGRES_HOST}"
       HAPI_POSTGRES_SCHEMA: "${HAPI_POSTGRES_SCHEMA}"
       HAPI_EOS_API_ENDPOINT: "${HAPI_EOS_API_ENDPOINT}"
+      HAPI_EOS_CHAIN_ID: "${HAPI_EOS_CHAIN_ID}"
       HAPI_PROXY_CONTRACT: "${HAPI_PROXY_CONTRACT}"
       HAPI_RATING_CONTRACT: "${HAPI_RATING_CONTRACT}"
 
@@ -81,9 +82,9 @@ services:
     container_name: eosrate_hasura
     image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
     ports:
-    - "8080:8080"
+      - "8080:8080"
     depends_on:
-    - postgres
+      - postgres
     restart: always
     environment:
       REACT_APP_VERSION: "${REACT_APP_VERSION}"

@@ -1,11 +1,11 @@
-import { TokenPocket } from 'ual-token-pocket'
+// import { TokenPocket } from 'ual-token-pocket'
 import { Anchor } from 'ual-anchor'
-import { Scatter } from 'ual-scatter'
-import { Ledger } from 'ual-ledger'
-import { Lynx } from 'ual-lynx'
-import { Metamask } from 'ual-metamask'
-import { MeetOne } from 'ual-meetone'
-import { Wombat } from 'ual-wombat'
+// import { Scatter } from 'ual-scatter'
+// import { Ledger } from 'ual-ledger'
+// import { Lynx } from 'ual-lynx'
+// import { Metamask } from 'ual-metamask'
+// import { MeetOne } from 'ual-meetone'
+// import { Wombat } from 'ual-wombat'
 
 export const endpoint = `${process.env.REACT_APP_EOS_API_PROTOCOL}://${
   process.env.REACT_APP_EOS_API_HOST
@@ -25,12 +25,12 @@ export const network = {
   ]
 }
 export const authenticators = [
-  new TokenPocket([network]),
-  new Anchor([network], { appName }),
-  new Lynx([network]),
-  new Ledger([network]),
-  new MeetOne([network.chainId]),
-  new Scatter([network], { appName }),
-  new Wombat([network], { appName }),
-  new Metamask([network])
+  // new TokenPocket([network]),
+  new Anchor([network], { appName })
+  // new Lynx([network]),
+  // new Ledger([network]),
+  // new MeetOne([network.chainId]),
+  // new Scatter([network], { appName }),
+  // new Wombat([network], { appName }),
+  // new Metamask([network])
 ]

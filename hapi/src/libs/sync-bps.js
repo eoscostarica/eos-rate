@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const EosApi = require('eosjs-api')
 const request = require('request-promise')
-const { massiveDB } = require('../config')
+const { massiveDB, chainConfig } = require('../config')
 
 const HAPI_EOS_API_ENDPOINT =
   process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle3.cryptolions.io'
@@ -35,8 +35,6 @@ const getBlockProducersData = async () => {
       !producer.url.startsWith('http://')
     )
       producer.url = `http://${producer.url}`
-    if (!producer.url.endsWith('.json'))
-      producer.url = `${producer.url}/bp.json`
 
     console.log(
       `${producer.owner}   TOTAL VOTES: ----> ${producer.total_votes}`
@@ -52,6 +50,32 @@ const getBlockProducersData = async () => {
       }
     ]
   }, [])
+
+  for (const producer of allProducers) {
+    try {
+      const chainURL = await request({
+        url: `${producer.system.url}/chains.json`,
+        method: 'get',
+        json: true,
+        timeout: 10000
+      })
+
+      if (!chainURL) {
+        console.log('Chains.json doesnt exist')
+      } else {
+        const url = chainURL.chains[chainConfig.chainID]
+        if (!url) {
+          producer.system.url = `${producer.system.url}/bp.json`
+          console.log('URL AGREGADA', producer.system.url)
+        } else {
+          producer.system.url = `${producer.system.url}` + url
+          console.log('URL', producer.system.url)
+        }
+      }
+    } catch (err) {
+      console.log('Failed')
+    }
+  }
 
   console.log('Getting bpJson information for BPs...')
 
@@ -86,7 +110,7 @@ const updateBlockProducersData = async () => {
   console.log('==== Updating block producer info ====')
   const producersData = await getBlockProducersData()
 
-  producersData.forEach(async (bp) => {
+  producersData.forEach(async bp => {
     const { owner, system, bpJson: bpjson, candidateName } = bp
     const bpData = { owner, system, bpjson, candidate_name: candidateName }
 
