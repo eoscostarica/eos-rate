@@ -60,21 +60,16 @@ const getBlockProducersData = async () => {
         timeout: 10000
       })
 
-      if (!chainURL) {
-        console.log('Chains.json doesnt exist')
-      } else {
-        const url = chainURL.chains[chainConfig.chainID]
-        if (!url) {
-          producer.system.url = `${producer.system.url}/bp.json`
-          console.log('URL AGREGADA', producer.system.url)
-        } else {
-          producer.system.url = `${producer.system.url}` + url
-          console.log('URL', producer.system.url)
-        }
-      }
+      producer.system.url = `${producer.system.url}${
+        chainURL.chains[chainConfig.chainID] || '/bp.json'
+      }`
     } catch (err) {
-      console.log('Failed')
+      console.log(
+        `Chains.json doesnt exist for ${producer.owner}, setting default`
+      )
+      producer.system.url = `${producer.system.url}/bp.json`
     }
+    console.log(`New url for ${producer.owner} is ${producer.system.url}`)
   }
 
   console.log('Getting bpJson information for BPs...')
