@@ -26,10 +26,9 @@ const getBlockProducersData = async () => {
     return []
   }
 
-  const allProducers = producers.reduce((result, producer) => {
+  const allProducers = await producers.reduce(async (result, producer) => {
     if (!producer.is_active || !parseInt(producer.total_votes) || !producer.url)
-      return result
-
+      return await result
     if (
       !producer.url.startsWith('https://') &&
       !producer.url.startsWith('http://')
@@ -39,9 +38,26 @@ const getBlockProducersData = async () => {
     console.log(
       `${producer.owner}   TOTAL VOTES: ----> ${producer.total_votes}`
     )
+    try {
+      const chainURL = await request({
+        url: `${producer.url}/chains.json`,
+        method: 'get',
+        json: true,
+        timeout: 10000
+      })
 
+      producer.url = `${producer.url}${
+        chainURL.chains[chainConfig.chainID] || '/bp.json'
+      }`
+    } catch (err) {
+      console.log(
+        `Chains.json doesnt exist for ${producer.owner}, setting default`
+      )
+      producer.url = `${producer.url}/bp.json`
+    }
+    console.log(`New url for ${producer.owner} is ${producer.url}`)
     return [
-      ...result,
+      ...(await result),
       {
         owner: producer.owner,
         system: { ...producer },
@@ -49,28 +65,7 @@ const getBlockProducersData = async () => {
         candidateName: null
       }
     ]
-  }, [])
-
-  for (const producer of allProducers) {
-    try {
-      const chainURL = await request({
-        url: `${producer.system.url}/chains.json`,
-        method: 'get',
-        json: true,
-        timeout: 10000
-      })
-
-      producer.system.url = `${producer.system.url}${
-        chainURL.chains[chainConfig.chainID] || '/bp.json'
-      }`
-    } catch (err) {
-      console.log(
-        `Chains.json doesnt exist for ${producer.owner}, setting default`
-      )
-      producer.system.url = `${producer.system.url}/bp.json`
-    }
-    console.log(`New url for ${producer.owner} is ${producer.system.url}`)
-  }
+  }, Promise.resolve([]))
 
   console.log('Getting bpJson information for BPs...')
 
