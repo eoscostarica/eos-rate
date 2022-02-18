@@ -86,6 +86,7 @@ jobs:
           HAPI_POSTGRES_PORT: 5432
           HAPI_POSTGRES_SCHEMA: public
           HAPI_EOS_API_ENDPOINT: https://jungle3.cryptolions.io
+          HAPI_EOS_CHAIN_ID: aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
           HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
