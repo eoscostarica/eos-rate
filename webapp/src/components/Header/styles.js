@@ -99,6 +99,19 @@ export default theme => ({
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
+      color: theme.palette.common.white,
+      fontFamily: 'Roboto',
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      fontSize: 20,
+      lineHeight: '23px',
+      marginLeft: `${theme.spacing(0.5)} !important`
+    }
+  },
+  signOut: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
       color: theme.palette.primary.main,
       fontFamily: 'Roboto',
       fontStyle: 'normal',

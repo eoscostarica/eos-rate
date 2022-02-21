@@ -68,7 +68,7 @@ const AuthButton = memo(({ user, onLogin, onSignOut, loading }) => {
           >
             <MenuItem className={classes.onSignOut} onClick={onSignOut}>
               <ExitIcon className={classes.iconLanguage} />
-              <Typography className={classes.textBtn}>
+              <Typography className={classes.signOut}>
                 {t('signOut')}
               </Typography>
             </MenuItem>
