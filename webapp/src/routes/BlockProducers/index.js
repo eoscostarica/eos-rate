@@ -13,6 +13,7 @@ import _get from 'lodash.get'
 import TitlePage from '../../components/PageTitle'
 import CompareTool from '../../components/CompareTool'
 import Card from '../../components/Card'
+import SkeletonCard from '../../components/SkeletonCard'
 import FilterBanner from '../../components/FilterBanner'
 import getAverageValue from '../../utils/get-average-value'
 import { useSharedState } from '../../context/state.context'
@@ -24,8 +25,10 @@ const useStyles = makeStyles(styles)
 
 const AllBps = () => {
   const { t } = useTranslation('translations')
-  const [state, { setProducers, setCompareBPTool, setSelectedProducers }] =
-    useSharedState()
+  const [
+    state,
+    { setProducers, setSkeletonLoading, setCompareBPTool, setSelectedProducers }
+  ] = useSharedState()
   const classes = useStyles()
   const myRef = useRef(null)
   const [currentlyVisible, setCurrentlyVisible] = useState(30)
@@ -151,10 +154,12 @@ const AllBps = () => {
 
   useEffect(() => {
     const getData = async () => {
-      !state.blockProducers.data.length &&
-        (await setProducers(currentlyVisible))
+      if (!state.blockProducers.data.length) {
+        await setProducers(currentlyVisible)
+      }
+      setSkeletonLoading(false)
     }
-
+    setSkeletonLoading(true)
     getData()
   }, [])
 
@@ -168,107 +173,126 @@ const AllBps = () => {
 
   return (
     <Box className={classes.rootBP} ref={myRef}>
-      <TitlePage title={t('bpsTitle')} />
-      <Collapse
-        in={state.compareBPToolVisible}
-        timeout='auto'
-        unmountOnExit
-        className={classes.hiddenMobile}
-      >
-        <CompareTool
-          removeBP={handleToggleSelected}
-          className={clsx(classes.compareTool)}
-          list={state.blockProducers.data}
-          selected={state.selectedProducers || []}
-          onHandleVote={() => sendVoteBps(state.selectedProducers || [])}
-          userInfo={state.user}
-          message={ratingState}
-          setMessage={handleSetRatingState}
-          handleOnClose={handleOnClose}
-          handleOnClear={handleOnClear}
-        />
-      </Collapse>
-      <FilterBanner
-        title={t('blockProducers')}
-        page='bp'
-        onFilterChange={handleOnFliterChange}
-      />
-      <Box className={classes.wrapperGrid}>
-        <Box className={classes.gridRow}>
-          {(state.blockProducers.data || []).map(blockProducer => (
-            <Box
-              className={classes.gridItem}
-              key={`${blockProducer.owner}-main-block-card`}
-            >
-              <Card
-                isSelected={state?.selectedProducers?.includes(
-                  blockProducer.owner
-                )}
-                toggleSelection={(isAdding, producerAccountName) => () => {
-                  handleToggleSelected(producerAccountName, isAdding)
-                }}
-                data={blockProducer}
-                imageURL={_get(blockProducer, 'bpjson.org.branding.logo_256')}
-                owner={_get(blockProducer, 'owner')}
-                title={_get(blockProducer, 'bpjson.org.candidate_name')}
-                pathLink='block-producers'
-                buttonLabel={t('addToVote')}
-                average={getAverageValue(
-                  _get(blockProducer, 'total_average', 0)
-                )}
-                rate={_get(blockProducer, 'total_ratings_cntr', 0)}
-                isNewRate={
-                  state.user &&
-                  state.user.userData.userRates.some(
-                    ({ owner }) => owner === blockProducer.owner
-                  )
-                }
-                disable={state?.selectedProducers?.length > 29}
-              />
-            </Box>
-          ))}
-        </Box>
-      </Box>
-      {state.selectedProducers.length > 0 && (
-        <Grid container justifyContent='flex-end'>
-          <Grid item md={12} className={classes.openBottomSheetContainer}>
-            <Button onClick={handleOpenDesktopVotingTool} variant='contained'>
-              <ThumbUpAltIcon />
-              <Typography>
-                {t('btnVoteBPs')} ({state.selectedProducers.length})
-              </Typography>
-            </Button>
-          </Grid>
-        </Grid>
-      )}
-      <SelectedBpsBottomSheet
-        open={state.compareBPToolVisible}
-        classesStyle={classes.hiddenDesktop}
-      >
-        <CompareTool
-          removeBP={handleToggleSelected}
-          className={classes.compareTool}
-          list={state.blockProducers.data}
-          selected={state.selectedProducers || []}
-          onHandleVote={() => sendVoteBps(state.selectedProducers || [])}
-          userInfo={state.user}
-          message={ratingState}
-          setMessage={handleSetRatingState}
-          handleOnClose={handleOnClose}
-          handleOnClear={handleOnClear}
-        />
-      </SelectedBpsBottomSheet>
-      <Box className={classes.loadMoreBtnBox}>
-        <Button
-          disabled={!hasMoreRows}
-          className={classes.loadMoreButton}
-          onClick={loadMore}
-          variant='outlined'
-          color={'primary'}
+      <>
+        <TitlePage title={t('bpsTitle')} />
+        <Collapse
+          in={state.compareBPToolVisible}
+          timeout='auto'
+          unmountOnExit
+          className={classes.hiddenMobile}
         >
-          {t('loadMore')}
-        </Button>
-      </Box>
+          <CompareTool
+            removeBP={handleToggleSelected}
+            className={clsx(classes.compareTool)}
+            list={state.blockProducers.data}
+            selected={state.selectedProducers || []}
+            onHandleVote={() => sendVoteBps(state.selectedProducers || [])}
+            userInfo={state.user}
+            message={ratingState}
+            setMessage={handleSetRatingState}
+            handleOnClose={handleOnClose}
+            handleOnClear={handleOnClear}
+          />
+        </Collapse>
+        <FilterBanner
+          title={t('blockProducers')}
+          page='bp'
+          onFilterChange={handleOnFliterChange}
+        />
+        <Box className={classes.wrapperGrid}>
+          {state.loadingSkeleton ? (
+            <Box className={classes.gridRow}>
+              <Box className={classes.gridItem}>
+                <SkeletonCard />
+              </Box>
+              <Box className={classes.gridItem}>
+                <SkeletonCard />
+              </Box>
+              <Box className={classes.gridItem}>
+                <SkeletonCard />
+              </Box>
+            </Box>
+          ) : (
+            <Box className={classes.gridRow}>
+              {(state.blockProducers.data || []).map(blockProducer => (
+                <Box
+                  className={classes.gridItem}
+                  key={`${blockProducer.owner}-main-block-card`}
+                >
+                  <Card
+                    isSelected={state?.selectedProducers?.includes(
+                      blockProducer.owner
+                    )}
+                    toggleSelection={(isAdding, producerAccountName) => () => {
+                      handleToggleSelected(producerAccountName, isAdding)
+                    }}
+                    data={blockProducer}
+                    imageURL={_get(
+                      blockProducer,
+                      'bpjson.org.branding.logo_256'
+                    )}
+                    owner={_get(blockProducer, 'owner')}
+                    title={_get(blockProducer, 'bpjson.org.candidate_name')}
+                    pathLink='block-producers'
+                    buttonLabel={t('addToVote')}
+                    average={getAverageValue(
+                      _get(blockProducer, 'total_average', 0)
+                    )}
+                    rate={_get(blockProducer, 'total_ratings_cntr', 0)}
+                    isNewRate={
+                      state.user &&
+                      state.user.userData.userRates.some(
+                        ({ owner }) => owner === blockProducer.owner
+                      )
+                    }
+                    disable={state?.selectedProducers?.length > 29}
+                  />
+                </Box>
+              ))}
+            </Box>
+          )}
+        </Box>
+        {state.selectedProducers.length > 0 && (
+          <Grid container justifyContent='flex-end'>
+            <Grid item md={12} className={classes.openBottomSheetContainer}>
+              <Button onClick={handleOpenDesktopVotingTool} variant='contained'>
+                <ThumbUpAltIcon />
+                <Typography>
+                  {t('btnVoteBPs')} ({state.selectedProducers.length})
+                </Typography>
+              </Button>
+            </Grid>
+          </Grid>
+        )}
+        <SelectedBpsBottomSheet
+          open={state.compareBPToolVisible}
+          classesStyle={classes.hiddenDesktop}
+        >
+          <CompareTool
+            removeBP={handleToggleSelected}
+            className={classes.compareTool}
+            list={state.blockProducers.data}
+            selected={state.selectedProducers || []}
+            onHandleVote={() => sendVoteBps(state.selectedProducers || [])}
+            userInfo={state.user}
+            message={ratingState}
+            setMessage={handleSetRatingState}
+            handleOnClose={handleOnClose}
+            handleOnClear={handleOnClear}
+          />
+        </SelectedBpsBottomSheet>
+        <Box className={classes.loadMoreBtnBox}>
+          <Button
+            disabled={!hasMoreRows}
+            className={classes.loadMoreButton}
+            onClick={loadMore}
+            variant='outlined'
+            color={'primary'}
+          >
+            {t('loadMore')}
+          </Button>
+        </Box>
+      </>
     </Box>
   )
 }
