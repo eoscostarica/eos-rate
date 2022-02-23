@@ -27,7 +27,8 @@ const initialValue = {
   selectedProxies: [],
   proxy: null,
   compareProxyToolVisible: false,
-  homeProducers: []
+  homeProducers: [],
+  loadingSkeleton: false
 }
 
 const sharedStateReducer = (state, action) => {
@@ -143,6 +144,12 @@ const sharedStateReducer = (state, action) => {
       return {
         ...state,
         homeProducers: action.homeProducers
+      }
+
+    case 'skeletonLoading':
+      return {
+        ...state,
+        loadingSkeleton: action.value
       }
 
     default: {
@@ -328,6 +335,10 @@ export const useSharedState = () => {
   const setSelectedProxies = selectedProxies =>
     dispatch({ type: 'setSelectedProxies', selectedProxies })
 
+  const setSkeletonLoading = skeletonLoading => {
+    dispatch({ type: 'skeletonLoading', value: skeletonLoading })
+  }
+
   return [
     state,
     {
@@ -348,7 +359,8 @@ export const useSharedState = () => {
       setProxy,
       setCompareProxyTool,
       setSelectedProxies,
-      setHomeProducers
+      setHomeProducers,
+      setSkeletonLoading
     }
   ]
 }
