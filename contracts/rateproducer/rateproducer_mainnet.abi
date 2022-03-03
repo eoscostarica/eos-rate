@@ -81,6 +81,24 @@
             "fields": []
         },
         {
+            "name": "logcomment",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "bp",
+                    "type": "name"
+                },
+                {
+                    "name": "comment",
+                    "type": "string"
+                }
+            ]
+        },
+        {
             "name": "ratings_v2",
             "base": "",
             "fields": [
@@ -192,6 +210,11 @@
             "name": "migratestats",
             "type": "migratestats",
             "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Update rateproducer stats\nsummary: The intent of the `{{ migratestats }}` action is to remove from stats table under rateproducer scope the eden ratings averages.\n---"
+        },
+        {
+            "name": "logcomment",
+            "type": "logcomment",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Add additional information about block producer\nsummary: The intent of the `{{ logcomment }}` action is to add additional information and optinions of users about block producers.\n---"
         }
     ],
     "tables": [
