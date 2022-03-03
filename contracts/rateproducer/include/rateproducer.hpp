@@ -37,14 +37,14 @@ using eosio::public_key;
 
 /*
 *   this namespace is used to map producer_info and voter_info tables
-*   within the local scope of this contract,  the follow functions :is_blockproducer,
+*   within the local scope of this contract, the follow functions: is_blockproducer,
 *   get_voters, get_proxy, is_active_proxy relay on these tables.
-*   this approaches came from this thread : 
+*   this approaches came from this thread: 
 *   https://eosio.stackexchange.com/questions/4676/check-within-smart-contract-if-an-account-is-a-proxy
 */
 namespace eosio {
     constexpr name system_account{"eosio"_n};
-    constexpr name eden_account{"genesis.eden"_n};
+    constexpr name eden_account{"genesisdeden"_n};
     constexpr name eden_scope{"eden"_n};
 
     /*
@@ -347,7 +347,7 @@ namespace eoscostarica {
     )
     typedef eosio::singleton<"globalconfig"_n, config> config_table;
 
-    struct rateproducer  : public eosio::contract {
+    struct rateproducer : public eosio::contract {
         // Use the base class constructors
         using eosio::contract::contract;
 
@@ -505,6 +505,17 @@ namespace eoscostarica {
             float * development,
             uint32_t * ratings_cntr,
             float * average);
+
+        /**
+        *
+        *  Add a comment for a bp
+        *  
+        * @param user - Commenter account,
+        * @param bp -  Block Producer account name
+        * @param comment - Commentary
+        *
+        */ 
+        void logcomment (name user, name bp, std::string comment);
         
         /**
         *
@@ -604,6 +615,7 @@ namespace eoscostarica {
                  action(rmrate, user, bp, ricardian_contract(rmrate_ricardian)),
                  action(migrate, ricardian_contract(migrate_ricardian)),
                  action(freeupram, ricardian_contract(freeupram_ricardian)),
-                 action(migratestats, ricardian_contract(migratestats_ricardian)))
+                 action(migratestats, ricardian_contract(migratestats_ricardian)),
+                 action(logcomment, user, bp, comment, ricardian_contract(logcomment_ricardian)))
                  
 } // namespace eoscostarica
