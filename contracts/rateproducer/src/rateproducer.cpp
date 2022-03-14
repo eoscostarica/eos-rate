@@ -572,6 +572,12 @@ namespace eoscostarica {
         c.version++;
         cfg.set(c, c.owner);
     }
+
+    void rateproducer::logcomment(name user, name bp, std::string comment) {
+        require_auth(user);
+        check( is_blockproducer(bp), "comments are allowed only for registered block producers" );
+        check( comment.length() <= 500, "comment must be less or equal than 500 characters" );
+    }
 } // namespace eoscostarica
 
 

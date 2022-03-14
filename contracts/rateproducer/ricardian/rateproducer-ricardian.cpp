@@ -42,6 +42,12 @@ title: Update rateproducer stats
 summary: The intent of the `{{ migratestats }}` action is to remove from stats table under rateproducer scope the eden ratings averages.
 ---)";
 
+const char* logcomment_ricardian = R"(---
+spec_version: 0.1.0
+title: Add additional information about block producer
+summary: The intent of the `{{ logcomment }}` action is to add additional information and optinions of users about block producers.
+---)";
+
 
     // CLAUSES
     const char* datastorage_clause = R"(The rateproducer application values the security of personal data. We may process only minimal user data as much as it is necessary to maintain the rateproducer application running. We only receive and store any information you knowingly provide to us when you create an account, or fill using the app.)";
