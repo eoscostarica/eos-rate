@@ -1,6 +1,6 @@
 const moment = require('moment')
 
-const { hasuraConfig } = require('../../config')
+const { hyperionConfig } = require('../../config')
 const { hasuraUtil, axiosUtil, sleepUtil } = require('../../utils')
 const hyperionStateService = require('../hyperion-state.service')
 

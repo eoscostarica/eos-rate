@@ -17,7 +17,6 @@ const hasuraAssembled = async () => {
       await axiosUtil.get(hasuraConfig.url.replace('/v1/graphql', '/healthz'))
       hasuraReady = true
     } catch (error) {
-      hasuraReady = false
       console.log(
         'waiting for hasura...',
         hasuraConfig.url.replace('/v1/graphql', '/healthz')

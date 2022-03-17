@@ -1,7 +1,6 @@
 const { hasuraUtil } = require('../utils')
 
 const hyperionService = require('./hyperion')
-const exchangeService = require('./exchange.service')
 
 const sleep = seconds => {
   return new Promise(resolve => {
@@ -30,7 +29,6 @@ const run = async ({ name, action, interval }) => {
 const init = async () => {
   await hasuraUtil.hasuraAssembled()
   run(hyperionService.syncWorker())
-  run(exchangeService.countMentionsWorker())
 }
 
 module.exports = {

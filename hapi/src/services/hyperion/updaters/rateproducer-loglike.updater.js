@@ -1,14 +1,13 @@
 const { eosConfig } = require('../../../config')
 
 module.exports = {
-  type: 'rateproducer:voteproducer',
+  type: 'rateproducer:logcomment',
   apply: async action => {
     try {
+      console.log('ACTION', action)
       if (!action.data.proxy || action.data.proxy !== eosConfig.baseAccount) {
         return
       }
-
-      console.log('ACTION', action)
     } catch (error) {
       console.error(`error to sync ${action.action}: ${error.message}`)
     }

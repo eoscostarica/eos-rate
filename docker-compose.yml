@@ -30,10 +30,11 @@ services:
       context: ./hapi
       dockerfile: Dockerfile
     volumes:
-      - ./hapi:/opt/application
-      - /opt/application/node_modules
+      - ./hapi:/app
+      - /app/node_modules
     ports:
       - "9090:9090"
+    command: bash -c "yarn && yarn watch"
     environment:
       HAPI_SERVER_ADDRESS: "${HAPI_SERVER_ADDRESS}"
       HAPI_SERVER_PORT: "${HAPI_SERVER_PORT}"

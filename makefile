@@ -77,7 +77,7 @@ run-webapp:
 	@echo "done webapp"
 
 run-logs:
-	@docker-compose logs -f hapi webapp
+	@docker-compose logs -f hapi
 
 migrate: scripts/migrate.sh
 	./scripts/migrate.sh
