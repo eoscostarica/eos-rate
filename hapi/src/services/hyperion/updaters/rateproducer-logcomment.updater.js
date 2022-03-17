@@ -1,32 +1,31 @@
 const { eosConfig } = require('../../../config')
-const { saveOrUpdate } = require('../../comment_like.service')
+const { save } = require('../../comment.service')
 
 module.exports = {
-  type: 'sometestacco:loglike',
+  type: 'sometestacco:logcomment',
   apply: async action => {
     try {
+      console.log('LOG-COMMENT', action)
       const {
-        transaction_id,
         actors,
+        transaction_id,
         data: {
-          data: { transaction: comment_transaction, like }
+          data: { bp, comment }
         }
       } = action
-      console.log('LIKE', {
+
+      console.log('DATA', {
         user: actors.split('@')[0],
         transaction: transaction_id,
-        comment_transaction,
-        like
+        bp,
+        content: comment
       })
-
-      await saveOrUpdate({
+      await save({
         user: actors.split('@')[0],
         transaction: transaction_id,
-        comment_transaction,
-        like
+        bp,
+        content: comment
       })
-
-      // saveOrUpdate
       if (!action.data.proxy || action.data.proxy !== eosConfig.baseAccount) {
         return
       }

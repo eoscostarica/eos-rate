@@ -1,0 +1,1 @@
+CREATE TABLE "public"."comment_like" ("transaction" varchar NOT NULL, "like" boolean NOT NULL, "comment_transaction" varchar NOT NULL, "created_at" timestamptz NOT NULL DEFAULT now(), "user" varchar NOT NULL, PRIMARY KEY ("transaction") , FOREIGN KEY ("transaction") REFERENCES "public"."comment"("transaction") ON UPDATE restrict ON DELETE restrict);
