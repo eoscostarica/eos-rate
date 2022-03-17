@@ -24,3 +24,7 @@ type deleteUserRateOutput {
   message: String!
 }
 
+type AddCommentOutput {
+  success: Boolean!
+}
+

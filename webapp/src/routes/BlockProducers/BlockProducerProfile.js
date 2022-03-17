@@ -24,6 +24,7 @@ import TitlePage from '../../components/PageTitle'
 import PolarChart from '../../components/PolarChart'
 import Table from '../../components/Table'
 import TableBoxColor from '../../components/TableBoxColor'
+import CommentCard from '../../components/CommentCard'
 import getAverageValue from '../../utils/get-average-value'
 import { useSharedState } from '../../context/state.context'
 
@@ -354,6 +355,7 @@ const BlockProducerProfile = () => {
             )}
           </Grid>
         </Grid>
+        <CommentCard />
         {isMobile && (
           <>
             <Grid item xs={12}>

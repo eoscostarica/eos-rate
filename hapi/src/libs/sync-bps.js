@@ -27,13 +27,13 @@ const getBlockProducersData = async () => {
   }
 
   const allProducers = await producers.reduce(async (result, producer) => {
-    if (!producer.is_active || !parseInt(producer.total_votes) || !producer.url)
-      return await result
+    // if (!producer.is_active || !parseInt(producer.total_votes) || !producer.url)
+    //   return await result
     if (
       !producer.url.startsWith('https://') &&
       !producer.url.startsWith('http://')
     )
-      producer.url = `http://${producer.url}`
+      producer.url = `http://eoscostarica.com`
 
     console.log(
       `${producer.owner}   TOTAL VOTES: ----> ${producer.total_votes}`
