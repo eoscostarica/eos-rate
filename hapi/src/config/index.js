@@ -4,6 +4,7 @@ const massiveConfig = require('./server.config')
 const chainConfig = require('./chain.config')
 const hyperionConfig = require('./hyperion.config')
 const hasuraConfig = require('./hasura.config')
+const eosConfig = require('./eos.config')
 
 const massiveDB = (async () => {
   try {
@@ -23,5 +24,6 @@ module.exports = {
   edenContractScope: 'eden',
   chainConfig,
   hyperionConfig,
-  hasuraConfig
+  hasuraConfig,
+  eosConfig
 }

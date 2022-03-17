@@ -2,7 +2,7 @@ const { eosConfig } = require('../../../config')
 const { saveOrUpdate } = require('../../comment_like.service')
 
 module.exports = {
-  type: 'sometestacco:loglike',
+  type: `${eosConfig.baseAccount}:loglike`,
   apply: async action => {
     try {
       const {
@@ -12,12 +12,6 @@ module.exports = {
           data: { transaction: comment_transaction, like }
         }
       } = action
-      console.log('LIKE', {
-        user: actors.split('@')[0],
-        transaction: transaction_id,
-        comment_transaction,
-        like
-      })
 
       await saveOrUpdate({
         user: actors.split('@')[0],
@@ -25,11 +19,6 @@ module.exports = {
         comment_transaction,
         like
       })
-
-      // saveOrUpdate
-      if (!action.data.proxy || action.data.proxy !== eosConfig.baseAccount) {
-        return
-      }
     } catch (error) {
       console.error(`error to sync ${action.action}: ${error.message}`)
     }
