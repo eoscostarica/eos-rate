@@ -99,6 +99,24 @@
             ]
         },
         {
+            "name": "loglike",
+            "base": "",
+            "fields": [
+                {
+                    "name": "transaction",
+                    "type": "string"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "like",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
             "name": "ratings_v2",
             "base": "",
             "fields": [
@@ -215,6 +233,11 @@
             "name": "logcomment",
             "type": "logcomment",
             "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Add additional information about block producer\nsummary: The intent of the `{{ logcomment }}` action is to add additional information and optinions of users about block producers.\n---"
+        },
+        {
+            "name": "loglike",
+            "type": "loglike",
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Add additional feedback about comment\nsummary: The intent of the `{{ loglike }}` action is to add feedback of users comment about block producers.\n---"
         }
     ],
     "tables": [
