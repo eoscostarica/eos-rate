@@ -11,12 +11,6 @@ module.exports = {
         data: { bp, comment }
       } = action
 
-      console.log('LOG COMMENT', {
-        user: actors.split('@')[0],
-        transaction: transaction_id,
-        bp,
-        content: comment
-      })
       await save({
         user: actors.split('@')[0],
         transaction: transaction_id,

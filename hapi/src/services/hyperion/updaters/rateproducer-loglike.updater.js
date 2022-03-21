@@ -14,12 +14,6 @@ module.exports = {
         }
       } = action
 
-      console.log('LOG LIKE', {
-        user: actors.split('@')[0],
-        transaction: transaction_id,
-        comment_transaction,
-        like
-      })
       await saveOrUpdate({
         user: actors.split('@')[0],
         transaction: transaction_id,
@@ -28,7 +22,6 @@ module.exports = {
       })
 
       await updatelike({
-        transaction: transaction_id,
         comment_transaction
       })
     } catch (error) {
