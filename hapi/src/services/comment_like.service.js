@@ -45,6 +45,22 @@ const update = async payload => {
   return await hasuraUtil.instance.request(mutation, { ...payload })
 }
 
+const countLikes = async where => {
+  const query = `
+      query ($where: comment_like_bool_exp!) {
+        comment_like_aggregate(where: $where) {
+          aggregate {
+            count
+          }
+        }
+      }
+    `
+  const { comment_like_aggregate } = await hasuraUtil.instance.request(query, {
+    where
+  })
+  return comment_like_aggregate
+}
+
 const saveOrUpdate = async payload => {
   const like = await get({
     comment_transaction: { _eq: payload.comment_transaction },
@@ -64,4 +80,4 @@ const saveOrUpdate = async payload => {
   })
 }
 
-module.exports = { saveOrUpdate }
+module.exports = { saveOrUpdate, get, countLikes }
