@@ -2,15 +2,15 @@ table:
   name: comment
   schema: public
 select_permissions:
-- permission:
-    columns:
-    - id
-    - created_at
-    - comment
-    - bp
-    - user
-    - like
-    - dislike
-    - updated_at
-    filter: {}
-  role: anonymous
+  - permission:
+      columns:
+        - id
+        - created_at
+        - comment
+        - bp
+        - user
+        - like
+        - dislike
+        - updated_at
+      filter: {}
+    role: anonymous
