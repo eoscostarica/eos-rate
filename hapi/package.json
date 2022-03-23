@@ -4,9 +4,10 @@
   "description": "EOS Rate Backend API Service",
   "main": "index.js",
   "scripts": {
-    "precommit": "pretty-quick --staged && lint-staged",
-    "lint": "eslint .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "watch": "nodemon --enable-source-maps src/index.js",
+    "lint": "lint-staged"
   },
   "husky": {
     "hooks": {
@@ -17,30 +18,31 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/hapi": "^20.1.5",
+    "axios": "^0.26.1",
     "eosjs": "^22.1.0",
     "eosjs-api": "^7.0.4",
-    "lint": "^0.7.0",
+    "graphql": "^16.3.0",
+    "graphql-request": "^4.1.0",
     "massive": "^6.9.1",
+    "moment": "^2.29.1",
     "node-fetch": "^2.6.7",
     "npm-check": "^5.9.2",
     "request": "^2.88",
     "request-promise": "^4.2.6"
   },
   "devDependencies": {
-    "eslint": "^7.30.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-config-standard-react": "^11.0.1",
-    "eslint-plugin-import": ">=2.23.4",
+    "env-cmd": "^10.1.0",
+    "eslint": "^7.6.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": ">=5.1.0",
-    "eslint-plugin-react": ">=7.24.0",
-    "eslint-plugin-standard": "^5.0.0",
-    "husky": ">=4",
-    "lint-staged": ">=11",
-    "prettier": "^2.3.2",
-    "pretty-quick": "^3.1.1",
-    "snazzy": "^9.0.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-promise": "^4.3.1",
+    "husky": "4.3.8",
+    "lint-staged": "^10.5.4",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.2.1",
     "standard": "^16.0.3"
   },
   "lint-staged": {

@@ -1,4 +1,7 @@
+- "!include public_comment.yaml"
+- "!include public_comment_like.yaml"
 - "!include public_eden_ratings_stats.yaml"
+- "!include public_hyperion_state.yaml"
 - "!include public_producers.yaml"
 - "!include public_producers_list.yaml"
 - "!include public_proxies.yaml"

@@ -519,6 +519,17 @@ namespace eoscostarica {
         
         /**
         *
+        *  Give like to a comment
+        *  
+        * @param transaction -  Comment transaction
+        * @param user - Commenter account,
+        * @param like - true/false
+        *
+        */ 
+        void loglike (std::string transaction, name user, bool like);
+        
+        /**
+        *
         *  Erase all data related for a specific block producer
         *
         * @param bp_name -  Block Producer account name
@@ -616,6 +627,7 @@ namespace eoscostarica {
                  action(migrate, ricardian_contract(migrate_ricardian)),
                  action(freeupram, ricardian_contract(freeupram_ricardian)),
                  action(migratestats, ricardian_contract(migratestats_ricardian)),
-                 action(logcomment, user, bp, comment, ricardian_contract(logcomment_ricardian)))
+                 action(logcomment, user, bp, comment, ricardian_contract(logcomment_ricardian)),
+                 action(loglike, transaction, user, like, ricardian_contract(loglike_ricardian)))
                  
 } // namespace eoscostarica
