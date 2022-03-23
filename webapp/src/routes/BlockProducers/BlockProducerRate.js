@@ -226,9 +226,7 @@ const BlockProducerRate = () => {
   const sendComment = async () => {
     try {
       console.log(comment)
-      if (state.hola) {
-        transact()
-      }
+
       if (!state.user?.accountName) {
         setShowMessage(true)
 

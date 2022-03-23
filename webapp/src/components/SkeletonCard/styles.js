@@ -1,6 +1,6 @@
 export default theme => ({
   card: {
-    width: 338,
+    width: '90%',
     m: 2,
     height: 591,
     boxShadow: 'none !important'
