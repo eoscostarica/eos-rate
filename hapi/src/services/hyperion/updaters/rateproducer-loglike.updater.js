@@ -1,5 +1,6 @@
 const { eosConfig } = require('../../../config')
 const { saveOrUpdate } = require('../../comment_like.service')
+const { updatelike } = require('../../comment.service')
 
 module.exports = {
   type: `${eosConfig.baseAccount}:loglike`,
@@ -18,6 +19,10 @@ module.exports = {
         transaction: transaction_id,
         comment_transaction,
         like
+      })
+
+      await updatelike({
+        comment_transaction
       })
     } catch (error) {
       console.error(`error to sync ${action.action}: ${error.message}`)

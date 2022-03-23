@@ -8,9 +8,7 @@ module.exports = {
       const {
         actors,
         transaction_id,
-        data: {
-          data: { bp, comment }
-        }
+        data: { bp, comment }
       } = action
 
       await save({
