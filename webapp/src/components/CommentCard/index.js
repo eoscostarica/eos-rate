@@ -7,68 +7,18 @@ import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import ThumbDownIcon from '@mui/icons-material/ThumbDown'
-import Moment from 'react-moment'
 import MenuItem from '@mui/material//MenuItem'
 import Menu from '@mui/material//Menu'
+import Moment from 'react-moment'
+import { useLazyQuery } from '@apollo/client'
+import { useSharedState } from '../../context/state.context'
+
+import { mainConfig } from '../../config'
+import { GET_COMMENTS } from '../../gql'
 
 import styles from './styles'
 
 const useStyles = makeStyles(styles)
-
-export const commentsJSON = [
-  {
-    date: '2021-04-19T12:59-0500',
-    username: 'paoeosrate2165',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tortor dolor, molestie ac arcu quis, faucibus blandit felis. Suspendisse eget urna porta, imperdiet magna quis, lacinia nulla. Aenean porttitor risus eu porta ultricies. Donec nec finibus mi. Donec et mi imperdiet, aliquam mi ac, tempor ante. Nam molestie bibendum cursus. Donec eget elit imperdiet, vulputate diam eu, iaculis quam. In id congue ex, id congue leo. Ut ultrices congue justo, euismod pulvinar diam luctus id. Aliquam gravida, velit consequat placerat condimentum, erat ante facilisis dolor, at iaculis nisl ligula eu arcu.',
-    community: 0,
-    development: 0,
-    infrastructure: 0,
-    transparency: 0,
-    trustiness: 0,
-    like: 0,
-    dislike: 0
-  },
-  {
-    date: '2021-07-19T12:59-0500',
-    username: 'paoeosrate2165',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tortor dolor, molestie ac arcu quis, faucibus blandit felis. Suspendisse eget urna porta, imperdiet magna quis, lacinia nulla. Aenean porttitor risus eu porta ultricies. Donec nec finibus mi. Donec et mi imperdiet, aliquam mi ac, tempor ante. Nam molestie bibendum cursus. Donec eget elit imperdiet, vulputate diam eu, iaculis quam. In id congue ex, id congue leo. Ut ultrices congue justo, euismod pulvinar diam luctus id. Aliquam gravida, velit consequat placerat condimentum, erat ante facilisis dolor, at iaculis nisl ligula eu arcu.',
-    community: 0,
-    development: 0,
-    infrastructure: 0,
-    transparency: 0,
-    trustiness: 0,
-    like: 0,
-    dislike: 0
-  },
-  {
-    date: '2022-02-28T12:59-0500',
-    username: 'paoeosrate2165',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tortor dolor, molestie ac arcu quis, faucibus blandit felis. Suspendisse eget urna porta, imperdiet magna quis, lacinia nulla. Aenean porttitor risus eu porta ultricies. Donec nec finibus mi. Donec et mi imperdiet, aliquam mi ac, tempor ante. Nam molestie bibendum cursus. Donec eget elit imperdiet, vulputate diam eu, iaculis quam. In id congue ex, id congue leo. Ut ultrices congue justo, euismod pulvinar diam luctus id. Aliquam gravida, velit consequat placerat condimentum, erat ante facilisis dolor, at iaculis nisl ligula eu arcu.',
-    community: 0,
-    development: 0,
-    infrastructure: 0,
-    transparency: 0,
-    trustiness: 0,
-    like: 7,
-    dislike: 0
-  },
-  {
-    date: '2022-02-19T12:59-0500',
-    username: 'paoeosrate2165',
-    comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tortor dolor, molestie ac arcu quis, faucibus blandit felis. Suspendisse eget urna porta, imperdiet magna quis, lacinia nulla. Aenean porttitor risus eu porta ultricies. Donec nec finibus mi. Donec et mi imperdiet, aliquam mi ac, tempor ante. Nam molestie bibendum cursus. Donec eget elit imperdiet, vulputate diam eu, iaculis quam. In id congue ex, id congue leo. Ut ultrices congue justo, euismod pulvinar diam luctus id. Aliquam gravida, velit consequat placerat condimentum, erat ante facilisis dolor, at iaculis nisl ligula eu arcu.',
-    community: 0,
-    development: 0,
-    infrastructure: 0,
-    transparency: 0,
-    trustiness: 0,
-    like: 12,
-    dislike: 0
-  }
-]
 
 const options = ['Latest Comments', 'Most Helpful']
 
@@ -81,29 +31,92 @@ const CommentCard = () => {
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
   }
+  const [state] = useSharedState()
+  const [comments, setComments] = useState([])
+  const [getData, { loading, data }] = useLazyQuery(GET_COMMENTS, {
+    fetchPolicy: 'network-only'
+  })
+
+  useEffect(() => {
+    if (loading || !data) {
+      return
+    }
+
+    const { comment } = data
+    const commentList = comment.map(comment => {
+      return { ...comment }
+    })
+    setComments([...commentList])
+    console.log(comments)
+  }, [data, loading])
+
+  useEffect(() => {
+    const getDataAsync = async () => {
+      await getData()
+    }
+
+    if (!data) {
+      getDataAsync()
+    }
+  }, [])
+
+  const handleLike = (transaction, like) => {
+    sendLike(transaction, like)
+  }
+
   const handleClose = () => {
     setAnchorEl(null)
   }
-  const handleMenuItemClick = (event, index) => {
+  const handleMenuItemClick = index => {
     setSelectedIndex(index)
     setAnchorEl(null)
     if (index === 0) {
-      commentsJSON.sort(
+      comments.sort(
         (a, b) =>
-          new Date(...b.date.split('/').reverse()) -
-          new Date(...a.date.split('/').reverse())
+          new Date(...b.created_at.split('/').reverse()) -
+          new Date(...a.created_at.split('/').reverse())
       )
     }
     if (index === 1) {
-      commentsJSON.sort((a, b) => (a.like < b.like ? 1 : -1))
+      comments.sort((a, b) => (a.total_like < b.total_like ? 1 : -1))
     }
   }
-  // componentDidMount(){
-  //   // Runs after the first render() lifecycle
-  // }
   useEffect(() => {
     handleMenuItemClick(onloadstart, 0)
   }, [])
+
+  const sendLike = async (id, like) => {
+    try {
+      if (!state.user?.accountName) {
+        return
+      }
+      const transaction = {
+        actions: [
+          {
+            account: mainConfig.contract,
+            name: 'loglike',
+            authorization: [
+              {
+                actor: state.user?.accountName,
+                permission: 'active'
+              }
+            ],
+            data: {
+              transaction: id,
+              user: state.user?.accountName,
+              like
+            }
+          }
+        ]
+      }
+      await state.ual.activeUser.signTransaction(transaction, {
+        broadcast: true
+      })
+    } catch (error) {
+      console.warn(error)
+    }
+  }
+
   return (
     <Grid pt={6} container justifyContent='center' md={12}>
       <Grid className={classes.sectionContent} item md={12} xs={12}>
@@ -139,7 +152,7 @@ const CommentCard = () => {
                 <MenuItem
                   key={option}
                   selected={index === selectedIndex}
-                  onClick={event => handleMenuItemClick(event, index)}
+                  onClick={() => handleMenuItemClick(index)}
                 >
                   <Typography variant='body3' textTransform='uppercase'>
                     {option}
@@ -149,11 +162,11 @@ const CommentCard = () => {
             </Menu>
           </Box>
           <Box pl={2}>
-            {(commentsJSON || []).map((comment, index) => (
+            {comments.map((comment, index) => (
               <Box pt='12px' pb='12px' key={index}>
                 <Box display='flex'>
                   <Typography variant='body2' display='flex' flex={1} mb={2}>
-                    {comment.username}
+                    {comment.user}
                   </Typography>
                   <Typography
                     variant='body2'
@@ -162,27 +175,27 @@ const CommentCard = () => {
                     mb={2}
                     justifyContent='end'
                   >
-                    <Moment fromNow>{comment.date}</Moment>
+                    <Moment fromNow>{comment.created_at}</Moment>
                   </Typography>
                 </Box>
-                <Typography>{comment.comment}</Typography>
+                <Typography>{comment.content}</Typography>
                 <Box display='flex'>
                   <Box justifyContent='space-between' className={classes.box}>
-                    <Typography variant='body2'>
-                      Community: {comment.community}
-                    </Typography>
-                    <Typography variant='body2'>
-                      Development: {comment.development}
-                    </Typography>
-                    <Typography variant='body2'>
-                      Infrastructure: {comment.infrastructure}
-                    </Typography>
-                    <Typography variant='body2'>
-                      Transparency: {comment.transparency}
-                    </Typography>
-                    <Typography variant='body2'>
-                      Trustiness: {comment.trustiness}
-                    </Typography>
+                    {/* <Typography variant='body2'>
+                        Community: {comment.community}
+                      </Typography>
+                      <Typography variant='body2'>
+                        Development: {comment.development}
+                      </Typography>
+                      <Typography variant='body2'>
+                        Infrastructure: {comment.infrastructure}
+                      </Typography>
+                      <Typography variant='body2'>
+                        Transparency: {comment.transparency}
+                      </Typography>
+                      <Typography variant='body2'>
+                        Trustiness: {comment.trustiness}
+                      </Typography> */}
                   </Box>
                   <Box justifyContent='end' width='20%' className={classes.box}>
                     <Typography
@@ -193,14 +206,18 @@ const CommentCard = () => {
                       Is this helpful?
                     </Typography>
                     <Typography variant='body3' className={classes.likeNum}>
-                      {comment.like}
-                      <IconButton>
+                      {comment.total_like}
+                      <IconButton
+                        onClick={() => handleLike(comment.transaction, true)}
+                      >
                         <ThumbUpIcon className={classes.thumb} />
                       </IconButton>
                     </Typography>
                     <Typography variant='body3' className={classes.dislikeNum}>
-                      {comment.dislike}
-                      <IconButton>
+                      {comment.total_dislike}
+                      <IconButton
+                        onClick={() => handleLike(comment.transaction, false)}
+                      >
                         <ThumbDownIcon className={classes.thumb} />
                       </IconButton>
                     </Typography>
