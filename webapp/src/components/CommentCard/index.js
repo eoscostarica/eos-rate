@@ -11,11 +11,12 @@ import MenuItem from '@mui/material//MenuItem'
 import Menu from '@mui/material//Menu'
 import Moment from 'react-moment'
 import { useLazyQuery } from '@apollo/client'
-import { useSharedState } from '../../context/state.context'
+import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import _get from 'lodash.get'
 
 import { mainConfig } from '../../config'
+import { useSharedState } from '../../context/state.context'
 import { GET_COMMENTS } from '../../gql'
 
 import styles from './styles'
@@ -25,6 +26,7 @@ const useStyles = makeStyles(styles)
 const options = ['Latest Comments', 'Most Helpful']
 
 const CommentCard = ({ producer = {} }) => {
+  const { t } = useTranslation('comment')
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -40,9 +42,7 @@ const CommentCard = ({ producer = {} }) => {
   const blockProducer = _get(producer, 'system.owner', null)
 
   useEffect(() => {
-    if (loading || !data) {
-      return
-    }
+    if (loading || !data) return
 
     const { comment } = data
     const commentList = comment.map(comment => {
@@ -57,6 +57,7 @@ const CommentCard = ({ producer = {} }) => {
         variables: { bp: blockProducer }
       })
     }
+
     if (!data) {
       getDataAsync(blockProducer)
     }
@@ -72,6 +73,7 @@ const CommentCard = ({ producer = {} }) => {
   const handleMenuItemClick = index => {
     setSelectedIndex(index)
     setAnchorEl(null)
+
     if (index === 0) {
       comments.sort(
         (a, b) =>
@@ -79,6 +81,7 @@ const CommentCard = ({ producer = {} }) => {
           new Date(...a.created_at.split('/').reverse())
       )
     }
+
     if (index === 1) {
       comments.sort((a, b) => (a.total_like < b.total_like ? 1 : -1))
     }
@@ -182,30 +185,13 @@ const CommentCard = ({ producer = {} }) => {
                 </Box>
                 <Typography>{comment.content}</Typography>
                 <Box display='flex'>
-                  <Box justifyContent='space-between' className={classes.box}>
-                    {/* <Typography variant='body2'>
-                        Community: {comment.community}
-                      </Typography>
-                      <Typography variant='body2'>
-                        Development: {comment.development}
-                      </Typography>
-                      <Typography variant='body2'>
-                        Infrastructure: {comment.infrastructure}
-                      </Typography>
-                      <Typography variant='body2'>
-                        Transparency: {comment.transparency}
-                      </Typography>
-                      <Typography variant='body2'>
-                        Trustiness: {comment.trustiness}
-                      </Typography> */}
-                  </Box>
                   <Box justifyContent='end' width='20%' className={classes.box}>
                     <Typography
                       variant='body3'
                       textTransform='uppercase'
                       mr={1}
                     >
-                      Is this helpful?
+                      {t('isThisHelpful')}
                     </Typography>
                     <Typography variant='body3' className={classes.likeNum}>
                       {comment.total_like}

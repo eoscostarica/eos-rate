@@ -289,5 +289,8 @@
 
   "termsOfUse": {
     "tabTitle": "Ricardian Contracts for EOS Rate Smart Contract"
+  },
+  "comment": {
+    "isThisHelpful": "도움이 되나요?"
   }
 }
