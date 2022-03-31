@@ -170,7 +170,6 @@ const BlockProducerRate = () => {
       pathname: `/block-producers/${account}`
     })
   }
-  console.log('rating state', ratingState)
   const getRatingData = (useString = false) => {
     const {
       community,
@@ -225,8 +224,6 @@ const BlockProducerRate = () => {
 
   const sendComment = async () => {
     try {
-      console.log(comment)
-
       if (!state.user?.accountName) {
         setShowMessage(true)
 
