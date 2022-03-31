@@ -543,6 +543,39 @@ const BlockProducerRate = () => {
               ratingState={ratingState}
               producer={state.blockProducer}
             />
+            <Grid className={classes.showMobile} item xs={12}>
+              <Box
+                component='form'
+                noValidate
+                autoComplete='off'
+                className={classes.commentContainer}
+              >
+                <div>
+                  <Typography className={classes.commentTitle} variant='h6'>
+                    Add Comments
+                  </Typography>
+                  <TextField
+                    className={classes.textField}
+                    id='outlined-multiline-static'
+                    multiline
+                    rows={4}
+                    placeholder={t('commentReasoning')}
+                    inputProps={{ maxLength: characterLimit }}
+                    value={comment}
+                    onChange={handleTextAreaChange('name')}
+                    fullWidth
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment
+                          className={classes.counter}
+                          position='end'
+                        >{`${comment.length}/${characterLimit}`}</InputAdornment>
+                      )
+                    }}
+                  />
+                </div>
+              </Box>
+            </Grid>
             <Grid
               className={clsx(classes.ctasWrapper, classes.showOnlyLg)}
               style={{ margin: '10px 0 10px 0' }}
@@ -611,8 +644,7 @@ const BlockProducerRate = () => {
                   id='outlined-multiline-static'
                   multiline
                   rows={4}
-                  placeholder='Comment on your rating reasoning.
-          Please be respectful.'
+                  placeholder={t('commentReasoning')}
                   inputProps={{ maxLength: characterLimit }}
                   value={comment}
                   onChange={handleTextAreaChange('name')}
@@ -641,6 +673,7 @@ const BlockProducerRate = () => {
             </Alert>
           </Grid>
         )}
+
         <Grid
           display='flex'
           justifyContent='center'
