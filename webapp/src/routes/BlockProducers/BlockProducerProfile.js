@@ -208,7 +208,6 @@ const BlockProducerProfile = () => {
   useEffect(() => {
     setOpen(!!state.transaction)
   }, [])
-
   return (
     <Grid container justifyContent='center' className={classes.container}>
       <TitlePage title={`${t('title')} ${blockProducerTitle} - EOS Rate`} />
@@ -355,7 +354,7 @@ const BlockProducerProfile = () => {
             )}
           </Grid>
         </Grid>
-        <CommentCard />
+        <CommentCard producer={state.blockProducer} />
         {isMobile && (
           <>
             <Grid item xs={12}>

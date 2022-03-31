@@ -28,22 +28,13 @@ const update = async payload => {
   return await hasuraUtil.instance.request(mutation, { ...payload })
 }
 const updatelike = async payload => {
-  const likes = await get(
-    {
-      transaction: { _eq: payload.comment_transaction }
-    },
-    true
-  )
-
-  if (!likes) {
-    return
-  }
-
   const total_like = await countLikes({
-    like: { _eq: true }
+    like: { _eq: true },
+    comment_transaction: { _eq: payload.comment_transaction }
   })
   const total_dislike = await countLikes({
-    like: { _eq: false }
+    like: { _eq: false },
+    comment_transaction: { _eq: payload.comment_transaction }
   })
 
   await update({

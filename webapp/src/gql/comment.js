@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const GET_COMMENTS = gql`
-  query {
-    comment {
+  query getComments($bp: String) {
+    comment(where: { bp: { _eq: $bp } }) {
       bp
       content
       user

@@ -12,6 +12,8 @@ import Menu from '@mui/material//Menu'
 import Moment from 'react-moment'
 import { useLazyQuery } from '@apollo/client'
 import { useSharedState } from '../../context/state.context'
+import PropTypes from 'prop-types'
+import _get from 'lodash.get'
 
 import { mainConfig } from '../../config'
 import { GET_COMMENTS } from '../../gql'
@@ -22,9 +24,8 @@ const useStyles = makeStyles(styles)
 
 const options = ['Latest Comments', 'Most Helpful']
 
-const CommentCard = () => {
+const CommentCard = ({ producer = {} }) => {
   const classes = useStyles()
-
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const [selectedIndex, setSelectedIndex] = useState(1)
@@ -36,6 +37,7 @@ const CommentCard = () => {
   const [getData, { loading, data }] = useLazyQuery(GET_COMMENTS, {
     fetchPolicy: 'network-only'
   })
+  const blockProducer = _get(producer, 'system.owner', null)
 
   useEffect(() => {
     if (loading || !data) {
@@ -47,18 +49,18 @@ const CommentCard = () => {
       return { ...comment }
     })
     setComments([...commentList])
-    console.log(comments)
   }, [data, loading])
 
   useEffect(() => {
     const getDataAsync = async () => {
-      await getData()
+      await getData({
+        variables: { bp: blockProducer }
+      })
     }
-
     if (!data) {
-      getDataAsync()
+      getDataAsync(blockProducer)
     }
-  }, [])
+  }, [blockProducer])
 
   const handleLike = (transaction, like) => {
     sendLike(transaction, like)
@@ -123,7 +125,7 @@ const CommentCard = () => {
         <Box className={classes.cardContainer}>
           <Box display='flex' justifyContent='end' alignItems='center'>
             <Typography flex={1} mt='28px' mb='44px' variant='h6'>
-              User Comments
+              User Comments ({comments.length})
             </Typography>
             <IconButton
               onClick={handleClick}
@@ -230,5 +232,9 @@ const CommentCard = () => {
       </Grid>
     </Grid>
   )
+}
+
+CommentCard.propTypes = {
+  producer: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
 }
 export default CommentCard
