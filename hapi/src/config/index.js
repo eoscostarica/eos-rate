@@ -21,9 +21,13 @@ module.exports = {
   massiveConfig,
   massiveDB,
   generalContractScope: process.env.HAPI_RATING_CONTRACT || 'rateproducer',
+<<<<<<< HEAD
   edenContractScope: 'eden',
   chainConfig,
   hyperionConfig,
   hasuraConfig,
   eosConfig
+=======
+  edenContractScope: 'eden'
+>>>>>>> staging
 }

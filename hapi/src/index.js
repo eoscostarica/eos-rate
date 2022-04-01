@@ -67,7 +67,10 @@ const init = async () => {
   await server.start()
   console.log(`🚀 Server ready at ${server.info.uri}`)
   server.table().forEach(route => console.log(`${route.method}\t${route.path}`))
+<<<<<<< HEAD
   workerService.init()
+=======
+>>>>>>> staging
 }
 
 process.on('unhandledRejection', err => {
