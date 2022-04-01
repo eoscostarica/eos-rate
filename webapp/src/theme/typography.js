@@ -4,6 +4,14 @@ const typography = {
     fontWeight: 400,
     letterSpacing: 0.44
   },
+  body2: {
+    fontSize: '14px',
+    fontWeight: 500
+  },
+  body3: {
+    fontSize: '12px',
+    fontWeight: 500
+  },
   overline: {
     letterSpacing: 1.5,
     fontSize: 10

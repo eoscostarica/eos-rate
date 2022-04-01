@@ -168,7 +168,8 @@
     "title": "Rate EOS Block Producer Infrastructure and Community Reputation",
     "infoMessage": "Support the network by voting for your favorite BPs or proxy, once you have voted for 21 BPs you can start rating.",
     "enabled": "Enabled",
-    "disabled": "Disabled"
+    "disabled": "Disabled",
+    "commentReasoning": "Comment on your rating reasoning. Please be respectful."
   },
 
   "footer": {
@@ -289,5 +290,8 @@
 
   "termsOfUse": {
     "tabTitle": "Ricardian Contracts for EOS Rate Smart Contract"
+  },
+  "comment": {
+    "isThisHelpful": "Is this helpful?"
   }
 }

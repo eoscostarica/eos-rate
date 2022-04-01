@@ -16,6 +16,8 @@ import Snackbar from '@mui/material/Snackbar'
 import MuiAlert from '@mui/material/Alert'
 import { makeStyles } from '@mui/styles'
 import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
+import InputAdornment from '@mui/material/InputAdornment'
 
 import Table from '../../components/Table'
 import TableBoxColor from '../../components/TableBoxColor'
@@ -48,7 +50,6 @@ const ratingStateData = functionName => ({
   txError: null,
   txSuccess: false
 })
-
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
 })
@@ -139,6 +140,12 @@ const BlockProducerRate = () => {
   const [showMessage, setShowMessage] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
   const [myRating, setMyRating] = useState({})
+  const characterLimit = 500
+  const [comment, setComment] = useState('')
+
+  const handleTextAreaChange = name => event => {
+    setComment(event.target.value)
+  }
 
   const handleStateChange = parameter => (e, value) => {
     setRatingState(prevRating => ({ ...prevRating, [parameter]: value }))
@@ -163,7 +170,6 @@ const BlockProducerRate = () => {
       pathname: `/block-producers/${account}`
     })
   }
-
   const getRatingData = (useString = false) => {
     const {
       community,
@@ -177,7 +183,6 @@ const BlockProducerRate = () => {
       trustiness,
       trustinessEnabled
     } = ratingState
-
     if (useString) {
       return {
         community: formatNumber(communityEnabled ? community : 0, 0).toString(),
@@ -216,6 +221,40 @@ const BlockProducerRate = () => {
     transparency: parseFloat(formatNumber(rate?.transparency || 0, 1)),
     trustiness: parseFloat(formatNumber(rate?.trustiness || 0, 1))
   })
+
+  const sendComment = async () => {
+    try {
+      if (!state.user?.accountName) {
+        setShowMessage(true)
+
+        return
+      }
+      const transaction = {
+        actions: [
+          {
+            account: mainConfig.contract,
+            name: 'logcomment',
+            authorization: [
+              {
+                actor: state.user?.accountName,
+                permission: 'active'
+              }
+            ],
+            data: {
+              user: state.user?.accountName,
+              bp: account,
+              comment
+            }
+          }
+        ]
+      }
+      await state.ual.activeUser.signTransaction(transaction, {
+        broadcast: true
+      })
+    } catch (error) {
+      console.warn(error)
+    }
+  }
 
   const transact = async () => {
     try {
@@ -280,7 +319,7 @@ const BlockProducerRate = () => {
         processing: false,
         txSuccess: true
       })
-
+      sendComment()
       handleSetLastTransactionId()
     } catch (err) {
       setRatingState({
@@ -504,6 +543,39 @@ const BlockProducerRate = () => {
               ratingState={ratingState}
               producer={state.blockProducer}
             />
+            <Grid className={classes.showMobile} item xs={12}>
+              <Box
+                component='form'
+                noValidate
+                autoComplete='off'
+                className={classes.commentContainer}
+              >
+                <div>
+                  <Typography className={classes.commentTitle} variant='h6'>
+                    Add Comments
+                  </Typography>
+                  <TextField
+                    className={classes.textField}
+                    id='outlined-multiline-static'
+                    multiline
+                    rows={4}
+                    placeholder={t('commentReasoning')}
+                    inputProps={{ maxLength: characterLimit }}
+                    value={comment}
+                    onChange={handleTextAreaChange('name')}
+                    fullWidth
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment
+                          className={classes.counter}
+                          position='end'
+                        >{`${comment.length}/${characterLimit}`}</InputAdornment>
+                      )
+                    }}
+                  />
+                </div>
+              </Box>
+            </Grid>
             <Grid
               className={clsx(classes.ctasWrapper, classes.showOnlyLg)}
               style={{ margin: '10px 0 10px 0' }}
@@ -540,44 +612,6 @@ const BlockProducerRate = () => {
                     <CircularProgress color='secondary' size={20} />
                   )}
                 </Grid>
-                <Grid item className={classes.centerContent} xs={6} md={6}>
-                  <Button
-                    disabled={!state.blockProducer}
-                    className={classes.btnOutline}
-                    component={forwardRef((props, ref) => (
-                      <Link
-                        {...props}
-                        ref={ref}
-                        to={`/block-producers/${_get(
-                          state.blockProducer,
-                          'owner',
-                          null
-                        )}`}
-                      />
-                    ))}
-                    variant='outlined'
-                  >
-                    {t('cancelRatingButton')}
-                  </Button>
-                </Grid>
-                <Grid item className={classes.centerContent} xs={6} md={6}>
-                  <Button
-                    className={classes.raisedButton}
-                    disabled={
-                      showAlert ||
-                      !state.blockProducer ||
-                      ratingState.processing
-                    }
-                    color='secondary'
-                    onClick={transact}
-                    size='small'
-                    variant='contained'
-                  >
-                    {isRated
-                      ? t('updateRatingButton')
-                      : t('publishRatingButton')}
-                  </Button>
-                </Grid>
               </Grid>
             </Grid>
           </Grid>
@@ -595,11 +629,43 @@ const BlockProducerRate = () => {
               isRated={isRated}
               polarChartData={polarChartData}
             />
+            <Box
+              component='form'
+              noValidate
+              autoComplete='off'
+              className={classes.commentContainer}
+            >
+              <div>
+                <Typography className={classes.commentTitle} variant='h6'>
+                  Add Comments
+                </Typography>
+                <TextField
+                  className={classes.textField}
+                  id='outlined-multiline-static'
+                  multiline
+                  rows={4}
+                  placeholder={t('commentReasoning')}
+                  inputProps={{ maxLength: characterLimit }}
+                  value={comment}
+                  onChange={handleTextAreaChange('name')}
+                  fullWidth
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment
+                        className={classes.counter}
+                        position='end'
+                      >{`${comment.length}/${characterLimit}`}</InputAdornment>
+                    )
+                  }}
+                />
+              </div>
+            </Box>
             <Grid item md={12} />
             <Grid item md={12} />
             <Grid item md={12} />
           </Grid>
         </Grid>
+
         {showAlert && (
           <Grid container>
             <Alert className={classes.alert} severity='warning'>
@@ -607,6 +673,49 @@ const BlockProducerRate = () => {
             </Alert>
           </Grid>
         )}
+
+        <Grid
+          display='flex'
+          justifyContent='center'
+          marginTop={5}
+          xs={12}
+          md={12}
+        >
+          <Grid item className={classes.centerContent}>
+            <Button
+              disabled={!state.blockProducer}
+              className={classes.btnOutline}
+              component={forwardRef((props, ref) => (
+                <Link
+                  {...props}
+                  ref={ref}
+                  to={`/block-producers/${_get(
+                    state.blockProducer,
+                    'owner',
+                    null
+                  )}`}
+                />
+              ))}
+              variant='outlined'
+            >
+              {t('cancelRatingButton')}
+            </Button>
+          </Grid>
+          <Grid item className={classes.centerContent}>
+            <Button
+              className={classes.raisedButton}
+              disabled={
+                showAlert || !state.blockProducer || ratingState.processing
+              }
+              color='secondary'
+              onClick={transact}
+              size='small'
+              variant='contained'
+            >
+              {isRated ? t('updateRatingButton') : t('publishRatingButton')}
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   )

@@ -116,12 +116,13 @@ export default theme => ({
     width: 'auto',
     height: 36,
     [theme.breakpoints.up('sm')]: {
-      width: 160
+      width: 200
     }
   },
   raisedButton: {
     width: '100%',
     height: 36,
+    marginLeft: `${theme.spacing(6)} !important`,
     [theme.breakpoints.up('sm')]: {
       width: 200
     }
@@ -402,5 +403,25 @@ export default theme => ({
   },
   tblContainer: {
     paddingTop: 40
+  },
+  commentContainer: {
+    width: '95%',
+    maxWidth: '100%',
+    marginLeft: theme.spacing(3),
+    '& .MuiInputAdornment-root': {
+      position: 'absolute',
+      right: theme.spacing(2)
+    },
+    '& .MuiOutlinedInput-input': { marginBottom: theme.spacing(3) }
+  },
+  counter: {
+    '& .MuiTypography-root': {
+      margin: theme.spacing(14, 0, 0),
+      color: theme.palette.grey[400],
+      fontSize: '14px'
+    }
+  },
+  commentTitle: {
+    marginBottom: `${theme.spacing(3)}!important`
   }
 })

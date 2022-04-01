@@ -24,6 +24,7 @@ import TitlePage from '../../components/PageTitle'
 import PolarChart from '../../components/PolarChart'
 import Table from '../../components/Table'
 import TableBoxColor from '../../components/TableBoxColor'
+import CommentCard from '../../components/CommentCard'
 import getAverageValue from '../../utils/get-average-value'
 import { useSharedState } from '../../context/state.context'
 
@@ -207,7 +208,6 @@ const BlockProducerProfile = () => {
   useEffect(() => {
     setOpen(!!state.transaction)
   }, [])
-
   return (
     <Grid container justifyContent='center' className={classes.container}>
       <TitlePage title={`${t('title')} ${blockProducerTitle} - EOS Rate`} />
@@ -354,6 +354,7 @@ const BlockProducerProfile = () => {
             )}
           </Grid>
         </Grid>
+        <CommentCard producer={state.blockProducer} />
         {isMobile && (
           <>
             <Grid item xs={12}>

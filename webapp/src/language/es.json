@@ -168,7 +168,8 @@
     "title": "Calificación de Productores de bloques EOS",
     "infoMessage": "Apoye la red votando por sus BP o proxy favoritos, una vez que haya votado por 21 BP puede comenzar a calificar.",
     "enabled": "Habilitado",
-    "disabled": "Deshabilitado"
+    "disabled": "Deshabilitado",
+    "commentReasoning": "Comenta tu rating razonablemente. Por favor sea respetuoso."
   },
 
   "footer": {
@@ -289,5 +290,8 @@
 
   "termsOfUse": {
     "tabTitle": "Contratos ricardianos para EOS Rate Smart Contract"
+  },
+  "comment": {
+    "isThisHelpful": "¿Te ha ayudado?"
   }
 }
