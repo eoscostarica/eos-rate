@@ -88,7 +88,7 @@ jobs:
           HAPI_POSTGRES_SCHEMA: public
           HAPI_EOS_API_ENDPOINT: https://api.main.alohaeos.com
           HAPI_EOS_CHAIN_ID: aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906
-          HAPI_HYPERION_API: https://jungle3.eosrio.io/
+          HAPI_HYPERION_API: https://api.eossweden.org/
           HAPI_HYPERION_START_AT: 2022-03-01T00:00:00.000+00:00
           # hasura
           HASURA_GRAPHQL_DATABASE_URL: ${{ secrets.HASURA_GRAPHQL_DATABASE_URL }}
