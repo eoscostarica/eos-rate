@@ -26,7 +26,9 @@ const initialValue = {
   proxies: { data: [], rows: 0 },
   selectedProxies: [],
   proxy: null,
-  compareProxyToolVisible: false
+  compareProxyToolVisible: false,
+  homeProducers: [],
+  loadingSkeleton: false
 }
 
 const sharedStateReducer = (state, action) => {
@@ -138,6 +140,18 @@ const sharedStateReducer = (state, action) => {
         loadingLogin: action.loading
       }
 
+    case 'setHomeProducers':
+      return {
+        ...state,
+        homeProducers: action.homeProducers
+      }
+
+    case 'skeletonLoading':
+      return {
+        ...state,
+        loadingSkeleton: action.value
+      }
+
     default: {
       throw new Error(`Unsupported action type: ${action.type}`)
     }
@@ -243,6 +257,15 @@ export const useSharedState = () => {
     dispatch({ type: 'setProducer', blockProducer })
   }
 
+  const setHomeProducers = async bpList => {
+    let homeProducers = bpList
+
+    if (!homeProducers) {
+      homeProducers = await getProducers(3, [{ total_votes: 'desc' }])
+    }
+    dispatch({ type: 'setHomeProducers', homeProducers })
+  }
+
   const handleMutationInsertUserRating = async ({
     ual,
     user,
@@ -312,6 +335,10 @@ export const useSharedState = () => {
   const setSelectedProxies = selectedProxies =>
     dispatch({ type: 'setSelectedProxies', selectedProxies })
 
+  const setSkeletonLoading = skeletonLoading => {
+    dispatch({ type: 'skeletonLoading', value: skeletonLoading })
+  }
+
   return [
     state,
     {
@@ -331,7 +358,9 @@ export const useSharedState = () => {
       setProxies,
       setProxy,
       setCompareProxyTool,
-      setSelectedProxies
+      setSelectedProxies,
+      setHomeProducers,
+      setSkeletonLoading
     }
   ]
 }

@@ -1,0 +1,3 @@
+table:
+  name: comment_like
+  schema: public

@@ -30,10 +30,11 @@ services:
       context: ./hapi
       dockerfile: Dockerfile
     volumes:
-      - ./hapi:/opt/application
-      - /opt/application/node_modules
+      - ./hapi:/app
+      - /app/node_modules
     ports:
       - "9090:9090"
+    command: bash -c "yarn && yarn watch"
     environment:
       HAPI_SERVER_ADDRESS: "${HAPI_SERVER_ADDRESS}"
       HAPI_SERVER_PORT: "${HAPI_SERVER_PORT}"
@@ -44,8 +45,13 @@ services:
       HAPI_POSTGRES_HOST: "${HAPI_POSTGRES_HOST}"
       HAPI_POSTGRES_SCHEMA: "${HAPI_POSTGRES_SCHEMA}"
       HAPI_EOS_API_ENDPOINT: "${HAPI_EOS_API_ENDPOINT}"
+      HAPI_EOS_CHAIN_ID: "${HAPI_EOS_CHAIN_ID}"
       HAPI_PROXY_CONTRACT: "${HAPI_PROXY_CONTRACT}"
       HAPI_RATING_CONTRACT: "${HAPI_RATING_CONTRACT}"
+      HAPI_HYPERION_API: "${HAPI_HYPERION_API}"
+      HAPI_HYPERION_START_AT: "${HAPI_HYPERION_START_AT}"
+      HAPI_HASURA_URL: "${HAPI_HASURA_URL}"
+      HAPI_HASURA_ADMIN_SECRET: "${HAPI_HASURA_ADMIN_SECRET}"
 
     depends_on:
       - postgres
@@ -81,9 +87,9 @@ services:
     container_name: eosrate_hasura
     image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
     ports:
-    - "8080:8080"
+      - "8080:8080"
     depends_on:
-    - postgres
+      - postgres
     restart: always
     environment:
       REACT_APP_VERSION: "${REACT_APP_VERSION}"

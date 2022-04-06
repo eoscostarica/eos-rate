@@ -1,25 +1,17 @@
-FROM node:12.22.6-alpine
+# ---------- Base ----------
+FROM node:14.16.0 as base
+WORKDIR /app
 
-# Create app directory
-WORKDIR /opt/application
-
-# Install dev tools
-# Install global depedencies
-RUN apk add --no-cache yarn &&\
-    apk add --no-cache git &&\
-    apk add --no-cache jq &&\
-    apk add --no-cache curl &&\
-    apk add --no-cache vim &&\
-    yarn global add serve &&\
-    yarn global add eslint &&\
-    yarn --ignore-optional --frozen-lockfile global add nodemon
-
-# Install app dependencies
-COPY package*.json ./
+# ---------- Builder ----------
+FROM base AS builder
+COPY package.json ./
 COPY yarn.lock ./
+RUN yarn --ignore-optional
+COPY ./src ./src
 
-# Bundle app source
-COPY . .
-
-EXPOSE 9090
-CMD nodemon -L src/index.js
+# ---------- Release ----------
+FROM base AS release
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/src ./src
+USER node
+CMD ["node", "./src/index.js"]

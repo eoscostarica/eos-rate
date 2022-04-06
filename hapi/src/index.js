@@ -9,6 +9,8 @@ const {
 
 const Hapi = require('@hapi/hapi')
 
+const { workerService } = require('./services')
+
 const init = async () => {
   const server = Hapi.server({
     port: HAPI_SERVER_PORT,
@@ -65,6 +67,10 @@ const init = async () => {
   await server.start()
   console.log(`🚀 Server ready at ${server.info.uri}`)
   server.table().forEach(route => console.log(`${route.method}\t${route.path}`))
+<<<<<<< HEAD
+  workerService.init()
+=======
+>>>>>>> staging
 }
 
 process.on('unhandledRejection', err => {
