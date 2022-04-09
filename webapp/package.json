@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@atlaskit/inline-edit": "^12.1.7",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "react-moment": "^1.1.1",
     "@apollo/client": "^3.3.21",
     "@date-io/date-fns": "^2.11.0",
