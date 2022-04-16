@@ -33,7 +33,7 @@ spec:
                 - name: HAPI_POSTGRES_USER
                   value: "${HAPI_POSTGRES_USER}"
                 - name: HAPI_EOS_API_ENDPOINT
-                  value: "$HAPI_EOS_API_ENDPOINT}"
+                  value: "${HAPI_EOS_API_ENDPOINT}"
                 - name: HAPI_SERVER_ADDRESS
                   value: 0.0.0.0
                 - name: HAPI_SERVER_PORT
