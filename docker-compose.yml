@@ -1,4 +1,4 @@
-version: "3.6"
+version: "3.8"
 
 services:
   postgres:
@@ -85,7 +85,7 @@ services:
 
   hasura:
     container_name: eosrate_hasura
-    image: hasura/graphql-engine:v2.0.9.cli-migrations-v3
+    image: hasura/graphql-engine:v2.4.0.cli-migrations-v3
     ports:
       - "8080:8080"
     depends_on:
