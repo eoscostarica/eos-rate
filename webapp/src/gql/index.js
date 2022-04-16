@@ -1,3 +1,4 @@
+export * from './comment'
 export * from './search'
 export * from './producers'
 export * from './proxies'

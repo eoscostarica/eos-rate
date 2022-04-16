@@ -1,6 +1,11 @@
 const massive = require('massive')
 
 const massiveConfig = require('./server.config')
+const chainConfig = require('./chain.config')
+const hyperionConfig = require('./hyperion.config')
+const hasuraConfig = require('./hasura.config')
+const eosConfig = require('./eos.config')
+
 const massiveDB = (async () => {
   try {
     return await massive(massiveConfig)
@@ -16,5 +21,9 @@ module.exports = {
   massiveConfig,
   massiveDB,
   generalContractScope: process.env.HAPI_RATING_CONTRACT || 'rateproducer',
-  edenContractScope: 'eden'
+  edenContractScope: 'eden',
+  chainConfig,
+  hyperionConfig,
+  hasuraConfig,
+  eosConfig
 }

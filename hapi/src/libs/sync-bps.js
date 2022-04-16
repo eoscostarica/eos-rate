@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const EosApi = require('eosjs-api')
 const request = require('request-promise')
-const { massiveDB } = require('../config')
+const { massiveDB, chainConfig } = require('../config')
 
 const HAPI_EOS_API_ENDPOINT =
   process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle3.cryptolions.io'
@@ -26,24 +26,38 @@ const getBlockProducersData = async () => {
     return []
   }
 
-  const allProducers = producers.reduce((result, producer) => {
+  const allProducers = await producers.reduce(async (result, producer) => {
     if (!producer.is_active || !parseInt(producer.total_votes) || !producer.url)
-      return result
-
+      return await result
     if (
       !producer.url.startsWith('https://') &&
       !producer.url.startsWith('http://')
     )
       producer.url = `http://${producer.url}`
-    if (!producer.url.endsWith('.json'))
-      producer.url = `${producer.url}/bp.json`
 
     console.log(
       `${producer.owner}   TOTAL VOTES: ----> ${producer.total_votes}`
     )
+    try {
+      const chainURL = await request({
+        url: `${producer.url}/chains.json`,
+        method: 'get',
+        json: true,
+        timeout: 10000
+      })
 
+      producer.url = `${producer.url}${
+        chainURL.chains[chainConfig.chainID] || '/bp.json'
+      }`
+    } catch (err) {
+      console.log(
+        `Chains.json doesnt exist for ${producer.owner}, setting default`
+      )
+      producer.url = `${producer.url}/bp.json`
+    }
+    console.log(`New url for ${producer.owner} is ${producer.url}`)
     return [
-      ...result,
+      ...(await result),
       {
         owner: producer.owner,
         system: { ...producer },
@@ -51,7 +65,7 @@ const getBlockProducersData = async () => {
         candidateName: null
       }
     ]
-  }, [])
+  }, Promise.resolve([]))
 
   console.log('Getting bpJson information for BPs...')
 
@@ -86,7 +100,7 @@ const updateBlockProducersData = async () => {
   console.log('==== Updating block producer info ====')
   const producersData = await getBlockProducersData()
 
-  producersData.forEach(async (bp) => {
+  producersData.forEach(async bp => {
     const { owner, system, bpJson: bpjson, candidateName } = bp
     const bpData = { owner, system, bpjson, candidate_name: candidateName }
 

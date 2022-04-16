@@ -1,0 +1,17 @@
+table:
+  name: comment
+  schema: public
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - user
+    - bp
+    - content
+    - created_at
+    - transaction
+    - total_like
+    - total_dislike
+    - updated_at
+    filter: {}
+  role: anonymous

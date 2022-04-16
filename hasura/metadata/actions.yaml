@@ -12,4 +12,5 @@ custom_types:
   objects:
   - name: RatingOutput
   - name: deleteUserRateOutput
+  - name: AddCommentOutput
   scalars: []

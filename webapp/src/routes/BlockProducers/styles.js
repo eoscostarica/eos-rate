@@ -116,12 +116,13 @@ export default theme => ({
     width: 'auto',
     height: 36,
     [theme.breakpoints.up('sm')]: {
-      width: 160
+      width: 200
     }
   },
   raisedButton: {
     width: '100%',
     height: 36,
+    marginLeft: `${theme.spacing(6)} !important`,
     [theme.breakpoints.up('sm')]: {
       width: 200
     }
@@ -226,10 +227,10 @@ export default theme => ({
   },
   btnBP: {
     color: theme.palette.surface.main,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
     width: '100%',
     '&:hover': {
-      backgroundColor: theme.palette.secondary.light
+      backgroundColor: theme.palette.primary.light
     },
     height: 36,
     [theme.breakpoints.up('sm')]: {
@@ -399,5 +400,28 @@ export default theme => ({
     color: `${theme.palette.common.white} !important`,
     textDecoration: 'none !important',
     paddingTop: 2
+  },
+  tblContainer: {
+    paddingTop: 40
+  },
+  commentContainer: {
+    width: '95%',
+    maxWidth: '100%',
+    marginLeft: theme.spacing(3),
+    '& .MuiInputAdornment-root': {
+      position: 'absolute',
+      right: theme.spacing(2)
+    },
+    '& .MuiOutlinedInput-input': { marginBottom: theme.spacing(3) }
+  },
+  counter: {
+    '& .MuiTypography-root': {
+      margin: theme.spacing(14, 0, 0),
+      color: theme.palette.grey[400],
+      fontSize: '14px'
+    }
+  },
+  commentTitle: {
+    marginBottom: `${theme.spacing(3)}!important`
   }
 })
