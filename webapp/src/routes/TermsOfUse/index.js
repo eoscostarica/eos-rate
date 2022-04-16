@@ -20,7 +20,7 @@ const TermsOfUse = () => {
         <TitlePage title={t('tabTitle')} />
         <RicardianContract
           contractName={mainConfig.contract}
-          httpEndpoint='https://api.eosio.cr'
+          httpEndpoint='https://eos.edenia.cloud'
         />
       </Box>
     </Box>
