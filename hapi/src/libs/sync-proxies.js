@@ -6,7 +6,7 @@ const fetch = (...args) =>
 const { massiveDB } = require('../config')
 
 const HAPI_EOS_API_ENDPOINT =
-  process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+  process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.edenia.cloud'
 const HAPI_PROXY_CONTRACT = process.env.HAPI_PROXY_CONTRACT || 'proxyaccount'
 
 const getProxiesData = async () => {

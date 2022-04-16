@@ -12,7 +12,7 @@ const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
 
 const getBpStats = async (bp, scope) => {
   const rpc = new eosjs.JsonRpc(
-    process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr',
+    process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.edenia.cloud',
     { fetch }
   )
 

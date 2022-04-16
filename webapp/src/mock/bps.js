@@ -49,7 +49,7 @@ export default [
         p2p_endpoint: '',
         bnet_endpoint: '',
         api_endpoint: '',
-        ssl_endpoint: 'https://api.eosio.cr'
+        ssl_endpoint: 'https://eos.edenia.cloud'
       },
       {
         location: {

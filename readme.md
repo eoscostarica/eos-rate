@@ -117,7 +117,7 @@ We are running the application infrastructure on premises in San Jose, Costa Ric
 - **hapi:**
   A back end service for synchronizing `rateproducer` blockchain tables with postgreSQL.
 
-- **EOSIO Node:** https://api.eosio.cr
+- **EOSIO Node:** https://eos.edenia.cloud
   <br/>[`fill-pg`](https://github.com/EOSIO/history-tools#fill-pg) fills postgresql with data from nodeos's State History Plugin.
 
 _Note: This project is based on [EOS DApp Boilerplate](https://github.com/eoscostarica/eos-dapp-boilerplate)._
