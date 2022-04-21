@@ -15,10 +15,10 @@ spec:
                 - /bin/sh
                 - -c
                 - >-
-                  /usr/bin/node /opt/application/src/libs/sync-bps.js;
-                  /usr/bin/node /opt/application/src/libs/sync-proxies.js;
-                  /usr/bin/node /opt/application/src/libs/sync-stats.js;
-                  /usr/bin/node /opt/application/src/libs/sync-ratings.js
+                  /usr/local/bin/node /app/src/libs/sync-bps.js;
+                  /usr/local/bin/node /app/src/libs/sync-proxies.js;
+                  /usr/local/bin/node /app/src/libs/sync-stats.js;
+                  /usr/local/bin/node /app/src/libs/sync-ratings.js
               env:
                 - name: HAPI_POSTGRES_HOST
                   value: "${HAPI_POSTGRES_HOST}"
@@ -33,7 +33,7 @@ spec:
                 - name: HAPI_POSTGRES_USER
                   value: "${HAPI_POSTGRES_USER}"
                 - name: HAPI_EOS_API_ENDPOINT
-                  value: https://api.eosio.cr
+                  value: "${HAPI_EOS_API_ENDPOINT}"
                 - name: HAPI_SERVER_ADDRESS
                   value: 0.0.0.0
                 - name: HAPI_SERVER_PORT

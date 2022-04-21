@@ -9,7 +9,7 @@ const {
 } = require('../config')
 
 const HAPI_EOS_API_ENDPOINT =
-  process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.eosio.cr'
+  process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.edenia.cloud'
 const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
 
 const getUserRatings = async scope => {

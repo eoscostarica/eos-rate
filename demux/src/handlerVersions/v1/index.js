@@ -33,7 +33,7 @@ const { massiveConfig } = require('../../config')
 const eosjs = require('eosjs')
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args))
 
-const rpc = new eosjs.JsonRpc(process.env.REACT_APP_EOS_API_URL || 'https://jungle.eosio.cr', { fetch })
+const rpc = new eosjs.JsonRpc(process.env.REACT_APP_EOS_API_URL || 'https://jungle.edenia.cloud', { fetch })
 const getStats = async bp => {
   const response = await rpc.get_table_rows({
     json: true, // Get the response as json
