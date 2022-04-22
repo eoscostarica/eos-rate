@@ -3,7 +3,7 @@ namespace eoscostarica {
 const char* rate_ricardian = R"(---
 spec_version: 0.1.0
 title: Rate a block producer
-summary: The intent of the `{{ rate }}` action is to allow the `issuer` account to rate a blockproducer into five categories: Community, Development, Infraestructure, Transparency, Trustiness.
+summary: The intent of the `{{ rate }}` action is to allow the `issuer` account to rate a blockproducer into five categories: Community, Development, Infraestructure, Transparency, Trustiness. Additionally, users could add a description to their rating.
 ---)";
 
 const char* erase_ricardian = R"(---
@@ -45,13 +45,13 @@ summary: The intent of the `{{ migratestats }}` action is to remove from stats t
 const char* logcomment_ricardian = R"(---
 spec_version: 0.1.0
 title: Add additional information about block producer
-summary: The intent of the `{{ logcomment }}` action is to add additional information and optinions of users about block producers.
+summary: The intent of the `{{ logcomment }}` action is to add additional information and optinions.
 ---)";
 
 const char* loglike_ricardian = R"(---
 spec_version: 0.1.0
 title: Add additional feedback about comment
-summary: The intent of the `{{ loglike }}` action is to add feedback of users comment about block producers.
+summary: The intent of the `{{ loglike }}` action is to add feedback of users comment about ratings.
 ---)";
 
 // CLAUSES

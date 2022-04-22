@@ -8,10 +8,11 @@ namespace eoscostarica {
         int8_t infrastructure,
         int8_t trustiness,
         int8_t community,
-        int8_t development) {
+        int8_t development,
+        std::string comment) {
         require_auth(user);
         name scope = is_eden(user) ? eden_scope : _self;
-        rate_aux(scope, user, bp, transparency, infrastructure, trustiness, community, development);
+        rate_aux(scope, user, bp, transparency, infrastructure, trustiness, community, development, comment);
     }
 
     void rateproducer::rate_aux(
@@ -22,7 +23,8 @@ namespace eoscostarica {
         int8_t infrastructure,
         int8_t trustiness,
         int8_t community,
-        int8_t development) {
+        int8_t development,
+        std::string comment) {
         check( (transparency + infrastructure + trustiness + community + development), "Error vote must have value for at least one category" );
         check( (MINVAL <= transparency && transparency <= MAXVAL), "Error transparency value out of range" );
         check( (MINVAL <= infrastructure && infrastructure <= MAXVAL), "Error infrastructure value out of range" );
@@ -50,8 +52,10 @@ namespace eoscostarica {
         auto existing_rating = uniq_rating_index.find(uniq_rating);
 
         if( existing_rating == uniq_rating_index.end() ) {
+            uint64_t rating_id = _ratings.available_primary_key();
+
             _ratings.emplace(user, [&]( auto& row ) {
-                row.id = _ratings.available_primary_key();
+                row.id = rating_id;
                 row.user = user;
                 row.bp = bp;
                 row.transparency = transparency;
@@ -69,6 +73,10 @@ namespace eoscostarica {
                         trustiness,
                         community,
                         development);
+
+            if(!comment.empty()) {
+                SEND_INLINE_ACTION(*this, logcomment, { {get_self(), name("active")} }, { rating_id, comment });
+            }
         
         } else {
             uniq_rating_index.modify(existing_rating, user, [&]( auto& row ) {
@@ -105,6 +113,10 @@ namespace eoscostarica {
                             &bp_development,
                             &bp_ratings_cntr,
                             &bp_average);
+
+            if(!comment.empty()) {
+                SEND_INLINE_ACTION(*this, logcomment, { {get_self(), name("active")} }, { existing_rating->id, comment });
+            }
         }
     }
 
@@ -573,15 +585,14 @@ namespace eoscostarica {
         cfg.set(c, c.owner);
     }
 
-    void rateproducer::logcomment(name user, name bp, std::string comment) {
-        require_auth(user);
-        check( is_blockproducer(bp), "comments are allowed only for registered block producers" );
+    void rateproducer::logcomment(uint64_t rating_id, std::string comment) {
+        require_auth(_self);
         check( comment.length() <= 500, "comment must be less or equal than 500 characters" );
     }
 
-    void rateproducer::loglike(std::string transaction, name user, bool like) {
+    void rateproducer::loglike(uint64_t rating_id, name user, bool like) {
         require_auth(user);
-        check( transaction.length() == 64, "transaction length is incorrect" );
+        check( rating_id >= 0, "Wrong rating id" );
     }
 } // namespace eoscostarica
 
