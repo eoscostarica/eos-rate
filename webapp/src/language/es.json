@@ -169,7 +169,8 @@
     "infoMessage": "Apoye la red votando por sus BP o proxy favoritos, una vez que haya votado por 21 BP puede comenzar a calificar.",
     "enabled": "Habilitado",
     "disabled": "Deshabilitado",
-    "commentReasoning": "Comenta tu rating razonablemente. Por favor sea respetuoso."
+    "commentReasoning": "Comenta tu rating razonablemente. Por favor sea respetuoso.",
+    "addComments": "Agregar comentario"
   },
 
   "footer": {
@@ -292,6 +293,8 @@
     "tabTitle": "Contratos ricardianos para EOS Rate Smart Contract"
   },
   "comment": {
-    "isThisHelpful": "¿Te ha ayudado?"
+    "isThisHelpful": "¿Te ha ayudado?",
+    "userComments": "Comentarios",
+    "interactionComment": "Luego de que la transaccion se vuelve irreversible su actividad se vera reflejada en eosrate"
   }
 }

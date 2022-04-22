@@ -4,8 +4,7 @@ export default theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: theme.palette.surface.main,
-    padding: theme.spacing(10, 1, 0, 1),
-    minHeight: 927
+    padding: theme.spacing(10, 1, 0, 1)
   },
   gradientBg: {
     background:
