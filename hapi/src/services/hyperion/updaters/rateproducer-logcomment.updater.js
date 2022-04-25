@@ -48,7 +48,7 @@ module.exports = {
       }
 
       const [blockProducer] = userRatings.rows.filter(
-        ({ id }) => id == ratingId
+        ({ id }) => id === ratingId
       )
 
       await save({
