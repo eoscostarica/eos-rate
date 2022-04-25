@@ -222,40 +222,6 @@ const BlockProducerRate = () => {
     trustiness: parseFloat(formatNumber(rate?.trustiness || 0, 1))
   })
 
-  const sendComment = async () => {
-    try {
-      if (!state.user?.accountName) {
-        setShowMessage(true)
-
-        return
-      }
-      const transaction = {
-        actions: [
-          {
-            account: mainConfig.contract,
-            name: 'logcomment',
-            authorization: [
-              {
-                actor: state.user?.accountName,
-                permission: 'active'
-              }
-            ],
-            data: {
-              user: state.user?.accountName,
-              bp: account,
-              comment
-            }
-          }
-        ]
-      }
-      await state.ual.activeUser.signTransaction(transaction, {
-        broadcast: true
-      })
-    } catch (error) {
-      console.warn(error)
-    }
-  }
-
   const transact = async () => {
     try {
       if (!state.user?.accountName) {
@@ -278,6 +244,7 @@ const BlockProducerRate = () => {
             data: {
               user: state.user?.accountName,
               bp: account,
+              comment,
               ...getRatingData(true)
             }
           }
@@ -319,7 +286,6 @@ const BlockProducerRate = () => {
         processing: false,
         txSuccess: true
       })
-      sendComment()
       handleSetLastTransactionId()
     } catch (err) {
       setRatingState({
@@ -552,7 +518,7 @@ const BlockProducerRate = () => {
               >
                 <div>
                   <Typography className={classes.commentTitle} variant='h6'>
-                    Add Comments
+                    {t('addComments')}
                   </Typography>
                   <TextField
                     className={classes.textField}
@@ -635,7 +601,7 @@ const BlockProducerRate = () => {
               autoComplete='off'
               className={classes.commentContainer}
             >
-              <div>
+              <Box>
                 <Typography className={classes.commentTitle} variant='h6'>
                   Add Comments
                 </Typography>
@@ -658,14 +624,10 @@ const BlockProducerRate = () => {
                     )
                   }}
                 />
-              </div>
+              </Box>
             </Box>
-            <Grid item md={12} />
-            <Grid item md={12} />
-            <Grid item md={12} />
           </Grid>
         </Grid>
-
         {showAlert && (
           <Grid container>
             <Alert className={classes.alert} severity='warning'>
@@ -673,7 +635,6 @@ const BlockProducerRate = () => {
             </Alert>
           </Grid>
         )}
-
         <Grid
           display='flex'
           justifyContent='center'

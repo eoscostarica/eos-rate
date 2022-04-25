@@ -5,10 +5,10 @@ const get = async (where, getMany = false) => {
       query ($where: comment_like_bool_exp!) {
         comment_like(where: $where, order_by: {created_at: desc}) {
           id
+          rating_id
           user
           transaction
           like
-          comment_transaction
           created_at
         }
       }
@@ -63,8 +63,7 @@ const countLikes = async where => {
 
 const saveOrUpdate = async payload => {
   const like = await get({
-    comment_transaction: { _eq: payload.comment_transaction },
-    user: { _eq: payload.user }
+    rating_id: { _eq: payload.rating_id }
   })
 
   if (!like) {

@@ -1,8 +1,9 @@
 import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@mui/styles'
-import { useHistory, Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import clsx from 'clsx'
+import { Link } from '@mui/material'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
@@ -31,32 +32,32 @@ const Footer = () => {
         <Toolbar className={classes.boxToolbar}>
           <Box className={classes.footerHome}>
             <Box className={classes.linksBox}>
-              <Link className={classes.linkHome} to='/'>
+              <Link className={classes.linkHome} href='/'>
                 {t('home')}
               </Link>
-              <Link className={classes.linkHome} to='/block-producers'>
+              <Link className={classes.linkHome} href='/block-producers'>
                 {t('blockProducers')}
               </Link>
-              <Link className={classes.linkHome} to='/proxies'>
+              <Link className={classes.linkHome} href='/proxies'>
                 {t('proxies')}
               </Link>
-              <Link className={classes.linkHome} to='/about'>
+              <Link className={classes.linkHome} href='/about'>
                 {t('about')}
               </Link>
-              <Link className={classes.linkHome} to='/ricardian-contract'>
+              <Link className={classes.linkHome} href='/ricardian-contract'>
                 {t('ricardianContract')}
               </Link>
-              <Link className={classes.linkHome} to='/help'>
+              <Link className={classes.linkHome} href='/help'>
                 {t('help')}
               </Link>
-              <a
+              <Link
                 href={mainConfig.networkMonitor}
                 target='_blank'
                 rel='noopener noreferrer'
                 className={clsx(classes.linkHome, classes.network)}
               >
                 {t('networkMonitor')}
-              </a>
+              </Link>
             </Box>
             <Box className={classes.socialBox}>
               <Typography className={classes.socialText}>
@@ -106,7 +107,14 @@ const Footer = () => {
           </Box>
           <Box className={classes.footerText}>
             <Typography className={classes.centerFooterText}>
-              {t('madeBy')}
+              {t('madeBy')}{' '}
+              <Link
+                target='_blank'
+                className={classes.colorLink}
+                href='https://eoscostarica.io/'
+              >
+                {t('eoscostarica')}
+              </Link>
             </Typography>
             <Typography className={classes.centerFooterText}>
               {`${t('eosRate')} ${currentYear}`}

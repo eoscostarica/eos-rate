@@ -10,6 +10,10 @@ export const GET_COMMENTS = gql`
       total_like
       created_at
       transaction
+      rating_id
+      user_ratings {
+        ratings
+      }
     }
   }
 `

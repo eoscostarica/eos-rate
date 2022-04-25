@@ -39,7 +39,7 @@ export default theme => ({
     marginTop: `${theme.spacing(3)} !important`
   },
   linkHome: {
-    marginTop: theme.spacing(1),
+    marginTop: `${theme.spacing(1)} !important`,
     fontWeight: '500',
     fontSize: 14,
     lineHeight: '16px',
@@ -47,7 +47,7 @@ export default theme => ({
     alignItems: 'center',
     letterSpacing: '1px',
     textTransform: 'uppercase',
-    color: theme.palette.common.white,
+    color: `${theme.palette.common.white} !important`,
     textDecoration: 'none'
   },
   centerFooterText: {
@@ -106,5 +106,9 @@ export default theme => ({
   },
   socialIconBox: {
     marginTop: theme.spacing(2)
+  },
+  colorLink: {
+    paddingLeft: theme.spacing(0.5),
+    color: `${theme.palette.common.white} !important`
   }
 })

@@ -12,6 +12,10 @@ const typography = {
     fontSize: '12px',
     fontWeight: 500
   },
+  body4: {
+    fontSize: '12px',
+    fontWeight: 400
+  },
   overline: {
     letterSpacing: 1.5,
     fontSize: 10

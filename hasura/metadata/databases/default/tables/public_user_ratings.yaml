@@ -5,6 +5,8 @@ select_permissions:
 - permission:
     columns:
     - bp
+    - id
+    - id_bc_rating
     - ratings
     - tx_data
     - user
@@ -15,6 +17,7 @@ update_permissions:
     check: {}
     columns:
     - bp
+    - id_bc_rating
     - ratings
     - tx_data
     - user
