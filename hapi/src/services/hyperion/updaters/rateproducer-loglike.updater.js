@@ -10,19 +10,19 @@ module.exports = {
         transaction_id,
         actors,
         data: {
-          data: { rating_id, like }
+          data: { rating_id: ratingId, like }
         }
       } = action
 
       await saveOrUpdate({
         user: actors.split('@')[0],
-        rating_id,
+        ratingId,
         transaction: transaction_id,
         like
       })
 
       await updatelike({
-        rating_id
+        ratingId
       })
     } catch (error) {
       console.error(`error to sync ${action.action}: ${error.message}`)

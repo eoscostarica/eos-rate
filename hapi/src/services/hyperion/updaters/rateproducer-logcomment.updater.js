@@ -16,10 +16,9 @@ module.exports = {
   apply: async action => {
     try {
       const {
-        actors,
         transaction_id,
         data: {
-          data: { rating_id, comment }
+          data: { rating_id: ratingId, comment }
         }
       } = action
       let userRatings
@@ -31,8 +30,8 @@ module.exports = {
         table: 'rating',
         reverse: false,
         limit: 1,
-        lower_bound: rating_id,
-        upper_bound: rating_id
+        lower_bound: ratingId,
+        upper_bound: ratingId
       })
 
       if (!userRatings) {
@@ -43,19 +42,19 @@ module.exports = {
           table: 'rating',
           reverse: false,
           limit: 1,
-          lower_bound: rating_id,
-          upper_bound: rating_id
+          lower_bound: ratingId,
+          upper_bound: ratingId
         })
       }
 
       const [blockProducer] = userRatings.rows.filter(
-        ({ id }) => id == rating_id
+        ({ id }) => id == ratingId
       )
 
       await save({
         user: blockProducer.user,
         transaction: transaction_id,
-        rating_id,
+        ratingId,
         bp: blockProducer.bp,
         content: comment
       })
@@ -63,7 +62,7 @@ module.exports = {
       await updateUserRating({
         bp: blockProducer.bp,
         user: blockProducer.user,
-        id_bc_rating: rating_id
+        id_bc_rating: ratingId
       })
     } catch (error) {
       console.error(`error to sync ${action.action}: ${error.message}`)
