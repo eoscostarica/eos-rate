@@ -367,6 +367,7 @@ namespace eoscostarica {
         * @param trustiness - Rate for trustiness category
         * @param community - Rate for community category
         * @param development - Rate for development category
+        * @param comment - Commentary
         *
         * @pre all rate category's vales must be an integer value
         * @pre all rate category's vales must be between 1 -10 
@@ -382,7 +383,8 @@ namespace eoscostarica {
             int8_t infrastructure,
             int8_t trustiness,
             int8_t community,
-            int8_t development);
+            int8_t development,
+            std::string comment);
 
 
         /**
@@ -397,6 +399,7 @@ namespace eoscostarica {
         * @param trustiness - Rate for trustiness category
         * @param community - Rate for community category
         * @param development - Rate for development category
+        * @param comment - Commentary
         *
         * @pre all rate category's vales must be an integer value
         * @pre all rate category's vales must be between 1 -10 
@@ -413,7 +416,8 @@ namespace eoscostarica {
             int8_t infrastructure,
             int8_t trustiness,
             int8_t community,
-            int8_t development);
+            int8_t development,
+            std::string comment);
         
         /**
         *
@@ -508,14 +512,13 @@ namespace eoscostarica {
 
         /**
         *
-        *  Add a comment for a bp
+        *  Add a comment for a rating
         *  
-        * @param user - Commenter account,
-        * @param bp -  Block Producer account name
+        * @param rating_id - Id of the rating,
         * @param comment - Commentary
         *
         */ 
-        void logcomment (name user, name bp, std::string comment);
+        void logcomment (uint64_t rating_id, std::string comment);
         
         /**
         *
@@ -526,7 +529,7 @@ namespace eoscostarica {
         * @param like - true/false
         *
         */ 
-        void loglike (std::string transaction, name user, bool like);
+        void loglike (uint64_t rating_id, name user, bool like);
         
         /**
         *
@@ -620,14 +623,14 @@ namespace eoscostarica {
 
     EOSIO_ACTIONS(rateproducer,
                  "rateproducer"_n,
-                 action(rate, user, bp, transparency, infrastructure, trustiness, community, development, ricardian_contract(rate_ricardian)),
+                 action(rate, user, bp, transparency, infrastructure, trustiness, community, development, comment, ricardian_contract(rate_ricardian)),
                  action(erase, bp_name, ricardian_contract(erase_ricardian)),
                  action(rminactive, ricardian_contract(rminactive_ricardian)),
                  action(rmrate, user, bp, ricardian_contract(rmrate_ricardian)),
                  action(migrate, ricardian_contract(migrate_ricardian)),
                  action(freeupram, ricardian_contract(freeupram_ricardian)),
                  action(migratestats, ricardian_contract(migratestats_ricardian)),
-                 action(logcomment, user, bp, comment, ricardian_contract(logcomment_ricardian)),
-                 action(loglike, transaction, user, like, ricardian_contract(loglike_ricardian)))
+                 action(logcomment, rating_id, comment, ricardian_contract(logcomment_ricardian)),
+                 action(loglike, rating_id, user, like, ricardian_contract(loglike_ricardian)))
                  
 } // namespace eoscostarica
