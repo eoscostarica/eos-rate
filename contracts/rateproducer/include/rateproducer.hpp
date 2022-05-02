@@ -605,20 +605,6 @@ namespace eoscostarica {
         * 
         */ 
         void migrate();
-
-        /**
-        *
-        *  Update stats under rateproducer scope
-        * 
-        */ 
-        void migratestats();
-        
-        /**
-        *
-        *  Liberate the ram used on ratings table under rateproducer and eden scope
-        * 
-        */ 
-        void freeupram();
     };
 
     EOSIO_ACTIONS(rateproducer,
@@ -628,8 +614,6 @@ namespace eoscostarica {
                  action(rminactive, ricardian_contract(rminactive_ricardian)),
                  action(rmrate, user, bp, ricardian_contract(rmrate_ricardian)),
                  action(migrate, ricardian_contract(migrate_ricardian)),
-                 action(freeupram, ricardian_contract(freeupram_ricardian)),
-                 action(migratestats, ricardian_contract(migratestats_ricardian)),
                  action(logcomment, rating_id, comment, ricardian_contract(logcomment_ricardian)),
                  action(loglike, rating_id, user, like, ricardian_contract(loglike_ricardian)))
                  
