@@ -169,7 +169,8 @@
     "infoMessage": "여러분이 선호하는 BPs에게 직접 투표 혹은 프록시를 통해서 네트워크를 지지하세요,21BPs에게 투표된 평가를 시작 할 수 있습니다.",
     "enabled": "활성화됨",
     "disabled": "장애가있는",
-    "commentReasoning": "평가 이유에 대해 의견을 말하십시오. 예의를 지켜주세요."
+    "commentReasoning": "평가 이유에 대해 의견을 말하십시오. 예의를 지켜주세요.",
+    "addComments": "댓글 추가"
   },
 
   "footer": {
@@ -292,6 +293,8 @@
     "tabTitle": "Ricardian Contracts for EOS Rate Smart Contract"
   },
   "comment": {
-    "isThisHelpful": "도움이 되나요?"
+    "isThisHelpful": "도움이 되나요?",
+    "userComments": "코멘트",
+    "interactionComment": "거래가 되돌릴 수 없는 상태가 된 후 해당 활동이 eosrate에 반영됩니다"
   }
 }

@@ -33,6 +33,10 @@
                 {
                     "name": "development",
                     "type": "int8"
+                },
+                {
+                    "name": "comment",
+                    "type": "string"
                 }
             ]
         },
@@ -85,12 +89,8 @@
             "base": "",
             "fields": [
                 {
-                    "name": "user",
-                    "type": "name"
-                },
-                {
-                    "name": "bp",
-                    "type": "name"
+                    "name": "rating_id",
+                    "type": "uint64"
                 },
                 {
                     "name": "comment",
@@ -103,8 +103,8 @@
             "base": "",
             "fields": [
                 {
-                    "name": "transaction",
-                    "type": "string"
+                    "name": "rating_id",
+                    "type": "uint64"
                 },
                 {
                     "name": "user",
@@ -197,7 +197,7 @@
         {
             "name": "rate",
             "type": "rate",
-            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Rate a block producer\nsummary: The intent of the `{{ rate }}` action is to allow the `issuer` account to rate a blockproducer into five categories: Community, Development, Infraestructure, Transparency, Trustiness.\n---"
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Rate a block producer\nsummary: The intent of the `{{ rate }}` action is to allow the `issuer` account to rate a blockproducer into five categories: Community, Development, Infraestructure, Transparency, Trustiness. Additionally, users could add a description to their rating.\n---"
         },
         {
             "name": "erase",
@@ -232,12 +232,12 @@
         {
             "name": "logcomment",
             "type": "logcomment",
-            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Add additional information about block producer\nsummary: The intent of the `{{ logcomment }}` action is to add additional information and optinions of users about block producers.\n---"
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Add additional information about block producer\nsummary: The intent of the `{{ logcomment }}` action is to add additional information and optinions.\n---"
         },
         {
             "name": "loglike",
             "type": "loglike",
-            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Add additional feedback about comment\nsummary: The intent of the `{{ loglike }}` action is to add feedback of users comment about block producers.\n---"
+            "ricardian_contract": "---\nspec_version: 0.1.0\ntitle: Add additional feedback about comment\nsummary: The intent of the `{{ loglike }}` action is to add feedback of users comment about ratings.\n---"
         }
     ],
     "tables": [

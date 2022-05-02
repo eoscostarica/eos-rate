@@ -7,10 +7,10 @@ select_permissions:
     columns:
     - transaction
     - like
-    - comment_transaction
     - created_at
     - user
     - id
     - updated_at
+    - rating_id
     filter: {}
   role: anonymous

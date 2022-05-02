@@ -169,7 +169,8 @@
     "infoMessage": "Support the network by voting for your favorite BPs or proxy, once you have voted for 21 BPs you can start rating.",
     "enabled": "Enabled",
     "disabled": "Disabled",
-    "commentReasoning": "Comment on your rating reasoning. Please be respectful."
+    "commentReasoning": "Comment on your rating reasoning. Please be respectful.",
+    "addComments": "Add Comments"
   },
 
   "footer": {
@@ -182,7 +183,8 @@
     "about": "About EOS Rate",
     "ricardianContract": "Ricardian Contract",
     "help": "Help",
-    "madeBy": "Made for the community by EOS Costa Rica",
+    "madeBy": "Made for the community by ",
+    "eoscostarica": "EOS Costa Rica",
     "eosRate": "EOSRate.io"
   },
 
@@ -292,6 +294,8 @@
     "tabTitle": "Ricardian Contracts for EOS Rate Smart Contract"
   },
   "comment": {
-    "isThisHelpful": "Is this helpful?"
+    "isThisHelpful": "Is this helpful?",
+    "userComments": "User Comments",
+    "interactionComment": "After the transaction becomes irreversible, its activity will be reflected in eosrate"
   }
 }
