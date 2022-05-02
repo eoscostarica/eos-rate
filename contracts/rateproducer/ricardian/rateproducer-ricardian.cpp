@@ -30,18 +30,6 @@ title: Update the current logic to newest
 summary: The intent of the `{{ migrate }}` action is to update the current logic to newest.
 ---)";
 
-const char* freeupram_ricardian = R"(---
-spec_version: 0.1.0
-title: Free up RAM
-summary: The intent of the `{{ freeupram }}` action is to remove all records from old ratings table including the rateproducer and eden scope.
----)";
-
-const char* migratestats_ricardian = R"(---
-spec_version: 0.1.0
-title: Update rateproducer stats
-summary: The intent of the `{{ migratestats }}` action is to remove from stats table under rateproducer scope the eden ratings averages.
----)";
-
 const char* logcomment_ricardian = R"(---
 spec_version: 0.1.0
 title: Add additional information about block producer
