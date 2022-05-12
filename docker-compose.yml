@@ -3,7 +3,7 @@ version: "3.8"
 services:
   postgres:
     container_name: eosrate_postgres
-    image: postgres:13.6-alpine
+    image: postgres:13.3-alpine
     volumes:
       - ${POSTGRES_DATA}:/var/lib/postgresql/data
     ports:
@@ -85,7 +85,7 @@ services:
 
   hasura:
     container_name: eosrate_hasura
-    image: hasura/graphql-engine:v2.6.1.cli-migrations-v3
+    image: hasura/graphql-engine:v2.4.0.cli-migrations-v3
     ports:
       - "8080:8080"
     depends_on:
