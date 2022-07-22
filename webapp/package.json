@@ -32,6 +32,7 @@
     "@mui/lab": "^5.0.0-alpha.48",
     "@mui/material": "^5.0.1",
     "@mui/styles": "^5.0.1",
+    "@mui/x-date-pickers": "^5.0.0-beta.2",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
     "apollo-link": "^1.2.13",
@@ -122,10 +123,10 @@
     "standard": "^16.0.3"
   },
   "resolutions": {
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "**/react": "17.0.2",
-    "**/react-dom": "17.0.2"
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "**/react": "18.2.0",
+    "**/react-dom": "18.2.0"
   },
   "lint-staged": {
     "*.js": [
