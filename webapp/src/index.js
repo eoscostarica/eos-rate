@@ -1,7 +1,7 @@
 import './wdyr'
 
 import React from 'react'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { UALProvider, withUAL } from '@eoscostarica/ual-reactjs-renderer'
 import { ApolloProvider } from '@apollo/client'
 
@@ -12,8 +12,10 @@ import { ualConfig } from './config'
 import { SharedStateProvider } from './context/state.context'
 
 const SharedStateProviderWithUAL = withUAL(SharedStateProvider)
+const container = document.getElementById('root')
+const root = createRoot(container)
 
-render(
+root.render(
   <UALProvider
     chains={[ualConfig.network]}
     authenticators={ualConfig.authenticators}
@@ -24,8 +26,7 @@ render(
         <App />
       </ApolloProvider>
     </SharedStateProviderWithUAL>
-  </UALProvider>,
-  document.getElementById('root')
+  </UALProvider>
 )
 
 // If you want your app to work offline and load faster, you can change
