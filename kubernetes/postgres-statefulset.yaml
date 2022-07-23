@@ -16,7 +16,7 @@ spec:
         app: postgres
     spec:
       containers:
-      - image: postgres:13.3-alpine
+      - image: postgres:13.6-alpine
         imagePullPolicy: "Always"
         name: eosrate-postgres
         envFrom:
