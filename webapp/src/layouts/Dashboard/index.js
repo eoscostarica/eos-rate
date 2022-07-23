@@ -26,11 +26,11 @@ const Dashboard = ({ children, routes }) => {
 
   const handleScroll = useCallback(
     e => {
-      if (e.target.scrollTop > 927 && !scrollTop) {
+      if (e.target.scrollTop > 127 && !scrollTop) {
         setScrollTop(true)
       }
 
-      if (e.target.scrollTop < 927 && scrollTop) {
+      if (e.target.scrollTop < 127 && scrollTop) {
         setScrollTop(false)
       }
     },

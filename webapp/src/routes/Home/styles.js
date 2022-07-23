@@ -29,6 +29,7 @@ export default theme => ({
   },
   headerTitle: {
     maxWidth: 893,
+    fontFamily: 'Oswald !important',
     fontStyle: 'normal',
     fontWeight: '500 !important',
     fontSize: '42px !important',
