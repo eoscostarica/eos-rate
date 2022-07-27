@@ -1,4 +1,8 @@
-const { eosConfig } = require('../../../config')
+const {
+  eosConfig,
+  generalContractScope,
+  edenContractScope
+} = require('../../../config')
 const { save, updateUserRating } = require('../../comment.service')
 const EosApi = require('eosjs-api')
 
@@ -17,12 +21,12 @@ module.exports = {
     try {
       const {
         transaction_id,
-        data: {
-          data: { rating_id: ratingId, comment }
-        }
+        data: { rating_id: ratingId, comment }
       } = action
-      let userRatings
+      const transaction = await eosApi.getTransaction(transaction_id)
+      const transactionData = transaction.traces[1].act.data
 
+      let userRatings
       userRatings = await eosApi.getTableRows({
         json: true,
         code: eosConfig.baseAccount,
@@ -46,16 +50,15 @@ module.exports = {
           upper_bound: ratingId
         })
       }
-
-      const [blockProducer] = userRatings.rows.filter(
-        ({ id }) => id == ratingId
-      )
-
+      console.log('GENERAL', generalContractScope)
+      console.log('EDEN', edenContractScope)
+      console.log('USER RATING', userRatings)
+      console.log('DATA TRANSACTION', transactionData)
       await save({
-        user: blockProducer.user,
+        user: transactionData.user,
         transaction: transaction_id,
         rating_id: ratingId,
-        bp: blockProducer.bp,
+        bp: transactionData.bp,
         content: comment
       })
 
@@ -65,7 +68,7 @@ module.exports = {
         id_bc_rating: ratingId
       })
     } catch (error) {
-      console.error(`error to sync ${action.action}: ${error.message}`)
+      // console.error(`error to sync ${action.action}: ${error.message}`)
     }
   }
 }
