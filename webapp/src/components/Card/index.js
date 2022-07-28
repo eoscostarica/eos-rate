@@ -6,7 +6,6 @@ import { useTheme } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Card from '@mui/material/Card'
-import Box from '@mui/material/Box'
 import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import CardActions from '@mui/material/CardActions'
@@ -97,31 +96,31 @@ const CardData = ({
             </Avatar>
           }
           title={
-            <Box className={classes.warningBox}>
-              <Box className={classes.boxTitle}>
+            <div className={classes.warningBox}>
+              <div className={classes.boxTitle}>
                 <Typography className={classes.noWrap} variant='h6'>
                   {title || owner}
                 </Typography>
-              </Box>
-            </Box>
+              </div>
+            </div>
           }
           subheader={
-            <Box className={classes.warningBox}>
+            <div className={classes.warningBox}>
               <Typography className={classes.subTitleHeader}>
                 {owner}
               </Typography>
-              <Box className={classes.moreWrapper}>
+              <div className={classes.moreWrapper}>
                 <Typography style={{ margin: 'auto' }} variant='subtitle2'>
                   {t('view')}
                 </Typography>
                 <KeyboardArrowRightIcon />
-              </Box>
-            </Box>
+              </div>
+            </div>
           }
         />
       </Link>
-      <Box className={classes.radar}>
-        <Box className={classes.blockIcons}>
+      <div className={classes.radar}>
+        <div className={classes.blockIcons}>
           {!title && (
             <TooltipWrapper
               open={open}
@@ -131,8 +130,8 @@ const CardData = ({
               classes={classes}
             />
           )}
-        </Box>
-        <Box className={classes.chartWrapper}>
+        </div>
+        <div className={classes.chartWrapper}>
           <PolarChart
             data={[
               {
@@ -149,11 +148,11 @@ const CardData = ({
               }
             ]}
           />
-        </Box>
+        </div>
         {showOptions && (
           <Grid container justifyContent='center'>
             <Grid item md={4} xs={4}>
-              <Box className={classes.boxValueRates}>
+              <div className={classes.boxValueRates}>
                 <Typography
                   variant='subtitle2'
                   className={clsx(classes.avgText, classes.marginRightElem)}
@@ -163,10 +162,10 @@ const CardData = ({
                 <Typography className={classes.avgValue} variant='body2'>
                   {rate || 0}
                 </Typography>
-              </Box>
+              </div>
             </Grid>
             <Grid item md={4} xs={5}>
-              <Box className={classes.boxValueRates}>
+              <div className={classes.boxValueRates}>
                 <Typography
                   variant='subtitle2'
                   className={clsx(classes.avgText, classes.marginRightElem)}
@@ -176,11 +175,11 @@ const CardData = ({
                 <Typography className={classes.avgValue} variant='body2'>
                   {average}
                 </Typography>
-              </Box>
+              </div>
             </Grid>
           </Grid>
         )}
-      </Box>
+      </div>
       <CardActions className={classes.actions}>
         {useRateButton && (
           <>

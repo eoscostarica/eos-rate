@@ -470,7 +470,7 @@ const BlockProducerRate = () => {
       </Grid>
       <Grid container className={classes.reliefGrid}>
         <Grid item md={12} xs={12} style={{ marginBottom: 10 }}>
-          <Box style={{ display: 'flex' }}>
+          <div className={classes.divAvatar}>
             {blockProducerLogo ? (
               <Avatar aria-label='Block Producer' className={classes.avatar}>
                 <img src={blockProducerLogo} alt='' width='100%' />
@@ -482,7 +482,7 @@ const BlockProducerRate = () => {
               {_get(state.blockProducer, 'bpjson.org.candidate_name') ||
                 _get(state.blockProducer, 'system.owner', t('noBlockProducer'))}
             </Typography>
-          </Box>
+          </div>
         </Grid>
         <Grid container direction='row' style={{ marginTop: 10 }}>
           <Grid item xs={12} className={classes.infoGridStyle} md={6}>
@@ -601,7 +601,7 @@ const BlockProducerRate = () => {
               autoComplete='off'
               className={classes.commentContainer}
             >
-              <Box>
+              <div>
                 <Typography className={classes.commentTitle} variant='h6'>
                   Add Comments
                 </Typography>
@@ -624,7 +624,7 @@ const BlockProducerRate = () => {
                     )
                   }}
                 />
-              </Box>
+              </div>
             </Box>
           </Grid>
         </Grid>

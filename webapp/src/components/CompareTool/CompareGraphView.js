@@ -8,7 +8,6 @@ import LockOpenIcon from '@mui/icons-material/LockOpenOutlined'
 import LockIcon from '@mui/icons-material/LockOutlined'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
-import Box from '@mui/material/Box'
 import { useTranslation } from 'react-i18next'
 import Switch from '@mui/material/Switch'
 import CloseIcon from '@mui/icons-material/Close'
@@ -29,7 +28,7 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
     const producers = _get(proxy, 'voter_info.producers', [])
 
     return (
-      <Box className={classes.containerList}>
+      <div className={classes.containerList}>
         {producers.map(producer => (
           <ProducerChipAvatar
             data={producer}
@@ -41,12 +40,12 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
             defaultName='P'
           />
         ))}
-      </Box>
+      </div>
     )
   }
 
   return (
-    <Box className={classes.containerList}>
+    <div className={classes.containerList}>
       {selectedData.map(data => (
         <ProducerChipAvatar
           data={data}
@@ -57,7 +56,7 @@ const CompareBodyList = ({ isProxy, selectedData, classes, removeBP }) => {
           defaultName='BP'
         />
       ))}
-    </Box>
+    </div>
   )
 }
 
@@ -114,10 +113,9 @@ const CompareGraphView = ({
   const classes = useStyles()
 
   return (
-    <Box className={classes.compareGraphView}>
-      <Box className={classes.headerVotingCompare}>
-        <Box />
-        <Box className={classes.modalHeader}>
+    <div className={classes.compareGraphView}>
+      <div className={classes.headerVotingCompare}>
+        <div className={classes.modalHeader}>
           <Typography variant='h6' className={classes.marginRightElem}>
             {selected.length > 0
               ? `${t('voteToolTitle')} (${selected.length} ${t('chosen')})`
@@ -126,22 +124,22 @@ const CompareGraphView = ({
           <Typography variant='body1' style={{ display: 'flex' }}>
             {t('voteToolDescription')}
           </Typography>
-        </Box>
-        <Box className={classes.boxCloseIcon}>
+        </div>
+        <div className={classes.boxCloseIcon}>
           <CloseIcon style={{ cursor: 'pointer' }} onClick={handleOnClose} />
-        </Box>
-      </Box>
-      <Box className={classes.wrapperDesktop}>
-        <Box className={classes.bodyModalView}>
-          <Box className={classes.chartWrapper}>
+        </div>
+      </div>
+      <div className={classes.wrapperDesktop}>
+        <div className={classes.bodyModalView}>
+          <div className={classes.chartWrapper}>
             <PolarChart data={selected.map(bp => bp?.data).filter(bp => bp)} />
-          </Box>
+          </div>
           {isProxy && selected.length > 0 && (
-            <Box className={classes.proxyVote}>
+            <div className={classes.proxyVote}>
               <Typography style={{ fontSize: '20px', fontWeight: 500 }}>
                 {selected[0].name}
               </Typography>
-              <Box style={{ margin: '10px 0 10px 0' }}>
+              <div className={classes.divbtnRateProxies}>
                 <Button
                   disabled={!userInfo.isUser}
                   aria-label='Add to comparison'
@@ -151,12 +149,12 @@ const CompareGraphView = ({
                 >
                   {t('voteToolToggle')}
                 </Button>
-              </Box>
-            </Box>
+              </div>
+            </div>
           )}
           {!isProxy && (
-            <Box className={classes.switchBox}>
-              <Box className={classes.centerBox}>
+            <div className={classes.switchBox}>
+              <div className={classes.centerBox}>
                 <FormControlLabel
                   control={
                     <Switch
@@ -170,11 +168,11 @@ const CompareGraphView = ({
                   }
                   label={t('compareToolCollapsedSwitch')}
                 />
-              </Box>
-            </Box>
+              </div>
+            </div>
           )}
 
-          <Box className={classes.compareBodyListMobile}>
+          <div className={classes.compareBodyListMobile}>
             {selected.length > 0 ? (
               <CompareBodyList
                 isProxy={isProxy}
@@ -183,14 +181,14 @@ const CompareGraphView = ({
                 removeBP={removeBP}
               />
             ) : (
-              <Box className={clsx(classes.centerBox, classes.noBPSelected)}>
+              <div className={clsx(classes.centerBox, classes.noBPSelected)}>
                 <Typography variant='subtitle2'>{t('noSelectedBP')}</Typography>
-              </Box>
+              </div>
             )}
-          </Box>
-        </Box>
+          </div>
+        </div>
 
-        <Box className={classes.compareBodyListDesktop}>
+        <div className={classes.compareBodyListDesktop}>
           {selected.length > 0 ? (
             <CompareBodyList
               isProxy={isProxy}
@@ -199,14 +197,16 @@ const CompareGraphView = ({
               removeBP={removeBP}
             />
           ) : (
-            <Box className={classes.centerBox} style={{ marginTop: '20%' }}>
+            <div
+              className={clsx(classes.centerBox, classes.marginNoBpSelected)}
+            >
               <Typography variant='h6'>{t('noSelectedBP')}</Typography>
-            </Box>
+            </div>
           )}
-        </Box>
-      </Box>
+        </div>
+      </div>
       {!isProxy && (
-        <Box className={classes.buttonsBox}>
+        <div className={classes.buttonsBox}>
           <Button
             className={classes.btnClear}
             aria-label='Clear selection'
@@ -224,9 +224,9 @@ const CompareGraphView = ({
           >
             {t('voteToolToggle')}
           </Button>
-        </Box>
+        </div>
       )}
-    </Box>
+    </div>
   )
 }
 

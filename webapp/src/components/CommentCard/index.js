@@ -151,8 +151,8 @@ const CommentCard = ({ producer = {} }) => {
   return (
     <Grid pt={6} container justifyContent='center' md={12}>
       <Grid className={classes.sectionContent} item md={12} xs={12}>
-        <Box className={classes.cardContainer}>
-          <Box display='flex' justifyContent='end' alignItems='center'>
+        <div className={classes.cardContainer}>
+          <div className={classes.container}>
             <Typography flex={1} mt='28px' mb='44px' variant='h6'>
               {t('userComments')} ({comments.length})
             </Typography>
@@ -191,11 +191,11 @@ const CommentCard = ({ producer = {} }) => {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
-          <Box pl={2}>
+          </div>
+          <div className={classes.commentContainer}>
             {comments.map((comment, index) => (
-              <Box pt='12px' pb='12px' key={index}>
-                <Box display='flex'>
+              <div className={classes.divComment} key={index}>
+                <div className={classes.divUser}>
                   <Typography variant='body2' display='flex' flex={1} mb={2}>
                     {comment.user}
                   </Typography>
@@ -208,14 +208,14 @@ const CommentCard = ({ producer = {} }) => {
                   >
                     <Moment fromNow>{comment.created_at}</Moment>
                   </Typography>
-                </Box>
+                </div>
                 <Typography>{comment.content}</Typography>
                 <Grid container>
                   <Grid item md={8} className={classes.center}>
                     <Box pt={1} display={isMobile ? 'block' : 'flex'}>
                       {Object.entries(comment.user_ratings[0].ratings).map(
                         (param, index) => (
-                          <Box key={index}>
+                          <div key={index}>
                             <Box
                               width={isMobile ? '90px' : 'auto'}
                               display='inline-block'
@@ -231,13 +231,13 @@ const CommentCard = ({ producer = {} }) => {
                             <Typography variant='body4' mr={2}>
                               {param[1]}
                             </Typography>
-                          </Box>
+                          </div>
                         )
                       )}
                     </Box>
                   </Grid>
                   <Grid item md={4} className={classes.box}>
-                    <Box pt={1}>
+                    <div className={classes.divLikes}>
                       <Typography
                         variant='body3'
                         textTransform='uppercase'
@@ -264,13 +264,13 @@ const CommentCard = ({ producer = {} }) => {
                           <ThumbDownIcon className={classes.thumb} />
                         </IconButton>
                       </Typography>
-                    </Box>
+                    </div>
                   </Grid>
                 </Grid>
-              </Box>
+              </div>
             ))}
-          </Box>
-        </Box>
+          </div>
+        </div>
       </Grid>
       <Snackbar
         anchorOrigin={{

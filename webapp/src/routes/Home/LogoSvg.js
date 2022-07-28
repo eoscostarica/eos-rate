@@ -1,9 +1,8 @@
 import React from 'react'
-import Box from '@mui/material/Box'
 import PropTypes from 'prop-types'
 
 const LogoSvg = ({ classes }) => (
-  <Box className={classes}>
+  <div className={classes}>
     <svg width={194} height={186} viewBox='0 0 194 186' fill='none'>
       <path
         fillRule='evenodd'
@@ -12,7 +11,7 @@ const LogoSvg = ({ classes }) => (
         fill='#443F56'
       />
     </svg>
-  </Box>
+  </div>
 )
 
 LogoSvg.propTypes = {

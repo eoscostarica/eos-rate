@@ -6,7 +6,6 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 import Snackbar from '@mui/material/Snackbar'
@@ -168,14 +167,14 @@ const ProxyProfile = () => {
       </Grid>
       <Grid container className={classes.reliefGrid}>
         <Grid item md={12} className={classes.paddingHorinzontal}>
-          <Box className={classes.avatarTitle}>
+          <div className={classes.avatarTitle}>
             <Avatar aria-label='Block Producer' className={classes.avatar}>
               {proxyLogo ? <img src={proxyLogo} alt='' width='100%' /> : ''}
             </Avatar>
             <Typography variant='h6' className={classes.bpName}>
               {proxyTitle}
             </Typography>
-          </Box>
+          </div>
           {proxySlogan && (
             <Typography variant='subtitle1' className={classes.bpSlogan}>
               <blockquote className={classes.slogan}>{proxySlogan}</blockquote>
@@ -210,7 +209,7 @@ const ProxyProfile = () => {
             onClick={sendVoteProxy}
             disabled={!state.proxy || ratingState.processing}
           />
-          <Box className={classes.wrapperBox}>
+          <div className={classes.wrapperBox}>
             <Snackbar
               open={showMessage}
               autoHideDuration={4000}
@@ -241,7 +240,7 @@ const ProxyProfile = () => {
               </Alert>
             </Snackbar>
             {ratingState.processing && (
-              <Box className={classes.votingTextProgress}>
+              <div className={classes.votingTextProgress}>
                 <CircularProgress color='secondary' size={20} />
                 <Typography
                   variant='subtitle1'
@@ -249,9 +248,9 @@ const ProxyProfile = () => {
                 >
                   {t('voting')} ...
                 </Typography>
-              </Box>
+              </div>
             )}
-          </Box>
+          </div>
           <SocialNetworks
             classes={classes}
             overrideClass={classes.showOnlySm}

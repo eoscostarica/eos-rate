@@ -13,7 +13,6 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import CloseIcon from '@mui/icons-material/Close'
 import _get from 'lodash.get'
-import Box from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import IconButton from '@mui/material/IconButton'
 import { Link as MLink } from '@mui/material'
@@ -232,7 +231,7 @@ const BlockProducerProfile = () => {
       </Grid>
       <Grid container className={classes.reliefGrid}>
         <Grid item md={12} xs={12}>
-          <Box className={classes.pageTitle}>
+          <div className={classes.pageTitle}>
             {blockProducerLogo ? (
               <Avatar aria-label='Block Producer' className={classes.avatar}>
                 <img src={blockProducerLogo} alt='' width='100%' />
@@ -247,7 +246,7 @@ const BlockProducerProfile = () => {
               t={t}
               bpTitle={blockProducerTitle}
             />
-          </Box>
+          </div>
         </Grid>
         {!isMobile && (
           <Grid

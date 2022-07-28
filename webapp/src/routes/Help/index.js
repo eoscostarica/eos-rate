@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
 import Link from '@mui/material/Link'
 import HttpIcon from '@mui/icons-material/Http'
 import TelegramIcon from '@mui/icons-material/Telegram'
@@ -20,16 +19,16 @@ const Help = () => {
   const { t } = useTranslation('help')
 
   return (
-    <Box>
+    <div>
       <TitlePage title={t('tabTitle')} />
-      <Box className={classes.wrapperContainers}>
+      <div className={classes.wrapperContainers}>
         <Grid className={classes.firstContainer}>
           <Typography variant='h5'>{t('title')}</Typography>
           <Typography variant='body2' align='justify' paragraph>
             {t('paragraph')}
           </Typography>
 
-          <Box className={classes.boxLinks}>
+          <div className={classes.boxLinks}>
             <GitHubIcon />
             <Link
               href='https://github.com/eoscostarica'
@@ -38,8 +37,8 @@ const Help = () => {
             >
               <Typography variant='body1'>{t('githubEOSCR')}</Typography>
             </Link>
-          </Box>
-          <Box className={classes.boxLinks}>
+          </div>
+          <div className={classes.boxLinks}>
             <TelegramIcon />
             <Link
               href='https://web.telegram.org/#/eoscr'
@@ -48,8 +47,8 @@ const Help = () => {
             >
               <Typography variant='body1'>{t('telegramChannel')}</Typography>
             </Link>
-          </Box>
-          <Box className={classes.boxLinks}>
+          </div>
+          <div className={classes.boxLinks}>
             <HttpIcon />
             <Link
               href='https://eoscostarica.io/'
@@ -58,10 +57,10 @@ const Help = () => {
             >
               <Typography variant='body1'>{t('websiteEOSCR')}</Typography>
             </Link>
-          </Box>
+          </div>
         </Grid>
-      </Box>
-    </Box>
+      </div>
+    </div>
   )
 }
 
