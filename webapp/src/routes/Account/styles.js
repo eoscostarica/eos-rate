@@ -49,6 +49,9 @@ export default theme => ({
   avatar: {
     backgroundColor: theme.palette.surface.main
   },
+  divLink: {
+    marginTop: 20
+  },
   link: {
     overflow: 'hidden',
     textOverflow: 'ellipsis',

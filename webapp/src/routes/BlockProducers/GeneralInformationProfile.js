@@ -6,7 +6,6 @@ import countries from 'i18n-iso-countries'
 import Grid from '@mui/material/Grid'
 import _get from 'lodash.get'
 import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
 
 import formatNumber from '../../utils/format-number'
 
@@ -44,10 +43,10 @@ const SocialNetworks = ({ classes, producer }) => {
       <Typography variant='h6' className={classes.title}>
         {t('social')}
       </Typography>
-      <Box className={classes.marginLeftBox}>
+      <div className={classes.marginLeftBox}>
         {github && (
           <Grid container direction='row'>
-            <Box width='70px' mr={3}>
+            <div className={classes.subTitleBox}>
               <Typography
                 fontWeight='bold'
                 variant='subtitle1'
@@ -55,7 +54,7 @@ const SocialNetworks = ({ classes, producer }) => {
               >
                 GitHub:
               </Typography>
-            </Box>
+            </div>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -73,7 +72,7 @@ const SocialNetworks = ({ classes, producer }) => {
         )}
         {twitter && (
           <Grid container direction='row'>
-            <Box width='70px' mr={3}>
+            <div className={classes.subTitleBox}>
               <Typography
                 fontWeight='bold'
                 variant='subtitle1'
@@ -81,7 +80,7 @@ const SocialNetworks = ({ classes, producer }) => {
               >
                 Twitter:
               </Typography>
-            </Box>
+            </div>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -99,7 +98,7 @@ const SocialNetworks = ({ classes, producer }) => {
         )}
         {linkedin && (
           <Grid container direction='row'>
-            <Box width='70px' mr={3}>
+            <div className={classes.subTitleBox}>
               <Typography
                 fontWeight='bold'
                 variant='subtitle1'
@@ -107,7 +106,7 @@ const SocialNetworks = ({ classes, producer }) => {
               >
                 LinkedIn:
               </Typography>
-            </Box>
+            </div>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -125,7 +124,7 @@ const SocialNetworks = ({ classes, producer }) => {
         )}
         {telegram && (
           <Grid container direction='row'>
-            <Box width='70px' mr={3}>
+            <div className={classes.subTitleBox}>
               <Typography
                 fontWeight='bold'
                 variant='subtitle1'
@@ -133,7 +132,7 @@ const SocialNetworks = ({ classes, producer }) => {
               >
                 Telegram:
               </Typography>
-            </Box>
+            </div>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -151,7 +150,7 @@ const SocialNetworks = ({ classes, producer }) => {
         )}
         {instagram && (
           <Grid container direction='row'>
-            <Box width='70px' mr={3}>
+            <div className={classes.subTitleBox}>
               <Typography
                 fontWeight='bold'
                 variant='subtitle1'
@@ -159,7 +158,7 @@ const SocialNetworks = ({ classes, producer }) => {
               >
                 Instagram:
               </Typography>
-            </Box>
+            </div>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -175,7 +174,7 @@ const SocialNetworks = ({ classes, producer }) => {
             </Typography>
           </Grid>
         )}
-      </Box>
+      </div>
     </Grid>
   )
 }
@@ -191,10 +190,10 @@ const AdditionalResources = ({ classes, producer }) => {
         <Typography variant='h6' className={classes.title}>
           {t('additionalResource')}
         </Typography>
-        <Box className={classes.marginLeftBox}>
+        <div className={classes.marginLeftBox}>
           {additionalResources && additionalResources.alohaEOS && (
             <Grid container direction='row'>
-              <Box width='70px' mr={3}>
+              <div className={classes.subTitleBox}>
                 <Typography
                   fontWeight='bold'
                   variant='subtitle1'
@@ -202,7 +201,7 @@ const AdditionalResources = ({ classes, producer }) => {
                 >
                   Aloha EOS:
                 </Typography>
-              </Box>
+              </div>
               <Typography
                 variant='subtitle1'
                 className={clsx(classes.value, classes.subTitle)}
@@ -220,7 +219,7 @@ const AdditionalResources = ({ classes, producer }) => {
           )}
           {additionalResources && additionalResources.eosNation && (
             <Grid container direction='row'>
-              <Box width='70px' mr={3}>
+              <div className={classes.subTitleBox}>
                 <Typography
                   fontWeight='bold'
                   variant='subtitle1'
@@ -228,7 +227,7 @@ const AdditionalResources = ({ classes, producer }) => {
                 >
                   EOS Nation:
                 </Typography>
-              </Box>
+              </div>
               <Typography
                 variant='subtitle1'
                 className={clsx(classes.value, classes.subTitle)}
@@ -247,7 +246,7 @@ const AdditionalResources = ({ classes, producer }) => {
           )}
           {edenInterview && (
             <Grid container direction='row'>
-              <Box width='70px' mr={3}>
+              <div className={classes.subTitleBox}>
                 <Typography
                   fontWeight='bold'
                   variant='subtitle1'
@@ -255,7 +254,7 @@ const AdditionalResources = ({ classes, producer }) => {
                 >
                   YouTube:
                 </Typography>
-              </Box>
+              </div>
               <Typography
                 variant='subtitle1'
                 className={clsx(classes.value, classes.subTitle)}
@@ -272,7 +271,7 @@ const AdditionalResources = ({ classes, producer }) => {
               </Typography>
             </Grid>
           )}
-        </Box>
+        </div>
       </Grid>
     )
   }
@@ -283,16 +282,16 @@ const WebsiteLegend = ({ classes, webInfo }) => {
   const { t } = useTranslation('profile')
 
   const content = webInfo ? (
-    <Box className={classes.category}>
+    <div className={classes.category}>
       <Typography variant='h6' className={classes.title}>
         {t('websiteInfo')}:
       </Typography>
-      <Box className={classes.marginLeftBox}>
+      <div className={classes.marginLeftBox}>
         <Typography mt='2%' variant='subtitle1'>
           {webInfo.websiteText}
         </Typography>
-      </Box>
-    </Box>
+      </div>
+    </div>
   ) : null
 
   return (
@@ -319,9 +318,9 @@ const GeneralInformation = ({ classes, producer = {} }) => {
         <Typography variant='h6' className={classes.title}>
           {t('generalInformation')}
         </Typography>
-        <Box className={classes.marginLeftBox}>
+        <div className={classes.marginLeftBox}>
           <Grid container direction='row'>
-            <Box width='70px' mr={3}>
+            <div className={classes.subTitleBox}>
               <Typography
                 fontWeight='bold'
                 variant='subtitle1'
@@ -329,7 +328,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
               >
                 {t('account')}:
               </Typography>
-            </Box>
+            </div>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -338,7 +337,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
             </Typography>
           </Grid>
           <Grid container direction='row'>
-            <Box width='70px' mr={3}>
+            <div className={classes.subTitleBox}>
               <Typography
                 fontWeight='bold'
                 variant='subtitle1'
@@ -346,7 +345,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
               >
                 {t('location')}:
               </Typography>
-            </Box>
+            </div>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -355,7 +354,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
             </Typography>
           </Grid>
           <Grid container direction='row'>
-            <Box width='70px' mr={3}>
+            <div className={classes.subTitleBox}>
               <Typography
                 fontWeight='bold'
                 variant='subtitle1'
@@ -363,7 +362,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
               >
                 {t('website')}:
               </Typography>
-            </Box>
+            </div>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -383,7 +382,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
             </Typography>
           </Grid>
           <Grid container direction='row'>
-            <Box width='70px' mr={3}>
+            <div className={classes.subTitleBox}>
               <Typography
                 fontWeight='bold'
                 variant='subtitle1'
@@ -391,7 +390,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
               >
                 {t('votes')}:
               </Typography>
-            </Box>
+            </div>
             <Typography
               variant='subtitle1'
               className={clsx(classes.value, classes.subTitle)}
@@ -399,7 +398,7 @@ const GeneralInformation = ({ classes, producer = {} }) => {
               {formatNumber(parseFloat(totalVotes), 0)}
             </Typography>
           </Grid>
-        </Box>
+        </div>
       </Grid>
     </>
   )

@@ -159,6 +159,10 @@ export default theme => ({
   title: {
     marginBottom: theme.spacing(1)
   },
+  subTitleBox: {
+    width: '70px',
+    marginRight: 30
+  },
   subTitle: {
     fontWeight: 'bold',
     fontSize: 14
@@ -173,6 +177,9 @@ export default theme => ({
   breadcrumbText: {
     color: '#fff',
     textTransform: 'uppercase'
+  },
+  divAvatar: {
+    display: 'flex'
   },
   avatar: {
     backgroundColor: theme.palette.surface.main

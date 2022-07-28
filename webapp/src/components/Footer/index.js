@@ -12,7 +12,6 @@ import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import TwitterIcon from '@mui/icons-material/Twitter'
 import GitHubIcon from '@mui/icons-material/GitHub'
-import Box from '@mui/material/Box'
 
 import { mainConfig } from '../../config'
 
@@ -28,10 +27,10 @@ const Footer = () => {
 
   if (history?.location?.pathname === '/')
     return (
-      <Box className={classes.root}>
+      <div className={classes.root}>
         <Toolbar className={classes.boxToolbar}>
-          <Box className={classes.footerHome}>
-            <Box className={classes.linksBox}>
+          <div className={classes.footerHome}>
+            <div className={classes.linksBox}>
               <Link className={classes.linkHome} href='/'>
                 {t('home')}
               </Link>
@@ -58,15 +57,15 @@ const Footer = () => {
               >
                 {t('networkMonitor')}
               </Link>
-            </Box>
-            <Box className={classes.socialBox}>
+            </div>
+            <div className={classes.socialBox}>
               <Typography className={classes.socialText}>
                 {t('legend')}
               </Typography>
               <Typography className={classes.socialText}>
                 {t('legend2')}
               </Typography>
-              <Box className={classes.socialIconBox}>
+              <div className={classes.socialIconBox}>
                 <IconButton
                   href='https://www.facebook.com/costaricaeos'
                   target='_blank'
@@ -102,10 +101,10 @@ const Footer = () => {
                 >
                   <TelegramIcon htmlColor='#fff' />
                 </IconButton>
-              </Box>
-            </Box>
-          </Box>
-          <Box className={classes.footerText}>
+              </div>
+            </div>
+          </div>
+          <div className={classes.footerText}>
             <Typography className={classes.centerFooterText}>
               {t('madeBy')}{' '}
               <Link
@@ -119,13 +118,13 @@ const Footer = () => {
             <Typography className={classes.centerFooterText}>
               {`${t('eosRate')} ${currentYear}`}
             </Typography>
-          </Box>
+          </div>
         </Toolbar>
-      </Box>
+      </div>
     )
 
   return (
-    <Box className={classes.root}>
+    <div className={classes.root}>
       <Toolbar>
         <a
           href='https://eoscostarica.io'
@@ -138,7 +137,7 @@ const Footer = () => {
             className={classes.eoscostaricaLogo}
           />
         </a>
-        <Box className={classes.grow} />
+        <div className={classes.grow} />
         <Typography
           variant='overline'
           className={classes.legend}
@@ -157,7 +156,7 @@ const Footer = () => {
           <TelegramIcon htmlColor='#fff' />
         </IconButton>
       </Toolbar>
-    </Box>
+    </div>
   )
 }
 

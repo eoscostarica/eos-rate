@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import FilterListIcon from '@mui/icons-material/FilterList'
-import Box from '@mui/material/Box'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 
@@ -38,7 +37,7 @@ const FilterBanner = ({ title, page, onFilterChange, hideFilter }) => {
   }
 
   return (
-    <Box className={classes.filterBanner}>
+    <div className={classes.filterBanner}>
       <Typography className={classes.pageTitle}>{title}</Typography>
       <Button
         id='filter-button'
@@ -66,7 +65,7 @@ const FilterBanner = ({ title, page, onFilterChange, hideFilter }) => {
           </MenuItem>
         ))}
       </Menu>
-    </Box>
+    </div>
   )
 }
 

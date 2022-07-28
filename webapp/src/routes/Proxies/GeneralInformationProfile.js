@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
 import _get from 'lodash.get'
 import Typography from '@mui/material/Typography'
 
@@ -23,7 +22,7 @@ const SocialNetworks = ({ classes, proxy }) => {
         {t('social')}
       </Typography>
       {twitter && (
-        <Box className={classes.rowBox}>
+        <div className={classes.rowBox}>
           <Typography variant='subtitle1' className={classes.subTitle}>
             Twitter:
           </Typography>
@@ -40,10 +39,10 @@ const SocialNetworks = ({ classes, proxy }) => {
               {twitter}
             </a>
           </Typography>
-        </Box>
+        </div>
       )}
       {steemit && (
-        <Box className={classes.rowBox}>
+        <div className={classes.rowBox}>
           <Typography variant='subtitle1' className={classes.subTitle}>
             Steemit:
           </Typography>
@@ -60,10 +59,10 @@ const SocialNetworks = ({ classes, proxy }) => {
               {steemit}
             </a>
           </Typography>
-        </Box>
+        </div>
       )}
       {telegram && (
-        <Box className={classes.rowBox}>
+        <div className={classes.rowBox}>
           <Typography variant='subtitle1' className={classes.subTitle}>
             Telegram:
           </Typography>
@@ -80,7 +79,7 @@ const SocialNetworks = ({ classes, proxy }) => {
               {telegram}
             </a>
           </Typography>
-        </Box>
+        </div>
       )}
     </Grid>
   )
@@ -100,7 +99,7 @@ const GeneralInformation = ({ classes, proxy = {} }) => {
         <Typography variant='subtitle1' className={classes.title}>
           {t('generalInformation')}
         </Typography>
-        <Box className={classes.rowBox}>
+        <div className={classes.rowBox}>
           <Typography variant='subtitle1' className={classes.subTitle}>
             {t('account')}:
           </Typography>
@@ -110,8 +109,8 @@ const GeneralInformation = ({ classes, proxy = {} }) => {
           >
             {_get(proxy, 'owner', '- -')}
           </Typography>
-        </Box>
-        <Box className={classes.rowBox}>
+        </div>
+        <div className={classes.rowBox}>
           <Typography variant='subtitle1' className={classes.subTitle}>
             {t('website')}:
           </Typography>
@@ -132,9 +131,9 @@ const GeneralInformation = ({ classes, proxy = {} }) => {
               '- -'
             )}
           </Typography>
-        </Box>
+        </div>
         {background && (
-          <Box>
+          <div>
             <Typography variant='subtitle1' className={classes.longSubTitle}>
               {t('background')}:
             </Typography>
@@ -144,10 +143,10 @@ const GeneralInformation = ({ classes, proxy = {} }) => {
             >
               {background}
             </Typography>
-          </Box>
+          </div>
         )}
         {philosophy && (
-          <Box>
+          <div>
             <Typography variant='subtitle1' className={classes.longSubTitle}>
               {t('philosophy')}:
             </Typography>
@@ -157,14 +156,14 @@ const GeneralInformation = ({ classes, proxy = {} }) => {
             >
               {philosophy}
             </Typography>
-          </Box>
+          </div>
         )}
       </Grid>
       <Grid container direction='column' className={classes.category}>
         <Typography variant='subtitle1' className={classes.title}>
           {t('rankings')}
         </Typography>
-        <Box className={classes.rowBox}>
+        <div className={classes.rowBox}>
           <Typography variant='subtitle1' className={classes.subTitle}>
             {t('proxyVotes')}:
           </Typography>
@@ -174,8 +173,8 @@ const GeneralInformation = ({ classes, proxy = {} }) => {
           >
             {formatNumber(parseFloat(proxyVotes), 0)}
           </Typography>
-        </Box>
-        <Box className={classes.rowBox}>
+        </div>
+        <div className={classes.rowBox}>
           <Typography variant='subtitle1' className={classes.subTitle}>
             {t('totalVotes')}:
           </Typography>
@@ -185,7 +184,7 @@ const GeneralInformation = ({ classes, proxy = {} }) => {
           >
             {formatNumber(parseFloat(totalVotes), 0)}
           </Typography>
-        </Box>
+        </div>
       </Grid>
     </>
   )
