@@ -32,17 +32,17 @@ namespace eoscostarica {
         check( (MINVAL <= development && development <= MAXVAL), "Error development value out of range" );
         check( (MINVAL <= community && community <= MAXVAL), "Error community value out of range" );
 
-        bool isEden = scope.value == eden_scope.value;
-        name stats_ram_payer = isEden ? _self : user;
+        bool is_eden = scope.value == eden_scope.value;
+        name stats_ram_payer = is_eden ? _self : user;
 
         check( is_blockproducer(bp), "votes are allowed only for registered block producers" );
 
         name proxy_name = get_proxy(user);
         if(proxy_name.length()) {
             check(is_active_proxy(proxy_name), "votes are allowed only for active proxies" );
-            if(!isEden) check( MIN_VOTERS <= get_voters(proxy_name), "delegated proxy does not have enough voters" );
+            if(!is_eden) check( MIN_VOTERS <= get_voters(proxy_name), "delegated proxy does not have enough voters" );
         } else {
-            if(!isEden) check( MIN_VOTERS <= get_voters(user), "account does not have enough voters" );
+            if(!is_eden) check( MIN_VOTERS <= get_voters(user), "account does not have enough voters" );
         }
 
         ratings_table_v2 _ratings(_self, scope.value);
@@ -75,7 +75,7 @@ namespace eoscostarica {
                         development);
 
             if(!comment.empty()) {
-                SEND_INLINE_ACTION(*this, logcomment, { {get_self(), name("active")} }, { rating_id, comment, isEden });
+                SEND_INLINE_ACTION(*this, logcomment, { {get_self(), name("active")} }, { rating_id, comment, is_eden });
             }
         
         } else {
@@ -115,7 +115,7 @@ namespace eoscostarica {
                             &bp_average);
 
             if(!comment.empty()) {
-                SEND_INLINE_ACTION(*this, logcomment, { {get_self(), name("active")} }, { existing_rating->id, comment, isEden });
+                SEND_INLINE_ACTION(*this, logcomment, { {get_self(), name("active")} }, { existing_rating->id, comment, is_eden });
             }
         }
     }
@@ -503,7 +503,7 @@ namespace eoscostarica {
         cfg.set(c, c.owner);
     }
 
-    void rateproducer::logcomment(uint64_t rating_id, std::string comment, bool isEden) {
+    void rateproducer::logcomment(uint64_t rating_id, std::string comment, bool is_eden) {
         require_auth(_self);
         check( comment.length() <= 500, "comment must be less or equal than 500 characters" );
     }

@@ -1,12 +1,10 @@
 type Mutation {
-  rateProducer(
-    ratingInput: RatingInput!
-  ): RatingOutput
+  rateProducer(ratingInput: RatingInput!): RatingOutput
 }
 
 input RatingInput {
   user: String!
-  isEden: Boolean!
+  is_eden: Boolean!
   producer: String!
   transaction: jsonb!
 }
@@ -27,4 +25,3 @@ type deleteUserRateOutput {
 type AddCommentOutput {
   success: Boolean!
 }
-

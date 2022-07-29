@@ -516,10 +516,10 @@ namespace eoscostarica {
         *  
         * @param rating_id - Id of the rating,
         * @param comment - Commentary
-        * @param isEden - is eden member true/false
+        * @param is_eden - is eden member true/false
         *
         */ 
-        void logcomment (uint64_t rating_id, std::string comment, bool isEden);
+        void logcomment (uint64_t rating_id, std::string comment, bool is_eden);
         
         /**
         *
@@ -615,7 +615,7 @@ namespace eoscostarica {
                  action(rminactive, ricardian_contract(rminactive_ricardian)),
                  action(rmrate, user, bp, ricardian_contract(rmrate_ricardian)),
                  action(migrate, ricardian_contract(migrate_ricardian)),
-                 action(logcomment, rating_id, comment, isEden, ricardian_contract(logcomment_ricardian)),
+                 action(logcomment, rating_id, comment, is_eden, ricardian_contract(logcomment_ricardian)),
                  action(loglike, rating_id, user, like, ricardian_contract(loglike_ricardian)))
                  
 } // namespace eoscostarica

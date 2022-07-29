@@ -10,13 +10,13 @@ const HAPI_EOS_API_ENDPOINT =
 const HAPI_RATING_CONTRACT = process.env.HAPI_RATING_CONTRACT || 'rateproducer'
 
 // gets data from blockchain
-const getUserRatings = async isEden => {
+const getUserRatings = async is_eden => {
   const eos = new JsonRpc(HAPI_EOS_API_ENDPOINT, { fetch })
 
   const ratings = await eos.get_table_rows({
     json: true,
     code: HAPI_RATING_CONTRACT,
-    scope: isEden ? 'eden' : HAPI_RATING_CONTRACT,
+    scope: is_eden ? 'eden' : HAPI_RATING_CONTRACT,
     table: 'rating',
     limit: 1000,
     reverse: false,
@@ -30,12 +30,12 @@ const updateUserRatings = async (
   userAccount,
   bpAccount,
   transaction,
-  isEden
+  is_eden
 ) => {
   console.log('==== Updating user ratings ====')
 
   try {
-    const userRatings = await getUserRatings(isEden)
+    const userRatings = await getUserRatings(is_eden)
 
     if (!userAccount || !bpAccount)
       throw new Error('User Account and Block Producer owner are required!')
