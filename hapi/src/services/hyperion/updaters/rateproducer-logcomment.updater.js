@@ -21,13 +21,12 @@ module.exports = {
     try {
       const {
         transaction_id,
-        data: { rating_id: ratingId, comment, is_eden }
+        data: { rating_id: ratingId, comment, isEden }
       } = action
-      let userRatings
-      userRatings = await eosApi.getTableRows({
+      const userRatings = await eosApi.getTableRows({
         json: true,
         code: eosConfig.baseAccount,
-        scope: is_eden ? edenContractScope : generalContractScope,
+        scope: isEden ? edenContractScope : generalContractScope,
         table: 'rating',
         reverse: false,
         limit: 1,
