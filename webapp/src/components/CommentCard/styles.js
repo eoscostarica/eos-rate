@@ -5,6 +5,24 @@ export default theme => ({
   cardContainer: {
     width: '95%'
   },
+  container: {
+    display: 'flex !important',
+    justifyContent: 'end !important',
+    alignItems: 'center !important'
+  },
+  commentContainer: {
+    paddingLeft: 20
+  },
+  divComment: {
+    paddingTop: '12px',
+    paddingBottom: '12px'
+  },
+  divUser: {
+    display: 'flex'
+  },
+  divLikes: {
+    paddingTop: '20px'
+  },
   box: {
     display: 'flex',
     alignItems: 'center',
@@ -26,7 +44,8 @@ export default theme => ({
   },
   btnFilter: {
     color: 'inherit !important',
-    borderRadius: '2px !important'
+    borderRadius: '2px !important',
+    content: ''
   },
   center: {
     margin: 'auto !important',

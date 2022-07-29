@@ -4,7 +4,6 @@ import clsx from 'clsx'
 import Grid from '@mui/material/Grid'
 import Switch from '@mui/material/Switch'
 import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
 import { makeStyles } from '@mui/styles'
 
 import RateSlider from '../../components/RateSlider'
@@ -48,7 +47,7 @@ const SliderRatingSection = ({
         <Typography paragraph>{t('communityTooltip')}</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Box className={classes.sliderWrapper}>
+        <div className={classes.sliderWrapper}>
           <RateSlider
             disabled={!producer || !ratingState.communityEnabled}
             onChange={handleStateChange('community')}
@@ -67,7 +66,7 @@ const SliderRatingSection = ({
           <Typography variant='body2'>
             {`${ratingState.communityEnabled ? t('enabled') : t('disabled')}`}
           </Typography>
-        </Box>
+        </div>
       </Grid>
       <Grid item xs={12}>
         <Typography
@@ -81,7 +80,7 @@ const SliderRatingSection = ({
         <Typography paragraph> {t('developmentTooltip')} </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Box className={classes.sliderWrapper}>
+        <div className={classes.sliderWrapper}>
           <RateSlider
             disabled={!producer || !ratingState.developmentEnabled}
             onChange={handleStateChange('development')}
@@ -100,7 +99,7 @@ const SliderRatingSection = ({
           <Typography variant='body2'>
             {`${ratingState.developmentEnabled ? t('enabled') : t('disabled')}`}
           </Typography>
-        </Box>
+        </div>
       </Grid>
       <Grid item xs={12}>
         <Typography
@@ -114,7 +113,7 @@ const SliderRatingSection = ({
         <Typography paragraph>{t('infrastructureTooltip')}</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Box className={classes.sliderWrapper}>
+        <div className={classes.sliderWrapper}>
           <RateSlider
             disabled={!producer || !ratingState.infraEnabled}
             onChange={handleStateChange('infrastructure')}
@@ -133,7 +132,7 @@ const SliderRatingSection = ({
           <Typography variant='body2'>
             {ratingState.infraEnabled ? t('enabled') : t('disabled')}
           </Typography>
-        </Box>
+        </div>
       </Grid>
       <Grid item xs={12}>
         <Typography
@@ -147,7 +146,7 @@ const SliderRatingSection = ({
         <Typography paragraph>{t('transparencyTooltip')}</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Box className={classes.sliderWrapper}>
+        <div className={classes.sliderWrapper}>
           <RateSlider
             disabled={!producer || !ratingState.transparencyEnabled}
             onChange={handleStateChange('transparency')}
@@ -166,7 +165,7 @@ const SliderRatingSection = ({
           <Typography variant='body2'>
             {ratingState.transparencyEnabled ? t('enabled') : t('disabled')}
           </Typography>
-        </Box>
+        </div>
       </Grid>
       <Grid item xs={12}>
         <Typography
@@ -180,7 +179,7 @@ const SliderRatingSection = ({
         <Typography paragraph>{t('trustinessTooltip')}</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Box className={classes.sliderWrapper}>
+        <div className={classes.sliderWrapper}>
           <RateSlider
             disabled={!producer || !ratingState.trustinessEnabled}
             onChange={handleStateChange('trustiness')}
@@ -199,7 +198,7 @@ const SliderRatingSection = ({
           <Typography variant='body2'>
             {ratingState.trustinessEnabled ? t('enabled') : t('disabled')}
           </Typography>
-        </Box>
+        </div>
       </Grid>
     </Grid>
   )

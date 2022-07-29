@@ -4,7 +4,6 @@ import CloseIcon from '@mui/icons-material/Close'
 import { useTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
 import _get from 'lodash.get'
 import clsx from 'clsx'
 
@@ -25,20 +24,20 @@ const CompareSliderView = ({
   const classes = useStyles()
 
   return (
-    <Box className={clsx(classes.compareSliderView, className)}>
-      <Box className={classes.headerVotingCompare}>
-        <Box />
-        <Box className={classes.modalHeader}>
+    <div className={clsx(classes.compareSliderView, className)}>
+      <div className={classes.headerVotingCompare}>
+        <div />
+        <div className={classes.modalHeader}>
           <Typography variant='h6' className={classes.marginRightElem}>
             {isProxy ? optionalLabel : t('compareToolTitle')}
           </Typography>
-        </Box>
-        <Box className={classes.boxCloseIcon}>
+        </div>
+        <div className={classes.boxCloseIcon}>
           <CloseIcon style={{ cursor: 'pointer' }} onClick={handleOnClose} />
-        </Box>
-      </Box>
+        </div>
+      </div>
 
-      <Box className={classes.slider}>
+      <div className={classes.slider}>
         {selected.map((bp, index) => {
           if (!bp) return null
 
@@ -47,21 +46,21 @@ const CompareSliderView = ({
             : _get(bp, 'bpjson.producer_account_name')
 
           return (
-            <Box
+            <div
               key={`slider-card-${name}-${index}`}
               className={classes.sliderCard}
             >
-              <Box className={classes.chartWrapperSliderView}>
+              <div className={classes.chartWrapperSliderView}>
                 <PolarChart data={bp.data ? [{ ...bp.data }] : []} />
-              </Box>
+              </div>
               <Typography variant='subtitle1' className={classes.bpName}>
                 {name}
               </Typography>
-            </Box>
+            </div>
           )
         })}
-      </Box>
-    </Box>
+      </div>
+    </div>
   )
 }
 

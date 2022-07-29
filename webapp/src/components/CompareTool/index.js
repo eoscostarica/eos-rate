@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
 import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import _get from 'lodash.get'
 import Switch from '@mui/material/Switch'
@@ -64,19 +63,19 @@ const CompareTool = ({
         : selectedData
 
     return (
-      <Box className={[classes.root, className].join(' ')}>
+      <div className={[classes.root, className].join(' ')}>
         <CompareSliderView
           removeBP={removeBP}
           selected={data}
           isProxy={isProxy}
           optionalLabel={optionalLabel}
         />
-      </Box>
+      </div>
     )
   }
 
   return (
-    <Box className={clsx([classes.root, className].join(' '))}>
+    <div className={clsx([classes.root, className].join(' '))}>
       {isCollapsedView ? (
         <CompareGraphView
           removeBP={removeBP}
@@ -90,8 +89,8 @@ const CompareTool = ({
           setIsCollapsedView={setIsCollapsedView}
         />
       ) : (
-        <Box className={classes.boxSliderView}>
-          <Box className={classes.sliderBody}>
+        <div className={classes.boxSliderView}>
+          <div className={classes.sliderBody}>
             <CompareSliderView
               removeBP={removeBP}
               selected={selectedData}
@@ -109,8 +108,8 @@ const CompareTool = ({
               }
               label={t('compareToolCollapsedSwitch')}
             />
-          </Box>
-          <Box className={classes.btnBox}>
+          </div>
+          <div className={classes.btnBox}>
             <FormControlLabel
               className={classes.hiddenMobile}
               control={
@@ -140,8 +139,8 @@ const CompareTool = ({
             >
               {t('voteToolToggle')}
             </Button>
-          </Box>
-        </Box>
+          </div>
+        </div>
       )}
       <Snackbar
         anchorOrigin={{
@@ -166,7 +165,7 @@ const CompareTool = ({
           {t('success')}
         </Alert>
       </Snackbar>
-    </Box>
+    </div>
   )
 }
 

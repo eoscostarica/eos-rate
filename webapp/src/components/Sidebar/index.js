@@ -2,7 +2,6 @@ import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink as RouterNavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
@@ -56,7 +55,7 @@ const ListItem = ({ name, path, icon, isUserLogged, badge }) => {
   if (name === 'myAccount' && !isUserLogged) return <></>
 
   return (
-    <Box className={classes.listItem}>
+    <div className={classes.listItem}>
       <MuiListItem
         button
         component={path.includes('http') ? ExternalLink : NavLink}
@@ -75,7 +74,7 @@ const ListItem = ({ name, path, icon, isUserLogged, badge }) => {
           <ListItemText className={classes.versionStyle} primary={badge} />
         )}
       </MuiListItem>
-    </Box>
+    </div>
   )
 }
 
@@ -94,7 +93,7 @@ const Sidebar = ({ routes, ...props }) => {
 
   return (
     <Drawer {...props}>
-      <Box className={classes.brand}>
+      <div className={classes.brand}>
         {state.user ? (
           <AccountIcon className={classes.icon} />
         ) : (
@@ -106,7 +105,7 @@ const Sidebar = ({ routes, ...props }) => {
         <Typography className={classes.userName}>
           {state.user?.accountName || t('loginToStart')}
         </Typography>
-      </Box>
+      </div>
       <Divider />
       <Scrollbar className={classes.scrollbar}>
         <List component='nav' className={classes.navBox}>

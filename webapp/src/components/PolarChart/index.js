@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { makeStyles } from '@mui/styles'
-import Box from '@mui/material/Box'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts'
 import HighchartsMore from 'highcharts/highcharts-more'
@@ -21,7 +20,7 @@ const PolarChart = ({ data = [], showLegend = false }) => {
   const [options] = useState(polarCharConfig.options)
 
   return (
-    <Box className={classes.highchartsFigure}>
+    <div className={classes.highchartsFigure}>
       <HighchartsReact
         highcharts={Highcharts}
         options={{
@@ -42,7 +41,7 @@ const PolarChart = ({ data = [], showLegend = false }) => {
           }
         }}
       />
-    </Box>
+    </div>
   )
 }
 

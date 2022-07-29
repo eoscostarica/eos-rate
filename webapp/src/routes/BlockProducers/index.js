@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
 import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Collapse from '@mui/material/Collapse'
@@ -172,7 +171,7 @@ const AllBps = () => {
   }, [state.blockProducers])
 
   return (
-    <Box className={classes.rootBP} ref={myRef}>
+    <div className={classes.rootBP} ref={myRef}>
       <>
         <TitlePage title={t('bpsTitle')} />
         <Collapse
@@ -199,23 +198,23 @@ const AllBps = () => {
           page='bp'
           onFilterChange={handleOnFliterChange}
         />
-        <Box className={classes.wrapperGrid}>
+        <div className={classes.wrapperGrid}>
           {state.loadingSkeleton ? (
-            <Box className={classes.gridRow}>
-              <Box className={classes.gridItem}>
+            <div className={classes.gridRow}>
+              <div className={classes.gridItem}>
                 <SkeletonCard />
-              </Box>
-              <Box className={classes.gridItem}>
+              </div>
+              <div className={classes.gridItem}>
                 <SkeletonCard />
-              </Box>
-              <Box className={classes.gridItem}>
+              </div>
+              <div className={classes.gridItem}>
                 <SkeletonCard />
-              </Box>
-            </Box>
+              </div>
+            </div>
           ) : (
-            <Box className={classes.gridRow}>
+            <div className={classes.gridRow}>
               {(state.blockProducers.data || []).map(blockProducer => (
-                <Box
+                <div
                   className={classes.gridItem}
                   key={`${blockProducer.owner}-main-block-card`}
                 >
@@ -247,11 +246,11 @@ const AllBps = () => {
                     }
                     disable={state?.selectedProducers?.length > 29}
                   />
-                </Box>
+                </div>
               ))}
-            </Box>
+            </div>
           )}
-        </Box>
+        </div>
         {state.selectedProducers.length > 0 && (
           <Grid container justifyContent='flex-end'>
             <Grid item md={12} className={classes.openBottomSheetContainer}>
@@ -281,7 +280,7 @@ const AllBps = () => {
             handleOnClear={handleOnClear}
           />
         </SelectedBpsBottomSheet>
-        <Box className={classes.loadMoreBtnBox}>
+        <div className={classes.loadMoreBtnBox}>
           <Button
             disabled={!hasMoreRows}
             className={classes.loadMoreButton}
@@ -291,9 +290,9 @@ const AllBps = () => {
           >
             {t('loadMore')}
           </Button>
-        </Box>
+        </div>
       </>
-    </Box>
+    </div>
   )
 }
 
