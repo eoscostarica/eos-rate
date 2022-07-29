@@ -75,7 +75,7 @@ namespace eoscostarica {
                         development);
 
             if(!comment.empty()) {
-                SEND_INLINE_ACTION(*this, logcomment, { {get_self(), name("active")} }, { rating_id, comment });
+                SEND_INLINE_ACTION(*this, logcomment, { {get_self(), name("active")} }, { rating_id, comment, isEden });
             }
         
         } else {
@@ -115,7 +115,7 @@ namespace eoscostarica {
                             &bp_average);
 
             if(!comment.empty()) {
-                SEND_INLINE_ACTION(*this, logcomment, { {get_self(), name("active")} }, { existing_rating->id, comment });
+                SEND_INLINE_ACTION(*this, logcomment, { {get_self(), name("active")} }, { existing_rating->id, comment, isEden });
             }
         }
     }
@@ -503,7 +503,7 @@ namespace eoscostarica {
         cfg.set(c, c.owner);
     }
 
-    void rateproducer::logcomment(uint64_t rating_id, std::string comment) {
+    void rateproducer::logcomment(uint64_t rating_id, std::string comment, bool isEden) {
         require_auth(_self);
         check( comment.length() <= 500, "comment must be less or equal than 500 characters" );
     }

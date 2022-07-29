@@ -21,16 +21,13 @@ module.exports = {
     try {
       const {
         transaction_id,
-        data: { rating_id: ratingId, comment }
+        data: { rating_id: ratingId, comment, isEden }
       } = action
-      const transaction = await eosApi.getTransaction(transaction_id)
-      const transactionData = transaction.traces[1].act.data
-
       let userRatings
       userRatings = await eosApi.getTableRows({
         json: true,
         code: eosConfig.baseAccount,
-        scope: 'eden',
+        scope: isEden ? edenContractScope : generalContractScope,
         table: 'rating',
         reverse: false,
         limit: 1,
@@ -38,27 +35,15 @@ module.exports = {
         upper_bound: ratingId
       })
 
-      if (!userRatings) {
-        userRatings = await eosApi.getTableRows({
-          json: true,
-          code: eosConfig.baseAccount,
-          scope: 'rateproducer',
-          table: 'rating',
-          reverse: false,
-          limit: 1,
-          lower_bound: ratingId,
-          upper_bound: ratingId
-        })
-      }
-      console.log('GENERAL', generalContractScope)
-      console.log('EDEN', edenContractScope)
-      console.log('USER RATING', userRatings)
-      console.log('DATA TRANSACTION', transactionData)
+      const [blockProducer] = userRatings.rows.filter(
+        ({ id }) => id == ratingId
+      )
+
       await save({
-        user: transactionData.user,
+        user: blockProducer.user,
         transaction: transaction_id,
         rating_id: ratingId,
-        bp: transactionData.bp,
+        bp: blockProducer.bp,
         content: comment
       })
 
@@ -68,7 +53,7 @@ module.exports = {
         id_bc_rating: ratingId
       })
     } catch (error) {
-      // console.error(`error to sync ${action.action}: ${error.message}`)
+      console.error(`error to sync ${action.action}: ${error.message}`)
     }
   }
 }
