@@ -21,8 +21,9 @@ module.exports = {
     try {
       const {
         transaction_id,
-        data: { rating_id: ratingId, comment, isEden }
+        data: { rating_id: ratingId, comment, is_eden: isEden }
       } = action
+      if (!isEden) return
       const userRatings = await eosApi.getTableRows({
         json: true,
         code: eosConfig.baseAccount,

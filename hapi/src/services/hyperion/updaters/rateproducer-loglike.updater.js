@@ -5,7 +5,6 @@ const { updatelike } = require('../../comment.service')
 module.exports = {
   type: `${eosConfig.baseAccount}:loglike`,
   apply: async action => {
-    console.log(action)
     try {
       const {
         transaction_id,
