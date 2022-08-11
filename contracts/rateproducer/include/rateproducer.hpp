@@ -44,7 +44,7 @@ using eosio::public_key;
 */
 namespace eosio {
     constexpr name system_account{"eosio"_n};
-    constexpr name eden_account{"genesis.eden"_n};
+    constexpr name eden_account{"genesisdeden"_n};
     constexpr name eden_scope{"eden"_n};
 
     /*
