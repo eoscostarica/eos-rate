@@ -1,4 +1,8 @@
-const { eosConfig } = require('../../../config')
+const {
+  eosConfig,
+  generalContractScope,
+  edenContractScope
+} = require('../../../config')
 const { save, updateUserRating } = require('../../comment.service')
 const EosApi = require('eosjs-api')
 
@@ -17,35 +21,21 @@ module.exports = {
     try {
       const {
         transaction_id,
-        data: {
-          data: { rating_id: ratingId, comment }
-        }
+        data: { rating_id: ratingId, comment, is_eden: isEden }
       } = action
-      let userRatings
 
-      userRatings = await eosApi.getTableRows({
+      if (isEden === null) return
+
+      const userRatings = await eosApi.getTableRows({
         json: true,
         code: eosConfig.baseAccount,
-        scope: 'eden',
+        scope: isEden ? edenContractScope : generalContractScope,
         table: 'rating',
         reverse: false,
         limit: 1,
         lower_bound: ratingId,
         upper_bound: ratingId
       })
-
-      if (!userRatings) {
-        userRatings = await eosApi.getTableRows({
-          json: true,
-          code: eosConfig.baseAccount,
-          scope: 'rateproducer',
-          table: 'rating',
-          reverse: false,
-          limit: 1,
-          lower_bound: ratingId,
-          upper_bound: ratingId
-        })
-      }
 
       const [blockProducer] = userRatings.rows.filter(
         ({ id }) => id == ratingId
