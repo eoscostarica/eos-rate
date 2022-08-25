@@ -4,7 +4,6 @@ import { useMutation } from '@apollo/client'
 import clsx from 'clsx'
 import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
-import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { makeStyles } from '@mui/styles'
 import Avatar from '@mui/material/Avatar'
@@ -121,7 +120,7 @@ const Account = () => {
   }
 
   return (
-    <Box className={classes.container}>
+    <div className={classes.container}>
       <TitlePage
         title={`${t('title')} ${state.user ? state.user?.accountName : ''}`}
       />
@@ -129,8 +128,8 @@ const Account = () => {
         <Typography variant='h5' className={classes.title}>
           {t('title')}
         </Typography>
-        <Box className={classes.box}>
-          <Box>
+        <div className={classes.box}>
+          <div>
             <Typography variant='subtitle1' className={classes.bold}>
               {state.user
                 ? `${state.user.accountName}: ${
@@ -138,7 +137,7 @@ const Account = () => {
                   }`
                 : 'accountName: 0'}
             </Typography>
-            <Box className={classes.rateList}>
+            <div className={classes.rateList}>
               {(state.user ? state.user?.userData?.userRates || [] : []).map(
                 rate => {
                   const imageURL = _get(
@@ -164,7 +163,7 @@ const Account = () => {
                         aria-controls='panel1a-content'
                         id='panel1a-header'
                       >
-                        <Box className={classes.boxWrapper}>
+                        <div className={classes.boxWrapper}>
                           <Avatar
                             aria-label='account'
                             className={clsx({
@@ -182,7 +181,7 @@ const Account = () => {
                               ? `${t('youRated')} ${BPName} - ${date}`
                               : `${t('youRated')} ${BPName}`}
                           </Typography>
-                        </Box>
+                        </div>
                       </AccordionSummary>
                       <AccordionDetails>
                         <Typography
@@ -192,14 +191,14 @@ const Account = () => {
                           {t('yourRating')}
                         </Typography>
                         {VOTE_INDICATORS.map(value => (
-                          <Box key={value} className={classes.row}>
+                          <div key={value} className={classes.row}>
                             <Typography>{t(value)}:</Typography>
                             <Typography>
                               {formatNumber(rate.ratings[value], 0)}
                             </Typography>
-                          </Box>
+                          </div>
                         ))}
-                        <Box style={{ marginTop: 20 }}>
+                        <div className={classes.divLink}>
                           {rate.tx_data && (
                             <Link
                               rel='noopener'
@@ -210,24 +209,24 @@ const Account = () => {
                               {rate.tx_data?.transaction?.transactionId}
                             </Link>
                           )}
-                        </Box>
-                        <Box>
-                          <Box className={classes.remove}>
+                        </div>
+                        <div>
+                          <div className={classes.remove}>
                             <IconButton
                               onClick={() => onHandleDeleteUserRate(rate.bp)}
                             >
                               <CloseIcon />
                               <Typography>{t('unpublish')}</Typography>
                             </IconButton>
-                          </Box>
-                        </Box>
+                          </div>
+                        </div>
                       </AccordionDetails>
                     </Accordion>
                   )
                 }
               )}
-            </Box>
-          </Box>
+            </div>
+          </div>
           <Snackbar
             open={showMessage}
             autoHideDuration={4000}
@@ -277,9 +276,9 @@ const Account = () => {
           >
             {t('logout')}
           </Button>
-        </Box>
+        </div>
       </Paper>
-    </Box>
+    </div>
   )
 }
 

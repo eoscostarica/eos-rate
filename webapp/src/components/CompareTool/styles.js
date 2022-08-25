@@ -254,6 +254,9 @@ export default theme => ({
       }
     }
   },
+  divbtnRateProxies: {
+    margin: '10px 0 10px 0'
+  },
   reliefGrid: {
     [theme.breakpoints.up('md')]: {
       border: '1px solid #f8f8f8',
@@ -278,6 +281,9 @@ export default theme => ({
   noBPSelected: {
     padding: theme.spacing(4, 4, 0, 3),
     textAlign: 'center'
+  },
+  marginNoBpSelected: {
+    margin: '20%'
   },
   bodyModalView: {
     width: '100%',

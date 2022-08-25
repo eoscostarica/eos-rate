@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, Link } from 'react-router-dom'
 import AppBar from '@mui/material/AppBar'
 import IconButton from '@mui/material/IconButton'
-import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import Typography from '@mui/material/Typography'
 import SearchIcon from '@mui/icons-material/Search'
@@ -186,16 +185,16 @@ const Header = memo(({ onDrawerToggle, showMenubar }) => {
     return (
       <AppBar className={classes.appBarHome} position='sticky'>
         <Toolbar className={classes.toolbar}>
-          <Box className={classes.boxLogoHome}>
+          <div className={classes.boxLogoHome}>
             <IconButton aria-label='Open drawer' onClick={onDrawerToggle}>
               <MenuIcon />
             </IconButton>
             <Typography>Menu</Typography>
-          </Box>
-          <Box className={clsx(classes.homeSvgs, classes.desktopSection)}>
-            <Box className={classes.useInfoBox}>
+          </div>
+          <div className={clsx(classes.homeSvgs, classes.desktopSection)}>
+            <div className={classes.useInfoBox}>
               <UserInformationByType user={state.user} />
-            </Box>
+            </div>
             <LanguageSelector />
             <AuthButton
               loading={state.loadingLogin}
@@ -203,11 +202,11 @@ const Header = memo(({ onDrawerToggle, showMenubar }) => {
               onLogin={handleLogin}
               onSignOut={handleSignOut}
             />
-          </Box>
-          <Box className={clsx(classes.homeSvgs, classes.mobileSection)}>
-            <Box className={classes.infoBox}>
+          </div>
+          <div className={clsx(classes.homeSvgs, classes.mobileSection)}>
+            <div className={classes.infoBox}>
               <UserInformationByType user={state.user} />
-            </Box>
+            </div>
             <LanguageSelector />
             <AuthButton
               loading={state.loadingLogin}
@@ -215,7 +214,7 @@ const Header = memo(({ onDrawerToggle, showMenubar }) => {
               onLogin={handleLogin}
               onSignOut={handleSignOut}
             />
-          </Box>
+          </div>
         </Toolbar>
       </AppBar>
     )
@@ -223,7 +222,7 @@ const Header = memo(({ onDrawerToggle, showMenubar }) => {
   return (
     <AppBar className={classes.appBar} position='sticky'>
       <Toolbar className={classes.toolbar}>
-        <Box className={classes.boxLogo}>
+        <div className={classes.boxLogo}>
           <IconButton aria-label='Open drawer' onClick={onDrawerToggle}>
             <MenuIcon />
           </IconButton>
@@ -238,14 +237,14 @@ const Header = memo(({ onDrawerToggle, showMenubar }) => {
               className={classes.logoStyle}
             />
           </Link>
-        </Box>
-        <Box className={classes.boxSearch}>
+        </div>
+        <div className={classes.boxSearch}>
           <InputAutocomplete />
-        </Box>
-        <Box className={classes.desktopSection}>
-          <Box className={classes.useInfoBox}>
+        </div>
+        <div className={classes.desktopSection}>
+          <div className={classes.useInfoBox}>
             <UserInformationByType user={state.user} />
-          </Box>
+          </div>
           <LanguageSelector />
           <AuthButton
             loading={state.loadingLogin}
@@ -253,8 +252,8 @@ const Header = memo(({ onDrawerToggle, showMenubar }) => {
             onLogin={handleLogin}
             onSignOut={handleSignOut}
           />
-        </Box>
-        <Box className={classes.mobileSection}>
+        </div>
+        <div className={classes.mobileSection}>
           <IconButton
             className={classes.mobileSearch}
             disabled={isSearchOpen}
@@ -262,9 +261,9 @@ const Header = memo(({ onDrawerToggle, showMenubar }) => {
           >
             <SearchIcon />
           </IconButton>
-          <Box className={classes.infoBox}>
+          <div className={classes.infoBox}>
             <UserInformationByType user={state.user} />
-          </Box>
+          </div>
           <LanguageSelector />
           <AuthButton
             loading={state.loadingLogin}
@@ -272,7 +271,7 @@ const Header = memo(({ onDrawerToggle, showMenubar }) => {
             onLogin={handleLogin}
             onSignOut={handleSignOut}
           />
-        </Box>
+        </div>
       </Toolbar>
       <MobileSearch onClose={handleCloseSearch} isOpen={isSearchOpen} />
     </AppBar>

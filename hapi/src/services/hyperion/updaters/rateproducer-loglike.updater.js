@@ -9,9 +9,7 @@ module.exports = {
       const {
         transaction_id,
         actors,
-        data: {
-          data: { rating_id: ratingId, like }
-        }
+        data: { rating_id: ratingId, like }
       } = action
 
       await saveOrUpdate({
