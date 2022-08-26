@@ -131,13 +131,13 @@ const Home = () => {
       <div className={clsx(classes.wrapperGrid, classes.twitter)}>
         <div className={classes.gridRow}>
           <div className={classes.gridItem}>
-            <Tweet tweetId='1460649455443759115' />
+            <Tweet tweetId='1563298151556976640' />
           </div>
           <div className={classes.gridItem} id='cardBox1'>
-            <Tweet tweetId='1451875419246968833' />
+            <Tweet tweetId='1460649455443759115' />
           </div>
           <div className={classes.gridItem} id='cardBox2'>
-            <Tweet tweetId='1457795829666697217' />
+            <Tweet tweetId='1451875419246968833' />
           </div>
         </div>
       </div>
