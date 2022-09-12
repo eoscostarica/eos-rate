@@ -67,7 +67,7 @@ const CardData = ({
     setOpen(!open)
     e.preventDefault()
   }
-  console.log(data)
+
   const formatRadarData = info => {
     if (isProxy) return info.data
 
@@ -141,8 +141,6 @@ const CardData = ({
           <PolarChart
             data={[
               {
-                // ...data.data,
-                // data: formatRadarData(data)
                 ...formatRadarData(data)
               }
             ]}
