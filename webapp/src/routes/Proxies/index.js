@@ -176,6 +176,7 @@ const AllProxies = ({ ual = {} }) => {
                 useRateButton={false}
                 pathLink='proxies'
                 showOptions={false}
+                isProxy
               />
             </div>
           ))}
