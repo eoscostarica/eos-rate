@@ -55,26 +55,32 @@ const CardData = ({
   rate,
   showOptions,
   isNewRate,
-  disable
+  disable,
+  isProxy
 }) => {
   const { t } = useTranslation('translations')
   const [open, setOpen] = useState(false)
   const classes = useStyles()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.only('xs'))
-
   const handleTooltip = e => {
     setOpen(!open)
     e.preventDefault()
   }
 
-  const formatRadarData = rateData => [
-    parseFloat(formatNumber(rateData?.community || 0, 1)),
-    parseFloat(formatNumber(rateData?.development || 0, 1)),
-    parseFloat(formatNumber(rateData?.development || 0, 1)),
-    parseFloat(formatNumber(rateData?.transparency || 0, 1)),
-    parseFloat(formatNumber(rateData?.trustiness || 0, 1))
-  ]
+  const formatRadarData = info => {
+    if (isProxy) return info.data
+
+    return {
+      ...info.data,
+      data: [
+        parseFloat(formatNumber(info.total_community || 0, 1)),
+        parseFloat(formatNumber(info.total_development || 0, 1)),
+        parseFloat(formatNumber(info.total_transparency || 0, 1)),
+        parseFloat(formatNumber(info.total_trustiness || 0, 1))
+      ]
+    }
+  }
 
   return (
     <Card className={classes.card}>
@@ -135,16 +141,7 @@ const CardData = ({
           <PolarChart
             data={[
               {
-                ...data.data,
-                data: formatRadarData({
-                  average: data.total_average,
-                  community: data.total_community,
-                  development: data.total_development,
-                  infrastructure: data.total_infrastructure,
-                  ratings_cntr: data.total_ratings_cntr,
-                  transparency: data.total_transparency,
-                  trustiness: data.total_trustiness
-                })
+                ...formatRadarData(data)
               }
             ]}
           />
@@ -245,14 +242,16 @@ CardData.propTypes = {
   rate: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   showOptions: PropTypes.bool,
   isNewRate: PropTypes.bool,
-  disable: PropTypes.bool
+  disable: PropTypes.bool,
+  isProxy: PropTypes.bool
 }
 
 CardData.defaultProps = {
   useRateButton: true,
   average: '0',
   rate: '0',
-  showOptions: true
+  showOptions: true,
+  isProxy: false
 }
 
 TooltipWrapper.propTypes = {
