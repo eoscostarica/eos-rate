@@ -77,6 +77,7 @@ const CardData = ({
         parseFloat(formatNumber(info.total_community || 0, 1)),
         parseFloat(formatNumber(info.total_development || 0, 1)),
         parseFloat(formatNumber(info.total_transparency || 0, 1)),
+        parseFloat(formatNumber(info.total_infrastructure || 0, 1)),
         parseFloat(formatNumber(info.total_trustiness || 0, 1))
       ]
     }
