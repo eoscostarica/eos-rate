@@ -4,7 +4,7 @@ const request = require('request-promise')
 const { massiveDB, chainConfig } = require('../config')
 
 const HAPI_EOS_API_ENDPOINT =
-  process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle3.cryptolions.io'
+  process.env.HAPI_EOS_API_ENDPOINT || 'https://jungle.edenia.cloud'
 
 const getBlockProducersData = async () => {
   const eos = EosApi({
