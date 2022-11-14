@@ -3,7 +3,6 @@ import Skeleton from '@mui/material/Skeleton'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
-import Box from '@mui/material/Box'
 import { makeStyles } from '@mui/styles'
 
 import styles from './styles'
@@ -34,13 +33,13 @@ const SkeletonCard = () => {
         }
         subheader={<Skeleton animation='wave' height={10} width='40%' />}
       />
-      <Box className={classes.cardCenter}>
+      <div className={classes.cardCenter}>
         <Skeleton
           sx={{ width: 250, height: 250 }}
           animation='wave'
           variant='circular'
         />
-      </Box>
+      </div>
       <CardContent className={classes.cardRatings}>
         <React.Fragment>
           <Skeleton

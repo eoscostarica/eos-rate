@@ -1,7 +1,5 @@
 type Mutation {
-  rateProducer(
-    ratingInput: RatingInput!
-  ): RatingOutput
+  rateProducer(ratingInput: RatingInput!): RatingOutput
 }
 
 input RatingInput {
@@ -27,4 +25,3 @@ type deleteUserRateOutput {
 type AddCommentOutput {
   success: Boolean!
 }
-

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import Box from '@mui/material/Box'
 import { makeStyles } from '@mui/styles'
 
 import Sidebar from '../../components/Sidebar'
@@ -26,11 +25,11 @@ const Dashboard = ({ children, routes }) => {
 
   const handleScroll = useCallback(
     e => {
-      if (e.target.scrollTop > 927 && !scrollTop) {
+      if (e.target.scrollTop > 127 && !scrollTop) {
         setScrollTop(true)
       }
 
-      if (e.target.scrollTop < 927 && scrollTop) {
+      if (e.target.scrollTop < 127 && scrollTop) {
         setScrollTop(false)
       }
     },
@@ -48,8 +47,8 @@ const Dashboard = ({ children, routes }) => {
   }, [])
 
   return (
-    <Box className={classes.root}>
-      <Box>
+    <div className={classes.root}>
+      <div>
         <Sidebar
           PaperProps={{ style: { width: drawerWidth } }}
           variant='temporary'
@@ -57,16 +56,16 @@ const Dashboard = ({ children, routes }) => {
           onClose={handleDrawerToggle}
           routes={routes}
         />
-      </Box>
-      <Box className={classes.mainContent}>
+      </div>
+      <div className={classes.mainContent}>
         <Header onDrawerToggle={handleDrawerToggle} showMenubar={scrollTop} />
-        <Box className={classes.childContent} id='childContent' ref={ref}>
+        <div className={classes.childContent} id='childContent' ref={ref}>
           {children}
           <Footer />
-        </Box>
+        </div>
         <Message />
-      </Box>
-    </Box>
+      </div>
+    </div>
   )
 }
 

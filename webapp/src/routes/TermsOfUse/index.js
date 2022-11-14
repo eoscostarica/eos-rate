@@ -1,5 +1,4 @@
 import React from 'react'
-import Box from '@mui/material/Box'
 import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
 import { RicardianContract } from '@eoscostarica/eoscr-components'
@@ -15,15 +14,15 @@ const TermsOfUse = () => {
   const { t } = useTranslation('termsOfUse')
 
   return (
-    <Box className={classes.root}>
-      <Box className={classes.wrapper}>
+    <div className={classes.root}>
+      <div className={classes.wrapper}>
         <TitlePage title={t('tabTitle')} />
         <RicardianContract
           contractName={mainConfig.contract}
           httpEndpoint='https://eos.edenia.cloud'
         />
-      </Box>
-    </Box>
+      </div>
+    </div>
   )
 }
 

@@ -32,17 +32,17 @@ namespace eoscostarica {
         check( (MINVAL <= development && development <= MAXVAL), "Error development value out of range" );
         check( (MINVAL <= community && community <= MAXVAL), "Error community value out of range" );
 
-        bool isEden = scope.value == eden_scope.value;
-        name stats_ram_payer = isEden ? _self : user;
+        bool is_eden = scope.value == eden_scope.value;
+        name stats_ram_payer = is_eden ? _self : user;
 
         check( is_blockproducer(bp), "votes are allowed only for registered block producers" );
 
         name proxy_name = get_proxy(user);
         if(proxy_name.length()) {
             check(is_active_proxy(proxy_name), "votes are allowed only for active proxies" );
-            if(!isEden) check( MIN_VOTERS <= get_voters(proxy_name), "delegated proxy does not have enough voters" );
+            if(!is_eden) check( MIN_VOTERS <= get_voters(proxy_name), "delegated proxy does not have enough voters" );
         } else {
-            if(!isEden) check( MIN_VOTERS <= get_voters(user), "account does not have enough voters" );
+            if(!is_eden) check( MIN_VOTERS <= get_voters(user), "account does not have enough voters" );
         }
 
         ratings_table_v2 _ratings(_self, scope.value);
@@ -75,7 +75,7 @@ namespace eoscostarica {
                         development);
 
             if(!comment.empty()) {
-                SEND_INLINE_ACTION(*this, logcomment, { {get_self(), name("active")} }, { rating_id, comment });
+                SEND_INLINE_ACTION(*this, logcomment, { {get_self(), name("active")} }, { rating_id, comment, is_eden });
             }
         
         } else {
@@ -115,7 +115,7 @@ namespace eoscostarica {
                             &bp_average);
 
             if(!comment.empty()) {
-                SEND_INLINE_ACTION(*this, logcomment, { {get_self(), name("active")} }, { existing_rating->id, comment });
+                SEND_INLINE_ACTION(*this, logcomment, { {get_self(), name("active")} }, { existing_rating->id, comment, is_eden });
             }
         }
     }
@@ -503,89 +503,7 @@ namespace eoscostarica {
         cfg.set(c, c.owner);
     }
 
-    void rateproducer::migratestats() {
-        config c = cfg.get_or_create(_self, config{.owner = _self, .version = 0});
-        require_auth(c.owner);
-        // assert we only run once
-        // the comparison value needs to be hard-coded with each new migration
-        eosio::check(c.version < 3, "Migration already ran");
-
-        name default_scope = _self;
-        name stats_ram_payer = _self;
-
-        stats_table _stats(_self, default_scope.value);
-        ratings_table_v2 _ratings_self_v2(_self, _self.value);
-        auto bps_index = _ratings_self_v2.get_index<name("bp")>();
-
-        auto stats_itr = _stats.begin();
-        while(stats_itr != _stats.end()) {
-            name bp = stats_itr->bp;
-
-            auto bps_itr = bps_index.find(bp.value);
-
-            if(bps_itr == bps_index.end()) {
-                stats_itr = _stats.erase(stats_itr);
-                continue;
-            }
-
-            float bp_transparency = 0;
-            float bp_infrastructure = 0;
-            float bp_trustiness = 0;
-            float bp_community = 0;
-            float bp_development = 0;
-            uint32_t bp_ratings_cntr = 0;
-            float bp_average = 0;
-            
-            calculate_bp_stats (default_scope,
-                                bp,
-                                &bp_transparency,
-                                &bp_infrastructure,
-                                &bp_trustiness,
-                                &bp_community,
-                                &bp_development,
-                                &bp_ratings_cntr,
-                                &bp_average);
-
-            _stats.modify(stats_itr, stats_ram_payer, [&]( auto& row ) {
-                row.transparency = bp_transparency;
-                row.infrastructure = bp_infrastructure;
-                row.trustiness = bp_trustiness;
-                row.development = bp_development;
-                row.community = bp_community;      
-                row.ratings_cntr= bp_ratings_cntr;
-                row.average = bp_average;
-            });
-
-            stats_itr++;
-        }
-
-        c.version++;
-        cfg.set(c, c.owner);
-    }
-
-    void rateproducer::freeupram() {
-        config c = cfg.get_or_create(_self, config{.owner = _self, .version = 0});
-        require_auth(c.owner);
-
-        eosio::check(c.version > 2, "Make sure to run `migrate` action before run this action");
-
-        ratings_table _ratings_general(_self, _self.value);
-        auto general_itr = _ratings_general.begin();
-        while (general_itr != _ratings_general.end()) {
-            general_itr = _ratings_general.erase(general_itr);
-        }
-
-        ratings_table _ratings_eden(_self, eden_scope.value);
-        auto eden_itr = _ratings_eden.begin();
-        while (eden_itr != _ratings_eden.end()) {
-            eden_itr = _ratings_eden.erase(eden_itr);
-        }
-        
-        c.version++;
-        cfg.set(c, c.owner);
-    }
-
-    void rateproducer::logcomment(uint64_t rating_id, std::string comment) {
+    void rateproducer::logcomment(uint64_t rating_id, std::string comment, bool is_eden) {
         require_auth(_self);
         check( comment.length() <= 500, "comment must be less or equal than 500 characters" );
     }

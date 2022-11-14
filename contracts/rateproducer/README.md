@@ -50,12 +50,12 @@ make -j
 
 Add resources:
 ```bash
-cleos -u https://jungle3.cryptolions.io system buyram rateproducer rateproducer "100 EOS"
+cleos -u https://jungle.edenia.cloud system buyram rateproducer rateproducer "100 EOS"
 ```
 
 Publish Contract:
 ```bash
-cleos -u https://jungle3.cryptolions.io set contract rateproducer ./ -p rateproducer@active
+cleos -u https://jungle.edenia.cloud set contract rateproducer ./ -p rateproducer@active
 ```
 
 Push rating with all categories:
@@ -66,7 +66,7 @@ cleos -u hhttp://jungle2.cryptolions.io:80 push action rateproducer rate '{ "use
 
 example 2:
 ```bash
-cleos -u https://jungle3.cryptolions.io push action rateproducer rate '{ "user": "eoscrvoter11", "bp":"eoscrprodo51","transparency":8,"infrastructure":8,"trustiness":7,"development":6,"community":9 }' -p eoscrvoter11@active
+cleos -u https://jungle.edenia.cloud push action rateproducer rate '{ "user": "eoscrvoter11", "bp":"eoscrprodo51","transparency":8,"infrastructure":8,"trustiness":7,"development":6,"community":9 }' -p eoscrvoter11@active
 ```
 
 Push rating with partial categories:
@@ -76,12 +76,12 @@ cleos -u http://monitor.jungletestnet.io:8888 push action rateproducer rate '{ "
 
 Get stats table:
 ```bash
-cleos -u https://jungle3.cryptolions.io get table -l 50 rateproducer rateproducer stats
+cleos -u https://jungle.edenia.cloud get table -l 50 rateproducer rateproducer stats
 ```
 
 Get bp table:
 ```bash
-cleos -u https://jungle3.cryptolions.io get table -l 50 rateproducer rateproducer ratings
+cleos -u https://jungle.edenia.cloud get table -l 50 rateproducer rateproducer ratings
 ```
 
 Clean data for a block producer:

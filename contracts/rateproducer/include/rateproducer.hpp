@@ -516,9 +516,10 @@ namespace eoscostarica {
         *  
         * @param rating_id - Id of the rating,
         * @param comment - Commentary
+        * @param is_eden - is eden member true/false
         *
         */ 
-        void logcomment (uint64_t rating_id, std::string comment);
+        void logcomment (uint64_t rating_id, std::string comment, bool is_eden);
         
         /**
         *
@@ -605,20 +606,6 @@ namespace eoscostarica {
         * 
         */ 
         void migrate();
-
-        /**
-        *
-        *  Update stats under rateproducer scope
-        * 
-        */ 
-        void migratestats();
-        
-        /**
-        *
-        *  Liberate the ram used on ratings table under rateproducer and eden scope
-        * 
-        */ 
-        void freeupram();
     };
 
     EOSIO_ACTIONS(rateproducer,
@@ -628,9 +615,7 @@ namespace eoscostarica {
                  action(rminactive, ricardian_contract(rminactive_ricardian)),
                  action(rmrate, user, bp, ricardian_contract(rmrate_ricardian)),
                  action(migrate, ricardian_contract(migrate_ricardian)),
-                 action(freeupram, ricardian_contract(freeupram_ricardian)),
-                 action(migratestats, ricardian_contract(migratestats_ricardian)),
-                 action(logcomment, rating_id, comment, ricardian_contract(logcomment_ricardian)),
+                 action(logcomment, rating_id, comment, is_eden, ricardian_contract(logcomment_ricardian)),
                  action(loglike, rating_id, user, like, ricardian_contract(loglike_ricardian)))
                  
 } // namespace eoscostarica

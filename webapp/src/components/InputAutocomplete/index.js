@@ -10,7 +10,6 @@ import SearchIcon from '@mui/icons-material/Search'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 import Paper from '@mui/material/Paper'
-import Box from '@mui/material/Box'
 import _get from 'lodash.get'
 import MenuItem from '@mui/material/MenuItem'
 
@@ -122,7 +121,7 @@ const InputAutocomplete = ({ ...props }) => {
   }
 
   return (
-    <Box className={classes.root}>
+    <div className={classes.root}>
       <Autosuggest
         renderInputComponent={renderInputComponent}
         suggestions={suggestions}
@@ -149,7 +148,7 @@ const InputAutocomplete = ({ ...props }) => {
           </Paper>
         )}
       />
-    </Box>
+    </div>
   )
 }
 

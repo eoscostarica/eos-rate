@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
 import { makeStyles } from '@mui/styles'
 import { useTranslation } from 'react-i18next'
@@ -135,7 +134,7 @@ const AllProxies = ({ ual = {} }) => {
   }, [state.proxies])
 
   return (
-    <Box className={classes.root}>
+    <div className={classes.root}>
       <TitlePage title={t('proxiesTitle')} />
       <Collapse
         in={state.compareProxyToolVisible}
@@ -160,10 +159,10 @@ const AllProxies = ({ ual = {} }) => {
         />
       </Collapse>
       <FilterBanner title={t('proxies')} page='proxy' hideFilter />
-      <Box className={classes.wrapperGrid}>
-        <Box className={classes.gridRow}>
+      <div className={classes.wrapperGrid}>
+        <div className={classes.gridRow}>
           {(state.proxies.data || []).map(proxy => (
-            <Box
+            <div
               key={`${proxy.owner}-main-block-card`}
               className={classes.gridItem}
             >
@@ -177,11 +176,12 @@ const AllProxies = ({ ual = {} }) => {
                 useRateButton={false}
                 pathLink='proxies'
                 showOptions={false}
+                isProxy
               />
-            </Box>
+            </div>
           ))}
-        </Box>
-      </Box>
+        </div>
+      </div>
       <SelectedBpsBottomSheet
         open={state.compareProxyToolVisible}
         classesStyle={classes.hiddenDesktop}
@@ -202,7 +202,7 @@ const AllProxies = ({ ual = {} }) => {
           }}
         />
       </SelectedBpsBottomSheet>
-      <Box className={classes.loadMoreBtnBox}>
+      <div className={classes.loadMoreBtnBox}>
         <Button
           disabled={!hasMoreRows}
           className={classes.loadMoreButton}
@@ -212,8 +212,8 @@ const AllProxies = ({ ual = {} }) => {
         >
           {t('loadMore')}
         </Button>
-      </Box>
-    </Box>
+      </div>
+    </div>
   )
 }
 

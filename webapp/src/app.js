@@ -1,7 +1,7 @@
 import React, { Suspense, useMemo } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import AdapterDateFns from '@mui/lab/AdapterDateFns'
-import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { StylesProvider, createGenerateClassName } from '@mui/styles'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -19,6 +19,8 @@ const generateClassName = createGenerateClassName({
 
 const App = () => {
   const [state] = useSharedState()
+  const userRoutes = useMemo(() => routes())
+  const theme = useMemo(() => getTheme(state.useDarkMode), [state.useDarkMode])
 
   const renderRoute = ({ component: Component, ...route }, index) => (
     <Route
@@ -29,10 +31,6 @@ const App = () => {
       <Component />
     </Route>
   )
-
-  const userRoutes = useMemo(() => routes())
-
-  const theme = useMemo(() => getTheme(state.useDarkMode), [state.useDarkMode])
 
   return (
     <BrowserRouter>

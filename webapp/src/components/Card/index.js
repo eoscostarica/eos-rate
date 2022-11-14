@@ -6,7 +6,6 @@ import { useTheme } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Card from '@mui/material/Card'
-import Box from '@mui/material/Box'
 import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import CardActions from '@mui/material/CardActions'
@@ -56,26 +55,33 @@ const CardData = ({
   rate,
   showOptions,
   isNewRate,
-  disable
+  disable,
+  isProxy
 }) => {
   const { t } = useTranslation('translations')
   const [open, setOpen] = useState(false)
   const classes = useStyles()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.only('xs'))
-
   const handleTooltip = e => {
     setOpen(!open)
     e.preventDefault()
   }
 
-  const formatRadarData = rateData => [
-    parseFloat(formatNumber(rateData?.community || 0, 1)),
-    parseFloat(formatNumber(rateData?.development || 0, 1)),
-    parseFloat(formatNumber(rateData?.development || 0, 1)),
-    parseFloat(formatNumber(rateData?.transparency || 0, 1)),
-    parseFloat(formatNumber(rateData?.trustiness || 0, 1))
-  ]
+  const formatRadarData = info => {
+    if (isProxy) return info.data
+
+    return {
+      ...info.data,
+      data: [
+        parseFloat(formatNumber(info.total_community || 0, 1)),
+        parseFloat(formatNumber(info.total_development || 0, 1)),
+        parseFloat(formatNumber(info.total_transparency || 0, 1)),
+        parseFloat(formatNumber(info.total_infrastructure || 0, 1)),
+        parseFloat(formatNumber(info.total_trustiness || 0, 1))
+      ]
+    }
+  }
 
   return (
     <Card className={classes.card}>
@@ -97,31 +103,31 @@ const CardData = ({
             </Avatar>
           }
           title={
-            <Box className={classes.warningBox}>
-              <Box className={classes.boxTitle}>
+            <div className={classes.warningBox}>
+              <div className={classes.boxTitle}>
                 <Typography className={classes.noWrap} variant='h6'>
                   {title || owner}
                 </Typography>
-              </Box>
-            </Box>
+              </div>
+            </div>
           }
           subheader={
-            <Box className={classes.warningBox}>
+            <div className={classes.warningBox}>
               <Typography className={classes.subTitleHeader}>
                 {owner}
               </Typography>
-              <Box className={classes.moreWrapper}>
+              <div className={classes.moreWrapper}>
                 <Typography style={{ margin: 'auto' }} variant='subtitle2'>
                   {t('view')}
                 </Typography>
                 <KeyboardArrowRightIcon />
-              </Box>
-            </Box>
+              </div>
+            </div>
           }
         />
       </Link>
-      <Box className={classes.radar}>
-        <Box className={classes.blockIcons}>
+      <div className={classes.radar}>
+        <div className={classes.blockIcons}>
           {!title && (
             <TooltipWrapper
               open={open}
@@ -131,29 +137,20 @@ const CardData = ({
               classes={classes}
             />
           )}
-        </Box>
-        <Box className={classes.chartWrapper}>
+        </div>
+        <div className={classes.chartWrapper}>
           <PolarChart
             data={[
               {
-                ...data.data,
-                data: formatRadarData({
-                  average: data.total_average,
-                  community: data.total_community,
-                  development: data.total_development,
-                  infrastructure: data.total_infrastructure,
-                  ratings_cntr: data.total_ratings_cntr,
-                  transparency: data.total_transparency,
-                  trustiness: data.total_trustiness
-                })
+                ...formatRadarData(data)
               }
             ]}
           />
-        </Box>
+        </div>
         {showOptions && (
           <Grid container justifyContent='center'>
             <Grid item md={4} xs={4}>
-              <Box className={classes.boxValueRates}>
+              <div className={classes.boxValueRates}>
                 <Typography
                   variant='subtitle2'
                   className={clsx(classes.avgText, classes.marginRightElem)}
@@ -163,10 +160,10 @@ const CardData = ({
                 <Typography className={classes.avgValue} variant='body2'>
                   {rate || 0}
                 </Typography>
-              </Box>
+              </div>
             </Grid>
             <Grid item md={4} xs={5}>
-              <Box className={classes.boxValueRates}>
+              <div className={classes.boxValueRates}>
                 <Typography
                   variant='subtitle2'
                   className={clsx(classes.avgText, classes.marginRightElem)}
@@ -176,11 +173,11 @@ const CardData = ({
                 <Typography className={classes.avgValue} variant='body2'>
                   {average}
                 </Typography>
-              </Box>
+              </div>
             </Grid>
           </Grid>
         )}
-      </Box>
+      </div>
       <CardActions className={classes.actions}>
         {useRateButton && (
           <>
@@ -246,14 +243,16 @@ CardData.propTypes = {
   rate: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   showOptions: PropTypes.bool,
   isNewRate: PropTypes.bool,
-  disable: PropTypes.bool
+  disable: PropTypes.bool,
+  isProxy: PropTypes.bool
 }
 
 CardData.defaultProps = {
   useRateButton: true,
   average: '0',
   rate: '0',
-  showOptions: true
+  showOptions: true,
+  isProxy: false
 }
 
 TooltipWrapper.propTypes = {
