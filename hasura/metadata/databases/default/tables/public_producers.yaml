@@ -1,13 +1,13 @@
 table:
-  name: producers
   schema: public
+  name: producers
 select_permissions:
-- permission:
-    columns:
-    - bpjson
-    - candidate_name
-    - general_info
-    - owner
-    - system
-    filter: {}
-  role: anonymous
+  - role: anonymous
+    permission:
+      columns:
+        - bpjson
+        - candidate_name
+        - general_info
+        - owner
+        - system
+      filter: {}

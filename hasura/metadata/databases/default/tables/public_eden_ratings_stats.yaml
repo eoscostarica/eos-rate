@@ -1,18 +1,18 @@
 table:
-  name: eden_ratings_stats
   schema: public
+  name: eden_ratings_stats
 select_permissions:
-- permission:
-    columns:
-    - average
-    - bp
-    - community
-    - created_at
-    - development
-    - infrastructure
-    - ratings_cntr
-    - transparency
-    - trustiness
-    - updated_at
-    filter: {}
-  role: anonymous
+  - role: anonymous
+    permission:
+      columns:
+        - average
+        - bp
+        - community
+        - created_at
+        - development
+        - infrastructure
+        - ratings_cntr
+        - transparency
+        - trustiness
+        - updated_at
+      filter: {}

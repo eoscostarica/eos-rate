@@ -1,5 +1,13 @@
 type Mutation {
-  rateProducer(ratingInput: RatingInput!): RatingOutput
+  getRatesStats(
+    ratesStatsInput: RatesStatsInput!
+  ): RatesStatsOutput
+}
+
+type Mutation {
+  rateProducer(
+    ratingInput: RatingInput!
+  ): RatingOutput
 }
 
 input RatingInput {
@@ -7,6 +15,10 @@ input RatingInput {
   isEden: Boolean!
   producer: String!
   transaction: jsonb!
+}
+
+input RatesStatsInput {
+  bps: [String]
 }
 
 type RatingOutput {
@@ -25,3 +37,8 @@ type deleteUserRateOutput {
 type AddCommentOutput {
   success: Boolean!
 }
+
+type RatesStatsOutput {
+  bpsStats: [jsonb]
+}
+

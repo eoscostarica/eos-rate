@@ -1,22 +1,22 @@
 table:
-  name: proxies
   schema: public
+  name: proxies
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - background
-    - filter_name
-    - logo_256
-    - name
-    - owner
-    - philosophy
-    - slogan
-    - steemit
-    - telegram
-    - twitter
-    - voter_info
-    - website
-    - wechat
-    filter: {}
-  role: anonymous
+  - role: anonymous
+    permission:
+      columns:
+        - background
+        - filter_name
+        - logo_256
+        - name
+        - owner
+        - philosophy
+        - slogan
+        - steemit
+        - telegram
+        - twitter
+        - voter_info
+        - website
+        - wechat
+      filter: {}
+      allow_aggregations: true
