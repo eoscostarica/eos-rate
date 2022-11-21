@@ -1,29 +1,30 @@
 table:
-  name: user_ratings
   schema: public
+  name: user_ratings
 select_permissions:
-- permission:
-    columns:
-    - bp
-    - id
-    - id_bc_rating
-    - ratings
-    - tx_data
-    - user
-    filter: {}
-  role: anonymous
+  - role: anonymous
+    permission:
+      columns:
+        - bp
+        - id
+        - id_bc_rating
+        - ratings
+        - tx_data
+        - user
+      filter: {}
 update_permissions:
-- permission:
-    check: {}
-    columns:
-    - bp
-    - id_bc_rating
-    - ratings
-    - tx_data
-    - user
-    filter: {}
-  role: anonymous
+  - role: anonymous
+    permission:
+      columns:
+        - bp
+        - id_bc_rating
+        - ratings
+        - tx_data
+        - user
+      filter: {}
+      check: {}
 delete_permissions:
-- permission:
-    filter: {}
-  role: anonymous
+  - role: anonymous
+    permission:
+      backend_only: false
+      filter: {}

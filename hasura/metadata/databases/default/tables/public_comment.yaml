@@ -1,26 +1,26 @@
 table:
-  name: comment
   schema: public
+  name: comment
 array_relationships:
-- name: user_ratings
-  using:
-    foreign_key_constraint_on:
-      column: id_bc_rating
-      table:
-        name: user_ratings
-        schema: public
+  - name: user_ratings
+    using:
+      foreign_key_constraint_on:
+        column: id_bc_rating
+        table:
+          schema: public
+          name: user_ratings
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - user
-    - content
-    - created_at
-    - transaction
-    - total_like
-    - total_dislike
-    - updated_at
-    - rating_id
-    - bp
-    filter: {}
-  role: anonymous
+  - role: anonymous
+    permission:
+      columns:
+        - user
+        - content
+        - created_at
+        - transaction
+        - total_like
+        - total_dislike
+        - updated_at
+        - rating_id
+        - bp
+      filter: {}
+      allow_aggregations: true
