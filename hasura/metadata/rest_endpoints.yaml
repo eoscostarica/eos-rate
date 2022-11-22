@@ -1,1 +1,9 @@
-[]
+- definition:
+    query:
+      collection_name: allowed-queries
+      query_name: get-rates-stats
+  url: get-rates-stats
+  methods:
+    - POST
+  name: get-rates-stats
+  comment: null
