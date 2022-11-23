@@ -213,27 +213,28 @@ const CommentCard = ({ producer = {} }) => {
                 <Grid container>
                   <Grid item md={8} className={classes.center}>
                     <Box pt={1} display={isMobile ? 'block' : 'flex'}>
-                      {Object.entries(comment.user_ratings[0].ratings).map(
-                        (param, index) => (
-                          <div key={index}>
-                            <Box
-                              width={isMobile ? '90px' : 'auto'}
-                              display='inline-block'
-                            >
-                              <Typography
-                                variant='body3'
-                                textTransform='capitalize'
-                                mr={1}
+                      {comment?.user_ratings[0]?.ratings &&
+                        Object.entries(comment?.user_ratings[0]?.ratings).map(
+                          (param, index) => (
+                            <div key={index}>
+                              <Box
+                                width={isMobile ? '90px' : 'auto'}
+                                display='inline-block'
                               >
-                                {param[0]}:
+                                <Typography
+                                  variant='body3'
+                                  textTransform='capitalize'
+                                  mr={1}
+                                >
+                                  {param[0]}:
+                                </Typography>
+                              </Box>
+                              <Typography variant='body4' mr={2}>
+                                {param[1]}
                               </Typography>
-                            </Box>
-                            <Typography variant='body4' mr={2}>
-                              {param[1]}
-                            </Typography>
-                          </div>
-                        )
-                      )}
+                            </div>
+                          )
+                        )}
                     </Box>
                   </Grid>
                   <Grid item md={4} className={classes.box}>
