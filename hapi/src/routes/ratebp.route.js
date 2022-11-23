@@ -52,6 +52,7 @@ module.exports = {
           }).required()
         }).required()
       }).options({ stripUnknown: true })
-    }
+    },
+    auth: false
   }
 }

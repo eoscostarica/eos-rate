@@ -38,6 +38,8 @@ spec:
                   value: 0.0.0.0
                 - name: HAPI_SERVER_PORT
                   value: "9090"
+                -name: HAPI_VALID_USERS
+                  value: "${HAPI_VALID_USERS}"
           dnsConfig:
             options:
               - name: ndots
