@@ -1,68 +1,45 @@
 'use strict'
-const { HAPI_SERVER_PORT, HAPI_SERVER_ADDRESS } = process.env
-
-const {
-  updateBpStatsUtil,
-  updateUserRatingUtil,
-  validateAccountNameUtil
-} = require('./utils/')
+const { HAPI_SERVER_PORT, HAPI_SERVER_ADDRESS, HAPI_VALID_USERS } = process.env
 
 const Hapi = require('@hapi/hapi')
+const Bcrypt = require('bcrypt')
 
+const routes = require('./routes')
 const { workerService } = require('./services')
+
+const validate = async (request, username, password) => {
+  if (!HAPI_VALID_USERS) return { credentials: null, isValid: false }
+
+  const users = JSON.parse(HAPI_VALID_USERS || '[]')
+  const user = users.find(user => user.username === username)
+
+  if (!user) {
+    return { credentials: null, isValid: false }
+  }
+
+  const saltRounds = 10
+  const hashPassword = await Bcrypt.hash(user.password, saltRounds)
+  const isValid = await Bcrypt.compare(password, hashPassword)
+  const credentials = { id: users.indexOf(user), name: user.username }
+
+  return { isValid, credentials }
+}
 
 const init = async () => {
   const server = Hapi.server({
     port: HAPI_SERVER_PORT,
-    host: HAPI_SERVER_ADDRESS
+    host: HAPI_SERVER_ADDRESS,
+    routes: {
+      cors: { origin: ['*'] }
+    },
+    debug: { request: ['handler'] }
   })
 
-  server.route({
-    method: 'GET',
-    path: '/',
-    handler: function () {
-      return '<h2>EOS Rate HTTP API service</h2>'
-    }
-  })
+  await server.register(require('@hapi/basic'))
 
-  server.route({
-    method: 'POST',
-    path: '/ratebp',
-    handler: async req => {
-      try {
-        const {
-          payload: { input }
-        } = req
+  server.auth.strategy('simple', 'basic', { validate })
 
-        if (!input) throw new Error('Invalid ratebp Input')
-
-        const {
-          ratingInput: { user, producer, transaction, isEden }
-        } = input
-        const isValidAccountName = validateAccountNameUtil([
-          { name: user, type: 'user account' },
-          { name: producer, type: 'block producer' }
-        ])
-
-        if (!isValidAccountName.isValidAccountName)
-          throw new Error(isValidAccountName.message)
-
-        const { edenResult, totalStats } = await updateBpStatsUtil(producer)
-        const result = await updateUserRatingUtil(
-          user,
-          producer,
-          transaction,
-          isEden
-        )
-
-        return { resultEden: edenResult, totalStats, ...result }
-      } catch (error) {
-        console.error('ratebp', error)
-
-        return error
-      }
-    }
-  })
+  server.route(routes)
 
   await server.start()
   console.log(`🚀 Server ready at ${server.info.uri}`)

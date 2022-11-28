@@ -1,16 +1,16 @@
 table:
-  name: comment_like
   schema: public
+  name: comment_like
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - transaction
-    - like
-    - created_at
-    - user
-    - id
-    - updated_at
-    - rating_id
-    filter: {}
-  role: anonymous
+  - role: anonymous
+    permission:
+      columns:
+        - transaction
+        - like
+        - created_at
+        - user
+        - id
+        - updated_at
+        - rating_id
+      filter: {}
+      allow_aggregations: true

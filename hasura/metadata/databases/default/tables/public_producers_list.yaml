@@ -1,36 +1,36 @@
 table:
-  name: producers_list
   schema: public
+  name: producers_list
 select_permissions:
-- permission:
-    allow_aggregations: true
-    columns:
-    - owner
-    - bpjson
-    - system
-    - candidate_name
-    - total_votes
-    - average
-    - transparency
-    - infrastructure
-    - trustiness
-    - community
-    - development
-    - ratings_cntr
-    - total_average
-    - total_transparency
-    - total_infrastructure
-    - total_trustiness
-    - total_community
-    - total_development
-    - total_ratings_cntr
-    - eden_average
-    - eden_transparency
-    - eden_infrastructure
-    - eden_trustiness
-    - eden_community
-    - eden_development
-    - eden_ratings_cntr
-    - general_info
-    filter: {}
-  role: anonymous
+  - role: anonymous
+    permission:
+      columns:
+        - owner
+        - bpjson
+        - system
+        - candidate_name
+        - total_votes
+        - average
+        - transparency
+        - infrastructure
+        - trustiness
+        - community
+        - development
+        - ratings_cntr
+        - total_average
+        - total_transparency
+        - total_infrastructure
+        - total_trustiness
+        - total_community
+        - total_development
+        - total_ratings_cntr
+        - eden_average
+        - eden_transparency
+        - eden_infrastructure
+        - eden_trustiness
+        - eden_community
+        - eden_development
+        - eden_ratings_cntr
+        - general_info
+      filter: {}
+      allow_aggregations: true
