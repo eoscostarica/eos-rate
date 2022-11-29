@@ -4,6 +4,8 @@ actions:
       kind: synchronous
       handler: '{{HASURA_GRAPHQL_ACTION_BASE_URL}}/get-rates-stats'
       forward_client_headers: true
+    permissions:
+      - role: anonymous
   - name: rateProducer
     definition:
       kind: synchronous
