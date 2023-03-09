@@ -3,7 +3,7 @@ version: "3.8"
 services:
   postgres:
     container_name: eosrate_postgres
-    image: postgres:13.6-alpine
+    image: postgres:13.10-alpine
     volumes:
       - ${POSTGRES_DATA}:/var/lib/postgresql/data
     ports:
